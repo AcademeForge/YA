@@ -211,6 +211,14 @@
       margin: 16px;
     }
 
+.splash-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  object-fit: cover;
+  box-shadow: 0 24px 80px rgba(248,199,92,0.25);
+  animation: splashPop 0.9s ease;
+}
 #splashScreen {
   position: fixed;
   inset: 0;
@@ -648,11 +656,10 @@
 <body>
 
 <div id="splashScreen">
-  <div class="splash-logo">AF</div>
+  <img src="AF LOGO 1.jpeg" class="splash-img" alt="AcademeForge Logo">
   <h1>AcademeForge</h1>
   <p>Learning Beyond The Classroom</p>
 </div>
-
   <main class="app">
 
     <header class="topbar">
