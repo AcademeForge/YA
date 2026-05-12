@@ -117,9 +117,9 @@ html, body {
     }
 
 .app-logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   object-fit: contain;
   padding: 5px;
   background: rgba(255,255,255,0.10);
@@ -1096,6 +1096,29 @@ setTimeout(function () {
   }
 }, 2000);
 
+document.addEventListener("gesturestart", function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener("gesturechange", function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener("gestureend", function (event) {
+  event.preventDefault();
+});
+
+let lastTouchEnd = 0;
+
+document.addEventListener("touchend", function (event) {
+  const now = Date.now();
+
+  if (now - lastTouchEnd <= 300) {
+    event.preventDefault();
+  }
+
+  lastTouchEnd = now;
+}, false);
   
   </script>
 </body>
