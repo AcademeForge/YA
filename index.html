@@ -1,1 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>AcademeForge App</title>
 
+  <style>
+    :root {
+      --bg: #050816;
+      --bg2: #080f2b;
+      --card: rgba(255, 255, 255, 0.08);
+      --card2: rgba(255, 255, 255, 0.12);
+      --text: #f8fafc;
+      --muted: #aab4d4;
+      --gold: #f8c75c;
+      --blue: #6ee7ff;
+      --purple: #a78bfa;
+      --green: #5eead4;
+      --danger: #fb7185;
+      --border: rgba(255,255,255,0.14);
+      --shadow: 0 24px 80px rgba(0,0,0,0.45);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(167,139,250,0.28), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(110,231,255,0.20), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(248,199,92,0.12), transparent 30%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 90px;
+      position: relative;
+    }
+
+    .glass {
+      background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 16px 10px;
+      background: linear-gradient(180deg, rgba(5,8,22,0.96), rgba(5,8,22,0.72), transparent);
+      backdrop-filter: blur(12px);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(248,199,92,0.95), rgba(167,139,250,0.95));
+      color: #0b1020;
+      font-weight: 900;
+      box-shadow: 0 12px 40px rgba(248,199,92,0.20);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0.2px;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .time-box {
+      padding: 9px 11px;
+      border-radius: 16px;
+      font-size: 12px;
+      text-align: right;
+      min-width: 86px;
+    }
+
+    .time-box strong {
+      display: block;
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    .calculator {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .calculator input {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 14px;
+      padding: 12px 12px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .calculator button,
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #07111f;
+      background: linear-gradient(135deg, var(--gold), #fff0a3);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(248,199,92,0.18);
+    }
+
+    .calc-result {
+      color: var(--green);
+      font-weight: 800;
+      font-size: 13px;
+      min-width: 52px;
+      text-align: right;
+    }
+
+    .hero {
+      margin: 10px 16px 0;
+      padding: 24px 18px;
+      border-radius: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(248,199,92,0.18), transparent 34%),
+        radial-gradient(circle at 90% 20%, rgba(110,231,255,0.14), transparent 35%);
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(248,199,92,0.12);
+      border: 1px solid rgba(248,199,92,0.28);
+      color: #ffe6a3;
+      font-size: 12px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .hero h2 {
+      margin: 16px 0 8px;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      position: relative;
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(251,113,133,0.12);
+      border: 1px solid rgba(251,113,133,0.26);
+      color: #ffd0d8;
+      font-size: 13px;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px;
+    }
+
+    .action-card {
+      border-radius: 24px;
+      padding: 16px;
+      min-height: 122px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.25s ease;
+    }
+
+    .action-card:active {
+      transform: scale(0.98);
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 20px;
+    }
+
+    .action-card h3 {
+      margin: 12px 0 4px;
+      font-size: 15px;
+    }
+
+    .action-card p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .wide {
+      grid-column: span 2;
+      min-height: auto;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .wide div:last-child {
+      flex: 1;
+    }
+
+    .section {
+      display: none;
+      margin: 16px;
+      animation: fade 0.25s ease;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel {
+      border-radius: 26px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .panel h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .panel h3 {
+      margin: 14px 0 8px;
+      font-size: 16px;
+    }
+
+    .panel p, .panel li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .input-group {
+      margin: 12px 0;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      outline: none;
+    }
+
+    .login-note {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(110,231,255,0.08);
+      border: 1px solid rgba(110,231,255,0.18);
+      color: #dffaff;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .course-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .course {
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.11);
+    }
+
+    .course strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .team {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .member {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.11);
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #07111f;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .member h4 {
+      margin: 0 0 3px;
+      font-size: 14px;
+    }
+
+    .member p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .ticker {
+      margin: 16px;
+      padding: 13px 14px;
+      border-radius: 20px;
+      background: rgba(94,234,212,0.09);
+      border: 1px solid rgba(94,234,212,0.18);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .ticker span {
+      font-size: 18px;
+    }
+
+    .ticker p {
+      margin: 0;
+      color: #d8fffa;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 86px;
+      transform: translateX(-50%) translateY(30px);
+      width: min(440px, calc(100% - 28px));
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(8, 15, 43, 0.96);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--gold);
+    }
+
+    .toast p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      width: min(450px, calc(100% - 24px));
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 8px;
+      border-radius: 24px;
+      z-index: 80;
+    }
+
+    .nav-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 18px;
+      padding: 10px 4px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .nav-btn b {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .nav-btn.active {
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .link-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 16px;
+      padding: 13px 14px;
+      background: linear-gradient(135deg, var(--gold), #fff1a8);
+      color: #07111f;
+      font-weight: 900;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.09);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: none;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      color: var(--gold);
+    }
+
+    .stat small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .dev-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.25);
+      color: #ddd6fe;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 360px) {
+      .hero h2 { font-size: 26px; }
+      .actions { grid-template-columns: 1fr; }
+      .wide { grid-column: span 1; }
+      .bottom-nav { grid-template-columns: repeat(5, 1fr); }
+      .nav-btn { font-size: 9px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <header class="topbar">
+      <div class="top-row">
+        <div class="brand">
+          <div class="logo">AF</div>
+          <div>
+            <h1>AcademeForge</h1>
+            <p>Learning Beyond the Classroom</p>
+          </div>
+        </div>
+
+        <div class="time-box glass">
+          <strong id="time">--:--</strong>
+          <span id="date">Loading</span>
+        </div>
+      </div>
+
+      <div class="calculator glass">
+        <input id="calcInput" type="text" inputmode="decimal" placeholder="Quick calculator: 25*4+10" />
+        <button onclick="calculate()">=</button>
+        <div class="calc-result" id="calcResult">0</div>
+      </div>
+    </header>
+
+    <section id="home" class="section active">
+      <div class="hero glass">
+        <div class="tag">🚧 App Preview Build</div>
+        <h2>AcademeForge App is under development.</h2>
+        <p>
+          A premium student-first learning space is being prepared for practical skills,
+          clarity, discipline, and real-world growth.
+        </p>
+
+        <div class="notice">
+          <b>Development Notice:</b> This is an early app version. Student login, office login,
+          learning dashboard, and notification features are being improved step by step.
+        </div>
+
+        <span class="dev-badge">Version 1.0 Preview</span>
+      </div>
+
+      <div class="ticker glass">
+        <span>🔔</span>
+        <p id="tickerText">Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.</p>
+      </div>
+
+      <div class="actions">
+        <button class="action-card glass" onclick="showSection('student')">
+          <div class="icon">🎓</div>
+          <div>
+            <h3>Student Login</h3>
+            <p>Access student dashboard preview and future learning tools.</p>
+          </div>
+        </button>
+
+        <button class="action-card glass" onclick="showSection('office')">
+          <div class="icon">🏢</div>
+          <div>
+            <h3>Office Login</h3>
+            <p>For team, office, management, and internal operations.</p>
+          </div>
+        </button>
+
+        <button class="action-card glass wide" onclick="showSection('explore')">
+          <div class="icon">✨</div>
+          <div>
+            <h3>Explore Without Login</h3>
+            <p>Read about AcademeForge, courses, programs, AST, and contact details.</p>
+          </div>
+        </button>
+
+        <button class="action-card glass wide" onclick="showSection('management')">
+          <div class="icon">👥</div>
+          <div>
+            <h3>Management & Team</h3>
+            <p>Know the people behind AcademeForge and their roles.</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section id="student" class="section">
+      <div class="panel glass">
+        <h2>🎓 Student Login</h2>
+        <p>Login system is currently in development. This preview keeps the interface ready for future student dashboard.</p>
+
+        <div class="input-group">
+          <label>Student ID / Mobile Number</label>
+          <input type="text" placeholder="Enter Student ID" />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Enter Password" />
+        </div>
+
+        <button class="link-btn" onclick="demoLogin('Student')">Login Preview</button>
+
+        <div class="login-note">
+          Future features: course progress, class updates, tasks, certificates, AST updates,
+          notices, and learning resources.
+        </div>
+      </div>
+    </section>
+
+    <section id="office" class="section">
+      <div class="panel glass">
+        <h2>🏢 Office Login</h2>
+        <p>Office login is reserved for AcademeForge team and management operations.</p>
+
+        <div class="input-group">
+          <label>Office Email / Staff ID</label>
+          <input type="text" placeholder="Enter Office ID" />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Enter Password" />
+        </div>
+
+        <button class="link-btn" onclick="demoLogin('Office')">Login Preview</button>
+
+        <div class="login-note">
+          Future features: student records, notices, admissions, course updates, feedback,
+          and internal team dashboard.
+        </div>
+      </div>
+    </section>
+
+    <section id="explore" class="section">
+      <div class="panel glass">
+        <h2>✨ Explore AcademeForge</h2>
+        <p>
+          AcademeForge is a student-focused learning initiative built around practical skills,
+          consistency, digital creativity, and real-world understanding.
+        </p>
+
+        <div class="mini-row">
+          <div class="stat">
+            <strong>2024</strong>
+            <small>Founded</small>
+          </div>
+          <div class="stat">
+            <strong>Skill-first</strong>
+            <small>Learning model</small>
+          </div>
+        </div>
+
+        <h3>Learning Focus</h3>
+        <ul>
+          <li>Foundation-first learning</li>
+          <li>Short practical lessons</li>
+          <li>Digital skills and creativity</li>
+          <li>Discipline, consistency, and execution</li>
+          <li>Future AST learning and assessment phase</li>
+        </ul>
+
+        <h3>Course Programs</h3>
+        <div class="course-grid">
+          <div class="course">
+            <strong>Video & Media Editing</strong>
+            <p>Create content that captures attention and builds digital creativity.</p>
+          </div>
+          <div class="course">
+            <strong>Creative & Graphic Design</strong>
+            <p>Turn ideas into clean, engaging, and impactful visuals.</p>
+          </div>
+          <div class="course">
+            <strong>AI Coding & Logic Foundation</strong>
+            <p>Build smart thinking with coding basics, logic, and AI fundamentals.</p>
+          </div>
+          <div class="course">
+            <strong>Freelancing & Monetization</strong>
+            <p>Understand how digital skills can create real online opportunities.</p>
+          </div>
+        </div>
+
+        <h3>Contact</h3>
+        <p>
+          Location: Patna, Bihar, India<br />
+          Email: academeforge@gmail.com
+        </p>
+
+        <button class="link-btn" onclick="openWebsite()">Open Official Website</button>
+        <button class="link-btn secondary" onclick="copyWebsite()">Copy Website Link</button>
+      </div>
+    </section>
+
+    <section id="management" class="section">
+      <div class="panel glass">
+        <h2>👥 Management & Team</h2>
+        <p>
+          AcademeForge is powered by young innovators and learners working to build a better
+          student-first learning experience.
+        </p>
+
+        <div class="team">
+          <div class="member">
+            <div class="avatar">D</div>
+            <div>
+              <h4>Devraj Kumar</h4>
+              <p>Founder — focused on modern education, AI-powered learning, creativity, and student empowerment.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">M</div>
+            <div>
+              <h4>Mandeep Harsh</h4>
+              <p>Co-Founder — helping shape growth, strategy, and student learning experiences.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">P</div>
+            <div>
+              <h4>Palak Kumari Jha</h4>
+              <p>Moderator — supporting student engagement, community, and smooth learning experience.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">A</div>
+            <div>
+              <h4>Ayush Raj</h4>
+              <p>Moderator — assisting with student coordination, platform activities, and learning environment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
