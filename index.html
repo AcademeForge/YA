@@ -1,3 +1,4 @@
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -833,4 +834,226 @@
           </div>
 
           <div class="member">
-            <div class="avatar">M</di
+            <div class="avatar">M</div
+              <h4>Mandeep Harsh</h4>
+              <p>Co-Founder — helping shape growth, strategy, and student learning experiences.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">P</div>
+            <div>
+              <h4>Palak Kumari Jha</h4>
+              <p>Moderator — supporting student engagement, community, and smooth learning experience.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">A</div>
+            <div>
+              <h4>Ayush Raj</h4>
+              <p>Moderator — assisting with student coordination, platform activities, and learning environment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="bottom-nav glass">
+      <button class="nav-btn active" data-section="home" onclick="showSection('home')">
+        <b>🏠</b>
+        Home
+      </button>
+
+      <button class="nav-btn" data-section="student" onclick="showSection('student')">
+        <b>🎓</b>
+        Student
+      </button>
+
+      <button class="nav-btn" data-section="office" onclick="showSection('office')">
+        <b>🏢</b>
+        Office
+      </button>
+
+      <button class="nav-btn" data-section="explore" onclick="showSection('explore')">
+        <b>✨</b>
+        Explore
+      </button>
+
+      <button class="nav-btn" data-section="management" onclick="showSection('management')">
+        <b>👥</b>
+        Team
+      </button>
+    </nav>
+
+  </main>
+
+  <div class="toast" id="toast">
+    <strong>Notification</strong>
+    <p>Message</p>
+  </div>
+
+  <script>
+    const websiteLink = "https://academeforge.com";
+
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll(".section");
+
+      sections.forEach(function(section) {
+        section.classList.remove("active");
+      });
+
+      const targetSection = document.getElementById(sectionId);
+
+      if (targetSection) {
+        targetSection.classList.add("active");
+      }
+
+      const navButtons = document.querySelectorAll(".nav-btn");
+
+      navButtons.forEach(function(button) {
+        button.classList.remove("active");
+      });
+
+      const activeButton = document.querySelector('.nav-btn[data-section="' + sectionId + '"]');
+
+      if (activeButton) {
+        activeButton.classList.add("active");
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function calculate() {
+      const input = document.getElementById("calcInput");
+      const result = document.getElementById("calcResult");
+
+      const expression = input.value.trim();
+
+      if (expression === "") {
+        result.textContent = "0";
+        return;
+      }
+
+      const safeExpression = /^[0-9+\-*/().%\s]+$/;
+
+      if (!safeExpression.test(expression)) {
+        result.textContent = "Error";
+        showToast("Invalid Input", "Use only numbers and basic symbols like +, -, *, /, %, and brackets.");
+        return;
+      }
+
+      try {
+        const answer = Function('"use strict"; return (' + expression + ')')();
+
+        if (Number.isFinite(answer)) {
+          result.textContent = answer;
+        } else {
+          result.textContent = "Error";
+        }
+      } catch (error) {
+        result.textContent = "Error";
+      }
+    }
+
+    function demoLogin(type) {
+      showToast(
+        type + " Login Preview",
+        type + " login is currently under development. This is only a preview interface."
+      );
+    }
+
+    function openWebsite() {
+      window.open(websiteLink, "_blank");
+    }
+
+    function copyWebsite() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(websiteLink)
+          .then(function() {
+            showToast("Copied", "Website link copied to clipboard.");
+          })
+          .catch(function() {
+            fallbackCopyWebsite();
+          });
+      } else {
+        fallbackCopyWebsite();
+      }
+    }
+
+    function fallbackCopyWebsite() {
+      const tempInput = document.createElement("input");
+      tempInput.value = websiteLink;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+
+      showToast("Copied", "Website link copied to clipboard.");
+    }
+
+    function showToast(title, message) {
+      const toast = document.getElementById("toast");
+
+      toast.querySelector("strong").textContent = title;
+      toast.querySelector("p").textContent = message;
+
+      toast.classList.add("show");
+
+      setTimeout(function() {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    function updateClock() {
+      const timeElement = document.getElementById("time");
+      const dateElement = document.getElementById("date");
+
+      const now = new Date();
+
+      const time = now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      const date = now.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short"
+      });
+
+      timeElement.textContent = time;
+      dateElement.textContent = date;
+    }
+
+    const tickerMessages = [
+      "Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.",
+      "Student dashboard, office dashboard, and learning tools are coming soon.",
+      "Focus on skills, discipline, creativity, and real-world learning.",
+      "AcademeForge preview build is currently under development."
+    ];
+
+    let tickerIndex = 0;
+
+    function updateTicker() {
+      const tickerText = document.getElementById("tickerText");
+
+      tickerIndex = (tickerIndex + 1) % tickerMessages.length;
+      tickerText.textContent = tickerMessages[tickerIndex];
+    }
+
+    document.getElementById("calcInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        calculate();
+      }
+    });
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    setInterval(updateTicker, 4000);
+  </script>
+</body>
+</html>
