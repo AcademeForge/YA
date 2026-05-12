@@ -610,10 +610,7 @@
         font-size: 9px;
       }
 
-      .calculator {
-        grid-template-columns: 1fr auto;
-      }
-
+  
       .calc-result {
         grid-column: span 2;
         text-align: left;
@@ -642,11 +639,6 @@
         </div>
       </div>
 
-      <div class="calculator glass">
-        <input id="calcInput" type="text" inputmode="decimal" placeholder="Quick calculator: 25*4+10" />
-        <button onclick="calculate()">=</button>
-        <div class="calc-result" id="calcResult">0</div>
-      </div>
     </header>
 
     <section id="home" class="section active">
@@ -894,7 +886,7 @@
   </div>
 
   <script>
-    const websiteLink = "https://academeforge.com";
+    const websiteLink = "https://academeforge.in";
 
     function showSection(sectionId) {
       const sections = document.querySelectorAll(".section");
