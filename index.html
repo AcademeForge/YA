@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <title>AcademeForge App</title>
 
   <style>
@@ -64,6 +64,15 @@
       position: relative;
     }
 
+html, body {
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
     .glass {
       background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
       border: 1px solid var(--border);
