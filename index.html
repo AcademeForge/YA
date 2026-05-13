@@ -1507,11 +1507,21 @@ async function studentLogin() {
 
   const sessionId = createSessionId();
 
-  const { error: sessionError } = await db
-    .from("students")
-    .update({ active_session: sessionId })
-    .eq("id", data.id);
+ const { data: updatedStudent, error: sessionError } = await db
+  .from("students")
+  .update({ active_session: sessionId })
+  .eq("id", data.id)
+  .select("id, student_id, name, active_session")
+  .single();
 
+if (sessionError || !updatedStudent) {
+  console.log("Session update error:", sessionError);
+  showToast("Login Error", "Session could not be created.");
+  return;
+}
+
+loggedStudent = updatedStudent;
+  
   if (sessionError) {
     showToast("Login Error", "Session could not be created.");
     return;
@@ -1538,7 +1548,7 @@ async function studentLogin() {
   await fetchStudentCourses();
 }
 
-async function checkSavedLogin() {
+async function verifyActiveSession() {
   const savedStudent = localStorage.getItem("af_logged_student");
   const savedSessionId = localStorage.getItem("af_session_id");
 
@@ -1546,21 +1556,42 @@ async function checkSavedLogin() {
     return;
   }
 
+  let student;
+
   try {
-    loggedStudent = JSON.parse(savedStudent);
+    student = JSON.parse(savedStudent);
   } catch (e) {
-    localStorage.removeItem("af_logged_student");
-    localStorage.removeItem("af_session_id");
+    forceLogoutOldDevice();
     return;
   }
 
-  await verifyActiveSession();
-
-  const stillLoggedIn = localStorage.getItem("af_logged_student");
-
-  if (!stillLoggedIn) {
+  if (!student || !student.id) {
+    forceLogoutOldDevice();
     return;
   }
+
+  const { data, error } = await db
+    .from("students")
+    .select("active_session")
+    .eq("id", student.id)
+    .single();
+
+  if (error || !data) {
+    console.log("Session verify error:", error);
+    return;
+  }
+
+  console.log("Saved Session:", savedSessionId);
+  console.log("DB Session:", data.active_session);
+
+  if (!data.active_session) {
+    return;
+  }
+
+  if (data.active_session !== savedSessionId) {
+    forceLogoutOldDevice();
+  }
+}
 
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
