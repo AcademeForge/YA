@@ -1387,7 +1387,10 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-
+function createSessionId() {
+  return "session_" + Date.now() + "_" + Math.random().toString(36).substring(2);
+}
+  
 let loggedStudent = null;
 let selectedCourse = null;
 let selectedCourseChapters = [];
@@ -1416,8 +1419,26 @@ async function studentLogin() {
     return;
   }
 
-  loggedStudent = data;
+const sessionId = createSessionId();
+
+const { error: sessionError } = await db
+  .from("students")
+  .update({ active_session: sessionId })
+  .eq("id", data.id);
+
+if (sessionError) {
+  showToast("Login Error", "Session could not be created.");
+  return;
+}
+
+loggedStudent = {
+  ...data,
+  active_session: sessionId
+};
+
 localStorage.setItem("af_logged_student", JSON.stringify(loggedStudent));
+localStorage.setItem("af_session_id", sessionId);
+  
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
 
@@ -1466,6 +1487,12 @@ async function checkSavedLogin() {
   }
 
   loggedStudent = JSON.parse(savedStudent);
+  await verifyActiveSession();
+
+const stillLoggedIn = localStorage.getItem("af_logged_student");
+if (!stillLoggedIn) {
+  return;
+}
 
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
@@ -1477,7 +1504,32 @@ async function checkSavedLogin() {
 
   showToast("Welcome Back", "You are already logged in.");
 }
+async function verifyActiveSession() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
 
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  const student = JSON.parse(savedStudent);
+
+  const { data, error } = await db
+    .from("students")
+    .select("active_session")
+    .eq("id", student.id)
+    .single();
+
+  if (error || !data) {
+    logoutStudent();
+    return;
+  }
+
+  if (data.active_session !== savedSessionId) {
+    logoutStudent();
+    showToast("Logged Out", "Your ID was logged in on another device.");
+  }
+}
 function renderCourses(enrollments) {
   const courseCards = document.getElementById("courseCards");
   courseCards.innerHTML = "";
