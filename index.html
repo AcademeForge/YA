@@ -1166,7 +1166,7 @@ html, body {
         </div>
       </div>
     </div>
-    </section>
+    
     
     <!-- COURSE MANAGEMENT -->
     <div class="admin-manage-box hidden-box" id="adminCoursesBox" style="display:none;">
@@ -1225,7 +1225,7 @@ html, body {
         </div>
       </div>
     </div>
-  </section>
+  
     
     <!-- ASSIGN COURSE -->
     <div class="admin-manage-box hidden-box" id="adminAssignCourseBox" style="display:none;">
@@ -1233,94 +1233,6 @@ html, body {
         <div>
           <h3>🔗 Assign Course</h3>
           <p>Assign courses to selected students.</p>
-        </div>
-
-        <button class="back-mini" onclick="closeAdminAssignCourse()">Back</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>Select Student and Course</h3>
-
-        <div class="input-group">
-          <label>Student</label>
-          <select id="assignStudentSelect">
-            <option value="">Loading students...</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label>Course</label>
-          <select id="assignCourseSelect">
-            <option value="">Loading courses...</option>
-          </select>
-        </div>
-
-        <button class="link-btn" onclick="assignCourseToStudent()">Assign Course</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>Current Assignments</h3>
-        <div id="assignedCoursesList" class="admin-list-box">
-          Loading assignments...
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <h3>🎓 Student Management</h3>
-          <p>Add, view, update password, and activate/inactivate students.</p>
-        </div>
-
-        <button class="back-mini" onclick="closeAdminStudents()">Back</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>Add New Student</h3>
-
-        <div class="input-group">
-          <label>Student ID / Email</label>
-          <input id="adminStudentId" type="text" placeholder="Example: student@email.com">
-        </div>
-
-        <div class="input-group">
-          <label>Name</label>
-          <input id="adminStudentName" type="text" placeholder="Student name">
-        </div>
-
-        <div class="input-group">
-          <label>Password</label>
-          <input id="adminStudentPassword" type="text" placeholder="Password">
-        </div>
-
-        <div class="input-group">
-          <label>Mobile</label>
-          <input id="adminStudentMobile" type="text" placeholder="Mobile number">
-        </div>
-
-        <div class="input-group">
-          <label>Email</label>
-          <input id="adminStudentEmail" type="email" placeholder="Email">
-        </div>
-
-        <button class="link-btn" onclick="addAdminStudent()">Add Student</button>
-      </div>
-
-      
-
-    <div class="course-info-box">
-        <h3>All Students</h3>
-        <div id="adminStudentsList" class="admin-list-box">
-          Loading students...
-        </div>
-      </div>
-    </div>
-
-    <div class="admin-manage-box hidden-box" id="adminAssignCourseBox" style="display:none;">
-      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-        <div>
-          <h3>🔗 Assign Course</h3>
-          <p>Assign one course to a selected student.</p>
         </div>
 
         <button class="back-mini" onclick="closeAdminAssignCourse()">Back</button>
