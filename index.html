@@ -1,1 +1,3319 @@
 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>AcademeForge App</title>
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg2: #080f2b;
+      --card: rgba(255, 255, 255, 0.08);
+      --card2: rgba(255, 255, 255, 0.12);
+      --text: #f8fafc;
+      --muted: #aab4d4;
+      --gold: #f8c75c;
+      --blue: #6ee7ff;
+      --purple: #a78bfa;
+      --green: #5eead4;
+      --danger: #fb7185;
+      --border: rgba(255,255,255,0.14);
+      --shadow: 0 24px 80px rgba(0,0,0,0.45);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(167,139,250,0.28), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(110,231,255,0.20), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(248,199,92,0.12), transparent 30%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 100px;
+      position: relative;
+    }
+
+html, body {
+  touch-action: manipulation;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+    .glass {
+      background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 16px 10px;
+      background: linear-gradient(180deg, rgba(5,8,22,0.96), rgba(5,8,22,0.72), transparent);
+      backdrop-filter: blur(12px);
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(248,199,92,0.95), rgba(167,139,250,0.95));
+      color: #0b1020;
+      font-weight: 900;
+      box-shadow: 0 12px 40px rgba(248,199,92,0.20);
+    }
+
+.app-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  object-fit: contain;
+  padding: 2px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+   .brand h1 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0.2px;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .time-box {
+      padding: 9px 11px;
+      border-radius: 16px;
+      font-size: 12px;
+      text-align: right;
+      min-width: 86px;
+    }
+
+    .time-box strong {
+      display: block;
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+
+    .hero {
+      margin: 10px 16px 0;
+      padding: 24px 18px;
+      border-radius: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+.hidden-box {
+  display: none;
+}
+
+.course-select-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.course-select-card {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.14);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(248,199,92,0.12), transparent 30%),
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  color: var(--text);
+  border-radius: 22px;
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.course-select-card:active {
+  transform: scale(0.98);
+}
+
+.course-select-card span {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.12);
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.course-select-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.course-select-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.course-info-box {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+}
+
+.course-info-box h3 {
+  margin-top: 0;
+}
+
+.course-info-box ul {
+  padding-left: 18px;
+  margin-bottom: 0;
+}
+
+    .admin-manage-box {
+  margin-top: 20px;
+}
+
+.admin-list-box {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.admin-student-card {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.admin-student-card h3 {
+  margin-bottom: 6px;
+}
+
+.admin-student-card p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.admin-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+    
+.back-mini {
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  padding: 9px 12px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.learning-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.learning-btn {
+  min-height: 140px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(110,231,255,0.12), transparent 35%),
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  color: var(--text);
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.learning-btn span {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.learning-btn strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.learning-btn small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.chapter-list,
+.content-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.chapter-item,
+.content-item {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 14px;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.chapter-item h3,
+.content-item h3 {
+  margin: 0 0 5px;
+  font-size: 15px;
+}
+
+.chapter-item p,
+.content-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.content-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(248,199,92,0.12);
+  border: 1px solid rgba(248,199,92,0.25);
+  color: #ffe6a3;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media (max-width: 360px) {
+  .learning-choice {
+    grid-template-columns: 1fr;
+  }
+}
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(248,199,92,0.18), transparent 34%),
+        radial-gradient(circle at 90% 20%, rgba(110,231,255,0.14), transparent 35%);
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(248,199,92,0.12);
+      border: 1px solid rgba(248,199,92,0.28);
+      color: #ffe6a3;
+      font-size: 12px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .hero h2 {
+      margin: 16px 0 8px;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      position: relative;
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(251,113,133,0.12);
+      border: 1px solid rgba(251,113,133,0.26);
+      color: #ffd0d8;
+      font-size: 13px;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px;
+    }
+
+.splash-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  object-fit: cover;
+  box-shadow: 0 24px 80px rgba(248,199,92,0.25);
+  animation: splashPop 0.9s ease;
+}
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(248,199,92,0.18), transparent 28%),
+    radial-gradient(circle at 70% 70%, rgba(110,231,255,0.16), transparent 30%),
+    linear-gradient(135deg, #050816, #080f2b);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+#splashScreen.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.splash-logo {
+  width: 92px;
+  height: 92px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #f8c75c, #a78bfa);
+  color: #07111f;
+  font-size: 34px;
+  font-weight: 900;
+  box-shadow: 0 24px 80px rgba(248,199,92,0.25);
+  animation: splashPop 0.9s ease;
+}
+
+#splashScreen h1 {
+  margin: 18px 0 6px;
+  color: #f8fafc;
+  font-size: 26px;
+  letter-spacing: 0.3px;
+}
+
+#splashScreen p {
+  margin: 0;
+  color: #aab4d4;
+  font-size: 13px;
+}
+
+@keyframes splashPop {
+  0% {
+    transform: scale(0.75);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+    .action-card {
+      border-radius: 24px;
+      padding: 16px;
+      min-height: 122px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.25s ease;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .action-card:active {
+      transform: scale(0.98);
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 20px;
+    }
+
+    .action-card h3 {
+      margin: 12px 0 4px;
+      font-size: 15px;
+    }
+
+    .action-card p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .wide {
+      grid-column: span 2;
+      min-height: auto;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .wide div:last-child {
+      flex: 1;
+    }
+
+    .section {
+      display: none;
+      margin: 16px;
+      animation: fade 0.25s ease;
+    }
+
+    #home.section {
+      margin: 0;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel {
+      border-radius: 26px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .panel h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .panel h3 {
+      margin: 14px 0 8px;
+      font-size: 16px;
+    }
+
+    .panel p, .panel li {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .input-group {
+      margin: 12px 0;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      outline: none;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .login-note {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(110,231,255,0.08);
+      border: 1px solid rgba(110,231,255,0.18);
+      color: #dffaff;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .course-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .course {
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.11);
+    }
+
+    .course strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .course p {
+      margin: 0;
+    }
+
+    .team {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .member {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.11);
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #07111f;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .member h4 {
+      margin: 0 0 3px;
+      font-size: 14px;
+    }
+
+    .member p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .ticker {
+      margin: 16px;
+      padding: 13px 14px;
+      border-radius: 20px;
+      background: rgba(94,234,212,0.09);
+      border: 1px solid rgba(94,234,212,0.18);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .ticker span {
+      font-size: 18px;
+    }
+
+    .ticker p {
+      margin: 0;
+      color: #d8fffa;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 86px;
+      transform: translateX(-50%) translateY(30px);
+      width: min(440px, calc(100% - 28px));
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(8, 15, 43, 0.96);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--gold);
+    }
+
+    .toast p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      width: min(450px, calc(100% - 24px));
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 8px;
+      border-radius: 24px;
+      z-index: 80;
+    }
+
+    .nav-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 18px;
+      padding: 10px 4px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .nav-btn b {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .nav-btn.active {
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .link-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 12px;
+      border-radius: 16px;
+      padding: 13px 14px;
+      background: linear-gradient(135deg, var(--gold), #fff1a8);
+      color: #07111f;
+      font-weight: 900;
+      border: 0;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(248,199,92,0.18);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.09);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: none;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      color: var(--gold);
+    }
+
+    .stat small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .dev-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.25);
+      color: #ddd6fe;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 360px) {
+      .hero h2 { font-size: 26px; }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .wide {
+        grid-column: span 1;
+      }
+
+      .bottom-nav {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .nav-btn {
+        font-size: 9px;
+      }
+
+  
+      .calc-result {
+        grid-column: span 2;
+        text-align: left;
+        padding-left: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="splashScreen">
+  <img src="AF LOGO 1.jpeg" class="splash-img" alt="AcademeForge Logo">
+  <h1>AcademeForge</h1>
+  <p>Learning Beyond The Classroom</p>
+</div>
+  <main class="app">
+
+    <header class="topbar">
+      <div class="top-row">
+        <div class="brand">
+          <img src="AF LOGO 1.jpeg" class="app-logo" alt="AcademeForge Logo">
+          <div>
+            <h1>AcademeForge</h1>
+            <p>Learning Beyond the Classroom</p>
+          </div>
+        </div>
+
+       <a href="https://academeforge.in/" class="time-box glass">
+  <strong id="time">Website</strong>
+  <span id="date">academeforge.in</span>
+</a>
+        
+      </div>
+
+    </header>
+
+    <section id="home" class="section active">
+      <div class="hero glass">
+        <div class="tag">🚧 App Preview Build</div>
+        <h2>AcademeForge App is under development.</h2>
+        <p>
+          A premium student-first learning space is being prepared for practical skills,
+          clarity, discipline, and real-world growth.
+        </p>
+
+        <div class="notice">
+          <b>Development Notice:</b> This is an early app version. Student login, office login,
+          learning dashboard, and notification features are being improved step by step.
+        </div>
+
+        <span class="dev-badge">Version 09.01.2024 Preview</span>
+      </div>
+
+      <div class="ticker glass">
+        <span>🔔</span>
+        <p id="tickerText">Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.</p>
+      </div>
+
+      <div class="actions">
+        <button class="action-card glass" onclick="showSection('student')">
+          <div class="icon">🎓</div>
+          <div>
+            <h3>Student Login</h3>
+            <p>Access student dashboard preview and future learning tools.</p>
+          </div>
+        </button>
+
+        <button class="action-card glass" onclick="showSection('office')">
+          <div class="icon">🏢</div>
+          <div>
+            <h3>Office Login</h3>
+            <p>For team, office, management, and internal operations.</p>
+          </div>
+        </button>
+
+        <button class="action-card glass wide" onclick="showSection('explore')">
+          <div class="icon">✨</div>
+          <div>
+            <h3>Explore Without Login</h3>
+            <p>Read about AcademeForge, courses, programs, AST, and contact details.</p>
+          </div>
+        </button>
+
+        <button class="action-card glass wide" onclick="showSection('management')">
+          <div class="icon">👥</div>
+          <div>
+            <h3>Management & Team</h3>
+            <p>Know the people behind AcademeForge and their roles.</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section id="student" class="section">
+  <div class="panel glass" id="studentLoginBox">
+    <h2>🎓 Student Login</h2>
+    <p>Login with your Student ID and password to access AF Nexus learning dashboard.</p>
+
+    <div class="input-group">
+      <label>Student ID</label>
+      <input id="studentId" type="text" placeholder="Example: AF2025001" />
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input id="studentPassword" type="password" placeholder="Enter Password" />
+    </div>
+
+    <button class="link-btn" onclick="studentLogin()">Login</button>
+
+    <div class="login-note">
+      Demo login enabled for preview build. Real student authentication will be connected later.
+    </div>
+  </div>
+
+  <div class="panel glass hidden-box" id="courseSelectBox">
+    <h2>📚 Select Course</h2>
+<p id="studentWelcomeText">Welcome Student</p>
+    <p>Choose your enrolled learning program.</p>
+
+    <div class="course-select-grid" id="courseCards"></div>
+<button class="link-btn secondary" onclick="logoutStudent()">Logout</button>
+  </div>
+
+  <div class="panel glass hidden-box" id="courseDetailsBox">
+    <button class="back-mini" onclick="backToCourses()">← Back to Courses</button>
+
+    <h2 id="courseTitle">Course Name</h2>
+    <p id="courseIntro">Course intro will appear here.</p>
+
+    <div class="course-info-box">
+      <h3>📌 Course Details</h3>
+      <p id="courseDetails"></p>
+    </div>
+
+    <div class="course-info-box">
+      <h3>🧾 Syllabus</h3>
+      <ul id="courseSyllabus"></ul>
+    </div>
+
+    <div class="course-info-box">
+      <h3>🏫 Facilities</h3>
+      <ul id="courseFacilities"></ul>
+    </div>
+
+    <button class="link-btn" onclick="startLearning()">Start Learning</button>
+  </div>
+
+  <div class="panel glass hidden-box" id="learningBox">
+    <button class="back-mini" onclick="backToCourseDetails()">← Back to Course</button>
+
+    <h2 id="learningTitle">Start Learning</h2>
+    <p>Select what you want to access.</p>
+
+    <div class="learning-choice">
+      <button class="learning-btn" onclick="openLearningMode('lectures')">
+        <span>🎥</span>
+        <strong>Lectures</strong>
+        <small>Chapter-wise video lecture list</small>
+      </button>
+
+      <button class="learning-btn" onclick="openLearningMode('notes')">
+        <span>📝</span>
+        <strong>Notes</strong>
+        <small>Chapter-wise study notes list</small>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel glass hidden-box" id="chapterBox">
+    <button class="back-mini" onclick="backToLearning()">← Back</button>
+
+    <h2 id="chapterModeTitle">Lectures</h2>
+    <p>Select a chapter to continue.</p>
+
+    <div class="chapter-list" id="chapterList"></div>
+  </div>
+
+  <div class="panel glass hidden-box" id="contentBox">
+    <button class="back-mini" onclick="backToChapters()">← Back to Chapters</button>
+
+    <h2 id="contentTitle">Chapter Content</h2>
+    <p id="contentSubtitle">Select and study one by one.</p>
+
+    <div class="content-list" id="contentList"></div>
+  </div>
+</section>
+
+     
+    <section id="office" class="section">
+  <div class="panel glass" id="officeLoginBox">
+    <h2>🏢 Office Login</h2>
+    <p>Login with your Office ID and password to access AcademeForge admin dashboard.</p>
+
+    <div class="input-group">
+      <label>Office ID</label>
+      <input id="officeId" type="text" placeholder="Example: admin" />
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input id="officePassword" type="password" placeholder="Enter Password" />
+    </div>
+
+    <button class="link-btn" onclick="officeLogin()">Login</button>
+
+    <div class="login-note">
+      Demo office login enabled. Real management tools will be added step by step.
+    </div>
+  </div>
+
+  <div class="panel glass hidden-box" id="officeDashboardBox" style="display:none;">
+    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+      <div>
+        <h2>🏢 Office Dashboard</h2>
+        <p id="officeWelcomeText">Welcome, Admin</p>
+      </div>
+
+      <button class="back-mini" onclick="officeLogout()">Logout</button>
+    </div>
+
+    <div class="course-info-box">
+      <h3>⚡ Quick Actions</h3>
+      <p>Select what you want to manage.</p>
+    </div>
+
+    <div class="course-select-grid" id="officeQuickActions">
+      <button class="course-select-card" onclick="openAdminStudents()">
+        <span>🎓</span>
+        <h3>Students</h3>
+        <p>Add, view, update, activate/inactivate students.</p>
+      </button>
+
+      <button class="course-select-card" onclick="openAdminCourses()">
+        <span>📚</span>
+        <h3>Courses</h3>
+        <p>Add, edit, and manage courses.</p>
+      </button>
+
+      <button class="course-select-card" onclick="openAdminAssignCourse()">
+        <span>🔗</span>
+        <h3>Assign Course</h3>
+        <p>Assign courses to students.</p>
+      </button>
+
+    <button class="course-select-card" onclick="openAdminLectures()">
+  <span>🎥</span>
+  <h3>Lectures</h3>
+  <p>Add lecture title, description, video link, lock/unlock.</p>
+</button>
+      
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Notes management will be added next.')">
+        <span>📝</span>
+        <h3>Notes</h3>
+        <p>Add text notes, PDF link, lock/unlock.</p>
+      </button>
+
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Progress tracking will be added next.')">
+        <span>📊</span>
+        <h3>Progress</h3>
+        <p>Track student course progress.</p>
+      </button>
+    </div>
+
+    <!-- STUDENT MANAGEMENT -->
+    <div class="admin-manage-box hidden-box" id="adminStudentsBox" style="display:none;">
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+        <div>
+          <h3>🎓 Student Management</h3>
+          <p>Add, view, update password, and activate/inactivate students.</p>
+        </div>
+
+        <button class="back-mini" onclick="closeAdminStudents()">Back</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>Add New Student</h3>
+
+        <div class="input-group">
+          <label>Student ID / Email</label>
+          <input id="adminStudentId" type="text" placeholder="Example: student@email.com">
+        </div>
+
+        <div class="input-group">
+          <label>Name</label>
+          <input id="adminStudentName" type="text" placeholder="Student name">
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input id="adminStudentPassword" type="text" placeholder="Password">
+        </div>
+
+        <div class="input-group">
+          <label>Mobile</label>
+          <input id="adminStudentMobile" type="text" placeholder="Mobile number">
+        </div>
+
+        <div class="input-group">
+          <label>Email</label>
+          <input id="adminStudentEmail" type="email" placeholder="Email">
+        </div>
+
+        <button class="link-btn" onclick="addAdminStudent()">Add Student</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>All Students</h3>
+        <div id="adminStudentsList" class="admin-list-box">
+          Loading students...
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- COURSE MANAGEMENT -->
+    <div class="admin-manage-box hidden-box" id="adminCoursesBox" style="display:none;">
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+        <div>
+          <h3>📚 Course Management</h3>
+          <p>Add, view, and edit courses.</p>
+        </div>
+
+        <button class="back-mini" onclick="closeAdminCourses()">Back</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3 id="courseFormTitle">Add New Course</h3>
+
+        <input type="hidden" id="adminCourseEditId">
+
+        <div class="input-group">
+          <label>Course Title</label>
+          <input id="adminCourseTitle" type="text" placeholder="Example: Video & Media Editing">
+        </div>
+
+        <div class="input-group">
+          <label>Course Slug</label>
+          <input id="adminCourseSlug" type="text" placeholder="Example: video-editing">
+        </div>
+
+        <div class="input-group">
+          <label>Icon</label>
+          <input id="adminCourseIcon" type="text" placeholder="Example: 🎬">
+        </div>
+
+        <div class="input-group">
+          <label>Short Description</label>
+          <input id="adminCourseShortDescription" type="text" placeholder="Short course intro">
+        </div>
+
+        <div class="input-group">
+          <label>Details</label>
+          <textarea id="adminCourseDetails" placeholder="Full course details" rows="4"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Facilities</label>
+          <textarea id="adminCourseFacilities" placeholder="Write one facility per line" rows="4"></textarea>
+        </div>
+
+        <button class="link-btn" onclick="saveAdminCourse()">Save Course</button>
+        <button class="back-mini" onclick="resetAdminCourseForm()">Clear</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>All Courses</h3>
+        <div id="adminCoursesList" class="admin-list-box">
+          Loading courses...
+        </div>
+      </div>
+    </div>
+  <!-- LECTURE MANAGEMENT -->
+<div class="admin-manage-box hidden-box" id="adminLecturesBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>🎥 Lecture Management</h3>
+      <p>Add, view, update, lock/unlock lectures.</p>
+    </div>
+
+    <button class="back-mini" onclick="closeAdminLectures()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>Add New Lecture</h3>
+
+    <div class="input-group">
+      <label>Course</label>
+      <select id="lectureCourseSelect" onchange="loadLectureChapters()">
+        <option value="">Select course</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Chapter</label>
+      <select id="lectureChapterSelect">
+        <option value="">Select chapter</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Lecture Number</label>
+      <input id="lectureNumberInput" type="number" placeholder="Example: 1">
+    </div>
+
+    <div class="input-group">
+      <label>Lecture Title</label>
+      <input id="lectureTitleInput" type="text" placeholder="Lecture title">
+    </div>
+
+    <div class="input-group">
+      <label>Description</label>
+      <textarea id="lectureDescriptionInput" placeholder="Lecture description"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Video URL</label>
+      <input id="lectureVideoUrlInput" type="text" placeholder="YouTube / Drive / video link">
+    </div>
+
+    <div class="input-group">
+      <label>Duration</label>
+      <input id="lectureDurationInput" type="text" placeholder="Example: 12 min">
+    </div>
+
+    <div class="input-group">
+      <label>Lock Status</label>
+      <select id="lectureLockInput">
+        <option value="false">Unlocked</option>
+        <option value="true">Locked</option>
+      </select>
+    </div>
+
+    <button class="link-btn" onclick="addAdminLecture()">Add Lecture</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Lectures</h3>
+    <div id="adminLecturesList" class="admin-list-box">
+      Loading lectures...
+    </div>
+  </div>
+</div>
+    
+    <!-- ASSIGN COURSE -->
+    <div class="admin-manage-box hidden-box" id="adminAssignCourseBox" style="display:none;">
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+        <div>
+          <h3>🔗 Assign Course</h3>
+          <p>Assign courses to selected students.</p>
+        </div>
+
+        <button class="back-mini" onclick="closeAdminAssignCourse()">Back</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>Select Student and Course</h3>
+
+        <div class="input-group">
+          <label>Student</label>
+          <select id="assignStudentSelect">
+            <option value="">Loading students...</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Course</label>
+          <select id="assignCourseSelect">
+            <option value="">Loading courses...</option>
+          </select>
+        </div>
+
+        <button class="link-btn" onclick="assignCourseToStudent()">Assign Course</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>Current Assignments</h3>
+        <div id="assignedCoursesList" class="admin-list-box">
+          Loading assignments...
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+    <section id="explore" class="section">
+      <div class="panel glass">
+        <h2>✨ Explore AcademeForge</h2>
+        <p>
+          AcademeForge is a student-focused learning initiative built around practical skills,
+          consistency, digital creativity, and real-world understanding.
+        </p>
+
+        <div class="mini-row">
+          <div class="stat">
+            <strong>2024</strong>
+            <small>Founded</small>
+          </div>
+          <div class="stat">
+            <strong>Skill-first</strong>
+            <small>Learning model</small>
+          </div>
+        </div>
+
+        <h3>Learning Focus</h3>
+        <ul>
+          <li>Foundation-first learning</li>
+          <li>Short practical lessons</li>
+          <li>Digital skills and creativity</li>
+          <li>Discipline, consistency, and execution</li>
+          <li>Future AST learning and assessment phase</li>
+        </ul>
+
+        <h3>Course Programs</h3>
+        <div class="course-grid">
+          <div class="course">
+            <strong>Video & Media Editing</strong>
+            <p>Create content that captures attention and builds digital creativity.</p>
+          </div>
+
+          <div class="course">
+            <strong>Creative & Graphic Design</strong>
+            <p>Turn ideas into clean, engaging, and impactful visuals.</p>
+          </div>
+
+          <div class="course">
+            <strong>AI Coding & Logic Foundation</strong>
+            <p>Build smart thinking with coding basics, logic, and AI fundamentals.</p>
+          </div>
+
+          <div class="course">
+            <strong>Freelancing & Monetization</strong>
+            <p>Understand how digital skills can create real online opportunities.</p>
+          </div>
+        </div>
+
+        <h3>Contact</h3>
+        <p>
+          Location: Patna, Bihar, India<br />
+          Email: academeforge@gmail.com
+        </p>
+
+        <button class="link-btn" onclick="openWebsite()">Open Official Website</button>
+        <button class="link-btn secondary" onclick="copyWebsite()">Copy Website Link</button>
+      </div>
+    </section>
+
+    <section id="management" class="section">
+      <div class="panel glass">
+        <h2>👥 Management & Team</h2>
+        <p>
+          AcademeForge is powered by young innovators and learners working to build a better
+          student-first learning experience.
+        </p>
+
+        <div class="team">
+          <div class="member">
+            <div class="avatar">D</div>
+            <div>
+              <h4>Devraj Kumar</h4>
+              <p>Founder — focused on modern education, AI-powered learning, creativity, and student empowerment.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">M</div
+              <h4>Mandeep Harsh</h4>
+              <p>Co-Founder — helping shape growth, strategy, and student learning experiences.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">A</div>
+            <div>
+              <h4>Ayush Raj</h4>
+              <p>Moderator — assisting with student coordination, platform activities, and learning environment.</p>
+            </div>
+          </div>
+
+          <div class="member">
+            <div class="avatar">P</div>
+            <div>
+              <h4>Palak Kumari Jha</h4>
+              <p>Moderator — supporting student engagement, community, and smooth learning experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="bottom-nav glass">
+      <button class="nav-btn active" data-section="home" onclick="showSection('home')">
+        <b>🏠</b>
+        Home
+      </button>
+
+      <button class="nav-btn" data-section="student" onclick="showSection('student')">
+        <b>🎓</b>
+        Student
+      </button>
+
+      <button class="nav-btn" data-section="office" onclick="showSection('office')">
+        <b>🏢</b>
+        Office
+      </button>
+
+      <button class="nav-btn" data-section="explore" onclick="showSection('explore')">
+        <b>✨</b>
+        Explore
+      </button>
+
+      <button class="nav-btn" data-section="management" onclick="showSection('management')">
+        <b>👥</b>
+        Team
+      </button>
+    </nav>
+
+  </main>
+
+  <div class="toast" id="toast">
+  <strong>Notification</strong>
+  <p>Message</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://nltmolhlwgsrxadknzzq.supabase.co";
+
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const websiteLink = "https://academeforge.in";
+
+
+let loggedStudent = null;
+let selectedCourse = null;
+let selectedCourseChapters = [];
+let currentMode = "lectures";
+let selectedChapter = null;
+
+/* ---------------- BASIC APP FUNCTIONS ---------------- */
+
+function showSection(sectionId) {
+  const sections = document.querySelectorAll(".section");
+
+  sections.forEach(function(section) {
+    section.classList.remove("active");
+  });
+
+  const targetSection = document.getElementById(sectionId);
+
+  if (targetSection) {
+    targetSection.classList.add("active");
+  }
+
+  const navButtons = document.querySelectorAll(".nav-btn");
+
+  navButtons.forEach(function(button) {
+    button.classList.remove("active");
+  });
+
+  const activeButton = document.querySelector('.nav-btn[data-section="' + sectionId + '"]');
+
+  if (activeButton) {
+    activeButton.classList.add("active");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function calculate() {
+  const input = document.getElementById("calcInput");
+  const result = document.getElementById("calcResult");
+
+  if (!input || !result) return;
+
+  const expression = input.value.trim();
+
+  if (expression === "") {
+    result.textContent = "0";
+    return;
+  }
+
+  const safeExpression = /^[0-9+\-*/().%\s]+$/;
+
+  if (!safeExpression.test(expression)) {
+    result.textContent = "Error";
+    showToast("Invalid Input", "Use only numbers and basic symbols like +, -, *, /, %, and brackets.");
+    return;
+  }
+
+  try {
+    const answer = Function('"use strict"; return (' + expression + ')')();
+
+    if (Number.isFinite(answer)) {
+      result.textContent = answer;
+    } else {
+      result.textContent = "Error";
+    }
+  } catch (error) {
+    result.textContent = "Error";
+  }
+}
+
+function demoLogin(type) {
+  showToast(
+    type + " Login Preview",
+    type + " login is currently under development. This is only a preview interface."
+  );
+}
+
+function openWebsite() {
+  window.open(websiteLink, "_blank");
+}
+
+function copyWebsite() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(websiteLink)
+      .then(function() {
+        showToast("Copied", "Website link copied to clipboard.");
+      })
+      .catch(function() {
+        fallbackCopyWebsite();
+      });
+  } else {
+    fallbackCopyWebsite();
+  }
+}
+
+function fallbackCopyWebsite() {
+  const tempInput = document.createElement("input");
+  tempInput.value = websiteLink;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand("copy");
+  document.body.removeChild(tempInput);
+
+  showToast("Copied", "Website link copied to clipboard.");
+}
+
+function showToast(title, message) {
+  const toast = document.getElementById("toast");
+
+  if (!toast) return;
+
+  toast.querySelector("strong").textContent = title;
+  toast.querySelector("p").textContent = message || "";
+
+  toast.classList.add("show");
+
+  setTimeout(function() {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+function updateClock() {
+  const timeElement = document.getElementById("time");
+  const dateElement = document.getElementById("date");
+
+  if (!timeElement || !dateElement) return;
+
+  const now = new Date();
+
+  const time = now.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const date = now.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short"
+  });
+
+  timeElement.textContent = time;
+  dateElement.textContent = date;
+}
+
+const tickerMessages = [
+  "Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.",
+  "Student dashboard, office dashboard, and learning tools are coming soon.",
+  "Focus on skills, discipline, creativity, and real-world learning.",
+  "AcademeForge preview build is currently under development."
+];
+
+let tickerIndex = 0;
+
+function updateTicker() {
+  const tickerText = document.getElementById("tickerText");
+
+  if (!tickerText) return;
+
+  tickerIndex = (tickerIndex + 1) % tickerMessages.length;
+  tickerText.textContent = tickerMessages[tickerIndex];
+}
+
+/* ---------------- SPLASH SCREEN ---------------- */
+
+setTimeout(function () {
+  var splash = document.getElementById("splashScreen");
+  if (splash) {
+    splash.classList.add("hide");
+
+    setTimeout(function () {
+      splash.style.display = "none";
+    }, 500);
+  }
+}, 2000);
+
+/* ---------------- ZOOM / RIGHT CLICK PROTECTION ---------------- */
+
+document.addEventListener("gesturestart", function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener("gesturechange", function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener("gestureend", function (event) {
+  event.preventDefault();
+});
+
+let lastTouchEnd = 0;
+
+document.addEventListener("touchend", function (event) {
+  const now = Date.now();
+
+  if (now - lastTouchEnd <= 300) {
+    event.preventDefault();
+  }
+
+  lastTouchEnd = now;
+}, false);
+
+document.addEventListener("contextmenu", function (event) {
+  event.preventDefault();
+});
+
+document.addEventListener("keydown", function (event) {
+  const key = event.key.toLowerCase();
+
+  if (
+    event.key === "F12" ||
+    (event.ctrlKey && event.shiftKey && key === "i") ||
+    (event.ctrlKey && event.shiftKey && key === "j") ||
+    (event.ctrlKey && event.shiftKey && key === "c") ||
+    (event.ctrlKey && key === "u") ||
+    (event.ctrlKey && key === "s")
+  ) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+/* ---------------- SESSION SYSTEM ---------------- */
+
+function createSessionId() {
+  return "session_" + Date.now() + "_" + Math.random().toString(36).substring(2);
+}
+
+async function verifyActiveSession() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
+
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  let student;
+
+  try {
+    student = JSON.parse(savedStudent);
+  } catch (e) {
+    forceLogoutOldDevice();
+    return;
+  }
+
+  if (!student || !student.id) {
+    forceLogoutOldDevice();
+    return;
+  }
+
+  const { data, error } = await db
+    .from("students")
+    .select("active_session")
+    .eq("id", student.id)
+    .single();
+
+  if (error || !data) {
+    console.log("Session verify error:", error);
+    return;
+  }
+
+  console.log("Saved Session:", savedSessionId);
+  console.log("DB Session:", data.active_session);
+
+  if (!data.active_session) {
+    return;
+  }
+
+  if (data.active_session !== savedSessionId) {
+    forceLogoutOldDevice();
+  }
+}
+
+function forceLogoutOldDevice() {
+  localStorage.removeItem("af_logged_student");
+  localStorage.removeItem("af_session_id");
+
+  loggedStudent = null;
+  selectedCourse = null;
+  selectedCourseChapters = [];
+  currentMode = "lectures";
+  selectedChapter = null;
+
+  const studentLoginBox = document.getElementById("studentLoginBox");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+  const courseDetailsBox = document.getElementById("courseDetailsBox");
+  const learningBox = document.getElementById("learningBox");
+  const chapterBox = document.getElementById("chapterBox");
+  const contentBox = document.getElementById("contentBox");
+
+  if (studentLoginBox) studentLoginBox.style.display = "block";
+  if (courseSelectBox) courseSelectBox.style.display = "none";
+  if (courseDetailsBox) courseDetailsBox.style.display = "none";
+  if (learningBox) learningBox.style.display = "none";
+  if (chapterBox) chapterBox.style.display = "none";
+  if (contentBox) contentBox.style.display = "none";
+
+  showSection("student");
+  showToast("Logged Out", "Your ID was logged in on another device.");
+}
+
+/* ---------------- STUDENT LOGIN ---------------- */
+
+async function studentLogin() {
+  const idInput = document.getElementById("studentId");
+  const passwordInput = document.getElementById("studentPassword");
+
+  if (!idInput || !passwordInput) {
+    showToast("Error", "Login input not found.");
+    return;
+  }
+
+  const id = idInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!id || !password) {
+    showToast("Missing Details", "Please enter Student ID and password.");
+    return;
+  }
+
+  const { data, error } = await db
+    .from("students")
+    .select("*")
+    .eq("student_id", id)
+    .eq("password", password)
+    .eq("status", "active")
+    .single();
+
+  if (error || !data) {
+    showToast("Login Failed", "Invalid Student ID or password.");
+    return;
+  }
+
+  const sessionId = createSessionId();
+
+  const { data: updatedStudent, error: sessionError } = await db
+  .from("students")
+  .update({ active_session: sessionId })
+  .eq("id", data.id)
+  .select("*")
+  .single();
+
+console.log("SESSION ID CREATED:", sessionId);
+console.log("UPDATED STUDENT:", updatedStudent);
+console.log("SESSION UPDATE ERROR:", sessionError);
+
+
+if (sessionError || !updatedStudent) {
+  console.log("Session update error:", sessionError);
+  showToast("Login Error", "Session could not be created.");
+  return;
+}
+
+  loggedStudent = updatedStudent;
+
+  localStorage.setItem("af_logged_student", JSON.stringify(loggedStudent));
+  localStorage.setItem("af_session_id", sessionId);
+
+  const studentLoginBox = document.getElementById("studentLoginBox");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+
+  if (studentLoginBox) studentLoginBox.style.display = "none";
+  if (courseSelectBox) courseSelectBox.style.display = "block";
+
+  const welcomeText = document.getElementById("studentWelcomeText");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
+
+  showToast("Login Successful", "Select your course to continue.");
+
+  await fetchStudentCourses();
+}
+
+async function checkSavedLogin() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
+
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  try {
+    loggedStudent = JSON.parse(savedStudent);
+  } catch (e) {
+    localStorage.removeItem("af_logged_student");
+    localStorage.removeItem("af_session_id");
+    return;
+  }
+
+  await verifyActiveSession();
+
+  const stillLoggedIn = localStorage.getItem("af_logged_student");
+
+  if (!stillLoggedIn) {
+    return;
+  }
+
+  const studentLoginBox = document.getElementById("studentLoginBox");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+
+  if (studentLoginBox) studentLoginBox.style.display = "none";
+  if (courseSelectBox) courseSelectBox.style.display = "block";
+
+  const welcomeText = document.getElementById("studentWelcomeText");
+  if (welcomeText && loggedStudent) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
+
+  await fetchStudentCourses();
+
+  showToast("Welcome Back", "You are already logged in.");
+}
+
+let loggedAdmin = null;
+
+async function officeLogin() {
+  const officeIdInput = document.getElementById("officeId");
+  const officePasswordInput = document.getElementById("officePassword");
+
+  if (!officeIdInput || !officePasswordInput) {
+    showToast("Error", "Office login input not found.");
+    return;
+  }
+
+  const officeId = officeIdInput.value.trim();
+  const officePassword = officePasswordInput.value.trim();
+
+  if (!officeId || !officePassword) {
+    showToast("Missing Details", "Please enter Office ID and password.");
+    return;
+  }
+
+  const { data, error } = await db
+    .from("admins")
+    .select("*")
+    .eq("admin_id", officeId)
+    .eq("password", officePassword)
+    .eq("status", "active")
+    .single();
+
+  if (error || !data) {
+    showToast("Login Failed", "Invalid Office ID or password.");
+    return;
+  }
+
+  loggedAdmin = data;
+
+  localStorage.setItem("af_logged_admin", JSON.stringify(loggedAdmin));
+
+  const officeLoginBox = document.getElementById("officeLoginBox");
+  const officeDashboardBox = document.getElementById("officeDashboardBox");
+
+  if (officeLoginBox) officeLoginBox.style.display = "none";
+  if (officeDashboardBox) officeDashboardBox.style.display = "block";
+
+  const officeWelcomeText = document.getElementById("officeWelcomeText");
+  if (officeWelcomeText) {
+    officeWelcomeText.textContent = "Welcome, " + loggedAdmin.name;
+  }
+
+  showToast("Office Login Successful", "Welcome to admin dashboard.");
+}
+
+function checkSavedAdminLogin() {
+  const savedAdmin = localStorage.getItem("af_logged_admin");
+
+  if (!savedAdmin) {
+    return;
+  }
+
+  try {
+    loggedAdmin = JSON.parse(savedAdmin);
+  } catch (e) {
+    localStorage.removeItem("af_logged_admin");
+    return;
+  }
+
+  const officeLoginBox = document.getElementById("officeLoginBox");
+  const officeDashboardBox = document.getElementById("officeDashboardBox");
+
+  if (officeLoginBox) officeLoginBox.style.display = "none";
+  if (officeDashboardBox) officeDashboardBox.style.display = "block";
+
+  const officeWelcomeText = document.getElementById("officeWelcomeText");
+  if (officeWelcomeText && loggedAdmin) {
+    officeWelcomeText.textContent = "Welcome, " + loggedAdmin.name;
+  }
+}
+
+function officeLogout() {
+  localStorage.removeItem("af_logged_admin");
+
+  loggedAdmin = null;
+
+  const officeIdInput = document.getElementById("officeId");
+  const officePasswordInput = document.getElementById("officePassword");
+
+  if (officeIdInput) officeIdInput.value = "";
+  if (officePasswordInput) officePasswordInput.value = "";
+
+  const officeLoginBox = document.getElementById("officeLoginBox");
+  const officeDashboardBox = document.getElementById("officeDashboardBox");
+
+  if (officeLoginBox) officeLoginBox.style.display = "block";
+  if (officeDashboardBox) officeDashboardBox.style.display = "none";
+
+  showToast("Logged Out", "Office account logged out successfully.");
+}
+
+  async function openAdminStudents() {
+  const grid = document.querySelector("#officeDashboardBox .course-select-grid");
+  const box = document.getElementById("adminStudentsBox");
+
+  if (grid) {
+    grid.style.display = "none";
+  }
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  await fetchAdminStudents();
+}
+
+function closeAdminStudents() {
+  const grid = document.querySelector("#officeDashboardBox .course-select-grid");
+  const box = document.getElementById("adminStudentsBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (grid) {
+    grid.style.display = "grid";
+  }
+}
+
+async function fetchAdminStudents() {
+  const list = document.getElementById("adminStudentsList");
+
+  if (!list) {
+    return;
+  }
+
+  list.innerHTML = "Loading students...";
+
+  const { data, error } = await db
+    .from("students")
+    .select("id, student_id, name, password, mobile, email, status, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log("Students fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Students could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminStudents(data || []);
+}
+
+function renderAdminStudents(students) {
+  const list = document.getElementById("adminStudentsList");
+
+  if (!list) {
+    return;
+  }
+
+  if (!students.length) {
+    list.innerHTML = "<div class='login-note'>No students found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  students.forEach(function(student) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const studentName = student.name || "-";
+    const studentLoginId = student.student_id || "-";
+    const studentPassword = student.password || "-";
+    const studentMobile = student.mobile || "-";
+    const studentEmail = student.email || "-";
+    const studentStatus = student.status || "-";
+    const statusButtonText = student.status === "active" ? "Deactivate" : "Activate";
+
+    card.innerHTML =
+      "<div>" +
+        "<h3>" + studentName + "</h3>" +
+        "<p><b>ID:</b> " + studentLoginId + "</p>" +
+        "<p><b>Password:</b> " + studentPassword + "</p>" +
+        "<p><b>Mobile:</b> " + studentMobile + "</p>" +
+        "<p><b>Email:</b> " + studentEmail + "</p>" +
+        "<p><b>Status:</b> " + studentStatus + "</p>" +
+      "</div>" +
+      "<div class='admin-action-row'>" +
+        "<button class='back-mini' onclick=\"changeStudentPassword('" + student.id + "')\">Change Password</button>" +
+        "<button class='back-mini' onclick=\"toggleStudentStatus('" + student.id + "', '" + student.status + "')\">" + statusButtonText + "</button>" +
+      "</div>";
+
+    list.appendChild(card);
+  });
+}
+
+async function addAdminStudent() {
+  const studentIdInput = document.getElementById("adminStudentId");
+  const nameInput = document.getElementById("adminStudentName");
+  const passwordInput = document.getElementById("adminStudentPassword");
+  const mobileInput = document.getElementById("adminStudentMobile");
+  const emailInput = document.getElementById("adminStudentEmail");
+
+  if (!studentIdInput || !nameInput || !passwordInput) {
+    showToast("Error", "Student form input not found.");
+    return;
+  }
+
+  const studentId = studentIdInput.value.trim();
+  const name = nameInput.value.trim();
+  const password = passwordInput.value.trim();
+  const mobile = mobileInput ? mobileInput.value.trim() : "";
+  const email = emailInput ? emailInput.value.trim() : "";
+
+  if (!studentId || !name || !password) {
+    showToast("Missing Details", "Student ID, name, and password are required.");
+    return;
+  }
+
+  const { error } = await db
+    .from("students")
+    .insert({
+      student_id: studentId,
+      name: name,
+      password: password,
+      mobile: mobile || null,
+      email: email || null,
+      status: "active"
+    });
+
+  if (error) {
+    console.log("Add student error:", error);
+    showToast("Error", "Student could not be added.");
+    return;
+  }
+
+  showToast("Student Added", "New student added successfully.");
+
+  studentIdInput.value = "";
+  nameInput.value = "";
+  passwordInput.value = "";
+
+  if (mobileInput) {
+    mobileInput.value = "";
+  }
+
+  if (emailInput) {
+    emailInput.value = "";
+  }
+
+  await fetchAdminStudents();
+}
+
+async function changeStudentPassword(studentUuid) {
+  const newPassword = prompt("Enter new password:");
+
+  if (!newPassword) {
+    return;
+  }
+
+  const { error } = await db
+    .from("students")
+    .update({ password: newPassword })
+    .eq("id", studentUuid);
+
+  if (error) {
+    console.log("Password update error:", error);
+    showToast("Error", "Password could not be updated.");
+    return;
+  }
+
+  showToast("Password Updated", "Student password changed successfully.");
+  await fetchAdminStudents();
+}
+
+async function toggleStudentStatus(studentUuid, currentStatus) {
+  const newStatus = currentStatus === "active" ? "inactive" : "active";
+
+  const { error } = await db
+    .from("students")
+    .update({ status: newStatus })
+    .eq("id", studentUuid);
+
+  if (error) {
+    console.log("Status update error:", error);
+    showToast("Error", "Status could not be updated.");
+    return;
+  }
+
+  showToast("Status Updated", "Student is now " + newStatus + ".");
+  await fetchAdminStudents();
+}
+
+async function openAdminAssignCourse() {
+  const grid = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminAssignCourseBox");
+
+  if (grid) grid.style.display = "none";
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  await loadAssignCourseData();
+}
+
+function closeAdminAssignCourse() {
+  const grid = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminAssignCourseBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (grid) grid.style.display = "grid";
+}
+
+async function loadAssignCourseData() {
+  await fetchAssignStudents();
+  await fetchAssignCourses();
+  await fetchAssignedCourses();
+}
+
+async function fetchAssignStudents() {
+  const select = document.getElementById("assignStudentSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Loading students...</option>`;
+
+  const { data, error } = await db
+    .from("students")
+    .select("id, student_id, name, status")
+    .eq("status", "active")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.log("Assign students fetch error:", error);
+    select.innerHTML = `<option value="">Students could not be loaded</option>`;
+    return;
+  }
+
+  select.innerHTML = `<option value="">Select student</option>`;
+
+  (data || []).forEach(function(student) {
+    const option = document.createElement("option");
+    option.value = student.id;
+    option.textContent = student.name + " (" + student.student_id + ")";
+    select.appendChild(option);
+  });
+}
+
+async function fetchAssignCourses() {
+  const select = document.getElementById("assignCourseSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Loading courses...</option>`;
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title, slug")
+    .order("title", { ascending: true });
+
+  if (error) {
+    console.log("Assign courses fetch error:", error);
+    select.innerHTML = `<option value="">Courses could not be loaded</option>`;
+    return;
+  }
+
+  select.innerHTML = `<option value="">Select course</option>`;
+
+  (data || []).forEach(function(course) {
+    const option = document.createElement("option");
+    option.value = course.id;
+    option.textContent = course.title;
+    select.appendChild(option);
+  });
+}
+
+async function assignCourseToStudent() {
+  const studentSelect = document.getElementById("assignStudentSelect");
+  const courseSelect = document.getElementById("assignCourseSelect");
+
+  if (!studentSelect || !courseSelect) return;
+
+  const studentId = studentSelect.value;
+  const courseId = courseSelect.value;
+
+  if (!studentId || !courseId) {
+    showToast("Missing Details", "Please select student and course.");
+    return;
+  }
+
+  const { error } = await db
+    .from("student_courses")
+    .insert({
+      student_id: studentId,
+      course_id: courseId,
+      status: "active"
+    });
+
+  if (error) {
+    console.log("Assign course error:", error);
+
+    if (error.code === "23505") {
+      showToast("Already Assigned", "This course is already assigned to this student.");
+    } else {
+      showToast("Error", "Course could not be assigned.");
+    }
+
+    return;
+  }
+
+  showToast("Course Assigned", "Course assigned to student successfully.");
+
+  studentSelect.value = "";
+  courseSelect.value = "";
+
+  await fetchAssignedCourses();
+}
+
+async function fetchAssignedCourses() {
+  const list = document.getElementById("assignedCoursesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading assignments...";
+
+  const { data, error } = await db
+    .from("student_courses")
+    .select(`
+      id,
+      status,
+      students (
+        name,
+        student_id
+      ),
+      courses (
+        title,
+        slug
+      )
+    `)
+    .order("enrolled_at", { ascending: false });
+
+  if (error) {
+    console.log("Assigned courses fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Assignments could not be loaded.</div>";
+    return;
+  }
+
+  renderAssignedCourses(data || []);
+}
+
+function renderAssignedCourses(assignments) {
+  const list = document.getElementById("assignedCoursesList");
+
+  if (!list) return;
+
+  if (!assignments.length) {
+    list.innerHTML = "<div class='login-note'>No course assigned yet.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  assignments.forEach(function(item) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const studentName = item.students ? item.students.name : "Unknown Student";
+    const studentId = item.students ? item.students.student_id : "-";
+    const courseTitle = item.courses ? item.courses.title : "Unknown Course";
+
+    card.innerHTML = `
+      <div>
+        <h3>${studentName}</h3>
+        <p><b>ID:</b> ${studentId}</p>
+        <p><b>Course:</b> ${courseTitle}</p>
+        <p><b>Status:</b> ${item.status}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="removeAssignedCourse('${item.id}')">Remove</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function removeAssignedCourse(assignmentId) {
+  const confirmRemove = confirm("Remove this course assignment?");
+
+  if (!confirmRemove) return;
+
+  const { error } = await db
+    .from("student_courses")
+    .delete()
+    .eq("id", assignmentId);
+
+  if (error) {
+    console.log("Remove assignment error:", error);
+    showToast("Error", "Assignment could not be removed.");
+    return;
+  }
+
+  showToast("Removed", "Course assignment removed successfully.");
+
+  await fetchAssignedCourses();
+}
+
+/* ---------------- ADMIN COURSE MANAGEMENT ---------------- */
+
+async function openAdminCourses() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const studentsBox = document.getElementById("adminStudentsBox");
+  const assignBox = document.getElementById("adminAssignCourseBox");
+  const coursesBox = document.getElementById("adminCoursesBox");
+
+  if (quickActions) quickActions.style.display = "none";
+  if (studentsBox) studentsBox.style.display = "none";
+  if (assignBox) assignBox.style.display = "none";
+
+  if (coursesBox) {
+    coursesBox.classList.remove("hidden-box");
+    coursesBox.style.display = "block";
+  }
+
+  await fetchAdminCourses();
+}
+
+function closeAdminCourses() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const coursesBox = document.getElementById("adminCoursesBox");
+
+  if (coursesBox) {
+    coursesBox.style.display = "none";
+    coursesBox.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function fetchAdminCourses() {
+  const list = document.getElementById("adminCoursesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading courses...";
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title, slug, icon, short_description, details, facilities, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log("Courses fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Courses could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminCourses(data || []);
+}
+
+function renderAdminCourses(courses) {
+  const list = document.getElementById("adminCoursesList");
+
+  if (!list) return;
+
+  if (!courses.length) {
+    list.innerHTML = "<div class='login-note'>No courses found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  courses.forEach(function(course) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const facilitiesText = Array.isArray(course.facilities)
+      ? course.facilities.join(", ")
+      : "-";
+
+    card.innerHTML = `
+      <div>
+        <h3>${course.icon || "📚"} ${course.title}</h3>
+        <p><b>Slug:</b> ${course.slug}</p>
+        <p><b>Short:</b> ${course.short_description || "-"}</p>
+        <p><b>Details:</b> ${course.details || "-"}</p>
+        <p><b>Facilities:</b> ${facilitiesText}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminCourse('${course.id}')">Edit</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function saveAdminCourse() {
+  const editId = document.getElementById("adminCourseEditId").value.trim();
+
+  const title = document.getElementById("adminCourseTitle").value.trim();
+  const slug = document.getElementById("adminCourseSlug").value.trim();
+  const icon = document.getElementById("adminCourseIcon").value.trim();
+  const shortDescription = document.getElementById("adminCourseShortDescription").value.trim();
+  const details = document.getElementById("adminCourseDetails").value.trim();
+  const facilitiesRaw = document.getElementById("adminCourseFacilities").value.trim();
+
+  if (!title || !slug) {
+    showToast("Missing Details", "Course title and slug are required.");
+    return;
+  }
+
+  const facilities = facilitiesRaw
+    ? facilitiesRaw.split("\n").map(function(item) {
+        return item.trim();
+      }).filter(function(item) {
+        return item.length > 0;
+      })
+    : [];
+
+  const payload = {
+    title: title,
+    slug: slug,
+    icon: icon || null,
+    short_description: shortDescription || null,
+    details: details || null,
+    facilities: facilities
+  };
+
+  let result;
+
+  if (editId) {
+    result = await db
+      .from("courses")
+      .update(payload)
+      .eq("id", editId);
+  } else {
+    result = await db
+      .from("courses")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    console.log("Course save error:", result.error);
+    showToast("Error", "Course could not be saved. Slug may already exist.");
+    return;
+  }
+
+  showToast("Saved", editId ? "Course updated successfully." : "Course added successfully.");
+
+  resetAdminCourseForm();
+  await fetchAdminCourses();
+
+  if (typeof fetchAssignOptions === "function") {
+    await fetchAssignOptions();
+  }
+}
+
+async function editAdminCourse(courseId) {
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title, slug, icon, short_description, details, facilities")
+    .eq("id", courseId)
+    .single();
+
+  if (error || !data) {
+    console.log("Course edit fetch error:", error);
+    showToast("Error", "Course details could not be loaded.");
+    return;
+  }
+
+  document.getElementById("adminCourseEditId").value = data.id;
+  document.getElementById("adminCourseTitle").value = data.title || "";
+  document.getElementById("adminCourseSlug").value = data.slug || "";
+  document.getElementById("adminCourseIcon").value = data.icon || "";
+  document.getElementById("adminCourseShortDescription").value = data.short_description || "";
+  document.getElementById("adminCourseDetails").value = data.details || "";
+  document.getElementById("adminCourseFacilities").value = Array.isArray(data.facilities)
+    ? data.facilities.join("\n")
+    : "";
+
+  const title = document.getElementById("courseFormTitle");
+  if (title) title.textContent = "Edit Course";
+
+  showToast("Edit Mode", "Update course details and click Save Course.");
+}
+
+function resetAdminCourseForm() {
+  document.getElementById("adminCourseEditId").value = "";
+  document.getElementById("adminCourseTitle").value = "";
+  document.getElementById("adminCourseSlug").value = "";
+  document.getElementById("adminCourseIcon").value = "";
+  document.getElementById("adminCourseShortDescription").value = "";
+  document.getElementById("adminCourseDetails").value = "";
+  document.getElementById("adminCourseFacilities").value = "";
+
+  const title = document.getElementById("courseFormTitle");
+  if (title) title.textContent = "Add New Course";
+}
+  
+function hideAllAdminBoxes() {
+  const boxes = [
+    "adminStudentsBox",
+    "adminCoursesBox",
+    "adminAssignCourseBox",
+    "adminLecturesBox"
+  ];
+
+  boxes.forEach(function(boxId) {
+    const box = document.getElementById(boxId);
+
+    if (box) {
+      box.style.display = "none";
+      box.classList.add("hidden-box");
+    }
+  });
+}
+/* ---------------- ADMIN LECTURE MANAGEMENT ---------------- */
+
+async function openAdminLectures() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminLecturesBox");
+
+  if (quickActions) quickActions.style.display = "none";
+
+  hideAllAdminBoxes();
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  await loadLectureCourses();
+  await fetchAdminLectures();
+}
+
+function closeAdminLectures() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminLecturesBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function loadLectureCourses() {
+  const select = document.getElementById("lectureCourseSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Select course</option>`;
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title")
+    .order("title", { ascending: true });
+
+  if (error) {
+    console.log("Lecture courses fetch error:", error);
+    showToast("Error", "Courses could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(course) {
+    const option = document.createElement("option");
+    option.value = course.id;
+    option.textContent = course.title;
+    select.appendChild(option);
+  });
+}
+
+async function loadLectureChapters() {
+  const courseSelect = document.getElementById("lectureCourseSelect");
+  const chapterSelect = document.getElementById("lectureChapterSelect");
+
+  if (!courseSelect || !chapterSelect) return;
+
+  const courseId = courseSelect.value;
+
+  chapterSelect.innerHTML = `<option value="">Select chapter</option>`;
+
+  if (!courseId) return;
+
+  const { data, error } = await db
+    .from("chapters")
+    .select("id, chapter_number, title")
+    .eq("course_id", courseId)
+    .order("chapter_number", { ascending: true });
+
+  if (error) {
+    console.log("Lecture chapters fetch error:", error);
+    showToast("Error", "Chapters could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(chapter) {
+    const option = document.createElement("option");
+    option.value = chapter.id;
+    option.textContent = "Chapter " + chapter.chapter_number + " - " + chapter.title;
+    chapterSelect.appendChild(option);
+  });
+}
+
+async function addAdminLecture() {
+  const chapterId = document.getElementById("lectureChapterSelect").value;
+  const lectureNumber = document.getElementById("lectureNumberInput").value.trim();
+  const title = document.getElementById("lectureTitleInput").value.trim();
+  const description = document.getElementById("lectureDescriptionInput").value.trim();
+  const videoUrl = document.getElementById("lectureVideoUrlInput").value.trim();
+  const duration = document.getElementById("lectureDurationInput").value.trim();
+  const isLockedValue = document.getElementById("lectureLockInput").value;
+
+  if (!chapterId || !lectureNumber || !title) {
+    showToast("Missing Details", "Chapter, lecture number, and title are required.");
+    return;
+  }
+
+  const { error } = await db
+    .from("lectures")
+    .insert({
+      chapter_id: chapterId,
+      lecture_number: Number(lectureNumber),
+      title: title,
+      description: description || null,
+      video_url: videoUrl || null,
+      duration: duration || null,
+      is_locked: isLockedValue === "true"
+    });
+
+  if (error) {
+    console.log("Add lecture error:", error);
+    showToast("Error", "Lecture could not be added.");
+    return;
+  }
+
+  showToast("Lecture Added", "Lecture added successfully.");
+
+  document.getElementById("lectureNumberInput").value = "";
+  document.getElementById("lectureTitleInput").value = "";
+  document.getElementById("lectureDescriptionInput").value = "";
+  document.getElementById("lectureVideoUrlInput").value = "";
+  document.getElementById("lectureDurationInput").value = "";
+  document.getElementById("lectureLockInput").value = "false";
+
+  await fetchAdminLectures();
+}
+
+async function fetchAdminLectures() {
+  const list = document.getElementById("adminLecturesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading lectures...";
+
+  const { data, error } = await db
+    .from("lectures")
+    .select(`
+      id,
+      lecture_number,
+      title,
+      description,
+      video_url,
+      duration,
+      is_locked,
+      chapters (
+        id,
+        chapter_number,
+        title,
+        courses (
+          id,
+          title
+        )
+      )
+    `)
+    .order("lecture_number", { ascending: true });
+
+  if (error) {
+    console.log("Lectures fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Lectures could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminLectures(data || []);
+}
+
+function renderAdminLectures(lectures) {
+  const list = document.getElementById("adminLecturesList");
+
+  if (!list) return;
+
+  if (!lectures.length) {
+    list.innerHTML = "<div class='login-note'>No lectures found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  lectures.forEach(function(lecture) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const chapter = lecture.chapters;
+    const course = chapter && chapter.courses ? chapter.courses : null;
+
+    card.innerHTML = `
+      <div>
+        <h3>${lecture.title}</h3>
+        <p><b>Course:</b> ${course ? course.title : "-"}</p>
+        <p><b>Chapter:</b> ${chapter ? "Chapter " + chapter.chapter_number + " - " + chapter.title : "-"}</p>
+        <p><b>Lecture No:</b> ${lecture.lecture_number}</p>
+        <p><b>Description:</b> ${lecture.description || "-"}</p>
+        <p><b>Video:</b> ${lecture.video_url || "-"}</p>
+        <p><b>Duration:</b> ${lecture.duration || "-"}</p>
+        <p><b>Status:</b> ${lecture.is_locked ? "Locked" : "Unlocked"}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminLecture('${lecture.id}')">Edit</button>
+        <button class="back-mini" onclick="toggleLectureLock('${lecture.id}', ${lecture.is_locked})">
+          ${lecture.is_locked ? "Unlock" : "Lock"}
+        </button>
+        <button class="back-mini" onclick="deleteAdminLecture('${lecture.id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function editAdminLecture(lectureId) {
+  const newTitle = prompt("Enter new lecture title:");
+
+  if (!newTitle) return;
+
+  const newVideoUrl = prompt("Enter new video URL:");
+
+  const { error } = await db
+    .from("lectures")
+    .update({
+      title: newTitle,
+      video_url: newVideoUrl || null
+    })
+    .eq("id", lectureId);
+
+  if (error) {
+    console.log("Lecture edit error:", error);
+    showToast("Error", "Lecture could not be updated.");
+    return;
+  }
+
+  showToast("Lecture Updated", "Lecture updated successfully.");
+  await fetchAdminLectures();
+}
+
+async function toggleLectureLock(lectureId, currentLocked) {
+  const { error } = await db
+    .from("lectures")
+    .update({ is_locked: !currentLocked })
+    .eq("id", lectureId);
+
+  if (error) {
+    console.log("Lecture lock error:", error);
+    showToast("Error", "Lecture lock status could not be updated.");
+    return;
+  }
+
+  showToast("Status Updated", "Lecture lock status changed.");
+  await fetchAdminLectures();
+}
+
+async function deleteAdminLecture(lectureId) {
+  const confirmDelete = confirm("Delete this lecture?");
+
+  if (!confirmDelete) return;
+
+  const { error } = await db
+    .from("lectures")
+    .delete()
+    .eq("id", lectureId);
+
+  if (error) {
+    console.log("Lecture delete error:", error);
+    showToast("Error", "Lecture could not be deleted.");
+    return;
+  }
+
+  showToast("Lecture Deleted", "Lecture deleted successfully.");
+  await fetchAdminLectures();
+}
+
+
+/* ---------------- COURSE SYSTEM ---------------- */
+
+async function fetchStudentCourses() {
+  if (!loggedStudent) return;
+
+  const { data, error } = await db
+    .from("student_courses")
+    .select(`
+      id,
+      status,
+      courses (
+        id,
+        title,
+        slug,
+        icon,
+        short_description,
+        details,
+        facilities
+      )
+    `)
+    .eq("student_id", loggedStudent.id)
+    .eq("status", "active");
+
+  if (error) {
+    showToast("Error", "Courses could not be loaded.");
+    return;
+  }
+
+  renderCourses(data || []);
+}
+
+function renderCourses(enrollments) {
+  const courseCards = document.getElementById("courseCards");
+
+  if (!courseCards) return;
+
+  courseCards.innerHTML = "";
+
+  if (!enrollments.length) {
+    courseCards.innerHTML = `
+      <div class="login-note">
+        No course assigned yet. Please contact AcademeForge team.
+      </div>
+    `;
+    return;
+  }
+
+  enrollments.forEach(function(enrollment) {
+    const course = enrollment.courses;
+
+    if (!course) return;
+
+    const button = document.createElement("button");
+    button.className = "course-select-card";
+    button.onclick = function() {
+      openCourseDetails(course);
+    };
+
+    button.innerHTML =
+      "<span>" + (course.icon || "📚") + "</span>" +
+      "<h3>" + course.title + "</h3>" +
+      "<p>" + (course.short_description || "Course details available inside.") + "</p>";
+
+    courseCards.appendChild(button);
+  });
+}
+
+async function openCourseDetails(course) {
+  selectedCourse = course;
+
+  document.getElementById("courseSelectBox").style.display = "none";
+  document.getElementById("courseDetailsBox").style.display = "block";
+
+  document.getElementById("courseTitle").textContent =
+    (course.icon || "📚") + " " + course.title;
+
+  document.getElementById("courseIntro").textContent =
+    course.short_description || "Course overview";
+
+  document.getElementById("courseDetails").textContent =
+    course.details || "Course details will be updated soon.";
+
+  const facilitiesList = document.getElementById("courseFacilities");
+  facilitiesList.innerHTML = "";
+
+  const facilities = course.facilities || [];
+
+  facilities.forEach(function(item) {
+    const li = document.createElement("li");
+    li.textContent = item;
+    facilitiesList.appendChild(li);
+  });
+
+  await fetchCourseChapters(course.id);
+}
+
+async function fetchCourseChapters(courseId) {
+  const { data, error } = await db
+    .from("chapters")
+    .select("*")
+    .eq("course_id", courseId)
+    .order("chapter_number", { ascending: true });
+
+  if (error) {
+    showToast("Error", "Syllabus could not be loaded.");
+    return;
+  }
+
+  selectedCourseChapters = data || [];
+
+  const syllabusList = document.getElementById("courseSyllabus");
+  syllabusList.innerHTML = "";
+
+  if (!selectedCourseChapters.length) {
+    const li = document.createElement("li");
+    li.textContent = "Syllabus will be updated soon.";
+    syllabusList.appendChild(li);
+    return;
+  }
+
+  selectedCourseChapters.forEach(function(chapter) {
+    const li = document.createElement("li");
+    li.textContent = "Chapter " + chapter.chapter_number + ": " + chapter.title;
+    syllabusList.appendChild(li);
+  });
+}
+
+function startLearning() {
+  if (!selectedCourse) return;
+
+  document.getElementById("courseDetailsBox").style.display = "none";
+  document.getElementById("learningBox").style.display = "block";
+
+  document.getElementById("learningTitle").textContent =
+    selectedCourse.title + " Learning";
+}
+
+function openLearningMode(mode) {
+  currentMode = mode;
+
+  document.getElementById("learningBox").style.display = "none";
+  document.getElementById("chapterBox").style.display = "block";
+
+  document.getElementById("chapterModeTitle").textContent =
+    mode === "lectures" ? "🎥 Lectures" : "📝 Notes";
+
+  renderChapters();
+}
+
+function renderChapters() {
+  const chapterList = document.getElementById("chapterList");
+
+  if (!chapterList) return;
+
+  chapterList.innerHTML = "";
+
+  if (!selectedCourseChapters.length) {
+    chapterList.innerHTML = `
+      <div class="login-note">
+        Chapters will be added soon.
+      </div>
+    `;
+    return;
+  }
+
+  selectedCourseChapters.forEach(function(chapter) {
+    const button = document.createElement("button");
+    button.className = "chapter-item";
+    button.onclick = function() {
+      openChapterContent(chapter);
+    };
+
+    button.innerHTML =
+      "<h3>Chapter " + chapter.chapter_number + ": " + chapter.title + "</h3>" +
+      "<p>" + (currentMode === "lectures" ? "Open lecture list" : "Open notes list") + "</p>";
+
+    chapterList.appendChild(button);
+  });
+}
+
+async function openChapterContent(chapter) {
+  selectedChapter = chapter;
+
+  document.getElementById("chapterBox").style.display = "none";
+  document.getElementById("contentBox").style.display = "block";
+
+  document.getElementById("contentTitle").textContent =
+    "Chapter " + chapter.chapter_number + ": " + chapter.title;
+
+  document.getElementById("contentSubtitle").textContent =
+    currentMode === "lectures"
+      ? "Lecture list for this chapter."
+      : "Notes list for this chapter.";
+
+  if (currentMode === "lectures") {
+    await fetchLectures(chapter.id);
+  } else {
+    await fetchNotes(chapter.id);
+  }
+}
+
+async function fetchLectures(chapterId) {
+  const { data, error } = await db
+    .from("lectures")
+    .select("*")
+    .eq("chapter_id", chapterId)
+    .order("lecture_number", { ascending: true });
+
+  if (error) {
+    showToast("Error", "Lectures could not be loaded.");
+    return;
+  }
+
+  renderContentItems(data || [], "Lecture");
+}
+
+async function fetchNotes(chapterId) {
+  const { data, error } = await db
+    .from("notes")
+    .select("*")
+    .eq("chapter_id", chapterId)
+    .order("note_number", { ascending: true });
+
+  if (error) {
+    showToast("Error", "Notes could not be loaded.");
+    return;
+  }
+
+  renderContentItems(data || [], "Note");
+}
+
+function renderContentItems(items, typeLabel) {
+  const contentList = document.getElementById("contentList");
+
+  if (!contentList) return;
+
+  contentList.innerHTML = "";
+
+  if (!items.length) {
+    contentList.innerHTML = `
+      <div class="login-note">
+        ${typeLabel}s will be added soon.
+      </div>
+    `;
+    return;
+  }
+
+  items.forEach(function(item) {
+    const button = document.createElement("button");
+    button.className = "content-item";
+
+    const number =
+      typeLabel === "Lecture"
+        ? item.lecture_number
+        : item.note_number;
+
+    button.onclick = function() {
+      if (typeLabel === "Lecture") {
+        openLecture(item);
+      } else {
+        openNote(item);
+      }
+    };
+
+    button.innerHTML =
+      "<span class='content-badge'>" + typeLabel + " " + number + "</span>" +
+      "<h3>" + item.title + "</h3>" +
+      "<p>" + (item.description || item.content || "Tap to open.") + "</p>";
+
+    contentList.appendChild(button);
+  });
+}
+
+function openLecture(lecture) {
+  if (lecture.is_locked) {
+    showToast("Locked", "This lecture is currently locked.");
+    return;
+  }
+
+  if (lecture.video_url) {
+    window.open(lecture.video_url, "_blank");
+  } else {
+    showToast("Coming Soon", "Lecture video will be added soon.");
+  }
+}
+
+function openNote(note) {
+  if (note.is_locked) {
+    showToast("Locked", "This note is currently locked.");
+    return;
+  }
+
+  if (note.pdf_url) {
+    window.open(note.pdf_url, "_blank");
+  } else if (note.content) {
+    showToast(note.title, note.content);
+  } else {
+    showToast("Coming Soon", "Note content will be added soon.");
+  }
+}
+
+/* ---------------- LOGOUT / BACK ---------------- */
+
+function logoutStudent() {
+  localStorage.removeItem("af_logged_student");
+  localStorage.removeItem("af_session_id");
+
+  loggedStudent = null;
+  selectedCourse = null;
+  selectedCourseChapters = [];
+  currentMode = "lectures";
+  selectedChapter = null;
+
+  const studentId = document.getElementById("studentId");
+  const studentPassword = document.getElementById("studentPassword");
+
+  if (studentId) studentId.value = "";
+  if (studentPassword) studentPassword.value = "";
+
+  document.getElementById("studentLoginBox").style.display = "block";
+  document.getElementById("courseSelectBox").style.display = "none";
+  document.getElementById("courseDetailsBox").style.display = "none";
+  document.getElementById("learningBox").style.display = "none";
+  document.getElementById("chapterBox").style.display = "none";
+  document.getElementById("contentBox").style.display = "none";
+
+  showToast("Logged Out", "You have been logged out successfully.");
+}
+
+function backToCourses() {
+  document.getElementById("courseDetailsBox").style.display = "none";
+  document.getElementById("courseSelectBox").style.display = "block";
+}
+
+function backToCourseDetails() {
+  document.getElementById("learningBox").style.display = "none";
+  document.getElementById("courseDetailsBox").style.display = "block";
+}
+
+function backToLearning() {
+  document.getElementById("chapterBox").style.display = "none";
+  document.getElementById("learningBox").style.display = "block";
+}
+
+function backToChapters() {
+  document.getElementById("contentBox").style.display = "none";
+  document.getElementById("chapterBox").style.display = "block";
+}
+
+function goBackInsideStudent() {
+  if (document.getElementById("contentBox").style.display === "block") {
+    backToChapters();
+    return true;
+  }
+
+  if (document.getElementById("chapterBox").style.display === "block") {
+    backToLearning();
+    return true;
+  }
+
+  if (document.getElementById("learningBox").style.display === "block") {
+    backToCourseDetails();
+    return true;
+  }
+
+  if (document.getElementById("courseDetailsBox").style.display === "block") {
+    backToCourses();
+    return true;
+  }
+
+  return false;
+}
+
+
+/* ---------------- APP EVENTS ---------------- */
+
+window.addEventListener("popstate", function() {
+  const handled = goBackInsideStudent();
+
+  if (!handled) {
+    history.pushState(null, "", location.href);
+  }
+});
+
+history.pushState(null, "", location.href);
+
+window.addEventListener("load", function() {
+  checkSavedLogin();
+  checkSavedAdminLogin();
+});
+
+document.addEventListener("visibilitychange", function() {
+  if (
+    !document.hidden &&
+    localStorage.getItem("af_logged_student") &&
+    localStorage.getItem("af_session_id")
+  ) {
+    verifyActiveSession();
+  }
+});
+
+setInterval(function() {
+  if (
+    localStorage.getItem("af_logged_student") &&
+    localStorage.getItem("af_session_id")
+  ) {
+    verifyActiveSession();
+  }
+}, 10000);
+
+</script>
+
+</body>
+</html>
