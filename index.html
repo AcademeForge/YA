@@ -1652,6 +1652,101 @@ async function checkSavedLogin() {
   showToast("Welcome Back", "You are already logged in.");
 }
 
+let loggedAdmin = null;
+
+async function officeLogin() {
+  const officeIdInput = document.getElementById("officeId");
+  const officePasswordInput = document.getElementById("officePassword");
+
+  if (!officeIdInput || !officePasswordInput) {
+    showToast("Error", "Office login input not found.");
+    return;
+  }
+
+  const officeId = officeIdInput.value.trim();
+  const officePassword = officePasswordInput.value.trim();
+
+  if (!officeId || !officePassword) {
+    showToast("Missing Details", "Please enter Office ID and password.");
+    return;
+  }
+
+  const { data, error } = await db
+    .from("admins")
+    .select("*")
+    .eq("admin_id", officeId)
+    .eq("password", officePassword)
+    .eq("status", "active")
+    .single();
+
+  if (error || !data) {
+    showToast("Login Failed", "Invalid Office ID or password.");
+    return;
+  }
+
+  loggedAdmin = data;
+
+  localStorage.setItem("af_logged_admin", JSON.stringify(loggedAdmin));
+
+  const officeLoginBox = document.getElementById("officeLoginBox");
+  const officeDashboardBox = document.getElementById("officeDashboardBox");
+
+  if (officeLoginBox) officeLoginBox.style.display = "none";
+  if (officeDashboardBox) officeDashboardBox.style.display = "block";
+
+  const officeWelcomeText = document.getElementById("officeWelcomeText");
+  if (officeWelcomeText) {
+    officeWelcomeText.textContent = "Welcome, " + loggedAdmin.name;
+  }
+
+  showToast("Office Login Successful", "Welcome to admin dashboard.");
+}
+
+function checkSavedAdminLogin() {
+  const savedAdmin = localStorage.getItem("af_logged_admin");
+
+  if (!savedAdmin) {
+    return;
+  }
+
+  try {
+    loggedAdmin = JSON.parse(savedAdmin);
+  } catch (e) {
+    localStorage.removeItem("af_logged_admin");
+    return;
+  }
+
+  const officeLoginBox = document.getElementById("officeLoginBox");
+  const officeDashboardBox = document.getElementById("officeDashboardBox");
+
+  if (officeLoginBox) officeLoginBox.style.display = "none";
+  if (officeDashboardBox) officeDashboardBox.style.display = "block";
+
+  const officeWelcomeText = document.getElementById("officeWelcomeText");
+  if (officeWelcomeText && loggedAdmin) {
+    officeWelcomeText.textContent = "Welcome, " + loggedAdmin.name;
+  }
+}
+
+function officeLogout() {
+  localStorage.removeItem("af_logged_admin");
+
+  loggedAdmin = null;
+
+  const officeIdInput = document.getElementById("officeId");
+  const officePasswordInput = document.getElementById("officePassword");
+
+  if (officeIdInput) officeIdInput.value = "";
+  if (officePasswordInput) officePasswordInput.value = "";
+
+  const officeLoginBox = document.getElementById("officeLoginBox");
+  const officeDashboardBox = document.getElementById("officeDashboardBox");
+
+  if (officeLoginBox) officeLoginBox.style.display = "block";
+  if (officeDashboardBox) officeDashboardBox.style.display = "none";
+
+  showToast("Logged Out", "Office account logged out successfully.");
+}
 
 /* ---------------- COURSE SYSTEM ---------------- */
 
