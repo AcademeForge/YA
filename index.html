@@ -1739,6 +1739,7 @@ function openNote(note) {
 
 function logoutStudent() {
 localStorage.removeItem("af_logged_student");
+localStorage.removeItem("af_session_id");
   loggedStudent = null;
   selectedCourse = null;
   currentMode = "lectures";
