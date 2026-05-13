@@ -936,6 +936,7 @@ html, body {
 
   <div class="panel glass hidden-box" id="courseSelectBox">
     <h2>📚 Select Course</h2>
+<p id="studentWelcomeText">Welcome Student</p>
     <p>Choose your enrolled learning program.</p>
 
     <div class="course-select-grid" id="courseCards"></div>
@@ -1419,7 +1420,10 @@ async function studentLogin() {
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
 
-  showToast("Welcome", "Login successful. Select your course to continue.");
+document.getElementById("studentWelcomeText").textContent =
+  "Welcome, " + loggedStudent.name;
+
+  showToast("Login successful. Select your course to continue.");
 
   fetchStudentCourses();
 }
