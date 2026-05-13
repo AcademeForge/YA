@@ -1543,6 +1543,174 @@ async function fetchCourseChapters(courseId) {
     syllabusList.appendChild(li);
   });
 }
+
+function startLearning() {
+  if (!selectedCourse) return;
+
+  document.getElementById("courseDetailsBox").style.display = "none";
+  document.getElementById("learningBox").style.display = "block";
+
+  document.getElementById("learningTitle").textContent =
+    selectedCourse.title + " Learning";
+}
+
+function openLearningMode(mode) {
+  currentMode = mode;
+
+  document.getElementById("learningBox").style.display = "none";
+  document.getElementById("chapterBox").style.display = "block";
+
+  document.getElementById("chapterModeTitle").textContent =
+    mode === "lectures" ? "🎥 Lectures" : "📝 Notes";
+
+  renderChapters();
+}
+
+function renderChapters() {
+  const chapterList = document.getElementById("chapterList");
+  chapterList.innerHTML = "";
+
+  if (!selectedCourseChapters.length) {
+    chapterList.innerHTML = `
+      <div class="login-note">
+        Chapters will be added soon.
+      </div>
+    `;
+    return;
+  }
+
+  selectedCourseChapters.forEach(function(chapter) {
+    const button = document.createElement("button");
+    button.className = "chapter-item";
+    button.onclick = function() {
+      openChapterContent(chapter);
+    };
+
+    button.innerHTML =
+      "<h3>Chapter " + chapter.chapter_number + ": " + chapter.title + "</h3>" +
+      "<p>" + (currentMode === "lectures" ? "Open lecture list" : "Open notes list") + "</p>";
+
+    chapterList.appendChild(button);
+  });
+}
+
+async function openChapterContent(chapter) {
+  selectedChapter = chapter;
+
+  document.getElementById("chapterBox").style.display = "none";
+  document.getElementById("contentBox").style.display = "block";
+
+  document.getElementById("contentTitle").textContent =
+    "Chapter " + chapter.chapter_number + ": " + chapter.title;
+
+  document.getElementById("contentSubtitle").textContent =
+    currentMode === "lectures"
+      ? "Lecture list for this chapter."
+      : "Notes list for this chapter.";
+
+  if (currentMode === "lectures") {
+    await fetchLectures(chapter.id);
+  } else {
+    await fetchNotes(chapter.id);
+  }
+}
+
+async function fetchLectures(chapterId) {
+  const { data, error } = await db
+    .from("lectures")
+    .select("*")
+    .eq("chapter_id", chapterId)
+    .order("lecture_number", { ascending: true });
+
+  if (error) {
+    showToast("Error", "Lectures could not be loaded.");
+    return;
+  }
+
+  renderContentItems(data || [], "Lecture");
+}
+
+async function fetchNotes(chapterId) {
+  const { data, error } = await db
+    .from("notes")
+    .select("*")
+    .eq("chapter_id", chapterId)
+    .order("note_number", { ascending: true });
+
+  if (error) {
+    showToast("Error", "Notes could not be loaded.");
+    return;
+  }
+
+  renderContentItems(data || [], "Note");
+}
+
+function renderContentItems(items, typeLabel) {
+  const contentList = document.getElementById("contentList");
+  contentList.innerHTML = "";
+
+  if (!items.length) {
+    contentList.innerHTML = `
+      <div class="login-note">
+        ${typeLabel}s will be added soon.
+      </div>
+    `;
+    return;
+  }
+
+  items.forEach(function(item) {
+    const button = document.createElement("button");
+    button.className = "content-item";
+
+    const number =
+      typeLabel === "Lecture"
+        ? item.lecture_number
+        : item.note_number;
+
+    button.onclick = function() {
+      if (typeLabel === "Lecture") {
+        openLecture(item);
+      } else {
+        openNote(item);
+      }
+    };
+
+    button.innerHTML =
+      "<span class='content-badge'>" + typeLabel + " " + number + "</span>" +
+      "<h3>" + item.title + "</h3>" +
+      "<p>" + (item.description || item.content || "Tap to open.") + "</p>";
+
+    contentList.appendChild(button);
+  });
+}
+
+function openLecture(lecture) {
+  if (lecture.is_locked) {
+    showToast("Locked", "This lecture is currently locked.");
+    return;
+  }
+
+  if (lecture.video_url) {
+    window.open(lecture.video_url, "_blank");
+  } else {
+    showToast("Coming Soon", "Lecture video will be added soon.");
+  }
+}
+
+function openNote(note) {
+  if (note.is_locked) {
+    showToast("Locked", "This note is currently locked.");
+    return;
+  }
+
+  if (note.pdf_url) {
+    window.open(note.pdf_url, "_blank");
+  } else if (note.content) {
+    showToast(note.title, note.content);
+  } else {
+    showToast("Coming Soon", "Note content will be added soon.");
+  }
+}
   </script>
 </body>
 </html>
