@@ -1423,6 +1423,126 @@ async function studentLogin() {
 
   fetchStudentCourses();
 }
+
+async function fetchStudentCourses() {
+  if (!loggedStudent) return;
+
+  const { data, error } = await db
+    .from("student_courses")
+    .select(`
+      id,
+      status,
+      courses (
+        id,
+        title,
+        slug,
+        icon,
+        short_description,
+        details,
+        facilities
+      )
+    `)
+    .eq("student_id", loggedStudent.id)
+    .eq("status", "active");
+
+  if (error) {
+    showToast("Error", "Courses could not be loaded.");
+    return;
+  }
+
+  renderCourses(data || []);
+}
+
+function renderCourses(enrollments) {
+  const courseCards = document.getElementById("courseCards");
+  courseCards.innerHTML = "";
+
+  if (!enrollments.length) {
+    courseCards.innerHTML = `
+      <div class="login-note">
+        No course assigned yet. Please contact AcademeForge team.
+      </div>
+    `;
+    return;
+  }
+
+  enrollments.forEach(function(enrollment) {
+    const course = enrollment.courses;
+
+    const button = document.createElement("button");
+    button.className = "course-select-card";
+    button.onclick = function() {
+      openCourseDetails(course);
+    };
+
+    button.innerHTML =
+      "<span>" + (course.icon || "📚") + "</span>" +
+      "<h3>" + course.title + "</h3>" +
+      "<p>" + (course.short_description || "Course details available inside.") + "</p>";
+
+    courseCards.appendChild(button);
+  });
+}
+
+async function openCourseDetails(course) {
+  selectedCourse = course;
+
+  document.getElementById("courseSelectBox").style.display = "none";
+  document.getElementById("courseDetailsBox").style.display = "block";
+
+  document.getElementById("courseTitle").textContent =
+    (course.icon || "📚") + " " + course.title;
+
+  document.getElementById("courseIntro").textContent =
+    course.short_description || "Course overview";
+
+  document.getElementById("courseDetails").textContent =
+    course.details || "Course details will be updated soon.";
+
+  const facilitiesList = document.getElementById("courseFacilities");
+  facilitiesList.innerHTML = "";
+
+  const facilities = course.facilities || [];
+
+  facilities.forEach(function(item) {
+    const li = document.createElement("li");
+    li.textContent = item;
+    facilitiesList.appendChild(li);
+  });
+
+  await fetchCourseChapters(course.id);
+}
+
+async function fetchCourseChapters(courseId) {
+  const { data, error } = await db
+    .from("chapters")
+    .select("*")
+    .eq("course_id", courseId)
+    .order("chapter_number", { ascending: true });
+
+  if (error) {
+    showToast("Error", "Syllabus could not be loaded.");
+    return;
+  }
+
+  selectedCourseChapters = data || [];
+
+  const syllabusList = document.getElementById("courseSyllabus");
+  syllabusList.innerHTML = "";
+
+  if (!selectedCourseChapters.length) {
+    const li = document.createElement("li");
+    li.textContent = "Syllabus will be updated soon.";
+    syllabusList.appendChild(li);
+    return;
+  }
+
+  selectedCourseChapters.forEach(function(chapter) {
+    const li = document.createElement("li");
+    li.textContent = "Chapter " + chapter.chapter_number + ": " + chapter.title;
+    syllabusList.appendChild(li);
+  });
+}
   </script>
 </body>
 </html>
