@@ -1417,7 +1417,7 @@ async function studentLogin() {
   }
 
   loggedStudent = data;
-
+localStorage.setItem("af_logged_student", JSON.stringify(loggedStudent));
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
 
@@ -1456,6 +1456,26 @@ async function fetchStudentCourses() {
   }
 
   renderCourses(data || []);
+}
+
+async function checkSavedLogin() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+
+  if (!savedStudent) {
+    return;
+  }
+
+  loggedStudent = JSON.parse(savedStudent);
+
+  document.getElementById("studentLoginBox").style.display = "none";
+  document.getElementById("courseSelectBox").style.display = "block";
+
+  document.getElementById("studentWelcomeText").textContent =
+    "Welcome, " + loggedStudent.name;
+
+  await loadStudentCourses();
+
+  showToast("Welcome Back", "You are already logged in.");
 }
 
 function renderCourses(enrollments) {
