@@ -1007,31 +1007,85 @@ html, body {
   </div>
 </section>
 
-      
-    <section id="office" class="section">
-      <div class="panel glass">
-        <h2>🏢 Office Login</h2>
-        <p>Office login is reserved for AcademeForge team and management operations.</p>
+      <section id="office" class="section">
+  <div class="panel glass" id="officeLoginBox">
+    <h2>🏢 Office Login</h2>
+    <p>Login with your Office ID and password to access AcademeForge admin dashboard.</p>
 
-        <div class="input-group">
-          <label>Office Email / Staff ID</label>
-          <input type="text" placeholder="Enter Office ID" />
-        </div>
+    <div class="input-group">
+      <label>Office ID</label>
+      <input id="officeId" type="text" placeholder="Example: admin" />
+    </div>
 
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" placeholder="Enter Password" />
-        </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input id="officePassword" type="password" placeholder="Enter Password" />
+    </div>
 
-        <button class="link-btn" onclick="demoLogin('Office')">Login Preview</button>
+    <button class="link-btn" onclick="officeLogin()">Login</button>
 
-        <div class="login-note">
-          Future features: student records, notices, admissions, course updates, feedback,
-          and internal team dashboard.
-        </div>
+    <div class="login-note">
+      Demo office login enabled. Real management tools will be added step by step.
+    </div>
+  </div>
+
+  <div class="panel glass hidden-box" id="officeDashboardBox">
+    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+      <div>
+        <h2>🏢 Office Dashboard</h2>
+        <p id="officeWelcomeText">Welcome, Admin</p>
       </div>
-    </section>
 
+      <button class="back-mini" onclick="officeLogout()">Logout</button>
+    </div>
+
+    <div class="course-info-box">
+      <h3>⚡ Quick Actions</h3>
+      <p>Select what you want to manage.</p>
+    </div>
+
+    <div class="course-select-grid">
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Student management will be added next.')">
+        <span>🎓</span>
+        <h3>Students</h3>
+        <p>Add, view, update, activate/inactivate students.</p>
+      </button>
+
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Course management will be added next.')">
+        <span>📚</span>
+        <h3>Courses</h3>
+        <p>Add, edit, and manage courses.</p>
+      </button>
+
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Course assignment will be added next.')">
+        <span>🔗</span>
+        <h3>Assign Course</h3>
+        <p>Assign courses to students.</p>
+      </button>
+
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Lecture management will be added next.')">
+        <span>🎥</span>
+        <h3>Lectures</h3>
+        <p>Add lecture title, description, video link, lock/unlock.</p>
+      </button>
+
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Notes management will be added next.')">
+        <span>📝</span>
+        <h3>Notes</h3>
+        <p>Add text notes, PDF link, lock/unlock.</p>
+      </button>
+
+      <button class="course-select-card" onclick="showToast('Coming Soon', 'Progress tracking will be added next.')">
+        <span>📊</span>
+        <h3>Progress</h3>
+        <p>Track student course progress.</p>
+      </button>
+    </div>
+  </div>
+</section>
+   
+
+        
     <section id="explore" class="section">
       <div class="panel glass">
         <h2>✨ Explore AcademeForge</h2>
