@@ -1104,17 +1104,17 @@ html, body {
   <p>Add lecture title, description, video link, lock/unlock.</p>
 </button>
       
-      <button class="course-select-card" onclick="showToast('Coming Soon', 'Notes management will be added next.')">
-        <span>📝</span>
-        <h3>Notes</h3>
-        <p>Add text notes, PDF link, lock/unlock.</p>
-      </button>
+   <button class="course-select-card" onclick="openAdminNotes()">
+  <span>📝</span>
+  <h3>Notes</h3>
+  <p>Add text notes, PDF link, lock/unlock.</p>
+</button>
 
-      <button class="course-select-card" onclick="showToast('Coming Soon', 'Progress tracking will be added next.')">
-        <span>📊</span>
-        <h3>Progress</h3>
-        <p>Track student course progress.</p>
-      </button>
+     <button class="course-select-card" onclick="openAdminChapters()">
+  <span>📖</span>
+  <h3>Chapters</h3>
+  <p>Add, view, edit, and delete course chapters.</p>
+</button>
     </div>
 
     <!-- STUDENT MANAGEMENT -->
@@ -1166,7 +1166,56 @@ html, body {
         </div>
       </div>
     </div>
-    
+
+    <!-- CHAPTER MANAGEMENT -->
+<div class="admin-manage-box hidden-box" id="adminChaptersBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>📖 Chapter Management</h3>
+      <p>Add, view, edit, and delete chapters.</p>
+    </div>
+
+    <button class="back-mini" onclick="closeAdminChapters()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3 id="chapterFormTitle">Add New Chapter</h3>
+
+    <input type="hidden" id="adminChapterEditId">
+
+    <div class="input-group">
+      <label>Course</label>
+      <select id="chapterCourseSelect">
+        <option value="">Select course</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Chapter Number</label>
+      <input id="chapterNumberInput" type="number" placeholder="Example: 1">
+    </div>
+
+    <div class="input-group">
+      <label>Chapter Title</label>
+      <input id="chapterTitleInput" type="text" placeholder="Chapter title">
+    </div>
+
+    <div class="input-group">
+      <label>Description</label>
+      <textarea id="chapterDescriptionInput" placeholder="Chapter description"></textarea>
+    </div>
+
+    <button class="link-btn" onclick="saveAdminChapter()">Save Chapter</button>
+    <button class="back-mini" onclick="resetAdminChapterForm()">Clear</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Chapters</h3>
+    <div id="adminChaptersList" class="admin-list-box">
+      Loading chapters...
+    </div>
+  </div>
+</div>
     
     <!-- COURSE MANAGEMENT -->
     <div class="admin-manage-box hidden-box" id="adminCoursesBox" style="display:none;">
@@ -1293,6 +1342,73 @@ html, body {
     <h3>All Lectures</h3>
     <div id="adminLecturesList" class="admin-list-box">
       Loading lectures...
+    </div>
+  </div>
+</div>
+
+    <!-- NOTES MANAGEMENT -->
+<div class="admin-manage-box hidden-box" id="adminNotesBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>📝 Notes Management</h3>
+      <p>Add, view, update, lock/unlock notes.</p>
+    </div>
+
+    <button class="back-mini" onclick="closeAdminNotes()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>Add New Note</h3>
+
+    <div class="input-group">
+      <label>Course</label>
+      <select id="noteCourseSelect" onchange="loadNoteChapters()">
+        <option value="">Select course</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Chapter</label>
+      <select id="noteChapterSelect">
+        <option value="">Select chapter</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Note Number</label>
+      <input id="noteNumberInput" type="number" placeholder="Example: 1">
+    </div>
+
+    <div class="input-group">
+      <label>Note Title</label>
+      <input id="noteTitleInput" type="text" placeholder="Note title">
+    </div>
+
+    <div class="input-group">
+      <label>Text Content</label>
+      <textarea id="noteContentInput" placeholder="Write note content here..." rows="5"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>PDF URL</label>
+      <input id="notePdfUrlInput" type="text" placeholder="Paste PDF link">
+    </div>
+
+    <div class="input-group">
+      <label>Lock Status</label>
+      <select id="noteLockInput">
+        <option value="false">Unlocked</option>
+        <option value="true">Locked</option>
+      </select>
+    </div>
+
+    <button class="link-btn" onclick="addAdminNote()">Add Note</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Notes</h3>
+    <div id="adminNotesList" class="admin-list-box">
+      Loading notes...
     </div>
   </div>
 </div>
@@ -2902,7 +3018,506 @@ async function deleteAdminLecture(lectureId) {
   await fetchAdminLectures();
 }
 
+  /* ---------------- ADMIN CHAPTER MANAGEMENT ---------------- */
 
+async function openAdminChapters() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminChaptersBox");
+
+  if (!box) {
+    showToast("Error", "Chapter box not found in HTML.");
+    return;
+  }
+
+  if (quickActions) quickActions.style.display = "none";
+
+  hideAllAdminBoxes();
+
+  box.classList.remove("hidden-box");
+  box.style.display = "block";
+
+  await loadChapterCourses();
+  await fetchAdminChapters();
+}
+
+function closeAdminChapters() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminChaptersBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function loadChapterCourses() {
+  const select = document.getElementById("chapterCourseSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Select course</option>`;
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title")
+    .order("title", { ascending: true });
+
+  if (error) {
+    console.log("Chapter courses fetch error:", error);
+    showToast("Error", "Courses could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(course) {
+    const option = document.createElement("option");
+    option.value = course.id;
+    option.textContent = course.title;
+    select.appendChild(option);
+  });
+}
+
+async function saveAdminChapter() {
+  const editId = document.getElementById("adminChapterEditId").value;
+  const courseId = document.getElementById("chapterCourseSelect").value;
+  const chapterNumber = document.getElementById("chapterNumberInput").value.trim();
+  const title = document.getElementById("chapterTitleInput").value.trim();
+  const description = document.getElementById("chapterDescriptionInput").value.trim();
+
+  if (!courseId || !chapterNumber || !title) {
+    showToast("Missing Details", "Course, chapter number, and title are required.");
+    return;
+  }
+
+  const payload = {
+    course_id: courseId,
+    chapter_number: Number(chapterNumber),
+    title: title,
+    description: description || null
+  };
+
+  let result;
+
+  if (editId) {
+    result = await db
+      .from("chapters")
+      .update(payload)
+      .eq("id", editId);
+  } else {
+    result = await db
+      .from("chapters")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    console.log("Chapter save error:", result.error);
+    showToast("Error", "Chapter could not be saved.");
+    return;
+  }
+
+  showToast("Chapter Saved", "Chapter saved successfully.");
+
+  resetAdminChapterForm();
+  await fetchAdminChapters();
+}
+
+async function fetchAdminChapters() {
+  const list = document.getElementById("adminChaptersList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading chapters...";
+
+  const { data, error } = await db
+    .from("chapters")
+    .select(`
+      id,
+      chapter_number,
+      title,
+      description,
+      courses (
+        id,
+        title
+      )
+    `)
+    .order("chapter_number", { ascending: true });
+
+  if (error) {
+    console.log("Chapters fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Chapters could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminChapters(data || []);
+}
+
+function renderAdminChapters(chapters) {
+  const list = document.getElementById("adminChaptersList");
+
+  if (!list) return;
+
+  if (!chapters.length) {
+    list.innerHTML = "<div class='login-note'>No chapters found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  chapters.forEach(function(chapter) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const course = chapter.courses;
+
+    card.innerHTML = `
+      <div>
+        <h3>Chapter ${chapter.chapter_number}: ${chapter.title}</h3>
+        <p><b>Course:</b> ${course ? course.title : "-"}</p>
+        <p><b>Description:</b> ${chapter.description || "-"}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminChapter('${chapter.id}', '${chapter.courses ? chapter.courses.id : ""}', '${chapter.chapter_number}', '${escapeForJs(chapter.title)}', '${escapeForJs(chapter.description || "")}')">Edit</button>
+        <button class="back-mini" onclick="deleteAdminChapter('${chapter.id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+function editAdminChapter(chapterId, courseId, chapterNumber, title, description) {
+  document.getElementById("adminChapterEditId").value = chapterId;
+  document.getElementById("chapterCourseSelect").value = courseId;
+  document.getElementById("chapterNumberInput").value = chapterNumber;
+  document.getElementById("chapterTitleInput").value = title;
+  document.getElementById("chapterDescriptionInput").value = description;
+
+  const formTitle = document.getElementById("chapterFormTitle");
+  if (formTitle) formTitle.textContent = "Edit Chapter";
+}
+
+function resetAdminChapterForm() {
+  document.getElementById("adminChapterEditId").value = "";
+  document.getElementById("chapterCourseSelect").value = "";
+  document.getElementById("chapterNumberInput").value = "";
+  document.getElementById("chapterTitleInput").value = "";
+  document.getElementById("chapterDescriptionInput").value = "";
+
+  const formTitle = document.getElementById("chapterFormTitle");
+  if (formTitle) formTitle.textContent = "Add New Chapter";
+}
+
+async function deleteAdminChapter(chapterId) {
+  const confirmDelete = confirm("Delete this chapter? Lectures and notes inside this chapter may also be deleted.");
+
+  if (!confirmDelete) return;
+
+  const { error } = await db
+    .from("chapters")
+    .delete()
+    .eq("id", chapterId);
+
+  if (error) {
+    console.log("Chapter delete error:", error);
+    showToast("Error", "Chapter could not be deleted.");
+    return;
+  }
+
+  showToast("Chapter Deleted", "Chapter deleted successfully.");
+  await fetchAdminChapters();
+}
+/* ---------------- ADMIN NOTES MANAGEMENT ---------------- */
+
+async function openAdminNotes() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminNotesBox");
+
+  if (!box) {
+    showToast("Error", "Notes box not found in HTML.");
+    return;
+  }
+
+  if (quickActions) quickActions.style.display = "none";
+
+  if (typeof hideAllAdminBoxes === "function") {
+    hideAllAdminBoxes();
+  }
+
+  box.classList.remove("hidden-box");
+  box.style.display = "block";
+
+  await loadNoteCourses();
+  await fetchAdminNotes();
+}
+
+function closeAdminNotes() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminNotesBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function loadNoteCourses() {
+  const select = document.getElementById("noteCourseSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Select course</option>`;
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title")
+    .order("title", { ascending: true });
+
+  if (error) {
+    console.log("Note courses fetch error:", error);
+    showToast("Error", "Courses could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(course) {
+    const option = document.createElement("option");
+    option.value = course.id;
+    option.textContent = course.title;
+    select.appendChild(option);
+  });
+}
+
+async function loadNoteChapters() {
+  const courseSelect = document.getElementById("noteCourseSelect");
+  const chapterSelect = document.getElementById("noteChapterSelect");
+
+  if (!courseSelect || !chapterSelect) return;
+
+  const courseId = courseSelect.value;
+
+  chapterSelect.innerHTML = `<option value="">Select chapter</option>`;
+
+  if (!courseId) return;
+
+  const { data, error } = await db
+    .from("chapters")
+    .select("id, chapter_number, title")
+    .eq("course_id", courseId)
+    .order("chapter_number", { ascending: true });
+
+  if (error) {
+    console.log("Note chapters fetch error:", error);
+    showToast("Error", "Chapters could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(chapter) {
+    const option = document.createElement("option");
+    option.value = chapter.id;
+    option.textContent = "Chapter " + chapter.chapter_number + " - " + chapter.title;
+    chapterSelect.appendChild(option);
+  });
+}
+
+async function addAdminNote() {
+  const chapterSelect = document.getElementById("noteChapterSelect");
+  const numberInput = document.getElementById("noteNumberInput");
+  const titleInput = document.getElementById("noteTitleInput");
+  const contentInput = document.getElementById("noteContentInput");
+  const pdfInput = document.getElementById("notePdfUrlInput");
+  const lockInput = document.getElementById("noteLockInput");
+
+  if (!chapterSelect || !numberInput || !titleInput) {
+    showToast("Error", "Note form input not found.");
+    return;
+  }
+
+  const chapterId = chapterSelect.value;
+  const noteNumber = numberInput.value.trim();
+  const title = titleInput.value.trim();
+  const content = contentInput ? contentInput.value.trim() : "";
+  const pdfUrl = pdfInput ? pdfInput.value.trim() : "";
+  const isLockedValue = lockInput ? lockInput.value : "false";
+
+  if (!chapterId || !noteNumber || !title) {
+    showToast("Missing Details", "Chapter, note number, and title are required.");
+    return;
+  }
+
+  const { error } = await db
+    .from("notes")
+    .insert({
+      chapter_id: chapterId,
+      note_number: Number(noteNumber),
+      title: title,
+      content: content || null,
+      pdf_url: pdfUrl || null,
+      is_locked: isLockedValue === "true"
+    });
+
+  if (error) {
+    console.log("Add note error:", error);
+    showToast("Error", "Note could not be added.");
+    return;
+  }
+
+  showToast("Note Added", "Note added successfully.");
+
+  numberInput.value = "";
+  titleInput.value = "";
+  if (contentInput) contentInput.value = "";
+  if (pdfInput) pdfInput.value = "";
+  if (lockInput) lockInput.value = "false";
+
+  await fetchAdminNotes();
+}
+
+async function fetchAdminNotes() {
+  const list = document.getElementById("adminNotesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading notes...";
+
+  const { data, error } = await db
+    .from("notes")
+    .select(`
+      id,
+      note_number,
+      title,
+      content,
+      pdf_url,
+      is_locked,
+      chapters (
+        id,
+        chapter_number,
+        title,
+        courses (
+          id,
+          title
+        )
+      )
+    `)
+    .order("note_number", { ascending: true });
+
+  if (error) {
+    console.log("Notes fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Notes could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminNotes(data || []);
+}
+
+function renderAdminNotes(notes) {
+  const list = document.getElementById("adminNotesList");
+
+  if (!list) return;
+
+  if (!notes.length) {
+    list.innerHTML = "<div class='login-note'>No notes found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  notes.forEach(function(note) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const chapter = note.chapters;
+    const course = chapter && chapter.courses ? chapter.courses : null;
+
+    card.innerHTML = `
+      <div>
+        <h3>${note.title}</h3>
+        <p><b>Course:</b> ${course ? course.title : "-"}</p>
+        <p><b>Chapter:</b> ${chapter ? "Chapter " + chapter.chapter_number + " - " + chapter.title : "-"}</p>
+        <p><b>Note No:</b> ${note.note_number}</p>
+        <p><b>Content:</b> ${note.content || "-"}</p>
+        <p><b>PDF:</b> ${note.pdf_url || "-"}</p>
+        <p><b>Status:</b> ${note.is_locked ? "Locked" : "Unlocked"}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminNote('${note.id}')">Edit</button>
+        <button class="back-mini" onclick="toggleNoteLock('${note.id}', ${note.is_locked})">
+          ${note.is_locked ? "Unlock" : "Lock"}
+        </button>
+        <button class="back-mini" onclick="deleteAdminNote('${note.id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function editAdminNote(noteId) {
+  const newTitle = prompt("Enter new note title:");
+
+  if (!newTitle) return;
+
+  const newContent = prompt("Enter new note content:");
+  const newPdfUrl = prompt("Enter new PDF URL:");
+
+  const { error } = await db
+    .from("notes")
+    .update({
+      title: newTitle,
+      content: newContent || null,
+      pdf_url: newPdfUrl || null
+    })
+    .eq("id", noteId);
+
+  if (error) {
+    console.log("Note edit error:", error);
+    showToast("Error", "Note could not be updated.");
+    return;
+  }
+
+  showToast("Note Updated", "Note updated successfully.");
+  await fetchAdminNotes();
+}
+
+async function toggleNoteLock(noteId, currentLocked) {
+  const { error } = await db
+    .from("notes")
+    .update({ is_locked: !currentLocked })
+    .eq("id", noteId);
+
+  if (error) {
+    console.log("Note lock error:", error);
+    showToast("Error", "Note lock status could not be updated.");
+    return;
+  }
+
+  showToast("Status Updated", "Note lock status changed.");
+  await fetchAdminNotes();
+}
+
+async function deleteAdminNote(noteId) {
+  const confirmDelete = confirm("Delete this note?");
+
+  if (!confirmDelete) return;
+
+  const { error } = await db
+    .from("notes")
+    .delete()
+    .eq("id", noteId);
+
+  if (error) {
+    console.log("Note delete error:", error);
+    showToast("Error", "Note could not be deleted.");
+    return;
+  }
+
+  showToast("Note Deleted", "Note deleted successfully.");
+  await fetchAdminNotes();
+}
+  
 /* ---------------- COURSE SYSTEM ---------------- */
 
 async function fetchStudentCourses() {
