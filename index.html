@@ -1182,154 +1182,172 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const websiteLink = "https://academeforge.in";
 
-    function showSection(sectionId) {
-      const sections = document.querySelectorAll(".section");
 
-      sections.forEach(function(section) {
-        section.classList.remove("active");
-      });
+let loggedStudent = null;
+let selectedCourse = null;
+let selectedCourseChapters = [];
+let currentMode = "lectures";
+let selectedChapter = null;
 
-      const targetSection = document.getElementById(sectionId);
+/* ---------------- BASIC APP FUNCTIONS ---------------- */
 
-      if (targetSection) {
-        targetSection.classList.add("active");
-      }
+function showSection(sectionId) {
+  const sections = document.querySelectorAll(".section");
 
-      const navButtons = document.querySelectorAll(".nav-btn");
+  sections.forEach(function(section) {
+    section.classList.remove("active");
+  });
 
-      navButtons.forEach(function(button) {
-        button.classList.remove("active");
-      });
+  const targetSection = document.getElementById(sectionId);
 
-      const activeButton = document.querySelector('.nav-btn[data-section="' + sectionId + '"]');
+  if (targetSection) {
+    targetSection.classList.add("active");
+  }
 
-      if (activeButton) {
-        activeButton.classList.add("active");
-      }
+  const navButtons = document.querySelectorAll(".nav-btn");
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+  navButtons.forEach(function(button) {
+    button.classList.remove("active");
+  });
+
+  const activeButton = document.querySelector('.nav-btn[data-section="' + sectionId + '"]');
+
+  if (activeButton) {
+    activeButton.classList.add("active");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function calculate() {
+  const input = document.getElementById("calcInput");
+  const result = document.getElementById("calcResult");
+
+  if (!input || !result) return;
+
+  const expression = input.value.trim();
+
+  if (expression === "") {
+    result.textContent = "0";
+    return;
+  }
+
+  const safeExpression = /^[0-9+\-*/().%\s]+$/;
+
+  if (!safeExpression.test(expression)) {
+    result.textContent = "Error";
+    showToast("Invalid Input", "Use only numbers and basic symbols like +, -, *, /, %, and brackets.");
+    return;
+  }
+
+  try {
+    const answer = Function('"use strict"; return (' + expression + ')')();
+
+    if (Number.isFinite(answer)) {
+      result.textContent = answer;
+    } else {
+      result.textContent = "Error";
     }
+  } catch (error) {
+    result.textContent = "Error";
+  }
+}
 
-    function calculate() {
-      const input = document.getElementById("calcInput");
-      const result = document.getElementById("calcResult");
+function demoLogin(type) {
+  showToast(
+    type + " Login Preview",
+    type + " login is currently under development. This is only a preview interface."
+  );
+}
 
-      const expression = input.value.trim();
+function openWebsite() {
+  window.open(websiteLink, "_blank");
+}
 
-      if (expression === "") {
-        result.textContent = "0";
-        return;
-      }
-
-      const safeExpression = /^[0-9+\-*/().%\s]+$/;
-
-      if (!safeExpression.test(expression)) {
-        result.textContent = "Error";
-        showToast("Invalid Input", "Use only numbers and basic symbols like +, -, *, /, %, and brackets.");
-        return;
-      }
-
-      try {
-        const answer = Function('"use strict"; return (' + expression + ')')();
-
-        if (Number.isFinite(answer)) {
-          result.textContent = answer;
-        } else {
-          result.textContent = "Error";
-        }
-      } catch (error) {
-        result.textContent = "Error";
-      }
-    }
-
-    function demoLogin(type) {
-      showToast(
-        type + " Login Preview",
-        type + " login is currently under development. This is only a preview interface."
-      );
-    }
-
-    function openWebsite() {
-      window.open(websiteLink, "_blank");
-    }
-
-    function copyWebsite() {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(websiteLink)
-          .then(function() {
-            showToast("Copied", "Website link copied to clipboard.");
-          })
-          .catch(function() {
-            fallbackCopyWebsite();
-          });
-      } else {
+function copyWebsite() {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(websiteLink)
+      .then(function() {
+        showToast("Copied", "Website link copied to clipboard.");
+      })
+      .catch(function() {
         fallbackCopyWebsite();
-      }
-    }
-
-    function fallbackCopyWebsite() {
-      const tempInput = document.createElement("input");
-      tempInput.value = websiteLink;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand("copy");
-      document.body.removeChild(tempInput);
-
-      showToast("Copied", "Website link copied to clipboard.");
-    }
-
-    function showToast(title, message) {
-      const toast = document.getElementById("toast");
-
-      toast.querySelector("strong").textContent = title;
-      toast.querySelector("p").textContent = message;
-
-      toast.classList.add("show");
-
-      setTimeout(function() {
-        toast.classList.remove("show");
-      }, 3000);
-    }
-
-    function updateClock() {
-      const timeElement = document.getElementById("time");
-      const dateElement = document.getElementById("date");
-
-      const now = new Date();
-
-      const time = now.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit"
       });
+  } else {
+    fallbackCopyWebsite();
+  }
+}
 
-      const date = now.toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short"
-      });
+function fallbackCopyWebsite() {
+  const tempInput = document.createElement("input");
+  tempInput.value = websiteLink;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand("copy");
+  document.body.removeChild(tempInput);
 
-      timeElement.textContent = time;
-      dateElement.textContent = date;
-    }
+  showToast("Copied", "Website link copied to clipboard.");
+}
 
-    const tickerMessages = [
-      "Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.",
-      "Student dashboard, office dashboard, and learning tools are coming soon.",
-      "Focus on skills, discipline, creativity, and real-world learning.",
-      "AcademeForge preview build is currently under development."
-    ];
+function showToast(title, message) {
+  const toast = document.getElementById("toast");
 
-    let tickerIndex = 0;
+  if (!toast) return;
 
-    function updateTicker() {
-      const tickerText = document.getElementById("tickerText");
+  toast.querySelector("strong").textContent = title;
+  toast.querySelector("p").textContent = message || "";
 
-      tickerIndex = (tickerIndex + 1) % tickerMessages.length;
-      tickerText.textContent = tickerMessages[tickerIndex];
-    }
+  toast.classList.add("show");
 
+  setTimeout(function() {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+function updateClock() {
+  const timeElement = document.getElementById("time");
+  const dateElement = document.getElementById("date");
+
+  if (!timeElement || !dateElement) return;
+
+  const now = new Date();
+
+  const time = now.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const date = now.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short"
+  });
+
+  timeElement.textContent = time;
+  dateElement.textContent = date;
+}
+
+const tickerMessages = [
+  "Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.",
+  "Student dashboard, office dashboard, and learning tools are coming soon.",
+  "Focus on skills, discipline, creativity, and real-world learning.",
+  "AcademeForge preview build is currently under development."
+];
+
+let tickerIndex = 0;
+
+function updateTicker() {
+  const tickerText = document.getElementById("tickerText");
+
+  if (!tickerText) return;
+
+  tickerIndex = (tickerIndex + 1) % tickerMessages.length;
+  tickerText.textContent = tickerMessages[tickerIndex];
+}
+
+/* ---------------- SPLASH SCREEN ---------------- */
 
 setTimeout(function () {
   var splash = document.getElementById("splashScreen");
@@ -1341,6 +1359,8 @@ setTimeout(function () {
     }, 500);
   }
 }, 2000);
+
+/* ---------------- ZOOM / RIGHT CLICK PROTECTION ---------------- */
 
 document.addEventListener("gesturestart", function (event) {
   event.preventDefault();
@@ -1366,7 +1386,6 @@ document.addEventListener("touchend", function (event) {
   lastTouchEnd = now;
 }, false);
 
-// Basic protection: disable right click and common inspect shortcuts
 document.addEventListener("contextmenu", function (event) {
   event.preventDefault();
 });
@@ -1387,15 +1406,82 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+/* ---------------- SESSION SYSTEM ---------------- */
+
 function createSessionId() {
   return "session_" + Date.now() + "_" + Math.random().toString(36).substring(2);
 }
-  
-let loggedStudent = null;
-let selectedCourse = null;
-let selectedCourseChapters = [];
-let currentMode = "lectures";
-let selectedChapter = null;
+
+async function verifyActiveSession() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
+
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  let student;
+
+  try {
+    student = JSON.parse(savedStudent);
+  } catch (e) {
+    localStorage.removeItem("af_logged_student");
+    localStorage.removeItem("af_session_id");
+    return;
+  }
+
+  if (!student || !student.id) {
+    return;
+  }
+
+  const { data, error } = await db
+    .from("students")
+    .select("active_session")
+    .eq("id", student.id)
+    .single();
+
+  if (error || !data) {
+    return;
+  }
+
+  if (!data.active_session) {
+    return;
+  }
+
+  if (data.active_session !== savedSessionId) {
+    forceLogoutOldDevice();
+  }
+}
+
+function forceLogoutOldDevice() {
+  localStorage.removeItem("af_logged_student");
+  localStorage.removeItem("af_session_id");
+
+  loggedStudent = null;
+  selectedCourse = null;
+  selectedCourseChapters = [];
+  currentMode = "lectures";
+  selectedChapter = null;
+
+  const studentLoginBox = document.getElementById("studentLoginBox");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+  const courseDetailsBox = document.getElementById("courseDetailsBox");
+  const learningBox = document.getElementById("learningBox");
+  const chapterBox = document.getElementById("chapterBox");
+  const contentBox = document.getElementById("contentBox");
+
+  if (studentLoginBox) studentLoginBox.style.display = "block";
+  if (courseSelectBox) courseSelectBox.style.display = "none";
+  if (courseDetailsBox) courseDetailsBox.style.display = "none";
+  if (learningBox) learningBox.style.display = "none";
+  if (chapterBox) chapterBox.style.display = "none";
+  if (contentBox) contentBox.style.display = "none";
+
+  showSection("student");
+  showToast("Logged Out", "Your ID was logged in on another device.");
+}
+
+/* ---------------- STUDENT LOGIN ---------------- */
 
 async function studentLogin() {
   const id = document.getElementById("studentId").value.trim();
@@ -1419,36 +1505,77 @@ async function studentLogin() {
     return;
   }
 
-const sessionId = createSessionId();
+  const sessionId = createSessionId();
 
-const { error: sessionError } = await db
-  .from("students")
-  .update({ active_session: sessionId })
-  .eq("id", data.id);
+  const { error: sessionError } = await db
+    .from("students")
+    .update({ active_session: sessionId })
+    .eq("id", data.id);
 
-if (sessionError) {
-  showToast("Login Error", "Session could not be created.");
-  return;
-}
+  if (sessionError) {
+    showToast("Login Error", "Session could not be created.");
+    return;
+  }
 
-loggedStudent = {
-  ...data,
-  active_session: sessionId
-};
+  loggedStudent = {
+    ...data,
+    active_session: sessionId
+  };
 
-localStorage.setItem("af_logged_student", JSON.stringify(loggedStudent));
-localStorage.setItem("af_session_id", sessionId);
-  
+  localStorage.setItem("af_logged_student", JSON.stringify(loggedStudent));
+  localStorage.setItem("af_session_id", sessionId);
+
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
 
-document.getElementById("studentWelcomeText").textContent =
-  "Welcome, " + loggedStudent.name;
+  const welcomeText = document.getElementById("studentWelcomeText");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
 
-  showToast("Login successful. Select your course to continue.");
+  showToast("Login Successful", "Select your course to continue.");
 
-  fetchStudentCourses();
+  await fetchStudentCourses();
 }
+
+async function checkSavedLogin() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
+
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  try {
+    loggedStudent = JSON.parse(savedStudent);
+  } catch (e) {
+    localStorage.removeItem("af_logged_student");
+    localStorage.removeItem("af_session_id");
+    return;
+  }
+
+  await verifyActiveSession();
+
+  const stillLoggedIn = localStorage.getItem("af_logged_student");
+
+  if (!stillLoggedIn) {
+    return;
+  }
+
+  document.getElementById("studentLoginBox").style.display = "none";
+  document.getElementById("courseSelectBox").style.display = "block";
+
+  const welcomeText = document.getElementById("studentWelcomeText");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
+
+  await fetchStudentCourses();
+
+  showToast("Welcome Back", "You are already logged in.");
+}
+
+/* ---------------- COURSE SYSTEM ---------------- */
 
 async function fetchStudentCourses() {
   if (!loggedStudent) return;
@@ -1479,59 +1606,11 @@ async function fetchStudentCourses() {
   renderCourses(data || []);
 }
 
-async function checkSavedLogin() {
-  const savedStudent = localStorage.getItem("af_logged_student");
-
-  if (!savedStudent) {
-    return;
-  }
-
-  loggedStudent = JSON.parse(savedStudent);
-  await verifyActiveSession();
-
-const stillLoggedIn = localStorage.getItem("af_logged_student");
-if (!stillLoggedIn) {
-  return;
-}
-
-  document.getElementById("studentLoginBox").style.display = "none";
-  document.getElementById("courseSelectBox").style.display = "block";
-
-  document.getElementById("studentWelcomeText").textContent =
-    "Welcome, " + loggedStudent.name;
-
-  await fetchStudentCourses();
-
-  showToast("Welcome Back", "You are already logged in.");
-}
-async function verifyActiveSession() {
-  const savedStudent = localStorage.getItem("af_logged_student");
-  const savedSessionId = localStorage.getItem("af_session_id");
-
-  if (!savedStudent || !savedSessionId) {
-    return;
-  }
-
-  const student = JSON.parse(savedStudent);
-
-  const { data, error } = await db
-    .from("students")
-    .select("active_session")
-    .eq("id", student.id)
-    .single();
-
-  if (error || !data) {
-    logoutStudent();
-    return;
-  }
-
-  if (data.active_session !== savedSessionId) {
-    logoutStudent();
-    showToast("Logged Out", "Your ID was logged in on another device.");
-  }
-}
 function renderCourses(enrollments) {
   const courseCards = document.getElementById("courseCards");
+
+  if (!courseCards) return;
+
   courseCards.innerHTML = "";
 
   if (!enrollments.length) {
@@ -1545,6 +1624,8 @@ function renderCourses(enrollments) {
 
   enrollments.forEach(function(enrollment) {
     const course = enrollment.courses;
+
+    if (!course) return;
 
     const button = document.createElement("button");
     button.className = "course-select-card";
@@ -1645,6 +1726,9 @@ function openLearningMode(mode) {
 
 function renderChapters() {
   const chapterList = document.getElementById("chapterList");
+
+  if (!chapterList) return;
+
   chapterList.innerHTML = "";
 
   if (!selectedCourseChapters.length) {
@@ -1724,6 +1808,9 @@ async function fetchNotes(chapterId) {
 
 function renderContentItems(items, typeLabel) {
   const contentList = document.getElementById("contentList");
+
+  if (!contentList) return;
+
   contentList.innerHTML = "";
 
   if (!items.length) {
@@ -1789,16 +1876,23 @@ function openNote(note) {
   }
 }
 
+/* ---------------- LOGOUT / BACK ---------------- */
+
 function logoutStudent() {
-localStorage.removeItem("af_logged_student");
-localStorage.removeItem("af_session_id");
+  localStorage.removeItem("af_logged_student");
+  localStorage.removeItem("af_session_id");
+
   loggedStudent = null;
   selectedCourse = null;
+  selectedCourseChapters = [];
   currentMode = "lectures";
-  selectedChapterIndex = 0;
+  selectedChapter = null;
 
-  document.getElementById("studentId").value = "";
-  document.getElementById("studentPassword").value = "";
+  const studentId = document.getElementById("studentId");
+  const studentPassword = document.getElementById("studentPassword");
+
+  if (studentId) studentId.value = "";
+  if (studentPassword) studentPassword.value = "";
 
   document.getElementById("studentLoginBox").style.display = "block";
   document.getElementById("courseSelectBox").style.display = "none";
@@ -1854,6 +1948,8 @@ function goBackInsideStudent() {
   return false;
 }
 
+/* ---------------- APP EVENTS ---------------- */
+
 window.addEventListener("popstate", function() {
   const handled = goBackInsideStudent();
 
@@ -1862,48 +1958,4 @@ window.addEventListener("popstate", function() {
   }
 });
 
-history.pushState(null, "", location.href);
-
-window.addEventListener("load", function() {
-  checkSavedLogin();
-});
-
-document.addEventListener("visibilitychange", function() {
-  if (!document.hidden) {
-    verifyActiveSession();
-  }
-});
-
-setInterval(function() {
-  verifyActiveSession();
-}, 10000);
-
-async function verifyActiveSession() {
-  const savedStudent = localStorage.getItem("af_logged_student");
-  const savedSessionId = localStorage.getItem("af_session_id");
-
-  if (!savedStudent || !savedSessionId) {
-    return;
-  }
-
-  const student = JSON.parse(savedStudent);
-
-  const { data, error } = await db
-    .from("students")
-    .select("active_session")
-    .eq("id", student.id)
-    .single();
-
-  if (error || !data) {
-    logoutStudent();
-    return;
-  }
-
-  if (data.active_session !== savedSessionId) {
-    logoutStudent();
-    showToast("Logged Out", "Your ID was logged in on another device.");
-  }
-}
-  </script>
-</body>
-</html>
+history.pushState(null, "
