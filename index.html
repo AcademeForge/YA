@@ -1755,6 +1755,40 @@ function backToChapters() {
   document.getElementById("contentBox").style.display = "none";
   document.getElementById("chapterBox").style.display = "block";
 }
+
+function goBackInsideStudent() {
+  if (document.getElementById("contentBox").style.display === "block") {
+    backToChapters();
+    return true;
+  }
+
+  if (document.getElementById("chapterBox").style.display === "block") {
+    backToLearning();
+    return true;
+  }
+
+  if (document.getElementById("learningBox").style.display === "block") {
+    backToCourseDetails();
+    return true;
+  }
+
+  if (document.getElementById("courseDetailsBox").style.display === "block") {
+    backToCourses();
+    return true;
+  }
+
+  return false;
+}
+
+window.addEventListener("popstate", function() {
+  const handled = goBackInsideStudent();
+
+  if (!handled) {
+    history.pushState(null, "", location.href);
+  }
+});
+
+history.pushState(null, "", location.href);
   </script>
 </body>
 </html>
