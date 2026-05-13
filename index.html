@@ -1735,6 +1735,26 @@ function logoutStudent() {
 
   showToast("Logged Out", "You have been logged out successfully.");
 }
+
+function backToCourses() {
+  document.getElementById("courseDetailsBox").style.display = "none";
+  document.getElementById("courseSelectBox").style.display = "block";
+}
+
+function backToCourseDetails() {
+  document.getElementById("learningBox").style.display = "none";
+  document.getElementById("courseDetailsBox").style.display = "block";
+}
+
+function backToLearning() {
+  document.getElementById("chapterBox").style.display = "none";
+  document.getElementById("learningBox").style.display = "block";
+}
+
+function backToChapters() {
+  document.getElementById("contentBox").style.display = "none";
+  document.getElementById("chapterBox").style.display = "block";
+}
   </script>
 </body>
 </html>
