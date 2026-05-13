@@ -1948,6 +1948,7 @@ function goBackInsideStudent() {
   return false;
 }
 
+
 /* ---------------- APP EVENTS ---------------- */
 
 window.addEventListener("popstate", function() {
@@ -1958,4 +1959,28 @@ window.addEventListener("popstate", function() {
   }
 });
 
-history.pushState(null, "
+history.pushState(null, "", location.href);
+
+window.addEventListener("load", function() {
+  checkSavedLogin();
+});
+
+document.addEventListener("visibilitychange", function() {
+  if (
+    !document.hidden &&
+    localStorage.getItem("af_logged_student") &&
+    localStorage.getItem("af_session_id")
+  ) {
+    verifyActiveSession();
+  }
+});
+
+setInterval(function() {
+  if (
+    localStorage.getItem("af_logged_student") &&
+    localStorage.getItem("af_session_id")
+  ) {
+    verifyActiveSession();
+  }
+}, 10000);
+</script>
