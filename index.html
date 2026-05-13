@@ -1831,7 +1831,9 @@ function officeLogout() {
   const grid = document.querySelector("#officeDashboardBox .course-select-grid");
   const box = document.getElementById("adminStudentsBox");
 
-  if (grid) grid.style.display = "none";
+  if (grid) {
+    grid.style.display = "none";
+  }
 
   if (box) {
     box.classList.remove("hidden-box");
@@ -1850,19 +1852,23 @@ function closeAdminStudents() {
     box.classList.add("hidden-box");
   }
 
-  if (grid) grid.style.display = "grid";
+  if (grid) {
+    grid.style.display = "grid";
+  }
 }
 
 async function fetchAdminStudents() {
   const list = document.getElementById("adminStudentsList");
 
-  if (!list) return;
+  if (!list) {
+    return;
+  }
 
   list.innerHTML = "Loading students...";
 
   const { data, error } = await db
     .from("students")
-    .select("id, student_id, name, password, mobile, email, status")
+    .select("id, student_id, name, password, mobile, email, status, created_at")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -1877,7 +1883,9 @@ async function fetchAdminStudents() {
 function renderAdminStudents(students) {
   const list = document.getElementById("adminStudentsList");
 
-  if (!list) return;
+  if (!list) {
+    return;
+  }
 
   if (!students.length) {
     list.innerHTML = "<div class='login-note'>No students found.</div>";
@@ -1890,36 +1898,51 @@ function renderAdminStudents(students) {
     const card = document.createElement("div");
     card.className = "admin-student-card";
 
-    card.innerHTML = 
-      <div>
-        <h3>${student.name}</h3>
-        <p><b>ID:</b> ${student.student_id}</p>
-        <p><b>Password:</b> ${student.password}</p>
-        <p><b>Mobile:</b> ${student.mobile || "-"}</p>
-        <p><b>Email:</b> ${student.email || "-"}</p>
-        <p><b>Status:</b> ${student.status}</p>
-      </div>
+    const studentName = student.name || "-";
+    const studentLoginId = student.student_id || "-";
+    const studentPassword = student.password || "-";
+    const studentMobile = student.mobile || "-";
+    const studentEmail = student.email || "-";
+    const studentStatus = student.status || "-";
+    const statusButtonText = student.status === "active" ? "Deactivate" : "Activate";
 
-      <div class="admin-action-row">
-        <button class="back-mini" onclick="changeStudentPassword('${student.id}')">Change Password</button>
-        <button class="back-mini" onclick="toggleStudentStatus('${student.id}', '${student.status}')">
-          ${student.status === "active" ? "Deactivate" : "Activate"}
-        </button>
-      </div>
-    ;
+    card.innerHTML =
+      "<div>" +
+        "<h3>" + studentName + "</h3>" +
+        "<p><b>ID:</b> " + studentLoginId + "</p>" +
+        "<p><b>Password:</b> " + studentPassword + "</p>" +
+        "<p><b>Mobile:</b> " + studentMobile + "</p>" +
+        "<p><b>Email:</b> " + studentEmail + "</p>" +
+        "<p><b>Status:</b> " + studentStatus + "</p>" +
+      "</div>" +
+      "<div class='admin-action-row'>" +
+        "<button class='back-mini' onclick=\"changeStudentPassword('" + student.id + "')\">Change Password</button>" +
+        "<button class='back-mini' onclick=\"toggleStudentStatus('" + student.id + "', '" + student.status + "')\">" + statusButtonText + "</button>" +
+      "</div>";
 
     list.appendChild(card);
   });
 }
 
 async function addAdminStudent() {
-  const studentId = document.getElementById("adminStudentId").value.trim();
-  const name = document.getElementById("adminStudentName").value.trim();
-  const password = document.getElementById("adminStudentPassword").value.trim();
-  const mobile = document.getElementById("adminStudentMobile").value.trim();
-  const email = document.getElementById("adminStudentEmail").value.trim();
+  const studentIdInput = document.getElementById("adminStudentId");
+  const nameInput = document.getElementById("adminStudentName");
+  const passwordInput = document.getElementById("adminStudentPassword");
+  const mobileInput = document.getElementById("adminStudentMobile");
+  const emailInput = document.getElementById("adminStudentEmail");
 
-  if (!studentId  !name  !password) {
+  if (!studentIdInput || !nameInput || !passwordInput) {
+    showToast("Error", "Student form input not found.");
+    return;
+  }
+
+  const studentId = studentIdInput.value.trim();
+  const name = nameInput.value.trim();
+  const password = passwordInput.value.trim();
+  const mobile = mobileInput ? mobileInput.value.trim() : "";
+  const email = emailInput ? emailInput.value.trim() : "";
+
+  if (!studentId || !name || !password) {
     showToast("Missing Details", "Student ID, name, and password are required.");
     return;
   }
@@ -1943,11 +1966,17 @@ async function addAdminStudent() {
 
   showToast("Student Added", "New student added successfully.");
 
-  document.getElementById("adminStudentId").value = "";
-  document.getElementById("adminStudentName").value = "";
-  document.getElementById("adminStudentPassword").value = "";
-  document.getElementById("adminStudentMobile").value = "";
-  document.getElementById("adminStudentEmail").value = "";
+  studentIdInput.value = "";
+  nameInput.value = "";
+  passwordInput.value = "";
+
+  if (mobileInput) {
+    mobileInput.value = "";
+  }
+
+  if (emailInput) {
+    emailInput.value = "";
+  }
 
   await fetchAdminStudents();
 }
@@ -1955,7 +1984,9 @@ async function addAdminStudent() {
 async function changeStudentPassword(studentUuid) {
   const newPassword = prompt("Enter new password:");
 
-  if (!newPassword) return;
+  if (!newPassword) {
+    return;
+  }
 
   const { error } = await db
     .from("students")
@@ -1967,6 +1998,7 @@ async function changeStudentPassword(studentUuid) {
     showToast("Error", "Password could not be updated.");
     return;
   }
+
   showToast("Password Updated", "Student password changed successfully.");
   await fetchAdminStudents();
 }
