@@ -2057,6 +2057,227 @@ async function toggleStudentStatus(studentUuid, currentStatus) {
   await fetchAdminStudents();
 }
 
+async function openAdminAssignCourse() {
+  const grid = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminAssignCourseBox");
+
+  if (grid) grid.style.display = "none";
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  await loadAssignCourseData();
+}
+
+function closeAdminAssignCourse() {
+  const grid = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminAssignCourseBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (grid) grid.style.display = "grid";
+}
+
+async function loadAssignCourseData() {
+  await fetchAssignStudents();
+  await fetchAssignCourses();
+  await fetchAssignedCourses();
+}
+
+async function fetchAssignStudents() {
+  const select = document.getElementById("assignStudentSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Loading students...</option>`;
+
+  const { data, error } = await db
+    .from("students")
+    .select("id, student_id, name, status")
+    .eq("status", "active")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.log("Assign students fetch error:", error);
+    select.innerHTML = `<option value="">Students could not be loaded</option>`;
+    return;
+  }
+
+  select.innerHTML = `<option value="">Select student</option>`;
+
+  (data || []).forEach(function(student) {
+    const option = document.createElement("option");
+    option.value = student.id;
+    option.textContent = student.name + " (" + student.student_id + ")";
+    select.appendChild(option);
+  });
+}
+
+async function fetchAssignCourses() {
+  const select = document.getElementById("assignCourseSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Loading courses...</option>`;
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title, slug")
+    .order("title", { ascending: true });
+
+  if (error) {
+    console.log("Assign courses fetch error:", error);
+    select.innerHTML = `<option value="">Courses could not be loaded</option>`;
+    return;
+  }
+
+  select.innerHTML = `<option value="">Select course</option>`;
+
+  (data || []).forEach(function(course) {
+    const option = document.createElement("option");
+    option.value = course.id;
+    option.textContent = course.title;
+    select.appendChild(option);
+  });
+}
+
+async function assignCourseToStudent() {
+  const studentSelect = document.getElementById("assignStudentSelect");
+  const courseSelect = document.getElementById("assignCourseSelect");
+
+  if (!studentSelect || !courseSelect) return;
+
+  const studentId = studentSelect.value;
+  const courseId = courseSelect.value;
+
+  if (!studentId || !courseId) {
+    showToast("Missing Details", "Please select student and course.");
+    return;
+  }
+
+  const { error } = await db
+    .from("student_courses")
+    .insert({
+      student_id: studentId,
+      course_id: courseId,
+      status: "active"
+    });
+
+  if (error) {
+    console.log("Assign course error:", error);
+
+    if (error.code === "23505") {
+      showToast("Already Assigned", "This course is already assigned to this student.");
+    } else {
+      showToast("Error", "Course could not be assigned.");
+    }
+
+    return;
+  }
+
+  showToast("Course Assigned", "Course assigned to student successfully.");
+
+  studentSelect.value = "";
+  courseSelect.value = "";
+
+  await fetchAssignedCourses();
+}
+
+async function fetchAssignedCourses() {
+  const list = document.getElementById("assignedCoursesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading assignments...";
+
+  const { data, error } = await db
+    .from("student_courses")
+    .select(`
+      id,
+      status,
+      students (
+        name,
+        student_id
+      ),
+      courses (
+        title,
+        slug
+      )
+    `)
+    .order("enrolled_at", { ascending: false });
+
+  if (error) {
+    console.log("Assigned courses fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Assignments could not be loaded.</div>";
+    return;
+  }
+
+  renderAssignedCourses(data || []);
+}
+
+function renderAssignedCourses(assignments) {
+  const list = document.getElementById("assignedCoursesList");
+
+  if (!list) return;
+
+  if (!assignments.length) {
+    list.innerHTML = "<div class='login-note'>No course assigned yet.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  assignments.forEach(function(item) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const studentName = item.students ? item.students.name : "Unknown Student";
+    const studentId = item.students ? item.students.student_id : "-";
+    const courseTitle = item.courses ? item.courses.title : "Unknown Course";
+
+    card.innerHTML = `
+      <div>
+        <h3>${studentName}</h3>
+        <p><b>ID:</b> ${studentId}</p>
+        <p><b>Course:</b> ${courseTitle}</p>
+        <p><b>Status:</b> ${item.status}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="removeAssignedCourse('${item.id}')">Remove</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function removeAssignedCourse(assignmentId) {
+  const confirmRemove = confirm("Remove this course assignment?");
+
+  if (!confirmRemove) return;
+
+  const { error } = await db
+    .from("student_courses")
+    .delete()
+    .eq("id", assignmentId);
+
+  if (error) {
+    console.log("Remove assignment error:", error);
+    showToast("Error", "Assignment could not be removed.");
+    return;
+  }
+
+  showToast("Removed", "Course assignment removed successfully.");
+
+  await fetchAssignedCourses();
+}
+
 /* ---------------- COURSE SYSTEM ---------------- */
 
 async function fetchStudentCourses() {
