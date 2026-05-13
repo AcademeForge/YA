@@ -229,6 +229,40 @@ html, body {
   margin-bottom: 0;
 }
 
+    .admin-manage-box {
+  margin-top: 20px;
+}
+
+.admin-list-box {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.admin-student-card {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.admin-student-card h3 {
+  margin-bottom: 6px;
+}
+
+.admin-student-card p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.admin-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+    
 .back-mini {
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(255,255,255,0.08);
@@ -1043,13 +1077,11 @@ html, body {
       <h3>⚡ Quick Actions</h3>
       <p>Select what you want to manage.</p>
     </div>
-
-    <div class="course-select-grid">
-      <button class="course-select-card" onclick="showToast('Coming Soon', 'Student management will be added next.')">
-        <span>🎓</span>
-        <h3>Students</h3>
-        <p>Add, view, update, activate/inactivate students.</p>
-      </button>
+<button class="course-select-card" onclick="openAdminStudents()">
+  <span>🎓</span>
+  <h3>Students</h3>
+  <p>Add, view, update, activate/inactivate students.</p>
+</button>
 
       <button class="course-select-card" onclick="showToast('Coming Soon', 'Course management will be added next.')">
         <span>📚</span>
@@ -1084,7 +1116,54 @@ html, body {
   </div>
 </section>
    
+<div class="admin-manage-box hidden-box" id="adminStudentsBox">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>🎓 Student Management</h3>
+      <p>Add, view, update password, and activate/inactivate students.</p>
+    </div>
 
+    <button class="back-mini" onclick="closeAdminStudents()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>Add New Student</h3>
+
+    <div class="input-group">
+      <label>Student ID / Email</label>
+      <input id="adminStudentId" type="text" placeholder="Example: student@email.com">
+    </div>
+
+    <div class="input-group">
+      <label>Name</label>
+      <input id="adminStudentName" type="text" placeholder="Student name">
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input id="adminStudentPassword" type="text" placeholder="Password">
+    </div>
+
+    <div class="input-group">
+      <label>Mobile</label>
+      <input id="adminStudentMobile" type="text" placeholder="Mobile number">
+    </div>
+
+    <div class="input-group">
+      <label>Email</label>
+      <input id="adminStudentEmail" type="email" placeholder="Email">
+    </div>
+
+    <button class="link-btn" onclick="addAdminStudent()">Add Student</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Students</h3>
+    <div id="adminStudentsList" class="admin-list-box">
+      Loading students...
+    </div>
+  </div>
+</div>
         
     <section id="explore" class="section">
       <div class="panel glass">
@@ -1746,6 +1825,168 @@ function officeLogout() {
   if (officeDashboardBox) officeDashboardBox.style.display = "none";
 
   showToast("Logged Out", "Office account logged out successfully.");
+}
+
+  async function openAdminStudents() {
+  const grid = document.querySelector("#officeDashboardBox .course-select-grid");
+  const box = document.getElementById("adminStudentsBox");
+
+  if (grid) grid.style.display = "none";
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  await fetchAdminStudents();
+}
+
+function closeAdminStudents() {
+  const grid = document.querySelector("#officeDashboardBox .course-select-grid");
+  const box = document.getElementById("adminStudentsBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (grid) grid.style.display = "grid";
+}
+
+async function fetchAdminStudents() {
+  const list = document.getElementById("adminStudentsList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading students...";
+
+  const { data, error } = await db
+    .from("students")
+    .select("id, student_id, name, password, mobile, email, status")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log("Students fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Students could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminStudents(data || []);
+}
+
+function renderAdminStudents(students) {
+  const list = document.getElementById("adminStudentsList");
+
+  if (!list) return;
+
+  if (!students.length) {
+    list.innerHTML = "<div class='login-note'>No students found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  students.forEach(function(student) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    card.innerHTML = 
+      <div>
+        <h3>${student.name}</h3>
+        <p><b>ID:</b> ${student.student_id}</p>
+        <p><b>Password:</b> ${student.password}</p>
+        <p><b>Mobile:</b> ${student.mobile || "-"}</p>
+        <p><b>Email:</b> ${student.email || "-"}</p>
+        <p><b>Status:</b> ${student.status}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="changeStudentPassword('${student.id}')">Change Password</button>
+        <button class="back-mini" onclick="toggleStudentStatus('${student.id}', '${student.status}')">
+          ${student.status === "active" ? "Deactivate" : "Activate"}
+        </button>
+      </div>
+    ;
+
+    list.appendChild(card);
+  });
+}
+
+async function addAdminStudent() {
+  const studentId = document.getElementById("adminStudentId").value.trim();
+  const name = document.getElementById("adminStudentName").value.trim();
+  const password = document.getElementById("adminStudentPassword").value.trim();
+  const mobile = document.getElementById("adminStudentMobile").value.trim();
+  const email = document.getElementById("adminStudentEmail").value.trim();
+
+  if (!studentId  !name  !password) {
+    showToast("Missing Details", "Student ID, name, and password are required.");
+    return;
+  }
+
+  const { error } = await db
+    .from("students")
+    .insert({
+      student_id: studentId,
+      name: name,
+      password: password,
+      mobile: mobile || null,
+      email: email || null,
+      status: "active"
+    });
+
+  if (error) {
+    console.log("Add student error:", error);
+    showToast("Error", "Student could not be added.");
+    return;
+  }
+
+  showToast("Student Added", "New student added successfully.");
+
+  document.getElementById("adminStudentId").value = "";
+  document.getElementById("adminStudentName").value = "";
+  document.getElementById("adminStudentPassword").value = "";
+  document.getElementById("adminStudentMobile").value = "";
+  document.getElementById("adminStudentEmail").value = "";
+
+  await fetchAdminStudents();
+}
+
+async function changeStudentPassword(studentUuid) {
+  const newPassword = prompt("Enter new password:");
+
+  if (!newPassword) return;
+
+  const { error } = await db
+    .from("students")
+    .update({ password: newPassword })
+    .eq("id", studentUuid);
+
+  if (error) {
+    console.log("Password update error:", error);
+    showToast("Error", "Password could not be updated.");
+    return;
+  }
+  showToast("Password Updated", "Student password changed successfully.");
+  await fetchAdminStudents();
+}
+
+async function toggleStudentStatus(studentUuid, currentStatus) {
+  const newStatus = currentStatus === "active" ? "inactive" : "active";
+
+  const { error } = await db
+    .from("students")
+    .update({ status: newStatus })
+    .eq("id", studentUuid);
+
+  if (error) {
+    console.log("Status update error:", error);
+    showToast("Error", "Status could not be updated.");
+    return;
+  }
+
+  showToast("Status Updated", "Student is now " + newStatus + ".");
+  await fetchAdminStudents();
 }
 
 /* ---------------- COURSE SYSTEM ---------------- */
