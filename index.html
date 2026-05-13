@@ -1085,11 +1085,11 @@ html, body {
         <p>Add, view, update, activate/inactivate students.</p>
       </button>
 
-      <button class="course-select-card" onclick="showToast('Coming Soon', 'Course management will be added next.')">
-        <span>📚</span>
-        <h3>Courses</h3>
-        <p>Add, edit, and manage courses.</p>
-      </button>
+    <button class="course-select-card" onclick="openAdminCourses()">
+  <span>📚</span>
+  <h3>Courses</h3>
+  <p>Add, edit, and manage courses.</p>
+</button>
 
       <button class="course-select-card" onclick="openAdminAssignCourse()">
   <span>🔗</span>
@@ -1116,9 +1116,62 @@ html, body {
       </button>
     </div>
 
-    <div class="admin-manage-box hidden-box" id="adminStudentsBox" style="display:none;">
-      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-        <div>
+<div class="admin-manage-box hidden-box" id="adminCoursesBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>📚 Course Management</h3>
+      <p>Add, view, and edit courses.</p>
+    </div>
+
+    <button class="back-mini" onclick="closeAdminCourses()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3 id="courseFormTitle">Add New Course</h3>
+
+    <input type="hidden" id="adminCourseEditId">
+
+    <div class="input-group">
+      <label>Course Title</label>
+      <input id="adminCourseTitle" type="text" placeholder="Example: Video & Media Editing">
+    </div>
+
+    <div class="input-group">
+      <label>Course Slug</label>
+      <input id="adminCourseSlug" type="text" placeholder="Example: video-editing">
+    </div>
+
+    <div class="input-group">
+      <label>Icon</label>
+      <input id="adminCourseIcon" type="text" placeholder="Example: 🎬">
+    </div>
+
+    <div class="input-group">
+      <label>Short Description</label>
+      <input id="adminCourseShortDescription" type="text" placeholder="Short course intro">
+    </div>
+
+    <div class="input-group">
+      <label>Details</label>
+      <textarea id="adminCourseDetails" placeholder="Full course details" rows="4"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Facilities</label>
+      <textarea id="adminCourseFacilities" placeholder="Write one facility per line" rows="4"></textarea>
+    </div>
+
+    <button class="link-btn" onclick="saveAdminCourse()">Save Course</button>
+    <button class="back-mini" onclick="resetAdminCourseForm()">Clear</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Courses</h3>
+    <div id="adminCoursesList" class="admin-list-box">
+      Loading courses...
+    </div>
+  </div>
+</div>
           <h3>🎓 Student Management</h3>
           <p>Add, view, update password, and activate/inactivate students.</p>
         </div>
