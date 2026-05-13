@@ -2337,6 +2337,200 @@ async function removeAssignedCourse(assignmentId) {
   await fetchAssignedCourses();
 }
 
+/* ---------------- ADMIN COURSE MANAGEMENT ---------------- */
+
+async function openAdminCourses() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const studentsBox = document.getElementById("adminStudentsBox");
+  const assignBox = document.getElementById("adminAssignCourseBox");
+  const coursesBox = document.getElementById("adminCoursesBox");
+
+  if (quickActions) quickActions.style.display = "none";
+  if (studentsBox) studentsBox.style.display = "none";
+  if (assignBox) assignBox.style.display = "none";
+
+  if (coursesBox) {
+    coursesBox.classList.remove("hidden-box");
+    coursesBox.style.display = "block";
+  }
+
+  await fetchAdminCourses();
+}
+
+function closeAdminCourses() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const coursesBox = document.getElementById("adminCoursesBox");
+
+  if (coursesBox) {
+    coursesBox.style.display = "none";
+    coursesBox.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function fetchAdminCourses() {
+  const list = document.getElementById("adminCoursesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading courses...";
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title, slug, icon, short_description, details, facilities, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log("Courses fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Courses could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminCourses(data || []);
+}
+
+function renderAdminCourses(courses) {
+  const list = document.getElementById("adminCoursesList");
+
+  if (!list) return;
+
+  if (!courses.length) {
+    list.innerHTML = "<div class='login-note'>No courses found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  courses.forEach(function(course) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const facilitiesText = Array.isArray(course.facilities)
+      ? course.facilities.join(", ")
+      : "-";
+
+    card.innerHTML = `
+      <div>
+        <h3>${course.icon || "📚"} ${course.title}</h3>
+        <p><b>Slug:</b> ${course.slug}</p>
+        <p><b>Short:</b> ${course.short_description || "-"}</p>
+        <p><b>Details:</b> ${course.details || "-"}</p>
+        <p><b>Facilities:</b> ${facilitiesText}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminCourse('${course.id}')">Edit</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function saveAdminCourse() {
+  const editId = document.getElementById("adminCourseEditId").value.trim();
+
+  const title = document.getElementById("adminCourseTitle").value.trim();
+  const slug = document.getElementById("adminCourseSlug").value.trim();
+  const icon = document.getElementById("adminCourseIcon").value.trim();
+  const shortDescription = document.getElementById("adminCourseShortDescription").value.trim();
+  const details = document.getElementById("adminCourseDetails").value.trim();
+  const facilitiesRaw = document.getElementById("adminCourseFacilities").value.trim();
+
+  if (!title || !slug) {
+    showToast("Missing Details", "Course title and slug are required.");
+    return;
+  }
+
+  const facilities = facilitiesRaw
+    ? facilitiesRaw.split("\n").map(function(item) {
+        return item.trim();
+      }).filter(function(item) {
+        return item.length > 0;
+      })
+    : [];
+
+  const payload = {
+    title: title,
+    slug: slug,
+    icon: icon || null,
+    short_description: shortDescription || null,
+    details: details || null,
+    facilities: facilities
+  };
+
+  let result;
+
+  if (editId) {
+    result = await db
+      .from("courses")
+      .update(payload)
+      .eq("id", editId);
+  } else {
+    result = await db
+      .from("courses")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    console.log("Course save error:", result.error);
+    showToast("Error", "Course could not be saved. Slug may already exist.");
+    return;
+  }
+
+  showToast("Saved", editId ? "Course updated successfully." : "Course added successfully.");
+
+  resetAdminCourseForm();
+  await fetchAdminCourses();
+
+  if (typeof fetchAssignOptions === "function") {
+    await fetchAssignOptions();
+  }
+}
+
+async function editAdminCourse(courseId) {
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title, slug, icon, short_description, details, facilities")
+    .eq("id", courseId)
+    .single();
+
+  if (error || !data) {
+    console.log("Course edit fetch error:", error);
+    showToast("Error", "Course details could not be loaded.");
+    return;
+  }
+
+  document.getElementById("adminCourseEditId").value = data.id;
+  document.getElementById("adminCourseTitle").value = data.title || "";
+  document.getElementById("adminCourseSlug").value = data.slug || "";
+  document.getElementById("adminCourseIcon").value = data.icon || "";
+  document.getElementById("adminCourseShortDescription").value = data.short_description || "";
+  document.getElementById("adminCourseDetails").value = data.details || "";
+  document.getElementById("adminCourseFacilities").value = Array.isArray(data.facilities)
+    ? data.facilities.join("\n")
+    : "";
+
+  const title = document.getElementById("courseFormTitle");
+  if (title) title.textContent = "Edit Course";
+
+  showToast("Edit Mode", "Update course details and click Save Course.");
+}
+
+function resetAdminCourseForm() {
+  document.getElementById("adminCourseEditId").value = "";
+  document.getElementById("adminCourseTitle").value = "";
+  document.getElementById("adminCourseSlug").value = "";
+  document.getElementById("adminCourseIcon").value = "";
+  document.getElementById("adminCourseShortDescription").value = "";
+  document.getElementById("adminCourseDetails").value = "";
+  document.getElementById("adminCourseFacilities").value = "";
+
+  const title = document.getElementById("courseFormTitle");
+  if (title) title.textContent = "Add New Course";
+}
+
 /* ---------------- COURSE SYSTEM ---------------- */
 
 async function fetchStudentCourses() {
