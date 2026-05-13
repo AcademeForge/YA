@@ -1385,303 +1385,44 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-const demoStudents = [
-  {
-    id: "AF2025001",
-    password: "12345",
-    name: "Demo Student"
-  },
-  {
-    id: "AF2025002",
-    password: "12345",
-    name: "Test Student"
-  }
-];
-
-const coursesData = [
-  {
-    id: "video-editing",
-    icon: "🎬",
-    title: "Video & Media Editing",
-    short: "Learn editing, storytelling, reels, shorts, and digital content creation.",
-    intro: "A practical course for students who want to create professional-looking videos and social media content.",
-    details: "This course focuses on video editing basics, timeline editing, transitions, audio sync, color correction, captions, reels, shorts, and content workflow.",
-    syllabus: [
-      "Introduction to Video Editing",
-      "Timeline, Cuts, and Transitions",
-      "Audio, Voiceover, and Sync",
-      "Text, Captions, and Motion Elements",
-      "Reels, Shorts, and Social Media Editing",
-      "Color Correction and Export Settings"
-    ],
-    facilities: [
-      "Chapter-wise lectures",
-      "Practice-based learning",
-      "Notes and revision support",
-      "Project-based tasks",
-      "Future certificate support"
-    ]
-  },
-  {
-    id: "graphic-design",
-    icon: "🎨",
-    title: "Creative & Graphic Design",
-    short: "Design posters, thumbnails, banners, brand creatives, and visual content.",
-    intro: "A creative course focused on visual design, layout, colors, typography, and digital graphics.",
-    details: "Students will learn design principles, poster design, thumbnail design, social media creatives, typography, color balance, and brand-style layouts.",
-    syllabus: [
-      "Basics of Graphic Design",
-      "Color, Layout, and Typography",
-      "Poster and Banner Design",
-      "Thumbnail and Social Media Creatives",
-      "Branding Basics",
-      "Portfolio and Design Presentation"
-    ],
-    facilities: [
-      "Design practice tasks",
-      "Creative assignments",
-      "Notes for quick revision",
-      "Portfolio guidance",
-      "Future project review"
-    ]
-  },
-  {
-    id: "ai-coding",
-    icon: "🤖",
-    title: "AI Coding & Logic Foundation",
-    short: "Build coding logic, AI basics, prompts, and beginner-friendly programming thinking.",
-    intro: "A beginner-friendly course for students who want to understand coding, logic, and AI tools.",
-    details: "This course introduces logic building, programming basics, AI concepts, prompt thinking, problem solving, and beginner-level project structure.",
-    syllabus: [
-      "Introduction to Coding Logic",
-      "Variables, Conditions, and Loops",
-      "Problem Solving Basics",
-      "AI Tools and Prompt Thinking",
-      "Mini Projects and Practice",
-      "Future Learning Roadmap"
-    ],
-    facilities: [
-      "Beginner-friendly explanations",
-      "Practice questions",
-      "Chapter-wise notes",
-      "Mini project ideas",
-      "Future coding dashboard support"
-    ]
-  },
-  {
-    id: "freelancing",
-    icon: "💼",
-    title: "Freelancing & Monetization",
-    short: "Understand digital earning, freelancing basics, client work, and skill monetization.",
-    intro: "A practical course for students who want to understand how digital skills can create opportunities.",
-    details: "This course explains freelancing basics, profile building, service selection, client communication, pricing basics, delivery discipline, and online earning mindset.",
-    syllabus: [
-      "Introduction to Freelancing",
-      "Choosing Your Skill and Service",
-      "Profile and Portfolio Basics",
-      "Client Communication",
-      "Pricing and Delivery Discipline",
-      "Growth and Monetization Roadmap"
-    ],
-    facilities: [
-      "Freelancing roadmap",
-      "Profile guidance",
-      "Notes and examples",
-      "Practical task ideas",
-      "Future mentorship support"
-    ]
-  }
-];
 
 let loggedStudent = null;
 let selectedCourse = null;
+let selectedCourseChapters = [];
 let currentMode = "lectures";
-let selectedChapterIndex = 0;
+let selectedChapter = null;
 
-function studentLogin() {
+async function studentLogin() {
   const id = document.getElementById("studentId").value.trim();
   const password = document.getElementById("studentPassword").value.trim();
 
-  const student = demoStudents.find(function(item) {
-    return item.id === id && item.password === password;
-  });
-
-  if (!student) {
-    showToast("Login Failed", "Invalid Student ID or password. Try demo ID: AF2025001 and password: 12345");
+  if (!id || !password) {
+    showToast("Missing Details", "Please enter Student ID and password.");
     return;
   }
 
-  loggedStudent = student;
+  const { data, error } = await db
+    .from("students")
+    .select("*")
+    .eq("student_id", id)
+    .eq("password", password)
+    .eq("status", "active")
+    .single();
+
+  if (error || !data) {
+    showToast("Login Failed", "Invalid Student ID or password.");
+    return;
+  }
+
+  loggedStudent = data;
 
   document.getElementById("studentLoginBox").style.display = "none";
   document.getElementById("courseSelectBox").style.display = "block";
 
-  renderCourses();
-
   showToast("Welcome", "Login successful. Select your course to continue.");
+
+  fetchStudentCourses();
 }
-
-function renderCourses() {
-  const courseCards = document.getElementById("courseCards");
-  courseCards.innerHTML = "";
-
-  coursesData.forEach(function(course) {
-    const button = document.createElement("button");
-    button.className = "course-select-card";
-    button.onclick = function() {
-      openCourseDetails(course.id);
-    };
-
-    button.innerHTML =
-      "<span>" + course.icon + "</span>" +
-      "<h3>" + course.title + "</h3>" +
-      "<p>" + course.short + "</p>";
-
-    courseCards.appendChild(button);
-  });
-}
-
-function openCourseDetails(courseId) {
-  selectedCourse = coursesData.find(function(course) {
-    return course.id === courseId;
-  });
-
-  if (!selectedCourse) return;
-
-  document.getElementById("courseSelectBox").style.display = "none";
-  document.getElementById("courseDetailsBox").style.display = "block";
-
-  document.getElementById("courseTitle").textContent = selectedCourse.icon + " " + selectedCourse.title;
-  document.getElementById("courseIntro").textContent = selectedCourse.intro;
-  document.getElementById("courseDetails").textContent = selectedCourse.details;
-
-  const syllabusList = document.getElementById("courseSyllabus");
-  syllabusList.innerHTML = "";
-
-  selectedCourse.syllabus.forEach(function(item) {
-    const li = document.createElement("li");
-    li.textContent = item;
-    syllabusList.appendChild(li);
-  });
-
-  const facilitiesList = document.getElementById("courseFacilities");
-  facilitiesList.innerHTML = "";
-
-  selectedCourse.facilities.forEach(function(item) {
-    const li = document.createElement("li");
-    li.textContent = item;
-    facilitiesList.appendChild(li);
-  });
-}
-
-function startLearning() {
-  if (!selectedCourse) return;
-
-  document.getElementById("courseDetailsBox").style.display = "none";
-  document.getElementById("learningBox").style.display = "block";
-  document.getElementById("learningTitle").textContent = selectedCourse.title + " Learning";
-}
-
-function openLearningMode(mode) {
-  currentMode = mode;
-
-  document.getElementById("learningBox").style.display = "none";
-  document.getElementById("chapterBox").style.display = "block";
-
-  document.getElementById("chapterModeTitle").textContent =
-    mode === "lectures" ? "🎥 Lectures" : "📝 Notes";
-
-  renderChapters();
-}
-
-function renderChapters() {
-  const chapterList = document.getElementById("chapterList");
-  chapterList.innerHTML = "";
-
-  selectedCourse.syllabus.forEach(function(chapter, index) {
-    const button = document.createElement("button");
-    button.className = "chapter-item";
-    button.onclick = function() {
-      openChapterContent(index);
-    };
-
-    button.innerHTML =
-      "<h3>Chapter " + (index + 1) + ": " + chapter + "</h3>" +
-      "<p>" + (currentMode === "lectures" ? "Open lecture list" : "Open notes list") + "</p>";
-
-    chapterList.appendChild(button);
-  });
-}
-
-function openChapterContent(index) {
-  selectedChapterIndex = index;
-
-  document.getElementById("chapterBox").style.display = "none";
-  document.getElementById("contentBox").style.display = "block";
-
-  const chapterName = selectedCourse.syllabus[index];
-
-  document.getElementById("contentTitle").textContent =
-    "Chapter " + (index + 1) + ": " + chapterName;
-
-  document.getElementById("contentSubtitle").textContent =
-    currentMode === "lectures"
-      ? "Lecture list for this chapter."
-      : "Notes list for this chapter.";
-
-  renderContentItems(chapterName);
-}
-
-function renderContentItems(chapterName) {
-  const contentList = document.getElementById("contentList");
-  contentList.innerHTML = "";
-
-  const totalItems = currentMode === "lectures" ? 6 : 5;
-
-  for (let i = 1; i <= totalItems; i++) {
-    const item = document.createElement("button");
-    item.className = "content-item";
-
-    const typeLabel = currentMode === "lectures" ? "Lecture" : "Note";
-
-    item.onclick = function() {
-      showToast(
-        typeLabel + " Opening Soon",
-        typeLabel + " " + i + " for " + chapterName + " will be added soon."
-      );
-    };
-
-    item.innerHTML =
-      "<span class='content-badge'>" + typeLabel + " " + i + "</span>" +
-      "<h3>" + chapterName + " - " + typeLabel + " " + i + "</h3>" +
-      "<p>" + (currentMode === "lectures"
-        ? "Tap to open this lecture. Content will be connected in future update."
-        : "Tap to open this note. Study material will be connected in future update.") + "</p>";
-
-    contentList.appendChild(item);
-  }
-}
-
-function backToCourses() {
-  document.getElementById("courseDetailsBox").style.display = "none";
-  document.getElementById("courseSelectBox").style.display = "block";
-}
-
-function backToCourseDetails() {
-  document.getElementById("learningBox").style.display = "none";
-  document.getElementById("courseDetailsBox").style.display = "block";
-}
-
-function backToLearning() {
-  document.getElementById("chapterBox").style.display = "none";
-  document.getElementById("learningBox").style.display = "block";
-}
-
-function backToChapters() {
-  document.getElementById("contentBox").style.display = "none";
-  document.getElementById("chapterBox").style.display = "block";
-}
-  
   </script>
 </body>
 </html>
