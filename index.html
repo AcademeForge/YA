@@ -1063,7 +1063,7 @@ html, body {
     </div>
   </div>
 
-  <div class="panel glass hidden-box" id="officeDashboardBox">
+  <div class="panel glass hidden-box" id="officeDashboardBox" style="display:none;">
     <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
       <div>
         <h2>🏢 Office Dashboard</h2>
@@ -1077,11 +1077,13 @@ html, body {
       <h3>⚡ Quick Actions</h3>
       <p>Select what you want to manage.</p>
     </div>
-<button class="course-select-card" onclick="openAdminStudents()">
-  <span>🎓</span>
-  <h3>Students</h3>
-  <p>Add, view, update, activate/inactivate students.</p>
-</button>
+
+    <div class="course-select-grid" id="officeQuickActions">
+      <button class="course-select-card" onclick="openAdminStudents()">
+        <span>🎓</span>
+        <h3>Students</h3>
+        <p>Add, view, update, activate/inactivate students.</p>
+      </button>
 
       <button class="course-select-card" onclick="showToast('Coming Soon', 'Course management will be added next.')">
         <span>📚</span>
@@ -1113,58 +1115,58 @@ html, body {
         <p>Track student course progress.</p>
       </button>
     </div>
+
+    <div class="admin-manage-box hidden-box" id="adminStudentsBox" style="display:none;">
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+        <div>
+          <h3>🎓 Student Management</h3>
+          <p>Add, view, update password, and activate/inactivate students.</p>
+        </div>
+
+        <button class="back-mini" onclick="closeAdminStudents()">Back</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>Add New Student</h3>
+
+        <div class="input-group">
+          <label>Student ID / Email</label>
+          <input id="adminStudentId" type="text" placeholder="Example: student@email.com">
+        </div>
+
+        <div class="input-group">
+          <label>Name</label>
+          <input id="adminStudentName" type="text" placeholder="Student name">
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <input id="adminStudentPassword" type="text" placeholder="Password">
+        </div>
+
+        <div class="input-group">
+          <label>Mobile</label>
+          <input id="adminStudentMobile" type="text" placeholder="Mobile number">
+        </div>
+
+        <div class="input-group">
+          <label>Email</label>
+          <input id="adminStudentEmail" type="email" placeholder="Email">
+        </div>
+
+        <button class="link-btn" onclick="addAdminStudent()">Add Student</button>
+      </div>
+
+      <div class="course-info-box">
+        <h3>All Students</h3>
+        <div id="adminStudentsList" class="admin-list-box">
+          Loading students...
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-   
-<div class="admin-manage-box hidden-box" id="adminStudentsBox">
-  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-    <div>
-      <h3>🎓 Student Management</h3>
-      <p>Add, view, update password, and activate/inactivate students.</p>
-    </div>
-
-    <button class="back-mini" onclick="closeAdminStudents()">Back</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>Add New Student</h3>
-
-    <div class="input-group">
-      <label>Student ID / Email</label>
-      <input id="adminStudentId" type="text" placeholder="Example: student@email.com">
-    </div>
-
-    <div class="input-group">
-      <label>Name</label>
-      <input id="adminStudentName" type="text" placeholder="Student name">
-    </div>
-
-    <div class="input-group">
-      <label>Password</label>
-      <input id="adminStudentPassword" type="text" placeholder="Password">
-    </div>
-
-    <div class="input-group">
-      <label>Mobile</label>
-      <input id="adminStudentMobile" type="text" placeholder="Mobile number">
-    </div>
-
-    <div class="input-group">
-      <label>Email</label>
-      <input id="adminStudentEmail" type="email" placeholder="Email">
-    </div>
-
-    <button class="link-btn" onclick="addAdminStudent()">Add Student</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>All Students</h3>
-    <div id="adminStudentsList" class="admin-list-box">
-      Loading students...
-    </div>
-  </div>
-</div>
-        
+ 
     <section id="explore" class="section">
       <div class="panel glass">
         <h2>✨ Explore AcademeForge</h2>
