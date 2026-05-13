@@ -1716,6 +1716,25 @@ function openNote(note) {
     showToast("Coming Soon", "Note content will be added soon.");
   }
 }
+
+function logoutStudent() {
+  loggedStudent = null;
+  selectedCourse = null;
+  currentMode = "lectures";
+  selectedChapterIndex = 0;
+
+  document.getElementById("studentId").value = "";
+  document.getElementById("studentPassword").value = "";
+
+  document.getElementById("studentLoginBox").style.display = "block";
+  document.getElementById("courseSelectBox").style.display = "none";
+  document.getElementById("courseDetailsBox").style.display = "none";
+  document.getElementById("learningBox").style.display = "none";
+  document.getElementById("chapterBox").style.display = "none";
+  document.getElementById("contentBox").style.display = "none";
+
+  showToast("Logged Out", "You have been logged out successfully.");
+}
   </script>
 </body>
 </html>
