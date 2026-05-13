@@ -1815,6 +1815,32 @@ window.addEventListener("load", function() {
   checkSavedLogin();
 });
 
+async function verifyActiveSession() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
+
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  const student = JSON.parse(savedStudent);
+
+  const { data, error } = await db
+    .from("students")
+    .select("active_session")
+    .eq("id", student.id)
+    .single();
+
+  if (error || !data) {
+    logoutStudent();
+    return;
+  }
+
+  if (data.active_session !== savedSessionId) {
+    logoutStudent();
+    showToast("Logged Out", "Your ID was logged in on another device.");
+  }
+}
   </script>
 </body>
 </html>
