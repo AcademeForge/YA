@@ -5475,7 +5475,7 @@ async function fetchAdminStudents() {
     return;
   }
 
-  list.innerHTML = "hello students...";
+  list.innerHTML = "Loading students...";
 
   const { data, error } = await db
     .from("students")
@@ -6931,7 +6931,7 @@ async function fetchAdminTeamMembers() {
 
   if (!list) return;
 
-  list.innerHTML = "Loading team members...";
+  list.innerHTML = "Hello students";
 
   const { data, error } = await db
     .from("team_members")
