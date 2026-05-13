@@ -1473,7 +1473,7 @@ async function checkSavedLogin() {
   document.getElementById("studentWelcomeText").textContent =
     "Welcome, " + loggedStudent.name;
 
-  await loadStudentCourses();
+  await fetchStudentCourses();
 
   showToast("Welcome Back", "You are already logged in.");
 }
