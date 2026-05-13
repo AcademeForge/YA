@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -3621,7 +3620,123 @@ body.light-mode .time-box span {
     0 0 16px rgba(248, 199, 92, 0.45),
     0 2px 8px rgba(0, 0, 0, 0.65) !important;
 }
-    
+    /* =========================================================
+   OFFICE QUICK ACTIONS - ICON + NAME SAME LINE
+   Paste at VERY END of CSS
+========================================================= */
+
+#officeQuickActions .course-select-card {
+  min-height: 86px !important;
+  padding: 14px 16px !important;
+
+  display: grid !important;
+  grid-template-columns: 48px 1fr !important;
+  grid-template-rows: auto auto !important;
+  column-gap: 14px !important;
+  row-gap: 4px !important;
+  align-items: center !important;
+}
+
+#officeQuickActions .course-select-card span {
+  grid-row: 1 / span 2 !important;
+  grid-column: 1 !important;
+
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+
+  margin: 0 !important;
+  border-radius: 16px !important;
+
+  display: grid !important;
+  place-items: center !important;
+  font-size: 22px !important;
+}
+
+#officeQuickActions .course-select-card h3 {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+
+  margin: 0 !important;
+  font-size: 17px !important;
+  line-height: 1.2 !important;
+}
+
+#officeQuickActions .course-select-card p {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+
+  margin: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+    /* =========================================================
+   OFFICE QUICK ACTIONS - COMPACT BALANCED DESIGN
+   Paste at VERY END of CSS
+========================================================= */
+
+#officeQuickActions {
+  gap: 10px !important;
+  margin-top: 12px !important;
+}
+
+#officeQuickActions .course-select-card {
+  min-height: 64px !important;
+  padding: 10px 12px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+
+  border-radius: 18px !important;
+}
+
+#officeQuickActions .course-select-card span {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+
+  margin: 0 !important;
+  border-radius: 14px !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+#officeQuickActions .course-select-card h3 {
+  margin: 0 !important;
+  font-size: 15.5px !important;
+  line-height: 1.2 !important;
+  font-weight: 850 !important;
+}
+
+#officeQuickActions .course-select-card p {
+  display: none !important;
+}
+
+  /* =========================================================
+   SAVE + CLEAR BUTTON GAP FIX
+   Course / Chapter forms
+   Paste at VERY END of CSS
+========================================================= */
+
+#adminCoursesBox .link-btn + .back-mini,
+#adminChaptersBox .link-btn + .back-mini {
+  margin-top: 10px !important;
+  margin-left: 0 !important;
+  width: 100% !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+#adminCoursesBox .link-btn,
+#adminChaptersBox .link-btn {
+  margin-bottom: 0 !important;
+}
   </style>
 </head>
 
@@ -3684,7 +3799,7 @@ body.light-mode .time-box span {
           <div class="icon">🎓</div>
           <div>
             <h3>Student Login</h3>
-            <p>Access student dashboard preview and future learning tools.</p>
+            <p>Access course dashboard and learning tools.</p>
           </div>
         </button>
 
@@ -3721,7 +3836,7 @@ body.light-mode .time-box span {
 
     <div class="input-group">
       <label>Student ID</label>
-      <input id="studentId" type="text" placeholder="Example: AF2025001" />
+      <input id="studentId" type="text" placeholder="Example: abc@gmail.com" />
     </div>
 
     <div class="input-group">
@@ -3732,14 +3847,14 @@ body.light-mode .time-box span {
     <button class="link-btn" onclick="studentLogin()">Login</button>
 
     <div class="login-note">
-      Demo login enabled for preview build. Real student authentication will be connected later.
+    For your Student ID and password, please connect with your AcademeForge Mentor. They’ll help you get access and set you up smoothly.
     </div>
   </div>
 
   <div class="panel glass hidden-box" id="courseSelectBox">
     <h2>📚 Select Course</h2>
 <p id="studentWelcomeText">Welcome Student</p>
-    <p>Choose your enrolled learning program.</p>
+    <p>Your enrolled programs are ready to explore.</p>
 
     <div class="course-select-grid" id="courseCards"></div>
 <button class="link-btn secondary" onclick="logoutStudent()">Logout</button>
@@ -3817,7 +3932,7 @@ body.light-mode .time-box span {
 
     <div class="input-group">
       <label>Office ID</label>
-      <input id="officeId" type="text" placeholder="Example: admin" />
+      <input id="officeId" type="text" placeholder="Example: founder" />
     </div>
 
     <div class="input-group">
@@ -3828,7 +3943,7 @@ body.light-mode .time-box span {
     <button class="link-btn" onclick="officeLogin()">Login</button>
 
     <div class="login-note">
-      Demo office login enabled. Real management tools will be added step by step.
+     Management access only. Students, please use Student Login.
     </div>
   </div>
 
@@ -3844,50 +3959,43 @@ body.light-mode .time-box span {
 
     <div class="course-info-box">
       <h3>⚡ Quick Actions</h3>
-      <p>Select what you want to manage.</p>
     </div>
 
     <div class="course-select-grid" id="officeQuickActions">
       <button class="course-select-card" onclick="openAdminStudents()">
         <span>🎓</span>
         <h3>Students</h3>
-        <p>Add, view, update, activate/inactivate students.</p>
       </button>
 
       <button class="course-select-card" onclick="openAdminCourses()">
         <span>📚</span>
         <h3>Courses</h3>
-        <p>Add, edit, and manage courses.</p>
       </button>
 
       <button class="course-select-card" onclick="openAdminAssignCourse()">
         <span>🔗</span>
         <h3>Assign Course</h3>
-        <p>Assign courses to students.</p>
       </button>
 
     <button class="course-select-card" onclick="openAdminLectures()">
   <span>🎥</span>
   <h3>Lectures</h3>
-  <p>Add lecture title, description, video link, lock/unlock.</p>
 </button>
       
    <button class="course-select-card" onclick="openAdminNotes()">
   <span>📝</span>
   <h3>Notes</h3>
-  <p>Add text notes, PDF link, lock/unlock.</p>
 </button>
 
      <button class="course-select-card" onclick="openAdminChapters()">
   <span>📖</span>
   <h3>Chapters</h3>
-  <p>Add, view, edit, and delete course chapters.</p>
 </button>
 
      <button class="course-select-card" onclick="openAdminTeam()">
   <span>👥</span>
   <h3>Team</h3>
-  <p>Add, edit, activate/inactivate team members.</p>
+  <p>Under Development.</p>
 </button>
     </div>
 
@@ -7004,7 +7112,7 @@ function toggleThemeMode() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const savedMode = localStorage.getItem("academeThemeMode") || "light-mode";
+  const savedMode = localStorage.getItem("academeThemeMode") || "dark-mode";
   applyThemeMode(savedMode);
 });
   
