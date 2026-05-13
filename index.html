@@ -1091,11 +1091,11 @@ html, body {
         <p>Add, edit, and manage courses.</p>
       </button>
 
-      <button class="course-select-card" onclick="showToast('Coming Soon', 'Course assignment will be added next.')">
-        <span>🔗</span>
-        <h3>Assign Course</h3>
-        <p>Assign courses to students.</p>
-      </button>
+      <button class="course-select-card" onclick="openAdminAssignCourse()">
+  <span>🔗</span>
+  <h3>Assign Course</h3>
+  <p>Assign courses to students.</p>
+</button>
 
       <button class="course-select-card" onclick="showToast('Coming Soon', 'Lecture management will be added next.')">
         <span>🎥</span>
@@ -1162,9 +1162,43 @@ html, body {
         <div id="adminStudentsList" class="admin-list-box">
           Loading students...
         </div>
-      </div>
+<div class="admin-manage-box hidden-box" id="adminAssignCourseBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>🔗 Assign Course</h3>
+      <p>Assign one course to a selected student.</p>
+    </div>
+
+    <button class="back-mini" onclick="closeAdminAssignCourse()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>Select Student and Course</h3>
+
+    <div class="input-group">
+      <label>Student</label>
+      <select id="assignStudentSelect">
+        <option value="">Loading students...</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Course</label>
+      <select id="assignCourseSelect">
+        <option value="">Loading courses...</option>
+      </select>
+    </div>
+
+    <button class="link-btn" onclick="assignCourseToStudent()">Assign Course</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>Current Assignments</h3>
+    <div id="assignedCoursesList" class="admin-list-box">
+      Loading assignments...
     </div>
   </div>
+</div>
 </section>
  
     <section id="explore" class="section">
