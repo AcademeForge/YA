@@ -1815,6 +1815,16 @@ window.addEventListener("load", function() {
   checkSavedLogin();
 });
 
+document.addEventListener("visibilitychange", function() {
+  if (!document.hidden) {
+    verifyActiveSession();
+  }
+});
+
+setInterval(function() {
+  verifyActiveSession();
+}, 10000);
+
 async function verifyActiveSession() {
   const savedStudent = localStorage.getItem("af_logged_student");
   const savedSessionId = localStorage.getItem("af_session_id");
