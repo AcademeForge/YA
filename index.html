@@ -1165,12 +1165,20 @@ html, body {
   </main>
 
   <div class="toast" id="toast">
-    <strong>Notification</strong>
-    <p>Message</p>
-  </div>
+  <strong>Notification</strong>
+  <p>Message</p>
+</div>
 
-  <script>
-    const websiteLink = "https://academeforge.in";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://nltmolhlwgsrxadknzzq.supabase.co";
+
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const websiteLink = "https://academeforge.in";
 
     function showSection(sectionId) {
       const sections = document.querySelectorAll(".section");
