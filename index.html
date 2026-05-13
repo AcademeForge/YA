@@ -2609,6 +2609,283 @@ function resetAdminCourseForm() {
   if (title) title.textContent = "Add New Course";
 }
 
+/* ---------------- ADMIN LECTURE MANAGEMENT ---------------- */
+
+async function openAdminLectures() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminLecturesBox");
+
+  if (quickActions) quickActions.style.display = "none";
+
+  hideAllAdminBoxes();
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  await loadLectureCourses();
+  await fetchAdminLectures();
+}
+
+function closeAdminLectures() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminLecturesBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function loadLectureCourses() {
+  const select = document.getElementById("lectureCourseSelect");
+
+  if (!select) return;
+
+  select.innerHTML = `<option value="">Select course</option>`;
+
+  const { data, error } = await db
+    .from("courses")
+    .select("id, title")
+    .order("title", { ascending: true });
+
+  if (error) {
+    console.log("Lecture courses fetch error:", error);
+    showToast("Error", "Courses could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(course) {
+    const option = document.createElement("option");
+    option.value = course.id;
+    option.textContent = course.title;
+    select.appendChild(option);
+  });
+}
+
+async function loadLectureChapters() {
+  const courseSelect = document.getElementById("lectureCourseSelect");
+  const chapterSelect = document.getElementById("lectureChapterSelect");
+
+  if (!courseSelect || !chapterSelect) return;
+
+  const courseId = courseSelect.value;
+
+  chapterSelect.innerHTML = `<option value="">Select chapter</option>`;
+
+  if (!courseId) return;
+
+  const { data, error } = await db
+    .from("chapters")
+    .select("id, chapter_number, title")
+    .eq("course_id", courseId)
+    .order("chapter_number", { ascending: true });
+
+  if (error) {
+    console.log("Lecture chapters fetch error:", error);
+    showToast("Error", "Chapters could not be loaded.");
+    return;
+  }
+
+  (data || []).forEach(function(chapter) {
+    const option = document.createElement("option");
+    option.value = chapter.id;
+    option.textContent = "Chapter " + chapter.chapter_number + " - " + chapter.title;
+    chapterSelect.appendChild(option);
+  });
+}
+
+async function addAdminLecture() {
+  const chapterId = document.getElementById("lectureChapterSelect").value;
+  const lectureNumber = document.getElementById("lectureNumberInput").value.trim();
+  const title = document.getElementById("lectureTitleInput").value.trim();
+  const description = document.getElementById("lectureDescriptionInput").value.trim();
+  const videoUrl = document.getElementById("lectureVideoUrlInput").value.trim();
+  const duration = document.getElementById("lectureDurationInput").value.trim();
+  const isLockedValue = document.getElementById("lectureLockInput").value;
+
+  if (!chapterId || !lectureNumber || !title) {
+    showToast("Missing Details", "Chapter, lecture number, and title are required.");
+    return;
+  }
+
+  const { error } = await db
+    .from("lectures")
+    .insert({
+      chapter_id: chapterId,
+      lecture_number: Number(lectureNumber),
+      title: title,
+      description: description || null,
+      video_url: videoUrl || null,
+      duration: duration || null,
+      is_locked: isLockedValue === "true"
+    });
+
+  if (error) {
+    console.log("Add lecture error:", error);
+    showToast("Error", "Lecture could not be added.");
+    return;
+  }
+
+  showToast("Lecture Added", "Lecture added successfully.");
+
+  document.getElementById("lectureNumberInput").value = "";
+  document.getElementById("lectureTitleInput").value = "";
+  document.getElementById("lectureDescriptionInput").value = "";
+  document.getElementById("lectureVideoUrlInput").value = "";
+  document.getElementById("lectureDurationInput").value = "";
+  document.getElementById("lectureLockInput").value = "false";
+
+  await fetchAdminLectures();
+}
+
+async function fetchAdminLectures() {
+  const list = document.getElementById("adminLecturesList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading lectures...";
+
+  const { data, error } = await db
+    .from("lectures")
+    .select(`
+      id,
+      lecture_number,
+      title,
+      description,
+      video_url,
+      duration,
+      is_locked,
+      chapters (
+        id,
+        chapter_number,
+        title,
+        courses (
+          id,
+          title
+        )
+      )
+    `)
+    .order("lecture_number", { ascending: true });
+
+  if (error) {
+    console.log("Lectures fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Lectures could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminLectures(data || []);
+}
+
+function renderAdminLectures(lectures) {
+  const list = document.getElementById("adminLecturesList");
+
+  if (!list) return;
+
+  if (!lectures.length) {
+    list.innerHTML = "<div class='login-note'>No lectures found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  lectures.forEach(function(lecture) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    const chapter = lecture.chapters;
+    const course = chapter && chapter.courses ? chapter.courses : null;
+
+    card.innerHTML = `
+      <div>
+        <h3>${lecture.title}</h3>
+        <p><b>Course:</b> ${course ? course.title : "-"}</p>
+        <p><b>Chapter:</b> ${chapter ? "Chapter " + chapter.chapter_number + " - " + chapter.title : "-"}</p>
+        <p><b>Lecture No:</b> ${lecture.lecture_number}</p>
+        <p><b>Description:</b> ${lecture.description || "-"}</p>
+        <p><b>Video:</b> ${lecture.video_url || "-"}</p>
+        <p><b>Duration:</b> ${lecture.duration || "-"}</p>
+        <p><b>Status:</b> ${lecture.is_locked ? "Locked" : "Unlocked"}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminLecture('${lecture.id}')">Edit</button>
+        <button class="back-mini" onclick="toggleLectureLock('${lecture.id}', ${lecture.is_locked})">
+          ${lecture.is_locked ? "Unlock" : "Lock"}
+        </button>
+        <button class="back-mini" onclick="deleteAdminLecture('${lecture.id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+async function editAdminLecture(lectureId) {
+  const newTitle = prompt("Enter new lecture title:");
+
+  if (!newTitle) return;
+
+  const newVideoUrl = prompt("Enter new video URL:");
+
+  const { error } = await db
+    .from("lectures")
+    .update({
+      title: newTitle,
+      video_url: newVideoUrl || null
+    })
+    .eq("id", lectureId);
+
+  if (error) {
+    console.log("Lecture edit error:", error);
+    showToast("Error", "Lecture could not be updated.");
+    return;
+  }
+
+  showToast("Lecture Updated", "Lecture updated successfully.");
+  await fetchAdminLectures();
+}
+
+async function toggleLectureLock(lectureId, currentLocked) {
+  const { error } = await db
+    .from("lectures")
+    .update({ is_locked: !currentLocked })
+    .eq("id", lectureId);
+
+  if (error) {
+    console.log("Lecture lock error:", error);
+    showToast("Error", "Lecture lock status could not be updated.");
+    return;
+  }
+
+  showToast("Status Updated", "Lecture lock status changed.");
+  await fetchAdminLectures();
+}
+
+async function deleteAdminLecture(lectureId) {
+  const confirmDelete = confirm("Delete this lecture?");
+
+  if (!confirmDelete) return;
+
+  const { error } = await db
+    .from("lectures")
+    .delete()
+    .eq("id", lectureId);
+
+  if (error) {
+    console.log("Lecture delete error:", error);
+    showToast("Error", "Lecture could not be deleted.");
+    return;
+  }
+
+  showToast("Lecture Deleted", "Lecture deleted successfully.");
+  await fetchAdminLectures();
+}
+
+
 /* ---------------- COURSE SYSTEM ---------------- */
 
 async function fetchStudentCourses() {
