@@ -1098,12 +1098,12 @@ html, body {
         <p>Assign courses to students.</p>
       </button>
 
-      <button class="course-select-card" onclick="showToast('Coming Soon', 'Lecture management will be added next.')">
-        <span>🎥</span>
-        <h3>Lectures</h3>
-        <p>Add lecture title, description, video link, lock/unlock.</p>
-      </button>
-
+    <button class="course-select-card" onclick="openAdminLectures()">
+  <span>🎥</span>
+  <h3>Lectures</h3>
+  <p>Add lecture title, description, video link, lock/unlock.</p>
+</button>
+      
       <button class="course-select-card" onclick="showToast('Coming Soon', 'Notes management will be added next.')">
         <span>📝</span>
         <h3>Notes</h3>
@@ -1225,7 +1225,77 @@ html, body {
         </div>
       </div>
     </div>
-  
+  <!-- LECTURE MANAGEMENT -->
+<div class="admin-manage-box hidden-box" id="adminLecturesBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>🎥 Lecture Management</h3>
+      <p>Add, view, update, lock/unlock lectures.</p>
+    </div>
+
+    <button class="back-mini" onclick="closeAdminLectures()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>Add New Lecture</h3>
+
+    <div class="input-group">
+      <label>Course</label>
+      <select id="lectureCourseSelect" onchange="loadLectureChapters()">
+        <option value="">Select course</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Chapter</label>
+      <select id="lectureChapterSelect">
+        <option value="">Select chapter</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Lecture Number</label>
+      <input id="lectureNumberInput" type="number" placeholder="Example: 1">
+    </div>
+
+    <div class="input-group">
+      <label>Lecture Title</label>
+      <input id="lectureTitleInput" type="text" placeholder="Lecture title">
+    </div>
+
+    <div class="input-group">
+      <label>Description</label>
+      <textarea id="lectureDescriptionInput" placeholder="Lecture description"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Video URL</label>
+      <input id="lectureVideoUrlInput" type="text" placeholder="YouTube / Drive / video link">
+    </div>
+
+    <div class="input-group">
+      <label>Duration</label>
+      <input id="lectureDurationInput" type="text" placeholder="Example: 12 min">
+    </div>
+
+    <div class="input-group">
+      <label>Lock Status</label>
+      <select id="lectureLockInput">
+        <option value="false">Unlocked</option>
+        <option value="true">Locked</option>
+      </select>
+    </div>
+
+    <button class="link-btn" onclick="addAdminLecture()">Add Lecture</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Lectures</h3>
+    <div id="adminLecturesList" class="admin-list-box">
+      Loading lectures...
+    </div>
+  </div>
+</div>
     
     <!-- ASSIGN COURSE -->
     <div class="admin-manage-box hidden-box" id="adminAssignCourseBox" style="display:none;">
