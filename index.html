@@ -1425,12 +1425,12 @@ async function verifyActiveSession() {
   try {
     student = JSON.parse(savedStudent);
   } catch (e) {
-    localStorage.removeItem("af_logged_student");
-    localStorage.removeItem("af_session_id");
+    forceLogoutOldDevice();
     return;
   }
 
   if (!student || !student.id) {
+    forceLogoutOldDevice();
     return;
   }
 
@@ -1441,8 +1441,12 @@ async function verifyActiveSession() {
     .single();
 
   if (error || !data) {
+    console.log("Session verify error:", error);
     return;
   }
+
+  console.log("Saved Session:", savedSessionId);
+  console.log("DB Session:", data.active_session);
 
   if (!data.active_session) {
     return;
@@ -1479,6 +1483,114 @@ function forceLogoutOldDevice() {
 
   showSection("student");
   showToast("Logged Out", "Your ID was logged in on another device.");
+}
+
+/* ---------------- STUDENT LOGIN ---------------- */
+
+async function studentLogin() {
+  const idInput = document.getElementById("studentId");
+  const passwordInput = document.getElementById("studentPassword");
+
+  if (!idInput || !passwordInput) {
+    showToast("Error", "Login input not found.");
+    return;
+  }
+
+  const id = idInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!id || !password) {
+    showToast("Missing Details", "Please enter Student ID and password.");
+    return;
+  }
+
+  const { data, error } = await db
+    .from("students")
+    .select("*")
+    .eq("student_id", id)
+    .eq("password", password)
+    .eq("status", "active")
+    .single();
+
+  if (error || !data) {
+    showToast("Login Failed", "Invalid Student ID or password.");
+    return;
+  }
+
+  const sessionId = createSessionId();
+
+  const { data: updatedStudent, error: sessionError } = await db
+    .from("students")
+    .update({ active_session: sessionId })
+    .eq("id", data.id)
+    .select("*")
+    .single();
+
+  if (sessionError || !updatedStudent) {
+    console.log("Session update error:", sessionError);
+    showToast("Login Error", "Session could not be created.");
+    return;
+  }
+
+  loggedStudent = updatedStudent;
+
+  localStorage.setItem("af_logged_student", JSON.stringify(loggedStudent));
+  localStorage.setItem("af_session_id", sessionId);
+
+  const studentLoginBox = document.getElementById("studentLoginBox");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+
+  if (studentLoginBox) studentLoginBox.style.display = "none";
+  if (courseSelectBox) courseSelectBox.style.display = "block";
+
+  const welcomeText = document.getElementById("studentWelcomeText");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
+
+  showToast("Login Successful", "Select your course to continue.");
+
+  await fetchStudentCourses();
+}
+
+async function checkSavedLogin() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+  const savedSessionId = localStorage.getItem("af_session_id");
+
+  if (!savedStudent || !savedSessionId) {
+    return;
+  }
+
+  try {
+    loggedStudent = JSON.parse(savedStudent);
+  } catch (e) {
+    localStorage.removeItem("af_logged_student");
+    localStorage.removeItem("af_session_id");
+    return;
+  }
+
+  await verifyActiveSession();
+
+  const stillLoggedIn = localStorage.getItem("af_logged_student");
+
+  if (!stillLoggedIn) {
+    return;
+  }
+
+  const studentLoginBox = document.getElementById("studentLoginBox");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+
+  if (studentLoginBox) studentLoginBox.style.display = "none";
+  if (courseSelectBox) courseSelectBox.style.display = "block";
+
+  const welcomeText = document.getElementById("studentWelcomeText");
+  if (welcomeText && loggedStudent) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
+
+  await fetchStudentCourses();
+
+  showToast("Welcome Back", "You are already logged in.");
 }
 
 /* ---------------- STUDENT LOGIN ---------------- */
