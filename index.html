@@ -3737,6 +3737,354 @@ body.light-mode .time-box span {
 #adminChaptersBox .link-btn {
   margin-bottom: 0 !important;
 }
+
+    /* =========================================================
+   HOME CLEAN LAYOUT + IMAGE BANNER + MOVING TEXT
+   Paste at VERY END of CSS
+========================================================= */
+
+/* Home spacing */
+#home.section {
+  margin: 0 !important;
+}
+
+.home-login-actions {
+  margin: 16px !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+.home-login-actions .action-card {
+  min-height: 128px !important;
+  padding: 16px !important;
+  border-radius: 24px !important;
+}
+
+.home-login-actions .action-card .icon {
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 16px !important;
+  font-size: 21px !important;
+}
+
+.home-login-actions .action-card h3 {
+  font-size: 17px !important;
+  margin: 12px 0 5px !important;
+}
+
+.home-login-actions .action-card p {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+/* Banner slider */
+.home-banner-slider {
+  position: relative !important;
+  margin: 0 16px 14px !important;
+  height: 210px !important;
+  border-radius: 28px !important;
+  overflow: hidden !important;
+  background: #0b1220 !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16) !important;
+}
+
+.banner-slide {
+  position: absolute !important;
+  inset: 0 !important;
+  opacity: 0 !important;
+  transform: scale(1.02) !important;
+  transition: opacity 0.55s ease, transform 0.55s ease !important;
+  pointer-events: none !important;
+}
+
+.banner-slide.active {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  pointer-events: auto !important;
+}
+
+.banner-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.banner-slide::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.68)),
+    linear-gradient(90deg, rgba(0,0,0,0.58), rgba(0,0,0,0.10)) !important;
+  z-index: 1 !important;
+}
+
+.banner-overlay {
+  position: absolute !important;
+  left: 16px !important;
+  right: 16px !important;
+  bottom: 28px !important;
+  z-index: 2 !important;
+  color: #ffffff !important;
+}
+
+.banner-overlay span {
+  display: inline-flex !important;
+  padding: 6px 9px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.18) !important;
+  border: 1px solid rgba(255,255,255,0.24) !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  margin-bottom: 8px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.banner-overlay h2 {
+  margin: 0 0 6px !important;
+  color: #ffffff !important;
+  font-size: 25px !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.6px !important;
+  text-shadow: 0 3px 14px rgba(0,0,0,0.58) !important;
+}
+
+.banner-overlay p {
+  margin: 0 !important;
+  color: rgba(255,255,255,0.9) !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+  max-width: 92% !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
+}
+
+.banner-dots {
+  position: absolute !important;
+  left: 16px !important;
+  bottom: 12px !important;
+  z-index: 3 !important;
+  display: flex !important;
+  gap: 7px !important;
+}
+
+.banner-dot {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  background: rgba(255,255,255,0.48) !important;
+  cursor: pointer !important;
+}
+
+.banner-dot.active {
+  width: 22px !important;
+  background: #ffffff !important;
+}
+
+/* Moving text banner */
+.moving-text-banner {
+  margin: 0 16px 14px !important;
+  height: 46px !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  background: rgba(255,255,255,0.08) !important;
+}
+
+.moving-text-track {
+  display: flex !important;
+  align-items: center !important;
+  gap: 26px !important;
+  white-space: nowrap !important;
+  animation: academeMarquee 18s linear infinite !important;
+  padding-left: 100% !important;
+}
+
+.moving-text-track span {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: var(--text) !important;
+}
+
+@keyframes academeMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Extra actions */
+.home-extra-actions {
+  margin: 0 16px 16px !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+}
+
+.home-extra-actions .wide {
+  grid-column: span 1 !important;
+  min-height: 96px !important;
+  border-radius: 24px !important;
+}
+
+/* Light mode readability */
+body.light-mode .home-banner-slider {
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12) !important;
+}
+
+body.light-mode .moving-text-banner {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.light-mode .moving-text-track span {
+  color: #0f172a !important;
+}
+
+/* Dark mode */
+body.dark-mode .moving-text-banner {
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+body.dark-mode .moving-text-track span {
+  color: #f8fafc !important;
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .home-login-actions .action-card {
+    min-height: 118px !important;
+    padding: 14px !important;
+  }
+
+  .home-banner-slider {
+    height: 190px !important;
+    border-radius: 24px !important;
+  }
+
+  .banner-overlay h2 {
+    font-size: 22px !important;
+  }
+
+  .banner-overlay p {
+    font-size: 11.5px !important;
+  }
+
+  .moving-text-banner {
+    height: 42px !important;
+  }
+}
+    /* =========================================================
+   BANNER ORIGINAL IMAGE + EXTRA HIGHLIGHT
+   Paste at VERY END of CSS
+========================================================= */
+
+/* Dark overlay almost remove */
+.banner-slide::after {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.08)),
+    linear-gradient(90deg, rgba(0,0,0,0.08), rgba(0,0,0,0.00)) !important;
+}
+
+/* Image ko original se thoda premium highlight */
+.banner-slide img {
+  filter: brightness(1.12) contrast(1.08) saturate(1.16) !important;
+  transform: scale(1.01) !important;
+}
+
+/* Text image ko dark kiye bina readable */
+.banner-overlay {
+  left: 12px !important;
+  right: 12px !important;
+  bottom: 12px !important;
+
+  background: rgba(5, 8, 22, 0.38) !important;
+  border: 1px solid rgba(255,255,255,0.24) !important;
+  border-radius: 18px !important;
+  padding: 11px 12px !important;
+
+  backdrop-filter: blur(7px) !important;
+  -webkit-backdrop-filter: blur(7px) !important;
+}
+
+/* Text clear */
+.banner-overlay span {
+  background: rgba(255,255,255,0.18) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
+  margin-bottom: 7px !important;
+}
+
+.banner-overlay h2 {
+  color: #ffffff !important;
+  text-shadow:
+    0 2px 8px rgba(0,0,0,0.75),
+    0 0 14px rgba(255,255,255,0.16) !important;
+}
+
+.banner-overlay p {
+  color: rgba(255,255,255,0.94) !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.75) !important;
+}
+
+/* Light mode me bhi banner image same highlight rahe */
+body.light-mode .banner-slide img {
+  filter: brightness(1.12) contrast(1.08) saturate(1.16) !important;
+}
+
+/* Dark mode me thoda aur glow feel */
+body.dark-mode .home-banner-slider {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 16px 38px rgba(0,0,0,0.38),
+    0 0 30px rgba(56,189,248,0.08) !important;
+}
+    .banner-overlay {
+  display: none !important;
+}
+
+.banner-slide::after {
+  display: none !important;
+}
+
+.banner-slide img {
+  filter: brightness(1.08) contrast(1.06) saturate(1.12) !important;
+  transform: none !important;
+}
+
+.home-banner-slider {
+  height: 190px !important;
+  background: transparent !important;
+}
+
+.banner-dots {
+  left: 50% !important;
+  bottom: 10px !important;
+  transform: translateX(-50%) !important;
+}
+
+.banner-dot {
+  background: rgba(255,255,255,0.55) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35) !important;
+}
+
+.banner-dot.active {
+  background: #ffffff !important;
+}
+    .moving-text-track {
+  animation-duration: 32s !important;
+}
   </style>
 </head>
 
@@ -3772,63 +4120,88 @@ body.light-mode .time-box span {
 
     </header>
 
-    <section id="home" class="section active">
-      <div class="hero glass">
-        <div class="tag">🚧 App Preview Build</div>
-        <h2>AcademeForge App is under development.</h2>
-        <p>
-          A premium student-first learning space is being prepared for practical skills,
-          clarity, discipline, and real-world growth.
-        </p>
+   <section id="home" class="section active">
 
-        <div class="notice">
-          <b>Development Notice:</b> This is an early app version. Student login, office login,
-          learning dashboard, and notification features are being improved step by step.
-        </div>
+ <!-- IMAGE BANNER SLIDER -->
+<div class="home-banner-slider glass">
+  <div class="banner-slide active">
+    <img src="banner1.jpg.png" alt="AcademeForge Banner 1">
+  </div>
 
-        <span class="dev-badge">Version 09.01.2024 Preview</span>
+  <div class="banner-slide">
+    <img src="banner2.jpg.png" alt="AcademeForge Banner 2">
+  </div>
+
+  <div class="banner-slide">
+    <img src="banner3.jpg.png" alt="AcademeForge Banner 3">
+  </div>
+
+  <div class="banner-dots">
+    <button class="banner-dot active" onclick="goToBannerSlide(0)" aria-label="Banner 1"></button>
+    <button class="banner-dot" onclick="goToBannerSlide(1)" aria-label="Banner 2"></button>
+    <button class="banner-dot" onclick="goToBannerSlide(2)" aria-label="Banner 3"></button>
+  </div>
+</div>
+     
+    <div class="banner-dots">
+      <button class="banner-dot active" onclick="goToBannerSlide(0)" aria-label="Banner 1"></button>
+      <button class="banner-dot" onclick="goToBannerSlide(1)" aria-label="Banner 2"></button>
+      <button class="banner-dot" onclick="goToBannerSlide(2)" aria-label="Banner 3"></button>
+    </div>
+  </div>
+
+  <!-- MOVING TEXT BANNER -->
+  <div class="moving-text-banner glass">
+    <div class="moving-text-track">
+      <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
+      <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
+      <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
+      <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
+      <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
+      <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
+    </div>
+  </div>
+
+       <!-- TOP LOGIN BUTTONS -->
+  <div class="actions home-login-actions">
+    <button class="action-card glass" onclick="showSection('student')">
+      <div class="icon">🎓</div>
+      <div>
+        <h3>Student Login</h3>
+        <p>Access course dashboard and learning tools.</p>
       </div>
+    </button>
 
-      <div class="ticker glass">
-        <span>🔔</span>
-        <p id="tickerText">Welcome to AcademeForge. Stay consistent, keep learning, and build skills with clarity.</p>
+    <button class="action-card glass" onclick="showSection('office')">
+      <div class="icon">🏢</div>
+      <div>
+        <h3>Office Login</h3>
+        <p>For team, office, management, and internal operations.</p>
       </div>
+    </button>
+  </div>
 
-      <div class="actions">
-        <button class="action-card glass" onclick="showSection('student')">
-          <div class="icon">🎓</div>
-          <div>
-            <h3>Student Login</h3>
-            <p>Access course dashboard and learning tools.</p>
-          </div>
-        </button>
-
-        <button class="action-card glass" onclick="showSection('office')">
-          <div class="icon">🏢</div>
-          <div>
-            <h3>Office Login</h3>
-            <p>For team, office, management, and internal operations.</p>
-          </div>
-        </button>
-
-        <button class="action-card glass wide" onclick="showSection('explore')">
-          <div class="icon">✨</div>
-          <div>
-            <h3>Explore Without Login</h3>
-            <p>Read about AcademeForge, courses, programs, AST, and contact details.</p>
-          </div>
-        </button>
-
-        <button class="action-card glass wide" onclick="showSection('management')">
-          <div class="icon">👥</div>
-          <div>
-            <h3>Management & Team</h3>
-            <p>Know the people behind AcademeForge and their roles.</p>
-          </div>
-        </button>
+  <!-- EXPLORE + TEAM -->
+  <div class="actions home-extra-actions">
+    <button class="action-card glass wide" onclick="showSection('explore')">
+      <div class="icon">✨</div>
+      <div>
+        <h3>Explore Without Login</h3>
+        <p>Read about AcademeForge, courses, programs, AST, and contact details.</p>
       </div>
-    </section>
+    </button>
 
+    <button class="action-card glass wide" onclick="showSection('management')">
+      <div class="icon">👥</div>
+      <div>
+        <h3>Management & Team</h3>
+        <p>Know the people behind AcademeForge and their roles.</p>
+      </div>
+    </button>
+  </div>
+
+</section>
+    
     <section id="student" class="section">
   <div class="panel glass" id="studentLoginBox">
     <h2>🎓 Student Login</h2>
@@ -7114,6 +7487,45 @@ function toggleThemeMode() {
 document.addEventListener("DOMContentLoaded", function () {
   const savedMode = localStorage.getItem("academeThemeMode") || "dark-mode";
   applyThemeMode(savedMode);
+});
+
+  let currentBannerSlide = 0;
+let bannerSlideTimer = null;
+
+function showBannerSlide(index) {
+  const slides = document.querySelectorAll(".banner-slide");
+  const dots = document.querySelectorAll(".banner-dot");
+
+  if (!slides.length) return;
+
+  currentBannerSlide = (index + slides.length) % slides.length;
+
+  slides.forEach(function(slide, i) {
+    slide.classList.toggle("active", i === currentBannerSlide);
+  });
+
+  dots.forEach(function(dot, i) {
+    dot.classList.toggle("active", i === currentBannerSlide);
+  });
+}
+
+function nextBannerSlide() {
+  showBannerSlide(currentBannerSlide + 1);
+}
+
+function goToBannerSlide(index) {
+  showBannerSlide(index);
+  startBannerSlider();
+}
+
+function startBannerSlider() {
+  if (bannerSlideTimer) clearInterval(bannerSlideTimer);
+  bannerSlideTimer = setInterval(nextBannerSlide, 3500);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  showBannerSlide(0);
+  startBannerSlider();
 });
   
 </script>
