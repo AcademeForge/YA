@@ -2608,7 +2608,24 @@ function resetAdminCourseForm() {
   const title = document.getElementById("courseFormTitle");
   if (title) title.textContent = "Add New Course";
 }
+  
+function hideAllAdminBoxes() {
+  const boxes = [
+    "adminStudentsBox",
+    "adminCoursesBox",
+    "adminAssignCourseBox",
+    "adminLecturesBox"
+  ];
 
+  boxes.forEach(function(boxId) {
+    const box = document.getElementById(boxId);
+
+    if (box) {
+      box.style.display = "none";
+      box.classList.add("hidden-box");
+    }
+  });
+}
 /* ---------------- ADMIN LECTURE MANAGEMENT ---------------- */
 
 async function openAdminLectures() {
