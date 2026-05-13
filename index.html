@@ -747,29 +747,99 @@ html, body {
     </section>
 
     <section id="student" class="section">
-      <div class="panel glass">
-        <h2>🎓 Student Login</h2>
-        <p>Login system is currently in development. This preview keeps the interface ready for future student dashboard.</p>
+  <div class="panel glass" id="studentLoginBox">
+    <h2>🎓 Student Login</h2>
+    <p>Login with your Student ID and password to access AF Nexus learning dashboard.</p>
 
-        <div class="input-group">
-          <label>Student ID / Mobile Number</label>
-          <input type="text" placeholder="Enter Student ID" />
-        </div>
+    <div class="input-group">
+      <label>Student ID</label>
+      <input id="studentId" type="text" placeholder="Example: AF2025001" />
+    </div>
 
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" placeholder="Enter Password" />
-        </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input id="studentPassword" type="password" placeholder="Enter Password" />
+    </div>
 
-        <button class="link-btn" onclick="demoLogin('Student')">Login Preview</button>
+    <button class="link-btn" onclick="studentLogin()">Login</button>
 
-        <div class="login-note">
-          Future features: course progress, class updates, tasks, certificates, AST updates,
-          notices, and learning resources.
-        </div>
-      </div>
-    </section>
+    <div class="login-note">
+      Demo login enabled for preview build. Real student authentication will be connected later.
+    </div>
+  </div>
 
+  <div class="panel glass hidden-box" id="courseSelectBox">
+    <h2>📚 Select Course</h2>
+    <p>Choose your enrolled learning program.</p>
+
+    <div class="course-select-grid" id="courseCards"></div>
+  </div>
+
+  <div class="panel glass hidden-box" id="courseDetailsBox">
+    <button class="back-mini" onclick="backToCourses()">← Back to Courses</button>
+
+    <h2 id="courseTitle">Course Name</h2>
+    <p id="courseIntro">Course intro will appear here.</p>
+
+    <div class="course-info-box">
+      <h3>📌 Course Details</h3>
+      <p id="courseDetails"></p>
+    </div>
+
+    <div class="course-info-box">
+      <h3>🧾 Syllabus</h3>
+      <ul id="courseSyllabus"></ul>
+    </div>
+
+    <div class="course-info-box">
+      <h3>🏫 Facilities</h3>
+      <ul id="courseFacilities"></ul>
+    </div>
+
+    <button class="link-btn" onclick="startLearning()">Start Learning</button>
+  </div>
+
+  <div class="panel glass hidden-box" id="learningBox">
+    <button class="back-mini" onclick="backToCourseDetails()">← Back to Course</button>
+
+    <h2 id="learningTitle">Start Learning</h2>
+    <p>Select what you want to access.</p>
+
+    <div class="learning-choice">
+      <button class="learning-btn" onclick="openLearningMode('lectures')">
+        <span>🎥</span>
+        <strong>Lectures</strong>
+        <small>Chapter-wise video lecture list</small>
+      </button>
+
+      <button class="learning-btn" onclick="openLearningMode('notes')">
+        <span>📝</span>
+        <strong>Notes</strong>
+        <small>Chapter-wise study notes list</small>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel glass hidden-box" id="chapterBox">
+    <button class="back-mini" onclick="backToLearning()">← Back</button>
+
+    <h2 id="chapterModeTitle">Lectures</h2>
+    <p>Select a chapter to continue.</p>
+
+    <div class="chapter-list" id="chapterList"></div>
+  </div>
+
+  <div class="panel glass hidden-box" id="contentBox">
+    <button class="back-mini" onclick="backToChapters()">← Back to Chapters</button>
+
+    <h2 id="contentTitle">Chapter Content</h2>
+    <p id="contentSubtitle">Select and study one by one.</p>
+
+    <div class="content-list" id="contentList"></div>
+  </div>
+</section>
+
+      
     <section id="office" class="section">
       <div class="panel glass">
         <h2>🏢 Office Login</h2>
