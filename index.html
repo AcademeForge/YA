@@ -1115,6 +1115,12 @@ html, body {
   <h3>Chapters</h3>
   <p>Add, view, edit, and delete course chapters.</p>
 </button>
+
+     <button class="course-select-card" onclick="openAdminTeam()">
+  <span>👥</span>
+  <h3>Team</h3>
+  <p>Add, edit, activate/inactivate team members.</p>
+</button>
     </div>
 
     <!-- STUDENT MANAGEMENT -->
@@ -1166,7 +1172,70 @@ html, body {
         </div>
       </div>
     </div>
+    
+<!-- TEAM MANAGEMENT -->
+<div class="admin-manage-box hidden-box" id="adminTeamBox" style="display:none;">
+  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+    <div>
+      <h3>👥 Team Management</h3>
+      <p>Add, view, edit, activate/inactivate team members.</p>
+    </div>
 
+    <button class="back-mini" onclick="closeAdminTeam()">Back</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3 id="teamFormTitle">Add New Team Member</h3>
+
+    <input type="hidden" id="adminTeamEditId">
+
+    <div class="input-group">
+      <label>Name</label>
+      <input id="teamNameInput" type="text" placeholder="Team member name">
+    </div>
+
+    <div class="input-group">
+      <label>Role / Position</label>
+      <input id="teamRoleInput" type="text" placeholder="Example: Founder, Mentor, Designer">
+    </div>
+
+    <div class="input-group">
+      <label>Photo URL</label>
+      <input id="teamPhotoInput" type="text" placeholder="Paste image URL">
+    </div>
+
+    <div class="input-group">
+      <label>Bio</label>
+      <textarea id="teamBioInput" placeholder="Short bio" rows="4"></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Instagram URL</label>
+      <input id="teamInstagramInput" type="text" placeholder="Instagram profile link">
+    </div>
+
+    <div class="input-group">
+      <label>LinkedIn URL</label>
+      <input id="teamLinkedinInput" type="text" placeholder="LinkedIn profile link">
+    </div>
+
+    <div class="input-group">
+      <label>Display Order</label>
+      <input id="teamOrderInput" type="number" placeholder="Example: 1">
+    </div>
+
+    <button class="link-btn" onclick="saveAdminTeamMember()">Save Team Member</button>
+    <button class="back-mini" onclick="resetAdminTeamForm()">Clear</button>
+  </div>
+
+  <div class="course-info-box">
+    <h3>All Team Members</h3>
+    <div id="adminTeamList" class="admin-list-box">
+      Loading team members...
+    </div>
+  </div>
+</div>
+    
     <!-- CHAPTER MANAGEMENT -->
 <div class="admin-manage-box hidden-box" id="adminChaptersBox" style="display:none;">
   <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
@@ -1518,12 +1587,15 @@ html, body {
 
     <section id="management" class="section">
       <div class="panel glass">
+        
         <h2>👥 Management & Team</h2>
         <p>
           AcademeForge is powered by young innovators and learners working to build a better
           student-first learning experience.
         </p>
-
+<div id="teamMembersGrid">
+  <div class="login-note">Loading team members...</div>
+</div>
         <div class="team">
           <div class="member">
             <div class="avatar">D</div>
@@ -3517,7 +3589,224 @@ async function deleteAdminNote(noteId) {
   showToast("Note Deleted", "Note deleted successfully.");
   await fetchAdminNotes();
 }
-  
+/* ---------------- ADMIN TEAM MANAGEMENT ---------------- */
+
+async function openAdminTeam() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminTeamBox");
+
+  if (!box) {
+    showToast("Error", "Team box not found in HTML.");
+    return;
+  }
+
+  if (quickActions) quickActions.style.display = "none";
+
+  if (typeof hideAllAdminBoxes === "function") {
+    hideAllAdminBoxes();
+  }
+
+  box.classList.remove("hidden-box");
+  box.style.display = "block";
+
+  await fetchAdminTeamMembers();
+}
+
+function closeAdminTeam() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const box = document.getElementById("adminTeamBox");
+
+  if (box) {
+    box.style.display = "none";
+    box.classList.add("hidden-box");
+  }
+
+  if (quickActions) quickActions.style.display = "grid";
+}
+
+async function saveAdminTeamMember() {
+  const editId = document.getElementById("adminTeamEditId").value;
+  const name = document.getElementById("teamNameInput").value.trim();
+  const role = document.getElementById("teamRoleInput").value.trim();
+  const photoUrl = document.getElementById("teamPhotoInput").value.trim();
+  const bio = document.getElementById("teamBioInput").value.trim();
+  const instagramUrl = document.getElementById("teamInstagramInput").value.trim();
+  const linkedinUrl = document.getElementById("teamLinkedinInput").value.trim();
+  const displayOrder = document.getElementById("teamOrderInput").value.trim();
+
+  if (!name) {
+    showToast("Missing Details", "Team member name is required.");
+    return;
+  }
+
+  const payload = {
+    name: name,
+    role: role || null,
+    photo_url: photoUrl || null,
+    bio: bio || null,
+    instagram_url: instagramUrl || null,
+    linkedin_url: linkedinUrl || null,
+    display_order: displayOrder ? Number(displayOrder) : 0,
+    status: "active"
+  };
+
+  let result;
+
+  if (editId) {
+    result = await db
+      .from("team_members")
+      .update(payload)
+      .eq("id", editId);
+  } else {
+    result = await db
+      .from("team_members")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    console.log("Team save error:", result.error);
+    showToast("Error", "Team member could not be saved.");
+    return;
+  }
+
+  showToast("Team Saved", "Team member saved successfully.");
+
+  resetAdminTeamForm();
+  await fetchAdminTeamMembers();
+  await loadTeamMembers();
+}
+
+async function fetchAdminTeamMembers() {
+  const list = document.getElementById("adminTeamList");
+
+  if (!list) return;
+
+  list.innerHTML = "Loading team members...";
+
+  const { data, error } = await db
+    .from("team_members")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  if (error) {
+    console.log("Team fetch error:", error);
+    list.innerHTML = "<div class='login-note'>Team members could not be loaded.</div>";
+    return;
+  }
+
+  renderAdminTeamMembers(data || []);
+}
+
+function renderAdminTeamMembers(members) {
+  const list = document.getElementById("adminTeamList");
+
+  if (!list) return;
+
+  if (!members.length) {
+    list.innerHTML = "<div class='login-note'>No team members found.</div>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  members.forEach(function(member) {
+    const card = document.createElement("div");
+    card.className = "admin-student-card";
+
+    card.innerHTML = `
+      <div>
+        <h3>${member.name}</h3>
+        <p><b>Role:</b> ${member.role || "-"}</p>
+        <p><b>Bio:</b> ${member.bio || "-"}</p>
+        <p><b>Photo:</b> ${member.photo_url || "-"}</p>
+        <p><b>Instagram:</b> ${member.instagram_url || "-"}</p>
+        <p><b>LinkedIn:</b> ${member.linkedin_url || "-"}</p>
+        <p><b>Order:</b> ${member.display_order || 0}</p>
+        <p><b>Status:</b> ${member.status || "-"}</p>
+      </div>
+
+      <div class="admin-action-row">
+        <button class="back-mini" onclick="editAdminTeamMember('${member.id}', '${escapeForJs(member.name)}', '${escapeForJs(member.role || "")}', '${escapeForJs(member.photo_url || "")}', '${escapeForJs(member.bio || "")}', '${escapeForJs(member.instagram_url || "")}', '${escapeForJs(member.linkedin_url || "")}', '${member.display_order || 0}')">Edit</button>
+
+        <button class="back-mini" onclick="toggleTeamStatus('${member.id}', '${member.status}')">
+          ${member.status === "active" ? "Deactivate" : "Activate"}
+        </button>
+
+        <button class="back-mini" onclick="deleteAdminTeamMember('${member.id}')">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+function editAdminTeamMember(id, name, role, photoUrl, bio, instagramUrl, linkedinUrl, displayOrder) {
+  document.getElementById("adminTeamEditId").value = id;
+  document.getElementById("teamNameInput").value = name;
+  document.getElementById("teamRoleInput").value = role;
+  document.getElementById("teamPhotoInput").value = photoUrl;
+  document.getElementById("teamBioInput").value = bio;
+  document.getElementById("teamInstagramInput").value = instagramUrl;
+  document.getElementById("teamLinkedinInput").value = linkedinUrl;
+  document.getElementById("teamOrderInput").value = displayOrder;
+
+  const formTitle = document.getElementById("teamFormTitle");
+  if (formTitle) formTitle.textContent = "Edit Team Member";
+}
+
+function resetAdminTeamForm() {
+  document.getElementById("adminTeamEditId").value = "";
+  document.getElementById("teamNameInput").value = "";
+  document.getElementById("teamRoleInput").value = "";
+  document.getElementById("teamPhotoInput").value = "";
+  document.getElementById("teamBioInput").value = "";
+  document.getElementById("teamInstagramInput").value = "";
+  document.getElementById("teamLinkedinInput").value = "";
+  document.getElementById("teamOrderInput").value = "";
+
+  const formTitle = document.getElementById("teamFormTitle");
+  if (formTitle) formTitle.textContent = "Add New Team Member";
+}
+
+async function toggleTeamStatus(memberId, currentStatus) {
+  const newStatus = currentStatus === "active" ? "inactive" : "active";
+
+  const { error } = await db
+    .from("team_members")
+    .update({ status: newStatus })
+    .eq("id", memberId);
+
+  if (error) {
+    console.log("Team status error:", error);
+    showToast("Error", "Team status could not be updated.");
+    return;
+  }
+
+  showToast("Status Updated", "Team member is now " + newStatus + ".");
+  await fetchAdminTeamMembers();
+  await loadTeamMembers();
+}
+
+async function deleteAdminTeamMember(memberId) {
+  const confirmDelete = confirm("Delete this team member?");
+
+  if (!confirmDelete) return;
+
+  const { error } = await db
+    .from("team_members")
+    .delete()
+    .eq("id", memberId);
+
+  if (error) {
+    console.log("Team delete error:", error);
+    showToast("Error", "Team member could not be deleted.");
+    return;
+  }
+
+  showToast("Team Deleted", "Team member deleted successfully.");
+  await fetchAdminTeamMembers();
+  await loadTeamMembers();
+}
 /* ---------------- COURSE SYSTEM ---------------- */
 
 async function fetchStudentCourses() {
