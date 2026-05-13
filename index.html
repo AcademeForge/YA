@@ -4085,6 +4085,29 @@ body.dark-mode .home-banner-slider {
     .moving-text-track {
   animation-duration: 32s !important;
 }
+    /* =========================================================
+   TEAM FORM SAVE + CLEAR BUTTON GAP FIX
+   Paste at VERY END of CSS
+========================================================= */
+
+#adminTeamBox .link-btn + .back-mini,
+#teamManagementBox .link-btn + .back-mini,
+#adminTeamMembersBox .link-btn + .back-mini {
+  margin-top: 10px !important;
+  margin-left: 0 !important;
+  width: 100% !important;
+
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+#adminTeamBox .link-btn,
+#teamManagementBox .link-btn,
+#adminTeamMembersBox .link-btn {
+  margin-bottom: 0 !important;
+}
+    
   </style>
 </head>
 
