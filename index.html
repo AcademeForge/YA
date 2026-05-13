@@ -1814,6 +1814,28 @@ history.pushState(null, "", location.href);
 window.addEventListener("load", function() {
   checkSavedLogin();
 });
+
+async function checkSavedLogin() {
+  const savedStudent = localStorage.getItem("af_logged_student");
+
+  if (!savedStudent) {
+    return;
+  }
+
+  loggedStudent = JSON.parse(savedStudent);
+
+  document.getElementById("studentLoginBox").style.display = "none";
+  document.getElementById("courseSelectBox").style.display = "block";
+
+  const welcomeText = document.getElementById("studentWelcome");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome, " + loggedStudent.name;
+  }
+
+  const studentId = loggedStudent.student_id || loggedStudent.id;
+
+  await loadStudentCourses(studentId);
+}
   </script>
 </body>
 </html>
