@@ -2678,6 +2678,14 @@ function hideAllAdminBoxes() {
     }
   });
 }
+
+  function escapeForJs(value) {
+  return String(value || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "&quot;")
+    .replace(/\n/g, " ");
+}
   
 /* ---------------- ADMIN LECTURE MANAGEMENT ---------------- */
 
