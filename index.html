@@ -2136,6 +2136,7 @@ history.pushState(null, "", location.href);
 
 window.addEventListener("load", function() {
   checkSavedLogin();
+  checkSavedAdminLogin();
 });
 
 document.addEventListener("visibilitychange", function() {
@@ -2156,6 +2157,8 @@ setInterval(function() {
     verifyActiveSession();
   }
 }, 10000);
+
 </script>
+
 </body>
 </html>
