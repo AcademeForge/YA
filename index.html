@@ -4410,6 +4410,30 @@ body.light-mode .notification-new-badge {
   color: #ffffff !important;
   box-shadow: 0 0 14px rgba(220, 38, 38, 0.45) !important;
 }
+    .nav-notify-wrap {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.nav-new-dot {
+  position: absolute !important;
+  top: -8px !important;
+  right: -16px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 5px !important;
+  border-radius: 999px !important;
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  line-height: 18px !important;
+  text-align: center !important;
+  box-shadow: 0 0 12px rgba(239,68,68,0.55) !important;
+  animation: newBlink 1s infinite ease-in-out !important;
+}
   </style>
 </head>
 
@@ -5300,10 +5324,10 @@ body.light-mode .notification-new-badge {
         Explore
       </button>
       
-   <button class="nav-btn" onclick="showSection('notifications')">
-     <b>🔔</b>
-      Notify
-  </button>
+  <button class="nav-btn" data-section="notifications" onclick="showSection('notifications')">
+  <b class="nav-notify-wrap">🔔</b>
+  <span>Notify</span>
+</button>
     </nav>
 
   </main>
@@ -8057,7 +8081,9 @@ async function postAdminNotification() {
   loadAppNotifications();
 }
 
+  
 /* Load notifications for Notify section and home ticker */
+  
 async function loadAppNotifications() {
   const listBox = document.getElementById("notificationsList");
   const tickerText = document.getElementById("tickerText");
@@ -8074,7 +8100,7 @@ async function loadAppNotifications() {
 
     if (listBox) {
       listBox.innerHTML = `
-        <div class="login-note">
+        <div class="notification-empty">
           Notifications could not be loaded.
         </div>
       `;
@@ -8094,7 +8120,7 @@ async function loadAppNotifications() {
 
   if (!data || data.length === 0) {
     listBox.innerHTML = `
-      <div class="login-note">
+      <div class="notification-empty">
         No notifications yet.
       </div>
     `;
@@ -8104,8 +8130,10 @@ async function loadAppNotifications() {
   }
 
   listBox.innerHTML = data.map(function(item, index) {
+    const latestClass = index === 0 ? "latest-notification" : "";
+
     const newBadge = index === 0
-      ? `<span class="new-dot-badge">NEW</span>`
+      ? `<span class="notification-new-badge">NEW</span>`
       : "";
 
     const dateText = item.created_at
@@ -8124,52 +8152,54 @@ async function loadAppNotifications() {
       : "";
 
     return `
-      <div class="notification-card">
-        <div class="notification-card-top">
-          <span class="notification-type">${escapeHTML(item.type || "General")}</span>
-          ${newBadge}
+      <div class="notification-item ${latestClass}">
+        <div class="notification-top-row">
+          <span class="notification-badge">${escapeHTML(item.type || "General")}</span>
+
+          <div class="notification-right-tags">
+            ${newBadge}
+            <span class="notification-batch">${escapeHTML(item.batch || "All")}</span>
+          </div>
         </div>
 
-        <h3 class="notification-title">${escapeHTML(item.title || "Notification")}</h3>
-
-        <p class="notification-message">${escapeHTML(item.message || "")}</p>
-
-        <div class="notification-bottom">
-          <span>${escapeHTML(item.batch || "All")}</span>
-          <span>${dateText} ${timeText}</span>
-        </div>
+        <h3>${escapeHTML(item.title || "Notification")}</h3>
+        <p>${escapeHTML(item.message || "")}</p>
+        <small>${dateText} ${timeText}</small>
       </div>
     `;
   }).join("");
 
   updateNotifyBadge(data);
 }
+  
 /* Update bottom nav blinking NEW badge */
+
+  
 function updateNotifyBadge(data) {
   const notifyBtn = document.querySelector('.nav-btn[data-section="notifications"]');
 
   if (!notifyBtn) return;
 
-  let oldBadge = notifyBtn.querySelector(".new-dot-badge");
+  const oldBadge = notifyBtn.querySelector(".nav-new-dot");
   if (oldBadge) oldBadge.remove();
 
   if (data && data.length > 0) {
     const badge = document.createElement("span");
-    badge.className = "new-dot-badge";
+    badge.className = "nav-new-dot";
     badge.textContent = "NEW";
 
-    const icon = notifyBtn.querySelector("b");
+    const icon = notifyBtn.querySelector(".nav-notify-wrap") || notifyBtn.querySelector("b");
 
     if (icon) {
-      icon.style.position = "relative";
       icon.appendChild(badge);
     } else {
       notifyBtn.appendChild(badge);
     }
   }
 }
-
+  
 /* Escape HTML for safe rendering */
+
 function escapeHTML(value) {
   return String(value)
     .replaceAll("&", "&amp;")
