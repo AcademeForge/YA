@@ -5356,6 +5356,51 @@ body.dark .community-write-card input[type="file"],
   line-height: 1.75;
   word-break: break-word;
 }
+    /* COMMUNITY FILTER BUTTONS FIX */
+#community .community-feed-controls {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 22px 0 16px !important;
+}
+
+#community .community-feed-controls .community-filter-btn {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  height: 56px !important;
+  padding: 0 12px !important;
+  border-radius: 20px !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+/* Small mobile */
+@media (max-width: 430px) {
+  #community .community-feed-controls {
+    gap: 8px !important;
+  }
+
+  #community .community-feed-controls .community-filter-btn {
+    height: 52px !important;
+    font-size: 13px !important;
+    padding: 0 8px !important;
+  }
+}
+
+/* Very small mobile */
+@media (max-width: 360px) {
+  #community .community-feed-controls {
+    gap: 6px !important;
+  }
+
+  #community .community-feed-controls .community-filter-btn {
+    font-size: 12px !important;
+    padding: 0 6px !important;
+  }
+}
   </style>
 </head>
 
