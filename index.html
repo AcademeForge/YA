@@ -5382,8 +5382,17 @@ function showSection(sectionId) {
     activeButton.classList.add("active");
   }
 if (sectionId === "notifications") {
-  loadAppNotifications();
+  loadAppNotifications().then(function() {
+    const latestCard = document.querySelector(".notification-item");
+    const latestDataTime = window.latestNotificationTime || "";
+
+    if (latestDataTime) {
+      setSeenNotificationTime(latestDataTime);
+      updateNotifyBadge([]);
+    }
+  });
 }
+
   window.scrollTo({
     top: 0,
     behavior: "smooth"
@@ -8112,7 +8121,8 @@ async function loadAppNotifications() {
   if (tickerText && data && data.length > 0) {
     tickerText.textContent = "🔔 " + data[0].title + " — " + data[0].message;
   }
-
+window.latestNotificationTime = getLatestNotificationTime(data);
+  
   if (!listBox) {
     updateNotifyBadge(data);
     return;
@@ -8171,6 +8181,22 @@ async function loadAppNotifications() {
 
   updateNotifyBadge(data);
 }
+  /* Extra..... */
+
+  function getLatestNotificationTime(data) {
+  if (!data || data.length === 0) return "";
+
+  return data[0].created_at || data[0].id || "";
+}
+
+function getSeenNotificationTime() {
+  return localStorage.getItem("af_seen_notification_time") || "";
+}
+
+function setSeenNotificationTime(value) {
+  if (!value) return;
+  localStorage.setItem("af_seen_notification_time", value);
+}
   
 /* Update bottom nav blinking NEW badge */
 
@@ -8183,7 +8209,12 @@ function updateNotifyBadge(data) {
   const oldBadge = notifyBtn.querySelector(".nav-new-dot");
   if (oldBadge) oldBadge.remove();
 
-  if (data && data.length > 0) {
+  if (!data || data.length === 0) return;
+
+  const latestTime = getLatestNotificationTime(data);
+  const seenTime = getSeenNotificationTime();
+
+  if (latestTime && latestTime !== seenTime) {
     const badge = document.createElement("span");
     badge.className = "nav-new-dot";
     badge.textContent = "NEW";
