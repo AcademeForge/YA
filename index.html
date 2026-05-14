@@ -4209,172 +4209,115 @@ body.dark-mode .developer-credit-line small {
   line-height: 1.3 !important;
   margin: 5px 0 0 !important;
 }
-/* ================================
-   OFFICE NOTIFICATION MANAGEMENT
-================================ */
+   /* =========================================================
+   ADMIN NOTIFICATION + NOTIFY SECTION
+========================================================= */
 
 #notificationManageBox {
-  margin-top: 16px;
-  padding: 16px;
-  border-radius: 22px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
-  border: 1px solid var(--border);
+  margin-top: 16px !important;
+  padding: 16px !important;
+  border-radius: 22px !important;
 }
 
 #notificationManageBox h3 {
-  margin: 0 0 6px;
-  font-size: 17px;
-  line-height: 1.25;
+  margin: 0 0 6px !important;
+  font-size: 17px !important;
 }
 
 #notificationManageBox p {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 12.5px;
-  line-height: 1.5;
+  margin: 0 0 12px !important;
+  font-size: 12.5px !important;
+  color: var(--muted) !important;
 }
 
-#notificationManageBox .input-group {
-  margin: 12px 0;
+.input-group select {
+  width: 100% !important;
+  padding: 14px !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  background: rgba(255,255,255,0.08) !important;
+  color: var(--text) !important;
+  outline: none !important;
+  font-family: inherit !important;
 }
 
-#notificationManageBox .input-group label {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--muted);
+.input-group select option {
+  color: #111827 !important;
 }
 
-#notificationManageBox input,
-#notificationManageBox select {
-  width: 100%;
-  min-height: 48px;
-  padding: 13px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.08);
-  color: var(--text);
-  outline: none;
-  font-family: inherit;
-  font-size: 14px;
-}
-
-#notificationManageBox select {
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-#notificationManageBox select option {
-  color: #111827;
-}
-
-#notificationManageBox input::placeholder {
-  color: rgba(255,255,255,0.45);
-}
-
-/* Buttons row */
 .notification-action-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  align-items: center;
-  margin-top: 12px;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  margin-top: 12px !important;
 }
 
 .notification-action-row .link-btn {
-  margin-top: 0;
-  min-height: 46px;
-  border-radius: 16px;
-}
-
-/* Notification bottom nav badge */
-.nav-notify-wrap {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-new-dot {
-  position: absolute;
-  top: -7px;
-  right: -12px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 999px;
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 9px;
-  font-weight: 900;
-  line-height: 18px;
-  text-align: center;
-  box-shadow: 0 0 12px rgba(239,68,68,0.55);
-  animation: newBlink 1s infinite ease-in-out;
+  margin-top: 0 !important;
+  min-height: 46px !important;
 }
 
 /* Notification List */
 .notifications-list {
-  display: grid;
-  gap: 12px;
-  margin-top: 16px;
+  display: grid !important;
+  gap: 12px !important;
+  margin-top: 16px !important;
 }
 
 .notification-item {
-  padding: 14px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.13);
-  position: relative;
-  overflow: hidden;
+  padding: 14px !important;
+  border-radius: 20px !important;
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
 .notification-item.latest-notification {
-  border-color: rgba(239,68,68,0.35);
-  box-shadow: 0 0 22px rgba(239,68,68,0.12);
+  border-color: rgba(239,68,68,0.35) !important;
+  box-shadow: 0 0 22px rgba(239,68,68,0.12) !important;
 }
 
 .notification-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin-bottom: 8px !important;
 }
 
 .notification-right-tags {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
 }
 
 .notification-badge {
-  display: inline-flex;
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: rgba(248,199,92,0.15);
-  border: 1px solid rgba(248,199,92,0.32);
-  color: #f59e0b;
-  font-size: 11px;
-  font-weight: 900;
+  display: inline-flex !important;
+  padding: 5px 9px !important;
+  border-radius: 999px !important;
+  background: rgba(248,199,92,0.15) !important;
+  border: 1px solid rgba(248,199,92,0.32) !important;
+  color: #f59e0b !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
 }
 
 .notification-new-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.6px;
-  box-shadow: 0 0 14px rgba(239,68,68,0.55);
-  animation: newBlink 1s infinite ease-in-out;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.6px !important;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.55) !important;
+  animation: newBlink 1s infinite ease-in-out !important;
 }
 
 @keyframes newBlink {
@@ -4390,107 +4333,82 @@ body.dark-mode .developer-credit-line small {
 }
 
 .notification-batch {
-  font-size: 11px;
-  color: var(--muted);
+  font-size: 11px !important;
+  color: var(--muted) !important;
 }
 
 .notification-item h3 {
-  margin: 0 0 6px;
-  font-size: 15px;
-  color: var(--text);
+  margin: 0 0 6px !important;
+  font-size: 15px !important;
+  color: var(--text) !important;
 }
 
 .notification-item p {
-  margin: 0;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--muted);
+  margin: 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
+  color: var(--muted) !important;
 }
 
 .notification-item small {
-  display: block;
-  margin-top: 8px;
-  font-size: 11px;
-  color: var(--muted);
-  opacity: 0.85;
+  display: block !important;
+  margin-top: 8px !important;
+  font-size: 11px !important;
+  color: var(--muted) !important;
+  opacity: 0.85 !important;
 }
 
 .notification-empty {
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: var(--muted);
-  font-size: 13px;
+  padding: 14px !important;
+  border-radius: 18px !important;
+  background: rgba(255,255,255,0.07) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  color: var(--muted) !important;
+  font-size: 13px !important;
 }
 
 /* Light mode */
-body.light-mode #notificationManageBox {
-  background: #ffffff;
-  border: 1px solid rgba(15,23,42,0.12);
-}
-
-body.light-mode #notificationManageBox input,
-body.light-mode #notificationManageBox select {
-  background: #f8fafc;
-  color: #111827;
-  border: 1px solid rgba(15,23,42,0.16);
-}
-
-body.light-mode #notificationManageBox input::placeholder {
-  color: rgba(15,23,42,0.45);
-}
-
-body.light-mode #notificationManageBox .input-group label,
-body.light-mode #notificationManageBox p {
-  color: #4b5563;
-}
-
+body.light-mode #notificationManageBox,
 body.light-mode .notification-item,
 body.light-mode .notification-empty {
-  background: #ffffff;
-  border: 1px solid #dbe3ee;
-  box-shadow: 0 10px 26px rgba(15,23,42,0.06);
+  background: #ffffff !important;
+  border: 1px solid #dbe3ee !important;
+  box-shadow: 0 10px 26px rgba(15,23,42,0.06) !important;
 }
 
 body.light-mode .notification-item.latest-notification {
-  border-color: rgba(220,38,38,0.35);
-  box-shadow: 0 0 18px rgba(220,38,38,0.10);
+  border-color: rgba(220,38,38,0.35) !important;
+  box-shadow: 0 0 18px rgba(220,38,38,0.10) !important;
 }
 
+body.light-mode #notificationManageBox p,
 body.light-mode .notification-item p,
 body.light-mode .notification-item small,
 body.light-mode .notification-batch,
 body.light-mode .notification-empty {
-  color: #475569;
+  color: #475569 !important;
 }
 
 body.light-mode .notification-item h3 {
-  color: #0f172a;
+  color: #0f172a !important;
+}
+
+body.light-mode .input-group select {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
 }
 
 body.light-mode .notification-badge {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  color: #ea580c;
+  background: #fff7ed !important;
+  border: 1px solid #fed7aa !important;
+  color: #ea580c !important;
 }
 
-body.light-mode .notification-new-badge,
-body.light-mode .nav-new-dot {
-  background: #dc2626;
-  color: #ffffff;
-  box-shadow: 0 0 14px rgba(220,38,38,0.45);
-}
-
-/* Mobile small screen */
-@media (max-width: 360px) {
-  .notification-action-row {
-    grid-template-columns: 1fr;
-  }
-
-  .notification-top-row {
-    align-items: flex-start;
-  }
+body.light-mode .notification-new-badge {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(220, 38, 38, 0.45) !important;
 }
   </style>
 </head>
