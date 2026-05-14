@@ -4454,6 +4454,22 @@ body.light-mode .notification-new-badge {
   margin-top: auto;
   margin-bottom: 100px;
 }
+    .notification-credit-fixed {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 105px !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 56px) !important;
+  max-width: 520px !important;
+  z-index: 50 !important;
+}
+.notification-credit-fixed {
+  display: none !important;
+}
+
+#notifications.active .notification-credit-fixed {
+  display: flex !important;
+}
   </style>
 </head>
 
