@@ -4434,6 +4434,16 @@ body.light-mode .notification-new-badge {
   box-shadow: 0 0 12px rgba(239,68,68,0.55) !important;
   animation: newBlink 1s infinite ease-in-out !important;
 }
+    .notifications-section {
+  min-height: calc(100vh - 190px);
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-credit-bottom {
+  margin-top: auto;
+  margin-bottom: 92px;
+}
   </style>
 </head>
 
@@ -5249,11 +5259,11 @@ body.light-mode .notification-new-badge {
 
     <div id="notificationsList" class="notifications-list">
       <div class="notification-empty">No notifications yet.</div>
+    </div>
 
-        <div class="developer-credit-line">
-  <span>© 2026 AcademeForge by Devraj Kumar.</span>
-  <small>Made with ❤️ in India.</small>
-</div>
+    <div class="developer-credit-line notification-credit">
+      <span>© 2026 AcademeForge by Devraj Kumar.</span>
+      <small>Made with ❤️ in India.</small>
     </div>
   </div>
 </section>
