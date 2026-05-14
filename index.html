@@ -4209,6 +4209,116 @@ body.dark-mode .developer-credit-line small {
   line-height: 1.3 !important;
   margin: 5px 0 0 !important;
 }
+    /* ================================
+   OFFICE NOTIFICATION MANAGEMENT
+================================ */
+
+#notificationManageBox {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  border: 1px solid var(--border);
+}
+
+#notificationManageBox h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+#notificationManageBox p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#notificationManageBox .input-group {
+  margin: 12px 0;
+}
+
+#notificationManageBox .input-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+#notificationManageBox input,
+#notificationManageBox select {
+  width: 100%;
+  min-height: 48px;
+  padding: 13px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+#notificationManageBox select {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+#notificationManageBox input::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+/* Light mode support */
+body.light-mode #notificationManageBox {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+body.light-mode #notificationManageBox input,
+body.light-mode #notificationManageBox select {
+  background: #f8fafc;
+  color: #111827;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+}
+
+body.light-mode #notificationManageBox input::placeholder {
+  color: rgba(15, 23, 42, 0.45);
+}
+
+body.light-mode #notificationManageBox .input-group label,
+body.light-mode #notificationManageBox p {
+  color: #4b5563;
+}
+
+/* Buttons row */
+.notification-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.notification-action-row .link-btn {
+  margin-top: 0;
+  min-height: 48px;
+  border-radius: 16px;
+}
+
+/* Mobile small screen */
+@media (max-width: 360px) {
+  .notification-action-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Notification bottom nav badge */
+.nav-notify-wrap {
+  position: relative;
+  display:
+    
   </style>
 </head>
 
@@ -4426,7 +4536,9 @@ body.dark-mode .developer-credit-line small {
 </section>
 
      
-    <section id="office" class="section">
+ <!-- OFFICE QUICK ACTIONS MANAGEMENT -->
+
+<section id="office" class="section">
   <div class="panel glass" id="officeLoginBox">
     <h2>🏢 Office Login</h2>
     <p>Login with your Office ID and password to access AcademeForge admin dashboard.</p>
@@ -4444,7 +4556,7 @@ body.dark-mode .developer-credit-line small {
     <button class="link-btn" onclick="officeLogin()">Login</button>
 
     <div class="login-note">
-     Management access only. Students, please use Student Login.
+      Management access only. Students, please use Student Login.
     </div>
   </div>
 
@@ -4458,46 +4570,97 @@ body.dark-mode .developer-credit-line small {
       <button class="back-mini" onclick="officeLogout()">Logout</button>
     </div>
 
-    <div class="course-info-box">
+    <!-- QUICK ACTIONS HOME -->
+    
+    <div class="course-info-box" id="officeQuickActionsTitle">
       <h3>⚡ Quick Actions</h3>
     </div>
 
     <div class="course-select-grid" id="officeQuickActions">
+      <button class="course-select-card" onclick="openAdminNotifications()">
+        <span>🔔</span>
+        <h3>Post Notification</h3>
+        <p>Send lecture, notes, batch and announcement updates.</p>
+      </button>
+
       <button class="course-select-card" onclick="openAdminStudents()">
         <span>🎓</span>
         <h3>Students</h3>
+        <p>Add, view and manage student accounts.</p>
       </button>
 
       <button class="course-select-card" onclick="openAdminCourses()">
         <span>📚</span>
         <h3>Courses</h3>
+        <p>Create and manage course programs.</p>
       </button>
 
       <button class="course-select-card" onclick="openAdminAssignCourse()">
         <span>🔗</span>
         <h3>Assign Course</h3>
+        <p>Assign courses to enrolled students.</p>
       </button>
 
-    <button class="course-select-card" onclick="openAdminLectures()">
-  <span>🎥</span>
-  <h3>Lectures</h3>
-</button>
-      
-   <button class="course-select-card" onclick="openAdminNotes()">
-  <span>📝</span>
-  <h3>Notes</h3>
-</button>
+      <button class="course-select-card" onclick="openAdminLectures()">
+        <span>🎥</span>
+        <h3>Lectures</h3>
+        <p>Add and manage video lectures.</p>
+      </button>
 
-     <button class="course-select-card" onclick="openAdminChapters()">
-  <span>📖</span>
-  <h3>Chapters</h3>
-</button>
+      <button class="course-select-card" onclick="openAdminNotes()">
+        <span>📝</span>
+        <h3>Notes</h3>
+        <p>Upload and manage study notes.</p>
+      </button>
 
-     <button class="course-select-card" onclick="openAdminTeam()">
-  <span>👥</span>
-  <h3>Team</h3>
-  <p>Under Development.</p>
-</button>
+      <button class="course-select-card" onclick="openAdminChapters()">
+        <span>📖</span>
+        <h3>Chapters</h3>
+        <p>Create and organize chapters.</p>
+      </button>
+    </div>
+
+    <!-- NOTIFICATION MANAGEMENT -->
+    <div class="admin-manage-box hidden-box" id="notificationManageBox" style="display:none;">
+      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+        <div>
+          <h3>🔔 Post Notification</h3>
+          <p>Create updates for students about lectures, notes, batches, and announcements.</p>
+        </div>
+
+        <button class="back-mini" onclick="closeAdminNotifications()">Back</button>
+      </div>
+
+      <div class="input-group">
+        <label>Notification Title</label>
+        <input id="adminNotificationTitle" type="text" placeholder="Example: New lecture uploaded">
+      </div>
+
+      <div class="input-group">
+        <label>Message</label>
+        <input id="adminNotificationMessage" type="text" placeholder="Example: AF Nexus Batch 1 Lecture 3 is now available.">
+      </div>
+
+      <div class="input-group">
+        <label>Batch</label>
+        <input id="adminNotificationBatch" type="text" placeholder="Example: AF Nexus Batch 1 / All">
+      </div>
+
+      <div class="input-group">
+        <label>Type</label>
+        <select id="adminNotificationType">
+          <option value="Lecture">Lecture</option>
+          <option value="Notes">Notes</option>
+          <option value="Batch Update">Batch Update</option>
+          <option value="Announcement">Announcement</option>
+          <option value="General">General</option>
+        </select>
+      </div>
+
+      <div class="admin-action-row notification-action-row">
+        <button class="link-btn" onclick="postAdminNotification()">Post Notification</button>
+        <button class="link-btn secondary" onclick="clearNotificationForm()">Clear</button>
+      </div>
     </div>
 
     <!-- STUDENT MANAGEMENT -->
@@ -5090,7 +5253,9 @@ function showSection(sectionId) {
   if (activeButton) {
     activeButton.classList.add("active");
   }
-
+if (sectionId === "notifications") {
+  loadAppNotifications();
+}
   window.scrollTo({
     top: 0,
     behavior: "smooth"
@@ -7658,7 +7823,236 @@ document.addEventListener("DOMContentLoaded", function() {
   showBannerSlide(0);
   startBannerSlider();
 });
-  
+  /* ================================
+   OFFICE NOTIFICATION JAVASCRIPT
+================================ */
+
+/* Hide all office admin manage boxes */
+function hideAllAdminManageBoxes() {
+  const boxes = document.querySelectorAll(".admin-manage-box");
+
+  boxes.forEach(function(box) {
+    box.classList.add("hidden-box");
+    box.style.display = "none";
+  });
+}
+
+/* Show office quick actions home */
+function showOfficeQuickActions() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const quickTitle = document.getElementById("officeQuickActionsTitle");
+
+  if (quickActions) {
+    quickActions.style.display = "grid";
+  }
+
+  if (quickTitle) {
+    quickTitle.style.display = "block";
+  }
+}
+
+/* Hide office quick actions home */
+function hideOfficeQuickActions() {
+  const quickActions = document.getElementById("officeQuickActions");
+  const quickTitle = document.getElementById("officeQuickActionsTitle");
+
+  if (quickActions) {
+    quickActions.style.display = "none";
+  }
+
+  if (quickTitle) {
+    quickTitle.style.display = "none";
+  }
+}
+
+/* Open notification panel from quick actions */
+function openAdminNotifications() {
+  hideAllAdminManageBoxes();
+  hideOfficeQuickActions();
+
+  const box = document.getElementById("notificationManageBox");
+
+  if (box) {
+    box.classList.remove("hidden-box");
+    box.style.display = "block";
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+/* Close notification panel and return to quick actions */
+function closeAdminNotifications() {
+  const box = document.getElementById("notificationManageBox");
+
+  if (box) {
+    box.classList.add("hidden-box");
+    box.style.display = "none";
+  }
+
+  showOfficeQuickActions();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+/* Clear notification form */
+function clearNotificationForm() {
+  const title = document.getElementById("adminNotificationTitle");
+  const message = document.getElementById("adminNotificationMessage");
+  const batch = document.getElementById("adminNotificationBatch");
+  const type = document.getElementById("adminNotificationType");
+
+  if (title) title.value = "";
+  if (message) message.value = "";
+  if (batch) batch.value = "";
+  if (type) type.value = "General";
+}
+
+/* Post notification to Supabase */
+async function postAdminNotification() {
+  const titleInput = document.getElementById("adminNotificationTitle");
+  const messageInput = document.getElementById("adminNotificationMessage");
+  const batchInput = document.getElementById("adminNotificationBatch");
+  const typeInput = document.getElementById("adminNotificationType");
+
+  const title = titleInput ? titleInput.value.trim() : "";
+  const message = messageInput ? messageInput.value.trim() : "";
+  const batch = batchInput ? batchInput.value.trim() : "";
+  const type = typeInput ? typeInput.value : "General";
+
+  if (!title || !message) {
+    showToast("Missing Details", "Please enter notification title and message.");
+    return;
+  }
+
+  const payload = {
+    title: title,
+    message: message,
+    batch: batch || "All",
+    type: type || "General",
+    is_active: true
+  };
+
+  const { error } = await db
+    .from("app_notifications")
+    .insert([payload]);
+
+  if (error) {
+    console.log("Notification post error:", error);
+    showToast("Error", "Notification could not be posted.");
+    return;
+  }
+
+  showToast("Posted", "Notification posted successfully.");
+  clearNotificationForm();
+  loadAppNotifications();
+}
+
+/* Load notifications for Notify section and home ticker */
+async function loadAppNotifications() {
+  const listBox = document.getElementById("notificationsList");
+  const tickerText = document.getElementById("tickerText");
+
+  const { data, error } = await db
+    .from("app_notifications")
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  if (error) {
+    console.log("Notification load error:", error);
+
+    if (listBox) {
+      listBox.innerHTML = "<p>Notifications could not be loaded.</p>";
+    }
+
+    return;
+  }
+
+  if (tickerText && data && data.length > 0) {
+    tickerText.textContent = "🔔 " + data[0].title + " — " + data[0].message;
+  }
+
+  if (!listBox) {
+    updateNotifyBadge(data);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    listBox.innerHTML = `
+      <div class="login-note">
+        No notifications yet.
+      </div>
+    `;
+
+    updateNotifyBadge([]);
+    return;
+  }
+
+  listBox.innerHTML = data.map(function(item, index) {
+    const newBadge = index === 0 ? '<span class="new-dot-badge" style="position:static; display:inline-block; margin-left:6px;">NEW</span>' : "";
+
+    return `
+      <div class="notification-card">
+        <h3>${escapeHTML(item.title || "Notification")} ${newBadge}</h3>
+        <p>${escapeHTML(item.message || "")}</p>
+
+        <div class="notification-meta">
+          <span class="notification-chip">${escapeHTML(item.type || "General")}</span>
+          <span class="notification-chip">${escapeHTML(item.batch || "All")}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  updateNotifyBadge(data);
+}
+
+/* Update bottom nav blinking NEW badge */
+function updateNotifyBadge(data) {
+  const notifyBtn = document.querySelector('.nav-btn[data-section="notifications"]');
+
+  if (!notifyBtn) return;
+
+  let oldBadge = notifyBtn.querySelector(".new-dot-badge");
+  if (oldBadge) oldBadge.remove();
+
+  if (data && data.length > 0) {
+    const badge = document.createElement("span");
+    badge.className = "new-dot-badge";
+    badge.textContent = "NEW";
+
+    const icon = notifyBtn.querySelector("b");
+
+    if (icon) {
+      icon.style.position = "relative";
+      icon.appendChild(badge);
+    } else {
+      notifyBtn.appendChild(badge);
+    }
+  }
+}
+
+/* Escape HTML for safe rendering */
+function escapeHTML(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+/* Auto load notifications on page load */
+document.addEventListener("DOMContentLoaded", function() {
+  loadAppNotifications();
+});
 </script>
 
 </body>
