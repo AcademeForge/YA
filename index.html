@@ -4434,15 +4434,25 @@ body.light-mode .notification-new-badge {
   box-shadow: 0 0 12px rgba(239,68,68,0.55) !important;
   animation: newBlink 1s infinite ease-in-out !important;
 }
-    .notifications-section {
+  .notifications-section {
   min-height: calc(100vh - 190px);
   display: flex;
   flex-direction: column;
 }
 
+.notifications-panel {
+  max-height: calc(100vh - 285px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.notifications-panel::-webkit-scrollbar {
+  display: none;
+}
+
 .notification-credit-bottom {
   margin-top: auto;
-  margin-bottom: 92px;
+  margin-bottom: 100px;
 }
   </style>
 </head>
