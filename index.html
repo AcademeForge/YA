@@ -5839,8 +5839,7 @@ body.dark-mode .create-id-box p,
 
     <!-- MAGIC LINK BOX -->
     <div id="magicBox" class="auth-box">
-
-   <button class="google-btn" type="button" onclick="loginWithGoogle()">
+<button class="google-btn" onclick="openGoogleLoginInBrowser()">
   <span class="google-icon" aria-hidden="true">
     <svg viewBox="0 0 48 48">
       <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -11396,6 +11395,16 @@ document.addEventListener("DOMContentLoaded", function () {
   if (error) {
     showAuthMessage("err", error.message);
   }
+}
+  function openGoogleLoginInBrowser() {
+  const url = "https://academeforge.github.io/YA/?googleLogin=1";
+
+  const chromeIntent =
+    "intent://" +
+    url.replace(/^https?:\/\//, "") +
+    "#Intent;scheme=https;package=com.android.chrome;end";
+
+  window.location.href = chromeIntent;
 }
 </script>
 
