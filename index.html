@@ -5466,6 +5466,344 @@ body.dark-mode .create-id-box p,
 .dark-mode .create-id-box p {
   color: #cbd5e1;
 }
+    /* AUTH GATE */
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background:
+    radial-gradient(circle at top, rgba(22, 163, 74, 0.12), transparent 35%),
+    linear-gradient(135deg, #f8fafc, #eef6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 30px;
+  padding: 26px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.14);
+  text-align: center;
+}
+
+.auth-logo {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 14px;
+  border-radius: 24px;
+  background: #ecfdf5;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  box-shadow: inset 0 0 0 1px rgba(22, 163, 74, 0.14);
+}
+
+.auth-card h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #0f172a;
+}
+
+.auth-subtitle {
+  margin: 8px 0 18px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #e2e8f0;
+  padding: 5px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  gap: 5px;
+}
+
+.auth-tab {
+  border: 0;
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: transparent;
+  color: #475569;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.auth-tab.active {
+  background: #16a34a;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.22);
+}
+
+.auth-box {
+  text-align: left;
+}
+
+.auth-box label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 900;
+  color: #334155;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 17px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  outline: none;
+  font-size: 15px;
+}
+
+.auth-box input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.10);
+}
+
+.auth-main-btn {
+  width: 100%;
+  border: 0;
+  margin-top: 14px;
+  padding: 15px 18px;
+  border-radius: 18px;
+  background: #16a34a;
+  color: white;
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(22, 163, 74, 0.22);
+}
+
+.auth-main-btn.secondary {
+  background: #0f172a;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.20);
+}
+
+.auth-help {
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 13px 0 0;
+}
+
+.auth-message {
+  display: none;
+  margin-top: 14px;
+  padding: 12px 13px;
+  border-radius: 16px;
+  font-weight: 800;
+  line-height: 1.45;
+  text-align: left;
+  font-size: 14px;
+}
+
+.auth-message.ok {
+  display: block;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.auth-message.err {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .auth-gate {
+    background:
+      radial-gradient(circle at top, rgba(22, 163, 74, 0.18), transparent 35%),
+      linear-gradient(135deg, #020617, #0f172a);
+  }
+
+  .auth-card {
+    background: rgba(15, 23, 42, 0.96);
+    border-color: rgba(148, 163, 184, 0.22);
+  }
+
+  .auth-card h2 {
+    color: #f8fafc;
+  }
+
+  .auth-subtitle,
+  .auth-help {
+    color: #94a3b8;
+  }
+
+  .auth-tabs {
+    background: #1e293b;
+  }
+
+  .auth-tab {
+    color: #cbd5e1;
+  }
+
+  .auth-box label {
+    color: #e2e8f0;
+  }
+
+  .auth-box input {
+    background: #020617;
+    border-color: #334155;
+    color: #f8fafc;
+  }
+}
+    .auth-tabs {
+  position: relative;
+  z-index: 5;
+}
+
+.auth-tab {
+  position: relative;
+  z-index: 6;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+    .google-btn {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f172a;
+  padding: 14px 16px;
+  border-radius: 18px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
+}
+
+.google-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #4285f4;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-family: Arial, sans-serif;
+}
+    .google-btn {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94));
+  color: #0f172a;
+  padding: 15px 18px;
+  border-radius: 22px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  box-shadow:
+    0 16px 36px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.google-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(66, 133, 244, 0.45);
+  box-shadow:
+    0 20px 44px rgba(15, 23, 42, 0.16),
+    0 0 0 4px rgba(66, 133, 244, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.google-btn:active {
+  transform: scale(0.985);
+}
+
+.google-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.10);
+}
+
+.google-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  .google-btn {
+    background:
+      linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(2, 6, 23, 0.96));
+    color: #f8fafc;
+    border-color: rgba(148, 163, 184, 0.24);
+    box-shadow:
+      0 18px 42px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .google-btn:hover {
+    border-color: rgba(66, 133, 244, 0.55);
+    box-shadow:
+      0 22px 48px rgba(0, 0, 0, 0.38),
+      0 0 0 4px rgba(66, 133, 244, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .google-icon {
+    background: #ffffff;
+  }
+}
+  .auth-logo {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 18px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top, rgba(34, 197, 94, 0.22), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(34, 197, 94, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+    .auth-logo img {
+  width: 115%;
+  height: 115%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 24px;
+  transform: scale(0.95);
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.38));
+}
+    
   </style>
 </head>
 
@@ -5476,6 +5814,76 @@ body.dark-mode .create-id-box p,
   <h1>AcademeForge</h1>
   <p>Learning Beyond The Classroom</p>
 </div>
+
+ <!-- AUTH GATE SCREEN -->
+<div id="authGate" class="auth-gate">
+  <div class="auth-card">
+ <div class="auth-logo">
+  <img src="AF LOGO 1.jpeg" alt="AcademeForge Logo">
+</div>
+    
+    <h2>Human Verification</h2>
+    <p class="auth-subtitle">
+      Prove you’re human, not a robot 🤖
+    </p>
+
+   <div class="auth-tabs">
+  <button id="magicTabBtn" type="button" class="auth-tab active">
+    Google
+  </button>
+
+  <button id="otpTabBtn" type="button" class="auth-tab">
+    Email OTP
+  </button>
+</div>
+
+    <!-- MAGIC LINK BOX -->
+    <div id="magicBox" class="auth-box">
+
+   <button class="google-btn" type="button" onclick="loginWithGoogle()">
+  <span class="google-icon" aria-hidden="true">
+    <svg viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.74H24v8.98h12.62c-.54 2.91-2.18 5.38-4.65 7.04l7.19 5.58C43.36 37.49 46.5 31.78 46.5 24.5z"/>
+      <path fill="#FBBC05" d="M10.54 28.59A14.4 14.4 0 0 1 9.79 24c0-1.59.27-3.13.75-4.59l-7.98-6.19A23.94 23.94 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.98-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.47 0 11.9-2.13 15.87-5.79l-7.19-5.58c-2 1.34-4.56 2.13-8.68 2.13-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
+  </span>
+  <span>Continue with Google</span>
+</button>
+
+      <p class="auth-help">
+        Continue with your Google account for a fast and secure verification.
+      </p>
+    </div>
+
+    <!-- OTP BOX -->
+    <div id="otpBox" class="auth-box" style="display:none;">
+      <label>Email Address</label>
+      <input id="otpEmail" type="email" placeholder="Enter your email address">
+
+      <button class="auth-main-btn" onclick="sendOtpCode()">
+        Send OTP
+      </button>
+
+      <div id="otpVerifyArea" style="display:none; margin-top:14px;">
+        <label>Enter OTP</label>
+        <input id="otpCode" type="text" inputmode="numeric" maxlength="6" placeholder="6 digit OTP">
+
+        <button class="auth-main-btn secondary" onclick="verifyOtpCode()">
+          Verify OTP
+        </button>
+      </div>
+
+      <p class="auth-help">
+         We’ll email you a 6-digit code for secure login. If the code doesn’t work, use the secure magic link included in the same email.
+      </p>
+    </div>
+
+    <div id="authMessage" class="auth-message"></div>
+  </div>
+</div>
+  
   <main class="app">
 
     <header class="topbar">
@@ -10787,6 +11195,207 @@ function hideCommunityBlockedUsersPanel() {
 }
   function openCreateStudentIdPage() {
   window.location.href = "https://academeforge.github.io/PAYMENTPAGE/";
+}
+
+
+  const APP_REDIRECT_URL = "https://academeforge.github.io/SUPER/";
+
+  function showAuthMessage(type, text) {
+    const box = document.getElementById("authMessage");
+    if (!box) return;
+
+    box.className = "auth-message " + type;
+    box.textContent = text;
+  }
+
+ function switchAuthMode(mode) {
+  const magicBox = document.getElementById("magicBox");
+  const otpBox = document.getElementById("otpBox");
+  const magicTabBtn = document.getElementById("magicTabBtn");
+  const otpTabBtn = document.getElementById("otpTabBtn");
+  const authMessage = document.getElementById("authMessage");
+
+  if (!magicBox || !otpBox || !magicTabBtn || !otpTabBtn) {
+    console.log("Auth tab elements missing");
+    return;
+  }
+
+  if (authMessage) {
+    authMessage.className = "auth-message";
+    authMessage.textContent = "";
+  }
+
+  if (mode === "magic") {
+    magicBox.style.display = "block";
+    otpBox.style.display = "none";
+
+    magicTabBtn.classList.add("active");
+    otpTabBtn.classList.remove("active");
+  }
+
+  if (mode === "otp") {
+    magicBox.style.display = "none";
+    otpBox.style.display = "block";
+
+    otpTabBtn.classList.add("active");
+    magicTabBtn.classList.remove("active");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const magicTabBtn = document.getElementById("magicTabBtn");
+  const otpTabBtn = document.getElementById("otpTabBtn");
+
+  if (magicTabBtn) {
+    magicTabBtn.addEventListener("click", function () {
+      switchAuthMode("magic");
+    });
+  }
+
+  if (otpTabBtn) {
+    otpTabBtn.addEventListener("click", function () {
+      switchAuthMode("otp");
+    });
+  }
+});
+  async function checkAuthSession() {
+    const authGate = document.getElementById("authGate");
+
+    const { data, error } = await db.auth.getSession();
+
+    if (error) {
+      console.log("Session check error:", error);
+      if (authGate) authGate.style.display = "flex";
+      return;
+    }
+
+    if (data && data.session) {
+      if (authGate) authGate.style.display = "none";
+    } else {
+      if (authGate) authGate.style.display = "flex";
+    }
+  }
+
+  db.auth.onAuthStateChange(function(event, session) {
+    const authGate = document.getElementById("authGate");
+
+    console.log("Auth event:", event);
+
+    if (session) {
+      if (authGate) authGate.style.display = "none";
+    } else {
+      if (authGate) authGate.style.display = "flex";
+    }
+  });
+
+  async function sendMagicLink() {
+    const emailInput = document.getElementById("magicEmail");
+    const email = emailInput.value.trim();
+
+    if (!email || !email.includes("@")) {
+      showAuthMessage("err", "Enter a valid email address.");
+      return;
+    }
+
+    showAuthMessage("ok", "Sending magic link...");
+
+    const { error } = await db.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: APP_REDIRECT_URL
+      }
+    });
+
+    if (error) {
+      console.log("Magic link error:", error);
+      showAuthMessage("err", error.message || "Could not send magic link.");
+      return;
+    }
+
+    showAuthMessage("ok", "Magic link sent. Check your email inbox.");
+  }
+
+  async function sendOtpCode() {
+    const emailInput = document.getElementById("otpEmail");
+    const email = emailInput.value.trim();
+
+    if (!email || !email.includes("@")) {
+      showAuthMessage("err", "Enter a valid email address.");
+      return;
+    }
+
+    showAuthMessage("ok", "Sending OTP...");
+
+    const { error } = await db.auth.signInWithOtp({
+      email: email,
+      options: {
+        shouldCreateUser: true
+      }
+    });
+
+    if (error) {
+      console.log("OTP send error:", error);
+      showAuthMessage("err", error.message || "Could not send OTP.");
+      return;
+    }
+
+    document.getElementById("otpVerifyArea").style.display = "block";
+    showAuthMessage("ok", "OTP sent. Check your email inbox.");
+  }
+
+  async function verifyOtpCode() {
+    const email = document.getElementById("otpEmail").value.trim();
+    const token = document.getElementById("otpCode").value.trim();
+
+    if (!email || !email.includes("@")) {
+      showAuthMessage("err", "Enter a valid email address.");
+      return;
+    }
+
+    if (!token || token.length < 6) {
+      showAuthMessage("err", "Enter valid 6 digit OTP.");
+      return;
+    }
+
+    showAuthMessage("ok", "Verifying OTP...");
+
+    const { data, error } = await db.auth.verifyOtp({
+      email: email,
+      token: token,
+      type: "email"
+    });
+
+    if (error) {
+      console.log("OTP verify error:", error);
+      showAuthMessage("err", error.message || "Invalid OTP.");
+      return;
+    }
+
+    if (data && data.session) {
+      showAuthMessage("ok", "Login successful.");
+      document.getElementById("authGate").style.display = "none";
+    } else {
+      showAuthMessage("err", "OTP verified but session not created.");
+    }
+  }
+
+  async function logoutAcademeForge() {
+    await db.auth.signOut();
+    document.getElementById("authGate").style.display = "flex";
+  }
+
+  checkAuthSession();
+  async function loginWithGoogle() {
+  const { error } = await db.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: "https://academeforge.github.io/SUPER/"
+    }
+  });
+
+  if (error) {
+    showAuthMessage("err", error.message);
+  }
 }
 </script>
 
