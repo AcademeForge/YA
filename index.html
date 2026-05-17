@@ -11700,6 +11700,425 @@ body.dark-mode .af-nexus-empty-v2 {
   flex-direction: column !important;
   gap: 14px !important;
 }
+
+/* =========================================================
+   AF NEXUS WRITE BUTTON - KEEP INSIDE APP ON DESKTOP
+   Paste at END of CSS
+========================================================= */
+
+/* make community shell positioning anchor */
+.af-nexus-v2-shell {
+  position: relative !important;
+}
+
+/* desktop/tablet: button app container ke andar */
+@media (min-width: 768px) {
+  .af-nexus-write-btn-v2 {
+    position: absolute !important;
+    right: 18px !important;
+    bottom: 18px !important;
+    z-index: 50 !important;
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 20px !important;
+  }
+
+  .af-nexus-posts-list-v2 {
+    padding-bottom: 90px !important;
+  }
+}
+
+/* mobile: bottom nav ke upar fixed rahe */
+@media (max-width: 767px) {
+  .af-nexus-write-btn-v2 {
+    position: fixed !important;
+    right: max(16px, env(safe-area-inset-right)) !important;
+    bottom: calc(86px + env(safe-area-inset-bottom)) !important;
+    z-index: 999 !important;
+  }
+}
+    
+
+    /* =========================================================
+   AF NOTIFICATIONS SECTION - PROFESSIONAL MOBILE UI
+   Paste at END of CSS file
+========================================================= */
+
+#notifications {
+  width: 100% !important;
+  padding: 12px 10px 96px !important;
+  box-sizing: border-box !important;
+}
+
+/* Main notification panel */
+#notifications .panel.glass {
+  position: relative !important;
+  width: min(100%, 760px) !important;
+  min-height: calc(100dvh - 135px) !important;
+  margin: 0 auto !important;
+  padding: clamp(16px, 4vw, 24px) !important;
+  border-radius: 30px !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.14), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.10), transparent 36%),
+    linear-gradient(145deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow:
+    0 18px 50px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255,255,255,0.85) !important;
+  color: #0f172a !important;
+}
+
+/* Decorative soft glow */
+#notifications .panel.glass::before {
+  content: "" !important;
+  position: absolute !important;
+  width: 180px !important;
+  height: 180px !important;
+  top: -80px !important;
+  right: -80px !important;
+  border-radius: 999px !important;
+  background: rgba(245, 158, 11, 0.16) !important;
+  filter: blur(2px) !important;
+  pointer-events: none !important;
+}
+
+#notifications .panel.glass::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 160px !important;
+  height: 160px !important;
+  bottom: -70px !important;
+  left: -70px !important;
+  border-radius: 999px !important;
+  background: rgba(37, 99, 235, 0.10) !important;
+  pointer-events: none !important;
+}
+
+/* Keep content above glow */
+#notifications .panel.glass > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Back button */
+#notifications .back-mini {
+  min-height: 38px !important;
+  padding: 0 14px !important;
+  margin-bottom: 18px !important;
+  border: 0 !important;
+  outline: none !important;
+  border-radius: 16px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 950 !important;
+  color: #1e293b !important;
+  background: linear-gradient(135deg, #ffffff, #f1f5f9) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.07) !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+#notifications .back-mini:active {
+  transform: scale(0.98) !important;
+}
+
+/* Heading */
+#notifications h2 {
+  margin: 0 0 8px !important;
+  font-size: clamp(24px, 6vw, 34px) !important;
+  line-height: 1.04 !important;
+  font-weight: 1000 !important;
+  letter-spacing: -0.06em !important;
+  color: #0f172a !important;
+}
+
+#notifications .panel.glass > p {
+  max-width: 520px !important;
+  margin: 0 0 18px !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  font-weight: 750 !important;
+  color: #64748b !important;
+}
+
+/* List wrapper */
+#notifications .notifications-list {
+  display: grid !important;
+  gap: 12px !important;
+  margin-top: 14px !important;
+  padding-bottom: 18px !important;
+}
+
+/* Empty state */
+#notifications .notification-empty {
+  min-height: 220px !important;
+  padding: 22px !important;
+  border-radius: 26px !important;
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  font-weight: 850 !important;
+  color: #64748b !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.82), rgba(248,250,252,0.72)) !important;
+  border: 1px dashed rgba(148, 163, 184, 0.55) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.65) !important;
+}
+
+/* Notification item/card - works with your JS generated cards */
+#notifications .notification-item,
+#notifications .notification-card,
+#notifications .notify-card {
+  position: relative !important;
+  padding: 14px 14px 14px 16px !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94)) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.075) !important;
+  color: #0f172a !important;
+}
+
+/* left accent */
+#notifications .notification-item::before,
+#notifications .notification-card::before,
+#notifications .notify-card::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 14px !important;
+  bottom: 14px !important;
+  width: 4px !important;
+  border-radius: 0 999px 999px 0 !important;
+  background: linear-gradient(180deg, #f59e0b, #2563eb) !important;
+}
+
+/* common text inside generated cards */
+#notifications .notification-item h3,
+#notifications .notification-card h3,
+#notifications .notify-card h3,
+#notifications .notification-title {
+  margin: 0 0 6px !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.025em !important;
+  color: #0f172a !important;
+}
+
+#notifications .notification-item p,
+#notifications .notification-card p,
+#notifications .notify-card p,
+#notifications .notification-message {
+  margin: 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.55 !important;
+  font-weight: 650 !important;
+  color: #475569 !important;
+}
+
+#notifications .notification-item small,
+#notifications .notification-card small,
+#notifications .notify-card small,
+#notifications .notification-time {
+  display: inline-flex !important;
+  margin-top: 10px !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  font-size: 10.5px !important;
+  line-height: 1 !important;
+  font-weight: 850 !important;
+  color: #2563eb !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+}
+
+/* Optional buttons inside notifications */
+#notifications .notification-item button,
+#notifications .notification-card button,
+#notifications .notify-card button,
+#notifications .notification-item a,
+#notifications .notification-card a,
+#notifications .notify-card a {
+  min-height: 38px !important;
+  margin-top: 12px !important;
+  padding: 0 14px !important;
+  border-radius: 14px !important;
+  border: 0 !important;
+  outline: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #2563eb, #4f46e5) !important;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.18) !important;
+}
+
+/* Credit */
+#notifications .notification-credit {
+  margin-top: 22px !important;
+  padding: 14px !important;
+  border-radius: 22px !important;
+  text-align: center !important;
+  background: rgba(255,255,255,0.64) !important;
+  border: 1px solid rgba(226, 232, 240, 0.78) !important;
+}
+
+#notifications .notification-credit span {
+  display: block !important;
+  font-size: 11.5px !important;
+  line-height: 1.35 !important;
+  font-weight: 900 !important;
+  color: #334155 !important;
+}
+
+#notifications .notification-credit small {
+  display: block !important;
+  margin-top: 4px !important;
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+  font-weight: 750 !important;
+  color: #64748b !important;
+}
+
+/* Mobile */
+@media (max-width: 430px) {
+  #notifications {
+    padding: 10px 8px 92px !important;
+  }
+
+  #notifications .panel.glass {
+    min-height: calc(100dvh - 128px) !important;
+    border-radius: 26px !important;
+    padding: 16px !important;
+  }
+
+  #notifications .back-mini {
+    min-height: 36px !important;
+    margin-bottom: 16px !important;
+    font-size: 11.5px !important;
+  }
+
+  #notifications h2 {
+    font-size: 27px !important;
+  }
+
+  #notifications .panel.glass > p {
+    font-size: 12.5px !important;
+    margin-bottom: 16px !important;
+  }
+
+  #notifications .notification-empty {
+    min-height: 180px !important;
+    border-radius: 22px !important;
+  }
+
+  #notifications .notification-item,
+  #notifications .notification-card,
+  #notifications .notify-card {
+    border-radius: 22px !important;
+    padding: 13px 13px 13px 15px !important;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  #notifications .panel.glass {
+    padding: 14px !important;
+    border-radius: 24px !important;
+  }
+
+  #notifications h2 {
+    font-size: 24px !important;
+  }
+
+  #notifications .panel.glass > p {
+    font-size: 12px !important;
+  }
+}
+
+/* Dark mode */
+body.dark #notifications .panel.glass,
+body.dark-mode #notifications .panel.glass {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.16), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.14), transparent 36%),
+    linear-gradient(145deg, rgba(15,23,42,0.96), rgba(2,6,23,0.94)) !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+  color: #f8fafc !important;
+}
+
+body.dark #notifications h2,
+body.dark-mode #notifications h2,
+body.dark #notifications .notification-item h3,
+body.dark-mode #notifications .notification-item h3,
+body.dark #notifications .notification-card h3,
+body.dark-mode #notifications .notification-card h3,
+body.dark #notifications .notify-card h3,
+body.dark-mode #notifications .notify-card h3,
+body.dark #notifications .notification-title,
+body.dark-mode #notifications .notification-title {
+  color: #f8fafc !important;
+}
+
+body.dark #notifications .panel.glass > p,
+body.dark-mode #notifications .panel.glass > p,
+body.dark #notifications .notification-empty,
+body.dark-mode #notifications .notification-empty,
+body.dark #notifications .notification-item p,
+body.dark-mode #notifications .notification-item p,
+body.dark #notifications .notification-card p,
+body.dark-mode #notifications .notification-card p,
+body.dark #notifications .notify-card p,
+body.dark-mode #notifications .notify-card p,
+body.dark #notifications .notification-message,
+body.dark-mode #notifications .notification-message {
+  color: #cbd5e1 !important;
+}
+
+body.dark #notifications .back-mini,
+body.dark-mode #notifications .back-mini,
+body.dark #notifications .notification-credit,
+body.dark-mode #notifications .notification-credit,
+body.dark #notifications .notification-empty,
+body.dark-mode #notifications .notification-empty,
+body.dark #notifications .notification-item,
+body.dark-mode #notifications .notification-item,
+body.dark #notifications .notification-card,
+body.dark-mode #notifications .notification-card,
+body.dark #notifications .notify-card,
+body.dark-mode #notifications .notify-card {
+  background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(30,41,59,0.94)) !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body.dark #notifications .back-mini,
+body.dark-mode #notifications .back-mini {
+  color: #e2e8f0 !important;
+}
+
+body.dark #notifications .notification-credit span,
+body.dark-mode #notifications .notification-credit span {
+  color: #e2e8f0 !important;
+}
+
+body.dark #notifications .notification-credit small,
+body.dark-mode #notifications .notification-credit small {
+  color: #94a3b8 !important;
+}
   </style>
 </head>
 
@@ -12866,7 +13285,7 @@ body.dark-mode .af-nexus-empty-v2 {
           <p>Name, email and phone number</p>
         </div>
 
-        <button class="af-mini-btn" type="button" onclick="openYourDetailsEditAf()">Edit</button>
+        <button class="af-mini-btn" type="button" onclick="openYourDetailsEditAf()">AF Nexus</button>
       </div>
 
       <div class="af-detail-grid">
