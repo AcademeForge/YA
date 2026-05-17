@@ -13113,6 +13113,332 @@ body.dark-mode .about-af-footer small {
 #management .about-af-hero-pro .about-af-hero-badge {
   color: #0f172a !important;
 }
+
+    /* =========================================================
+   AF TEST SECTION - LOCKED + EMPTY STATE UI
+   Paste at END of CSS
+========================================================= */
+
+#explore.section {
+  width: 100% !important;
+  max-width: 430px !important;
+  margin: 0 auto !important;
+  padding: 10px 8px 96px !important;
+  box-sizing: border-box !important;
+}
+
+#explore .af-test-panel {
+  width: 100% !important;
+  max-width: 430px !important;
+  min-height: calc(100dvh - 130px) !important;
+  margin: 0 auto !important;
+  padding: 16px !important;
+  border-radius: 30px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.14), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.12), transparent 36%),
+    linear-gradient(145deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94)) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow:
+    0 18px 50px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255,255,255,0.85) !important;
+  color: #0f172a !important;
+}
+
+/* Back */
+#explore .back-mini {
+  min-height: 38px !important;
+  padding: 0 14px !important;
+  margin-bottom: 16px !important;
+  border: 0 !important;
+  outline: none !important;
+  border-radius: 16px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  color: #1e293b !important;
+  background: linear-gradient(135deg, #ffffff, #f1f5f9) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.07) !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+#explore .back-mini:active,
+.af-test-login-btn-v1:active {
+  transform: scale(0.98) !important;
+}
+
+/* locked card */
+.af-test-locked-v1 {
+  min-height: 360px !important;
+  padding: 24px 18px !important;
+  border-radius: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.14), transparent 38%),
+    linear-gradient(145deg, rgba(255,255,255,0.99), rgba(254,242,242,0.92)) !important;
+  border: 1px solid rgba(254, 202, 202, 0.95) !important;
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08) !important;
+}
+
+.af-test-lock-icon-v1 {
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 26px !important;
+  display: grid !important;
+  place-items: center !important;
+  margin-bottom: 14px !important;
+  font-size: 30px !important;
+  background: linear-gradient(135deg, #fee2e2, #ffffff) !important;
+  border: 1px solid rgba(254, 202, 202, 0.95) !important;
+  box-shadow: 0 14px 28px rgba(239, 68, 68, 0.12) !important;
+}
+
+.af-test-locked-v1 h2 {
+  margin: 0 0 8px !important;
+  font-size: clamp(24px, 6vw, 32px) !important;
+  line-height: 1.05 !important;
+  font-weight: 1000 !important;
+  letter-spacing: -0.06em !important;
+  color: #991b1b !important;
+}
+
+.af-test-locked-v1 p {
+  max-width: 300px !important;
+  margin: 0 auto 16px !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  font-weight: 750 !important;
+  color: #7f1d1d !important;
+}
+
+.af-test-login-btn-v1 {
+  min-height: 44px !important;
+  padding: 0 18px !important;
+  border: 0 !important;
+  outline: none !important;
+  border-radius: 16px !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  font-weight: 950 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+  box-shadow: 0 14px 26px rgba(239, 68, 68, 0.22) !important;
+}
+
+/* main logged in */
+.af-test-main-v1 {
+  display: grid !important;
+  gap: 14px !important;
+}
+
+.af-test-hero-v1 {
+  padding: 18px !important;
+  border-radius: 28px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 13px !important;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(59, 130, 246, 0.22), transparent 34%),
+    linear-gradient(145deg, #0f172a, #1e293b) !important;
+  color: #ffffff !important;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18) !important;
+}
+
+.af-test-hero-icon-v1 {
+  width: 54px !important;
+  height: 54px !important;
+  min-width: 54px !important;
+  border-radius: 20px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 24px !important;
+  background: rgba(255,255,255,0.12) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+.af-test-hero-v1 span {
+  display: inline-flex !important;
+  min-height: 24px !important;
+  padding: 0 10px !important;
+  margin-bottom: 9px !important;
+  align-items: center !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #2563eb !important;
+  background: #dbeafe !important;
+}
+
+.af-test-hero-v1 h2 {
+  margin: 0 0 7px !important;
+  font-size: clamp(25px, 6vw, 34px) !important;
+  line-height: 1.03 !important;
+  font-weight: 1000 !important;
+  letter-spacing: -0.06em !important;
+  color: #ffffff !important;
+}
+
+.af-test-hero-v1 p {
+  margin: 0 !important;
+  font-size: 12.7px !important;
+  line-height: 1.55 !important;
+  font-weight: 700 !important;
+  color: #dbeafe !important;
+}
+
+/* empty card */
+.af-test-empty-card-v1 {
+  min-height: 240px !important;
+  padding: 22px !important;
+  border-radius: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.99), rgba(248,250,252,0.94)) !important;
+  border: 1px dashed rgba(148, 163, 184, 0.55) !important;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.07) !important;
+}
+
+.af-test-empty-icon-v1 {
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 26px !important;
+  display: grid !important;
+  place-items: center !important;
+  margin-bottom: 12px !important;
+  font-size: 30px !important;
+  background: linear-gradient(135deg, #eff6ff, #eef2ff) !important;
+  border: 1px solid rgba(191, 219, 254, 0.95) !important;
+}
+
+.af-test-empty-card-v1 h3 {
+  margin: 0 0 7px !important;
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  font-weight: 1000 !important;
+  letter-spacing: -0.045em !important;
+  color: #0f172a !important;
+}
+
+.af-test-empty-card-v1 p {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 750 !important;
+  color: #64748b !important;
+}
+
+/* hidden */
+#explore .af-hidden,
+.af-test-main-v1.af-hidden,
+.af-test-locked-v1.af-hidden {
+  display: none !important;
+}
+
+/* credit */
+.af-test-credit-v1 {
+  margin-top: 18px !important;
+  padding: 14px !important;
+  border-radius: 22px !important;
+  text-align: center !important;
+  background: rgba(255,255,255,0.65) !important;
+  border: 1px solid rgba(226, 232, 240, 0.78) !important;
+}
+
+.af-test-credit-v1 span {
+  display: block !important;
+  font-size: 11.5px !important;
+  line-height: 1.35 !important;
+  font-weight: 900 !important;
+  color: #334155 !important;
+}
+
+.af-test-credit-v1 small {
+  display: block !important;
+  margin-top: 4px !important;
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+  font-weight: 750 !important;
+  color: #64748b !important;
+}
+
+/* small phones */
+@media (max-width: 370px) {
+  #explore .af-test-panel {
+    padding: 14px !important;
+    border-radius: 26px !important;
+  }
+
+  .af-test-hero-v1 {
+    padding: 15px !important;
+    border-radius: 24px !important;
+  }
+
+  .af-test-hero-icon-v1 {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    border-radius: 18px !important;
+  }
+}
+
+/* desktop center */
+@media (min-width: 768px) {
+  #explore.section,
+  #explore .af-test-panel {
+    max-width: 430px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* dark mode */
+body.dark #explore .af-test-panel,
+body.dark-mode #explore .af-test-panel {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.16), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.14), transparent 36%),
+    linear-gradient(145deg, rgba(15,23,42,0.96), rgba(2,6,23,0.94)) !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+  color: #f8fafc !important;
+}
+
+body.dark .af-test-empty-card-v1,
+body.dark-mode .af-test-empty-card-v1,
+body.dark .af-test-credit-v1,
+body.dark-mode .af-test-credit-v1,
+body.dark #explore .back-mini,
+body.dark-mode #explore .back-mini {
+  background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(30,41,59,0.94)) !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body.dark #explore .back-mini,
+body.dark-mode #explore .back-mini,
+body.dark .af-test-empty-card-v1 h3,
+body.dark-mode .af-test-empty-card-v1 h3,
+body.dark .af-test-credit-v1 span,
+body.dark-mode .af-test-credit-v1 span {
+  color: #e2e8f0 !important;
+}
+
+body.dark .af-test-empty-card-v1 p,
+body.dark-mode .af-test-empty-card-v1 p,
+body.dark .af-test-credit-v1 small,
+body.dark-mode .af-test-credit-v1 small {
+  color: #94a3b8 !important;
+}
   </style>
 </head>
 
@@ -13284,8 +13610,8 @@ body.dark-mode .about-af-footer small {
     <button class="action-card glass wide" onclick="showSection('explore')">
       <div class="icon">✨</div>
       <div>
-        <h3>Explore Without Login</h3>
-        <p>Read about AcademeForge, courses, programs, AST, and contact details.</p>
+        <h3>Tests</h3>
+        <p>Know about upcoming scholarship tests.</p>
       </div>
     </button>
 
@@ -13869,67 +14195,57 @@ body.dark-mode .about-af-footer small {
   </div>
 </section>
  
-    <section id="explore" class="section">
-      <div class="panel glass">
-        <h2>✨ Explore AcademeForge</h2>
-        <p>
-          AcademeForge is a student-focused learning initiative built around practical skills,
-          consistency, digital creativity, and real-world understanding.
-        </p>
+   <!-----------------------  🧪 TEST SECTION --------------------------------------->
 
-        <div class="mini-row">
-          <div class="stat">
-            <strong>2024</strong>
-            <small>Founded</small>
-          </div>
-          <div class="stat">
-            <strong>Skill-first</strong>
-            <small>Learning model</small>
-          </div>
+<section id="explore" class="section">
+  <div class="panel glass af-test-panel">
+
+    <button class="back-mini" onclick="showSection('home')">← Back</button>
+
+    <!-- LOCKED STATE -->
+    <div id="afTestLockedV1" class="af-test-locked-v1">
+      <div class="af-test-lock-icon-v1">🔒</div>
+
+      <h2>Upcoming Scholarship Tests</h2>
+
+      <p>
+        Oops, looks like you haven't login yet. Login to know about upcoming scholarship tests.
+      </p>
+
+      <button class="af-test-login-btn-v1" type="button" onclick="showSection('studentaf')">
+        Login Now
+      </button>
+    </div>
+
+    <!-- LOGGED IN STATE -->
+    <div id="afTestMainV1" class="af-test-main-v1 af-hidden">
+      <div class="af-test-hero-v1">
+        <div class="af-test-hero-icon-v1">🧪</div>
+
+        <div>
+          <span>AcademeForge Tests</span>
+          <h2>Scholarship Tests</h2>
+          <p>
+            Stay updated with upcoming AcademeForge scholarship tests, assessments,
+            and student opportunities.
+          </p>
         </div>
-
-        <h3>Learning Focus</h3>
-        <ul>
-          <li>Foundation-first learning</li>
-          <li>Short practical lessons</li>
-          <li>Digital skills and creativity</li>
-          <li>Discipline, consistency, and execution</li>
-          <li>Future AST learning and assessment phase</li>
-        </ul>
-
-        <h3>Course Programs</h3>
-        <div class="course-grid">
-          <div class="course">
-            <strong>Video & Media Editing</strong>
-            <p>Create content that captures attention and builds digital creativity.</p>
-          </div>
-
-          <div class="course">
-            <strong>Creative & Graphic Design</strong>
-            <p>Turn ideas into clean, engaging, and impactful visuals.</p>
-          </div>
-
-          <div class="course">
-            <strong>AI Coding & Logic Foundation</strong>
-            <p>Build smart thinking with coding basics, logic, and AI fundamentals.</p>
-          </div>
-
-          <div class="course">
-            <strong>Freelancing & Monetization</strong>
-            <p>Understand how digital skills can create real online opportunities.</p>
-          </div>
-        </div>
-
-        <h3>Contact</h3>
-        <p>
-          Location: Patna, Bihar, India<br />
-          Email: academeforge@gmail.com
-        </p>
-
-        <button class="link-btn" onclick="openWebsite()">Open Official Website</button>
-        <button class="link-btn secondary" onclick="copyWebsite()">Copy Website Link</button>
       </div>
-    </section>
+
+      <div class="af-test-empty-card-v1">
+        <div class="af-test-empty-icon-v1">📅</div>
+        <h3>No tests scheduled</h3>
+        <p>Check back later for upcoming scholarship tests.</p>
+      </div>
+    </div>
+
+    <div class="developer-credit-line af-test-credit-v1">
+      <span>© 2026 AcademeForge by Devraj Kumar.</span>
+      <small>Made with ❤️ in India.</small>
+    </div>
+
+  </div>
+</section>
     
 <!-- NEW STUDENT SECTION -->
 
@@ -24704,6 +25020,69 @@ window.addEventListener("storage", function() {
   refreshAfNexusLockStateV2();
 });
 
+  /* =========================================================
+   AF TEST SECTION LOCK SYSTEM
+   Paste at END of JS
+========================================================= */
+
+function afTestIsLoggedInV1() {
+  const email = localStorage.getItem("af_student_email") || "";
+  const mobile = localStorage.getItem("af_student_mobile") || "";
+  return !!(email.trim() || mobile.trim());
+}
+
+function refreshAfTestLockV1() {
+  const locked = document.getElementById("afTestLockedV1");
+  const main = document.getElementById("afTestMainV1");
+
+  const loggedIn = afTestIsLoggedInV1();
+
+  if (loggedIn) {
+    if (locked) {
+      locked.classList.add("af-hidden");
+      locked.style.display = "none";
+    }
+
+    if (main) {
+      main.classList.remove("af-hidden");
+      main.style.display = "grid";
+    }
+  } else {
+    if (locked) {
+      locked.classList.remove("af-hidden");
+      locked.style.display = "grid";
+    }
+
+    if (main) {
+      main.classList.add("af-hidden");
+      main.style.display = "none";
+    }
+  }
+}
+
+/* Hook with showSection */
+if (typeof showSection === "function") {
+  const oldShowSectionAfTestV1 = showSection;
+
+  showSection = function(sectionId) {
+    oldShowSectionAfTestV1(sectionId);
+
+    if (sectionId === "explore") {
+      setTimeout(refreshAfTestLockV1, 50);
+      setTimeout(refreshAfTestLockV1, 300);
+    }
+  };
+}
+
+/* run on load/focus */
+document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(refreshAfTestLockV1, 500);
+});
+
+window.addEventListener("focus", function() {
+  refreshAfTestLockV1();
+});
+  
   </script>
 </body>
 </html>
