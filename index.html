@@ -11706,13 +11706,61 @@ body.dark-mode .af-nexus-empty-v2 {
    Paste at END of CSS
 ========================================================= */
 
+/* =========================================================
+   AF NEXUS WRITE BUTTON - KEEP INSIDE APP ON DESKTOP
+   Paste at END of CSS
+========================================================= */
+
+/* =========================================================
+   AF NEXUS WRITE BUTTON - FIXED BUT INSIDE APP WIDTH
+   Paste at END of CSS
+========================================================= */
+
+:root {
+  --af-app-max-width: 760px;
+  --af-write-gap: 18px;
+}
+
+/* keep button fixed on screen, but aligned to app container */
+.af-nexus-write-btn-v2 {
+  position: fixed !important;
+  z-index: 9999 !important;
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 22px !important;
+  right: max(
+    var(--af-write-gap),
+    calc((100vw - var(--af-app-max-width)) / 2 + var(--af-write-gap))
+  ) !important;
+  bottom: calc(86px + env(safe-area-inset-bottom)) !important;
+}
+
+/* if your actual app container is 430px on desktop, use this */
 @media (min-width: 768px) {
+  :root {
+    --af-app-max-width: 430px;
+    --af-write-gap: 18px;
+  }
+
   .af-nexus-write-btn-v2 {
-    position: sticky !important;
-    margin-left: auto !important;
-    bottom: 20px !important;
-    right: 18px !important;
-    transform: translateY(-18px) !important;
+    right: max(
+      var(--af-write-gap),
+      calc((100vw - var(--af-app-max-width)) / 2 + var(--af-write-gap))
+    ) !important;
+    bottom: 86px !important;
+  }
+}
+
+/* mobile same as before */
+@media (max-width: 767px) {
+  :root {
+    --af-app-max-width: 100vw;
+    --af-write-gap: 16px;
+  }
+
+  .af-nexus-write-btn-v2 {
+    right: max(16px, env(safe-area-inset-right)) !important;
+    bottom: calc(86px + env(safe-area-inset-bottom)) !important;
   }
 }
 
@@ -13468,7 +13516,7 @@ body.dark-mode #notifications .notification-credit small {
 
           <div>
             <h2>AF Nexus</h2>
-            <p>Connect, discuss, reply, and grow with fellow learners.</p>
+            <p>Connect, discuss & grow with fellow learners.</p>
           </div>
         </div>
 
@@ -13478,7 +13526,7 @@ body.dark-mode #notifications .notification-credit small {
           type="button"
           onclick="openAfMyNexusV2()"
         >
-          My Nexus
+          My Nexus Posts
         </button>
       </div>
 
