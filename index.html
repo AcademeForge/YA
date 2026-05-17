@@ -23117,39 +23117,6 @@ window.addEventListener("storage", function() {
   refreshAfNexusLockStateV2();
 });
 
-  /* =========================================================
-   AF NEXUS V2 BLANK TOP SPACE FIX AFTER LOGIN
-   Paste at END of CSS
-========================================================= */
-
-/* Jab logged in ho, locked area bilkul space na le */
-.af-nexus-v2-shell.af-nexus-logged-in-v2 #afNexusLockedV2 {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  max-height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  overflow: hidden !important;
-  pointer-events: none !important;
-}
-
-/* Logged in state me community shell normal content height le */
-.af-nexus-v2-shell.af-nexus-logged-in-v2 {
-  min-height: auto !important;
-  padding-top: 14px !important;
-}
-
-/* Main community ko top se start karo */
-.af-nexus-v2-shell.af-nexus-logged-in-v2 #afNexusMainV2 {
-  display: block !important;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* Agar kisi old CSS ne community section ko huge top padding diya hai
   </script>
 </body>
 </html>
