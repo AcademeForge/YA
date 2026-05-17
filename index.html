@@ -23026,6 +23026,96 @@ initAfNexusV2 = async function() {
     forceCloseAfNexusOverlaysV2();
   }, 100);
 };
+
+  /* =========================================================
+   AF NEXUS V2 LOGIN LOCK VISIBILITY FIX
+   Paste at VERY END of JS
+========================================================= */
+
+function refreshAfNexusLockStateV2() {
+  const locked = document.getElementById("afNexusLockedV2");
+  const main = document.getElementById("afNexusMainV2");
+  const writeBtn = document.getElementById("afNexusWriteBtnV2");
+
+  const loggedIn = afNexusIsLoggedInV2();
+
+  if (loggedIn) {
+    if (locked) {
+      locked.classList.add("af-hidden");
+      locked.style.display = "none";
+      locked.style.visibility = "hidden";
+      locked.style.opacity = "0";
+      locked.style.pointerEvents = "none";
+    }
+
+    if (main) {
+      main.classList.remove("af-hidden");
+      main.style.display = "";
+      main.style.visibility = "";
+      main.style.opacity = "";
+      main.style.pointerEvents = "";
+    }
+
+    if (writeBtn) {
+      writeBtn.classList.remove("af-hidden");
+      writeBtn.style.display = "";
+      writeBtn.style.visibility = "";
+      writeBtn.style.opacity = "";
+      writeBtn.style.pointerEvents = "";
+    }
+
+  } else {
+    if (locked) {
+      locked.classList.remove("af-hidden");
+      locked.style.display = "grid";
+      locked.style.visibility = "visible";
+      locked.style.opacity = "1";
+      locked.style.pointerEvents = "auto";
+    }
+
+    if (main) {
+      main.classList.add("af-hidden");
+      main.style.display = "none";
+    }
+
+    if (writeBtn) {
+      writeBtn.classList.add("af-hidden");
+      writeBtn.style.display = "none";
+    }
+  }
+}
+
+/* override init to always refresh lock state */
+const oldInitAfNexusV2_lockFix = initAfNexusV2;
+
+initAfNexusV2 = async function() {
+  refreshAfNexusLockStateV2();
+
+  await oldInitAfNexusV2_lockFix();
+
+  setTimeout(function() {
+    refreshAfNexusLockStateV2();
+  }, 150);
+
+  setTimeout(function() {
+    refreshAfNexusLockStateV2();
+  }, 600);
+};
+
+/* call after page load */
+document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(refreshAfNexusLockStateV2, 500);
+});
+
+/* call when app comes back/open */
+window.addEventListener("focus", function() {
+  refreshAfNexusLockStateV2();
+});
+
+/* call when localStorage login data changes */
+window.addEventListener("storage", function() {
+  refreshAfNexusLockStateV2();
+});
   </script>
 </body>
 </html>
