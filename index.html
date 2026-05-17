@@ -20717,6 +20717,373 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 });
+
+  /* =========================================================
+   AF PROFILE DETAILS + ENROLLED COURSES FINAL PATCH
+   Paste at VERY END of JS
+========================================================= */
+
+function afTextClean(v) {
+  return String(v || "").trim();
+}
+
+function afStableStudentKeyFinal(student) {
+  const login =
+    typeof afGetLoginData === "function"
+      ? afGetLoginData()
+      : {};
+
+  return (
+    afTextClean(student && student.email) ||
+    afTextClean(login && login.email) ||
+    afTextClean(student && student.mobile) ||
+    afTextClean(login && login.mobile) ||
+    afTextClean(student && student.name) ||
+    afTextClean(login && login.name)
+  );
+}
+
+function afProfileDetailsCacheKeyFinal(student) {
+  const key = afStableStudentKeyFinal(student);
+
+  if (!key) return "";
+
+  return "af_profile_details_final_" + key.toLowerCase().replace(/[^a-z0-9@._-]/g, "_");
+}
+
+function afEnrolledCoursesCacheKeyFinal(student) {
+  const key = afStableStudentKeyFinal(student);
+
+  if (!key) return "";
+
+  return "af_enrolled_courses_final_" + key.toLowerCase().replace(/[^a-z0-9@._-]/g, "_");
+}
+
+function afLocalSetFinal(key, data) {
+  try {
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        data: data,
+        savedAt: Date.now()
+      })
+    );
+  } catch (err) {
+    console.warn("Local set failed:", key, err);
+  }
+}
+
+function afLocalGetFinal(key, maxAgeMinutes) {
+  try {
+    const raw = localStorage.getItem(key);
+
+    if (!raw) return null;
+
+    const payload = JSON.parse(raw);
+
+    if (!payload || !payload.savedAt) return null;
+
+    if (maxAgeMinutes) {
+      const expired =
+        Date.now() - payload.savedAt >
+        maxAgeMinutes * 60 * 1000;
+
+      if (expired) {
+        localStorage.removeItem(key);
+        return null;
+      }
+    }
+
+    return payload.data;
+  } catch (err) {
+    console.warn("Local get failed:", key, err);
+    return null;
+  }
+}
+
+/* ---------- EXTRA DETAILS FETCH ---------- */
+
+async function afFetchExtra(student) {
+  const backend = afBackend();
+
+  if (!backend || !student) {
+    return null;
+  }
+
+  const key = afStableStudentKeyFinal(student);
+
+  if (!key) {
+    console.warn("No student key for profile details.");
+    return null;
+  }
+
+  const cacheKey = afProfileDetailsCacheKeyFinal(student);
+  const cached = afLocalGetFinal(cacheKey, 60 * 24 * 7);
+
+  if (cached) {
+    // background refresh
+    backend
+      .from("student_profile_details_af")
+      .select("student_key, state, district, class_name, updated_at")
+      .eq("student_key", key)
+      .maybeSingle()
+      .then(function(res) {
+        if (!res.error && res.data) {
+          afLocalSetFinal(cacheKey, res.data);
+        }
+      });
+
+    return cached;
+  }
+
+  const { data, error } = await backend
+    .from("student_profile_details_af")
+    .select("student_key, state, district, class_name, updated_at")
+    .eq("student_key", key)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Profile details fetch error:", error);
+    return null;
+  }
+
+  if (data) {
+    afLocalSetFinal(cacheKey, data);
+  }
+
+  return data || null;
+}
+
+/* ---------- EXTRA DETAILS SAVE ---------- */
+
+async function afUpsertExtra(payload) {
+  const backend = afBackend();
+
+  if (!backend) {
+    throw new Error("Backend not connected.");
+  }
+
+  if (!afCurrentStudent) {
+    afCurrentStudent = await afFetchStudent();
+  }
+
+  if (!afCurrentStudent) {
+    throw new Error("Student profile not loaded.");
+  }
+
+  const key = afStableStudentKeyFinal(afCurrentStudent);
+
+  if (!key) {
+    throw new Error("Student key not found.");
+  }
+
+  const finalPayload = {
+    student_key: key,
+    state: afTextClean(payload.state),
+    district: afTextClean(payload.district),
+    class_name: afTextClean(payload.class_name),
+    updated_at: new Date().toISOString()
+  };
+
+  let saved = null;
+
+  const { data, error } = await backend
+    .from("student_profile_details_af")
+    .upsert(finalPayload, { onConflict: "student_key" })
+    .select("student_key, state, district, class_name, updated_at")
+    .maybeSingle();
+
+  if (error) {
+    console.warn("Upsert failed, trying manual save:", error.message);
+
+    const existing = await backend
+      .from("student_profile_details_af")
+      .select("student_key")
+      .eq("student_key", key)
+      .maybeSingle();
+
+    if (existing.data) {
+      const updateRes = await backend
+        .from("student_profile_details_af")
+        .update({
+          state: finalPayload.state,
+          district: finalPayload.district,
+          class_name: finalPayload.class_name,
+          updated_at: finalPayload.updated_at
+        })
+        .eq("student_key", key)
+        .select("student_key, state, district, class_name, updated_at")
+        .maybeSingle();
+
+      if (updateRes.error) {
+        throw new Error(updateRes.error.message);
+      }
+
+      saved = updateRes.data;
+    } else {
+      const insertRes = await backend
+        .from("student_profile_details_af")
+        .insert([finalPayload])
+        .select("student_key, state, district, class_name, updated_at")
+        .maybeSingle();
+
+      if (insertRes.error) {
+        throw new Error(insertRes.error.message);
+      }
+
+      saved = insertRes.data;
+    }
+  } else {
+    saved = data;
+  }
+
+  afCurrentExtra = saved;
+
+  const cacheKey = afProfileDetailsCacheKeyFinal(afCurrentStudent);
+  afLocalSetFinal(cacheKey, saved);
+
+  return saved;
+}
+
+/* ---------- SAVE BUTTON FUNCTION ---------- */
+
+async function saveOtherDetailsAf() {
+  const state = afGetInput("afEditState");
+  const district = afGetInput("afEditDistrict");
+  const className = afGetInput("afEditClass");
+
+  if (!state || !district || !className) {
+    afMsg("Please fill state, district and class.", "warning", "Missing Details");
+    return;
+  }
+
+  try {
+    await afUpsertExtra({
+      state: state,
+      district: district,
+      class_name: className
+    });
+
+    closeAfModal("afOtherDetailsModal");
+
+    afMsg("State, district and class saved successfully.", "success", "Saved");
+
+    if (typeof openStudentDashboardCardAf === "function") {
+      await openStudentDashboardCardAf();
+    }
+  } catch (err) {
+    console.error("Save other details failed:", err);
+    afMsg(err.message || "Could not save details.", "error", "Save Failed");
+  }
+}
+
+/* ---------- ENROLLED COURSES CACHE PATCH ---------- */
+
+async function afFetchBatches(student) {
+  const backend = afBackend();
+
+  if (!backend || !student) {
+    return [];
+  }
+
+  const key = afStableStudentKeyFinal(student);
+
+  if (!key) {
+    return [];
+  }
+
+  const cacheKey = afEnrolledCoursesCacheKeyFinal(student);
+  const cached = afLocalGetFinal(cacheKey, 60 * 12);
+
+  if (cached) {
+    // background refresh
+    afFetchBatchesFreshFinal(student)
+      .then(function(fresh) {
+        if (fresh) {
+          afLocalSetFinal(cacheKey, fresh);
+        }
+      })
+      .catch(function(err) {
+        console.warn("Batches background refresh failed:", err);
+      });
+
+    return cached;
+  }
+
+  const fresh = await afFetchBatchesFreshFinal(student);
+  afLocalSetFinal(cacheKey, fresh);
+
+  return fresh;
+}
+
+async function afFetchBatchesFreshFinal(student) {
+  const backend = afBackend();
+
+  if (!backend || !student) {
+    return [];
+  }
+
+  const studentEmail = afTextClean(student.email);
+  const studentMobile = afTextClean(student.mobile);
+  const studentName = afTextClean(student.name);
+
+  let enrolledRows = [];
+
+  /*
+    IMPORTANT:
+    Yaha table/column names tumhare backend ke hisaab se hain.
+    Agar enrolled courses ka table naam alag hai to yaha change karna hoga.
+  */
+
+  let query = backend
+    .from("student_enrollments_af")
+    .select("*");
+
+  if (studentEmail) {
+    query = query.eq("email", studentEmail);
+  } else if (studentMobile) {
+    query = query.eq("mobile", studentMobile);
+  } else if (studentName) {
+    query = query.eq("name", studentName);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Enrollment fetch error:", error);
+    return [];
+  }
+
+  enrolledRows = data || [];
+
+  const courseIds = enrolledRows
+    .map(function(row) {
+      return (
+        row.course_id ||
+        row.batch_id ||
+        row.courseId ||
+        row.batchId ||
+        row.id
+      );
+    })
+    .filter(Boolean);
+
+  if (!courseIds.length) {
+    return enrolledRows;
+  }
+
+  const { data: courses, error: courseError } = await backend
+    .from("courses")
+    .select("*")
+    .in("id", courseIds);
+
+  if (courseError) {
+    console.error("Course details fetch error:", courseError);
+    return enrolledRows;
+  }
+
+  return courses || enrolledRows;
+}
   </script>
 </body>
 </html>
