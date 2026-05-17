@@ -21084,6 +21084,164 @@ async function afFetchBatchesFreshFinal(student) {
 
   return courses || enrolledRows;
 }
+
+  /* =========================================================
+   AF STATE DISTRICT CLASS SAVE DEBUG FIX
+   Paste at VERY END of JS
+========================================================= */
+
+function afCleanProfileValue(v) {
+  return String(v || "").trim();
+}
+
+function afGetStudentKeyForProfileSave() {
+  let login = {};
+
+  if (typeof afGetLoginData === "function") {
+    login = afGetLoginData() || {};
+  }
+
+  const student = window.afCurrentStudent || {};
+
+  const key =
+    afCleanProfileValue(student.email) ||
+    afCleanProfileValue(login.email) ||
+    afCleanProfileValue(student.mobile) ||
+    afCleanProfileValue(login.mobile) ||
+    afCleanProfileValue(localStorage.getItem("af_student_email")) ||
+    afCleanProfileValue(localStorage.getItem("af_student_mobile"));
+
+  console.log("AF PROFILE SAVE KEY:", key);
+  console.log("AF CURRENT STUDENT:", student);
+  console.log("AF LOGIN DATA:", login);
+
+  return key;
+}
+
+async function afUpsertExtra(payload) {
+  console.log("AF SAVE STARTED:", payload);
+
+  const backend = typeof afBackend === "function" ? afBackend() : null;
+
+  if (!backend) {
+    console.error("AF ERROR: backend missing");
+    throw new Error("Backend not connected.");
+  }
+
+  const studentKey = afGetStudentKeyForProfileSave();
+
+  if (!studentKey) {
+    throw new Error("Student key not found. Login email/mobile missing.");
+  }
+
+  const finalPayload = {
+    student_key: studentKey,
+    state: afCleanProfileValue(payload.state),
+    district: afCleanProfileValue(payload.district),
+    class_name: afCleanProfileValue(payload.class_name),
+    updated_at: new Date().toISOString()
+  };
+
+  console.log("AF FINAL PAYLOAD:", finalPayload);
+
+  const result = await backend
+    .from("student_profile_details_af")
+    .upsert(finalPayload, {
+      onConflict: "student_key"
+    })
+    .select("*");
+
+  console.log("AF SUPABASE SAVE RESULT:", result);
+
+  if (result.error) {
+    console.error("AF SUPABASE SAVE ERROR:", result.error);
+    throw new Error(result.error.message);
+  }
+
+  const savedRow = result.data && result.data.length ? result.data[0] : finalPayload;
+
+  window.afCurrentExtra = savedRow;
+
+  try {
+    localStorage.setItem(
+      "af_profile_details_" + studentKey.toLowerCase().replace(/[^a-z0-9@._-]/g, "_"),
+      JSON.stringify({
+        data: savedRow,
+        savedAt: Date.now()
+      })
+    );
+  } catch (err) {
+    console.warn("AF local profile save failed:", err);
+  }
+
+  return savedRow;
+}
+
+async function saveOtherDetailsAf() {
+  console.log("AF saveOtherDetailsAf clicked");
+
+  const stateInput = document.getElementById("afEditState");
+  const districtInput = document.getElementById("afEditDistrict");
+  const classInput = document.getElementById("afEditClass");
+
+  console.log("AF INPUTS:", {
+    stateInput: stateInput,
+    districtInput: districtInput,
+    classInput: classInput
+  });
+
+  const state = stateInput ? stateInput.value.trim() : "";
+  const district = districtInput ? districtInput.value.trim() : "";
+  const className = classInput ? classInput.value.trim() : "";
+
+  console.log("AF INPUT VALUES:", {
+    state: state,
+    district: district,
+    className: className
+  });
+
+  if (!state || !district || !className) {
+    if (typeof afMsg === "function") {
+      afMsg("Please fill state, district and class.", "warning", "Missing Details");
+    } else {
+      alert("Please fill state, district and class.");
+    }
+    return;
+  }
+
+  try {
+    const saved = await afUpsertExtra({
+      state: state,
+      district: district,
+      class_name: className
+    });
+
+    console.log("AF SAVED SUCCESS:", saved);
+
+    if (typeof closeAfModal === "function") {
+      closeAfModal("afOtherDetailsModal");
+    }
+
+    if (typeof afMsg === "function") {
+      afMsg("State, district and class saved successfully.", "success", "Saved");
+    } else {
+      alert("Saved successfully.");
+    }
+
+    if (typeof openStudentDashboardCardAf === "function") {
+      await openStudentDashboardCardAf();
+    }
+
+  } catch (err) {
+    console.error("AF SAVE FAILED FINAL:", err);
+
+    if (typeof afMsg === "function") {
+      afMsg(err.message || "Could not save details.", "error", "Save Failed");
+    } else {
+      alert("Save failed: " + err.message);
+    }
+  }
+}
   </script>
 </body>
 </html>
