@@ -1,4 +1,4 @@
-const AF_OFFLINE_CACHE = "af-offline-cache-v1";
+const AF_OFFLINE_CACHE = "af-offline-cache-v2";
 
 const AF_OFFLINE_FILES = [
   "./",
