@@ -11758,6 +11758,33 @@ body.dark-mode .moving-text-track span {
       </div>
     </div>
 
+    <div class="af-panel glass">
+      <div class="af-panel-head">
+        <div>
+          <h3>Other Details</h3>
+          <p>State, district and class</p>
+        </div>
+
+        <button class="af-mini-btn" type="button" onclick="openOtherDetailsEditAf()">Edit</button>
+      </div>
+
+      <div class="af-detail-grid">
+        <div class="af-detail-row">
+          <span>State</span>
+          <strong id="afInfoState">-</strong>
+        </div>
+
+        <div class="af-detail-row">
+          <span>District</span>
+          <strong id="afInfoDistrict">-</strong>
+        </div>
+
+        <div class="af-detail-row">
+          <span>Class</span>
+          <strong id="afInfoClass">-</strong>
+        </div>
+      </div>
+    </div>
 
     <div class="af-panel glass">
       <div class="af-panel-head">
@@ -11841,6 +11868,27 @@ body.dark-mode .moving-text-track span {
       </div>
     </div>
   </div>
+
+  <!-- Edit Other Details Modal -->
+  <div id="afOtherDetailsModal" class="af-modal af-hidden">
+    <div class="af-modal-card glass">
+      <button class="af-modal-close" type="button" onclick="closeAfModal('afOtherDetailsModal')">×</button>
+
+      <h3>Edit Other Details</h3>
+      <p>These details are saved in profile details table.</p>
+
+      <label>State</label>
+      <input id="afEditState" type="text" placeholder="Enter state">
+
+      <label>District</label>
+      <input id="afEditDistrict" type="text" placeholder="Enter district">
+
+      <label>Class</label>
+      <input id="afEditClass" type="text" placeholder="Enter class">
+
+      <button class="af-primary-btn" type="button" onclick="saveOtherDetailsAf()">Save Details</button>
+    </div>
+  </div>
 </section>
     
     <!-- ==============================
@@ -11872,7 +11920,7 @@ body.dark-mode .moving-text-track span {
           <img id="batchDetailImageaf" src="" alt="Batch Image" class="batch-detail-imgaf">
 
           <div class="batch-detail-bodyaf">
-            <div class="batch-detail-headrowaf"> 
+            <div class="batch-detail-headrowaf">
               <div>
                 <p class="batch-categoryaf" id="batchDetailCategoryaf">Target</p>
                 <h2 id="batchDetailTitleaf">Batch Name</h2>
