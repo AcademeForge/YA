@@ -12144,6 +12144,57 @@ body.dark #notifications .notification-credit small,
 body.dark-mode #notifications .notification-credit small {
   color: #94a3b8 !important;
 }
+
+    /* =========================================================
+   NOTIFICATIONS CENTER FIX - SAME APP WIDTH
+   Paste at END of CSS
+========================================================= */
+
+#notifications.section {
+  width: 100% !important;
+  max-width: 430px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  box-sizing: border-box !important;
+}
+
+#notifications .panel.glass {
+  width: 100% !important;
+  max-width: 430px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* desktop/laptop me bhi app ke center me locked */
+@media (min-width: 768px) {
+  #notifications.section {
+    max-width: 430px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  #notifications .panel.glass {
+    max-width: 430px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* mobile full safe width */
+@media (max-width: 480px) {
+  #notifications.section {
+    max-width: 100% !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  #notifications .panel.glass {
+    max-width: 100% !important;
+  }
+}
   </style>
 </head>
 
