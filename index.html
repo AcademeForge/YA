@@ -11706,38 +11706,15 @@ body.dark-mode .af-nexus-empty-v2 {
    Paste at END of CSS
 ========================================================= */
 
-/* make community shell positioning anchor */
-.af-nexus-v2-shell {
-  position: relative !important;
-}
-
-/* desktop/tablet: button app container ke andar */
 @media (min-width: 768px) {
   .af-nexus-write-btn-v2 {
-    position: absolute !important;
+    position: sticky !important;
+    margin-left: auto !important;
+    bottom: 20px !important;
     right: 18px !important;
-    bottom: 18px !important;
-    z-index: 50 !important;
-    width: 56px !important;
-    height: 56px !important;
-    border-radius: 20px !important;
-  }
-
-  .af-nexus-posts-list-v2 {
-    padding-bottom: 90px !important;
+    transform: translateY(-18px) !important;
   }
 }
-
-/* mobile: bottom nav ke upar fixed rahe */
-@media (max-width: 767px) {
-  .af-nexus-write-btn-v2 {
-    position: fixed !important;
-    right: max(16px, env(safe-area-inset-right)) !important;
-    bottom: calc(86px + env(safe-area-inset-bottom)) !important;
-    z-index: 999 !important;
-  }
-}
-    
 
     /* =========================================================
    AF NOTIFICATIONS SECTION - PROFESSIONAL MOBILE UI
