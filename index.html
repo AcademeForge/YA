@@ -10576,6 +10576,289 @@ body.dark .moving-text-track span,
 body.dark-mode .moving-text-track span {
   color: #e2e8f0 !important;
 }
+
+    /* =========================================================
+   AF ADDITIONAL SETTINGS - PROFESSIONAL MANUAL DELETE FLOW
+   Paste at END of CSS
+========================================================= */
+
+.af-additional-settings-panel {
+  padding: 14px !important;
+  border-radius: 24px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.92), rgba(248,250,252,0.86)) !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08) !important;
+}
+
+.af-settings-main-btn {
+  width: 100% !important;
+  min-height: 72px !important;
+  border: 0 !important;
+  outline: none !important;
+  cursor: pointer !important;
+  border-radius: 20px !important;
+  padding: 13px 14px !important;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) 28px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: left !important;
+  background:
+    linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07) !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.af-settings-main-btn:active {
+  transform: scale(0.985) !important;
+}
+
+.af-settings-icon-new {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 16px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 20px !important;
+  background: linear-gradient(135deg, #e0f2fe, #eef2ff) !important;
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.14) !important;
+}
+
+.af-settings-text-new {
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.af-settings-text-new strong {
+  font-size: 15px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  color: #0f172a !important;
+}
+
+.af-settings-text-new small {
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  color: #64748b !important;
+}
+
+.af-settings-arrow-new {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 10px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #475569 !important;
+  background: rgba(241, 245, 249, 0.9) !important;
+  transition: transform 0.2s ease !important;
+}
+
+.af-settings-arrow-new.af-open {
+  transform: rotate(180deg) !important;
+}
+
+.af-settings-body-new {
+  margin-top: 12px !important;
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.af-delete-info-btn-new {
+  width: 100% !important;
+  border: 0 !important;
+  outline: none !important;
+  cursor: pointer !important;
+  border-radius: 18px !important;
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+  text-align: left !important;
+  background:
+    linear-gradient(135deg, #fff1f2 0%, #ffffff 100%) !important;
+  border: 1px solid rgba(254, 205, 211, 0.9) !important;
+  color: #991b1b !important;
+  box-shadow: 0 10px 24px rgba(127, 29, 29, 0.08) !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.af-delete-info-btn-new:active {
+  transform: scale(0.985) !important;
+}
+
+.af-delete-info-btn-new span {
+  font-size: 14px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+  color: #991b1b !important;
+}
+
+.af-delete-info-btn-new small {
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  color: #b91c1c !important;
+  opacity: 0.82 !important;
+}
+
+.af-delete-info-box-new {
+  border-radius: 20px !important;
+  padding: 15px !important;
+  background:
+    linear-gradient(145deg, #ffffff 0%, #fff7f7 100%) !important;
+  border: 1px solid rgba(254, 202, 202, 0.95) !important;
+  box-shadow: 0 14px 30px rgba(127, 29, 29, 0.08) !important;
+}
+
+.af-delete-info-top-new {
+  display: flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  margin-bottom: 12px !important;
+}
+
+.af-delete-info-icon-new {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  border-radius: 14px !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 18px !important;
+  font-weight: 1000 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #ef4444, #991b1b) !important;
+  box-shadow: 0 10px 18px rgba(239, 68, 68, 0.25) !important;
+}
+
+.af-delete-info-top-new h4 {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+  color: #7f1d1d !important;
+  letter-spacing: -0.02em !important;
+}
+
+.af-delete-info-top-new p {
+  margin: 3px 0 0 !important;
+  font-size: 10.5px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  color: #b91c1c !important;
+}
+
+.af-delete-info-message-new {
+  margin: 0 0 10px !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+}
+
+.af-delete-info-message-new strong {
+  color: #0f172a !important;
+  font-weight: 900 !important;
+  word-break: break-word !important;
+}
+
+.af-delete-warning-new {
+  margin-top: 12px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  background: #fff7ed !important;
+  border: 1px solid rgba(253, 186, 116, 0.75) !important;
+  color: #9a3412 !important;
+  font-size: 11.5px !important;
+  line-height: 1.45 !important;
+  font-weight: 750 !important;
+}
+
+.af-delete-warning-new strong {
+  font-weight: 950 !important;
+}
+
+.af-mail-delete-btn-new {
+  margin-top: 13px !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  border-radius: 16px !important;
+  display: grid !important;
+  place-items: center !important;
+  text-decoration: none !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18) !important;
+}
+
+.af-mail-delete-btn-new:active {
+  transform: scale(0.985) !important;
+}
+
+/* Dark mode */
+body.dark .af-additional-settings-panel,
+body.dark-mode .af-additional-settings-panel {
+  background: linear-gradient(145deg, rgba(15,23,42,0.92), rgba(2,6,23,0.88)) !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+body.dark .af-settings-main-btn,
+body.dark-mode .af-settings-main-btn {
+  background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(30,41,59,0.9)) !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+  color: #f8fafc !important;
+}
+
+body.dark .af-settings-text-new strong,
+body.dark-mode .af-settings-text-new strong {
+  color: #f8fafc !important;
+}
+
+body.dark .af-settings-text-new small,
+body.dark-mode .af-settings-text-new small {
+  color: #94a3b8 !important;
+}
+
+body.dark .af-settings-arrow-new,
+body.dark-mode .af-settings-arrow-new {
+  background: rgba(30, 41, 59, 0.95) !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark .af-delete-info-box-new,
+body.dark-mode .af-delete-info-box-new {
+  background: linear-gradient(145deg, rgba(69,10,10,0.72), rgba(15,23,42,0.92)) !important;
+  border-color: rgba(248, 113, 113, 0.22) !important;
+}
+
+body.dark .af-delete-info-message-new,
+body.dark-mode .af-delete-info-message-new {
+  color: #e2e8f0 !important;
+}
+
+body.dark .af-delete-info-message-new strong,
+body.dark-mode .af-delete-info-message-new strong {
+  color: #ffffff !important;
+}
+
+body.dark .af-delete-warning-new,
+body.dark-mode .af-delete-warning-new {
+  background: rgba(67, 20, 7, 0.72) !important;
+  border-color: rgba(251, 146, 60, 0.25) !important;
+  color: #fed7aa !important;
+}
   </style>
 </head>
 
@@ -11776,46 +12059,68 @@ body.dark-mode .moving-text-track span {
         <p class="af-empty">No enrolled batch found.</p>
       </div>
     </div>
+<!-- Additional Setting Panel -->
+<div class="af-panel glass af-additional-settings-panel">
+  <button
+    id="afAdditionalSettingsBtnNew"
+    class="af-settings-main-btn"
+    type="button"
+    onclick="toggleAfAdditionalSettingsNew()"
+  >
+    <span class="af-settings-icon-new">⚙️</span>
 
-    <div class="af-panel glass">
-      <div class="af-panel-head">
+    <span class="af-settings-text-new">
+      <strong>Additional Setting</strong>
+      <small>Account safety and sensitive actions</small>
+    </span>
+
+    <span id="afAdditionalSettingsArrowNew" class="af-settings-arrow-new">⌄</span>
+  </button>
+
+  <div id="afAdditionalSettingsBodyNew" class="af-settings-body-new af-hidden">
+    <button
+      id="afDeleteAccountInfoBtnNew"
+      class="af-delete-info-btn-new"
+      type="button"
+      onclick="showAfDeleteAccountInfoNew()"
+    >
+      <span>Delete Account</span>
+      <small>Permanent account removal request</small>
+    </button>
+
+    <div id="afDeleteAccountInfoBoxNew" class="af-delete-info-box-new af-hidden">
+      <div class="af-delete-info-top-new">
+        <div class="af-delete-info-icon-new">!</div>
         <div>
-          <h3>Additional Setting</h3>
-          <p>Account safety and sensitive actions</p>
+          <h4>Account Deletion Request</h4>
+          <p>Manual verification required</p>
         </div>
       </div>
 
-      <details class="af-delete-box">
-        <summary>Delete Account</summary>
+      <p class="af-delete-info-message-new">
+        Oops, we are sad that you are leaving AcademeForge.
+      </p>
 
-        <div class="af-delete-form">
-          <p class="af-danger-note">
-            Enter your registered email and phone number. OTP verification is required before deleting.
-          </p>
+      <p class="af-delete-info-message-new">
+        To request account deletion, please mail us at
+        <strong>noreply.academeforge@gmail.com</strong>
+        with your registered phone number, registered email, and full name.
+      </p>
 
-          <label>Email</label>
-          <input id="afDeleteEmail" type="email" placeholder="Registered email">
+      <div class="af-delete-warning-new">
+        <strong>Important:</strong>
+        This is a permanent action. Once your account is deleted, you will not be able to create a new account with the same phone number or email.
+      </div>
 
-          <label>Phone Number</label>
-          <input id="afDeleteMobile" type="tel" placeholder="Registered phone number">
-
-          <label>Reason optional</label>
-          <textarea id="afDeleteReason" placeholder="Reason for deleting account"></textarea>
-
-          <button class="af-danger-btn" type="button" onclick="sendDeleteAccountOtpAf()">Send OTP</button>
-
-          <div id="afDeleteOtpBox" class="af-otp-box af-hidden">
-            <label>Enter OTP</label>
-            <input id="afDeleteOtp" type="text" placeholder="Email OTP">
-
-            <button class="af-danger-btn af-danger-dark" type="button" onclick="confirmDeleteAccountAf()">
-              Verify OTP & Delete Account
-            </button>
-          </div>
-        </div>
-      </details>
+      <a
+        class="af-mail-delete-btn-new"
+        href="mailto:noreply.academeforge@gmail.com?subject=Account%20Deletion%20Request%20-%20AcademeForge&body=Hello%20AcademeForge%20Team%2C%0A%0AI%20want%20to%20request%20deletion%20of%20my%20AcademeForge%20account.%0A%0ARegistered%20Name%3A%20%0ARegistered%20Email%3A%20%0ARegistered%20Phone%20Number%3A%20%0AReason%20(optional)%3A%20%0A%0AI%20understand%20that%20this%20is%20a%20permanent%20action%20and%20I%20will%20not%20be%20able%20to%20create%20a%20new%20account%20with%20the%20same%20phone%20number%20or%20email.%0A%0AThank%20you."
+      >
+        Mail Deletion Request
+      </a>
     </div>
   </div>
+</div>
 </section>
     
     <!-- ==============================
@@ -20834,6 +21139,31 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
+  /* =========================================================
+   AF ADDITIONAL SETTINGS MANUAL DELETE FLOW
+   Paste at END of JS
+========================================================= */
+
+function toggleAfAdditionalSettingsNew() {
+  const body = document.getElementById("afAdditionalSettingsBodyNew");
+  const arrow = document.getElementById("afAdditionalSettingsArrowNew");
+
+  if (!body) return;
+
+  body.classList.toggle("af-hidden");
+
+  if (arrow) {
+    arrow.classList.toggle("af-open", !body.classList.contains("af-hidden"));
+  }
+}
+
+function showAfDeleteAccountInfoNew() {
+  const box = document.getElementById("afDeleteAccountInfoBoxNew");
+
+  if (!box) return;
+
+  box.classList.toggle("af-hidden");
+}
  
   </script>
 </body>
