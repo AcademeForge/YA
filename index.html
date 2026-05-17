@@ -11671,6 +11671,35 @@ body.dark-mode .af-nexus-empty-v2 {
   visibility: visible !important;
   pointer-events: auto !important;
 }
+    /* =========================================================
+   AF NEXUS LOCK SPACE FIX
+========================================================= */
+
+#afNexusLockedV2.af-hidden {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* when logged in remove top gap */
+#afNexusMainV2 {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* tighten shell spacing */
+.af-nexus-v2-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
   </style>
 </head>
 
@@ -23042,7 +23071,13 @@ function refreshAfNexusLockStateV2() {
   if (loggedIn) {
     if (locked) {
       locked.classList.add("af-hidden");
-      locked.style.display = "none";
+     locked.style.display = "none";
+locked.style.height = "0";
+locked.style.minHeight = "0";
+locked.style.maxHeight = "0";
+locked.style.padding = "0";
+locked.style.margin = "0";
+locked.style.overflow = "hidden";
       locked.style.visibility = "hidden";
       locked.style.opacity = "0";
       locked.style.pointerEvents = "none";
