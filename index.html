@@ -11651,6 +11651,26 @@ body.dark-mode .af-nexus-empty-v2 {
   border-color: rgba(148,163,184,0.24) !important;
   color: #94a3b8 !important;
 }
+    /* FORCE HIDE AF NEXUS V2 OVERLAYS */
+#afNexusComposerOverlayV2.af-hidden,
+#afNexusCommentsOverlayV2.af-hidden,
+#afNexusReplyOverlayV2.af-hidden,
+#afNexusMenuOverlayV2.af-hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+#afNexusComposerOverlayV2:not(.af-hidden),
+#afNexusCommentsOverlayV2:not(.af-hidden),
+#afNexusReplyOverlayV2:not(.af-hidden),
+#afNexusMenuOverlayV2:not(.af-hidden) {
+  display: grid !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
   </style>
 </head>
 
@@ -22952,6 +22972,60 @@ async function deleteAfNexusTargetV2() {
     console.error(err);
   }
 }
+  /* =========================================================
+   AF NEXUS V2 FORCE CLOSE OVERLAYS FIX
+========================================================= */
+
+function forceCloseAfNexusOverlaysV2() {
+  const ids = [
+    "afNexusComposerOverlayV2",
+    "afNexusCommentsOverlayV2",
+    "afNexusReplyOverlayV2",
+    "afNexusMenuOverlayV2"
+  ];
+
+  ids.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add("af-hidden");
+      el.style.display = "none";
+      el.style.opacity = "0";
+      el.style.visibility = "hidden";
+      el.style.pointerEvents = "none";
+    }
+  });
+
+  afNexusMenuTargetV2 = null;
+  afNexusCurrentReplyParentIdV2 = null;
+}
+
+/* Override old close menu also */
+function closeAfNexusMenuV2() {
+  const overlay = document.getElementById("afNexusMenuOverlayV2");
+
+  if (overlay) {
+    overlay.classList.add("af-hidden");
+    overlay.style.display = "none";
+    overlay.style.opacity = "0";
+    overlay.style.visibility = "hidden";
+    overlay.style.pointerEvents = "none";
+  }
+
+  afNexusMenuTargetV2 = null;
+}
+
+/* Run on community init */
+const oldInitAfNexusV2_forceFix = initAfNexusV2;
+
+initAfNexusV2 = async function() {
+  forceCloseAfNexusOverlaysV2();
+
+  await oldInitAfNexusV2_forceFix();
+
+  setTimeout(function() {
+    forceCloseAfNexusOverlaysV2();
+  }, 100);
+};
   </script>
 </body>
 </html>
