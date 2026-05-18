@@ -20124,7 +20124,11 @@ async function loginStudentaf() {
       showStudentMessageaf("err", "Login failed. Student data not received.");
       return;
     }
-
+    
+ localStorage.setItem("af_session_token", result.session_token || "");
+localStorage.setItem("af_device_id", result.device_id || "");
+localStorage.setItem("af_student_id", result.student.student_id || "");
+    
     saveStudentSessionaf(result.student);
     openCourseSectionAfterLoginaf(result.student);
 
@@ -25253,9 +25257,6 @@ function getAFDeviceName() {
 
   return "Web Browser";
 }
-  localStorage.setItem("af_session_token", result.session_token || "");
-localStorage.setItem("af_device_id", result.device_id || "");
-localStorage.setItem("af_student_id", result.student.student_id || "");
   </script>
 </body>
 </html>
