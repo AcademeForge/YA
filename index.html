@@ -20119,60 +20119,35 @@ async function loginStudentaf() {
       showStudentMessageaf("err", result?.message || "Login failed.");
       return;
     }
-var finalSessionToken = result.session_token || result.login_token || "";
-var finalDeviceId = result.device_id || getAFDeviceId();
 
-localStorage.setItem("af_session_token", finalSessionToken);
-localStorage.setItem("af_device_id", finalDeviceId);
-localStorage.setItem("af_student_id", result.student.student_id || "");
-
-console.log("Saved session:", {
-  token: finalSessionToken ? "YES" : "NO",
-  device: finalDeviceId,
-  student: result.student.student_id || ""
-});
     if (!result.student) {
       showStudentMessageaf("err", "Login failed. Student data not received.");
       return;
     }
-    
-var finalSessionToken = result.session_token || result.login_token || "";
-var finalDeviceId = result.device_id || getAFDeviceId();
 
-localStorage.setItem("af_session_token", finalSessionToken);
-localStorage.setItem("af_device_id", finalDeviceId);
-localStorage.setItem("af_student_id", result.student.student_id || "");
-
-console.log("Saved session:", {
-  token: finalSessionToken ? "YES" : "NO",
-  device: finalDeviceId,
-  student: result.student.student_id || ""
-});
-    
     saveStudentSessionaf(result.student);
 
-var finalSessionToken = result.session_token || result.login_token || "";
-var finalDeviceId = result.device_id || getAFDeviceId();
+    const finalSessionToken = result.session_token || result.login_token || "";
+    const finalDeviceId = result.device_id || getAFDeviceId();
 
-localStorage.setItem("af_session_token", finalSessionToken);
-localStorage.setItem("af_device_id", finalDeviceId);
-localStorage.setItem("af_student_id", result.student.student_id || "");
+    localStorage.setItem("af_session_token", finalSessionToken);
+    localStorage.setItem("af_device_id", finalDeviceId);
+    localStorage.setItem("af_student_id", result.student.student_id || "");
 
-console.log("Saved session after saveStudentSessionaf:", {
-  token: finalSessionToken ? "YES" : "NO",
-  tokenValue: finalSessionToken,
-  device: finalDeviceId,
-  student: result.student.student_id || ""
-});
+    console.log("Saved session after login:", {
+      token: finalSessionToken ? "YES" : "NO",
+      tokenValue: finalSessionToken,
+      device: finalDeviceId,
+      student: result.student.student_id || ""
+    });
 
-openCourseSectionAfterLoginaf(result.student);
+    openCourseSectionAfterLoginaf(result.student);
 
   } catch (err) {
     console.error("Login catch:", err);
     showStudentMessageaf("err", "Login failed: " + err.message);
   }
 }
-
 /* =========================
    CREATE ID - SEND OTP
 ========================= */
