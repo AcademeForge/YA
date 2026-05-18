@@ -20150,7 +20150,22 @@ console.log("Saved session:", {
 });
     
     saveStudentSessionaf(result.student);
-    openCourseSectionAfterLoginaf(result.student);
+
+var finalSessionToken = result.session_token || result.login_token || "";
+var finalDeviceId = result.device_id || getAFDeviceId();
+
+localStorage.setItem("af_session_token", finalSessionToken);
+localStorage.setItem("af_device_id", finalDeviceId);
+localStorage.setItem("af_student_id", result.student.student_id || "");
+
+console.log("Saved session after saveStudentSessionaf:", {
+  token: finalSessionToken ? "YES" : "NO",
+  tokenValue: finalSessionToken,
+  device: finalDeviceId,
+  student: result.student.student_id || ""
+});
+
+openCourseSectionAfterLoginaf(result.student);
 
   } catch (err) {
     console.error("Login catch:", err);
