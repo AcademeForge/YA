@@ -20106,34 +20106,32 @@ async function loginStudentaf() {
 
   showStudentMessageaf("info", "Checking your login...");
 
-try {
-  const result = await afStudentEdgeCall("student-login-af", {
-    login_id: loginId,
-    clean_login_id: cleanLoginId,
-    password: password,
-    device_id: getAFDeviceId(),
-    device_name: getAFDeviceName()
-  });
+  try {
+    const result = await afStudentEdgeCall("student-login-af", {
+      login_id: loginId,
+      clean_login_id: cleanLoginId,
+      password: password
+    });
 
-  if (!result || !result.ok) {
-    showStudentMessageaf("err", result?.message || "Login failed.");
-    return;
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Login failed.");
+      return;
+    }
+
+    if (!result.student) {
+      showStudentMessageaf("err", "Login failed. Student data not received.");
+      return;
+    }
+
+    saveStudentSessionaf(result.student);
+    openCourseSectionAfterLoginaf(result.student);
+
+  } catch (err) {
+    console.error("Login catch:", err);
+    showStudentMessageaf("err", "Login failed: " + err.message);
   }
-
-  if (!result.student) {
-    showStudentMessageaf("err", "Login failed. Student data not received.");
-    return;
-  }
-
-  saveAFLoginSession(result);
-
-  saveStudentSessionaf(result.student);
-  openCourseSectionAfterLoginaf(result.student);
-
-} catch (err) {
-  console.error("Login catch:", err);
-  showStudentMessageaf("err", "Login failed: " + err.message);
 }
+
 /* =========================
    CREATE ID - SEND OTP
 ========================= */
@@ -25213,8 +25211,28 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+  function getAFDeviceId() {
+  let id = localStorage.getItem("af_device_id");
 
+  if (!id) {
+    id = "dev_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    localStorage.setItem("af_device_id", id);
+  }
 
+  return id;
+}
+
+function getAFDeviceName() {
+  const ua = navigator.userAgent || "Unknown device";
+
+  if (/Android/i.test(ua)) return "Android Phone";
+  if (/iPhone/i.test(ua)) return "iPhone";
+  if (/iPad/i.test(ua)) return "iPad";
+  if (/Windows/i.test(ua)) return "Windows";
+  if (/Mac/i.test(ua)) return "Mac";
+
+  return "Unknown device";
+}
   </script>
 </body>
 </html>
