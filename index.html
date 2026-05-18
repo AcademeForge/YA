@@ -25289,36 +25289,15 @@ async function checkStudentActiveSessionAF() {
 
     console.log("SESSION CHECK:", data);
 
-    if (data.logout === true) {
-      localStorage.removeItem("af_session_token");
-      localStorage.removeItem("af_device_id");
-      localStorage.removeItem("af_student_id");
-
-      localStorage.removeItem("student_af");
-      localStorage.removeItem("studentSessionaf");
-      localStorage.removeItem("af_student_session");
-
-      alert(data.message || "Your account was logged in on another device.");
-
-      location.reload();
+    if (data.logout === true || data.valid === false) {
+      forceStudentLogoutAF(data.message || "Your account was logged in on another device.");
+      return;
     }
 
   } catch (e) {
     console.log("Session check failed:", e);
   }
 }
-
-setInterval(checkStudentActiveSessionAF, 10000);
-
-window.addEventListener("focus", function () {
-  checkStudentActiveSessionAF();
-});
-
-document.addEventListener("visibilitychange", function () {
-  if (!document.hidden) {
-    checkStudentActiveSessionAF();
-  }
-});
   </script>
 </body>
 </html>
