@@ -20125,7 +20125,12 @@ async function loginStudentaf() {
 localStorage.setItem("af_session_token", result.session_token || "");
 localStorage.setItem("af_device_id", result.device_id || "");
 localStorage.setItem("af_student_id", result.student.student_id || "");
-    
+    alert(
+  "Saved session:\n" +
+  "token: " + (result.session_token ? "YES" : "NO") + "\n" +
+  "device: " + (result.device_id || "NO") + "\n" +
+  "student: " + (result.student?.student_id || "NO")
+);
     saveStudentSessionaf(result.student);
     openCourseSectionAfterLoginaf(result.student);
 
