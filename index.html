@@ -25211,7 +25211,28 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
-  
+  function getAFDeviceId() {
+  let id = localStorage.getItem("af_device_id");
+
+  if (!id) {
+    id = "dev_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    localStorage.setItem("af_device_id", id);
+  }
+
+  return id;
+}
+
+function getAFDeviceName() {
+  const ua = navigator.userAgent || "Unknown device";
+
+  if (/Android/i.test(ua)) return "Android Phone";
+  if (/iPhone/i.test(ua)) return "iPhone";
+  if (/iPad/i.test(ua)) return "iPad";
+  if (/Windows/i.test(ua)) return "Windows";
+  if (/Mac/i.test(ua)) return "Mac";
+
+  return "Unknown device";
+}
   </script>
 </body>
 </html>
