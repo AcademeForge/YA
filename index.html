@@ -20121,28 +20121,29 @@ async function loginStudentaf() {
     }
 
     if (!result.student) {
-      showStudentMessageaf("err", "Login failed. Student data not received.");
-      return;
-    }
+  showStudentMessageaf("err", "Login failed. Student data not received.");
+  return;
+}
 
-    saveStudentSessionaf(result.student);
+var finalSessionToken = result.session_token || result.login_token || "";
+var finalDeviceId = result.device_id || getAFDeviceId();
 
-    const finalSessionToken = result.session_token || result.login_token || "";
-    const finalDeviceId = result.device_id || getAFDeviceId();
+localStorage.setItem("af_session_token", finalSessionToken);
+localStorage.setItem("af_device_id", finalDeviceId);
+localStorage.setItem("af_student_id", result.student.student_id || "");
+localStorage.setItem("af_login_mobile", result.student.mobile || "");
+localStorage.setItem("af_last_login_at", new Date().toISOString());
 
-    localStorage.setItem("af_session_token", finalSessionToken);
-    localStorage.setItem("af_device_id", finalDeviceId);
-    localStorage.setItem("af_student_id", result.student.student_id || "");
+saveStudentSessionaf(result.student);
 
-    console.log("Saved session after login:", {
-      token: finalSessionToken ? "YES" : "NO",
-      tokenValue: finalSessionToken,
-      device: finalDeviceId,
-      student: result.student.student_id || ""
-    });
+console.log("LOGIN SAVED:", {
+  token: finalSessionToken,
+  device: finalDeviceId,
+  student: result.student.student_id || "",
+  mobile: result.student.mobile || ""
+});
 
-    openCourseSectionAfterLoginaf(result.student);
-
+openCourseSectionAfterLoginaf(result.student);
   } catch (err) {
     console.error("Login catch:", err);
     showStudentMessageaf("err", "Login failed: " + err.message);
