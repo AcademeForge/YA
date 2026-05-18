@@ -20521,17 +20521,15 @@ document.addEventListener("DOMContentLoaded", function () {
     switchStudentModeaf("login");
   }
 });
-  
 /* ==============================
    STUDENT COURSE DASHBOARD JS - AF
-   Backend client: studentDb
-   Tables:
-   students_af
-   student_courses
-   courses
-   chapters
-   lectures
-   notes
+   Secure Backend Fetch via Edge Functions
+
+   Edge Functions:
+   student-courses-af
+   student-chapters-af
+   student-lectures-af
+   student-notes-af
 ================================ */
 
 let afEnrolledCourses = [];
@@ -20551,6 +20549,45 @@ function afEl(id) {
 function afSafe(value, fallback) {
   if (value === null || value === undefined || value === "") return fallback || "";
   return value;
+}
+
+async function afCourseEdgeCall(functionName, payload) {
+  const backend = afBackend();
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "Student backend is not connected."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message: error.message || "Server request failed."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "Empty server response."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.message || "Server request failed."
+    };
+  }
 }
 
 function hideStudentPanelsaf() {
@@ -20596,7 +20633,9 @@ function showStudentPanelaf(id) {
 ================================ */
 
 function openCourseSectionAfterLoginaf(studentData) {
-  saveStudentSessionaf(studentData);
+  if (typeof saveStudentSessionaf === "function") {
+    saveStudentSessionaf(studentData);
+  }
 
   const welcomeText = afEl("studentWelcomeTextaf");
   if (welcomeText) {
@@ -20608,17 +20647,10 @@ function openCourseSectionAfterLoginaf(studentData) {
 }
 
 /* ==============================
-   LOAD ENROLLED COURSES
+   LOAD ENROLLED COURSES - EDGE
 ================================ */
 
 async function loadStudentCoursesaf() {
-  const backend = afBackend();
-
-  if (!backend) {
-    showNoCourseMessageaf("Student backend is not connected.");
-    return;
-  }
-
   const studentUuid = localStorage.getItem("af_student_uuid");
   const studentName = localStorage.getItem("af_student_name") || "Student";
 
@@ -20638,36 +20670,17 @@ async function loadStudentCoursesaf() {
   }
 
   try {
-    const { data, error } = await backend
-      .from("student_courses")
-      .select(`
-        id,
-        status,
-        enrolled_at,
-        courses (
-          id,
-          title,
-          slug,
-          icon,
-          short_description,
-          details,
-          facilities
-        )
-      `)
-      .eq("student_id", studentUuid)
-      .eq("status", "active");
+    const result = await afCourseEdgeCall("student-courses-af", {
+      student_id: studentUuid
+    });
 
-    if (error) {
-      console.log("Courses error:", error);
-      showNoCourseMessageaf("Could not load your courses.");
+    if (!result || !result.ok) {
+      console.log("Courses edge error:", result);
+      showNoCourseMessageaf(result?.message || "Could not load your courses.");
       return;
     }
 
-    afEnrolledCourses = (data || [])
-      .map(function (row) {
-        return row.courses;
-      })
-      .filter(Boolean);
+    afEnrolledCourses = Array.isArray(result.courses) ? result.courses : [];
 
     if (!afEnrolledCourses.length) {
       showNoCourseMessageaf("You are not enrolled in any batch.");
@@ -20755,9 +20768,21 @@ function openCourseDetailsaf(courseId) {
   }
 
   if (facilitiesBox) {
-    const facilities = Array.isArray(afSelectedCourse.facilities)
-      ? afSelectedCourse.facilities
-      : [];
+    let facilities = [];
+
+    if (Array.isArray(afSelectedCourse.facilities)) {
+      facilities = afSelectedCourse.facilities;
+    } else if (typeof afSelectedCourse.facilities === "string") {
+      try {
+        const parsed = JSON.parse(afSelectedCourse.facilities);
+        facilities = Array.isArray(parsed) ? parsed : [];
+      } catch (_err) {
+        facilities = afSelectedCourse.facilities
+          .split(",")
+          .map(function (x) { return x.trim(); })
+          .filter(Boolean);
+      }
+    }
 
     facilitiesBox.innerHTML = facilities.length
       ? facilities.map(function (item) {
@@ -20812,14 +20837,13 @@ function backToLearningaf() {
 }
 
 /* ==============================
-   CHAPTERS
+   CHAPTERS - EDGE
 ================================ */
 
 async function loadChaptersaf() {
-  const backend = afBackend();
   const list = afEl("chapterListaf");
 
-  if (!backend || !list) return;
+  if (!list) return;
 
   if (!afSelectedCourse) {
     list.innerHTML = '<p class="error-textaf">Course not selected.</p>';
@@ -20829,24 +20853,24 @@ async function loadChaptersaf() {
   list.innerHTML = '<p class="loading-textaf">Loading chapters...</p>';
 
   try {
-    const { data, error } = await backend
-      .from("chapters")
-      .select("id, chapter_number, title, description, is_locked")
-      .eq("course_id", afSelectedCourse.id)
-      .order("chapter_number", { ascending: true });
+    const result = await afCourseEdgeCall("student-chapters-af", {
+      course_id: afSelectedCourse.id
+    });
 
-    if (error) {
-      console.log("Chapters error:", error);
-      list.innerHTML = '<p class="error-textaf">Unable to load chapters.</p>';
+    if (!result || !result.ok) {
+      console.log("Chapters edge error:", result);
+      list.innerHTML = '<p class="error-textaf">' + afSafe(result?.message, "Unable to load chapters.") + '</p>';
       return;
     }
 
-    if (!data || !data.length) {
+    const chapters = Array.isArray(result.chapters) ? result.chapters : [];
+
+    if (!chapters.length) {
       list.innerHTML = '<p class="empty-textaf">No chapters available yet.</p>';
       return;
     }
 
-    list.innerHTML = data.map(function (chapter) {
+    list.innerHTML = chapters.map(function (chapter) {
       const locked = chapter.is_locked === true;
       const icon = locked ? "🔒" : "🔓";
       const status = locked ? "Locked" : "Unlocked";
@@ -20873,12 +20897,6 @@ async function loadChaptersaf() {
 async function openChapterContentaf(chapterId, isLocked) {
   afSelectedChapterId = chapterId;
 
-  /*
-    Agar tum locked chapter click par content na dikhana chahte ho,
-    to neeche wala block active rehne do.
-    Agar locked ke andar bhi locked lectures/notes list dikhani hai,
-    to is block ko comment kar dena.
-  */
   if (isLocked === true) {
     const list = afEl("contentListaf");
     const title = afEl("contentTitleaf");
@@ -20908,14 +20926,13 @@ function backToChaptersaf() {
 }
 
 /* ==============================
-   LECTURES
+   LECTURES - EDGE
 ================================ */
 
 async function loadLecturesaf(chapterId) {
-  const backend = afBackend();
   const list = afEl("contentListaf");
 
-  if (!backend || !list) return;
+  if (!list) return;
 
   const title = afEl("contentTitleaf");
   const sub = afEl("contentSubtitleaf");
@@ -20926,24 +20943,24 @@ async function loadLecturesaf(chapterId) {
   list.innerHTML = '<p class="loading-textaf">Loading lectures...</p>';
 
   try {
-    const { data, error } = await backend
-      .from("lectures")
-      .select("id, lecture_number, title, description, video_url, duration, is_locked")
-      .eq("chapter_id", chapterId)
-      .order("lecture_number", { ascending: true });
+    const result = await afCourseEdgeCall("student-lectures-af", {
+      chapter_id: chapterId
+    });
 
-    if (error) {
-      console.log("Lectures error:", error);
-      list.innerHTML = '<p class="error-textaf">Unable to load lectures.</p>';
+    if (!result || !result.ok) {
+      console.log("Lectures edge error:", result);
+      list.innerHTML = '<p class="error-textaf">' + afSafe(result?.message, "Unable to load lectures.") + '</p>';
       return;
     }
 
-    if (!data || !data.length) {
+    const lectures = Array.isArray(result.lectures) ? result.lectures : [];
+
+    if (!lectures.length) {
       list.innerHTML = '<p class="empty-textaf">No lectures available yet.</p>';
       return;
     }
 
-    list.innerHTML = data.map(function (lecture) {
+    list.innerHTML = lectures.map(function (lecture) {
       const locked = lecture.is_locked === true || !lecture.video_url;
       const icon = locked ? "🔒" : "▶️";
 
@@ -20971,14 +20988,13 @@ async function loadLecturesaf(chapterId) {
 }
 
 /* ==============================
-   NOTES
+   NOTES - EDGE
 ================================ */
 
 async function loadNotesaf(chapterId) {
-  const backend = afBackend();
   const list = afEl("contentListaf");
 
-  if (!backend || !list) return;
+  if (!list) return;
 
   const title = afEl("contentTitleaf");
   const sub = afEl("contentSubtitleaf");
@@ -20989,24 +21005,24 @@ async function loadNotesaf(chapterId) {
   list.innerHTML = '<p class="loading-textaf">Loading notes...</p>';
 
   try {
-    const { data, error } = await backend
-      .from("notes")
-      .select("id, note_number, title, content, pdf_url, is_locked")
-      .eq("chapter_id", chapterId)
-      .order("note_number", { ascending: true });
+    const result = await afCourseEdgeCall("student-notes-af", {
+      chapter_id: chapterId
+    });
 
-    if (error) {
-      console.log("Notes error:", error);
-      list.innerHTML = '<p class="error-textaf">Unable to load notes.</p>';
+    if (!result || !result.ok) {
+      console.log("Notes edge error:", result);
+      list.innerHTML = '<p class="error-textaf">' + afSafe(result?.message, "Unable to load notes.") + '</p>';
       return;
     }
 
-    if (!data || !data.length) {
+    const notes = Array.isArray(result.notes) ? result.notes : [];
+
+    if (!notes.length) {
       list.innerHTML = '<p class="empty-textaf">No notes available yet.</p>';
       return;
     }
 
-    list.innerHTML = data.map(function (note) {
+    list.innerHTML = notes.map(function (note) {
       const locked = note.is_locked === true || !note.pdf_url;
       const icon = locked ? "🔒" : "📄";
 
@@ -21072,10 +21088,13 @@ function logoutStudentaf() {
   afLearningMode = "lectures";
 
   showStudentPanelaf("studentAuthCardaf");
-  switchStudentModeaf("login");
+
+  if (typeof switchStudentModeaf === "function") {
+    switchStudentModeaf("login");
+  }
 }
 
-/* Old onclick support, agar kahin logoutStudent() laga ho */
+/* Old onclick support */
 function logoutStudent() {
   logoutStudentaf();
 }
@@ -21099,7 +21118,6 @@ document.addEventListener("DOMContentLoaded", function () {
     openCourseSectionAfterLoginaf(studentData);
   }
 });
-
   /* ==============================
   BATCH PURCHASE AF - FIXED
 ================================ */
