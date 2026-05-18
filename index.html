@@ -20122,7 +20122,10 @@ async function loginStudentaf() {
       showStudentMessageaf("err", "Login failed. Student data not received.");
       return;
     }
-
+localStorage.setItem("af_session_token", result.session_token || "");
+localStorage.setItem("af_device_id", result.device_id || "");
+localStorage.setItem("af_student_id", result.student.student_id || "");
+    
     saveStudentSessionaf(result.student);
     openCourseSectionAfterLoginaf(result.student);
 
@@ -25221,6 +25224,54 @@ if ("serviceWorker" in navigator) {
 
   return id;
 }
+
+  async function afCheckSingleDeviceSession() {
+  var studentId = localStorage.getItem("af_student_id");
+  var token = localStorage.getItem("af_session_token");
+  var deviceId = localStorage.getItem("af_device_id");
+
+  if (!studentId || !token || !deviceId) return;
+
+  try {
+    var res = await fetch("https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-session-check-af", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        student_id: studentId,
+        session_token: token,
+        device_id: deviceId
+      })
+    });
+
+    var data = await res.json().catch(function () {
+      return {};
+    });
+
+    if (data.logout === true || data.valid === false) {
+      localStorage.removeItem("af_session_token");
+      localStorage.removeItem("af_student_id");
+
+      alert(data.message || "Your account was logged in on another device.");
+
+      location.reload();
+    }
+  } catch (e) {}
+}
+
+setInterval(afCheckSingleDeviceSession, 30000);
+
+window.addEventListener("focus", function () {
+  afCheckSingleDeviceSession();
+});
+
+document.addEventListener("visibilitychange", function () {
+  if (!document.hidden) {
+    afCheckSingleDeviceSession();
+  }
+});
+  
   </script>
 </body>
 </html>
