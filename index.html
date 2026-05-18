@@ -14061,6 +14061,980 @@ body.dark-mode #studentaf .student-tab-btn.active {
       0 14px 28px rgba(22, 163, 74, 0.35);
   }
 }
+
+    /* =========================================================
+   AF TEST PATCH - 50/50 BUTTONS + ONE QUESTION UI
+   Paste at END of CSS
+========================================================= */
+
+/* Dashboard + Ranking buttons same line 50/50 */
+.af-test-actions-v2 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  margin: 16px 0 14px !important;
+}
+
+.af-test-actions-v2 .af-test-action-btn-v2 {
+  min-height: 86px !important;
+  padding: 12px 10px !important;
+  border-radius: 18px !important;
+  justify-content: flex-start !important;
+}
+
+.af-test-actions-v2 .af-test-action-icon-v2 {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 13px !important;
+  font-size: 18px !important;
+}
+
+.af-test-actions-v2 .af-test-action-btn-v2 h3 {
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+}
+
+.af-test-actions-v2 .af-test-action-btn-v2 p {
+  font-size: 10px !important;
+  line-height: 1.25 !important;
+}
+
+/* Start test button should NOT be inside 50/50 actions */
+.af-test-start-wrap-v2 {
+  margin-top: 14px !important;
+}
+
+.af-test-start-main-v2 {
+  width: 100% !important;
+  min-height: 54px !important;
+  border-radius: 999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 14px 18px !important;
+}
+
+/* Stats boxes below 50/50 buttons */
+.af-test-mini-stats-v2 {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 10px !important;
+  margin: 14px 0 18px !important;
+}
+
+.af-test-mini-card-v2 {
+  min-height: 76px !important;
+}
+
+/* Available test card text readable in dark mode */
+.af-test-available-card-v2,
+.af-test-empty-card-v1 {
+  background: #fff7d6 !important;
+  color: #111827 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+}
+
+.af-test-available-card-v2 *,
+.af-test-empty-card-v1 * {
+  color: #111827 !important;
+}
+
+.af-test-available-card-v2 .af-test-tag-v2,
+.af-test-empty-card-v1 .af-test-tag-v2 {
+  color: #15803d !important;
+}
+
+.af-test-available-card-v2 h3,
+.af-test-empty-card-v1 h3 {
+  color: #991b1b !important;
+}
+
+.af-test-available-card-v2 p,
+.af-test-empty-card-v1 p {
+  color: #1f2937 !important;
+}
+
+/* One question test screen */
+.af-question-one-wrap-v2 {
+  margin-top: 18px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 26px !important;
+  padding: 18px !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10) !important;
+}
+
+.af-question-top-v2 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin-bottom: 14px !important;
+}
+
+.af-question-count-v2 {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+  border-radius: 999px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+}
+
+.af-question-timer-v2 {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+  border-radius: 999px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+}
+
+.af-question-title-v2 {
+  margin: 8px 0 16px !important;
+  color: #0f172a !important;
+  font-size: 18px !important;
+  line-height: 1.35 !important;
+  font-weight: 950 !important;
+}
+
+.af-options-one-v2 {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+}
+
+.af-option-one-v2 {
+  width: 100% !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-radius: 18px !important;
+  padding: 14px 14px !important;
+  text-align: left !important;
+  font-weight: 850 !important;
+  cursor: pointer !important;
+}
+
+.af-option-one-v2.af-selected {
+  background: #dcfce7 !important;
+  border-color: #22c55e !important;
+  color: #14532d !important;
+}
+
+.af-question-nav-v2 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 10px !important;
+  margin-top: 16px !important;
+}
+
+.af-question-nav-v2 button {
+  border: 0 !important;
+  border-radius: 16px !important;
+  padding: 13px 10px !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  cursor: pointer !important;
+}
+
+.af-q-prev-v2 {
+  background: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+.af-q-skip-v2 {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.af-q-next-v2 {
+  background: #16a34a !important;
+  color: #ffffff !important;
+}
+
+.af-q-submit-v2 {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+.af-question-progress-v2 {
+  margin-top: 14px !important;
+  height: 9px !important;
+  background: #e5e7eb !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+}
+
+.af-question-progress-bar-v2 {
+  height: 100% !important;
+  background: linear-gradient(90deg, #16a34a, #22c55e) !important;
+  border-radius: 999px !important;
+  width: 0%;
+}
+
+@media (max-width: 420px) {
+  .af-test-actions-v2 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .af-test-actions-v2 .af-test-action-btn-v2 {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .af-test-mini-stats-v2 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .af-test-mini-card-v2 {
+    padding: 12px 8px !important;
+  }
+
+  .af-test-mini-card-v2 strong {
+    font-size: 17px !important;
+  }
+}
+
+    /* =========================================================
+   AF TEST ONE BY ONE + POPUP FIX
+========================================================= */
+
+.af-one-question-card-v1 {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.af-one-question-top-v1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.af-one-question-top-v1 span,
+.af-one-question-top-v1 b {
+  background: #dcfce7;
+  color: #166534;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.af-one-question-top-v1 b {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.af-one-progress-v1 {
+  height: 9px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.af-one-progress-v1 div {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #16a34a, #22c55e);
+}
+
+.af-one-question-card-v1 h4 {
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.45;
+  margin: 12px 0 16px;
+}
+
+.af-one-options-v1 {
+  display: grid;
+  gap: 10px;
+}
+
+.af-one-options-v1 button {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #111827;
+  border-radius: 18px;
+  padding: 13px;
+  text-align: left;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.af-one-options-v1 button strong {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #111827;
+  display: grid;
+  place-items: center;
+  font-weight: 950;
+}
+
+.af-one-options-v1 button span {
+  color: #111827;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.af-one-options-v1 button.active {
+  background: #dcfce7;
+  border-color: #22c55e;
+}
+
+.af-one-options-v1 button.active strong {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.af-one-nav-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.af-one-nav-v1 button {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px 8px;
+  font-size: 12px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.af-one-nav-v1 button:nth-child(1) {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.af-one-nav-v1 button:nth-child(2) {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.af-one-nav-v1 button:nth-child(3),
+.af-one-nav-v1 button.submit {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.af-one-nav-v1 button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* popup */
+.af-test-popup-overlay-v1 {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.58);
+  z-index: 999999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.af-test-popup-overlay-v1.show {
+  display: flex;
+}
+
+.af-test-popup-card-v1 {
+  width: min(420px, 100%);
+  background: #ffffff;
+  color: #111827;
+  border-radius: 26px;
+  padding: 22px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+  animation: afPopupInV1 0.22s ease both;
+}
+
+.af-test-popup-card-v1.error {
+  border: 2px solid #fecaca;
+}
+
+.af-test-popup-card-v1.success {
+  border: 2px solid #bbf7d0;
+}
+
+.af-test-popup-card-v1.confirm {
+  border: 2px solid #fde68a;
+}
+
+.af-test-popup-close-v1 {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.af-test-popup-icon-v1 {
+  width: 64px;
+  height: 64px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  background: #fef3c7;
+  font-size: 30px;
+}
+
+.af-test-popup-card-v1.success .af-test-popup-icon-v1 {
+  background: #dcfce7;
+}
+
+.af-test-popup-card-v1.error .af-test-popup-icon-v1 {
+  background: #fee2e2;
+}
+
+.af-test-popup-card-v1 h3 {
+  color: #111827;
+  font-size: 24px;
+  margin: 8px 0;
+}
+
+.af-test-popup-body-v1,
+.af-test-popup-body-v1 p {
+  color: #374151;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.af-popup-result-v1 {
+  margin-top: 14px;
+  background: #f9fafb;
+  border-radius: 18px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.af-popup-result-v1 b {
+  color: #111827;
+  font-size: 28px;
+}
+
+.af-popup-result-v1 span {
+  color: #16a34a;
+  font-weight: 950;
+}
+
+.af-popup-result-v1 small {
+  color: #4b5563;
+  font-weight: 800;
+}
+
+.af-test-popup-ok-v1 {
+  width: 100%;
+  margin-top: 16px;
+  border: 0;
+  border-radius: 16px;
+  padding: 13px;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.af-popup-actions-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.af-popup-actions-v1 button {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.af-popup-actions-v1 .cancel {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.af-popup-actions-v1 .confirm {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+@keyframes afPopupInV1 {
+  from {
+    transform: translateY(12px) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+    /* =========================================================
+   AF TEST MAIN LAYOUT FIX
+========================================================= */
+
+.af-test-top-actions-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.af-test-top-actions-v1 button {
+  border: 0;
+  border-radius: 18px;
+  padding: 13px 10px;
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.af-test-top-actions-v1 button span {
+  font-size: 20px;
+}
+
+.af-test-top-actions-v1 button b {
+  font-size: 13px;
+  font-weight: 950;
+  color: #111827;
+}
+
+.af-test-sub-page-v1 {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 24px;
+  padding: 16px;
+  margin-top: 14px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.af-test-sub-head-v1 {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.af-test-sub-head-v1 button {
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 13px;
+  background: #e5e7eb;
+  color: #111827;
+  font-weight: 950;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.af-test-sub-head-v1 h3 {
+  margin: 4px 0 4px;
+  color: #111827;
+  font-size: 20px;
+}
+
+.af-test-sub-head-v1 p {
+  margin: 0;
+  color: #4b5563;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.af-test-history-empty-v1 {
+  background: #f9fafb;
+  color: #4b5563;
+  border-radius: 18px;
+  padding: 16px;
+  font-weight: 850;
+  text-align: center;
+}
+
+.af-test-dashboard-cards-v1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin: 12px 0 14px;
+}
+
+.af-test-mini-card-v1 {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 18px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.10);
+}
+
+.af-test-mini-card-v1 span {
+  display: block;
+  color: #4b5563;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.af-test-mini-card-v1 strong {
+  display: block;
+  color: #111827;
+  font-size: 20px;
+  margin-top: 4px;
+}
+
+.af-test-mini-card-v1 small {
+  display: block;
+  color: #6b7280;
+  font-size: 10px;
+  font-weight: 800;
+  margin-top: 3px;
+}
+
+@media (max-width: 420px) {
+  .af-test-dashboard-cards-v1 {
+    gap: 7px;
+  }
+
+  .af-test-mini-card-v1 {
+    padding: 10px 5px;
+  }
+
+  .af-test-mini-card-v1 strong {
+    font-size: 18px;
+  }
+
+  .af-test-top-actions-v1 button {
+    padding: 12px 6px;
+  }
+
+  .af-test-top-actions-v1 button b {
+    font-size: 12px;
+  }
+}
+    /* =========================================================
+   AF TEST ONE BY ONE + POPUP FIX
+========================================================= */
+
+.af-one-question-card-v1 {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.af-one-question-top-v1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.af-one-question-top-v1 span,
+.af-one-question-top-v1 b {
+  background: #dcfce7;
+  color: #166534;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.af-one-question-top-v1 b {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.af-one-progress-v1 {
+  height: 9px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.af-one-progress-v1 div {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #16a34a, #22c55e);
+}
+
+.af-one-question-card-v1 h4 {
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.45;
+  margin: 12px 0 16px;
+}
+
+.af-one-options-v1 {
+  display: grid;
+  gap: 10px;
+}
+
+.af-one-options-v1 button {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #111827;
+  border-radius: 18px;
+  padding: 13px;
+  text-align: left;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.af-one-options-v1 button strong {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #111827;
+  display: grid;
+  place-items: center;
+  font-weight: 950;
+}
+
+.af-one-options-v1 button span {
+  color: #111827;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.af-one-options-v1 button.active {
+  background: #dcfce7;
+  border-color: #22c55e;
+}
+
+.af-one-options-v1 button.active strong {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.af-one-nav-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.af-one-nav-v1 button {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px 8px;
+  font-size: 12px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.af-one-nav-v1 button:nth-child(1) {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.af-one-nav-v1 button:nth-child(2) {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.af-one-nav-v1 button:nth-child(3),
+.af-one-nav-v1 button.submit {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.af-one-nav-v1 button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* popup */
+.af-test-popup-overlay-v1 {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.58);
+  z-index: 999999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.af-test-popup-overlay-v1.show {
+  display: flex;
+}
+
+.af-test-popup-card-v1 {
+  width: min(420px, 100%);
+  background: #ffffff;
+  color: #111827;
+  border-radius: 26px;
+  padding: 22px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+  animation: afPopupInV1 0.22s ease both;
+}
+
+.af-test-popup-card-v1.error {
+  border: 2px solid #fecaca;
+}
+
+.af-test-popup-card-v1.success {
+  border: 2px solid #bbf7d0;
+}
+
+.af-test-popup-card-v1.confirm {
+  border: 2px solid #fde68a;
+}
+
+.af-test-popup-close-v1 {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.af-test-popup-icon-v1 {
+  width: 64px;
+  height: 64px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 12px;
+  background: #fef3c7;
+  font-size: 30px;
+}
+
+.af-test-popup-card-v1.success .af-test-popup-icon-v1 {
+  background: #dcfce7;
+}
+
+.af-test-popup-card-v1.error .af-test-popup-icon-v1 {
+  background: #fee2e2;
+}
+
+.af-test-popup-card-v1 h3 {
+  color: #111827;
+  font-size: 24px;
+  margin: 8px 0;
+}
+
+.af-test-popup-body-v1,
+.af-test-popup-body-v1 p {
+  color: #374151;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.af-popup-result-v1 {
+  margin-top: 14px;
+  background: #f9fafb;
+  border-radius: 18px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.af-popup-result-v1 b {
+  color: #111827;
+  font-size: 28px;
+}
+
+.af-popup-result-v1 span {
+  color: #16a34a;
+  font-weight: 950;
+}
+
+.af-popup-result-v1 small {
+  color: #4b5563;
+  font-weight: 800;
+}
+
+.af-test-popup-ok-v1 {
+  width: 100%;
+  margin-top: 16px;
+  border: 0;
+  border-radius: 16px;
+  padding: 13px;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.af-popup-actions-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.af-popup-actions-v1 button {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.af-popup-actions-v1 .cancel {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.af-popup-actions-v1 .confirm {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+@keyframes afPopupInV1 {
+  from {
+    transform: translateY(12px) scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
   </style>
 </head>
 
@@ -14749,7 +15723,7 @@ body.dark-mode #studentaf .student-tab-btn.active {
   </div>
 </section>
  
-   <!-----------------------  🧪 TEST SECTION --------------------------------------->
+  <!-----------------------  🧪 TEST SECTION --------------------------------------->
 
 <section id="explore" class="section">
   <div class="panel glass af-test-panel">
@@ -14773,6 +15747,7 @@ body.dark-mode #studentaf .student-tab-btn.active {
 
     <!-- LOGGED IN STATE -->
     <div id="afTestMainV1" class="af-test-main-v1 af-hidden">
+
       <div class="af-test-hero-v1">
         <div class="af-test-hero-icon-v1">🧪</div>
 
@@ -14786,45 +15761,86 @@ body.dark-mode #studentaf .student-tab-btn.active {
         </div>
       </div>
 
-    <!-- TEST DASHBOARD -->
-<div id="afTestDashboardV1" class="af-test-dashboard-v1">
-  <div class="af-test-dash-head-v1">
-    <div>
-      <span class="af-test-kicker-v1">Your Dashboard</span>
-      <h3>Your Test Rankings</h3>
-      <p>Track your latest score, rank, speed and overall performance.</p>
-    </div>
-    <button class="af-test-refresh-btn-v1" type="button" onclick="loadAFTestPageV1()">
-      Refresh
-    </button>
-  </div>
+      <!-- MAIN TEST CONTENT -->
+      <div id="afTestMainContentV1">
 
-  <div id="afTestDashboardCardsV1" class="af-test-dashboard-cards-v1">
-    <div class="af-test-mini-card-v1">
-      <span>Last Rank</span>
-      <strong>--</strong>
-    </div>
-    <div class="af-test-mini-card-v1">
-      <span>Overall Rank</span>
-      <strong>--</strong>
-    </div>
-    <div class="af-test-mini-card-v1">
-      <span>Avg Time / Q</span>
-      <strong>--</strong>
-    </div>
-  </div>
+        <!-- TOP ACTION BUTTONS -->
+        <div class="af-test-top-actions-v1">
+          <button type="button" onclick="openAFTestDashboardPageV1()">
+            <span>📊</span>
+            <b>Your Dashboard</b>
+          </button>
 
-  <div id="afTestHistoryV1" class="af-test-history-v1"></div>
-</div>
+          <button type="button" onclick="openAFTestRankingPageV1()">
+            <span>🏆</span>
+            <b>National Rankings</b>
+          </button>
+        </div>
 
-<!-- TEST AREA -->
-<div id="afTestAreaV1" class="af-test-area-v1">
-  <div class="af-test-empty-card-v1">
-    <div class="af-test-empty-icon-v1">📅</div>
-    <h3>Loading test...</h3>
-    <p>Please wait while we check available tests.</p>
-  </div>
-</div>
+        <!-- MINI DASHBOARD CARDS -->
+        <div id="afTestDashboardCardsV1" class="af-test-dashboard-cards-v1">
+          <div class="af-test-mini-card-v1">
+            <span>Last Rank</span>
+            <strong>--</strong>
+            <small>No test yet</small>
+          </div>
+
+          <div class="af-test-mini-card-v1">
+            <span>Overall Rank</span>
+            <strong>--</strong>
+            <small>No ranking yet</small>
+          </div>
+
+          <div class="af-test-mini-card-v1">
+            <span>Avg Time / Q</span>
+            <strong>--</strong>
+            <small>No data yet</small>
+          </div>
+        </div>
+
+        <!-- TEST AREA -->
+        <div id="afTestAreaV1" class="af-test-area-v1">
+          <div class="af-test-empty-card-v1">
+            <div class="af-test-empty-icon-v1">📅</div>
+            <h3>Loading test...</h3>
+            <p>Please wait while we check available tests.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DASHBOARD FULL PAGE -->
+      <div id="afTestDashboardPageV1" class="af-test-sub-page-v1 af-hidden">
+        <div class="af-test-sub-head-v1">
+          <button type="button" onclick="closeAFTestSubPagesV1()">← Back</button>
+          <div>
+            <span class="af-test-kicker-v1">Your Dashboard</span>
+            <h3>Your Test Rankings</h3>
+            <p>Track your latest score, rank, speed and overall performance.</p>
+          </div>
+        </div>
+
+        <div id="afTestHistoryV1" class="af-test-history-v1">
+          <div class="af-test-history-empty-v1">No test ranking yet.</div>
+        </div>
+      </div>
+
+      <!-- NATIONAL RANKING FULL PAGE -->
+      <div id="afTestRankingPageV1" class="af-test-sub-page-v1 af-hidden">
+        <div class="af-test-sub-head-v1">
+          <button type="button" onclick="closeAFTestSubPagesV1()">← Back</button>
+          <div>
+            <span class="af-test-kicker-v1">National Rankings</span>
+            <h3>Top 10 Students</h3>
+            <p>See the fastest and highest scoring students.</p>
+          </div>
+        </div>
+
+        <div id="afTestRankingListV1" class="af-test-history-v1">
+          <div class="af-test-history-empty-v1">Top 10 will show after students attempt test.</div>
+        </div>
+      </div>
+
     </div>
 
     <div class="developer-credit-line af-test-credit-v1">
@@ -25940,24 +26956,41 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 }
 
-   /* =========================
-  TEST TEST TSET
+ /* =========================
+  TEST TEST TSET - FINAL FIXED V1
 ========================= */
+
 let afCurrentTestV1 = null;
 let afCurrentQuestionsV1 = [];
 let afTestStartedAtV1 = null;
 let afTestTimerV1 = null;
 let afTestRemainingV1 = 300;
 
+let afCurrentQuestionIndexV1 = 0;
+let afTestAnswersV1 = {};
+let afCurrentAttemptedDataV1 = null;
+let afPendingSubmitAutoV1 = false;
+
+/* =========================
+   STUDENT
+========================= */
+
 function getAFTestStudentV1() {
   return {
     student_uuid: localStorage.getItem("af_student_uuid") || "",
     student_id: localStorage.getItem("af_student_id") || "",
-    student_name: localStorage.getItem("af_student_name") || localStorage.getItem("af_student") || "Student",
+    student_name:
+      localStorage.getItem("af_student_name") ||
+      localStorage.getItem("af_student") ||
+      "Student",
     student_mobile: localStorage.getItem("af_student_mobile") || "",
     student_email: localStorage.getItem("af_student_email") || ""
   };
 }
+
+/* =========================
+   HELPERS
+========================= */
 
 function afTestMsgV1(msg, type) {
   return `<div class="af-test-msg-v1 af-test-msg-${type || "info"}">${msg}</div>`;
@@ -25969,6 +27002,10 @@ function formatAFSecondsV1(sec) {
   const s = sec % 60;
   return `${m}:${String(s).padStart(2, "0")}`;
 }
+
+/* =========================
+   EDGE CALL
+========================= */
 
 async function afTestEdgeCallV1(functionName, payload) {
   if (!navigator.onLine) {
@@ -25986,29 +27023,104 @@ async function afTestEdgeCallV1(functionName, payload) {
 
     if (error) {
       console.error("AF Test edge error:", error);
-      return { ok: false, message: "No internet connection." };
+      return {
+        ok: false,
+        message: "No internet connection."
+      };
     }
 
-    return data || { ok: false, message: "No internet connection." };
+    return data || {
+      ok: false,
+      message: "No internet connection."
+    };
+
   } catch (err) {
     console.error("AF Test edge catch:", err);
-    return { ok: false, message: "No internet connection." };
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
   }
 }
+
+/* =========================
+   DASHBOARD BUTTON PAGE
+========================= */
+
+function openAFTestDashboardPageV1() {
+  const page = document.getElementById("afTestDashboardPageV1");
+  const rankPage = document.getElementById("afTestRankingPageV1");
+  const mainArea = document.getElementById("afTestMainContentV1");
+
+  if (mainArea) mainArea.classList.add("af-hidden");
+  if (rankPage) rankPage.classList.add("af-hidden");
+  if (page) page.classList.remove("af-hidden");
+
+  loadAFTestDashboardV1();
+}
+
+function openAFTestRankingPageV1() {
+  const page = document.getElementById("afTestRankingPageV1");
+  const dashPage = document.getElementById("afTestDashboardPageV1");
+  const mainArea = document.getElementById("afTestMainContentV1");
+
+  if (mainArea) mainArea.classList.add("af-hidden");
+  if (dashPage) dashPage.classList.add("af-hidden");
+  if (page) page.classList.remove("af-hidden");
+
+  loadAFTestDashboardV1();
+}
+
+function closeAFTestSubPagesV1() {
+  const dashPage = document.getElementById("afTestDashboardPageV1");
+  const rankPage = document.getElementById("afTestRankingPageV1");
+  const mainArea = document.getElementById("afTestMainContentV1");
+
+  if (dashPage) dashPage.classList.add("af-hidden");
+  if (rankPage) rankPage.classList.add("af-hidden");
+  if (mainArea) mainArea.classList.remove("af-hidden");
+}
+
+/* =========================
+   DASHBOARD RENDER
+========================= */
 
 function renderAFTestDashboardV1(dash) {
   const cards = document.getElementById("afTestDashboardCardsV1");
   const historyBox = document.getElementById("afTestHistoryV1");
+  const rankingBox = document.getElementById("afTestRankingListV1");
 
-  if (!cards || !historyBox) return;
+  if (!cards) return;
 
   if (!dash || !dash.latest) {
     cards.innerHTML = `
-      <div class="af-test-mini-card-v1"><span>Last Rank</span><strong>--</strong></div>
-      <div class="af-test-mini-card-v1"><span>Overall Rank</span><strong>--</strong></div>
-      <div class="af-test-mini-card-v1"><span>Avg Time / Q</span><strong>--</strong></div>
+      <div class="af-test-mini-card-v1">
+        <span>Last Rank</span>
+        <strong>--</strong>
+        <small>No test yet</small>
+      </div>
+
+      <div class="af-test-mini-card-v1">
+        <span>Overall Rank</span>
+        <strong>--</strong>
+        <small>No ranking yet</small>
+      </div>
+
+      <div class="af-test-mini-card-v1">
+        <span>Avg Time / Q</span>
+        <strong>--</strong>
+        <small>No data yet</small>
+      </div>
     `;
-    historyBox.innerHTML = `<div class="af-test-history-empty-v1">No test ranking yet.</div>`;
+
+    if (historyBox) {
+      historyBox.innerHTML = `<div class="af-test-history-empty-v1">No test ranking yet.</div>`;
+    }
+
+    if (rankingBox) {
+      rankingBox.innerHTML = `<div class="af-test-history-empty-v1">No national ranking yet.</div>`;
+    }
+
     return;
   }
 
@@ -26017,78 +27129,106 @@ function renderAFTestDashboardV1(dash) {
   cards.innerHTML = `
     <div class="af-test-mini-card-v1">
       <span>Last Test Rank</span>
-      <strong>#${latest.my_rank}</strong>
-      <small>${latest.my_score}/${latest.total_questions} marks</small>
+      <strong>#${latest.my_rank || "--"}</strong>
+      <small>${latest.my_score || 0}/${latest.total_questions || 10} marks</small>
     </div>
+
     <div class="af-test-mini-card-v1">
       <span>Overall Students</span>
-      <strong>${latest.total_attempts}</strong>
-      <small>Avg mark: ${latest.average_mark}</small>
+      <strong>${latest.total_attempts || 0}</strong>
+      <small>Avg mark: ${latest.average_mark || 0}</small>
     </div>
+
     <div class="af-test-mini-card-v1">
       <span>Avg Time / Q</span>
-      <strong>${latest.my_avg_time_per_question}s</strong>
-      <small>Total: ${latest.my_time_taken_seconds}s</small>
+      <strong>${latest.my_avg_time_per_question || 0}s</strong>
+      <small>Total: ${latest.my_time_taken_seconds || 0}s</small>
     </div>
   `;
 
-  historyBox.innerHTML = `
-    <h4>Your Last Test Rankings</h4>
-    ${(dash.history || []).map(function (h) {
-      return `
-        <div class="af-test-rank-card-v1">
-          <div class="af-test-rank-top-v1">
-            <div>
-              <strong>${h.title}</strong>
-              <span>${new Date(h.submitted_at).toLocaleString()}</span>
+  if (historyBox) {
+    historyBox.innerHTML = `
+      <h4>Your Last Test Rankings</h4>
+
+      ${(dash.history || []).map(function (h) {
+        return `
+          <div class="af-test-rank-card-v1">
+            <div class="af-test-rank-top-v1">
+              <div>
+                <strong>${h.title || "AcademeForge Scholars Test"}</strong>
+                <span>${h.submitted_at ? new Date(h.submitted_at).toLocaleString() : ""}</span>
+              </div>
+              <b>#${h.my_rank || "--"}</b>
             </div>
-            <b>#${h.my_rank}</b>
-          </div>
 
-          <div class="af-test-rank-grid-v1">
-            <span>Score: <b>${h.my_score}/${h.total_questions}</b></span>
-            <span>Remark: <b>${h.my_remark}</b></span>
-            <span>Attempts: <b>${h.total_attempts}</b></span>
-            <span>Average Mark: <b>${h.average_mark}</b></span>
+            <div class="af-test-rank-grid-v1">
+              <span>Score: <b>${h.my_score || 0}/${h.total_questions || 10}</b></span>
+              <span>Remark: <b>${h.my_remark || "--"}</b></span>
+              <span>Attempts: <b>${h.total_attempts || 0}</b></span>
+              <span>Average Mark: <b>${h.average_mark || 0}</b></span>
+            </div>
           </div>
+        `;
+      }).join("") || `<div class="af-test-history-empty-v1">No test ranking yet.</div>`}
+    `;
+  }
 
-          <div class="af-test-top10-v1">
-            <h5>Top 10</h5>
-            ${(h.top10 || []).map(function (t) {
+  if (rankingBox) {
+    const top10 = latest.top10 || dash.top10 || [];
+
+    rankingBox.innerHTML = `
+      <h4>Top 10 Students</h4>
+
+      ${
+        top10.length
+          ? top10.map(function (t) {
               return `
                 <div class="af-test-top-row-v1">
-                  <span>#${t.rank} ${t.student_name}</span>
-                  <b>${t.score}/${t.total_questions}</b>
-                  <small>${t.time_taken_seconds}s</small>
+                  <span>#${t.rank || "--"} ${t.student_name || "Student"}</span>
+                  <b>${t.score || 0}/${t.total_questions || 10}</b>
+                  <small>${t.time_taken_seconds || 0}s</small>
                 </div>
               `;
-            }).join("")}
-          </div>
-        </div>
-      `;
-    }).join("")}
-  `;
+            }).join("")
+          : `<div class="af-test-history-empty-v1">Top 10 will show after students attempt test.</div>`
+      }
+    `;
+  }
 }
+
+/* =========================
+   ALREADY ATTEMPTED
+========================= */
 
 function renderAFTestAlreadyAttemptedV1(data) {
   const area = document.getElementById("afTestAreaV1");
   if (!area) return;
 
+  afCurrentAttemptedDataV1 = data;
+
   area.innerHTML = `
-    <div class="af-test-empty-card-v1 af-test-attempted-v1">
-      <div class="af-test-empty-icon-v1">🏁</div>
-      <h3>Already Attempted</h3>
-      <p>Oops! Looks like you have already attempted this test. Wait for new one.</p>
-      ${data.attempt ? `
-        <div class="af-test-result-box-v1">
-          <strong>${data.attempt.score}/${data.attempt.total_questions}</strong>
-          <span>${data.attempt.remark}</span>
-          <small>Time taken: ${data.attempt.time_taken_seconds}s</small>
-        </div>
-      ` : ""}
+    <div class="af-test-start-card-v1 af-test-attempted-normal-v1">
+      <div>
+        <span class="af-test-kicker-v1">Available Now</span>
+        <h3>${data.test?.title || "AcademeForge Scholars Test"}</h3>
+        <p>A quick assessment based on computer basics, digital learning, web, AI and communication skills.</p>
+      </div>
+
+      <div class="af-test-start-meta-v1">
+        <span>Questions: <b>${data.test?.total_questions || data.attempt?.total_questions || 10}</b></span>
+        <span>Time: <b>${Math.floor((data.test?.duration_seconds || 300) / 60)} minutes</b></span>
+      </div>
+
+      <button class="af-test-start-btn-v1" type="button" onclick="showAFAlreadyAttemptedPopupV1()">
+        Start Test
+      </button>
     </div>
   `;
 }
+
+/* =========================
+   NO TEST
+========================= */
 
 function renderAFNoTestV1(message) {
   const area = document.getElementById("afTestAreaV1");
@@ -26102,6 +27242,9 @@ function renderAFNoTestV1(message) {
     </div>
   `;
 }
+  /* =========================
+   TEST START CARD
+========================= */
 
 function renderAFTestStartV1(data) {
   const area = document.getElementById("afTestAreaV1");
@@ -26131,19 +27274,38 @@ function renderAFTestStartV1(data) {
   `;
 }
 
+/* =========================
+   START TEST
+========================= */
+
 function startAFTestV1() {
   if (!afCurrentTestV1 || !afCurrentQuestionsV1.length) return;
 
   afTestStartedAtV1 = Date.now();
   afTestRemainingV1 = Number(afCurrentTestV1.duration_seconds || 300);
 
+  afCurrentQuestionIndexV1 = 0;
+  afTestAnswersV1 = {};
+
   renderAFQuestionsV1();
   startAFTestTimerV1();
 }
 
+/* =========================
+   ONE QUESTION RENDER
+========================= */
+
 function renderAFQuestionsV1() {
   const area = document.getElementById("afTestAreaV1");
   if (!area) return;
+
+  const q = afCurrentQuestionsV1[afCurrentQuestionIndexV1];
+  if (!q) return;
+
+  const selected = afTestAnswersV1[q.id] || "";
+  const total = afCurrentQuestionsV1.length;
+  const current = afCurrentQuestionIndexV1 + 1;
+  const progress = Math.round((current / total) * 100);
 
   area.innerHTML = `
     <div class="af-test-live-head-v1">
@@ -26151,36 +27313,94 @@ function renderAFQuestionsV1() {
         <span class="af-test-kicker-v1">Test Started</span>
         <h3>${afCurrentTestV1.title}</h3>
       </div>
+
       <div class="af-test-timer-v1" id="afTestTimerTextV1">
         ${formatAFSecondsV1(afTestRemainingV1)}
       </div>
     </div>
 
-    <form id="afTestFormV1" class="af-test-form-v1">
-      ${afCurrentQuestionsV1.map(function (q, index) {
-        return `
-          <div class="af-test-question-card-v1">
-            <h4>Q${index + 1}. ${q.question}</h4>
+    <div class="af-one-question-card-v1">
+      <div class="af-one-question-top-v1">
+        <span>Question ${current} of ${total}</span>
+        <b>${progress}%</b>
+      </div>
 
-            ${["A", "B", "C", "D"].map(function (opt) {
-              const text = q["option_" + opt.toLowerCase()];
-              return `
-                <label class="af-test-option-v1">
-                  <input type="radio" name="q_${q.id}" value="${opt}">
-                  <span>${opt}. ${text}</span>
-                </label>
-              `;
-            }).join("")}
-          </div>
-        `;
-      }).join("")}
+      <div class="af-one-progress-v1">
+        <div style="width:${progress}%"></div>
+      </div>
 
-      <button class="af-test-submit-btn-v1" type="button" onclick="submitAFTestV1(false)">
-        Submit Test
-      </button>
-    </form>
+      <h4>Q${current}. ${q.question}</h4>
+
+      <div class="af-one-options-v1">
+        ${["A", "B", "C", "D"].map(function (opt) {
+          const text = q["option_" + opt.toLowerCase()] || "";
+          return `
+            <button
+              type="button"
+              class="${selected === opt ? "active" : ""}"
+              onclick="selectAFAnswerOneV1('${q.id}', '${opt}')"
+            >
+              <strong>${opt}</strong>
+              <span>${text}</span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="af-one-nav-v1">
+        <button type="button" onclick="prevAFQuestionOneV1()" ${afCurrentQuestionIndexV1 === 0 ? "disabled" : ""}>
+          Previous
+        </button>
+
+        <button type="button" onclick="skipAFQuestionOneV1()">
+          Skip
+        </button>
+
+        ${
+          afCurrentQuestionIndexV1 === total - 1
+            ? `<button type="button" class="submit" onclick="askSubmitAFTestV1(false)">Submit</button>`
+            : `<button type="button" onclick="nextAFQuestionOneV1()">Next</button>`
+        }
+      </div>
+    </div>
   `;
 }
+
+/* =========================
+   QUESTION ACTIONS
+========================= */
+
+function selectAFAnswerOneV1(questionId, option) {
+  afTestAnswersV1[questionId] = option;
+  renderAFQuestionsV1();
+}
+
+function nextAFQuestionOneV1() {
+  if (afCurrentQuestionIndexV1 < afCurrentQuestionsV1.length - 1) {
+    afCurrentQuestionIndexV1++;
+    renderAFQuestionsV1();
+  }
+}
+
+function prevAFQuestionOneV1() {
+  if (afCurrentQuestionIndexV1 > 0) {
+    afCurrentQuestionIndexV1--;
+    renderAFQuestionsV1();
+  }
+}
+
+function skipAFQuestionOneV1() {
+  if (afCurrentQuestionIndexV1 < afCurrentQuestionsV1.length - 1) {
+    afCurrentQuestionIndexV1++;
+    renderAFQuestionsV1();
+  } else {
+    askSubmitAFTestV1(false);
+  }
+}
+
+/* =========================
+   TIMER
+========================= */
 
 function startAFTestTimerV1() {
   if (afTestTimerV1) clearInterval(afTestTimerV1);
@@ -26189,40 +27409,63 @@ function startAFTestTimerV1() {
     afTestRemainingV1--;
 
     const timer = document.getElementById("afTestTimerTextV1");
-    if (timer) timer.textContent = formatAFSecondsV1(afTestRemainingV1);
+    if (timer) {
+      timer.textContent = formatAFSecondsV1(afTestRemainingV1);
+    }
 
     if (afTestRemainingV1 <= 0) {
       clearInterval(afTestTimerV1);
-      submitAFTestV1(true);
+      askSubmitAFTestV1(true);
     }
   }, 1000);
 }
 
+/* =========================
+   ASK SUBMIT POPUP
+========================= */
+
+function askSubmitAFTestV1(autoSubmit) {
+  afPendingSubmitAutoV1 = !!autoSubmit;
+
+  showAFTestPopupV1(
+    autoSubmit ? "Time Over" : "Submit Test?",
+    autoSubmit
+      ? "<p>Your test time is over. Submit your answers now.</p>"
+      : "<p>Are you sure you want to submit your test now?</p>",
+    "confirm"
+  );
+}
+
+function confirmSubmitAFTestV1() {
+  closeAFTestPopupV1();
+  submitAFTestV1(afPendingSubmitAutoV1);
+}
+
+/* =========================
+   SUBMIT TEST
+========================= */
+
 async function submitAFTestV1(autoSubmit) {
   if (!afCurrentTestV1) return;
-
-  if (!autoSubmit) {
-    const ok = confirm("Submit your test now?");
-    if (!ok) return;
-  }
 
   if (afTestTimerV1) clearInterval(afTestTimerV1);
 
   const student = getAFTestStudentV1();
+
   const timeTaken = Math.min(
     Number(afCurrentTestV1.duration_seconds || 300),
     Math.floor((Date.now() - afTestStartedAtV1) / 1000)
   );
 
   const answers = afCurrentQuestionsV1.map(function (q) {
-    const checked = document.querySelector(`input[name="q_${q.id}"]:checked`);
     return {
       question_id: q.id,
-      selected_option: checked ? checked.value : ""
+      selected_option: afTestAnswersV1[q.id] || ""
     };
   });
 
   const area = document.getElementById("afTestAreaV1");
+
   if (area) {
     area.innerHTML = `
       <div class="af-test-empty-card-v1">
@@ -26241,7 +27484,7 @@ async function submitAFTestV1(autoSubmit) {
     student_mobile: student.student_mobile,
     student_email: student.student_email,
     time_taken_seconds: timeTaken,
-    answers
+    answers: answers
   });
 
   if (!result || !result.ok) {
@@ -26264,6 +27507,10 @@ async function submitAFTestV1(autoSubmit) {
   loadAFTestDashboardV1();
 }
 
+/* =========================
+   RESULT
+========================= */
+
 function renderAFTestResultV1(result) {
   const area = document.getElementById("afTestAreaV1");
   if (!area) return;
@@ -26282,7 +27529,101 @@ function renderAFTestResultV1(result) {
       </div>
     </div>
   `;
+
+  showAFTestPopupV1(
+    "Test Submitted",
+    `
+      <p>Your test has been submitted successfully.</p>
+      <div class="af-popup-result-v1">
+        <b>${result.score}/${result.total_questions}</b>
+        <span>${result.remark}</span>
+        <small>Rank: #${result.rank} • Time: ${result.time_taken_seconds}s</small>
+      </div>
+    `,
+    "success"
+  );
 }
+
+  /* =========================
+   ALREADY ATTEMPTED POPUP
+========================= */
+
+function showAFAlreadyAttemptedPopupV1() {
+  const data = afCurrentAttemptedDataV1 || {};
+  const attempt = data.attempt || {};
+
+  showAFTestPopupV1(
+    "Already Attempted",
+    `
+      <p>Oops! Looks like you have already attempted this test. Wait for new one.</p>
+      ${
+        attempt.score !== undefined
+          ? `<div class="af-popup-result-v1">
+              <b>${attempt.score}/${attempt.total_questions}</b>
+              <span>${attempt.remark || ""}</span>
+              <small>Time taken: ${attempt.time_taken_seconds || 0}s</small>
+            </div>`
+          : ""
+      }
+    `,
+    "error"
+  );
+}
+
+/* =========================
+   POPUP
+========================= */
+
+function showAFTestPopupV1(title, body, type) {
+  let popup = document.getElementById("afTestPopupV1");
+
+  if (!popup) {
+    popup = document.createElement("div");
+    popup.id = "afTestPopupV1";
+    popup.className = "af-test-popup-overlay-v1";
+    document.body.appendChild(popup);
+  }
+
+  const isConfirm = type === "confirm";
+
+  popup.innerHTML = `
+    <div class="af-test-popup-card-v1 ${type || ""}">
+      <button type="button" class="af-test-popup-close-v1" onclick="closeAFTestPopupV1()">×</button>
+
+      <div class="af-test-popup-icon-v1">
+        ${type === "success" ? "🎉" : type === "confirm" ? "📝" : "⚠️"}
+      </div>
+
+      <h3>${title}</h3>
+
+      <div class="af-test-popup-body-v1">${body}</div>
+
+      ${
+        isConfirm
+          ? `
+            <div class="af-popup-actions-v1">
+              <button type="button" class="cancel" onclick="closeAFTestPopupV1()">Cancel</button>
+              <button type="button" class="confirm" onclick="confirmSubmitAFTestV1()">Submit</button>
+            </div>
+          `
+          : `
+            <button type="button" class="af-test-popup-ok-v1" onclick="closeAFTestPopupV1()">Okay</button>
+          `
+      }
+    </div>
+  `;
+
+  popup.classList.add("show");
+}
+
+function closeAFTestPopupV1() {
+  const popup = document.getElementById("afTestPopupV1");
+  if (popup) popup.classList.remove("show");
+}
+
+/* =========================
+   LOAD DASHBOARD
+========================= */
 
 async function loadAFTestDashboardV1() {
   const student = getAFTestStudentV1();
@@ -26294,8 +27635,14 @@ async function loadAFTestDashboardV1() {
 
   if (dash && dash.ok) {
     renderAFTestDashboardV1(dash);
+  } else {
+    renderAFTestDashboardV1(null);
   }
 }
+
+/* =========================
+   LOAD TEST PAGE
+========================= */
 
 async function loadAFTestPageV1() {
   const locked = document.getElementById("afTestLockedV1");
@@ -26312,6 +27659,7 @@ async function loadAFTestPageV1() {
   if (locked) locked.classList.add("af-hidden");
   if (main) main.classList.remove("af-hidden");
 
+  closeAFTestSubPagesV1();
   loadAFTestDashboardV1();
 
   const data = await afTestEdgeCallV1("student-test-load-af", {
@@ -26335,7 +27683,20 @@ async function loadAFTestPageV1() {
 
   renderAFTestStartV1(data);
 }
-  
+
+/* =========================
+   AUTO LOAD WHEN EXPLORE OPENS
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    const explore = document.getElementById("explore");
+    if (explore && explore.classList.contains("active")) {
+      loadAFTestPageV1();
+    }
+  }, 500);
+});
+
   </script>
 </body>
 </html>
