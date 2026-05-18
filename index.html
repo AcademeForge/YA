@@ -20119,7 +20119,18 @@ async function loginStudentaf() {
       showStudentMessageaf("err", result?.message || "Login failed.");
       return;
     }
+var finalSessionToken = result.session_token || result.login_token || "";
+var finalDeviceId = result.device_id || getAFDeviceId();
 
+localStorage.setItem("af_session_token", finalSessionToken);
+localStorage.setItem("af_device_id", finalDeviceId);
+localStorage.setItem("af_student_id", result.student.student_id || "");
+
+console.log("Saved session:", {
+  token: finalSessionToken ? "YES" : "NO",
+  device: finalDeviceId,
+  student: result.student.student_id || ""
+});
     if (!result.student) {
       showStudentMessageaf("err", "Login failed. Student data not received.");
       return;
