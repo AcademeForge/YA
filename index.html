@@ -21887,15 +21887,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ==============================
    AF STUDENT PROFILE DASHBOARD
-   FINAL FIXED SCRIPT
-   students_af columns:
+   BACKEND COURSE FETCH FIXED
+
+   students_af:
    name, mobile, password, email, status
 
-   courses columns:
-   id, title, slug, icon, short_description
+   Profile extra:
+   student_profile_details_af
 
-   state/district:
-   saved only in student_profile_details_af
+   Enrolled courses:
+   Edge Function -> student-courses-af
 ================================ */
 
 let afCurrentStudent = null;
@@ -21945,6 +21946,45 @@ function afBackend() {
   return null;
 }
 
+async function afProfileEdgeCall(functionName, payload) {
+  const backend = afBackend();
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "Student backend is not connected."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message: error.message || "Server request failed."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "Empty server response."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.message || "Server request failed."
+    };
+  }
+}
+
 /* ==============================
    LOGIN DATA DETECTION
 ================================ */
@@ -21952,16 +21992,23 @@ function afBackend() {
 function afGetLoginData() {
   const data = {
     id: "",
+    uuid: "",
+    student_id: "",
     name: "",
     email: "",
     mobile: ""
   };
 
-  data.id =
+  data.uuid =
     localStorage.getItem("af_student_uuid") ||
+    "";
+
+  data.student_id =
     localStorage.getItem("af_student_id") ||
     localStorage.getItem("student_id") ||
     "";
+
+  data.id = data.uuid || data.student_id || "";
 
   data.name =
     localStorage.getItem("af_student_name") ||
@@ -21995,13 +22042,20 @@ function afGetLoginData() {
 
       if (!obj) continue;
 
-      data.id =
-        data.id ||
+      data.uuid =
+        data.uuid ||
         obj.id ||
         obj.uuid ||
+        obj.student_uuid ||
+        "";
+
+      data.student_id =
+        data.student_id ||
         obj.student_id ||
         obj.studentId ||
         "";
+
+      data.id = data.uuid || data.student_id || data.id || "";
 
       data.name =
         data.name ||
@@ -22028,13 +22082,20 @@ function afGetLoginData() {
   }
 
   if (typeof loggedStudent !== "undefined" && loggedStudent) {
-    data.id =
-      data.id ||
+    data.uuid =
+      data.uuid ||
       loggedStudent.id ||
       loggedStudent.uuid ||
+      loggedStudent.student_uuid ||
+      "";
+
+    data.student_id =
+      data.student_id ||
       loggedStudent.student_id ||
       loggedStudent.studentId ||
       "";
+
+    data.id = data.uuid || data.student_id || data.id || "";
 
     data.name =
       data.name ||
@@ -22136,6 +22197,17 @@ function afSafeText(value) {
   return String(value);
 }
 
+function afStudentKey(student) {
+  if (!student) return "";
+
+  return (
+    student.email ||
+    student.mobile ||
+    student.name ||
+    ""
+  );
+}
+
 /* ==============================
    OTP
 ================================ */
@@ -22199,6 +22271,8 @@ async function afVerifyOtp(email, otp) {
 
 /* ==============================
    STUDENT FETCH
+   Uses localStorage first.
+   Direct students_af fallback kept for name/email/mobile.
 ================================ */
 
 async function afFetchStudent() {
@@ -22249,13 +22323,12 @@ async function afFetchStudent() {
   if (result && result.error) {
     console.error("students_af fetch error:", result.error);
 
-    afMsg(
-      "Could not fetch student details: " + result.error.message,
-      "error",
-      "Fetch Error"
-    );
-
-    return null;
+    return {
+      name: login.name || "Student",
+      email: login.email || "",
+      mobile: login.mobile || "",
+      status: "active"
+    };
   }
 
   if (!result || !result.data) {
@@ -22280,20 +22353,9 @@ async function afFetchStudent() {
   return result.data;
 }
 
-function afStudentKey(student) {
-  if (!student) return "";
-
-  return (
-    student.email ||
-    student.mobile ||
-    student.name ||
-    ""
-  );
-}
-
 /* ==============================
    EXTRA DETAILS FETCH / SAVE
-   state/district only here
+   state/district/class only here
 ================================ */
 
 async function afFetchExtra(student) {
@@ -22369,180 +22431,59 @@ async function afUpsertExtra(payload) {
 
 /* ==============================
    ENROLLED COURSES FETCH
+   Backend Edge Function:
+   student-courses-af
 ================================ */
 
-async function afFetchCoursesByIds(courseIds) {
-  const backend = afBackend();
-
-  if (!backend || !courseIds || !courseIds.length) {
-    return [];
-  }
-
-  const uniqueIds = [
-    ...new Set(
-      courseIds
-        .filter(Boolean)
-        .map(function(id) {
-          return String(id);
-        })
-    )
-  ];
-
-  if (!uniqueIds.length) {
-    return [];
-  }
-
-  const { data, error } = await backend
-    .from("courses")
-    .select("id, title, slug, icon, short_description")
-    .in("id", uniqueIds);
-
-  if (error) {
-    console.error("courses fetch by ids error:", error);
-    return [];
-  }
-
-  return data || [];
-}
-
-async function afTryStudentCourseQuery(column, value) {
-  const backend = afBackend();
-
-  if (!backend || !column || !value) {
-    return [];
-  }
-
-  try {
-    const { data, error } = await backend
-      .from("student_courses")
-      .select("*")
-      .eq(column, value);
-
-    if (error) {
-      console.warn(
-        "student_courses query failed:",
-        column,
-        error.message
-      );
-
-      return [];
-    }
-
-    return data || [];
-  } catch (err) {
-    console.warn(
-      "student_courses query catch:",
-      column,
-      err.message
-    );
-
-    return [];
-  }
-}
-
 async function afFetchBatches(student) {
-  if (!student) {
-    return [];
-  }
-
   const login = afGetLoginData();
 
-  const possibleQueries = [
-    ["email", student.email],
-    ["student_email", student.email],
-    ["mobile", student.mobile],
-    ["student_mobile", student.mobile],
-    ["phone", student.mobile],
-    ["student_phone", student.mobile],
-    ["name", student.name],
-    ["student_name", student.name],
-    ["student_key", afStudentKey(student)],
-    ["student_key", login.email],
-    ["student_key", login.mobile],
-    ["student_id", login.id],
-    ["student_uuid", login.id]
-  ];
+  const studentUuid =
+    localStorage.getItem("af_student_uuid") ||
+    login.uuid ||
+    "";
 
-  let rows = [];
-
-  for (let i = 0; i < possibleQueries.length; i++) {
-    const column = possibleQueries[i][0];
-    const value = possibleQueries[i][1];
-
-    if (!value) continue;
-
-    const found = await afTryStudentCourseQuery(column, value);
-
-    if (found && found.length) {
-      rows = found;
-      break;
-    }
-  }
-
-  if (!rows.length) {
-    console.warn(
-      "No enrolled courses found. Check student_courses columns and matching values."
-    );
-
+  if (!studentUuid) {
+    console.warn("Profile course fetch failed: af_student_uuid missing.");
     return [];
   }
 
-  const courseIds = rows
-    .map(function(row) {
-      return (
-        row.course_id ||
-        row.courseId ||
-        row.course_uuid ||
-        row.course ||
-        ""
-      );
-    })
-    .filter(Boolean);
-
-  const courseData = await afFetchCoursesByIds(courseIds);
-
-  const courseMap = {};
-
-  courseData.forEach(function(course) {
-    courseMap[String(course.id)] = course;
+  const result = await afProfileEdgeCall("student-courses-af", {
+    student_id: studentUuid
   });
 
-  return rows.map(function(row) {
-    const id =
-      row.course_id ||
-      row.courseId ||
-      row.course_uuid ||
-      row.course ||
-      "";
+  if (!result || !result.ok) {
+    console.warn("Profile course edge error:", result);
+    return [];
+  }
 
-    const matchedCourse = courseMap[String(id)] || null;
+  const courses = Array.isArray(result.courses)
+    ? result.courses
+    : [];
 
+  if (!courses.length) {
+    console.warn("No enrolled courses returned from student-courses-af.");
+    return [];
+  }
+
+  return courses.map(function(course) {
     return {
-      raw: row,
-      course: matchedCourse,
+      raw: course,
+      course: course,
+
       title:
-        matchedCourse?.title ||
-        row.course_title ||
-        row.course_name ||
-        row.batch_name ||
-        row.title ||
-        id ||
+        course.title ||
         "Enrolled Course",
 
       slug:
-        matchedCourse?.slug ||
-        row.course_slug ||
-        row.slug ||
-        "",
+        course.slug ||
+        "Active",
 
       icon:
-        matchedCourse?.icon ||
-        row.icon ||
+        course.icon ||
         "📚",
 
       status:
-        row.status ||
-        row.access_status ||
         "active"
     };
   });
@@ -22667,7 +22608,7 @@ function afRenderProfile(batches) {
   list.innerHTML = batches
     .map(function(item) {
       const title = afSafeText(item.title || "Enrolled Course");
-      const slug = afSafeText(item.slug || item.status || "Active");
+      const slug = afSafeText(item.slug || "Active");
       const icon = afSafeText(item.icon || "📚");
       const status = afSafeText(item.status || "active");
 
@@ -23258,6 +23199,7 @@ async function confirmDeleteAccountAf() {
 ================================ */
 
 function afClearStudentLoginStorage() {
+  localStorage.removeItem("af_student_logged_in");
   localStorage.removeItem("af_student_uuid");
   localStorage.removeItem("af_student_id");
   localStorage.removeItem("student_id");
@@ -23286,7 +23228,6 @@ function afClearStudentLoginStorage() {
 document.addEventListener("DOMContentLoaded", function() {
   afRenderCard();
 });
-
   /* =========================================================
    AF HOME BANNER SWIPE + TOUCH PAUSE + MARQUEE FIX
    Paste at END of JS
