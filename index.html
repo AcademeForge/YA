@@ -19840,27 +19840,38 @@ async function logoutAcademeForge() {
 }
 /* ==============================
    NEW STUDENT SECTION JS - AF
-   Backend: NEW Supabase client = studentDb
-   Table: students_af
+   Backend: Supabase client = studentDb
 
+   Secure Flow:
    Create ID:
-   form fill -> Supabase Email OTP -> verify OTP -> insert student
+   form fill -> Supabase Email OTP -> verify OTP -> Edge Function insert student
+
+   Login:
+   frontend -> Edge Function -> students_af read with service role
 
    Forgot Password:
-   find account -> Supabase Email OTP -> verify OTP -> reset password
+   find account -> Edge Function read -> Supabase Email OTP -> verify OTP -> Edge Function update password
 ================================ */
 
 let afPendingCreateStudent = null;
 let afResetStudent = null;
 let afForgotOtpVerified = false;
 
+/* =========================
+   MESSAGE
+========================= */
+
 function showStudentMessageaf(type, text) {
   const box = document.getElementById("studentMessageaf");
   if (!box) return;
 
   box.className = "student-messageaf " + type;
-  box.textContent = text;
+  box.textContent = text || "";
 }
+
+/* =========================
+   BACKEND HELPERS
+========================= */
 
 function getStudentBackendaf() {
   if (typeof studentDb !== "undefined") return studentDb;
@@ -19870,6 +19881,49 @@ function getStudentBackendaf() {
 function cleanPhoneaf(value) {
   return String(value || "").trim().replace(/\D/g, "");
 }
+
+async function afStudentEdgeCall(functionName, payload) {
+  const backend = getStudentBackendaf();
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "New student backend is not connected."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message: error.message || "Server request failed."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "Empty server response."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.message || "Server request failed."
+    };
+  }
+}
+
+/* =========================
+   SUPABASE EMAIL OTP
+========================= */
 
 async function sendSupabaseEmailOtpaf(email, shouldCreateUserValue) {
   const backend = getStudentBackendaf();
@@ -19930,6 +19984,10 @@ async function verifySupabaseEmailOtpaf(email, otp) {
   };
 }
 
+/* =========================
+   SWITCH LOGIN / CREATE / FORGOT
+========================= */
+
 function switchStudentModeaf(mode) {
   const loginBox = document.getElementById("studentLoginBoxaf");
   const createBox = document.getElementById("studentCreateBoxaf");
@@ -19984,7 +20042,7 @@ function switchStudentModeaf(mode) {
 }
 
 /* =========================
-   LOGIN
+   LOGIN - EDGE FUNCTION
 ========================= */
 
 async function loginStudentaf() {
@@ -20005,52 +20063,27 @@ async function loginStudentaf() {
     return;
   }
 
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    showStudentMessageaf("err", "New student backend is not connected.");
-    return;
-  }
-
   showStudentMessageaf("info", "Checking your login...");
 
   try {
-    const { data, error } = await backend
-      .from("students_af")
-      .select("*")
-      .or(
-        `student_id.eq.${loginId},student_id.eq.${cleanLoginId},mobile.eq.${loginId},mobile.eq.${cleanLoginId}`
-      );
-
-    if (error) {
-      console.log("Login error:", error);
-      showStudentMessageaf("err", "Login error: " + error.message);
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      showStudentMessageaf("err", "No student found with this ID / phone number.");
-      return;
-    }
-
-    const student = data.find(function (s) {
-      return String(s.password || "").trim() === password;
+    const result = await afStudentEdgeCall("student-login-af", {
+      login_id: loginId,
+      clean_login_id: cleanLoginId,
+      password: password
     });
 
-    if (!student) {
-      showStudentMessageaf("err", "Student found, but password is wrong.");
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Login failed.");
       return;
     }
 
-    const status = String(student.status || "").trim().toLowerCase();
-
-    if (status !== "active") {
-      showStudentMessageaf("err", "Your account is not active.");
+    if (!result.student) {
+      showStudentMessageaf("err", "Login failed. Student data not received.");
       return;
     }
 
-    saveStudentSessionaf(student);
-    openCourseSectionAfterLoginaf(student);
+    saveStudentSessionaf(result.student);
+    openCourseSectionAfterLoginaf(result.student);
 
   } catch (err) {
     console.error("Login catch:", err);
@@ -20059,7 +20092,7 @@ async function loginStudentaf() {
 }
 
 /* =========================
-   CREATE ID WITH EMAIL OTP
+   CREATE ID - SEND OTP
 ========================= */
 
 async function sendCreateOtpaf() {
@@ -20093,40 +20126,27 @@ async function sendCreateOtpaf() {
     return;
   }
 
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    showStudentMessageaf("err", "New student backend is not connected.");
-    return;
-  }
-
   showStudentMessageaf("info", "Checking existing account...");
 
   try {
-    const { data: existing, error: checkError } = await backend
-      .from("students_af")
-      .select("id, mobile, email, student_id")
-      .or(`mobile.eq.${mobile},email.eq.${email},student_id.eq.${mobile}`);
+    const checkResult = await afStudentEdgeCall("student-check-existing-af", {
+      mobile: mobile,
+      email: email
+    });
 
-    if (checkError) {
-      showStudentMessageaf("err", "Could not check existing account: " + checkError.message);
+    if (!checkResult || !checkResult.ok) {
+      showStudentMessageaf("err", checkResult?.message || "Could not check existing account.");
       return;
     }
 
-    if (existing && existing.length > 0) {
-      const mobileExists = existing.some(s => String(s.mobile) === mobile);
-      const emailExists = existing.some(s => String(s.email).toLowerCase() === email);
-      const studentIdExists = existing.some(s => String(s.student_id) === mobile);
+    if (checkResult.mobile_exists || checkResult.student_id_exists) {
+      showStudentMessageaf("err", "This phone number is already registered.");
+      return;
+    }
 
-      if (mobileExists || studentIdExists) {
-        showStudentMessageaf("err", "This phone number is already registered.");
-        return;
-      }
-
-      if (emailExists) {
-        showStudentMessageaf("err", "This email is already registered.");
-        return;
-      }
+    if (checkResult.email_exists) {
+      showStudentMessageaf("err", "This email is already registered.");
+      return;
     }
 
     afPendingCreateStudent = {
@@ -20159,6 +20179,10 @@ async function sendCreateOtpaf() {
   }
 }
 
+/* =========================
+   CREATE ID - VERIFY OTP + EDGE INSERT
+========================= */
+
 async function verifyCreateOtpAndCreateIdaf() {
   const otpInput = document.getElementById("createOtpaf");
   const otp = otpInput ? otpInput.value.trim() : "";
@@ -20170,13 +20194,6 @@ async function verifyCreateOtpAndCreateIdaf() {
 
   if (!otp) {
     showStudentMessageaf("err", "Enter OTP.");
-    return;
-  }
-
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    showStudentMessageaf("err", "New student backend is not connected.");
     return;
   }
 
@@ -20195,22 +20212,23 @@ async function verifyCreateOtpAndCreateIdaf() {
 
     showStudentMessageaf("info", "Creating your Student ID...");
 
-    const { data, error } = await backend
-      .from("students_af")
-      .insert([afPendingCreateStudent])
-      .select("*")
-      .single();
+    const result = await afStudentEdgeCall("student-create-af", afPendingCreateStudent);
 
-    if (error) {
-      showStudentMessageaf("err", "Could not create Student ID: " + error.message);
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Could not create Student ID.");
+      return;
+    }
+
+    if (!result.student) {
+      showStudentMessageaf("err", "Student ID created but student data not received.");
       return;
     }
 
     afPendingCreateStudent = null;
 
-    saveStudentSessionaf(data);
+    saveStudentSessionaf(result.student);
     showStudentMessageaf("ok", "Student ID created successfully.");
-    openCourseSectionAfterLoginaf(data);
+    openCourseSectionAfterLoginaf(result.student);
 
   } catch (err) {
     console.error("Create Student ID catch:", err);
@@ -20219,7 +20237,7 @@ async function verifyCreateOtpAndCreateIdaf() {
 }
 
 /* =========================
-   FORGOT PASSWORD WITH EMAIL OTP
+   FORGOT PASSWORD - FIND ACCOUNT BY EDGE
 ========================= */
 
 async function findStudentForResetaf() {
@@ -20232,37 +20250,26 @@ async function findStudentForResetaf() {
     return;
   }
 
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    showStudentMessageaf("err", "New student backend is not connected.");
-    return;
-  }
-
   showStudentMessageaf("info", "Finding your account...");
 
   try {
-    const emailValue = value.toLowerCase();
+    const result = await afStudentEdgeCall("student-find-reset-af", {
+      value: value,
+      clean_value: cleanValue,
+      email_value: value.toLowerCase()
+    });
 
-    const { data, error } = await backend
-      .from("students_af")
-      .select("*")
-      .or(
-        `student_id.eq.${value},student_id.eq.${cleanValue},mobile.eq.${value},mobile.eq.${cleanValue},email.eq.${emailValue}`
-      )
-      .limit(1);
-
-    if (error) {
-      showStudentMessageaf("err", "Account search failed: " + error.message);
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "No account found with this detail.");
       return;
     }
 
-    if (!data || data.length === 0) {
-      showStudentMessageaf("err", "No account found with this detail.");
+    if (!result.student || !result.student.email) {
+      showStudentMessageaf("err", "Account found but email is missing.");
       return;
     }
 
-    afResetStudent = data[0];
+    afResetStudent = result.student;
     afForgotOtpVerified = false;
 
     showStudentMessageaf("info", "Sending OTP to your registered email...");
@@ -20297,6 +20304,10 @@ async function findStudentForResetaf() {
     showStudentMessageaf("err", "Account search failed: " + err.message);
   }
 }
+
+/* =========================
+   FORGOT PASSWORD - VERIFY OTP
+========================= */
 
 async function verifyForgotOtpaf() {
   const otpInput = document.getElementById("forgotOtpaf");
@@ -20338,6 +20349,10 @@ async function verifyForgotOtpaf() {
   }
 }
 
+/* =========================
+   FORGOT PASSWORD - EDGE UPDATE
+========================= */
+
 async function resetStudentPasswordaf() {
   const newPasswordInput = document.getElementById("newPasswordaf");
   const newPassword = newPasswordInput ? newPasswordInput.value.trim() : "";
@@ -20357,23 +20372,17 @@ async function resetStudentPasswordaf() {
     return;
   }
 
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    showStudentMessageaf("err", "New student backend is not connected.");
-    return;
-  }
-
   showStudentMessageaf("info", "Resetting your password...");
 
   try {
-    const { error } = await backend
-      .from("students_af")
-      .update({ password: newPassword })
-      .eq("id", afResetStudent.id);
+    const result = await afStudentEdgeCall("student-reset-password-af", {
+      id: afResetStudent.id,
+      email: afResetStudent.email,
+      new_password: newPassword
+    });
 
-    if (error) {
-      showStudentMessageaf("err", "Password reset failed: " + error.message);
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Password reset failed.");
       return;
     }
 
@@ -20401,7 +20410,7 @@ async function resetStudentPasswordaf() {
 }
 
 /* =========================
-   SESSION + COURSE OPEN
+   SESSION
 ========================= */
 
 function saveStudentSessionaf(student) {
@@ -20412,6 +20421,10 @@ function saveStudentSessionaf(student) {
   localStorage.setItem("af_student_name", student.name || "Student");
   localStorage.setItem("af_student_email", student.email || "");
 }
+
+/* =========================
+   OPEN COURSE SECTION AFTER LOGIN
+========================= */
 
 function openCourseSectionAfterLoginaf(studentData) {
   const authCard = document.getElementById("studentAuthCardaf");
@@ -20454,6 +20467,10 @@ function openCourseSectionAfterLoginaf(studentData) {
   }
 }
 
+/* =========================
+   LOGOUT
+========================= */
+
 function logoutStudent() {
   localStorage.removeItem("af_student_logged_in");
   localStorage.removeItem("af_student_uuid");
@@ -20483,6 +20500,10 @@ function logoutStudent() {
   switchStudentModeaf("login");
 }
 
+/* =========================
+   AUTO LOGIN FROM LOCAL SESSION
+========================= */
+
 document.addEventListener("DOMContentLoaded", function () {
   const loggedIn = localStorage.getItem("af_student_logged_in");
 
@@ -20496,8 +20517,11 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     openCourseSectionAfterLoginaf(studentData);
+  } else {
+    switchStudentModeaf("login");
   }
 });
+  
 /* ==============================
    STUDENT COURSE DASHBOARD JS - AF
    Backend client: studentDb
