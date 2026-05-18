@@ -25408,6 +25408,18 @@ document.addEventListener("visibilitychange", function () {
 document.addEventListener("DOMContentLoaded", function () {
   checkStudentSessionaf();
 });
+
+  if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js")
+      .then(function () {
+        console.log("AF Service Worker registered");
+      })
+      .catch(function (err) {
+        console.log("AF Service Worker failed:", err);
+      });
+  });
+}
   </script>
 </body>
 </html>
