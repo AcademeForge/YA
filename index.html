@@ -25216,184 +25216,178 @@ if ("serviceWorker" in navigator) {
 }
 
 
-
 /* =========================================================
-   AF SINGLE DEVICE SESSION HELPERS
+   AF SINGLE DEVICE SESSION HELPERS - SAFE INLINE VERSION
 ========================================================= */
+(function () {
+  const AF_SESSION_CHECK_URL =
+    "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-session-check-af";
 
-const AF_SESSION_CHECK_URL =
-  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-session-check-af";
+  window.getAFDeviceId = function () {
+    let id = localStorage.getItem("af_device_id");
 
-function getAFDeviceId() {
-  let id = localStorage.getItem("af_device_id");
+    if (!id) {
+      id = "dev_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+      localStorage.setItem("af_device_id", id);
+    }
 
-  if (!id) {
-    id = "dev_" + Date.now() + "_" + Math.random().toString(36).slice(2);
-    localStorage.setItem("af_device_id", id);
+    return id;
+  };
+
+  window.getAFDeviceName = function () {
+    const ua = navigator.userAgent || "Unknown device";
+
+    if (/Android/i.test(ua)) return "Android Phone";
+    if (/iPhone/i.test(ua)) return "iPhone";
+    if (/iPad/i.test(ua)) return "iPad";
+    if (/Windows/i.test(ua)) return "Windows";
+    if (/Mac/i.test(ua)) return "Mac";
+
+    return "Unknown device";
+  };
+
+  window.saveAFLoginSession = function (result) {
+    if (!result || !result.ok) return;
+
+    if (result.session_token) {
+      localStorage.setItem("af_session_token", result.session_token);
+    }
+
+    if (result.device_id) {
+      localStorage.setItem("af_device_id", result.device_id);
+    } else {
+      window.getAFDeviceId();
+    }
+
+    if (result.student && result.student.student_id) {
+      localStorage.setItem("af_student_id", result.student.student_id);
+    }
+  };
+
+  function getAFStudentIdForSession() {
+    const directId =
+      localStorage.getItem("af_student_id") ||
+      localStorage.getItem("student_id");
+
+    if (directId) return directId;
+
+    const possibleKeys = ["af_student", "currentStudent", "student"];
+
+    for (const key of possibleKeys) {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+
+      try {
+        const obj = JSON.parse(raw);
+        if (obj && obj.student_id) return obj.student_id;
+        if (obj && obj.studentId) return obj.studentId;
+        if (obj && obj.mobile) return obj.mobile;
+      } catch (_) {}
+    }
+
+    return "";
   }
 
-  return id;
-}
-
-function getAFDeviceName() {
-  const ua = navigator.userAgent || "Unknown device";
-
-  if (/Android/i.test(ua)) return "Android Phone";
-  if (/iPhone/i.test(ua)) return "iPhone";
-  if (/iPad/i.test(ua)) return "iPad";
-  if (/Windows/i.test(ua)) return "Windows";
-  if (/Mac/i.test(ua)) return "Mac";
-
-  return "Unknown device";
-}
-
-function saveAFLoginSession(result) {
-  if (!result || !result.ok) return;
-
-  if (result.session_token) {
-    localStorage.setItem("af_session_token", result.session_token);
+  function clearAFSessionAfterKickout() {
+    localStorage.removeItem("af_session_token");
+    localStorage.removeItem("af_student_id");
+    localStorage.removeItem("af_student");
+    localStorage.removeItem("currentStudent");
+    localStorage.removeItem("student");
   }
 
-  if (result.device_id) {
-    localStorage.setItem("af_device_id", result.device_id);
-  } else {
-    getAFDeviceId();
+  function logoutStudentDueToOtherDevice(message) {
+    clearAFSessionAfterKickout();
+
+    alert(message || "Your account was logged in on another device.");
+
+    if (typeof window.showStudentLogin === "function") {
+      window.showStudentLogin();
+      return;
+    }
+
+    if (typeof window.openStudentLogin === "function") {
+      window.openStudentLogin();
+      return;
+    }
+
+    if (typeof window.showLoginSectionaf === "function") {
+      window.showLoginSectionaf();
+      return;
+    }
+
+    location.reload();
   }
 
-  if (result.student && result.student.student_id) {
-    localStorage.setItem("af_student_id", result.student.student_id);
-  }
-}
+  window.checkStudentSession = async function () {
+    const studentId = getAFStudentIdForSession();
+    const sessionToken = localStorage.getItem("af_session_token");
+    const deviceId =
+      localStorage.getItem("af_device_id") || window.getAFDeviceId();
 
-function getAFStudentIdForSession() {
-  const directId =
-    localStorage.getItem("af_student_id") ||
-    localStorage.getItem("student_id");
-
-  if (directId) return directId;
-
-  const possibleKeys = [
-    "af_student",
-    "currentStudent",
-    "student"
-  ];
-
-  for (const key of possibleKeys) {
-    const raw = localStorage.getItem(key);
-    if (!raw) continue;
+    if (!studentId || !sessionToken || !deviceId) {
+      return true;
+    }
 
     try {
-      const obj = JSON.parse(raw);
-      if (obj && obj.student_id) return obj.student_id;
-      if (obj && obj.studentId) return obj.studentId;
-      if (obj && obj.mobile) return obj.mobile;
-    } catch (_) {}
-  }
+      const res = await fetch(AF_SESSION_CHECK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          student_id: studentId,
+          session_token: sessionToken,
+          device_id: deviceId
+        })
+      });
 
-  return "";
-}
+      const data = await res.json().catch(function () {
+        return {};
+      });
 
-function clearAFSessionAfterKickout() {
-  localStorage.removeItem("af_session_token");
-  localStorage.removeItem("af_student_id");
-  localStorage.removeItem("af_student");
+      if (data.logout === true || data.valid === false) {
+        logoutStudentDueToOtherDevice(
+          data.message || "Your account was logged in on another device."
+        );
+        return false;
+      }
 
-  localStorage.removeItem("currentStudent");
-  localStorage.removeItem("student");
+      return true;
+    } catch (err) {
+      return true;
+    }
+  };
 
-  // af_device_id mat hatao
-}
+  window.startAFSessionWatcher = function () {
+    if (window.__afSessionWatcherStarted) return;
+    window.__afSessionWatcherStarted = true;
 
-function logoutStudentDueToOtherDevice(message) {
-  clearAFSessionAfterKickout();
+    setTimeout(function () {
+      window.checkStudentSession();
+    }, 1500);
 
-  alert(message || "Your account was logged in on another device.");
+    setInterval(function () {
+      window.checkStudentSession();
+    }, 30000);
 
-  if (typeof showStudentLogin === "function") {
-    showStudentLogin();
-    return;
-  }
-
-  if (typeof openStudentLogin === "function") {
-    openStudentLogin();
-    return;
-  }
-
-  if (typeof showLoginSectionaf === "function") {
-    showLoginSectionaf();
-    return;
-  }
-
-  location.reload();
-}
-
-async function checkStudentSession() {
-  const studentId = getAFStudentIdForSession();
-  const sessionToken = localStorage.getItem("af_session_token");
-  const deviceId = localStorage.getItem("af_device_id") || getAFDeviceId();
-
-  if (!studentId || !sessionToken || !deviceId) {
-    return true;
-  }
-
-  try {
-    const res = await fetch(AF_SESSION_CHECK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        student_id: studentId,
-        session_token: sessionToken,
-        device_id: deviceId
-      })
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) {
+        window.checkStudentSession();
+      }
     });
 
-    const data = await res.json().catch(function () {
-      return {};
+    window.addEventListener("focus", function () {
+      window.checkStudentSession();
     });
+  };
 
-    if (data.logout === true || data.valid === false) {
-      logoutStudentDueToOtherDevice(
-        data.message || "Your account was logged in on another device."
-      );
-      return false;
-    }
-
-    return true;
-  } catch (err) {
-    return true;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", window.startAFSessionWatcher);
+  } else {
+    window.startAFSessionWatcher();
   }
-}
-
-function startAFSessionWatcher() {
-  if (window.__afSessionWatcherStarted) return;
-  window.__afSessionWatcherStarted = true;
-
-  setTimeout(function () {
-    checkStudentSession();
-  }, 1500);
-
-  setInterval(function () {
-    checkStudentSession();
-  }, 30000);
-
-  document.addEventListener("visibilitychange", function () {
-    if (!document.hidden) {
-      checkStudentSession();
-    }
-  });
-
-  window.addEventListener("focus", function () {
-    checkStudentSession();
-  });
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", startAFSessionWatcher);
-} else {
-  startAFSessionWatcher();
-}
+})();
   
   </script>
 </body>
