@@ -19969,10 +19969,17 @@ function cleanPhoneaf(value) {
 async function afStudentEdgeCall(functionName, payload) {
   const backend = getStudentBackendaf();
 
+  if (!navigator.onLine) {
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+
   if (!backend) {
     return {
       ok: false,
-      message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
+      message: "Server connection failed. Please try again."
     };
   }
 
@@ -19982,25 +19989,29 @@ async function afStudentEdgeCall(functionName, payload) {
     });
 
     if (error) {
+      console.error("AF Edge function error:", error);
+
       return {
         ok: false,
-        message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
+        message: "No internet connection."
       };
     }
 
     if (!data) {
       return {
         ok: false,
-        message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
+        message: "No internet connection."
       };
     }
 
     return data;
 
   } catch (err) {
+    console.error("AF Edge function catch:", err);
+
     return {
       ok: false,
-      message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
+      message: "No internet connection."
     };
   }
 }
