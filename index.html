@@ -24054,9 +24054,12 @@ function showAfDeleteAccountInfoNew() {
   box.classList.toggle("af-hidden");
 }
 /* =========================================================
-   AF NEXUS COMMUNITY V2 - FULL JS
+   AF NEXUS COMMUNITY V2 - EDGE FUNCTION VERSION
    Paste at END of your main JS file
    Requires: studentDb Supabase client already created
+
+   Edge Function:
+   af-nexus-community-v2
 ========================================================= */
 
 let afNexusFeedModeV2 = "relevant";
@@ -24108,7 +24111,9 @@ function afNexusInitialsV2(name) {
 }
 
 function afNexusMsgV2(msg, type) {
-  if (typeof showToast === "function") {
+  if (typeof showAfToast === "function") {
+    showAfToast(msg, type || "info", "AF Nexus");
+  } else if (typeof showToast === "function") {
     showToast(type === "error" ? "Error" : "AF Nexus", msg);
   } else if (typeof afMsg === "function") {
     afMsg(msg, type || "info", "AF Nexus");
@@ -24150,6 +24155,53 @@ function afNexusIsLoggedInV2() {
   return !!afNexusStudentKeyV2();
 }
 
+/* ---------------- EDGE FUNCTION CALL ---------------- */
+
+async function afNexusEdgeCallV2(payload) {
+  const backend = afNexusBackendV2();
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "Backend not connected."
+    };
+  }
+
+  try {
+    const finalPayload = {
+      ...(payload || {}),
+      student_key: afNexusStudentKeyV2(),
+      student_name: afNexusStudentNameV2()
+    };
+
+    const { data, error } = await backend.functions.invoke("af-nexus-community-v2", {
+      body: finalPayload
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message: error.message || "Community request failed."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "Empty server response."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.message || "Community request failed."
+    };
+  }
+}
+
 /* ---------------- CACHE ---------------- */
 
 function afNexusCacheKeyV2() {
@@ -24180,9 +24232,34 @@ function afNexusLoadCacheV2() {
   }
 }
 
+function afNexusUpdatePostInCacheV2(postId, updater) {
+  try {
+    afNexusPostsCacheV2 = afNexusPostsCacheV2.map(function(post) {
+      if (String(post.id) !== String(postId)) return post;
+      return updater({ ...post });
+    });
+
+    afNexusSaveCacheV2(afNexusPostsCacheV2);
+    renderAfNexusPostsV2(afNexusPostsCacheV2, "afNexusPostsListV2");
+
+    const myView = document.getElementById("afMyNexusViewV2");
+    if (myView && !myView.classList.contains("af-hidden")) {
+      renderAfNexusPostsV2(
+        afNexusPostsCacheV2.filter(function(p) {
+          return String(p.student_key || "") === String(afNexusStudentKeyV2() || "");
+        }),
+        "afMyNexusPostsListV2"
+      );
+    }
+  } catch (e) {}
+}
+
 /* ---------------- INIT ---------------- */
 
 async function initAfNexusV2() {
+  forceCloseAfNexusOverlaysV2();
+  refreshAfNexusLockStateV2();
+
   const locked = document.getElementById("afNexusLockedV2");
   const main = document.getElementById("afNexusMainV2");
   const writeBtn = document.getElementById("afNexusWriteBtnV2");
@@ -24191,6 +24268,7 @@ async function initAfNexusV2() {
     if (locked) locked.classList.remove("af-hidden");
     if (main) main.classList.add("af-hidden");
     if (writeBtn) writeBtn.classList.add("af-hidden");
+    refreshAfNexusLockStateV2();
     return;
   }
 
@@ -24213,9 +24291,12 @@ async function initAfNexusV2() {
   setTimeout(function() {
     loadAfNexusPostsV2(false);
   }, 80);
+
+  setTimeout(refreshAfNexusLockStateV2, 150);
+  setTimeout(refreshAfNexusLockStateV2, 600);
 }
 
-/* hook into old community init if old showSection calls initCommunitySection */
+/* hook into old community init */
 if (typeof initCommunitySection !== "function") {
   function initCommunitySection() {
     initAfNexusV2();
@@ -24228,30 +24309,13 @@ if (typeof initCommunitySection !== "function") {
   };
 }
 
-/* Also run when community section is clicked/opened manually */
-document.addEventListener("DOMContentLoaded", function() {
-  setTimeout(function() {
-    if (document.getElementById("community")) {
-      initAfNexusV2();
-    }
-  }, 400);
-});
-
 /* ---------------- LOAD POSTS ---------------- */
 
 async function loadAfNexusPostsV2(useCacheFirst) {
-  const backend = afNexusBackendV2();
   const list = document.getElementById("afNexusPostsListV2");
 
   if (!afNexusIsLoggedInV2()) {
     initAfNexusV2();
-    return;
-  }
-
-  if (!backend) {
-    if (list) {
-      list.innerHTML = `<div class="af-nexus-empty-v2">Backend not connected.</div>`;
-    }
     return;
   }
 
@@ -24268,32 +24332,20 @@ async function loadAfNexusPostsV2(useCacheFirst) {
   }
 
   try {
-    let query = backend
-      .from("af_nexus_posts_v2")
-      .select("*")
-      .eq("is_deleted", false)
-      .limit(100);
+    const result = await afNexusEdgeCallV2({
+      action: "fetch_posts",
+      mode: afNexusFeedModeV2
+    });
 
-    if (afNexusFeedModeV2 === "recent") {
-      query = query.order("created_at", { ascending: false });
-    } else {
-      query = query
-        .order("likes_count", { ascending: false })
-        .order("comments_count", { ascending: false })
-        .order("created_at", { ascending: false });
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error("AF Nexus posts fetch error:", error);
+    if (!result || !result.ok) {
+      console.error("AF Nexus posts edge error:", result);
       if (list && !afNexusPostsCacheV2.length) {
         list.innerHTML = `<div class="af-nexus-empty-v2">Could not load posts.</div>`;
       }
       return;
     }
 
-    afNexusPostsCacheV2 = data || [];
+    afNexusPostsCacheV2 = Array.isArray(result.posts) ? result.posts : [];
     afNexusSaveCacheV2(afNexusPostsCacheV2);
     renderAfNexusPostsV2(afNexusPostsCacheV2, "afNexusPostsListV2");
 
@@ -24311,7 +24363,7 @@ function setAfNexusFeedModeV2(mode) {
   if (relevantBtn) relevantBtn.classList.toggle("active", afNexusFeedModeV2 === "relevant");
   if (recentBtn) recentBtn.classList.toggle("active", afNexusFeedModeV2 === "recent");
 
-  loadAfNexusPostsV2(false);
+  loadAfNexusPostsV2(true);
 }
 
 /* ---------------- RENDER POSTS ---------------- */
@@ -24377,7 +24429,14 @@ function openAfNexusComposerV2() {
   const overlay = document.getElementById("afNexusComposerOverlayV2");
   const input = document.getElementById("afNexusPostInputV2");
 
-  if (overlay) overlay.classList.remove("af-hidden");
+  if (overlay) {
+    overlay.classList.remove("af-hidden");
+    overlay.style.display = "";
+    overlay.style.opacity = "";
+    overlay.style.visibility = "";
+    overlay.style.pointerEvents = "";
+  }
+
   if (input) {
     input.value = "";
     input.classList.remove("af-limit-exceeded-v2");
@@ -24399,21 +24458,17 @@ function handleAfNexusPostTypingV2() {
   const btn = document.getElementById("afNexusSubmitPostBtnV2");
 
   const words = afNexusWordCountV2(input ? input.value : "");
-
-  if (countEl) countEl.textContent = words + " / 80 words";
-
   const exceeded = words > 80;
 
+  if (countEl) countEl.textContent = words + " / 80 words";
   if (input) input.classList.toggle("af-limit-exceeded-v2", exceeded);
   if (warning) warning.classList.toggle("af-hidden", !exceeded);
   if (btn) btn.disabled = exceeded || words === 0;
 }
 
 async function createAfNexusPostV2() {
-  const backend = afNexusBackendV2();
   const input = document.getElementById("afNexusPostInputV2");
-
-  if (!backend || !input) return;
+  if (!input) return;
 
   const content = afNexusCleanV2(input.value);
   const words = afNexusWordCountV2(content);
@@ -24429,24 +24484,25 @@ async function createAfNexusPostV2() {
   }
 
   try {
-    const payload = {
-      student_key: afNexusStudentKeyV2(),
-      student_name: afNexusStudentNameV2(),
+    const result = await afNexusEdgeCallV2({
+      action: "create_post",
       content: content
-    };
+    });
 
-    const { error } = await backend
-      .from("af_nexus_posts_v2")
-      .insert([payload]);
-
-    if (error) {
-      console.error("AF Nexus create post error:", error);
-      afNexusMsgV2(error.message || "Could not create post.", "error");
+    if (!result || !result.ok) {
+      afNexusMsgV2(result?.message || "Could not create post.", "error");
       return;
     }
 
     input.value = "";
     closeAfNexusComposerV2();
+
+    if (result.post) {
+      afNexusPostsCacheV2 = [result.post].concat(afNexusPostsCacheV2 || []);
+      afNexusSaveCacheV2(afNexusPostsCacheV2);
+      renderAfNexusPostsV2(afNexusPostsCacheV2, "afNexusPostsListV2");
+    }
+
     loadAfNexusPostsV2(false);
 
   } catch (err) {
@@ -24457,43 +24513,28 @@ async function createAfNexusPostV2() {
 /* ---------------- POST LIKE ---------------- */
 
 async function toggleAfNexusPostLikeV2(postId) {
-  const backend = afNexusBackendV2();
-  const key = afNexusStudentKeyV2();
+  if (!afNexusStudentKeyV2()) return;
 
-  if (!backend || !key) return;
+  afNexusUpdatePostInCacheV2(postId, function(post) {
+    post.likes_count = Number(post.likes_count || 0) + 1;
+    return post;
+  });
 
   try {
-    const { data: existing, error: findErr } = await backend
-      .from("af_nexus_post_likes_v2")
-      .select("id")
-      .eq("post_id", postId)
-      .eq("student_key", key)
-      .maybeSingle();
+    const result = await afNexusEdgeCallV2({
+      action: "toggle_post_like",
+      post_id: postId
+    });
 
-    if (findErr) {
-      console.error(findErr);
-      return;
-    }
-
-    if (existing && existing.id) {
-      const { error } = await backend
-        .from("af_nexus_post_likes_v2")
-        .delete()
-        .eq("id", existing.id);
-
-      if (error) console.error(error);
-    } else {
-      const { error } = await backend
-        .from("af_nexus_post_likes_v2")
-        .insert([{ post_id: postId, student_key: key }]);
-
-      if (error) console.error(error);
+    if (!result || !result.ok) {
+      console.error("Post like edge error:", result);
     }
 
     loadAfNexusPostsV2(false);
 
   } catch (err) {
     console.error(err);
+    loadAfNexusPostsV2(false);
   }
 }
 
@@ -24505,7 +24546,14 @@ function openAfNexusCommentsV2(postId) {
   const overlay = document.getElementById("afNexusCommentsOverlayV2");
   const input = document.getElementById("afNexusCommentInputV2");
 
-  if (overlay) overlay.classList.remove("af-hidden");
+  if (overlay) {
+    overlay.classList.remove("af-hidden");
+    overlay.style.display = "";
+    overlay.style.opacity = "";
+    overlay.style.visibility = "";
+    overlay.style.pointerEvents = "";
+  }
+
   if (input) input.value = "";
 
   handleAfNexusCommentTypingV2();
@@ -24519,28 +24567,24 @@ function closeAfNexusCommentsV2() {
 }
 
 async function loadAfNexusCommentsV2(postId) {
-  const backend = afNexusBackendV2();
   const box = document.getElementById("afNexusCommentsListV2");
-
-  if (!backend || !box) return;
+  if (!box) return;
 
   box.innerHTML = `<div class="af-nexus-loading-v2">Loading comments...</div>`;
 
   try {
-    const { data, error } = await backend
-      .from("af_nexus_comments_v2")
-      .select("*")
-      .eq("post_id", postId)
-      .eq("is_deleted", false)
-      .order("created_at", { ascending: true });
+    const result = await afNexusEdgeCallV2({
+      action: "fetch_comments",
+      post_id: postId
+    });
 
-    if (error) {
-      console.error(error);
+    if (!result || !result.ok) {
+      console.error("Comments edge error:", result);
       box.innerHTML = `<div class="af-nexus-empty-v2">Could not load comments.</div>`;
       return;
     }
 
-    renderAfNexusCommentsV2(data || []);
+    renderAfNexusCommentsV2(Array.isArray(result.comments) ? result.comments : []);
 
   } catch (err) {
     console.error(err);
@@ -24569,6 +24613,7 @@ function renderAfNexusCommentsV2(comments) {
     return arr.map(function(c) {
       const isMine = String(c.student_key || "") === String(afNexusStudentKeyV2() || "");
       const childHtml = renderList(String(c.id), depth + 1);
+      const preview = afNexusEscapeV2((c.content || "").slice(0, 50)).replace(/'/g, "&#39;");
 
       return `
         <div class="af-nexus-comment-card-v2 ${depth > 0 ? "reply" : ""}">
@@ -24594,7 +24639,7 @@ function renderAfNexusCommentsV2(comments) {
               ❤️ ${c.likes_count || 0}
             </button>
 
-            <button class="af-nexus-action-btn-v2" type="button" onclick="openAfNexusReplyV2(${c.id}, '${afNexusEscapeV2((c.content || "").slice(0, 50)).replace(/'/g, "&#39;")}')">
+            <button class="af-nexus-action-btn-v2" type="button" onclick="openAfNexusReplyV2(${c.id}, '${preview}')">
               Reply
             </button>
           </div>
@@ -24624,10 +24669,9 @@ function handleAfNexusCommentTypingV2() {
 }
 
 async function createAfNexusCommentV2() {
-  const backend = afNexusBackendV2();
   const input = document.getElementById("afNexusCommentInputV2");
 
-  if (!backend || !input || !afNexusCurrentPostIdV2) return;
+  if (!input || !afNexusCurrentPostIdV2) return;
 
   const content = afNexusCleanV2(input.value);
   const words = afNexusWordCountV2(content);
@@ -24635,26 +24679,26 @@ async function createAfNexusCommentV2() {
   if (!content || words > 80) return;
 
   try {
-    const payload = {
+    const result = await afNexusEdgeCallV2({
+      action: "create_comment",
       post_id: afNexusCurrentPostIdV2,
       parent_comment_id: null,
-      student_key: afNexusStudentKeyV2(),
-      student_name: afNexusStudentNameV2(),
       content: content
-    };
+    });
 
-    const { error } = await backend
-      .from("af_nexus_comments_v2")
-      .insert([payload]);
-
-    if (error) {
-      console.error(error);
-      afNexusMsgV2(error.message || "Could not comment.", "error");
+    if (!result || !result.ok) {
+      afNexusMsgV2(result?.message || "Could not comment.", "error");
       return;
     }
 
     input.value = "";
     handleAfNexusCommentTypingV2();
+
+    afNexusUpdatePostInCacheV2(afNexusCurrentPostIdV2, function(post) {
+      post.comments_count = Number(post.comments_count || 0) + 1;
+      return post;
+    });
+
     loadAfNexusCommentsV2(afNexusCurrentPostIdV2);
     loadAfNexusPostsV2(false);
 
@@ -24673,7 +24717,15 @@ function openAfNexusReplyV2(parentCommentId, preview) {
   const target = document.getElementById("afNexusReplyTargetTextV2");
 
   if (target) target.textContent = preview ? "Replying to: " + preview : "Reply to comment";
-  if (overlay) overlay.classList.remove("af-hidden");
+
+  if (overlay) {
+    overlay.classList.remove("af-hidden");
+    overlay.style.display = "";
+    overlay.style.opacity = "";
+    overlay.style.visibility = "";
+    overlay.style.pointerEvents = "";
+  }
+
   if (input) {
     input.value = "";
     setTimeout(function() { input.focus(); }, 100);
@@ -24704,10 +24756,9 @@ function handleAfNexusReplyTypingV2() {
 }
 
 async function createAfNexusReplyV2() {
-  const backend = afNexusBackendV2();
   const input = document.getElementById("afNexusReplyInputV2");
 
-  if (!backend || !input || !afNexusCurrentPostIdV2 || !afNexusCurrentReplyParentIdV2) return;
+  if (!input || !afNexusCurrentPostIdV2 || !afNexusCurrentReplyParentIdV2) return;
 
   const content = afNexusCleanV2(input.value);
   const words = afNexusWordCountV2(content);
@@ -24715,25 +24766,25 @@ async function createAfNexusReplyV2() {
   if (!content || words > 80) return;
 
   try {
-    const payload = {
+    const result = await afNexusEdgeCallV2({
+      action: "create_comment",
       post_id: afNexusCurrentPostIdV2,
       parent_comment_id: afNexusCurrentReplyParentIdV2,
-      student_key: afNexusStudentKeyV2(),
-      student_name: afNexusStudentNameV2(),
       content: content
-    };
+    });
 
-    const { error } = await backend
-      .from("af_nexus_comments_v2")
-      .insert([payload]);
-
-    if (error) {
-      console.error(error);
-      afNexusMsgV2(error.message || "Could not reply.", "error");
+    if (!result || !result.ok) {
+      afNexusMsgV2(result?.message || "Could not reply.", "error");
       return;
     }
 
     closeAfNexusReplyV2();
+
+    afNexusUpdatePostInCacheV2(afNexusCurrentPostIdV2, function(post) {
+      post.comments_count = Number(post.comments_count || 0) + 1;
+      return post;
+    });
+
     loadAfNexusCommentsV2(afNexusCurrentPostIdV2);
     loadAfNexusPostsV2(false);
 
@@ -24745,37 +24796,16 @@ async function createAfNexusReplyV2() {
 /* ---------------- COMMENT LIKE ---------------- */
 
 async function toggleAfNexusCommentLikeV2(commentId) {
-  const backend = afNexusBackendV2();
-  const key = afNexusStudentKeyV2();
-
-  if (!backend || !key) return;
+  if (!afNexusStudentKeyV2()) return;
 
   try {
-    const { data: existing, error: findErr } = await backend
-      .from("af_nexus_comment_likes_v2")
-      .select("id")
-      .eq("comment_id", commentId)
-      .eq("student_key", key)
-      .maybeSingle();
+    const result = await afNexusEdgeCallV2({
+      action: "toggle_comment_like",
+      comment_id: commentId
+    });
 
-    if (findErr) {
-      console.error(findErr);
-      return;
-    }
-
-    if (existing && existing.id) {
-      const { error } = await backend
-        .from("af_nexus_comment_likes_v2")
-        .delete()
-        .eq("id", existing.id);
-
-      if (error) console.error(error);
-    } else {
-      const { error } = await backend
-        .from("af_nexus_comment_likes_v2")
-        .insert([{ comment_id: commentId, student_key: key }]);
-
-      if (error) console.error(error);
+    if (!result || !result.ok) {
+      console.error("Comment like edge error:", result);
     }
 
     if (afNexusCurrentPostIdV2) {
@@ -24808,29 +24838,24 @@ function closeAfMyNexusV2() {
 }
 
 async function loadAfMyNexusPostsV2() {
-  const backend = afNexusBackendV2();
   const box = document.getElementById("afMyNexusPostsListV2");
 
-  if (!backend || !box) return;
+  if (!box) return;
 
   box.innerHTML = `<div class="af-nexus-loading-v2">Loading your posts...</div>`;
 
   try {
-    const { data, error } = await backend
-      .from("af_nexus_posts_v2")
-      .select("*")
-      .eq("student_key", afNexusStudentKeyV2())
-      .eq("is_deleted", false)
-      .order("created_at", { ascending: false })
-      .limit(200);
+    const result = await afNexusEdgeCallV2({
+      action: "my_posts"
+    });
 
-    if (error) {
-      console.error(error);
+    if (!result || !result.ok) {
+      console.error("My Nexus edge error:", result);
       box.innerHTML = `<div class="af-nexus-empty-v2">Could not load your posts.</div>`;
       return;
     }
 
-    renderAfNexusPostsV2(data || [], "afMyNexusPostsListV2");
+    renderAfNexusPostsV2(Array.isArray(result.posts) ? result.posts : [], "afMyNexusPostsListV2");
 
   } catch (err) {
     console.error(err);
@@ -24856,57 +24881,66 @@ function openAfNexusMenuV2(type, id, isMine) {
     };
   }
 
-  if (overlay) overlay.classList.remove("af-hidden");
+  if (overlay) {
+    overlay.classList.remove("af-hidden");
+    overlay.style.display = "";
+    overlay.style.opacity = "";
+    overlay.style.visibility = "";
+    overlay.style.pointerEvents = "";
+  }
 }
 
 function closeAfNexusMenuV2() {
   const overlay = document.getElementById("afNexusMenuOverlayV2");
-  if (overlay) overlay.classList.add("af-hidden");
+
+  if (overlay) {
+    overlay.classList.add("af-hidden");
+    overlay.style.display = "none";
+    overlay.style.opacity = "0";
+    overlay.style.visibility = "hidden";
+    overlay.style.pointerEvents = "none";
+  }
+
   afNexusMenuTargetV2 = null;
 }
 
 async function deleteAfNexusTargetV2() {
-  const backend = afNexusBackendV2();
-
-  if (!backend || !afNexusMenuTargetV2 || !afNexusMenuTargetV2.isMine) {
+  if (!afNexusMenuTargetV2 || !afNexusMenuTargetV2.isMine) {
     closeAfNexusMenuV2();
     return;
   }
 
   try {
-    if (afNexusMenuTargetV2.type === "post") {
-      const { error } = await backend
-        .from("af_nexus_posts_v2")
-        .update({
-          is_deleted: true,
-          deleted_at: new Date().toISOString()
-        })
-        .eq("id", afNexusMenuTargetV2.id)
-        .eq("student_key", afNexusStudentKeyV2());
+    let result = null;
 
-      if (error) {
-        console.error(error);
-        afNexusMsgV2(error.message || "Could not delete post.", "error");
-      }
+    if (afNexusMenuTargetV2.type === "post") {
+      result = await afNexusEdgeCallV2({
+        action: "delete_post",
+        post_id: afNexusMenuTargetV2.id
+      });
     }
 
     if (afNexusMenuTargetV2.type === "comment") {
-      const { error } = await backend
-        .from("af_nexus_comments_v2")
-        .update({
-          is_deleted: true,
-          deleted_at: new Date().toISOString()
-        })
-        .eq("id", afNexusMenuTargetV2.id)
-        .eq("student_key", afNexusStudentKeyV2());
+      result = await afNexusEdgeCallV2({
+        action: "delete_comment",
+        comment_id: afNexusMenuTargetV2.id
+      });
+    }
 
-      if (error) {
-        console.error(error);
-        afNexusMsgV2(error.message || "Could not delete comment.", "error");
-      }
+    if (!result || !result.ok) {
+      afNexusMsgV2(result?.message || "Could not delete.", "error");
+      return;
     }
 
     closeAfNexusMenuV2();
+
+    if (afNexusMenuTargetV2 && afNexusMenuTargetV2.type === "post") {
+      afNexusPostsCacheV2 = afNexusPostsCacheV2.filter(function(post) {
+        return String(post.id) !== String(afNexusMenuTargetV2.id);
+      });
+      afNexusSaveCacheV2(afNexusPostsCacheV2);
+      renderAfNexusPostsV2(afNexusPostsCacheV2, "afNexusPostsListV2");
+    }
 
     if (afNexusCurrentPostIdV2) {
       loadAfNexusCommentsV2(afNexusCurrentPostIdV2);
@@ -24923,9 +24957,8 @@ async function deleteAfNexusTargetV2() {
     console.error(err);
   }
 }
-  /* =========================================================
-   AF NEXUS V2 FORCE CLOSE OVERLAYS FIX
-========================================================= */
+
+/* ---------------- FORCE CLOSE OVERLAYS FIX ---------------- */
 
 function forceCloseAfNexusOverlaysV2() {
   const ids = [
@@ -24950,38 +24983,7 @@ function forceCloseAfNexusOverlaysV2() {
   afNexusCurrentReplyParentIdV2 = null;
 }
 
-/* Override old close menu also */
-function closeAfNexusMenuV2() {
-  const overlay = document.getElementById("afNexusMenuOverlayV2");
-
-  if (overlay) {
-    overlay.classList.add("af-hidden");
-    overlay.style.display = "none";
-    overlay.style.opacity = "0";
-    overlay.style.visibility = "hidden";
-    overlay.style.pointerEvents = "none";
-  }
-
-  afNexusMenuTargetV2 = null;
-}
-
-/* Run on community init */
-const oldInitAfNexusV2_forceFix = initAfNexusV2;
-
-initAfNexusV2 = async function() {
-  forceCloseAfNexusOverlaysV2();
-
-  await oldInitAfNexusV2_forceFix();
-
-  setTimeout(function() {
-    forceCloseAfNexusOverlaysV2();
-  }, 100);
-};
-
-  /* =========================================================
-   AF NEXUS V2 LOGIN LOCK VISIBILITY FIX
-   Paste at VERY END of JS
-========================================================= */
+/* ---------------- LOGIN LOCK VISIBILITY FIX ---------------- */
 
 function refreshAfNexusLockStateV2() {
   const locked = document.getElementById("afNexusLockedV2");
@@ -24993,13 +24995,13 @@ function refreshAfNexusLockStateV2() {
   if (loggedIn) {
     if (locked) {
       locked.classList.add("af-hidden");
-     locked.style.display = "none";
-locked.style.height = "0";
-locked.style.minHeight = "0";
-locked.style.maxHeight = "0";
-locked.style.padding = "0";
-locked.style.margin = "0";
-locked.style.overflow = "hidden";
+      locked.style.display = "none";
+      locked.style.height = "0";
+      locked.style.minHeight = "0";
+      locked.style.maxHeight = "0";
+      locked.style.padding = "0";
+      locked.style.margin = "0";
+      locked.style.overflow = "hidden";
       locked.style.visibility = "hidden";
       locked.style.opacity = "0";
       locked.style.pointerEvents = "none";
@@ -25042,34 +25044,42 @@ locked.style.overflow = "hidden";
   }
 }
 
-/* override init to always refresh lock state */
-const oldInitAfNexusV2_lockFix = initAfNexusV2;
+/* ---------------- SHOWSECTION HOOK ---------------- */
 
-initAfNexusV2 = async function() {
-  refreshAfNexusLockStateV2();
+if (typeof showSection === "function") {
+  const oldShowSectionAfNexusV2 = showSection;
 
-  await oldInitAfNexusV2_lockFix();
+  showSection = function(sectionId) {
+    oldShowSectionAfNexusV2(sectionId);
 
-  setTimeout(function() {
-    refreshAfNexusLockStateV2();
-  }, 150);
+    if (sectionId === "community") {
+      setTimeout(initAfNexusV2, 50);
+      setTimeout(refreshAfNexusLockStateV2, 300);
+    }
 
-  setTimeout(function() {
-    refreshAfNexusLockStateV2();
-  }, 600);
-};
+    if (sectionId === "explore" && typeof refreshAfTestLockV1 === "function") {
+      setTimeout(refreshAfTestLockV1, 50);
+      setTimeout(refreshAfTestLockV1, 300);
+    }
+  };
+}
 
-/* call after page load */
+/* ---------------- AUTO RUN ---------------- */
+
 document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(function() {
+    if (document.getElementById("community")) {
+      initAfNexusV2();
+    }
+  }, 400);
+
   setTimeout(refreshAfNexusLockStateV2, 500);
 });
 
-/* call when app comes back/open */
 window.addEventListener("focus", function() {
   refreshAfNexusLockStateV2();
 });
 
-/* call when localStorage login data changes */
 window.addEventListener("storage", function() {
   refreshAfNexusLockStateV2();
 });
