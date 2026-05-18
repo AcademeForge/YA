@@ -21118,8 +21118,9 @@ document.addEventListener("DOMContentLoaded", function () {
     openCourseSectionAfterLoginaf(studentData);
   }
 });
-  /* ==============================
-  BATCH PURCHASE AF - FIXED
+ /* ==============================
+  BATCH PURCHASE AF - BACKEND FIXED
+  Direct table read/write removed.
 ================================ */
 
 const RAZORPAY_KEY_ID = "rzp_test_SpO0DdKfoz5wRu";
@@ -21149,7 +21150,7 @@ const afBatches = [
     language: "HINGLISH",
     title: "Video & Media Editing Mastery",
     subtitle: "Learn editing, storytelling, reels, shorts, and professional content creation.",
-    status: "Beta Mode ",
+    status: "Beta Mode",
     startText: "Test Payment",
     price: afBatchPrice,
     oldPrice: afBatchOldPrice,
@@ -21178,7 +21179,7 @@ const afBatches = [
     language: "HINGLISH",
     title: "Creative & Graphic Design Mastery",
     subtitle: "Design posters, thumbnails, banners, brand creatives, and visual content.",
-    status: "Beta Mode ",
+    status: "Beta Mode",
     startText: "Test Payment",
     price: afBatchPrice,
     oldPrice: afBatchOldPrice,
@@ -21207,7 +21208,7 @@ const afBatches = [
     language: "HINGLISH",
     title: "AI Coding & Logic Foundation",
     subtitle: "Build coding logic, AI basics, prompts, and beginner-friendly programming thinking.",
-     status: "Beta Mode ",
+    status: "Beta Mode",
     startText: "Test Payment",
     price: afBatchPrice,
     oldPrice: afBatchOldPrice,
@@ -21236,7 +21237,7 @@ const afBatches = [
     language: "HINGLISH",
     title: "Freelancing & Monetization Roadmap",
     subtitle: "Understand digital earning, freelancing basics, client work, and skill monetization.",
-     status: "Beta Mode ",
+    status: "Beta Mode",
     startText: "Test Payment",
     price: afBatchPrice,
     oldPrice: afBatchOldPrice,
@@ -21265,7 +21266,7 @@ const afBatches = [
     language: "HINGLISH",
     title: "AI & Prompt Engineering",
     subtitle: "Master AI tools, prompt structure, productivity workflows, and practical automation thinking.",
-     status: "Beta Mode ",
+    status: "Beta Mode",
     startText: "Test Payment",
     price: afBatchPrice,
     oldPrice: afBatchOldPrice,
@@ -21303,6 +21304,50 @@ function getCurrentStudentaf() {
 
 function isBatchEnrolledaf(courseSlug) {
   return afEnrolledCourseSlugs.includes(courseSlug);
+}
+
+function afBatchBackend() {
+  if (typeof studentDb !== "undefined") return studentDb;
+  return null;
+}
+
+async function afBatchEdgeCall(functionName, payload) {
+  const backend = afBatchBackend();
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "Student backend is not connected."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message: error.message || "Server request failed."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "Empty server response."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.message || "Server request failed."
+    };
+  }
 }
 
 function ensureAfToastWrap() {
@@ -21369,31 +21414,30 @@ function showAfToast(message, type = "info", title = "") {
   setTimeout(closeToast, 2600);
 }
 
+/* ==============================
+   BACKEND CHECK COURSE
+================================ */
+
 async function checkBatchCourseExistsaf(batch) {
   if (!batch || !batch.courseId) {
     throw new Error("Course ID missing for this batch.");
   }
 
-  if (typeof studentDb === "undefined") {
-    throw new Error("Student Supabase client not found. Please define studentDb before batch script.");
-  }
+  const result = await afBatchEdgeCall("batch-course-check-af", {
+    course_id: batch.courseId,
+    course_slug: batch.courseSlug
+  });
 
-  const { data, error } = await studentDb
-    .from("courses")
-    .select("id,title")
-    .eq("id", batch.courseId)
-    .limit(1);
-
-  if (error) {
-    throw new Error("Could not verify course. " + error.message);
-  }
-
-  if (!data || data.length === 0) {
-    throw new Error("This course ID was not found in new Supabase courses table.");
+  if (!result || !result.ok) {
+    throw new Error(result?.message || "Could not verify course.");
   }
 
   return true;
 }
+
+/* ==============================
+   BACKEND LOAD ENROLLED SLUGS
+================================ */
 
 async function loadEnrolledBatchSlugsaf() {
   const student = getCurrentStudentaf();
@@ -21401,26 +21445,17 @@ async function loadEnrolledBatchSlugsaf() {
 
   if (!student.id) return [];
 
-  if (typeof studentDb === "undefined") {
-    console.error("studentDb is not defined.");
-    return [];
-  }
-
   try {
-    const { data, error } = await studentDb
-      .from("student_courses")
-      .select("course_id, status")
-      .eq("student_id", student.id)
-      .eq("status", "active");
+    const result = await afBatchEdgeCall("batch-enrolled-af", {
+      student_id: student.id
+    });
 
-    if (error) {
-      console.error("Enrolled check error:", error);
+    if (!result || !result.ok) {
+      console.error("Enrolled check error:", result);
       return [];
     }
 
-    const enrolledCourseIds = (data || []).map(function(row) {
-      return row.course_id;
-    });
+    const enrolledCourseIds = Array.isArray(result.course_ids) ? result.course_ids : [];
 
     afEnrolledCourseSlugs = afBatches
       .filter(function(batch) {
@@ -21431,6 +21466,7 @@ async function loadEnrolledBatchSlugsaf() {
       });
 
     return afEnrolledCourseSlugs;
+
   } catch (err) {
     console.error("loadEnrolledBatchSlugsaf error:", err);
     return [];
@@ -21580,23 +21616,29 @@ function openBatchDetailsaf(batchId) {
 
   const enrolled = isBatchEnrolledaf(batch.courseSlug);
 
-  afBatchEl("batchDetailImageaf").src = batch.image;
-  afBatchEl("batchDetailCategoryaf").textContent = batch.category;
-  afBatchEl("batchDetailLanguageaf").textContent = batch.language;
-  afBatchEl("batchDetailTitleaf").textContent = batch.title;
-  afBatchEl("batchDetailDescaf").textContent = batch.subtitle;
-  afBatchEl("batchDetailPriceaf").textContent = "₹" + batch.price;
-  afBatchEl("batchDetailOldPriceaf").textContent = "₹" + batch.oldPrice;
-  afBatchEl("batchDetailOffaf").textContent = afBatchDiscount + "% OFF";
-  afBatchEl("batchFullDetailsaf").textContent = batch.details;
+  const img = afBatchEl("batchDetailImageaf");
+  if (img) img.src = batch.image;
 
-  afBatchEl("batchLearnListaf").innerHTML = batch.learn.map(function(item) {
-    return `<li>${item}</li>`;
-  }).join("");
+  if (afBatchEl("batchDetailCategoryaf")) afBatchEl("batchDetailCategoryaf").textContent = batch.category;
+  if (afBatchEl("batchDetailLanguageaf")) afBatchEl("batchDetailLanguageaf").textContent = batch.language;
+  if (afBatchEl("batchDetailTitleaf")) afBatchEl("batchDetailTitleaf").textContent = batch.title;
+  if (afBatchEl("batchDetailDescaf")) afBatchEl("batchDetailDescaf").textContent = batch.subtitle;
+  if (afBatchEl("batchDetailPriceaf")) afBatchEl("batchDetailPriceaf").textContent = "₹" + batch.price;
+  if (afBatchEl("batchDetailOldPriceaf")) afBatchEl("batchDetailOldPriceaf").textContent = "₹" + batch.oldPrice;
+  if (afBatchEl("batchDetailOffaf")) afBatchEl("batchDetailOffaf").textContent = afBatchDiscount + "% OFF";
+  if (afBatchEl("batchFullDetailsaf")) afBatchEl("batchFullDetailsaf").textContent = batch.details;
 
-  afBatchEl("batchFacilityListaf").innerHTML = batch.facilities.map(function(item) {
-    return `<li>${item}</li>`;
-  }).join("");
+  if (afBatchEl("batchLearnListaf")) {
+    afBatchEl("batchLearnListaf").innerHTML = batch.learn.map(function(item) {
+      return `<li>${item}</li>`;
+    }).join("");
+  }
+
+  if (afBatchEl("batchFacilityListaf")) {
+    afBatchEl("batchFacilityListaf").innerHTML = batch.facilities.map(function(item) {
+      return `<li>${item}</li>`;
+    }).join("");
+  }
 
   const btn = afBatchEl("batchDetailBuyBtnaf");
 
@@ -21681,10 +21723,6 @@ async function startBatchPaymentaf(batch, btn) {
   }
 
   try {
-    console.log("Buying batch:", batch.title);
-    console.log("Batch slug:", batch.courseSlug);
-    console.log("Mapped course ID:", batch.courseId);
-
     await checkBatchCourseExistsaf(batch);
 
     if (btn) {
@@ -21733,7 +21771,13 @@ async function startBatchPaymentaf(batch, btn) {
           showAfToast("Your batch access has been added successfully.", "success", "Payment Successful");
 
           renderBatchesaf(afBatches);
+
+          if (typeof loadStudentCoursesaf === "function") {
+            await loadStudentCoursesaf();
+          }
+
           backToBatchListaf();
+
         } catch (err) {
           console.log("After payment error:", err);
           showAfToast(err.message || "Payment done, but access update failed.", "error", "Access Error");
@@ -21776,6 +21820,7 @@ async function startBatchPaymentaf(batch, btn) {
     });
 
     rzp.open();
+
   } catch (err) {
     console.log("Start batch payment error:", err);
     showAfToast(err.message || "Something went wrong.", "error", "Course Error");
@@ -21786,6 +21831,10 @@ async function startBatchPaymentaf(batch, btn) {
     }
   }
 }
+
+/* ==============================
+   BACKEND GRANT ACCESS
+================================ */
 
 async function grantBatchAccessaf(batch, paymentResponse) {
   const student = getCurrentStudentaf();
@@ -21798,106 +21847,38 @@ async function grantBatchAccessaf(batch, paymentResponse) {
     throw new Error("Course ID missing.");
   }
 
-  if (typeof studentDb === "undefined") {
-    throw new Error("Student Supabase client not found. Please define studentDb before batch script.");
+  const result = await afBatchEdgeCall("batch-grant-access-af", {
+    student_uuid: student.id,
+    student_id: student.student_id,
+    student_name: student.name,
+    mobile: student.mobile,
+    email: student.email,
+
+    course_id: batch.courseId,
+    course_slug: batch.courseSlug,
+    batch_id: batch.id,
+    batch_title: batch.title,
+    amount: batch.price,
+    currency: "INR",
+
+    razorpay_payment_id: paymentResponse.razorpay_payment_id || "",
+    razorpay_order_id: paymentResponse.razorpay_order_id || "",
+    razorpay_signature: paymentResponse.razorpay_signature || ""
+  });
+
+  if (!result || !result.ok) {
+    throw new Error(result?.message || "Access update failed.");
   }
 
-  const { data: existingAccess, error: existingError } = await studentDb
-    .from("student_courses")
-    .select("id, status")
-    .eq("student_id", student.id)
-    .eq("course_id", batch.courseId)
-    .maybeSingle();
-
-  if (existingError) {
-    throw new Error("Access check failed: " + existingError.message);
-  }
-
-  if (existingAccess && existingAccess.id) {
-    const { error: updateError } = await studentDb
-      .from("student_courses")
-      .update({
-        status: "active"
-      })
-      .eq("id", existingAccess.id);
-
-    if (updateError) {
-      throw new Error("Access update failed: " + updateError.message);
-    }
-
-    await saveBatchPaymentRecordaf(batch, paymentResponse);
-    return true;
-  }
-
-  const { error: insertError } = await studentDb
-    .from("student_courses")
-    .insert([
-      {
-        student_id: student.id,
-        course_id: batch.courseId,
-        status: "active"
-      }
-    ]);
-
-  if (insertError) {
-    throw new Error("Access insert failed: " + insertError.message);
-  }
-
-  await saveBatchPaymentRecordaf(batch, paymentResponse);
   return true;
 }
 
-async function saveBatchPaymentRecordaf(batch, paymentResponse) {
-  const student = getCurrentStudentaf();
-
-  if (typeof studentDb === "undefined") {
-    console.error("studentDb is not defined. Payment record skipped.");
-    return;
-  }
-
-  try {
-    const { error } = await studentDb
-      .from("batch_payments_af")
-      .insert([
-        {
-          student_uuid: student.id,
-          student_id: student.student_id,
-          student_name: student.name,
-          mobile: student.mobile,
-          email: student.email,
-          course_id: batch.courseId,
-          course_slug: batch.courseSlug,
-          batch_id: batch.id,
-          batch_title: batch.title,
-          amount: batch.price,
-          currency: "INR",
-          razorpay_payment_id: paymentResponse.razorpay_payment_id || "",
-          razorpay_order_id: paymentResponse.razorpay_order_id || "",
-          razorpay_signature: paymentResponse.razorpay_signature || "",
-          status: "paid"
-        }
-      ]);
-
-    if (error) {
-      console.log("Payment record insert skipped:", error.message);
-    }
-  } catch (err) {
-    console.log("Payment record skipped:", err.message);
-  }
-}
-
 async function debugBatchCoursesaf() {
-  if (typeof studentDb === "undefined") {
-    console.error("studentDb is not defined.");
-    return;
-  }
+  const result = await afBatchEdgeCall("batch-course-check-af", {
+    debug: true
+  });
 
-  const { data, error } = await studentDb
-    .from("courses")
-    .select("id,title,slug");
-
-  console.log("New Supabase courses error:", error);
-  console.table(data);
+  console.log("Batch course debug:", result);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
