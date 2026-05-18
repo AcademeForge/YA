@@ -17265,7 +17265,7 @@ async function fetchAdminNotes() {
 function renderAdminNotes(notes) {
   const list = document.getElementById("adminNotesList");
 
-  if (!list) return;
+  if (!list) return; 
 
   if (!notes.length) {
     list.innerHTML = "<div class='login-note'>No notes found.</div>";
@@ -20125,7 +20125,7 @@ try {
     return;
   }
 
-  saveAFLoginSession(result);
+  saveAFLoginSession(result); 
 
   saveStudentSessionaf(result.student);
   openCourseSectionAfterLoginaf(result.student);
@@ -20134,6 +20134,7 @@ try {
   console.error("Login catch:", err);
   showStudentMessageaf("err", "Login failed: " + err.message);
 }
+  
 /* =========================
    CREATE ID - SEND OTP
 ========================= */
