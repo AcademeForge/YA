@@ -25229,20 +25229,10 @@ if ("serviceWorker" in navigator) {
 }
 
 
-    /* =========================================================
+ /* =========================================================
    AF DEVICE ID GETTER
 ========================================================= */
-  
-  function getAFDeviceId() {
-  let id = localStorage.getItem("af_device_id");
 
-  if (!id) {
-    id = "dev_" + Date.now() + "_" + Math.random().toString(36).slice(2);
-    localStorage.setItem("af_device_id", id);
-  }
-
-  return id;
-}
 function getAFDeviceId() {
   var key = "af_device_id";
   var id = localStorage.getItem(key);
@@ -25267,6 +25257,67 @@ function getAFDeviceName() {
 
   return "Web Browser";
 }
+
+  /* =========================
+   ONE DEVICE SESSION WATCHER
+========================= */
+
+async function checkStudentActiveSessionAF() {
+  var studentId = localStorage.getItem("af_student_id");
+  var sessionToken = localStorage.getItem("af_session_token");
+  var deviceId = localStorage.getItem("af_device_id");
+
+  if (!studentId || !sessionToken || !deviceId) return;
+
+  try {
+    var res = await fetch("https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-session-check-af", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        student_id: studentId,
+        session_token: sessionToken,
+        device_id: deviceId
+      })
+    });
+
+    var data = await res.json().catch(function () {
+      return {};
+    });
+
+    console.log("SESSION CHECK:", data);
+
+    if (data.logout === true) {
+      localStorage.removeItem("af_session_token");
+      localStorage.removeItem("af_device_id");
+      localStorage.removeItem("af_student_id");
+
+      localStorage.removeItem("student_af");
+      localStorage.removeItem("studentSessionaf");
+      localStorage.removeItem("af_student_session");
+
+      alert(data.message || "Your account was logged in on another device.");
+
+      location.reload();
+    }
+
+  } catch (e) {
+    console.log("Session check failed:", e);
+  }
+}
+
+setInterval(checkStudentActiveSessionAF, 10000);
+
+window.addEventListener("focus", function () {
+  checkStudentActiveSessionAF();
+});
+
+document.addEventListener("visibilitychange", function () {
+  if (!document.hidden) {
+    checkStudentActiveSessionAF();
+  }
+});
   </script>
 </body>
 </html>
