@@ -14322,11 +14322,45 @@ body.dark-mode #studentaf .student-tab-btn.active {
         </div>
       </div>
 
-      <div class="af-test-empty-card-v1">
-        <div class="af-test-empty-icon-v1">📅</div>
-        <h3>No tests scheduled</h3>
-        <p>Check back later for upcoming tests.</p>
-      </div>
+    <!-- TEST DASHBOARD -->
+<div id="afTestDashboardV1" class="af-test-dashboard-v1">
+  <div class="af-test-dash-head-v1">
+    <div>
+      <span class="af-test-kicker-v1">Your Dashboard</span>
+      <h3>Your Test Rankings</h3>
+      <p>Track your latest score, rank, speed and overall performance.</p>
+    </div>
+    <button class="af-test-refresh-btn-v1" type="button" onclick="loadAFTestPageV1()">
+      Refresh
+    </button>
+  </div>
+
+  <div id="afTestDashboardCardsV1" class="af-test-dashboard-cards-v1">
+    <div class="af-test-mini-card-v1">
+      <span>Last Rank</span>
+      <strong>--</strong>
+    </div>
+    <div class="af-test-mini-card-v1">
+      <span>Overall Rank</span>
+      <strong>--</strong>
+    </div>
+    <div class="af-test-mini-card-v1">
+      <span>Avg Time / Q</span>
+      <strong>--</strong>
+    </div>
+  </div>
+
+  <div id="afTestHistoryV1" class="af-test-history-v1"></div>
+</div>
+
+<!-- TEST AREA -->
+<div id="afTestAreaV1" class="af-test-area-v1">
+  <div class="af-test-empty-card-v1">
+    <div class="af-test-empty-icon-v1">📅</div>
+    <h3>Loading test...</h3>
+    <p>Please wait while we check available tests.</p>
+  </div>
+</div>
     </div>
 
     <div class="developer-credit-line af-test-credit-v1">
