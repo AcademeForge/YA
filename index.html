@@ -25298,6 +25298,225 @@ async function checkStudentActiveSessionAF() {
     console.log("Session check failed:", e);
   }
 }
+
+  /* ==============================
+   AF SINGLE DEVICE LOGIN SYSTEM
+   Table: students_af
+   Columns:
+   phone, password, name, email,
+   active_session_token,
+   active_device_id,
+   active_device_name,
+   active_login_at
+================================ */
+
+function generateAfSessionToken() {
+  return "session_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+}
+
+function getAfDeviceId() {
+  let deviceId = localStorage.getItem("af_device_id");
+
+  if (!deviceId) {
+    deviceId = "device_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    localStorage.setItem("af_device_id", deviceId);
+  }
+
+  return deviceId;
+}
+
+function getAfDeviceName() {
+  const ua = navigator.userAgent || "";
+
+  if (/android/i.test(ua)) return "Android Phone";
+  if (/iphone/i.test(ua)) return "iPhone";
+  if (/ipad/i.test(ua)) return "iPad";
+  if (/windows/i.test(ua)) return "Windows Device";
+  if (/mac/i.test(ua)) return "Mac Device";
+
+  return "Unknown Device";
+}
+
+function saveAfStudentSession(studentData, sessionToken) {
+  localStorage.setItem("af_student_logged_in", "true");
+  localStorage.setItem("af_student_session", sessionToken);
+
+  localStorage.setItem("af_student_id", studentData.phone || "");
+  localStorage.setItem("af_student_mobile", studentData.phone || "");
+  localStorage.setItem("af_student_name", studentData.name || "Student");
+  localStorage.setItem("af_student_email", studentData.email || "");
+}
+
+function clearAfStudentSession() {
+  localStorage.removeItem("af_student_logged_in");
+  localStorage.removeItem("af_student_session");
+
+  localStorage.removeItem("af_student_id");
+  localStorage.removeItem("af_student_mobile");
+  localStorage.removeItem("af_student_name");
+  localStorage.removeItem("af_student_email");
+}
+
+async function loginStudentaf() {
+  const phoneInput = document.getElementById("loginPhoneaf");
+  const passwordInput = document.getElementById("loginPasswordaf");
+
+  const phone = phoneInput ? phoneInput.value.trim() : "";
+  const password = passwordInput ? passwordInput.value.trim() : "";
+
+  if (!phone) {
+    showStudentMessageaf("err", "Enter your Student ID / phone number.");
+    return;
+  }
+
+  if (!password) {
+    showStudentMessageaf("err", "Enter your password.");
+    return;
+  }
+
+  if (typeof studentDb === "undefined") {
+    showStudentMessageaf("err", "Student backend is not connected.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Checking your login...");
+
+  try {
+    const { data, error } = await studentDb
+      .from("students_af")
+      .select("*")
+      .eq("phone", phone)
+      .eq("password", password)
+      .maybeSingle();
+
+    if (error) {
+      console.log("Login error:", error);
+      showStudentMessageaf("err", "Login failed. Please try again.");
+      return;
+    }
+
+    if (!data) {
+      showStudentMessageaf("err", "Invalid Student ID or password.");
+      return;
+    }
+
+    const sessionToken = generateAfSessionToken();
+
+    const { error: updateError } = await studentDb
+      .from("students_af")
+      .update({
+        active_session_token: sessionToken,
+        active_device_id: getAfDeviceId(),
+        active_device_name: getAfDeviceName(),
+        active_login_at: new Date().toISOString()
+      })
+      .eq("id", data.id);
+
+    if (updateError) {
+      console.log("Session update error:", updateError);
+      showStudentMessageaf("err", "Could not start session. Try again.");
+      return;
+    }
+
+    saveAfStudentSession(data, sessionToken);
+    openCourseSectionAfterLoginaf(data);
+
+  } catch (err) {
+    console.error("Login exception:", err);
+    showStudentMessageaf("err", "Login failed. Please try again.");
+  }
+}
+
+async function checkAfStudentSession() {
+  const loggedIn = localStorage.getItem("af_student_logged_in");
+  const localSession = localStorage.getItem("af_student_session");
+  const phone = localStorage.getItem("af_student_mobile");
+
+  if (loggedIn !== "true" || !localSession || !phone) return;
+
+  if (typeof studentDb === "undefined") return;
+
+  try {
+    const { data, error } = await studentDb
+      .from("students_af")
+      .select("active_session_token")
+      .eq("phone", phone)
+      .maybeSingle();
+
+    if (error || !data) return;
+
+    if (data.active_session_token !== localSession) {
+      forceLogoutAfDueToNewLogin();
+    }
+
+  } catch (err) {
+    console.log("Session check failed:", err);
+  }
+}
+
+function forceLogoutAfDueToNewLogin() {
+  clearAfStudentSession();
+
+  const courseSelectBox = document.getElementById("courseSelectBox");
+  const courseDetailsBox = document.getElementById("courseDetailsBox");
+  const authCard = document.getElementById("studentAuthCardaf");
+
+  if (courseSelectBox) {
+    courseSelectBox.classList.add("hidden-box");
+    courseSelectBox.style.display = "none";
+  }
+
+  if (courseDetailsBox) {
+    courseDetailsBox.classList.add("hidden-box");
+    courseDetailsBox.style.display = "none";
+  }
+
+  if (authCard) {
+    authCard.style.display = "block";
+  }
+
+  switchStudentModeaf("login");
+  showStudentMessageaf("err", "You were logged out because this Student ID was used on another device.");
+}
+
+function logoutStudent() {
+  clearAfStudentSession();
+
+  const courseSelectBox = document.getElementById("courseSelectBox");
+  const courseDetailsBox = document.getElementById("courseDetailsBox");
+  const authCard = document.getElementById("studentAuthCardaf");
+
+  if (courseSelectBox) {
+    courseSelectBox.classList.add("hidden-box");
+    courseSelectBox.style.display = "none";
+  }
+
+  if (courseDetailsBox) {
+    courseDetailsBox.classList.add("hidden-box");
+    courseDetailsBox.style.display = "none";
+  }
+
+  if (authCard) {
+    authCard.style.display = "block";
+  }
+
+  switchStudentModeaf("login");
+}
+
+/* Auto check every 10 seconds */
+setInterval(checkAfStudentSession, 10000);
+
+/* Check when app/tab becomes active */
+document.addEventListener("visibilitychange", function () {
+  if (!document.hidden) {
+    checkAfStudentSession();
+  }
+});
+
+/* Check on app load */
+document.addEventListener("DOMContentLoaded", function () {
+  checkAfStudentSession();
+});
   </script>
 </body>
 </html>
