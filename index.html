@@ -19972,7 +19972,7 @@ async function afStudentEdgeCall(functionName, payload) {
   if (!backend) {
     return {
       ok: false,
-      message: "New student backend is not connected."
+      message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
     };
   }
 
@@ -19984,14 +19984,14 @@ async function afStudentEdgeCall(functionName, payload) {
     if (error) {
       return {
         ok: false,
-        message: error.message || "Server request failed."
+        message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
       };
     }
 
     if (!data) {
       return {
         ok: false,
-        message: "Empty server response."
+        message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
       };
     }
 
@@ -20000,7 +20000,7 @@ async function afStudentEdgeCall(functionName, payload) {
   } catch (err) {
     return {
       ok: false,
-      message: err.message || "Server request failed."
+      message: navigator.onLine ? "Server connection failed. Please try again." : "No internet connection."
     };
   }
 }
