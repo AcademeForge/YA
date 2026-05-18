@@ -15035,6 +15035,663 @@ body.dark-mode #studentaf .student-tab-btn.active {
     opacity: 1;
   }
 }
+    /* =========================================================
+   AF TEST SECTION DESIGN FIX - V1 ONLY
+   Only CSS. No JavaScript required.
+========================================================= */
+
+/* Main panel spacing */
+.af-test-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Logged in wrapper */
+.af-test-main-v1 {
+  width: 100%;
+}
+
+/* Hero card */
+.af-test-hero-v1 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 26px 24px;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 34%),
+    linear-gradient(135deg, #071226, #0f1b33 55%, #13233f);
+  color: #ffffff;
+  box-shadow: 0 24px 70px rgba(2, 6, 23, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.af-test-hero-icon-v1 {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+.af-test-hero-v1 span,
+.af-test-kicker-v1 {
+  display: inline-flex;
+  width: fit-content;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.af-test-hero-v1 h2 {
+  margin: 12px 0 8px;
+  color: #ffffff;
+  font-size: clamp(30px, 6vw, 54px);
+  line-height: 0.98;
+  font-weight: 950;
+  letter-spacing: -1px;
+}
+
+.af-test-hero-v1 p {
+  margin: 0;
+  color: #dbeafe;
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 800;
+}
+
+/* Top 50%-50% buttons */
+.af-test-top-actions-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 22px 0 16px;
+}
+
+.af-test-top-actions-v1 button {
+  border: 0;
+  min-height: 82px;
+  border-radius: 26px;
+  padding: 14px 12px;
+  background:
+    linear-gradient(145deg, #ffffff, #f8fafc);
+  color: #0f172a;
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.14),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.af-test-top-actions-v1 button:active {
+  transform: scale(0.97);
+}
+
+.af-test-top-actions-v1 button span {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #f1f5f9;
+  font-size: 24px;
+}
+
+.af-test-top-actions-v1 button b {
+  color: #0f172a;
+  font-size: 15px;
+  line-height: 1.15;
+  font-weight: 950;
+}
+
+/* Mini dashboard cards */
+.af-test-dashboard-cards-v1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  margin: 12px 0 20px;
+}
+
+.af-test-mini-card-v1 {
+  min-height: 96px;
+  border-radius: 24px;
+  padding: 14px 9px;
+  text-align: center;
+  background:
+    linear-gradient(145deg, #ffffff, #f8fafc);
+  color: #0f172a;
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.13),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.05);
+}
+
+.af-test-mini-card-v1 span {
+  display: block;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 950;
+  line-height: 1.2;
+}
+
+.af-test-mini-card-v1 strong {
+  display: block;
+  margin-top: 7px;
+  color: #020617;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 950;
+}
+
+.af-test-mini-card-v1 small {
+  display: block;
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 850;
+}
+
+/* Test area */
+.af-test-area-v1 {
+  margin-top: 18px;
+}
+
+/* Default empty card */
+.af-test-empty-card-v1 {
+  border-radius: 30px;
+  padding: 24px 20px;
+  text-align: center;
+  background:
+    linear-gradient(145deg, #ffffff, #f8fafc);
+  color: #0f172a;
+  box-shadow:
+    0 20px 55px rgba(15, 23, 42, 0.14),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.af-test-empty-icon-v1 {
+  width: 74px;
+  height: 74px;
+  border-radius: 26px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  background: #eff6ff;
+  font-size: 34px;
+}
+
+.af-test-empty-card-v1 h3 {
+  margin: 0 0 8px;
+  color: #0f172a;
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.af-test-empty-card-v1 p {
+  margin: 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 850;
+}
+
+/* Available test card - when JS renders start card */
+.af-test-start-card-v1 {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  padding: 24px 22px;
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.22), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(251, 191, 36, 0.20), transparent 34%),
+    linear-gradient(145deg, #fff7ed, #ffffff 55%, #ecfeff);
+  color: #111827;
+  box-shadow:
+    0 26px 70px rgba(15, 23, 42, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.90);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.af-test-start-card-v1::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 170px;
+  height: 170px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.af-test-start-card-v1 > * {
+  position: relative;
+  z-index: 1;
+}
+
+.af-test-start-card-v1 .af-test-kicker-v1 {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.af-test-start-card-v1 h3 {
+  margin: 13px 0 10px;
+  color: #7c2d12;
+  font-size: 25px;
+  line-height: 1.15;
+  font-weight: 950;
+}
+
+.af-test-start-card-v1 p {
+  margin: 0;
+  color: #7f1d1d;
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 900;
+}
+
+.af-test-start-meta-v1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0 18px;
+}
+
+.af-test-start-meta-v1 span {
+  display: block;
+  border-radius: 18px;
+  padding: 14px 13px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #334155;
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.af-test-start-meta-v1 b {
+  color: #020617;
+  font-size: 17px;
+  font-weight: 950;
+}
+
+/* Start button center + highlight + blink */
+.af-test-start-btn-v1 {
+  width: min(100%, 420px);
+  margin: 4px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #16a34a, #22c55e, #86efac);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: .4px;
+  cursor: pointer;
+  box-shadow:
+    0 18px 42px rgba(34, 197, 94, 0.42),
+    inset 0 0 0 1px rgba(255,255,255,.28);
+  animation: afStartBtnPulseV1 1.35s ease-in-out infinite;
+}
+
+@keyframes afStartBtnPulseV1 {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.035);
+    filter: brightness(1.08);
+  }
+}
+
+/* Sub pages dashboard/ranking */
+.af-test-sub-page-v1 {
+  margin-top: 22px;
+  border-radius: 32px;
+  padding: 20px;
+  background:
+    linear-gradient(145deg, #ffffff, #f8fafc);
+  color: #0f172a;
+  box-shadow:
+    0 24px 65px rgba(15, 23, 42, 0.16),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.af-test-sub-head-v1 {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.af-test-sub-head-v1 button {
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 16px;
+  background: #e2e8f0;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 950;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.af-test-sub-head-v1 h3 {
+  margin: 9px 0 6px;
+  color: #0f172a;
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight: 950;
+}
+
+.af-test-sub-head-v1 p {
+  margin: 0;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 850;
+}
+
+/* History / ranking container */
+.af-test-history-v1 {
+  display: grid;
+  gap: 14px;
+}
+
+.af-test-history-empty-v1 {
+  border: 2px dashed #cbd5e1;
+  border-radius: 24px;
+  padding: 24px 16px;
+  text-align: center;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 950;
+}
+
+/* Ranking/test result cards if JS injects */
+.af-test-rank-card-v1 {
+  border-radius: 26px;
+  padding: 18px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow:
+    0 16px 38px rgba(15, 23, 42, 0.11),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.af-test-rank-top-v1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.af-test-rank-top-v1 strong {
+  display: block;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.af-test-rank-top-v1 span {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.af-test-rank-top-v1 b {
+  min-width: 58px;
+  height: 44px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.af-test-rank-grid-v1 {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.af-test-rank-grid-v1 span {
+  border-radius: 18px;
+  padding: 13px 14px;
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 850;
+}
+
+.af-test-rank-grid-v1 b {
+  color: #0f172a;
+}
+
+/* Top 10 rows if JS injects */
+.af-test-top10-v1 {
+  margin-top: 18px;
+  border-radius: 24px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.af-test-top10-v1 h5 {
+  margin: 0 0 12px;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.af-test-top-row-v1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.af-test-top-row-v1:last-child {
+  border-bottom: 0;
+}
+
+.af-test-top-row-v1 span {
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.af-test-top-row-v1 b {
+  color: #111827;
+}
+
+.af-test-top-row-v1 small {
+  color: #64748b;
+  font-weight: 850;
+}
+
+/* Locked state */
+.af-test-locked-v1 {
+  text-align: center;
+  border-radius: 32px;
+  padding: 34px 22px;
+  background:
+    linear-gradient(145deg, #ffffff, #f8fafc);
+  color: #0f172a;
+  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
+}
+
+.af-test-lock-icon-v1 {
+  width: 84px;
+  height: 84px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+  background: #fee2e2;
+  font-size: 38px;
+}
+
+.af-test-locked-v1 h2 {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 950;
+}
+
+.af-test-locked-v1 p {
+  margin: 0 auto 18px;
+  max-width: 420px;
+  color: #475569;
+  line-height: 1.55;
+  font-weight: 850;
+}
+
+.af-test-login-btn-v1 {
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 22px;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+/* Credit spacing */
+.af-test-credit-v1 {
+  margin-top: 22px;
+}
+
+/* Mobile fixes */
+@media (max-width: 520px) {
+  .af-test-hero-v1 {
+    align-items: flex-start;
+    padding: 24px 20px;
+    border-radius: 30px;
+  }
+
+  .af-test-hero-icon-v1 {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    border-radius: 22px;
+    font-size: 29px;
+  }
+
+  .af-test-hero-v1 h2 {
+    font-size: 34px;
+  }
+
+  .af-test-top-actions-v1 {
+    gap: 11px;
+  }
+
+  .af-test-top-actions-v1 button {
+    min-height: 76px;
+    padding: 12px 8px;
+    border-radius: 22px;
+  }
+
+  .af-test-top-actions-v1 button span {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: 21px;
+  }
+
+  .af-test-top-actions-v1 button b {
+    font-size: 13px;
+  }
+
+  .af-test-dashboard-cards-v1 {
+    gap: 8px;
+  }
+
+  .af-test-mini-card-v1 {
+    min-height: 88px;
+    padding: 12px 6px;
+    border-radius: 20px;
+  }
+
+  .af-test-mini-card-v1 span {
+    font-size: 10px;
+  }
+
+  .af-test-mini-card-v1 strong {
+    font-size: 22px;
+  }
+
+  .af-test-mini-card-v1 small {
+    font-size: 9px;
+  }
+
+  .af-test-start-card-v1 {
+    padding: 22px 18px;
+    border-radius: 28px;
+  }
+
+  .af-test-start-card-v1 h3 {
+    font-size: 22px;
+  }
+
+  .af-test-start-meta-v1 {
+    grid-template-columns: 1fr;
+  }
+
+  .af-test-sub-page-v1 {
+    padding: 18px;
+    border-radius: 28px;
+  }
+
+  .af-test-sub-head-v1 {
+    gap: 10px;
+  }
+
+  .af-test-sub-head-v1 h3 {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 360px) {
+  .af-test-hero-v1 {
+    gap: 12px;
+  }
+
+  .af-test-hero-v1 h2 {
+    font-size: 30px;
+  }
+
+  .af-test-top-actions-v1 button {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .af-test-top-actions-v1 button b {
+    font-size: 12px;
+  }
+}
   </style>
 </head>
 
