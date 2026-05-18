@@ -20110,7 +20110,7 @@ async function loginStudentaf() {
     const result = await afStudentEdgeCall("student-login-af", {
       login_id: loginId,
       clean_login_id: cleanLoginId,
-      password: password
+      password: password,
       device_id: getAFDeviceId(),
       device_name: getAFDeviceName()
     });
