@@ -20106,32 +20106,34 @@ async function loginStudentaf() {
 
   showStudentMessageaf("info", "Checking your login...");
 
-  try {
-    const result = await afStudentEdgeCall("student-login-af", {
-      login_id: loginId,
-      clean_login_id: cleanLoginId,
-      password: password
-    });
+try {
+  const result = await afStudentEdgeCall("student-login-af", {
+    login_id: loginId,
+    clean_login_id: cleanLoginId,
+    password: password,
+    device_id: getAFDeviceId(),
+    device_name: getAFDeviceName()
+  });
 
-    if (!result || !result.ok) {
-      showStudentMessageaf("err", result?.message || "Login failed.");
-      return;
-    }
-
-    if (!result.student) {
-      showStudentMessageaf("err", "Login failed. Student data not received.");
-      return;
-    }
-
-    saveStudentSessionaf(result.student);
-    openCourseSectionAfterLoginaf(result.student);
-
-  } catch (err) {
-    console.error("Login catch:", err);
-    showStudentMessageaf("err", "Login failed: " + err.message);
+  if (!result || !result.ok) {
+    showStudentMessageaf("err", result?.message || "Login failed.");
+    return;
   }
-}
 
+  if (!result.student) {
+    showStudentMessageaf("err", "Login failed. Student data not received.");
+    return;
+  }
+
+  saveAFLoginSession(result);
+
+  saveStudentSessionaf(result.student);
+  openCourseSectionAfterLoginaf(result.student);
+
+} catch (err) {
+  console.error("Login catch:", err);
+  showStudentMessageaf("err", "Login failed: " + err.message);
+}
 /* =========================
    CREATE ID - SEND OTP
 ========================= */
@@ -25211,7 +25213,18 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
-  function getAFDeviceId() {
+
+
+
+/* =========================================================
+   AF SINGLE DEVICE SESSION HELPERS
+   Paste this at the END of your main JS file
+========================================================= */
+
+const AF_SESSION_CHECK_URL =
+  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-session-check-af";
+
+function getAFDeviceId() {
   let id = localStorage.getItem("af_device_id");
 
   if (!id) {
@@ -25233,6 +25246,156 @@ function getAFDeviceName() {
 
   return "Unknown device";
 }
+
+function getAFCurrentStudent() {
+  const raw =
+    localStorage.getItem("af_student") ||
+    localStorage.getItem("currentStudent") ||
+    localStorage.getItem("student");
+
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
+
+function getAFCurrentStudentId() {
+  const student = getAFCurrentStudent();
+
+  return (
+    student?.student_id ||
+    student?.studentId ||
+    student?.mobile ||
+    localStorage.getItem("af_student_id") ||
+    localStorage.getItem("student_id") ||
+    ""
+  );
+}
+
+function saveAFLoginSession(data) {
+  if (!data || !data.ok) return;
+
+  if (data.student) {
+    localStorage.setItem("af_student", JSON.stringify(data.student));
+    localStorage.setItem("af_student_id", data.student.student_id || "");
+  }
+
+  if (data.session_token) {
+    localStorage.setItem("af_session_token", data.session_token);
+  }
+
+  if (data.device_id) {
+    localStorage.setItem("af_device_id", data.device_id);
+  } else {
+    getAFDeviceId();
+  }
+}
+
+function clearAFLoginSessionOnly() {
+  localStorage.removeItem("af_student");
+  localStorage.removeItem("af_student_id");
+  localStorage.removeItem("af_session_token");
+
+  // device_id mat hatao, same phone ka identity stable rahe
+}
+
+function logoutStudentDueToOtherDevice(message) {
+  clearAFLoginSessionOnly();
+
+  alert(message || "Your account was logged in on another device.");
+
+  if (typeof showStudentLogin === "function") {
+    showStudentLogin();
+    return;
+  }
+
+  if (typeof openStudentLogin === "function") {
+    openStudentLogin();
+    return;
+  }
+
+  if (typeof switchTab === "function") {
+    switchTab("student");
+    return;
+  }
+
+  location.reload();
+}
+
+async function checkStudentSession() {
+  const studentId = getAFCurrentStudentId();
+  const sessionToken = localStorage.getItem("af_session_token");
+  const deviceId = localStorage.getItem("af_device_id") || getAFDeviceId();
+
+  // Old users ya not logged in users ke liye app break nahi karega
+  if (!studentId || !sessionToken || !deviceId) {
+    return true;
+  }
+
+  try {
+    const res = await fetch(AF_SESSION_CHECK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        student_id: studentId,
+        session_token: sessionToken,
+        device_id: deviceId
+      })
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (data.logout === true || data.valid === false) {
+      logoutStudentDueToOtherDevice(
+        data.message || "Your account was logged in on another device."
+      );
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.warn("AF session check failed:", err);
+    return true;
+  }
+}
+
+function startAFSessionWatcher() {
+  if (window.__afSessionWatcherStarted) return;
+  window.__afSessionWatcherStarted = true;
+
+  // app start ke thoda baad check
+  setTimeout(function () {
+    checkStudentSession();
+  }, 1500);
+
+  // har 30 sec check
+  setInterval(function () {
+    checkStudentSession();
+  }, 30000);
+
+  // tab/app wapas active ho to check
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      checkStudentSession();
+    }
+  });
+
+  window.addEventListener("focus", function () {
+    checkStudentSession();
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startAFSessionWatcher);
+} else {
+  startAFSessionWatcher();
+}
+  
   </script>
 </body>
 </html>
