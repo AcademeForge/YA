@@ -20111,6 +20111,8 @@ async function loginStudentaf() {
       login_id: loginId,
       clean_login_id: cleanLoginId,
       password: password
+      device_id: getAFDeviceId(),
+      device_name: getAFDeviceName()
     });
 
     if (!result || !result.ok) {
@@ -25211,6 +25213,12 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+
+
+    /* =========================================================
+   AF DEVICE ID GETTER
+========================================================= */
+  
   function getAFDeviceId() {
   let id = localStorage.getItem("af_device_id");
 
@@ -25221,7 +25229,33 @@ if ("serviceWorker" in navigator) {
 
   return id;
 }
+function getAFDeviceId() {
+  var key = "af_device_id";
+  var id = localStorage.getItem(key);
 
+  if (!id) {
+    id = "web_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    localStorage.setItem(key, id);
+  }
+
+  return id;
+}
+
+function getAFDeviceName() {
+  var ua = navigator.userAgent || "";
+
+  if (/Android/i.test(ua)) return "Android Phone";
+  if (/iPhone/i.test(ua)) return "iPhone";
+  if (/iPad/i.test(ua)) return "iPad";
+  if (/Windows/i.test(ua)) return "Windows PC";
+  if (/Mac/i.test(ua)) return "Mac";
+  if (/Linux/i.test(ua)) return "Linux Device";
+
+  return "Web Browser";
+}
+  localStorage.setItem("af_session_token", result.session_token || "");
+localStorage.setItem("af_device_id", result.device_id || "");
+localStorage.setItem("af_student_id", result.student.student_id || "");
   </script>
 </body>
 </html>
