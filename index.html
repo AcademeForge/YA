@@ -21395,10 +21395,17 @@ function afBatchBackend() {
 async function afBatchEdgeCall(functionName, payload) {
   const backend = afBatchBackend();
 
+  if (!navigator.onLine) {
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+
   if (!backend) {
     return {
       ok: false,
-      message: "Student backend is not connected."
+      message: "No internet connection."
     };
   }
 
@@ -21408,29 +21415,32 @@ async function afBatchEdgeCall(functionName, payload) {
     });
 
     if (error) {
+      console.error("AF Batch edge error:", error);
+
       return {
         ok: false,
-        message: error.message || "Server request failed."
+        message: "No internet connection."
       };
     }
 
     if (!data) {
       return {
         ok: false,
-        message: "Empty server response."
+        message: "No internet connection."
       };
     }
 
     return data;
 
   } catch (err) {
+    console.error("AF Batch edge catch:", err);
+
     return {
       ok: false,
-      message: err.message || "Server request failed."
+      message: "No internet connection."
     };
   }
 }
-
 function ensureAfToastWrap() {
   let wrap = document.getElementById("afToastWrap");
 
