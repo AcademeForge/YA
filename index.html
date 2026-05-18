@@ -18055,9 +18055,14 @@ document.addEventListener("DOMContentLoaded", function() {
   showBannerSlide(0);
   startBannerSlider();
 });
-  /* ================================
+  
+/* ================================
    OFFICE NOTIFICATION JAVASCRIPT
+   Edge Function Backend Version
 ================================ */
+
+/* Edge Function Base URL */
+const AF_EDGE_BASE = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1";
 
 /* Hide all office admin manage boxes */
 function hideAllAdminManageBoxes() {
@@ -18145,7 +18150,49 @@ function clearNotificationForm() {
   if (type) type.value = "General";
 }
 
-/* Post notification to Supabase */
+/* ================================
+   EDGE FUNCTION HELPER
+================================ */
+
+function getAfFunctionBase() {
+  return AF_EDGE_BASE;
+}
+
+async function callAppNotificationsEdge(payload) {
+  try {
+    const res = await fetch(getAfFunctionBase() + "/app-notifications-af", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload || {})
+    });
+
+    const data = await res.json().catch(function() {
+      return {};
+    });
+
+    if (!res.ok) {
+      return {
+        ok: false,
+        message: data.message || "Notification request failed."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: "Network error. Please try again."
+    };
+  }
+}
+
+/* ================================
+   POST NOTIFICATION
+================================ */
+
 async function postAdminNotification() {
   const titleInput = document.getElementById("adminNotificationTitle");
   const messageInput = document.getElementById("adminNotificationMessage");
@@ -18162,21 +18209,17 @@ async function postAdminNotification() {
     return;
   }
 
-  const payload = {
+  const result = await callAppNotificationsEdge({
+    action: "create",
     title: title,
     message: message,
     batch: batch || "All",
-    type: type || "General",
-    is_active: true
-  };
+    type: type || "General"
+  });
 
-  const { error } = await db
-    .from("app_notifications")
-    .insert([payload]);
-
-  if (error) {
-    console.log("Notification post error:", error);
-    showToast("Error", "Notification could not be posted.");
+  if (!result || !result.ok) {
+    console.log("Notification post error:", result);
+    showToast("Error", result?.message || "Notification could not be posted.");
     return;
   }
 
@@ -18185,22 +18228,20 @@ async function postAdminNotification() {
   loadAppNotifications();
 }
 
-  
-/* Load notifications for Notify section and home ticker */
-  
+/* ================================
+   LOAD NOTIFICATIONS
+================================ */
+
 async function loadAppNotifications() {
   const listBox = document.getElementById("notificationsList");
   const tickerText = document.getElementById("tickerText");
 
-  const { data, error } = await db
-    .from("app_notifications")
-    .select("*")
-    .eq("is_active", true)
-    .order("created_at", { ascending: false })
-    .limit(20);
+  const result = await callAppNotificationsEdge({
+    action: "list"
+  });
 
-  if (error) {
-    console.log("Notification load error:", error);
+  if (!result || !result.ok) {
+    console.log("Notification load error:", result);
 
     if (listBox) {
       listBox.innerHTML = `
@@ -18213,11 +18254,14 @@ async function loadAppNotifications() {
     return;
   }
 
+  const data = result.notifications || [];
+
   if (tickerText && data && data.length > 0) {
     tickerText.textContent = "🔔 " + data[0].title + " — " + data[0].message;
   }
-window.latestNotificationTime = getLatestNotificationTime(data);
-  
+
+  window.latestNotificationTime = getLatestNotificationTime(data);
+
   if (!listBox) {
     updateNotifyBadge(data);
     return;
@@ -18276,9 +18320,33 @@ window.latestNotificationTime = getLatestNotificationTime(data);
 
   updateNotifyBadge(data);
 }
-  /* Extra..... */
 
-  function getLatestNotificationTime(data) {
+/* ================================
+   DELETE / HIDE NOTIFICATION
+================================ */
+
+async function deleteAppNotification(id) {
+  if (!id) return;
+
+  const result = await callAppNotificationsEdge({
+    action: "delete",
+    id: id
+  });
+
+  if (!result || !result.ok) {
+    showToast("Error", result?.message || "Notification could not be removed.");
+    return;
+  }
+
+  showToast("Removed", "Notification removed.");
+  loadAppNotifications();
+}
+
+/* ================================
+   NOTIFICATION BADGE
+================================ */
+
+function getLatestNotificationTime(data) {
   if (!data || data.length === 0) return "";
 
   return data[0].created_at || data[0].id || "";
@@ -18292,10 +18360,8 @@ function setSeenNotificationTime(value) {
   if (!value) return;
   localStorage.setItem("af_seen_notification_time", value);
 }
-  
-/* Update bottom nav blinking NEW badge */
 
-  
+/* Update bottom nav blinking NEW badge */
 function updateNotifyBadge(data) {
   const notifyBtn = document.querySelector('.nav-btn[data-section="notifications"]');
 
@@ -18323,8 +18389,23 @@ function updateNotifyBadge(data) {
     }
   }
 }
-  
-/* Escape HTML for safe rendering */
+
+/* Jab user notification section open kare to NEW badge seen mark ho */
+function markNotificationsSeen() {
+  if (window.latestNotificationTime) {
+    setSeenNotificationTime(window.latestNotificationTime);
+  }
+
+  const notifyBtn = document.querySelector('.nav-btn[data-section="notifications"]');
+  if (!notifyBtn) return;
+
+  const oldBadge = notifyBtn.querySelector(".nav-new-dot");
+  if (oldBadge) oldBadge.remove();
+}
+
+/* ================================
+   SAFE HTML
+================================ */
 
 function escapeHTML(value) {
   return String(value)
@@ -18335,7 +18416,10 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/* Auto load notifications on page load */
+/* ================================
+   AUTO LOAD
+================================ */
+
 document.addEventListener("DOMContentLoaded", function() {
   loadAppNotifications();
 });
