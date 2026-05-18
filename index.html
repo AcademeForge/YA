@@ -19840,17 +19840,17 @@ async function logoutAcademeForge() {
 }
 /* ==============================
    NEW STUDENT SECTION JS - AF
-   Backend: Supabase client = studentDb
 
    Secure Flow:
    Create ID:
-   form fill -> Supabase Email OTP -> verify OTP -> Edge Function insert student
+   form fill -> Edge Function send OTP -> Edge Function verify OTP + insert student
 
    Login:
    frontend -> Edge Function -> students_af read with service role
 
    Forgot Password:
-   find account -> Edge Function read -> Supabase Email OTP -> verify OTP -> Edge Function update password
+   find account -> Edge Function read -> Edge Function send OTP
+   -> Edge Function verify OTP -> Edge Function update password
 ================================ */
 
 let afPendingCreateStudent = null;
@@ -19922,66 +19922,23 @@ async function afStudentEdgeCall(functionName, payload) {
 }
 
 /* =========================
-   SUPABASE EMAIL OTP
+   CUSTOM EMAIL OTP - EDGE FUNCTION
 ========================= */
 
-async function sendSupabaseEmailOtpaf(email, shouldCreateUserValue) {
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    return {
-      ok: false,
-      message: "New student backend is not connected."
-    };
-  }
-
-  const { error } = await backend.auth.signInWithOtp({
+async function sendCustomEmailOtpaf(email, mobile, purpose) {
+  return await afStudentEdgeCall("student-send-otp-af", {
     email: email,
-    options: {
-      shouldCreateUser: shouldCreateUserValue
-    }
+    mobile: mobile || "",
+    purpose: purpose || "create"
   });
-
-  if (error) {
-    return {
-      ok: false,
-      message: error.message
-    };
-  }
-
-  return {
-    ok: true,
-    message: "OTP sent successfully."
-  };
 }
 
-async function verifySupabaseEmailOtpaf(email, otp) {
-  const backend = getStudentBackendaf();
-
-  if (!backend) {
-    return {
-      ok: false,
-      message: "New student backend is not connected."
-    };
-  }
-
-  const { data, error } = await backend.auth.verifyOtp({
+async function verifyCustomEmailOtpaf(email, otp, purpose) {
+  return await afStudentEdgeCall("student-verify-otp-af", {
     email: email,
-    token: otp,
-    type: "email"
+    otp: otp,
+    purpose: purpose || "create"
   });
-
-  if (error) {
-    return {
-      ok: false,
-      message: error.message
-    };
-  }
-
-  return {
-    ok: true,
-    data: data
-  };
 }
 
 /* =========================
@@ -20156,15 +20113,15 @@ async function sendCreateOtpaf() {
       email: email,
       password: password,
       status: "active",
-      email_verified: true
+      email_verified: false
     };
 
     showStudentMessageaf("info", "Sending OTP to your email...");
 
-    const otpResult = await sendSupabaseEmailOtpaf(email, true);
+    const otpResult = await sendCustomEmailOtpaf(email, mobile, "create");
 
-    if (!otpResult.ok) {
-      showStudentMessageaf("err", "OTP send failed: " + otpResult.message);
+    if (!otpResult || !otpResult.ok) {
+      showStudentMessageaf("err", "OTP send failed: " + (otpResult?.message || "Server error."));
       return;
     }
 
@@ -20197,22 +20154,21 @@ async function verifyCreateOtpAndCreateIdaf() {
     return;
   }
 
-  showStudentMessageaf("info", "Verifying OTP...");
+  if (otp.length < 4) {
+    showStudentMessageaf("err", "Enter valid OTP.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Verifying OTP and creating your Student ID...");
 
   try {
-    const verifyResult = await verifySupabaseEmailOtpaf(
-      afPendingCreateStudent.email,
-      otp
-    );
+    const payload = {
+      ...afPendingCreateStudent,
+      otp: otp,
+      purpose: "create"
+    };
 
-    if (!verifyResult.ok) {
-      showStudentMessageaf("err", "Invalid OTP: " + verifyResult.message);
-      return;
-    }
-
-    showStudentMessageaf("info", "Creating your Student ID...");
-
-    const result = await afStudentEdgeCall("student-create-af", afPendingCreateStudent);
+    const result = await afStudentEdgeCall("student-create-af", payload);
 
     if (!result || !result.ok) {
       showStudentMessageaf("err", result?.message || "Could not create Student ID.");
@@ -20225,6 +20181,12 @@ async function verifyCreateOtpAndCreateIdaf() {
     }
 
     afPendingCreateStudent = null;
+
+    const otpArea = document.getElementById("createOtpAreaaf");
+    const otpInput2 = document.getElementById("createOtpaf");
+
+    if (otpArea) otpArea.style.display = "none";
+    if (otpInput2) otpInput2.value = "";
 
     saveStudentSessionaf(result.student);
     showStudentMessageaf("ok", "Student ID created successfully.");
@@ -20274,20 +20236,14 @@ async function findStudentForResetaf() {
 
     showStudentMessageaf("info", "Sending OTP to your registered email...");
 
-    let otpResult = await sendSupabaseEmailOtpaf(afResetStudent.email, false);
+    const otpResult = await sendCustomEmailOtpaf(
+      afResetStudent.email,
+      afResetStudent.mobile || afResetStudent.student_id || "",
+      "reset"
+    );
 
-    /*
-      Agar Auth user pehle create nahi hua hai,
-      to fallback true se OTP bhej do.
-      Ye useful hai old/test data ke liye.
-    */
-    if (!otpResult.ok) {
-      console.log("Forgot OTP first attempt failed:", otpResult.message);
-      otpResult = await sendSupabaseEmailOtpaf(afResetStudent.email, true);
-    }
-
-    if (!otpResult.ok) {
-      showStudentMessageaf("err", "OTP send failed: " + otpResult.message);
+    if (!otpResult || !otpResult.ok) {
+      showStudentMessageaf("err", "OTP send failed: " + (otpResult?.message || "Server error."));
       return;
     }
 
@@ -20323,16 +20279,22 @@ async function verifyForgotOtpaf() {
     return;
   }
 
+  if (otp.length < 4) {
+    showStudentMessageaf("err", "Enter valid OTP.");
+    return;
+  }
+
   showStudentMessageaf("info", "Verifying OTP...");
 
   try {
-    const verifyResult = await verifySupabaseEmailOtpaf(
+    const verifyResult = await verifyCustomEmailOtpaf(
       afResetStudent.email,
-      otp
+      otp,
+      "reset"
     );
 
-    if (!verifyResult.ok) {
-      showStudentMessageaf("err", "Invalid OTP: " + verifyResult.message);
+    if (!verifyResult || !verifyResult.ok) {
+      showStudentMessageaf("err", "Invalid OTP: " + (verifyResult?.message || "Verification failed."));
       return;
     }
 
@@ -20391,10 +20353,12 @@ async function resetStudentPasswordaf() {
 
     const resetArea = document.getElementById("resetPasswordAreaaf");
     const otpArea = document.getElementById("forgotOtpAreaaf");
+    const forgotOtpInput = document.getElementById("forgotOtpaf");
     const newPasswordInput2 = document.getElementById("newPasswordaf");
 
     if (resetArea) resetArea.style.display = "none";
     if (otpArea) otpArea.style.display = "none";
+    if (forgotOtpInput) forgotOtpInput.value = "";
     if (newPasswordInput2) newPasswordInput2.value = "";
 
     showStudentMessageaf("ok", "Password reset successful. Please login now.");
@@ -20521,6 +20485,7 @@ document.addEventListener("DOMContentLoaded", function () {
     switchStudentModeaf("login");
   }
 });
+  
 /* ==============================
    STUDENT COURSE DASHBOARD JS - AF
    Secure Backend Fetch via Edge Functions
