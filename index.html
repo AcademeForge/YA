@@ -25253,12 +25253,6 @@ if ("serviceWorker" in navigator) {
     var data = await res.json().catch(function () {
       return {};
     });
-alert(
-  "Session check:\n" +
-  "valid: " + data.valid + "\n" +
-  "logout: " + data.logout + "\n" +
-  "message: " + (data.message || "")
-);
     if (data.logout === true || data.valid === false) {
       localStorage.removeItem("af_session_token");
       localStorage.removeItem("af_student_id");
