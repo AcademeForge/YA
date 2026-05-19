@@ -18114,6 +18114,177 @@ body.settings-dark-mode .time-box.glass.notification-time-box .notification-icon
   -webkit-text-fill-color: #facc15 !important;
   filter: drop-shadow(0 2px 5px rgba(250, 204, 21, 0.28)) !important;
 }
+
+    /* =========================================================
+   IMPORTANT FIX: Notification button topbar alignment
+   Paste at END of CSS to override old .time-box styles
+========================================================= */
+
+.topbar .top-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+.topbar .brand {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+.topbar .theme-toggle-btn,
+.topbar .af-streak-pill,
+.topbar .notification-time-box {
+  flex: 0 0 auto !important;
+}
+
+.topbar .notification-time-box,
+.notification-time-box.time-box,
+button.notification-time-box,
+.time-box.glass.notification-time-box {
+  position: static !important;
+
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: 1px solid rgba(245, 158, 11, 0.32) !important;
+  border-radius: 14px !important;
+  outline: 0 !important;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(251, 191, 36, 0.26), transparent 42%),
+    linear-gradient(135deg, rgba(255, 247, 237, 0.98), rgba(255, 255, 255, 0.94)) !important;
+
+  color: #f59e0b !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  box-shadow:
+    0 8px 18px rgba(245, 158, 11, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88) !important;
+
+  transform: none !important;
+  animation: none !important;
+  overflow: hidden !important;
+  z-index: 2 !important;
+
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.topbar .notification-time-box .notification-icon,
+.notification-time-box .notification-icon,
+.time-box.glass.notification-time-box .notification-icon {
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  color: #f59e0b !important;
+  -webkit-text-fill-color: #f59e0b !important;
+
+  font-size: 18px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  transform: none !important;
+  animation: none !important;
+  filter: drop-shadow(0 2px 4px rgba(146, 64, 14, 0.18)) !important;
+}
+
+.topbar .notification-time-box:hover,
+.notification-time-box.time-box:hover,
+button.notification-time-box:hover,
+.time-box.glass.notification-time-box:hover {
+  transform: none !important;
+  animation: none !important;
+}
+
+.topbar .notification-time-box:active,
+.notification-time-box.time-box:active,
+button.notification-time-box:active,
+.time-box.glass.notification-time-box:active {
+  transform: scale(0.97) !important;
+}
+
+/* Keep streak pill stable */
+.topbar .af-streak-pill {
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  margin: 0 !important;
+  position: static !important;
+  z-index: 2 !important;
+}
+
+/* Dark mode */
+body.dark-mode .topbar .notification-time-box,
+html.dark-mode body .topbar .notification-time-box,
+body.settings-dark-mode .topbar .notification-time-box {
+  border-color: rgba(250, 204, 21, 0.36) !important;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(250, 204, 21, 0.22), transparent 42%),
+    linear-gradient(135deg, #422006, #111827) !important;
+
+  color: #facc15 !important;
+
+  box-shadow:
+    0 8px 18px rgba(250, 204, 21, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode .topbar .notification-time-box .notification-icon,
+html.dark-mode body .topbar .notification-time-box .notification-icon,
+body.settings-dark-mode .topbar .notification-time-box .notification-icon {
+  color: #facc15 !important;
+  -webkit-text-fill-color: #facc15 !important;
+  filter: drop-shadow(0 2px 5px rgba(250, 204, 21, 0.24)) !important;
+}
+
+/* Very small mobile screens */
+@media (max-width: 380px) {
+  .topbar .top-row {
+    gap: 6px !important;
+  }
+
+  .topbar .notification-time-box {
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    border-radius: 13px !important;
+  }
+
+  .topbar .notification-time-box .notification-icon {
+    font-size: 17px !important;
+  }
+
+  .topbar .af-streak-pill {
+    min-width: 64px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 0 10px !important;
+  }
+}
   </style>
 </head>
 
@@ -19424,7 +19595,7 @@ body.settings-dark-mode .time-box.glass.notification-time-box .notification-icon
 
 
 <a
-  href="https://academeforge.github.io/YA/official/"
+  href="https://academeforge.github.io/SUPER/official/"
   class="settings-beta-card"
   aria-label="Open AcademeForge official website"
 >
