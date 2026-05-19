@@ -1,4 +1,4 @@
-const AF_CACHE_NAME = "academeforge-ya-cache-v7";
+const AF_CACHE_NAME = "academeforge-ya-cache-v8";
 
 const AF_FILES_TO_CACHE = [
   "./",
