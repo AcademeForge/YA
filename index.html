@@ -18439,6 +18439,183 @@ section#learningHeatmap.learning-heatmap-section.active {
     width: min(100% - 18px, 430px) !important;
   }
 }
+    
+/* =========================================================
+   STUDENT AUTH TEXT COLOR FIX
+   Force dark readable text in light mode + dark mode
+   Paste this AFTER all existing student section CSS.
+========================================================= */
+
+#studentaf,
+#studentaf .student-wrapaf,
+#studentaf .student-cardaf,
+#studentaf .student-boxaf {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+/* Main headings / paragraph text */
+#studentaf .student-titleaf,
+#studentaf .student-subtitleaf,
+#studentaf .student-labelaf,
+#studentaf .student-helpaf,
+#studentaf .student-noteaf,
+#studentaf .student-messageaf,
+#studentaf .student-noteaf b {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+/* Tabs text */
+#studentaf .student-tabsaf,
+#studentaf .student-tabaf,
+#studentaf .student-tabaf.active {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+/* Active login/create tab text should stay dark */
+#studentaf .student-tabaf.active {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* Input text + placeholder */
+#studentaf .student-inputaf {
+  color: #111827 !important;
+  background: #ffffff !important;
+  text-shadow: none !important;
+  caret-color: #111827 !important;
+}
+
+#studentaf .student-inputaf::placeholder {
+  color: #374151 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+/* Buttons */
+#studentaf .student-main-btnaf,
+#studentaf .student-main-btnaf.secondary,
+#studentaf .student-link-btnaf {
+  text-shadow: none !important;
+}
+
+#studentaf .student-main-btnaf,
+#studentaf .student-main-btnaf.secondary {
+  color: #ffffff !important;
+}
+
+#studentaf .student-link-btnaf {
+  color: #ffffff !important;
+}
+
+/* Browser autofill fix */
+#studentaf .student-inputaf:-webkit-autofill,
+#studentaf .student-inputaf:-webkit-autofill:hover,
+#studentaf .student-inputaf:-webkit-autofill:focus,
+#studentaf .student-inputaf:-webkit-autofill:active {
+  -webkit-text-fill-color: #111827 !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
+
+/* Dark mode override: keep text dark, not white */
+@media (prefers-color-scheme: dark) {
+  #studentaf,
+  #studentaf .student-wrapaf,
+  #studentaf .student-cardaf,
+  #studentaf .student-boxaf {
+    color: #111827 !important;
+    text-shadow: none !important;
+  }
+
+  #studentaf .student-titleaf,
+  #studentaf .student-subtitleaf,
+  #studentaf .student-labelaf,
+  #studentaf .student-helpaf,
+  #studentaf .student-noteaf,
+  #studentaf .student-messageaf,
+  #studentaf .student-noteaf b {
+    color: #111827 !important;
+    text-shadow: none !important;
+  }
+
+  #studentaf .student-tabaf {
+    color: #111827 !important;
+    text-shadow: none !important;
+  }
+
+  #studentaf .student-tabaf.active {
+    color: #ffffff !important;
+    text-shadow: none !important;
+  }
+
+  #studentaf .student-inputaf {
+    color: #111827 !important;
+    background: #ffffff !important;
+    text-shadow: none !important;
+    caret-color: #111827 !important;
+  }
+
+  #studentaf .student-inputaf::placeholder {
+    color: #374151 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+  }
+
+  #studentaf .student-main-btnaf,
+  #studentaf .student-main-btnaf.secondary,
+  #studentaf .student-link-btnaf {
+    color: #ffffff !important;
+    text-shadow: none !important;
+  }
+}
+
+/* If your app uses manual dark class on body/html */
+html.dark #studentaf,
+body.dark #studentaf,
+html.dark #studentaf .student-cardaf,
+body.dark #studentaf .student-cardaf,
+html.dark #studentaf .student-boxaf,
+body.dark #studentaf .student-boxaf {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+html.dark #studentaf .student-titleaf,
+body.dark #studentaf .student-titleaf,
+html.dark #studentaf .student-subtitleaf,
+body.dark #studentaf .student-subtitleaf,
+html.dark #studentaf .student-labelaf,
+body.dark #studentaf .student-labelaf,
+html.dark #studentaf .student-helpaf,
+body.dark #studentaf .student-helpaf,
+html.dark #studentaf .student-noteaf,
+body.dark #studentaf .student-noteaf,
+html.dark #studentaf .student-messageaf,
+body.dark #studentaf .student-messageaf,
+html.dark #studentaf .student-noteaf b,
+body.dark #studentaf .student-noteaf b {
+  color: #111827 !important;
+  text-shadow: none !important;
+}
+
+html.dark #studentaf .student-inputaf,
+body.dark #studentaf .student-inputaf {
+  color: #111827 !important;
+  background: #ffffff !important;
+  text-shadow: none !important;
+  caret-color: #111827 !important;
+}
+
+html.dark #studentaf .student-inputaf::placeholder,
+body.dark #studentaf .student-inputaf::placeholder {
+  color: #374151 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
   </style>
 </head>
 
