@@ -18285,6 +18285,82 @@ body.settings-dark-mode .topbar .notification-time-box .notification-icon {
     padding: 0 10px !important;
   }
 }
+    /* =========================================================
+   IMPORTANT FIX: Center Learning Heatmap page
+   Paste at END of CSS
+========================================================= */
+
+#learningHeatmap.learning-heatmap-section,
+section#learningHeatmap.learning-heatmap-section {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  min-height: calc(100dvh - 72px) !important;
+
+  padding-top: 78px !important;
+  padding-right: 0 !important;
+  padding-bottom: 124px !important;
+  padding-left: 0 !important;
+
+  margin: 0 !important;
+  box-sizing: border-box !important;
+
+  display: none;
+  justify-content: center !important;
+  align-items: flex-start !important;
+
+  overflow-x: hidden !important;
+}
+
+#learningHeatmap.learning-heatmap-section.active,
+section#learningHeatmap.learning-heatmap-section.active {
+  display: flex !important;
+}
+
+#learningHeatmap .learning-heatmap-page {
+  width: min(100% - 28px, 600px) !important;
+  max-width: 600px !important;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+
+  padding: 0 !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+#learningHeatmap .learning-back-btn {
+  align-self: flex-start !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+#learningHeatmap .learning-heatmap-hero,
+#learningHeatmap .learning-week-card,
+#learningHeatmap .learning-info-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Mobile tighter center */
+@media (max-width: 480px) {
+  #learningHeatmap .learning-heatmap-page {
+    width: min(100% - 24px, 430px) !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  #learningHeatmap .learning-heatmap-page {
+    width: min(100% - 18px, 430px) !important;
+  }
+}
   </style>
 </head>
 
