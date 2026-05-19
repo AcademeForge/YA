@@ -18617,12 +18617,14 @@ body.dark #studentaf .student-inputaf::placeholder {
 }
 
    
+
 /* =========================================================
-   STUDENT AUTH MOBILE APK / WEBVIEW HARD FIX
-   Paste at VERY END of CSS, after all old student CSS.
+   STUDENT AUTH REAL MOBILE / APK WEBVIEW HARD FIX ONLY
+   Desktop browser par apply nahi hoga.
+   Paste at VERY END of CSS.
 ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 900px) and (hover: none) and (pointer: coarse) {
   html,
   body,
   #studentaf,
@@ -18702,60 +18704,51 @@ body.dark #studentaf .student-inputaf::placeholder {
     caret-color: #111827 !important;
     color-scheme: light !important;
   }
-}
 
-/* Android WebView forced-dark prevention */
-#studentaf,
-#studentaf .student-cardaf,
-#studentaf .student-boxaf,
-#studentaf .student-inputaf {
-  color-scheme: light !important;
-}
+  html.dark-mode #studentaf .student-titleaf,
+  body.dark-mode #studentaf .student-titleaf,
+  html.dark-mode #studentaf .student-subtitleaf,
+  body.dark-mode #studentaf .student-subtitleaf,
+  html.dark-mode #studentaf .student-labelaf,
+  body.dark-mode #studentaf .student-labelaf,
+  html.dark-mode #studentaf .student-helpaf,
+  body.dark-mode #studentaf .student-helpaf,
+  html.dark-mode #studentaf .student-noteaf,
+  body.dark-mode #studentaf .student-noteaf,
+  html.dark-mode #studentaf .student-noteaf b,
+  body.dark-mode #studentaf .student-noteaf b,
+  html.dark-mode #studentaf .student-messageaf,
+  body.dark-mode #studentaf .student-messageaf {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    text-shadow: none !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+  }
 
-/* Manual dark-mode class override */
-html.dark-mode #studentaf .student-titleaf,
-body.dark-mode #studentaf .student-titleaf,
-html.dark-mode #studentaf .student-subtitleaf,
-body.dark-mode #studentaf .student-subtitleaf,
-html.dark-mode #studentaf .student-labelaf,
-body.dark-mode #studentaf .student-labelaf,
-html.dark-mode #studentaf .student-helpaf,
-body.dark-mode #studentaf .student-helpaf,
-html.dark-mode #studentaf .student-noteaf,
-body.dark-mode #studentaf .student-noteaf,
-html.dark-mode #studentaf .student-noteaf b,
-body.dark-mode #studentaf .student-noteaf b,
-html.dark-mode #studentaf .student-messageaf,
-body.dark-mode #studentaf .student-messageaf {
-  color: #111827 !important;
-  -webkit-text-fill-color: #111827 !important;
-  text-shadow: none !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  opacity: 1 !important;
-}
+  html.dark-mode #studentaf .student-inputaf,
+  body.dark-mode #studentaf .student-inputaf {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    caret-color: #111827 !important;
+    color-scheme: light !important;
+  }
 
-html.dark-mode #studentaf .student-inputaf,
-body.dark-mode #studentaf .student-inputaf {
-  color: #111827 !important;
-  -webkit-text-fill-color: #111827 !important;
-  background-color: #ffffff !important;
-  background-image: none !important;
-  text-shadow: none !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  caret-color: #111827 !important;
-  color-scheme: light !important;
+  html.dark-mode #studentaf .student-inputaf::placeholder,
+  body.dark-mode #studentaf .student-inputaf::placeholder {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+  }
 }
-
-html.dark-mode #studentaf .student-inputaf::placeholder,
-body.dark-mode #studentaf .student-inputaf::placeholder {
-  color: #374151 !important;
-  -webkit-text-fill-color: #374151 !important;
-  opacity: 1 !important;
-  text-shadow: none !important;
-}
-  </style>
+</style>
 </head>
 
 <body>
