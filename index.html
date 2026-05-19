@@ -18616,6 +18616,145 @@ body.dark #studentaf .student-inputaf::placeholder {
   text-shadow: none !important;
 }
 
+   
+/* =========================================================
+   STUDENT AUTH MOBILE APK / WEBVIEW HARD FIX
+   Paste at VERY END of CSS, after all old student CSS.
+========================================================= */
+
+@media (max-width: 900px) {
+  html,
+  body,
+  #studentaf,
+  #studentaf * {
+    -webkit-text-size-adjust: 100% !important;
+  }
+
+  #studentaf,
+  #studentaf .student-wrapaf,
+  #studentaf .student-cardaf,
+  #studentaf .student-boxaf {
+    color-scheme: light !important;
+    -webkit-font-smoothing: antialiased !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    isolation: isolate !important;
+  }
+
+  #studentaf .student-titleaf,
+  #studentaf .student-subtitleaf,
+  #studentaf .student-labelaf,
+  #studentaf .student-helpaf,
+  #studentaf .student-noteaf,
+  #studentaf .student-noteaf b,
+  #studentaf .student-messageaf,
+  #studentaf .student-tabsaf,
+  #studentaf .student-tabaf {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    text-shadow: none !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+  }
+
+  #studentaf .student-inputaf {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    caret-color: #111827 !important;
+    color-scheme: light !important;
+  }
+
+  #studentaf .student-inputaf::placeholder {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+
+  #studentaf .student-main-btnaf,
+  #studentaf .student-main-btnaf.secondary,
+  #studentaf .student-link-btnaf,
+  #studentaf .student-tabaf.active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow: none !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+  }
+
+  #studentaf .student-inputaf:-webkit-autofill,
+  #studentaf .student-inputaf:-webkit-autofill:hover,
+  #studentaf .student-inputaf:-webkit-autofill:focus,
+  #studentaf .student-inputaf:-webkit-autofill:active {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    box-shadow: 0 0 0 1000px #ffffff inset !important;
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+    caret-color: #111827 !important;
+    color-scheme: light !important;
+  }
+}
+
+/* Android WebView forced-dark prevention */
+#studentaf,
+#studentaf .student-cardaf,
+#studentaf .student-boxaf,
+#studentaf .student-inputaf {
+  color-scheme: light !important;
+}
+
+/* Manual dark-mode class override */
+html.dark-mode #studentaf .student-titleaf,
+body.dark-mode #studentaf .student-titleaf,
+html.dark-mode #studentaf .student-subtitleaf,
+body.dark-mode #studentaf .student-subtitleaf,
+html.dark-mode #studentaf .student-labelaf,
+body.dark-mode #studentaf .student-labelaf,
+html.dark-mode #studentaf .student-helpaf,
+body.dark-mode #studentaf .student-helpaf,
+html.dark-mode #studentaf .student-noteaf,
+body.dark-mode #studentaf .student-noteaf,
+html.dark-mode #studentaf .student-noteaf b,
+body.dark-mode #studentaf .student-noteaf b,
+html.dark-mode #studentaf .student-messageaf,
+body.dark-mode #studentaf .student-messageaf {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: none !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+html.dark-mode #studentaf .student-inputaf,
+body.dark-mode #studentaf .student-inputaf {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  caret-color: #111827 !important;
+  color-scheme: light !important;
+}
+
+html.dark-mode #studentaf .student-inputaf::placeholder,
+body.dark-mode #studentaf .student-inputaf::placeholder {
+  color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
   </style>
 </head>
 
