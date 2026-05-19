@@ -10294,54 +10294,130 @@ body.dark-mode .banner-dot.active {
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.10) !important;
 }
 
-/* Website box NEVER hide */
-.time-box,
-a.time-box,
-.top-row .time-box {
-  display: flex !important;
-  width: 82px !important;
-  min-width: 82px !important;
-  max-width: 82px !important;
-  height: 42px !important;
-  padding: 6px 8px !important;
-  border-radius: 14px !important;
-  box-sizing: border-box !important;
-  text-decoration: none !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
+/* Notification button override for time-box */
+button.time-box.notification-time-box {
+  display: inline-flex !important;
+  width: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  flex-direction: row !important;
+  align-items: center !important;
   justify-content: center !important;
-  overflow: hidden !important;
+
+  border-radius: 13px !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+
   background: rgba(255, 255, 255, 0.88) !important;
   color: #0f172a !important;
-}
 
-.time-box strong,
-#time {
-  display: block !important;
-  width: 100% !important;
-  font-size: 11px !important;
-  line-height: 1.05 !important;
-  font-weight: 900 !important;
-  color: #0f172a !important;
-  white-space: nowrap !important;
+  box-sizing: border-box !important;
   overflow: hidden !important;
-  text-overflow: ellipsis !important;
+
+  cursor: pointer !important;
+  outline: none !important;
+  text-decoration: none !important;
+
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
+
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    color 0.18s ease !important;
 }
 
-.time-box span,
-#date {
-  display: block !important;
-  width: 100% !important;
-  margin-top: 3px !important;
-  font-size: 8.5px !important;
-  line-height: 1.05 !important;
-  font-weight: 700 !important;
-  color: #64748b !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+button.time-box.notification-time-box:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(148, 163, 184, 0.42) !important;
+  box-shadow:
+    0 10px 26px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
 }
 
+button.time-box.notification-time-box:active {
+  transform: translateY(0) scale(0.96) !important;
+}
+
+button.time-box.notification-time-box:focus-visible {
+  border-color: rgba(59, 130, 246, 0.7) !important;
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.22),
+    0 8px 22px rgba(15, 23, 42, 0.1) !important;
+}
+
+/* Bell icon */
+button.time-box.notification-time-box .notification-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: 18px !important;
+  height: 18px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  font-size: 15px !important;
+  line-height: 1 !important;
+  font-weight: 400 !important;
+
+  color: inherit !important;
+
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+
+  transform: translateY(-0.5px) !important;
+}
+
+/* Stop global .time-box strong / #time rules from affecting notification icon */
+button.time-box.notification-time-box strong.notification-icon {
+  width: 18px !important;
+  max-width: 18px !important;
+  min-width: 18px !important;
+}
+
+/* Dark mode support */
+html.dark button.time-box.notification-time-box,
+body.dark button.time-box.notification-time-box,
+[data-theme="dark"] button.time-box.notification-time-box,
+html.dark-mode button.time-box.notification-time-box,
+body.dark-mode button.time-box.notification-time-box {
+  background: rgba(15, 23, 42, 0.78) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark button.time-box.notification-time-box:hover,
+body.dark button.time-box.notification-time-box:hover,
+[data-theme="dark"] button.time-box.notification-time-box:hover,
+html.dark-mode button.time-box.notification-time-box:hover,
+body.dark-mode button.time-box.notification-time-box:hover {
+  background: rgba(30, 41, 59, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
 /* ---------- BANNER LOCKED ---------- */
 
 .home-banner-slider {
@@ -15711,6 +15787,111 @@ body.dark-mode #studentaf .student-tab-btn.active {
   color: #7c3aed !important;
   font-weight: 900 !important;
 }
+
+      /* =========================================================
+   NPTIFICATION
+  
+========================================================= */
+   
+   .notification-time-box {
+  width: 16px;
+  height: 38px;
+  min-width: 16px;
+  min-height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  margin: 0;
+
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 13px;
+
+  background: rgba(255, 255, 255, 0.78);
+  color: #0f172a;
+
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    color 0.18s ease;
+}
+
+.notification-time-box:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(148, 163, 184, 0.42);
+  box-shadow:
+    0 10px 26px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.notification-time-box:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.notification-time-box:focus-visible {
+  border-color: rgba(59, 130, 246, 0.7);
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.22),
+    0 8px 22px rgba(15, 23, 42, 0.1);
+}
+
+.notification-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+
+  font-size: 25px;
+  line-height: 1;
+
+  transform: translateY(-0.5px);
+}
+
+/* Dark mode: html/body/data-theme */
+html.dark .notification-time-box,
+body.dark .notification-time-box,
+[data-theme="dark"] .notification-time-box,
+html.dark-mode .notification-time-box,
+body.dark-mode .notification-time-box {
+  background: rgba(15, 23, 42, 0.72);
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+html.dark .notification-time-box:hover,
+body.dark .notification-time-box:hover,
+[data-theme="dark"] .notification-time-box:hover,
+html.dark-mode .notification-time-box:hover,
+body.dark-mode .notification-time-box:hover {
+  background: rgba(30, 41, 59, 0.88);
+  border-color: rgba(255, 255, 255, 0.2);
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
   </style>
 </head>
 
@@ -15736,12 +15917,15 @@ body.dark-mode #studentaf .student-tab-btn.active {
 <button class="theme-toggle-btn" onclick="toggleThemeMode()" id="themeToggleBtn">
   🌙
 </button>
-        
-       <a href="https://academeforge.in/" class="time-box glass">
-  <strong id="time">Website</strong>
-  <span id="date">academeforge.in</span>
-</a>
-        
+     <button
+  type="button"
+  class="time-box glass notification-time-box"
+  data-section="notifications"
+  onclick="showSection('notifications')"
+  aria-label="Open notifications"
+>
+  <strong class="notification-icon">🔔</strong>
+</button>
       </div>
 
     </header>
@@ -15834,571 +16018,8 @@ body.dark-mode #studentaf .student-tab-btn.active {
 </div>
 </section>
 
-     <!-- LOGIN OLD -->
     
- <section id="student" class="section">
-  <div class="panel glass" id="studentLoginBox">
-    <h2>🎓 Student Login</h2>
-    <p>Login with your Student ID and password to access AF Nexus learning dashboard.</p>
-
-    <div class="input-group">
-      <label>Student ID</label>
-      <input id="studentId" type="text" placeholder="Example: abc@gmail.com" />
-    </div>
-
-    <div class="input-group">
-      <label>Password</label>
-      <input id="studentPassword" type="password" placeholder="Enter Password" />
-    </div>
-
-    <button class="link-btn" onclick="studentLogin()">Login</button>
-
-    <!-- CREATE STUDENT ID BOX -->
-    <div class="create-id-box">
-      <h3>Don't have Login ID & Password?</h3>
-      <p>Create your Student ID, select courses, complete payment, and start learning.</p>
-
-      <button type="button" class="create-id-btn" onclick="openCreateStudentIdPage()">
-        Create Student ID
-      </button>
-    </div>
-
- <div class="login-note">
-  If you face any issue while creating your Student ID, please email us at
-  <strong>academeforge@gmail.com</strong> with your name and WhatsApp number.
-  Our Support team will get back to you as soon as possible.
-</div>
-  </div>
-</div>
-</section>
      
- <!-- OFFICE QUICK ACTIONS MANAGEMENT -->
-
-<section id="office" class="section">
-  <div class="panel glass" id="officeLoginBox">
-    <h2>🏢 Office Login</h2>
-    <p>Login with your Office ID and password to access AcademeForge admin dashboard.</p>
-
-    <div class="input-group">
-      <label>Office ID</label>
-      <input id="officeId" type="text" placeholder="Example: founder" />
-    </div>
-
-    <div class="input-group">
-      <label>Password</label>
-      <input id="officePassword" type="password" placeholder="Enter Password" />
-    </div>
-
-    <button class="link-btn" onclick="officeLogin()">Login</button>
-
-    <div class="login-note">
-      Management access only. Students, please use Student Login.
-    </div>
-  </div>
-
-  <div class="panel glass hidden-box" id="officeDashboardBox" style="display:none;">
-    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-      <div>
-        <h2>🏢 Office Dashboard</h2>
-        <p id="officeWelcomeText">Welcome, Admin</p>
-      </div>
-
-      <button class="back-mini" onclick="officeLogout()">Logout</button>
-    </div>
-
-    <!-- QUICK ACTIONS HOME -->
-    
-    <div class="course-info-box" id="officeQuickActionsTitle">
-      <h3>⚡ Quick Actions</h3>
-    </div>
-
-    <div class="course-select-grid" id="officeQuickActions">
-      <button class="course-select-card" onclick="openAdminNotifications()">
-        <span>🔔</span>
-        <h3>Post Notification</h3>
-        <p>Send lecture, notes, batch and announcement updates.</p>
-      </button>
-
-      <button class="course-select-card" onclick="openAdminStudents()">
-        <span>🎓</span>
-        <h3>Students</h3>
-        <p>Add, view and manage student accounts.</p>
-      </button>
-
-      <button class="course-select-card" onclick="openAdminCourses()">
-        <span>📚</span>
-        <h3>Courses</h3>
-        <p>Create and manage course programs.</p>
-      </button>
-
-      <button class="course-select-card" onclick="openAdminAssignCourse()">
-        <span>🔗</span>
-        <h3>Assign Course</h3>
-        <p>Assign courses to enrolled students.</p>
-      </button>
-
-      <button class="course-select-card" onclick="openAdminLectures()">
-        <span>🎥</span>
-        <h3>Lectures</h3>
-        <p>Add and manage video lectures.</p>
-      </button>
-
-      <button class="course-select-card" onclick="openAdminNotes()">
-        <span>📝</span>
-        <h3>Notes</h3>
-        <p>Upload and manage study notes.</p>
-      </button>
-
-      <button class="course-select-card" onclick="openAdminChapters()">
-        <span>📖</span>
-        <h3>Chapters</h3>
-        <p>Create and organize chapters.</p>
-      </button>
-    </div>
-
-    <!-- NOTIFICATION MANAGEMENT -->
-    <div class="admin-manage-box hidden-box" id="notificationManageBox" style="display:none;">
-      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-        <div>
-          <h3>🔔 Post Notification</h3>
-          <p>Create updates for students about lectures, notes, batches, and announcements.</p>
-        </div>
-
-        <button class="back-mini" onclick="closeAdminNotifications()">Back</button>
-      </div>
-
-      <div class="input-group">
-        <label>Notification Title</label>
-        <input id="adminNotificationTitle" type="text" placeholder="Example: New lecture uploaded">
-      </div>
-
-      <div class="input-group">
-        <label>Message</label>
-        <input id="adminNotificationMessage" type="text" placeholder="Example: AF Nexus Batch 1 Lecture 3 is now available.">
-      </div>
-
-      <div class="input-group">
-        <label>Batch</label>
-        <input id="adminNotificationBatch" type="text" placeholder="Example: AF Nexus Batch 1 / All">
-      </div>
-
-      <div class="input-group">
-        <label>Type</label>
-        <select id="adminNotificationType">
-          <option value="Lecture">Lecture</option>
-          <option value="Notes">Notes</option>
-          <option value="Batch Update">Batch Update</option>
-          <option value="Announcement">Announcement</option>
-          <option value="General">General</option>
-        </select>
-      </div>
-
-      <div class="admin-action-row notification-action-row">
-        <button class="link-btn" onclick="postAdminNotification()">Post Notification</button>
-        <button class="link-btn secondary" onclick="clearNotificationForm()">Clear</button>
-      </div>
-    </div>
-
-    <!-- STUDENT MANAGEMENT -->
-    <div class="admin-manage-box hidden-box" id="adminStudentsBox" style="display:none;">
-      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-        <div>
-          <h3>🎓 Student Management</h3>
-          <p>Add, view, update password, and activate/inactivate students.</p>
-        </div>
-
-        <button class="back-mini" onclick="closeAdminStudents()">Back</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>Add New Student</h3>
-
-        <div class="input-group">
-          <label>Student ID / Email</label>
-          <input id="adminStudentId" type="text" placeholder="Example: student@email.com">
-        </div>
-
-        <div class="input-group">
-          <label>Name</label>
-          <input id="adminStudentName" type="text" placeholder="Student name">
-        </div>
-
-        <div class="input-group">
-          <label>Password</label>
-          <input id="adminStudentPassword" type="text" placeholder="Password">
-        </div>
-
-        <div class="input-group">
-          <label>Mobile</label>
-          <input id="adminStudentMobile" type="text" placeholder="Mobile number">
-        </div>
-
-        <div class="input-group">
-          <label>Email</label>
-          <input id="adminStudentEmail" type="email" placeholder="Email">
-        </div>
-
-        <button class="link-btn" onclick="addAdminStudent()">Add Student</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>All Students</h3>
-        <div id="adminStudentsList" class="admin-list-box">
-          Loading students...
-        </div>
-      </div>
-    </div>
-    
-<!-- TEAM MANAGEMENT -->
-<div class="admin-manage-box hidden-box" id="adminTeamBox" style="display:none;">
-  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-    <div>
-      <h3>👥 Team Management</h3>
-      <p>Add, view, edit, activate/inactivate team members.</p>
-    </div>
-
-    <button class="back-mini" onclick="closeAdminTeam()">Back</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3 id="teamFormTitle">Add New Team Member</h3>
-
-    <input type="hidden" id="adminTeamEditId">
-
-    <div class="input-group">
-      <label>Name</label>
-      <input id="teamNameInput" type="text" placeholder="Team member name">
-    </div>
-
-    <div class="input-group">
-      <label>Role / Position</label>
-      <input id="teamRoleInput" type="text" placeholder="Example: Founder, Mentor, Designer">
-    </div>
-
-    <div class="input-group">
-      <label>Photo URL</label>
-      <input id="teamPhotoInput" type="text" placeholder="Paste image URL">
-    </div>
-
-    <div class="input-group">
-      <label>Bio</label>
-      <textarea id="teamBioInput" placeholder="Short bio" rows="4"></textarea>
-    </div>
-
-    <div class="input-group">
-      <label>Instagram URL</label>
-      <input id="teamInstagramInput" type="text" placeholder="Instagram profile link">
-    </div>
-
-    <div class="input-group">
-      <label>LinkedIn URL</label>
-      <input id="teamLinkedinInput" type="text" placeholder="LinkedIn profile link">
-    </div>
-
-    <div class="input-group">
-      <label>Display Order</label>
-      <input id="teamOrderInput" type="number" placeholder="Example: 1">
-    </div>
-
-    <button class="link-btn" onclick="saveAdminTeamMember()">Save Team Member</button>
-    <button class="back-mini" onclick="resetAdminTeamForm()">Clear</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>All Team Members</h3>
-    <div id="adminTeamList" class="admin-list-box">
-      hello
-    </div>
-  </div>
-</div>
-    
-    <!-- CHAPTER MANAGEMENT -->
-<div class="admin-manage-box hidden-box" id="adminChaptersBox" style="display:none;">
-  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-    <div>
-      <h3>📖 Chapter Management</h3>
-      <p>Add, view, edit, and delete chapters.</p>
-    </div>
-
-    <button class="back-mini" onclick="closeAdminChapters()">Back</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3 id="chapterFormTitle">Add New Chapter</h3>
-
-    <input type="hidden" id="adminChapterEditId">
-
-    <div class="input-group">
-      <label>Course</label>
-      <select id="chapterCourseSelect">
-        <option value="">Select course</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Chapter Number</label>
-      <input id="chapterNumberInput" type="number" placeholder="Example: 1">
-    </div>
-
-    <div class="input-group">
-      <label>Chapter Title</label>
-      <input id="chapterTitleInput" type="text" placeholder="Chapter title">
-    </div>
-
-    <div class="input-group">
-      <label>Description</label>
-      <textarea id="chapterDescriptionInput" placeholder="Chapter description"></textarea>
-    </div>
-
-    <button class="link-btn" onclick="saveAdminChapter()">Save Chapter</button>
-    <button class="back-mini" onclick="resetAdminChapterForm()">Clear</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>All Chapters</h3>
-    <div id="adminChaptersList" class="admin-list-box">
-      Loading chapters...
-    </div>
-  </div>
-</div>
-    
-    <!-- COURSE MANAGEMENT -->
-    <div class="admin-manage-box hidden-box" id="adminCoursesBox" style="display:none;">
-      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-        <div>
-          <h3>📚 Course Management</h3>
-          <p>Add, view, and edit courses.</p>
-        </div>
-
-        <button class="back-mini" onclick="closeAdminCourses()">Back</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3 id="courseFormTitle">Add New Course</h3>
-
-        <input type="hidden" id="adminCourseEditId">
-
-        <div class="input-group">
-          <label>Course Title</label>
-          <input id="adminCourseTitle" type="text" placeholder="Example: Video & Media Editing">
-        </div>
-
-        <div class="input-group">
-          <label>Course Slug</label>
-          <input id="adminCourseSlug" type="text" placeholder="Example: video-editing">
-        </div>
-
-        <div class="input-group">
-          <label>Icon</label>
-          <input id="adminCourseIcon" type="text" placeholder="Example: 🎬">
-        </div>
-
-        <div class="input-group">
-          <label>Short Description</label>
-          <input id="adminCourseShortDescription" type="text" placeholder="Short course intro">
-        </div>
-
-        <div class="input-group">
-          <label>Details</label>
-          <textarea id="adminCourseDetails" placeholder="Full course details" rows="4"></textarea>
-        </div>
-
-        <div class="input-group">
-          <label>Facilities</label>
-          <textarea id="adminCourseFacilities" placeholder="Write one facility per line" rows="4"></textarea>
-        </div>
-
-        <button class="link-btn" onclick="saveAdminCourse()">Save Course</button>
-        <button class="back-mini" onclick="resetAdminCourseForm()">Clear</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>All Courses</h3>
-        <div id="adminCoursesList" class="admin-list-box">
-          Loading courses...
-        </div>
-      </div>
-    </div>
-  <!-- LECTURE MANAGEMENT -->
-<div class="admin-manage-box hidden-box" id="adminLecturesBox" style="display:none;">
-  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-    <div>
-      <h3>🎥 Lecture Management</h3>
-      <p>Add, view, update, lock/unlock lectures.</p>
-    </div>
-
-    <button class="back-mini" onclick="closeAdminLectures()">Back</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>Add New Lecture</h3>
-
-    <div class="input-group">
-      <label>Course</label>
-      <select id="lectureCourseSelect" onchange="loadLectureChapters()">
-        <option value="">Select course</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Chapter</label>
-      <select id="lectureChapterSelect">
-        <option value="">Select chapter</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Lecture Number</label>
-      <input id="lectureNumberInput" type="number" placeholder="Example: 1">
-    </div>
-
-    <div class="input-group">
-      <label>Lecture Title</label>
-      <input id="lectureTitleInput" type="text" placeholder="Lecture title">
-    </div>
-
-    <div class="input-group">
-      <label>Description</label>
-      <textarea id="lectureDescriptionInput" placeholder="Lecture description"></textarea>
-    </div>
-
-    <div class="input-group">
-      <label>Video URL</label>
-      <input id="lectureVideoUrlInput" type="text" placeholder="YouTube / Drive / video link">
-    </div>
-
-    <div class="input-group">
-      <label>Duration</label>
-      <input id="lectureDurationInput" type="text" placeholder="Example: 12 min">
-    </div>
-
-    <div class="input-group">
-      <label>Lock Status</label>
-      <select id="lectureLockInput">
-        <option value="false">Unlocked</option>
-        <option value="true">Locked</option>
-      </select>
-    </div>
-
-    <button class="link-btn" onclick="addAdminLecture()">Add Lecture</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>All Lectures</h3>
-    <div id="adminLecturesList" class="admin-list-box">
-      Loading lectures...
-    </div>
-  </div>
-</div>
-
-    <!-- NOTES MANAGEMENT -->
-<div class="admin-manage-box hidden-box" id="adminNotesBox" style="display:none;">
-  <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-    <div>
-      <h3>📝 Notes Management</h3>
-      <p>Add, view, update, lock/unlock notes.</p>
-    </div>
-
-    <button class="back-mini" onclick="closeAdminNotes()">Back</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>Add New Note</h3>
-
-    <div class="input-group">
-      <label>Course</label>
-      <select id="noteCourseSelect" onchange="loadNoteChapters()">
-        <option value="">Select course</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Chapter</label>
-      <select id="noteChapterSelect">
-        <option value="">Select chapter</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Note Number</label>
-      <input id="noteNumberInput" type="number" placeholder="Example: 1">
-    </div>
-
-    <div class="input-group">
-      <label>Note Title</label>
-      <input id="noteTitleInput" type="text" placeholder="Note title">
-    </div>
-
-    <div class="input-group">
-      <label>Text Content</label>
-      <textarea id="noteContentInput" placeholder="Write note content here..." rows="5"></textarea>
-    </div>
-
-    <div class="input-group">
-      <label>PDF URL</label>
-      <input id="notePdfUrlInput" type="text" placeholder="Paste PDF link">
-    </div>
-
-    <div class="input-group">
-      <label>Lock Status</label>
-      <select id="noteLockInput">
-        <option value="false">Unlocked</option>
-        <option value="true">Locked</option>
-      </select>
-    </div>
-
-    <button class="link-btn" onclick="addAdminNote()">Add Note</button>
-  </div>
-
-  <div class="course-info-box">
-    <h3>All Notes</h3>
-    <div id="adminNotesList" class="admin-list-box">
-      Loading notes...
-    </div>
-  </div>
-</div>
-    
-    <!-- ASSIGN COURSE -->
-    <div class="admin-manage-box hidden-box" id="adminAssignCourseBox" style="display:none;">
-      <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
-        <div>
-          <h3>🔗 Assign Course</h3>
-          <p>Assign courses to selected students.</p>
-        </div>
-
-        <button class="back-mini" onclick="closeAdminAssignCourse()">Back</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>Select Student and Course</h3>
-
-        <div class="input-group">
-          <label>Student</label>
-          <select id="assignStudentSelect">
-            <option value="">Loading students...</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label>Course</label>
-          <select id="assignCourseSelect">
-            <option value="">Loading courses...</option>
-          </select>
-        </div>
-
-        <button class="link-btn" onclick="assignCourseToStudent()">Assign Course</button>
-      </div>
-
-      <div class="course-info-box">
-        <h3>Current Assignments</h3>
-        <div id="assignedCoursesList" class="admin-list-box">
-          Loading assignments...
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
- 
   <!-----------------------  🧪 TEST SECTION --------------------------------------->
 
 <section id="explore" class="section">
@@ -16516,14 +16137,6 @@ body.dark-mode #studentaf .student-tab-btn.active {
           <div class="af-test-history-empty-v1">Top 10 will show after students attempt test.</div>
         </div>
       </div>
-
-    </div>
-
-    <div class="developer-credit-line af-test-credit-v1">
-      <span>© 2026 AcademeForge by Devraj Kumar.</span>
-      <small>Made with ❤️ in India.</small>
-    </div>
-
   </div>
 </section>
     
@@ -17367,11 +16980,6 @@ body.dark-mode #studentaf .student-tab-btn.active {
     <div id="notificationsList" class="notifications-list">
       <div class="notification-empty">No notifications yet.</div>
     </div>
-
-    <div class="developer-credit-line notification-credit">
-      <span>© 2026 AcademeForge by Devraj Kumar.</span>
-      <small>Made with ❤️ in India.</small>
-    </div>
   </div>
 </section>
 
@@ -17558,14 +17166,7 @@ body.dark-mode #studentaf .student-tab-btn.active {
           Devraj Kumar.
         </p>
       </div>
-    </div>
-
-    <div class="developer-credit-line about-af-footer">
-      <span>© 2026 AcademeForge by Devraj Kumar.</span>
-      <small>Made with ❤️ in India.</small>
-    </div>
-
-  </div>
+</div>
 </section>
 <!-----------------------  NAV BUTTONS --------------------------------------->
 
