@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#0f172a" />
+  <title>AcademeForge Website Preview</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --shell-bg: #f8fafc;
+      --card: #ffffff;
+      --card-soft: #f1f5f9;
+      --text: #0f172a;
+      --muted: #64748b;
+      --muted-2: #94a3b8;
+      --line: rgba(226, 232, 240, 0.95);
+      --brand: #dc2626;
+      --brand-dark: #991b1b;
+      --brand-soft: #fee2e2;
+      --black: #111827;
+      --shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-top: env(safe-area-inset-top);
+      --bottom-nav-height: 82px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      width: 100%;
+      min-height: 100%;
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(220, 38, 38, 0.08), transparent 28%),
+        radial-gradient(circle at 100% 12%, rgba(59, 130, 246, 0.10), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    a {
+      font-family: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .preview-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      background: var(--shell-bg);
+      position: relative;
+      overflow-x: hidden;
+      box-shadow: 0 0 0 1px rgba(226, 232, 240, 0.8);
+      padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 18px);
+    }
+
+    .preview-top-banner {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      padding: calc(10px + var(--safe-top)) 16px 12px;
+      background:
+        linear-gradient(135deg, #111827 0%, #1e293b 52%, #991b1b 100%);
+      color: #ffffff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.18);
+    }
+
+    .preview-top-kicker {
+      margin: 0 0 4px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .preview-top-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: 17px;
+      line-height: 1.28;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .preview-top-title a {
+      color: #fecaca;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 900;
+    }
+
+    .brand-header {
+      padding: 18px 18px 12px;
+      background:
+        radial-gradient(circle at 14% 0%, rgba(220, 38, 38, 0.12), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .brand-title {
+      margin: 0;
+      color: var(--text);
+      font-size: 32px;
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -0.07em;
+    }
+
+    .brand-subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .hero-card {
+      margin: 16px 14px 0;
+      padding: 22px 18px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, #111827 0%, #1e293b 56%, #7f1d1d 100%);
+      color: #ffffff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: -64px;
+      top: -64px;
+      border-radius: 999px;
+      background: rgba(248, 113, 113, 0.20);
+      filter: blur(2px);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      left: -58px;
+      bottom: -58px;
+      border-radius: 999px;
+      background: rgba(147, 197, 253, 0.14);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label {
+      margin: 0 0 12px;
+      color: #fecaca;
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: -0.07em;
+    }
+
+    .hero-title span {
+      color: #fca5a5;
+    }
+
+    .hero-text {
+      margin: 14px 0 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      outline: 0;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      font-size: 14.5px;
+      line-height: 1;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      background: #ffffff;
+      color: #111827;
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.10);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .primary-btn:active,
+    .secondary-btn:active,
+    .card-button:active,
+    .bottom-back-btn:active {
+      transform: scale(0.985);
+    }
+
+    .section {
+      padding: 22px 14px 0;
+    }
+
+    .section-head {
+      margin-bottom: 14px;
+    }
+
+    .section-kicker {
+      margin: 0 0 6px;
+      color: var(--brand);
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--text);
+      font-size: 24px;
+      line-height: 1.18;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+    }
+
+    .section-copy {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      padding: 16px 14px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055);
+    }
+
+    .stat-value {
+      margin: 0;
+      color: var(--brand);
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-label {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .card-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .info-card {
+      padding: 16px;
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .course-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .course-number,
+    .avatar-initial {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 16px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .card-title {
+      margin: 0;
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.3;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .card-meta {
+      margin: 5px 0 0;
+      color: var(--brand);
+      font-size: 12.5px;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .card-text {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .card-button {
+      width: 100%;
+      min-height: 44px;
+      margin-top: 14px;
+      border: 0;
+      outline: 0;
+      border-radius: 14px;
+      background: var(--black);
+      color: #ffffff;
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .team-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .avatar-initial {
+      border-radius: 50%;
+      background: var(--brand);
+      color: #ffffff;
+    }
+
+    .fees-card {
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .fees-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .fees-row:last-child {
+      border-bottom: 0;
+    }
+
+    .fees-program {
+      color: var(--text);
+      font-size: 14.5px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
+    .fees-meta {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .faq-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .faq {
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.045);
+    }
+
+    .faq-button {
+      width: 100%;
+      min-height: 58px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      padding: 14px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .faq-question {
+      font-size: 14.5px;
+      line-height: 1.35;
+      font-weight: 850;
+    }
+
+    .faq-icon {
+      color: var(--brand);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 700;
+      transition: transform 180ms ease;
+    }
+
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 220ms ease;
+    }
+
+    .faq-answer {
+      margin: 0;
+      padding: 0 15px 15px;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .faq.active .faq-content {
+      max-height: 240px;
+    }
+
+    .faq.active .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .contact-card {
+      padding: 18px;
+      border-radius: 26px;
+      background:
+        linear-gradient(135deg, #111827 0%, #1e293b 70%, #7f1d1d 100%);
+      color: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .contact-text {
+      margin: 10px 0 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .contact-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .contact-item {
+      min-height: 46px;
+      padding: 12px 14px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 13.5px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .footer {
+      padding: 22px 14px 8px;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 9999;
+      width: 100%;
+      max-width: 430px;
+      transform: translateX(-50%);
+      padding: 8px 12px calc(8px + var(--safe-bottom));
+      background:
+        linear-gradient(180deg, rgba(248, 250, 252, 0.78) 0%, rgba(248, 250, 252, 0.98) 42%, #ffffff 100%);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -16px 40px rgba(15, 23, 42, 0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .bottom-back-btn {
+      width: 100%;
+      min-height: 54px;
+      border: 0;
+      outline: 0;
+      border-radius: 18px;
+      background: #111827;
+      color: #ffffff;
+      box-shadow:
+        0 12px 28px rgba(15, 23, 42, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .bottom-back-icon {
+      font-size: 21px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .popup {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      width: 100vw;
+      height: 100dvh;
+      padding: 18px;
+      background: rgba(15, 23, 42, 0.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup.show {
+      display: flex;
+    }
+
+    .popup-card {
+      width: min(100%, 372px);
+      max-height: min(78dvh, 620px);
+      overflow-y: auto;
+      padding: 22px 18px 18px;
+      border-radius: 26px;
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.32);
+      animation: popupIn 180ms ease forwards;
+    }
+
+    @keyframes popupIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .popup-title {
+      margin: 0;
+      color: var(--brand);
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+    }
+
+    .popup-text {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      font-weight: 500;
+      white-space: pre-line;
+    }
+
+    .popup-close {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 18px;
+      border: 0;
+      outline: 0;
+      border-radius: 15px;
+      background: var(--black);
+      color: #ffffff;
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .popup-close:active {
+      transform: scale(0.985);
+    }
+
+    body.popup-open {
+      overflow: hidden;
+    }
+
+    @media (min-width: 431px) {
+      .preview-shell {
+        min-height: 100dvh;
+      }
+
+      .bottom-nav {
+        border-left: 1px solid var(--line);
+        border-right: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 360px) {
+      .brand-title {
+        font-size: 29px;
+      }
+
+      .hero-title {
+        font-size: 31px;
+      }
+
+      .section-title {
+        font-size: 22px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="preview-shell">
+    <header class="preview-top-banner">
+      <p class="preview-top-kicker">Website Preview</p>
+      <h1 class="preview-top-title">
+        This is just the preview of website. Visit
+        <a href="https://academeforge.in" target="_blank" rel="noopener noreferrer">
+          academeforge.in
+        </a>
+      </h1>
+    </header>
+
+    <section class="brand-header">
+      <div class="brand-pill">Preview Mode</div>
+      <h2 class="brand-title">AcademeForge</h2>
+      <p class="brand-subtitle">
+        Learning Beyond The Classroom. A compact preview designed for mobile app users.
+      </p>
+    </section>
+
+    <section class="hero-card">
+      <div class="hero-content">
+        <p class="hero-label">Rebuilding a better learning experience</p>
+        <h2 class="hero-title">
+          Welcome to <span>AcademeForge</span>
+        </h2>
+        <p class="hero-text">
+          AcademeForge is a student-focused learning platform for practical skills,
+          creativity, AI-powered learning, and real-world execution.
+        </p>
+
+        <div class="hero-actions">
+          <button
+            type="button"
+            class="primary-btn"
+            onclick="openPopup('Admissions Opening Soon', 'Admissions are currently paused while AcademeForge rebuilds and improves the learning experience.')"
+          >
+            Admission Status
+          </button>
+
+          <button
+            type="button"
+            class="secondary-btn"
+            onclick="openPopup('Our Vision', visionText)"
+          >
+            Our Vision
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stats">
+      <div class="stats-grid">
+        <article class="stat-card">
+          <h3 class="stat-value">1000+</h3>
+          <p class="stat-label">Students Reached</p>
+        </article>
+
+        <article class="stat-card">
+          <h3 class="stat-value">2024</h3>
+          <p class="stat-label">Founded</p>
+        </article>
+
+        <article class="stat-card">
+          <h3 class="stat-value">4+</h3>
+          <p class="stat-label">Core Team Members</p>
+        </article>
+
+        <article class="stat-card">
+          <h3 class="stat-value">AI</h3>
+          <p class="stat-label">Future-Focused Learning</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="section-head">
+        <p class="section-kicker">About Us</p>
+        <h2 class="section-title">Building Future Creators & Innovators</h2>
+        <p class="section-copy">
+          AcademeForge started as a student-help initiative and is evolving into a
+          modern learning ecosystem focused on practical education, digital skills,
+          creativity, and AI-powered productivity.
+        </p>
+      </div>
+
+      <article class="info-card">
+        <h3 class="card-title">What makes it different?</h3>
+        <p class="card-text">
+          The focus is not only theory or marks. AcademeForge aims to help students
+          build confidence through projects, tools, creativity, communication,
+          problem-solving, and execution.
+        </p>
+
+        <button
+          type="button"
+          class="card-button"
+          onclick="openPopup('About AcademeForge', aboutText)"
+        >
+          Read More
+        </button>
+      </article>
+    </section>
+
+    <section class="section" id="courses">
+      <div class="section-head">
+        <p class="section-kicker">Academic Programs</p>
+        <h2 class="section-title">Explore Courses</h2>
+        <p class="section-copy">
+          These programs are previewed for future learning tracks. Fees and admissions
+          are currently to be announced.
+        </p>
+      </div>
+
+      <div class="card-list">
+        <article class="info-card">
+          <div class="course-top">
+            <div class="course-number">01</div>
+            <div>
+              <h3 class="card-title">Video & Media Editing</h3>
+              <p class="card-meta">Duration: 6 Months · Fees: TBA</p>
+            </div>
+          </div>
+          <p class="card-text">
+            Create videos, reels, captions, thumbnails, and edits using modern AI tools.
+          </p>
+          <button
+            type="button"
+            class="card-button"
+            onclick="openCourse('Video & Media Editing', '6 Months', 'To Be Announced', 'AI editing tools, practical editing projects, creator workflows.')"
+          >
+            View Details
+          </button>
+        </article>
+
+        <article class="info-card">
+          <div class="course-top">
+            <div class="course-number">02</div>
+            <div>
+              <h3 class="card-title">Creative & Graphic Design</h3>
+              <p class="card-meta">Duration: 6 Months · Fees: TBA</p>
+            </div>
+          </div>
+          <p class="card-text">
+            Design posters, social media graphics, branding assets, and professional visuals.
+          </p>
+          <button
+            type="button"
+            class="card-button"
+            onclick="openCourse('Creative & Graphic Design', '6 Months', 'To Be Announced', 'Design labs, Canva workflows, AI tools, branding practice projects.')"
+          >
+            View Details
+          </button>
+        </article>
+
+        <article class="info-card">
+          <div class="course-top">
+            <div class="course-number">03</div>
+            <div>
+              <h3 class="card-title">AI Coding & Logic Foundation</h3>
+              <p class="card-meta">Duration: 1 Year · Fees: TBA</p>
+            </div>
+          </div>
+          <p class="card-text">
+            Learn coding basics, websites, logic building, and beginner-friendly AI workflows.
+          </p>
+          <button
+            type="button"
+            class="card-button"
+            onclick="openCourse('AI Coding & Logic Foundation', '1 Year', 'To Be Announced', 'Beginner coding environment, logic-building tasks, mini projects.')"
+          >
+            View Details
+          </button>
+        </article>
+
+        <article class="info-card">
+          <div class="course-top">
+            <div class="course-number">04</div>
+            <div>
+              <h3 class="card-title">Freelancing & Monetization</h3>
+              <p class="card-meta">Duration: 1 Year · Fees: TBA</p>
+            </div>
+          </div>
+          <p class="card-text">
+            Learn how digital skills can create online opportunities and practical income paths.
+          </p>
+          <button
+            type="button"
+            class="card-button"
+            onclick="openCourse('Freelancing & Monetization', '1 Year', 'To Be Announced', 'Portfolio guidance, freelancing resources, earning strategies.')"
+          >
+            View Details
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="team">
+      <div class="section-head">
+        <p class="section-kicker">Our Team</p>
+        <h2 class="section-title">People Behind AcademeForge</h2>
+      </div>
+
+      <div class="card-list">
+        <article class="info-card team-card">
+          <div class="avatar-initial">D</div>
+          <div>
+            <h3 class="card-title">Devraj Kumar</h3>
+            <p class="card-meta">Founder</p>
+            <p class="card-text">
+              Focused on modern education, AI-powered learning, creativity, and student empowerment.
+            </p>
+          </div>
+        </article>
+
+        <article class="info-card team-card">
+          <div class="avatar-initial">M</div>
+          <div>
+            <h3 class="card-title">Mandeep Harsh</h3>
+            <p class="card-meta">Co-Founder</p>
+            <p class="card-text">
+              Helping shape the platform growth, strategy, and student learning experience.
+            </p>
+          </div>
+        </article>
+
+        <article class="info-card team-card">
+          <div class="avatar-initial">P</div>
+          <div>
+            <h3 class="card-title">Palak Kumari Jha</h3>
+            <p class="card-meta">Moderator</p>
+            <p class="card-text">
+              Supporting student engagement, community management, and smooth platform activity.
+            </p>
+          </div>
+        </article>
+
+        <article class="info-card team-card">
+          <div class="avatar-initial">A</div>
+          <div>
+            <h3 class="card-title">Ayush Raj</h3>
+            <p class="card-meta">Moderator</p>
+            <p class="card-text">
+              Assisting with student coordination and creating a positive learning environment.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="fees">
+      <div class="section-head">
+        <p class="section-kicker">Fee Structure</p>
+        <h2 class="section-title">Affordable Education</h2>
+      </div>
+
+      <div class="fees-card">
+        <div class="fees-row">
+          <div class="fees-program">Video & Media Editing</div>
+          <div class="fees-meta">6 Months · Annual Fees: To Be Announced</div>
+        </div>
+
+        <div class="fees-row">
+          <div class="fees-program">Creative & Graphic Design</div>
+          <div class="fees-meta">6 Months · Annual Fees: To Be Announced</div>
+        </div>
+
+        <div class="fees-row">
+          <div class="fees-program">AI Coding & Logic Foundation</div>
+          <div class="fees-meta">1 Year · Annual Fees: To Be Announced</div>
+        </div>
+
+        <div class="fees-row">
+          <div class="fees-program">Freelancing & Monetization</div>
+          <div class="fees-meta">1 Year · Annual Fees: To Be Announced</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="section-head">
+        <p class="section-kicker">FAQ</p>
+        <h2 class="section-title">Have Questions?</h2>
+      </div>
+
+      <div class="faq-list">
+        <article class="faq">
+          <button type="button" class="faq-button">
+            <span class="faq-question">What is AcademeForge?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p class="faq-answer">
+              AcademeForge is a student-focused learning platform built around practical skills,
+              creativity, and real-world learning beyond traditional classrooms.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq">
+          <button type="button" class="faq-button">
+            <span class="faq-question">Are admissions open right now?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p class="faq-answer">
+              No. Admissions are currently paused while the platform, programs, and learning
+              experience are being rebuilt.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq">
+          <button type="button" class="faq-button">
+            <span class="faq-question">Is this beginner friendly?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p class="faq-answer">
+              Yes. Programs are being designed for beginners and students with basic knowledge.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq">
+          <button type="button" class="faq-button">
+            <span class="faq-question">What skills will students learn?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p class="faq-answer">
+              Students will work on digital tools, communication, creative thinking,
+              technology basics, problem-solving, and project-based learning.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq">
+          <button type="button" class="faq-button">
+            <span class="faq-question">Will certificates be provided?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p class="faq-answer">
+              Certificates may be provided for selected programs, activities, or learning tracks
+              after successful completion.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="contact-card">
+        <h2 class="contact-title">Contact AcademeForge</h2>
+        <p class="contact-text">
+          Connect for program details, updates, and platform information.
+        </p>
+
+        <div class="contact-list">
+          <div class="contact-item">📍 Patna, Bihar, India</div>
+          <a class="contact-item" href="mailto:academeforge@gmail.com">✉ academeforge@gmail.com</a>
+          <a class="contact-item" href="https://academeforge.in" target="_blank" rel="noopener noreferrer">
+            🌐 academeforge.in
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2026 AcademeForge. Preview page for app users.
+    </footer>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Preview page bottom navigation">
+    <button
+      type="button"
+      class="bottom-back-btn"
+      onclick="goBackToApp()"
+      aria-label="Back to AcademeForge app"
+    >
+      <span class="bottom-back-icon" aria-hidden="true">←</span>
+      <span>Back to App</span>
+    </button>
+  </nav>
+
+  <div id="popup" class="popup" aria-hidden="true" onclick="closePopup()">
+    <div class="popup-card" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+      <h2 id="popupTitle" class="popup-title">Title</h2>
+      <div id="popupText" class="popup-text">Message</div>
+      <button type="button" class="popup-close" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const APP_HOME_URL = "https://academeforge.github.io/SUPER/";
+
+    const visionText =
+      "At AcademeForge, we believe education should prepare students for life, creativity, technology, and the rapidly changing digital world. Our mission is to build a modern learning ecosystem where students can discover practical skills, explore creativity, develop confidence, and use technology and artificial intelligence in meaningful ways. We want learners to move beyond passive learning and become active creators, builders, thinkers, and innovators.";
+
+    const aboutText =
+      "AcademeForge is a modern student-focused learning platform founded in India with a vision to transform how students learn, grow, and prepare for the future. It began as a small student-help community and evolved into a broader platform focused on practical education, future-ready skills, mentorship, creativity, digital skills, and AI-powered learning.";
+
+    function goBackToApp() {
+      try {
+        window.location.href = APP_HOME_URL;
+      } catch (error) {
+        console.error("goBackToApp failed:", error);
+        location.assign(APP_HOME_URL);
+      }
+    }
+
+    function sanitizeText(value) {
+      if (typeof value !== "string") {
+        return "";
+      }
+
+      return value.trim();
+    }
+
+    function openPopup(title, text) {
+      try {
+        const popup = document.getElementById("popup");
+        const popupTitle = document.getElementById("popupTitle");
+        const popupText = document.getElementById("popupText");
+
+        if (!popup || !popupTitle || !popupText) {
+          return;
+        }
+
+        popupTitle.textContent = sanitizeText(title) || "AcademeForge";
+        popupText.textContent = sanitizeText(text) || "Details will be available soon.";
+
+        popup.classList.add("show");
+        popup.setAttribute("aria-hidden", "false");
+        document.body.classList.add("popup-open");
+      } catch (error) {
+        console.error("openPopup failed:", error);
+      }
+    }
+
+    function openCourse(title, duration, fees, syllabus) {
+      try {
+        const safeTitle = sanitizeText(title) || "Course Details";
+        const safeDuration = sanitizeText(duration) || "To Be Announced";
+        const safeFees = sanitizeText(fees) || "To Be Announced";
+        const safeSyllabus = sanitizeText(syllabus) || "Details will be available soon.";
+
+        openPopup(
+          safeTitle,
+          "Duration: " + safeDuration + "\n\nFees: " + safeFees + "\n\nFocus: " + safeSyllabus
+        );
+      } catch (error) {
+        console.error("openCourse failed:", error);
+      }
+    }
+
+    function closePopup() {
+      try {
+        const popup = document.getElementById("popup");
+
+        if (!popup) {
+          return;
+        }
+
+        popup.classList.remove("show");
+        popup.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("popup-open");
+      } catch (error) {
+        console.error("closePopup failed:", error);
+      }
+    }
+
+    function initializeFaq() {
+      try {
+        document.querySelectorAll(".faq").forEach(function (faq) {
+          const button = faq.querySelector(".faq-button");
+
+          if (!button) {
+            return;
+          }
+
+          button.addEventListener("click", function () {
+            faq.classList.toggle("active");
+          });
+        });
+      } catch (error) {
+        console.error("initializeFaq failed:", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      initializeFaq();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closePopup();
+      }
+    });
+  </script>
+</body>
+</html>
