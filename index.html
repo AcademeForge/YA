@@ -18361,6 +18361,84 @@ section#learningHeatmap.learning-heatmap-section.active {
     width: min(100% - 18px, 430px) !important;
   }
 }
+
+    /* =========================================================
+   IMPORTANT FIX: Keep Learning Heatmap centered but remove extra top gap
+   Paste at END of CSS
+========================================================= */
+
+#learningHeatmap.learning-heatmap-section,
+section#learningHeatmap.learning-heatmap-section {
+  padding-top: 12px !important;
+  padding-right: 0 !important;
+  padding-bottom: 124px !important;
+  padding-left: 0 !important;
+
+  min-height: auto !important;
+
+  display: none;
+  justify-content: center !important;
+  align-items: flex-start !important;
+
+  overflow-x: hidden !important;
+}
+
+#learningHeatmap.learning-heatmap-section.active,
+section#learningHeatmap.learning-heatmap-section.active {
+  display: flex !important;
+}
+
+#learningHeatmap .learning-heatmap-page {
+  width: min(100% - 24px, 600px) !important;
+  max-width: 600px !important;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+#learningHeatmap .learning-back-btn {
+  margin-top: 0 !important;
+  margin-bottom: 14px !important;
+  align-self: flex-start !important;
+}
+
+#learningHeatmap .learning-heatmap-hero,
+#learningHeatmap .learning-week-card,
+#learningHeatmap .learning-info-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 480px) {
+  #learningHeatmap.learning-heatmap-section,
+  section#learningHeatmap.learning-heatmap-section {
+    padding-top: 10px !important;
+  }
+
+  #learningHeatmap .learning-heatmap-page {
+    width: min(100% - 22px, 430px) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  #learningHeatmap.learning-heatmap-section,
+  section#learningHeatmap.learning-heatmap-section {
+    padding-top: 8px !important;
+  }
+
+  #learningHeatmap .learning-heatmap-page {
+    width: min(100% - 18px, 430px) !important;
+  }
+}
   </style>
 </head>
 
@@ -19058,7 +19136,7 @@ section#learningHeatmap.learning-heatmap-section.active {
         class="af-mail-delete-btn-new"
         href=""
       >
-        Mail Deletion Request
+       Return To HomePage
       </a>
     </div>
   </div>
