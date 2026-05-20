@@ -21753,89 +21753,34 @@ body.dark .nav-btn.active,
   }
 }
 
-    /* =========================================================
-   AF SPLASH + APP READY NAV CONTROL
-   Nav hidden during splash, visible only after app-ready
+   /* =========================================================
+   AF SPLASH SAFE NAV CONTROL
+   Does NOT change splash design
+   Only hides nav/app until body.app-ready
 ========================================================= */
 
+/* Keep splash above everything while loading */
 #splashScreen {
   position: fixed !important;
   inset: 0 !important;
   z-index: 999999 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 12px !important;
-  background: #ffffff !important;
-  color: #0f172a !important;
-  transition:
-    opacity 420ms ease,
-    visibility 420ms ease,
-    transform 420ms ease !important;
 }
 
-html.dark #splashScreen,
-body.dark #splashScreen,
-[data-theme="dark"] #splashScreen,
-.dark-mode #splashScreen {
-  background: #020617 !important;
-  color: #f8fafc !important;
-}
-
-#splashScreen .splash-img {
-  width: 104px !important;
-  height: 104px !important;
-  object-fit: contain !important;
-  border-radius: 28px !important;
-}
-
-#splashScreen h1 {
-  margin: 0 !important;
-  font-size: 30px !important;
-  line-height: 1.1 !important;
-  font-weight: 950 !important;
-  letter-spacing: -0.045em !important;
-}
-
-#splashScreen p {
-  margin: 0 !important;
-  font-size: 13px !important;
-  line-height: 1.4 !important;
-  font-weight: 750 !important;
-  color: #64748b !important;
-}
-
-html.dark #splashScreen p,
-body.dark #splashScreen p,
-[data-theme="dark"] #splashScreen p,
-.dark-mode #splashScreen p {
-  color: #94a3b8 !important;
-}
-
-/* Splash hide state */
-body.app-ready #splashScreen {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transform: scale(1.02) !important;
-}
-
-/* App hidden during splash */
+/* Hide app content during splash */
 body:not(.app-ready) .app {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
-/* App visible after ready */
+/* Show app after splash */
 body.app-ready .app {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
 }
 
-/* Critical: nav must never show during splash */
+/* Force-hide nav during splash */
 body:not(.app-ready) .bottom-nav {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -21843,14 +21788,23 @@ body:not(.app-ready) .bottom-nav {
   transform: translateX(-50%) translateY(120%) !important;
 }
 
-/* Nav visible only after splash */
+/* Show nav after splash */
 body.app-ready .bottom-nav {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
   transform: translateX(-50%) translateY(0) !important;
 }
-    
+
+/* Smooth splash exit only, no design override */
+body.app-ready #splashScreen {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition:
+    opacity 420ms ease,
+    visibility 420ms ease !important;
+}
 </style>
 </head>
 
@@ -37749,9 +37703,9 @@ async function loadRequestStatusAf(forceRefresh) {
   });
 })();
 
-  /* =========================================================
-   AF SPLASH -> APP READY NAV CONTROL
-   Paste at END of existing JS. No script tag needed.
+/* =========================================================
+   AF SPLASH -> APP READY
+   Does not alter splash design
 ========================================================= */
 
 (function () {
