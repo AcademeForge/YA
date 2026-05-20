@@ -38054,7 +38054,17 @@ function renderRequestStatusCardAf(report, index) {
   const status = getRequestOverallStatusAf(report);
 
   const title = escapeRequestHtmlAf(getRequestTitleAf(report));
-  const description = escapeRequestHtmlAf(getRequestDescriptionAf(report));
+  const fullDescription = escapeRequestHtmlAf(
+    report.description || "No description added."
+  );
+  const frontDescription = escapeRequestHtmlAf(
+    isSolved
+      ? "Your bug report has been solved by our team."
+      : isRead
+        ? "Your bug report is being reviewed by our team."
+        : "Your bug report has been submitted and is waiting for team review."
+  );
+
   const createdAt = escapeRequestHtmlAf(formatRequestDateAf(report.created_at));
   const updatedAt = escapeRequestHtmlAf(formatRequestDateAf(report.updated_at));
   const priority = escapeRequestHtmlAf(report.priority || "normal");
@@ -38104,13 +38114,9 @@ function renderRequestStatusCardAf(report, index) {
 
               <h3>${title}</h3>
 
-              <p class="request-front-summary-af">
-                ${description}
-              </p>
+              <p class="request-front-summary-af">${frontDescription}</p>
 
-              <p class="request-date-af">
-                Submitted: ${createdAt}
-              </p>
+              <p class="request-date-af">Submitted: ${createdAt}</p>
             </div>
 
             <span class="request-status-pill-af ${status.className}">
@@ -38170,7 +38176,7 @@ function renderRequestStatusCardAf(report, index) {
           <div class="request-back-scroll-af">
             <div class="request-back-block-af">
               <strong>Description</strong>
-              <p>${description}</p>
+              <p>${fullDescription}</p>
             </div>
 
             <div class="request-back-block-af">
@@ -39394,8 +39400,16 @@ function renderContactRequestStatusCardAf(request, index) {
     request.contact_reason || "Contact Request"
   );
 
-  const description = escapeContactRequestHtmlAf(
-    request.problem_description || "Your contact request has been submitted to our team."
+  const fullDescription = escapeContactRequestHtmlAf(
+    request.problem_description || "No message added."
+  );
+
+  const frontDescription = escapeContactRequestHtmlAf(
+    isSolved
+      ? "Your contact request has been resolved by our team."
+      : isRead
+        ? "Your contact request is being reviewed by our team."
+        : "Your contact request has been submitted and is waiting for team review."
   );
 
   const createdAt = escapeContactRequestHtmlAf(
@@ -39460,13 +39474,9 @@ function renderContactRequestStatusCardAf(request, index) {
 
               <h3>${title}</h3>
 
-              <p class="request-front-summary-af">
-                ${description}
-              </p>
+              <p class="request-front-summary-af">${frontDescription}</p>
 
-              <p class="request-date-af">
-                Submitted: ${createdAt}
-              </p>
+              <p class="request-date-af">Submitted: ${createdAt}</p>
             </div>
 
             <span class="request-status-pill-af ${status.className}">
@@ -39526,7 +39536,7 @@ function renderContactRequestStatusCardAf(request, index) {
           <div class="request-back-scroll-af">
             <div class="request-back-block-af">
               <strong>Message</strong>
-              <p>${description}</p>
+              <p>${fullDescription}</p>
             </div>
 
             <div class="request-back-grid-af">
@@ -39583,6 +39593,7 @@ function renderContactRequestStatusCardAf(request, index) {
     </article>
   `;
 }
+  
 function toggleContactRequestFlipCardAf(cardId) {
   try {
     const card = document.getElementById(cardId);
