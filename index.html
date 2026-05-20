@@ -40404,18 +40404,22 @@ async function loadContactRequestStatusAf(forceRefresh) {
   }
 }
 /* =========================================================
-   AF OLD STUDENT DASHBOARD - NAME ONLY EDIT JS FIXED
-   Fixes:
-   - Premium modal
-   - Student record not found
-   - Updates students_af.name
+   AF STUDENT DASHBOARD - NAME ONLY EDIT JS
+   Edge Function based update:
+   - Opens premium edit-name modal
+   - Sends update request to Supabase Edge Function
+   - Updates students_af.name through update-student-name-af
+   - Syncs dashboard, settings, home profile card, and localStorage
+   Required:
+   - getStudentBackendaf() OR studentDb OR supabase must be valid Supabase client
+   - Edge Function deployed: update-student-name-af
 ========================================================= */
 
 (function () {
   "use strict";
 
-  let afNameEditCurrentStudent = null;
   let afNameEditSaving = false;
+  let afNameEditCurrentStudent = null;
 
   function afNameEditBackend() {
     if (typeof getStudentBackendaf === "function") {
@@ -40433,44 +40437,76 @@ async function loadContactRequestStatusAf(forceRefresh) {
     return null;
   }
 
-  function afNameEditParseJson(key) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-
-      const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== "object") return null;
-
-      return parsed;
-    } catch (error) {
-      return null;
-    }
-  }
-
   function afNameEditClean(value) {
     return String(value || "")
       .replace(/\s+/g, " ")
       .trim();
   }
 
-  function afNameEditNormalizeName(name) {
-    return afNameEditClean(name).replace(/^Hi,\s*/i, "").trim();
+  function afNameEditNormalizeName(value) {
+    return afNameEditClean(value)
+      .replace(/^Hi,\s*/i, "")
+      .trim();
+  }
+
+  function afNameEditNormalizeEmail(value) {
+    return afNameEditClean(value).toLowerCase();
   }
 
   function afNameEditText(id) {
     const element = document.getElementById(id);
+
     if (!element) return "";
 
     const value = afNameEditClean(element.textContent || "");
+
     if (!value || value === "-" || /^loading/i.test(value)) return "";
 
     return value;
   }
 
+  function afNameEditParseJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw);
+
+      if (!parsed || typeof parsed !== "object") return null;
+
+      return parsed;
+    } catch (_error) {
+      return null;
+    }
+  }
+
+  function afNameEditGetObjectValue(obj, keys) {
+    if (!obj || typeof obj !== "object") return "";
+
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i];
+
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const value = afNameEditClean(obj[key]);
+
+        if (value) return value;
+      }
+    }
+
+    return "";
+  }
+
   function afNameEditGetLoginData() {
-    const visibleName = afNameEditNormalizeName(afNameEditText("afInfoName") || afNameEditText("afProfileHeroName"));
-    const visibleEmail = afNameEditText("afInfoEmail");
-    const visibleMobile = afNameEditText("afInfoMobile");
+    const visibleName = afNameEditNormalizeName(
+      afNameEditText("afInfoName") ||
+      afNameEditText("afProfileHeroName") ||
+      afNameEditText("settingsStudentName") ||
+      afNameEditText("studentDashboardCardNameAf")
+    );
+
+    const visibleEmail = afNameEditNormalizeEmail(afNameEditText("afInfoEmail"));
+    const visibleMobile = afNameEditClean(afNameEditText("afInfoMobile"));
 
     const data = {
       id: "",
@@ -40482,40 +40518,44 @@ async function loadContactRequestStatusAf(forceRefresh) {
     };
 
     data.uuid =
-      localStorage.getItem("af_student_uuid") ||
-      localStorage.getItem("student_uuid") ||
+      afNameEditClean(localStorage.getItem("af_student_uuid")) ||
+      afNameEditClean(localStorage.getItem("student_uuid")) ||
+      afNameEditClean(localStorage.getItem("studentIdUuid")) ||
       "";
 
     data.student_id =
-      localStorage.getItem("af_student_id") ||
-      localStorage.getItem("student_id") ||
-      localStorage.getItem("afStudentId") ||
+      afNameEditClean(localStorage.getItem("af_student_id")) ||
+      afNameEditClean(localStorage.getItem("student_id")) ||
+      afNameEditClean(localStorage.getItem("afStudentId")) ||
+      afNameEditClean(localStorage.getItem("studentId")) ||
       "";
 
     data.id = data.uuid || data.student_id || "";
 
     data.name =
       data.name ||
-      localStorage.getItem("af_student_name") ||
-      localStorage.getItem("student_name") ||
+      afNameEditNormalizeName(localStorage.getItem("af_student_name")) ||
+      afNameEditNormalizeName(localStorage.getItem("student_name")) ||
+      afNameEditNormalizeName(localStorage.getItem("name")) ||
       "";
 
     data.email =
       data.email ||
-      localStorage.getItem("af_student_email") ||
-      localStorage.getItem("student_email") ||
-      localStorage.getItem("email") ||
+      afNameEditNormalizeEmail(localStorage.getItem("af_student_email")) ||
+      afNameEditNormalizeEmail(localStorage.getItem("student_email")) ||
+      afNameEditNormalizeEmail(localStorage.getItem("email")) ||
       "";
 
     data.mobile =
       data.mobile ||
-      localStorage.getItem("af_student_mobile") ||
-      localStorage.getItem("student_mobile") ||
-      localStorage.getItem("mobile") ||
-      localStorage.getItem("phone") ||
+      afNameEditClean(localStorage.getItem("af_student_mobile")) ||
+      afNameEditClean(localStorage.getItem("student_mobile")) ||
+      afNameEditClean(localStorage.getItem("mobile")) ||
+      afNameEditClean(localStorage.getItem("phone")) ||
+      afNameEditClean(localStorage.getItem("phone_number")) ||
       "";
 
-    const keys = [
+    const localObjectKeys = [
       "af_logged_student",
       "afStudent",
       "af_student",
@@ -40524,72 +40564,147 @@ async function loadContactRequestStatusAf(forceRefresh) {
       "currentStudent",
       "student",
       "studentaf",
-      "student_af"
+      "student_af",
+      "current_student_af",
+      "studentLoginData"
     ];
 
-    for (let i = 0; i < keys.length; i += 1) {
-      const obj = afNameEditParseJson(keys[i]);
+    for (let i = 0; i < localObjectKeys.length; i += 1) {
+      const obj = afNameEditParseJson(localObjectKeys[i]);
 
       if (!obj) continue;
 
-      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
-      data.student_id = data.student_id || obj.student_id || obj.studentId || obj.studentID || "";
+      data.uuid =
+        data.uuid ||
+        afNameEditGetObjectValue(obj, [
+          "id",
+          "uuid",
+          "student_uuid",
+          "studentUuid",
+          "user_id",
+          "userId"
+        ]);
+
+      data.student_id =
+        data.student_id ||
+        afNameEditGetObjectValue(obj, [
+          "student_id",
+          "studentId",
+          "studentID",
+          "roll",
+          "roll_no",
+          "rollNo"
+        ]);
+
       data.id = data.uuid || data.student_id || data.id || "";
 
       data.name =
         data.name ||
-        obj.name ||
-        obj.full_name ||
-        obj.student_name ||
-        obj.studentName ||
-        "";
+        afNameEditNormalizeName(
+          afNameEditGetObjectValue(obj, [
+            "name",
+            "full_name",
+            "fullName",
+            "student_name",
+            "studentName"
+          ])
+        );
 
       data.email =
         data.email ||
-        obj.email ||
-        obj.student_email ||
-        obj.registered_email ||
-        "";
+        afNameEditNormalizeEmail(
+          afNameEditGetObjectValue(obj, [
+            "email",
+            "student_email",
+            "studentEmail",
+            "registered_email",
+            "registeredEmail"
+          ])
+        );
 
       data.mobile =
         data.mobile ||
-        obj.mobile ||
-        obj.phone ||
-        obj.phone_number ||
-        obj.student_mobile ||
-        obj.registered_phone ||
-        "";
+        afNameEditClean(
+          afNameEditGetObjectValue(obj, [
+            "mobile",
+            "phone",
+            "phone_number",
+            "phoneNumber",
+            "student_mobile",
+            "studentMobile",
+            "registered_phone",
+            "registeredPhone"
+          ])
+        );
     }
 
     if (typeof loggedStudent !== "undefined" && loggedStudent) {
-      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
-      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
+      data.uuid =
+        data.uuid ||
+        afNameEditGetObjectValue(loggedStudent, [
+          "id",
+          "uuid",
+          "student_uuid",
+          "studentUuid",
+          "user_id",
+          "userId"
+        ]);
+
+      data.student_id =
+        data.student_id ||
+        afNameEditGetObjectValue(loggedStudent, [
+          "student_id",
+          "studentId",
+          "studentID",
+          "roll",
+          "roll_no",
+          "rollNo"
+        ]);
+
       data.id = data.uuid || data.student_id || data.id || "";
 
       data.name =
         data.name ||
-        loggedStudent.name ||
-        loggedStudent.full_name ||
-        loggedStudent.student_name ||
-        loggedStudent.studentName ||
-        "";
+        afNameEditNormalizeName(
+          afNameEditGetObjectValue(loggedStudent, [
+            "name",
+            "full_name",
+            "fullName",
+            "student_name",
+            "studentName"
+          ])
+        );
 
       data.email =
         data.email ||
-        loggedStudent.email ||
-        loggedStudent.student_email ||
-        "";
+        afNameEditNormalizeEmail(
+          afNameEditGetObjectValue(loggedStudent, [
+            "email",
+            "student_email",
+            "studentEmail",
+            "registered_email",
+            "registeredEmail"
+          ])
+        );
 
       data.mobile =
         data.mobile ||
-        loggedStudent.mobile ||
-        loggedStudent.phone ||
-        loggedStudent.phone_number ||
-        "";
+        afNameEditClean(
+          afNameEditGetObjectValue(loggedStudent, [
+            "mobile",
+            "phone",
+            "phone_number",
+            "phoneNumber",
+            "student_mobile",
+            "studentMobile",
+            "registered_phone",
+            "registeredPhone"
+          ])
+        );
     }
 
     data.name = afNameEditNormalizeName(data.name);
-    data.email = afNameEditClean(data.email).toLowerCase();
+    data.email = afNameEditNormalizeEmail(data.email);
     data.mobile = afNameEditClean(data.mobile);
     data.uuid = afNameEditClean(data.uuid);
     data.student_id = afNameEditClean(data.student_id);
@@ -40598,7 +40713,7 @@ async function loadContactRequestStatusAf(forceRefresh) {
     return data;
   }
 
-  function afNameEditValidName(name) {
+  function afNameEditIsValidName(name) {
     const cleanName = afNameEditNormalizeName(name);
 
     if (cleanName.length < 2) return false;
@@ -40651,11 +40766,12 @@ async function loadContactRequestStatusAf(forceRefresh) {
     try {
       localStorage.setItem("af_student_name", cleanName);
       localStorage.setItem("student_name", cleanName);
+      localStorage.setItem("name", cleanName);
     } catch (error) {
       console.warn("Could not save student name:", error);
     }
 
-    const keys = [
+    const localObjectKeys = [
       "af_logged_student",
       "afStudent",
       "af_student",
@@ -40664,16 +40780,19 @@ async function loadContactRequestStatusAf(forceRefresh) {
       "currentStudent",
       "student",
       "studentaf",
-      "student_af"
+      "student_af",
+      "current_student_af",
+      "studentLoginData"
     ];
 
-    keys.forEach(function (key) {
+    localObjectKeys.forEach(function (key) {
       const obj = afNameEditParseJson(key);
 
       if (!obj) return;
 
       obj.name = cleanName;
       obj.full_name = cleanName;
+      obj.fullName = cleanName;
       obj.student_name = cleanName;
       obj.studentName = cleanName;
 
@@ -40685,148 +40804,54 @@ async function loadContactRequestStatusAf(forceRefresh) {
     });
   }
 
-  async function afNameEditTryFindStudentBy(field, value) {
-    const backend = afNameEditBackend();
-
-    if (!backend || typeof backend.from !== "function") {
-      return null;
-    }
-
-    const cleanValue = afNameEditClean(value);
-
-    if (!field || !cleanValue) return null;
-
-    try {
-      const result = await backend
-        .from("students_af")
-        .select("id, student_id, name, email, mobile, status")
-        .eq(field, field === "email" ? cleanValue.toLowerCase() : cleanValue)
-        .maybeSingle();
-
-      if (result && result.error) {
-        console.warn("Find student failed:", field, result.error);
-        return null;
-      }
-
-      if (result && result.data) {
-        return result.data;
-      }
-
-      return null;
-    } catch (error) {
-      console.warn("Find student exception:", field, error);
-      return null;
-    }
-  }
-
-  async function afNameEditFetchStudent() {
-    const backend = afNameEditBackend();
-    const login = afNameEditGetLoginData();
-
-    if (!backend || typeof backend.from !== "function") {
-      throw new Error("Backend not connected.");
-    }
-
-    const candidates = [
-      ["email", login.email],
-      ["mobile", login.mobile],
-      ["student_id", login.student_id],
-      ["id", login.uuid],
-      ["name", login.name]
-    ];
-
-    for (let i = 0; i < candidates.length; i += 1) {
-      const student = await afNameEditTryFindStudentBy(candidates[i][0], candidates[i][1]);
-
-      if (!student) continue;
-
-      if (student.status === "deleted") {
-        throw new Error("This account is marked as deleted.");
-      }
-
-      afNameEditCurrentStudent = student;
-      return student;
-    }
-
-    throw new Error(
-      "Student record not found. Current detected data: " +
-      JSON.stringify({
-        email: login.email || null,
-        mobile: login.mobile || null,
-        student_id: login.student_id || null,
-        id: login.uuid || null,
-        name: login.name || null
-      })
-    );
-  }
-
-  async function afNameEditUpdateByField(field, value, nextName) {
-    const backend = afNameEditBackend();
-
-    if (!backend || typeof backend.from !== "function") {
-      throw new Error("Backend not connected.");
-    }
-
-    const cleanValue = afNameEditClean(value);
-
-    if (!field || !cleanValue) return false;
-
-    const queryValue = field === "email" ? cleanValue.toLowerCase() : cleanValue;
-
-    const result = await backend
-      .from("students_af")
-      .update({
-        name: nextName
-      })
-      .eq(field, queryValue)
-      .select("id, student_id, name, email, mobile, status")
-      .maybeSingle();
-
-    if (result && result.error) {
-      console.warn("Update by field failed:", field, result.error);
-      return false;
-    }
-
-    if (result && result.data) {
-      afNameEditCurrentStudent = result.data;
-      return true;
-    }
-
-    return false;
-  }
-
   async function afNameEditUpdateBackendName(nextName) {
+    const backend = afNameEditBackend();
+
+    if (!backend || !backend.functions || typeof backend.functions.invoke !== "function") {
+      throw new Error("Edge Function backend not connected.");
+    }
+
     const login = afNameEditGetLoginData();
 
-    if (!afNameEditCurrentStudent) {
-      try {
-        afNameEditCurrentStudent = await afNameEditFetchStudent();
-      } catch (error) {
-        console.warn("Fetch before update failed, trying direct update fallback:", error);
-      }
+    const payload = {
+      id: login.uuid || login.id || "",
+      student_id: login.student_id || "",
+      email: login.email || "",
+      mobile: login.mobile || "",
+      old_name: login.name || "",
+      name: nextName
+    };
+
+    if (!payload.id && !payload.student_id && !payload.email && !payload.mobile && !payload.old_name) {
+      throw new Error("Student identity missing. Open dashboard once, then try again.");
     }
 
-    const student = afNameEditCurrentStudent || {};
+    const { data, error } = await backend.functions.invoke("update-student-name-af", {
+      body: payload
+    });
 
-    const candidates = [
-      ["email", student.email || login.email],
-      ["mobile", student.mobile || login.mobile],
-      ["student_id", student.student_id || login.student_id],
-      ["id", student.id || login.uuid],
-      ["name", student.name || login.name]
-    ];
-
-    for (let i = 0; i < candidates.length; i += 1) {
-      const updated = await afNameEditUpdateByField(candidates[i][0], candidates[i][1], nextName);
-
-      if (updated) {
-        return afNameEditCurrentStudent;
-      }
+    if (error) {
+      throw new Error(error.message || "Name update request failed.");
     }
 
-    throw new Error(
-      "Name update failed. No matching student row found in students_af for detected email/mobile/student_id."
-    );
+    if (!data || !data.ok) {
+      throw new Error(data && data.message ? data.message : "Name update failed.");
+    }
+
+    if (data.student && typeof data.student === "object") {
+      afNameEditCurrentStudent = data.student;
+    } else {
+      afNameEditCurrentStudent = {
+        id: login.uuid || login.id || "",
+        student_id: login.student_id || "",
+        name: nextName,
+        email: login.email || "",
+        mobile: login.mobile || "",
+        status: "active"
+      };
+    }
+
+    return afNameEditCurrentStudent;
   }
 
   function afNameEditEnsureModal() {
@@ -40896,6 +40921,7 @@ async function loadContactRequestStatusAf(forceRefresh) {
     }
 
     afNameEditSetMessage("", "info");
+    afNameEditSetSaving(false);
 
     modal.classList.remove("af-name-only-hidden");
     modal.style.display = "grid";
@@ -40915,8 +40941,10 @@ async function loadContactRequestStatusAf(forceRefresh) {
 
     modal.classList.add("af-name-only-hidden");
     modal.style.display = "none";
+
     afNameEditSetMessage("", "info");
     afNameEditSetSaving(false);
+    afNameEditSaving = false;
   }
 
   async function saveYourDetailsNameAf(event) {
@@ -40930,13 +40958,14 @@ async function loadContactRequestStatusAf(forceRefresh) {
     const input = document.getElementById("afNameOnlyInput");
     const nextName = afNameEditNormalizeName(input ? input.value : "");
 
-    if (!afNameEditValidName(nextName)) {
+    if (!afNameEditIsValidName(nextName)) {
       afNameEditSetMessage("Enter a valid name. Use 2-90 letters only.", "error");
       return false;
     }
 
     const currentName =
       afNameEditNormalizeName(afNameEditText("afInfoName")) ||
+      afNameEditNormalizeName(afNameEditText("afProfileHeroName")) ||
       afNameEditGetLoginData().name ||
       "";
 
