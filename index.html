@@ -22986,1101 +22986,6 @@ body.dark-mode .request-status-message-af,
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
-
-
-    /* =========================================================
-   AF STUDENT PROFILE PAGE V3
-   Premium Responsive CSS
-   Light + Dark Mode
-   Paste at END of your main CSS
-========================================================= */
-
-/* ==============================
-   THEME TOKENS
-================================ */
-
-:root {
-  --af-v3-bg-page:
-    radial-gradient(circle at 18% 10%, rgba(99, 102, 241, 0.16), transparent 34%),
-    radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.14), transparent 32%),
-    linear-gradient(135deg, #f8fafc 0%, #eef2ff 42%, #f8fafc 100%);
-
-  --af-v3-card-bg: rgba(255, 255, 255, 0.82);
-  --af-v3-card-bg-solid: #ffffff;
-  --af-v3-card-border: rgba(15, 23, 42, 0.10);
-  --af-v3-card-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
-
-  --af-v3-text: #0f172a;
-  --af-v3-text-soft: #475569;
-  --af-v3-text-muted: #64748b;
-  --af-v3-line: rgba(15, 23, 42, 0.10);
-
-  --af-v3-primary: #4f46e5;
-  --af-v3-primary-2: #2563eb;
-  --af-v3-primary-soft: rgba(79, 70, 229, 0.12);
-  --af-v3-primary-border: rgba(79, 70, 229, 0.24);
-
-  --af-v3-success: #059669;
-  --af-v3-danger: #dc2626;
-  --af-v3-warning: #d97706;
-
-  --af-v3-input-bg: rgba(255, 255, 255, 0.92);
-  --af-v3-input-border: rgba(15, 23, 42, 0.16);
-  --af-v3-input-focus: rgba(79, 70, 229, 0.34);
-
-  --af-v3-radius-xl: 28px;
-  --af-v3-radius-lg: 22px;
-  --af-v3-radius-md: 16px;
-  --af-v3-radius-sm: 12px;
-
-  --af-v3-transition: 180ms ease;
-}
-
-body.dark,
-html.dark,
-[data-theme="dark"],
-.dark-mode {
-  --af-v3-bg-page:
-    radial-gradient(circle at 18% 10%, rgba(129, 140, 248, 0.18), transparent 34%),
-    radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.13), transparent 32%),
-    linear-gradient(135deg, #020617 0%, #0f172a 48%, #020617 100%);
-
-  --af-v3-card-bg: rgba(15, 23, 42, 0.78);
-  --af-v3-card-bg-solid: #0f172a;
-  --af-v3-card-border: rgba(148, 163, 184, 0.18);
-  --af-v3-card-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
-
-  --af-v3-text: #f8fafc;
-  --af-v3-text-soft: #cbd5e1;
-  --af-v3-text-muted: #94a3b8;
-  --af-v3-line: rgba(148, 163, 184, 0.16);
-
-  --af-v3-primary: #818cf8;
-  --af-v3-primary-2: #38bdf8;
-  --af-v3-primary-soft: rgba(129, 140, 248, 0.15);
-  --af-v3-primary-border: rgba(129, 140, 248, 0.28);
-
-  --af-v3-input-bg: rgba(2, 6, 23, 0.54);
-  --af-v3-input-border: rgba(148, 163, 184, 0.24);
-  --af-v3-input-focus: rgba(129, 140, 248, 0.42);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --af-v3-bg-page:
-      radial-gradient(circle at 18% 10%, rgba(129, 140, 248, 0.18), transparent 34%),
-      radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.13), transparent 32%),
-      linear-gradient(135deg, #020617 0%, #0f172a 48%, #020617 100%);
-
-    --af-v3-card-bg: rgba(15, 23, 42, 0.78);
-    --af-v3-card-bg-solid: #0f172a;
-    --af-v3-card-border: rgba(148, 163, 184, 0.18);
-    --af-v3-card-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
-
-    --af-v3-text: #f8fafc;
-    --af-v3-text-soft: #cbd5e1;
-    --af-v3-text-muted: #94a3b8;
-    --af-v3-line: rgba(148, 163, 184, 0.16);
-
-    --af-v3-primary: #818cf8;
-    --af-v3-primary-2: #38bdf8;
-    --af-v3-primary-soft: rgba(129, 140, 248, 0.15);
-    --af-v3-primary-border: rgba(129, 140, 248, 0.28);
-
-    --af-v3-input-bg: rgba(2, 6, 23, 0.54);
-    --af-v3-input-border: rgba(148, 163, 184, 0.24);
-    --af-v3-input-focus: rgba(129, 140, 248, 0.42);
-  }
-}
-
-/* ==============================
-   PAGE SHELL
-================================ */
-
-#afStudentProfilePageV3 {
-  min-height: 100vh;
-  width: 100%;
-  color: var(--af-v3-text);
-  background: var(--af-v3-bg-page);
-  overflow-x: hidden;
-}
-
-#afStudentProfilePageV3,
-#afStudentProfilePageV3 * {
-  box-sizing: border-box;
-}
-
-#afStudentProfilePageV3.active,
-#afStudentProfilePageV3.show,
-#afStudentProfilePageV3.visible {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-.af-student-profile-page-v3 {
-  padding: 18px 0 44px;
-}
-
-.af-student-shell-v3 {
-  width: min(1120px, calc(100% - 28px));
-  margin: 0 auto;
-  display: grid;
-  gap: 18px;
-}
-
-/* ==============================
-   HERO
-================================ */
-
-.af-student-hero-v3 {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--af-v3-card-border);
-  border-radius: var(--af-v3-radius-xl);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.48)),
-    var(--af-v3-card-bg);
-  box-shadow: var(--af-v3-card-shadow);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  padding: 18px;
-  animation: afV3FadeUp 360ms ease both;
-}
-
-body.dark .af-student-hero-v3,
-html.dark .af-student-hero-v3,
-[data-theme="dark"] .af-student-hero-v3,
-.dark-mode .af-student-hero-v3 {
-  background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(2, 6, 23, 0.62)),
-    var(--af-v3-card-bg);
-}
-
-.af-student-hero-v3::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.22), transparent 34%),
-    radial-gradient(circle at 88% 12%, rgba(14, 165, 233, 0.20), transparent 30%);
-  pointer-events: none;
-}
-
-.af-student-hero-v3 > * {
-  position: relative;
-  z-index: 1;
-}
-
-.af-student-back-btn-v3 {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 0 14px;
-  border: 1px solid var(--af-v3-card-border);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.66);
-  color: var(--af-v3-text);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition:
-    transform var(--af-v3-transition),
-    border-color var(--af-v3-transition),
-    background var(--af-v3-transition),
-    box-shadow var(--af-v3-transition);
-}
-
-body.dark .af-student-back-btn-v3,
-html.dark .af-student-back-btn-v3,
-[data-theme="dark"] .af-student-back-btn-v3,
-.dark-mode .af-student-back-btn-v3 {
-  background: rgba(2, 6, 23, 0.42);
-}
-
-.af-student-back-btn-v3:hover {
-  transform: translateY(-1px);
-  border-color: var(--af-v3-primary-border);
-  background: var(--af-v3-primary-soft);
-  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.14);
-}
-
-.af-student-back-btn-v3:active {
-  transform: translateY(0);
-}
-
-.af-student-hero-main-v3 {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-top: 18px;
-}
-
-.af-student-avatar-v3 {
-  width: 84px;
-  height: 84px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 28px;
-  background:
-    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
-  color: #ffffff;
-  font-size: 34px;
-  font-weight: 950;
-  letter-spacing: -0.04em;
-  box-shadow:
-    0 20px 44px rgba(79, 70, 229, 0.30),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32);
-}
-
-.af-student-hero-copy-v3 {
-  min-width: 0;
-}
-
-.af-student-eyebrow-v3 {
-  margin: 0 0 6px;
-  color: var(--af-v3-primary);
-  font-size: 12px;
-  font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.af-student-hero-copy-v3 h2 {
-  margin: 0;
-  color: var(--af-v3-text);
-  font-size: clamp(28px, 4vw, 46px);
-  line-height: 1.02;
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  overflow-wrap: anywhere;
-}
-
-.af-student-hero-copy-v3 p:last-child {
-  margin: 8px 0 0;
-  color: var(--af-v3-text-soft);
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 1.5;
-}
-
-/* ==============================
-   CARDS
-================================ */
-
-.af-student-card-v3 {
-  border: 1px solid var(--af-v3-card-border);
-  border-radius: var(--af-v3-radius-xl);
-  background: var(--af-v3-card-bg);
-  box-shadow: var(--af-v3-card-shadow);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  padding: 18px;
-  animation: afV3FadeUp 420ms ease both;
-}
-
-.af-student-card-v3:nth-of-type(2) {
-  animation-delay: 40ms;
-}
-
-.af-student-card-head-v3 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.af-student-section-kicker-v3 {
-  margin: 0 0 5px;
-  color: var(--af-v3-primary);
-  font-size: 11px;
-  font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-}
-
-.af-student-card-head-v3 h3 {
-  margin: 0;
-  color: var(--af-v3-text);
-  font-size: 21px;
-  line-height: 1.16;
-  font-weight: 950;
-  letter-spacing: -0.035em;
-}
-
-.af-student-card-head-v3 p {
-  margin: 6px 0 0;
-  color: var(--af-v3-text-muted);
-  font-size: 14px;
-  font-weight: 650;
-  line-height: 1.45;
-}
-
-.af-student-edit-btn-v3 {
-  flex: 0 0 auto;
-  min-height: 40px;
-  padding: 0 15px;
-  border: 1px solid var(--af-v3-primary-border);
-  border-radius: 999px;
-  background:
-    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 950;
-  cursor: pointer;
-  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
-  transition:
-    transform var(--af-v3-transition),
-    box-shadow var(--af-v3-transition),
-    filter var(--af-v3-transition);
-}
-
-.af-student-edit-btn-v3:hover {
-  transform: translateY(-1px);
-  filter: saturate(1.08);
-  box-shadow: 0 18px 38px rgba(79, 70, 229, 0.30);
-}
-
-.af-student-edit-btn-v3:active {
-  transform: translateY(0);
-}
-
-/* ==============================
-   DETAILS GRID
-================================ */
-
-.af-student-details-grid-v3 {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.af-student-detail-box-v3 {
-  position: relative;
-  overflow: hidden;
-  min-height: 108px;
-  border: 1px solid var(--af-v3-line);
-  border-radius: var(--af-v3-radius-lg);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.36));
-  padding: 16px;
-  transition:
-    transform var(--af-v3-transition),
-    border-color var(--af-v3-transition),
-    background var(--af-v3-transition),
-    box-shadow var(--af-v3-transition);
-}
-
-body.dark .af-student-detail-box-v3,
-html.dark .af-student-detail-box-v3,
-[data-theme="dark"] .af-student-detail-box-v3,
-.dark-mode .af-student-detail-box-v3 {
-  background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.70), rgba(2, 6, 23, 0.42));
-}
-
-.af-student-detail-box-v3::after {
-  content: "";
-  position: absolute;
-  right: -26px;
-  bottom: -26px;
-  width: 78px;
-  height: 78px;
-  border-radius: 999px;
-  background: var(--af-v3-primary-soft);
-  pointer-events: none;
-}
-
-.af-student-detail-box-v3:hover {
-  transform: translateY(-2px);
-  border-color: var(--af-v3-primary-border);
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.10);
-}
-
-body.dark .af-student-detail-box-v3:hover,
-html.dark .af-student-detail-box-v3:hover,
-[data-theme="dark"] .af-student-detail-box-v3:hover,
-.dark-mode .af-student-detail-box-v3:hover {
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
-}
-
-.af-student-detail-box-v3 span {
-  display: block;
-  margin-bottom: 10px;
-  color: var(--af-v3-text-muted);
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.af-student-detail-box-v3 strong {
-  position: relative;
-  z-index: 1;
-  display: block;
-  color: var(--af-v3-text);
-  font-size: 17px;
-  line-height: 1.35;
-  font-weight: 950;
-  letter-spacing: -0.02em;
-  overflow-wrap: anywhere;
-}
-
-/* ==============================
-   BATCH LIST
-================================ */
-
-.af-student-batch-list-v3 {
-  display: grid;
-  gap: 12px;
-}
-
-.af-student-empty-v3 {
-  margin: 0;
-  border: 1px dashed var(--af-v3-primary-border);
-  border-radius: var(--af-v3-radius-lg);
-  background: var(--af-v3-primary-soft);
-  color: var(--af-v3-text-soft);
-  padding: 18px;
-  font-size: 14px;
-  font-weight: 800;
-  text-align: center;
-}
-
-.af-student-batch-list-v3 .af-student-batch-item-v3,
-.af-student-batch-item-v3 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  border: 1px solid var(--af-v3-line);
-  border-radius: var(--af-v3-radius-lg);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
-  padding: 14px;
-  transition:
-    transform var(--af-v3-transition),
-    border-color var(--af-v3-transition),
-    box-shadow var(--af-v3-transition);
-}
-
-body.dark .af-student-batch-item-v3,
-html.dark .af-student-batch-item-v3,
-[data-theme="dark"] .af-student-batch-item-v3,
-.dark-mode .af-student-batch-item-v3 {
-  background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.42));
-}
-
-.af-student-batch-item-v3:hover {
-  transform: translateY(-2px);
-  border-color: var(--af-v3-primary-border);
-  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10);
-}
-
-.af-student-batch-main-v3 {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.af-student-batch-icon-v3 {
-  width: 46px;
-  height: 46px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  background: var(--af-v3-primary-soft);
-  color: var(--af-v3-primary);
-  font-size: 22px;
-  border: 1px solid var(--af-v3-primary-border);
-}
-
-.af-student-batch-copy-v3 {
-  min-width: 0;
-}
-
-.af-student-batch-copy-v3 h4 {
-  margin: 0;
-  color: var(--af-v3-text);
-  font-size: 15px;
-  font-weight: 950;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  overflow-wrap: anywhere;
-}
-
-.af-student-batch-copy-v3 p {
-  margin: 4px 0 0;
-  color: var(--af-v3-text-muted);
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-}
-
-.af-student-batch-status-v3 {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  padding: 0 11px;
-  border-radius: 999px;
-  border: 1px solid rgba(5, 150, 105, 0.22);
-  background: rgba(5, 150, 105, 0.10);
-  color: var(--af-v3-success);
-  font-size: 12px;
-  font-weight: 950;
-  text-transform: capitalize;
-}
-
-/* ==============================
-   NAME EDIT MODAL V3
-================================ */
-
-.af-student-hidden-v3 {
-  display: none !important;
-}
-
-.af-student-modal-overlay-v3 {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  background:
-    radial-gradient(circle at 50% 10%, rgba(79, 70, 229, 0.22), transparent 34%),
-    rgba(15, 23, 42, 0.52);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.af-student-modal-card-v3 {
-  width: min(480px, 100%);
-  overflow: hidden;
-  border: 1px solid var(--af-v3-card-border);
-  border-radius: 28px;
-  background: var(--af-v3-card-bg-solid);
-  color: var(--af-v3-text);
-  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.28);
-  animation: afV3ModalIn 220ms ease both;
-}
-
-.af-student-modal-head-v3 {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 18px;
-  border-bottom: 1px solid var(--af-v3-line);
-  background:
-    linear-gradient(135deg, var(--af-v3-primary-soft), transparent);
-}
-
-.af-student-modal-title-wrap-v3 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.af-student-modal-icon-v3 {
-  width: 42px;
-  height: 42px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 15px;
-  background:
-    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 950;
-  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
-}
-
-.af-student-modal-title-wrap-v3 h4 {
-  margin: 0;
-  color: var(--af-v3-text);
-  font-size: 19px;
-  font-weight: 950;
-  letter-spacing: -0.03em;
-}
-
-.af-student-modal-title-wrap-v3 p {
-  margin: 4px 0 0;
-  color: var(--af-v3-text-muted);
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.af-student-modal-close-v3 {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--af-v3-line);
-  border-radius: 14px;
-  background: transparent;
-  color: var(--af-v3-text);
-  font-size: 24px;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    transform var(--af-v3-transition),
-    background var(--af-v3-transition),
-    border-color var(--af-v3-transition);
-}
-
-.af-student-modal-close-v3:hover {
-  transform: rotate(4deg);
-  background: rgba(220, 38, 38, 0.10);
-  border-color: rgba(220, 38, 38, 0.24);
-  color: var(--af-v3-danger);
-}
-
-.af-student-name-form-v3 {
-  padding: 18px;
-}
-
-.af-student-field-v3 {
-  display: grid;
-  gap: 8px;
-}
-
-.af-student-field-v3 label {
-  color: var(--af-v3-text);
-  font-size: 13px;
-  font-weight: 950;
-  letter-spacing: -0.01em;
-}
-
-.af-student-field-v3 input {
-  width: 100%;
-  min-height: 48px;
-  border: 1px solid var(--af-v3-input-border);
-  border-radius: 16px;
-  background: var(--af-v3-input-bg);
-  color: var(--af-v3-text);
-  outline: none;
-  padding: 0 14px;
-  font-size: 15px;
-  font-weight: 750;
-  transition:
-    border-color var(--af-v3-transition),
-    box-shadow var(--af-v3-transition),
-    background var(--af-v3-transition);
-}
-
-.af-student-field-v3 input::placeholder {
-  color: var(--af-v3-text-muted);
-  opacity: 0.82;
-}
-
-.af-student-field-v3 input:focus {
-  border-color: var(--af-v3-primary);
-  box-shadow: 0 0 0 4px var(--af-v3-input-focus);
-}
-
-.af-student-form-message-v3 {
-  min-height: 20px;
-  margin-top: 12px;
-  color: var(--af-v3-text-muted);
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.45;
-}
-
-.af-student-form-message-v3[data-type="success"] {
-  color: var(--af-v3-success);
-}
-
-.af-student-form-message-v3[data-type="error"] {
-  color: var(--af-v3-danger);
-}
-
-.af-student-form-message-v3[data-type="warning"] {
-  color: var(--af-v3-warning);
-}
-
-.af-student-modal-actions-v3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.af-student-save-btn-v3,
-.af-student-cancel-btn-v3 {
-  min-height: 46px;
-  border-radius: 16px;
-  font-size: 14px;
-  font-weight: 950;
-  cursor: pointer;
-  transition:
-    transform var(--af-v3-transition),
-    box-shadow var(--af-v3-transition),
-    background var(--af-v3-transition),
-    border-color var(--af-v3-transition),
-    opacity var(--af-v3-transition);
-}
-
-.af-student-save-btn-v3 {
-  border: 1px solid var(--af-v3-primary-border);
-  background:
-    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
-  color: #ffffff;
-  box-shadow: 0 16px 34px rgba(79, 70, 229, 0.26);
-}
-
-.af-student-save-btn-v3:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 20px 42px rgba(79, 70, 229, 0.32);
-}
-
-.af-student-cancel-btn-v3 {
-  border: 1px solid var(--af-v3-line);
-  background: transparent;
-  color: var(--af-v3-text);
-}
-
-.af-student-cancel-btn-v3:hover {
-  transform: translateY(-1px);
-  border-color: var(--af-v3-primary-border);
-  background: var(--af-v3-primary-soft);
-}
-
-.af-student-save-btn-v3:disabled,
-.af-student-cancel-btn-v3:disabled {
-  cursor: not-allowed;
-  opacity: 0.62;
-  transform: none;
-}
-
-/* ==============================
-   OLD ADDITIONAL SETTINGS V2
-   Polished to match V3, IDs/classes kept same
-================================ */
-
-#afStudentProfilePageV3 .af-additional-settings-panel-v2 {
-  border: 1px solid var(--af-v3-card-border) !important;
-  border-radius: var(--af-v3-radius-xl) !important;
-  background: var(--af-v3-card-bg) !important;
-  box-shadow: var(--af-v3-card-shadow) !important;
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  padding: 14px !important;
-  overflow: hidden;
-  animation: afV3FadeUp 460ms ease both;
-}
-
-#afStudentProfilePageV3 .af-extra-settings-toggle-v2 {
-  width: 100%;
-  min-height: 68px;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  border: 1px solid var(--af-v3-line);
-  border-radius: 22px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.34));
-  color: var(--af-v3-text);
-  padding: 12px;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--af-v3-transition),
-    border-color var(--af-v3-transition),
-    background var(--af-v3-transition),
-    box-shadow var(--af-v3-transition);
-}
-
-body.dark #afStudentProfilePageV3 .af-extra-settings-toggle-v2,
-html.dark #afStudentProfilePageV3 .af-extra-settings-toggle-v2,
-[data-theme="dark"] #afStudentProfilePageV3 .af-extra-settings-toggle-v2,
-.dark-mode #afStudentProfilePageV3 .af-extra-settings-toggle-v2 {
-  background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.42));
-}
-
-#afStudentProfilePageV3 .af-extra-settings-toggle-v2:hover {
-  transform: translateY(-1px);
-  border-color: var(--af-v3-primary-border);
-  background: var(--af-v3-primary-soft);
-  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10);
-}
-
-#afStudentProfilePageV3 .af-extra-settings-icon-v2 {
-  width: 46px;
-  height: 46px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 16px;
-  background: var(--af-v3-primary-soft);
-  border: 1px solid var(--af-v3-primary-border);
-  font-size: 21px;
-}
-
-#afStudentProfilePageV3 .af-extra-settings-text-v2 {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
-  flex: 1;
-}
-
-#afStudentProfilePageV3 .af-extra-settings-text-v2 strong {
-  color: var(--af-v3-text);
-  font-size: 15px;
-  font-weight: 950;
-  letter-spacing: -0.02em;
-}
-
-#afStudentProfilePageV3 .af-extra-settings-text-v2 small {
-  color: var(--af-v3-text-muted);
-  font-size: 12px;
-  font-weight: 750;
-  line-height: 1.35;
-}
-
-#afStudentProfilePageV3 .af-extra-settings-arrow-v2 {
-  width: 34px;
-  height: 34px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.06);
-  color: var(--af-v3-text);
-  font-size: 20px;
-  font-weight: 950;
-}
-
-body.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
-html.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
-[data-theme="dark"] #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
-.dark-mode #afStudentProfilePageV3 .af-extra-settings-arrow-v2 {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-#afStudentProfilePageV3 .af-extra-settings-body-v2 {
-  padding-top: 12px;
-}
-
-#afStudentProfilePageV3 .af-extra-hidden-v2 {
-  display: none !important;
-}
-
-#afStudentProfilePageV3 .af-delete-open-btn-v2 {
-  width: 100%;
-  min-height: 64px;
-  display: grid;
-  gap: 4px;
-  border: 1px solid rgba(220, 38, 38, 0.24);
-  border-radius: 20px;
-  background: rgba(220, 38, 38, 0.08);
-  color: var(--af-v3-danger);
-  padding: 13px 14px;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    transform var(--af-v3-transition),
-    background var(--af-v3-transition),
-    box-shadow var(--af-v3-transition);
-}
-
-#afStudentProfilePageV3 .af-delete-open-btn-v2:hover {
-  transform: translateY(-1px);
-  background: rgba(220, 38, 38, 0.12);
-  box-shadow: 0 16px 36px rgba(220, 38, 38, 0.12);
-}
-
-#afStudentProfilePageV3 .af-delete-open-btn-v2 span {
-  font-size: 14px;
-  font-weight: 950;
-}
-
-#afStudentProfilePageV3 .af-delete-open-btn-v2 small {
-  color: var(--af-v3-text-muted);
-  font-size: 12px;
-  font-weight: 750;
-}
-
-/* ==============================
-   FOCUS ACCESSIBILITY
-================================ */
-
-.af-student-back-btn-v3:focus-visible,
-.af-student-edit-btn-v3:focus-visible,
-.af-student-modal-close-v3:focus-visible,
-.af-student-save-btn-v3:focus-visible,
-.af-student-cancel-btn-v3:focus-visible,
-.af-student-field-v3 input:focus-visible,
-#afStudentProfilePageV3 .af-extra-settings-toggle-v2:focus-visible,
-#afStudentProfilePageV3 .af-delete-open-btn-v2:focus-visible {
-  outline: 3px solid var(--af-v3-input-focus);
-  outline-offset: 3px;
-}
-
-/* ==============================
-   ANIMATIONS
-================================ */
-
-@keyframes afV3FadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.99);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes afV3ModalIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.96);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ==============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 900px) {
-  .af-student-details-grid-v3 {
-    grid-template-columns: 1fr;
-  }
-
-  .af-student-detail-box-v3 {
-    min-height: auto;
-  }
-}
-
-@media (max-width: 640px) {
-  .af-student-profile-page-v3 {
-    padding: 12px 0 32px;
-  }
-
-  .af-student-shell-v3 {
-    width: min(100% - 18px, 1120px);
-    gap: 12px;
-  }
-
-  .af-student-hero-v3,
-  .af-student-card-v3 {
-    border-radius: 22px;
-    padding: 14px;
-  }
-
-  .af-student-hero-main-v3 {
-    align-items: flex-start;
-    gap: 13px;
-    margin-top: 14px;
-  }
-
-  .af-student-avatar-v3 {
-    width: 64px;
-    height: 64px;
-    border-radius: 22px;
-    font-size: 27px;
-  }
-
-  .af-student-hero-copy-v3 h2 {
-    font-size: 28px;
-  }
-
-  .af-student-hero-copy-v3 p:last-child {
-    font-size: 13px;
-  }
-
-  .af-student-card-head-v3 {
-    display: grid;
-    gap: 12px;
-  }
-
-  .af-student-edit-btn-v3 {
-    width: 100%;
-  }
-
-  .af-student-batch-item-v3 {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .af-student-batch-status-v3 {
-    align-self: flex-start;
-  }
-
-  .af-student-modal-overlay-v3 {
-    align-items: end;
-    padding: 10px;
-  }
-
-  .af-student-modal-card-v3 {
-    border-radius: 24px;
-  }
-
-  .af-student-modal-actions-v3 {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 380px) {
-  .af-student-hero-main-v3 {
-    flex-direction: column;
-  }
-
-  .af-student-avatar-v3 {
-    width: 58px;
-    height: 58px;
-    border-radius: 20px;
-    font-size: 24px;
-  }
-
-  .af-student-hero-copy-v3 h2 {
-    font-size: 25px;
-  }
-
-  .af-student-back-btn-v3 {
-    width: 100%;
-  }
-}
-
-/* ==============================
-   REDUCED MOTION
-================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  #afStudentProfilePageV3 *,
-  #afStudentProfilePageV3 *::before,
-  #afStudentProfilePageV3 *::after,
-  .af-student-modal-overlay-v3 *,
-  .af-student-modal-overlay-v3 *::before,
-  .af-student-modal-overlay-v3 *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-}
 </style>
 </head>
 
@@ -24170,32 +23075,27 @@ html.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
       <span>🔔This is Beta version, Contents of AF Nexus is being updated....</span>
     </div>
   </div>
-     
-<!-- TOP LOGIN BUTTONS -->
-<div class="actions home-login-actions">
-  <button class="action-card glass" onclick="showSection('studentaf')">
-    <div class="icon">🎓</div>
-    <div>
-      <h3>Student Login</h3>
-      <p>Access your course dashboard.</p>
-    </div>
-  </button>
-  
-<button
-  id="openAfStudentProfileBtnV3"
-  class="action-card glass student-profile-card af-student-profile-card-v3"
-  type="button"
-  onclick="openAfStudentProfilePageV3(event)"
-  aria-label="Open student profile dashboard"
->
-  <div class="icon student-profile-card-icon af-student-profile-card-icon-v3" aria-hidden="true">👤</div>
 
-  <div class="af-student-profile-card-copy-v3">
+       <!-- TOP LOGIN BUTTONS -->
+  <div class="actions home-login-actions">
+    <button class="action-card glass" onclick="showSection('studentaf')">
+      <div class="icon">🎓</div>
+      <div>
+        <h3>Student Login</h3>
+        <p>Access your course dashboard.</p>
+      </div>
+    </button>
+    
+<button class="action-card glass student-profile-card" type="button" onclick="openStudentDashboardCardAf(event)">
+  <div class="icon student-profile-card-icon">👤</div>
+  <div>
     <h3 id="studentDashboardCardNameAf">Hi, Student</h3>
     <p id="studentDashboardCardSubAf">Login to view profile</p>
   </div>
 </button>
-     
+  
+  </div>
+
   <!-- EXPLORE + TEAM -->
 <div class="actions home-extra-actions">
   <button class="action-card glass wide" onclick="showSection('explore'); loadAFTestPageV1();">
@@ -24666,220 +23566,110 @@ html.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
 </div>
 
 
-    <!-- =========================================================
-     NEW STUDENT PROFILE PAGE - AF V3
-     New ID + New Classes
-     No dependency on old studentDashboardAf layout
-     Additional Setting block kept old V2 HTML/classes/functions
-========================================================= -->
-
-<section id="afStudentProfilePageV3" class="af-student-profile-page-v3 section">
-  <div class="af-student-shell-v3">
-
     <!-- ==============================
-         TOP HERO
-    =============================== -->
-    <header class="af-student-hero-v3">
-      <button
-        class="af-student-back-btn-v3"
-        type="button"
-        onclick="showSection('home')"
-        aria-label="Go back to home"
-      >
-        <span aria-hidden="true">←</span>
-        <span>Back</span>
-      </button>
+     Student dashboard- AF
+================================ -->
+   </section> 
 
-      <div class="af-student-hero-main-v3">
-        <div class="af-student-avatar-v3" id="afStudentAvatarV3">S</div>
+<section id="studentDashboardAf" class="section">
+  <div class="af-profile-wrap">
 
-        <div class="af-student-hero-copy-v3">
-          <p class="af-student-eyebrow-v3">Student Profile</p>
-          <h2 id="afStudentNameHeroV3">Student</h2>
-          <p id="afStudentHeroSubtitleV3">View your account details and enrolled batches</p>
-        </div>
+    <div class="af-profile-hero glass">
+      <button class="af-back-btn" type="button" onclick="showSection('home')">← Back</button>
+
+      <div class="af-avatar" id="afProfileAvatar">S</div>
+
+      <div class="af-hero-text">
+        <h2 id="afProfileHeroName">Student</h2>
+        <p id="afProfileHeroSub">View and manage your dashboard</p>
       </div>
-    </header>
+    </div>
 
-    <!-- ==============================
-         PROFILE DETAILS CARD
-    =============================== -->
-    <section class="af-student-card-v3" aria-labelledby="afStudentDetailsTitleV3">
-      <div class="af-student-card-head-v3">
+    <div class="af-panel glass">
+      <div class="af-panel-head">
         <div>
-          <p class="af-student-section-kicker-v3">Account</p>
-          <h3 id="afStudentDetailsTitleV3">Your Details</h3>
-          <p>Name, email and phone number linked with your student account</p>
+          <h3>Your Details</h3>
+          <p>Name, email and phone number</p>
         </div>
 
-        <button
-          id="afStudentEditNameBtnV3"
-          class="af-student-edit-btn-v3"
-          type="button"
-          onclick="openAfStudentNameEditV3()"
-        >
-          Edit Name
-        </button>
+        <button class="af-mini-btn" type="button" onclick="openYourDetailsEditAf()">AF Nexus</button>
       </div>
 
-      <div class="af-student-details-grid-v3">
-        <article class="af-student-detail-box-v3">
+      <div class="af-detail-grid">
+        <div class="af-detail-row">
           <span>Name</span>
-          <strong id="afStudentInfoNameV3">-</strong>
-        </article>
+          <strong id="afInfoName">-</strong>
+        </div>
 
-        <article class="af-student-detail-box-v3">
+        <div class="af-detail-row">
           <span>Email</span>
-          <strong id="afStudentInfoEmailV3">-</strong>
-        </article>
+          <strong id="afInfoEmail">-</strong>
+        </div>
 
-        <article class="af-student-detail-box-v3">
+        <div class="af-detail-row">
           <span>Phone Number</span>
-          <strong id="afStudentInfoMobileV3">-</strong>
-        </article>
-      </div>
-    </section>
-
-    <!-- ==============================
-         ENROLLED BATCHES CARD
-    =============================== -->
-    <section class="af-student-card-v3" aria-labelledby="afStudentBatchTitleV3">
-      <div class="af-student-card-head-v3">
-        <div>
-          <p class="af-student-section-kicker-v3">Learning</p>
-          <h3 id="afStudentBatchTitleV3">Batch Enrolled In</h3>
-          <p>Your active courses or batches will appear here</p>
+          <strong id="afInfoMobile">-</strong>
         </div>
-      </div>
-
-      <div id="afStudentBatchListV3" class="af-student-batch-list-v3">
-        <p class="af-student-empty-v3">No enrolled batch found.</p>
-      </div>
-    </section>
-
-    <!-- ==============================
-         ADDITIONAL SETTINGS PANEL V2 - OLD HTML KEPT
-         JS mat dena bola tha, isliye only old HTML block
-    ================================ -->
-    <div class="af-panel glass af-additional-settings-panel-v2">
-      <button
-        id="afExtraSettingsToggleV2"
-        class="af-extra-settings-toggle-v2"
-        type="button"
-        onclick="toggleAfExtraSettingsV2()"
-        aria-expanded="false"
-        aria-controls="afExtraSettingsBodyV2"
-      >
-        <span class="af-extra-settings-icon-v2" aria-hidden="true">⚙️</span>
-
-        <span class="af-extra-settings-text-v2">
-          <strong>Additional Setting</strong>
-          <small>Account safety and sensitive actions</small>
-        </span>
-
-        <span id="afExtraSettingsArrowV2" class="af-extra-settings-arrow-v2" aria-hidden="true">⌄</span>
-      </button>
-
-      <div id="afExtraSettingsBodyV2" class="af-extra-settings-body-v2 af-extra-hidden-v2">
-        <button
-          id="afDeleteAccountOpenBtnV2"
-          class="af-delete-open-btn-v2"
-          type="button"
-          onclick="openAfDeleteAccountRequestV2()"
-          aria-expanded="false"
-          aria-controls="afDeleteAccountModalV2"
-        >
-          <span>Delete Account</span>
-          <small>Permanent account removal request</small>
-        </button>
       </div>
     </div>
 
-  </div>
-</section>
-
-<!-- =========================================================
-     EDIT NAME MODAL - AF V3
-     New ID + New Classes
-========================================================= -->
-
-<div
-  id="afStudentNameEditModalV3"
-  class="af-student-modal-overlay-v3 af-student-hidden-v3"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="afStudentNameEditTitleV3"
->
-  <div class="af-student-modal-card-v3">
-    <div class="af-student-modal-head-v3">
-      <div class="af-student-modal-title-wrap-v3">
-        <div class="af-student-modal-icon-v3" aria-hidden="true">✎</div>
-
+  
+    <div class="af-panel glass">
+      <div class="af-panel-head">
         <div>
-          <h4 id="afStudentNameEditTitleV3">Edit Name</h4>
-          <p>Only your display name can be changed here</p>
+          <h3>Batch Enrolled In</h3>
+          <p>Your enrolled courses or batches</p>
         </div>
       </div>
 
-      <button
-        class="af-student-modal-close-v3"
-        type="button"
-        onclick="closeAfStudentNameEditV3()"
-        aria-label="Close edit name modal"
-      >
-        ×
-      </button>
+      <div id="afBatchList" class="af-batch-list">
+        <p class="af-empty">No enrolled batch found.</p>
+      </div>
     </div>
+    
+<!-- ==============================
+     ADDITIONAL SETTINGS PANEL V2 - AF
+================================ -->
 
-    <form
-      id="afStudentNameEditFormV3"
-      class="af-student-name-form-v3"
-      onsubmit="saveAfStudentNameV3(event)"
+<div class="af-panel glass af-additional-settings-panel-v2">
+  <button
+    id="afExtraSettingsToggleV2"
+    class="af-extra-settings-toggle-v2"
+    type="button"
+    onclick="toggleAfExtraSettingsV2()"
+    aria-expanded="false"
+    aria-controls="afExtraSettingsBodyV2"
+  >
+    <span class="af-extra-settings-icon-v2" aria-hidden="true">⚙️</span>
+
+    <span class="af-extra-settings-text-v2">
+      <strong>Additional Setting</strong>
+      <small>Account safety and sensitive actions</small>
+    </span>
+
+    <span id="afExtraSettingsArrowV2" class="af-extra-settings-arrow-v2" aria-hidden="true">⌄</span>
+  </button>
+
+  <div id="afExtraSettingsBodyV2" class="af-extra-settings-body-v2 af-extra-hidden-v2">
+    <button
+      id="afDeleteAccountOpenBtnV2"
+      class="af-delete-open-btn-v2"
+      type="button"
+      onclick="openAfDeleteAccountRequestV2()"
+      aria-expanded="false"
+      aria-controls="afDeleteAccountModalV2"
     >
-      <div class="af-student-field-v3">
-        <label for="afStudentEditNameInputV3">Full Name</label>
-        <input
-          id="afStudentEditNameInputV3"
-          name="student_name"
-          type="text"
-          autocomplete="name"
-          placeholder="Enter your full name"
-          maxlength="90"
-          required
-        />
-      </div>
-
-      <div
-        id="afStudentNameEditMessageV3"
-        class="af-student-form-message-v3"
-        aria-live="polite"
-      ></div>
-
-      <div class="af-student-modal-actions-v3">
-        <button
-          id="afStudentNameSaveBtnV3"
-          class="af-student-save-btn-v3"
-          type="submit"
-        >
-          Save Name
-        </button>
-
-        <button
-          class="af-student-cancel-btn-v3"
-          type="button"
-          onclick="closeAfStudentNameEditV3()"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+      <span>Delete Account</span>
+      <small>Permanent account removal request</small>
+    </button>
   </div>
 </div>
 
-<!-- =========================================================
-     DELETE ACCOUNT REQUEST MODAL V2 - OLD HTML KEPT
-     JS not included
-========================================================= -->
+
+<!-- ==============================
+     DELETE ACCOUNT REQUEST MODAL V2 - AF
+     Paste near end of body
+================================ -->
 
 <div
   id="afDeleteAccountModalV2"
@@ -25011,6 +23801,8 @@ html.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
     </div>
   </div>
 </div>
+</section>
+    
     <!-- ==============================
      BATCH PURCHASES - AF
 ================================ -->
@@ -32906,41 +31698,47 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ==============================
    AF STUDENT PROFILE DASHBOARD
-   CLEAN VERSION
-   NAME EDIT ONLY
+   BACKEND COURSE FETCH FIXED
+
+   students_af:
+   name, mobile, password, email, status
+
+   Profile extra:
+   student_profile_details_af
+
+   Enrolled courses:
+   Edge Function -> student-courses-af
 ================================ */
 
 let afCurrentStudent = null;
-let afCurrentBatches = [];
+let afCurrentExtra = null;
+let afPendingEdit = null;
+let afPendingDelete = null;
 
 /* ==============================
    MESSAGE / POPUP
 ================================ */
 
 function afMsg(message, type, title) {
-  const safeMessage = message || "Something went wrong.";
-  const safeType = type || "info";
-  const safeTitle = title || "Message";
-
   if (typeof showAfToast === "function") {
-    showAfToast(safeMessage, safeType, safeTitle);
+    showAfToast(message, type || "info", title || "Message");
     return;
   }
 
   if (typeof showToast === "function") {
-    showToast(safeTitle, safeMessage);
+    showToast(title || "Message", message);
     return;
   }
 
   if (typeof showStudentMessageaf === "function") {
     showStudentMessageaf(
-      safeType === "error" ? "err" : safeType === "success" ? "ok" : "info",
-      safeMessage
+      type === "error" ? "err" : type === "success" ? "ok" : "info",
+      message
     );
     return;
   }
 
-  window.alert((safeTitle ? safeTitle + ": " : "") + safeMessage);
+  alert((title ? title + ": " : "") + message);
 }
 
 /* ==============================
@@ -32952,12 +31750,8 @@ function afBackend() {
     return getStudentBackendaf();
   }
 
-  if (typeof studentDb !== "undefined" && studentDb) {
+  if (typeof studentDb !== "undefined") {
     return studentDb;
-  }
-
-  if (typeof supabase !== "undefined" && supabase) {
-    return supabase;
   }
 
   return null;
@@ -32966,7 +31760,7 @@ function afBackend() {
 async function afProfileEdgeCall(functionName, payload) {
   const backend = afBackend();
 
-  if (!backend || !backend.functions || typeof backend.functions.invoke !== "function") {
+  if (!backend) {
     return {
       ok: false,
       message: "Student backend is not connected."
@@ -32993,10 +31787,11 @@ async function afProfileEdgeCall(functionName, payload) {
     }
 
     return data;
-  } catch (error) {
+
+  } catch (err) {
     return {
       ok: false,
-      message: error && error.message ? error.message : "Server request failed."
+      message: err.message || "Server request failed."
     };
   }
 }
@@ -33004,20 +31799,6 @@ async function afProfileEdgeCall(functionName, payload) {
 /* ==============================
    LOGIN DATA DETECTION
 ================================ */
-
-function afParseLocalJson(key) {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return null;
-
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return null;
-
-    return parsed;
-  } catch (error) {
-    return null;
-  }
-}
 
 function afGetLoginData() {
   const data = {
@@ -33029,13 +31810,28 @@ function afGetLoginData() {
     mobile: ""
   };
 
-  data.uuid = localStorage.getItem("af_student_uuid") || "";
-  data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
+  data.uuid =
+    localStorage.getItem("af_student_uuid") ||
+    "";
+
+  data.student_id =
+    localStorage.getItem("af_student_id") ||
+    localStorage.getItem("student_id") ||
+    "";
+
   data.id = data.uuid || data.student_id || "";
 
-  data.name = localStorage.getItem("af_student_name") || "";
-  data.email = localStorage.getItem("af_student_email") || "";
-  data.mobile = localStorage.getItem("af_student_mobile") || "";
+  data.name =
+    localStorage.getItem("af_student_name") ||
+    "";
+
+  data.email =
+    localStorage.getItem("af_student_email") ||
+    "";
+
+  data.mobile =
+    localStorage.getItem("af_student_mobile") ||
+    "";
 
   const possibleKeys = [
     "af_logged_student",
@@ -33047,41 +31843,105 @@ function afGetLoginData() {
     "student"
   ];
 
-  for (let i = 0; i < possibleKeys.length; i += 1) {
-    const obj = afParseLocalJson(possibleKeys[i]);
+  for (let i = 0; i < possibleKeys.length; i++) {
+    try {
+      const raw = localStorage.getItem(possibleKeys[i]);
 
-    if (!obj) continue;
+      if (!raw) continue;
 
-    data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
-    data.student_id = data.student_id || obj.student_id || obj.studentId || "";
-    data.id = data.uuid || data.student_id || data.id || "";
+      const obj = JSON.parse(raw);
 
-    data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
-    data.email = data.email || obj.email || obj.student_email || "";
-    data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
+      if (!obj) continue;
+
+      data.uuid =
+        data.uuid ||
+        obj.id ||
+        obj.uuid ||
+        obj.student_uuid ||
+        "";
+
+      data.student_id =
+        data.student_id ||
+        obj.student_id ||
+        obj.studentId ||
+        "";
+
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name =
+        data.name ||
+        obj.name ||
+        obj.full_name ||
+        obj.student_name ||
+        obj.studentName ||
+        "";
+
+      data.email =
+        data.email ||
+        obj.email ||
+        obj.student_email ||
+        "";
+
+      data.mobile =
+        data.mobile ||
+        obj.mobile ||
+        obj.phone ||
+        obj.phone_number ||
+        obj.student_mobile ||
+        "";
+    } catch (e) {}
   }
 
   if (typeof loggedStudent !== "undefined" && loggedStudent) {
-    data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
-    data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
+    data.uuid =
+      data.uuid ||
+      loggedStudent.id ||
+      loggedStudent.uuid ||
+      loggedStudent.student_uuid ||
+      "";
+
+    data.student_id =
+      data.student_id ||
+      loggedStudent.student_id ||
+      loggedStudent.studentId ||
+      "";
+
     data.id = data.uuid || data.student_id || data.id || "";
 
-    data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
-    data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
-    data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
+    data.name =
+      data.name ||
+      loggedStudent.name ||
+      loggedStudent.full_name ||
+      loggedStudent.student_name ||
+      loggedStudent.studentName ||
+      "";
+
+    data.email =
+      data.email ||
+      loggedStudent.email ||
+      loggedStudent.student_email ||
+      "";
+
+    data.mobile =
+      data.mobile ||
+      loggedStudent.mobile ||
+      loggedStudent.phone ||
+      loggedStudent.phone_number ||
+      loggedStudent.student_mobile ||
+      "";
   }
 
   return data;
 }
 
 function afIsLoggedIn() {
-  const data = afGetLoginData();
+  const d = afGetLoginData();
 
-  return Boolean(
-    data.email ||
-    data.mobile ||
-    data.name ||
-    data.id
+  return !!(
+    d.email ||
+    d.mobile ||
+    d.name ||
+    d.id
   );
 }
 
@@ -33089,166 +31949,153 @@ function afIsLoggedIn() {
    HELPERS
 ================================ */
 
+function afSetText(id, value) {
+  const el = document.getElementById(id);
+
+  if (el) {
+    el.textContent =
+      value && String(value).trim()
+        ? value
+        : "-";
+  }
+}
+
+function afGetInput(id) {
+  const el = document.getElementById(id);
+
+  return el
+    ? el.value.trim()
+    : "";
+}
+
+function afSetInput(id, value) {
+  const el = document.getElementById(id);
+
+  if (el) {
+    el.value = value || "";
+  }
+}
+
+function afInitial(name) {
+  if (!name || !String(name).trim()) {
+    return "S";
+  }
+
+  return String(name)
+    .trim()
+    .charAt(0)
+    .toUpperCase();
+}
+
+function openAfModal(id) {
+  const el = document.getElementById(id);
+
+  if (el) {
+    el.classList.remove("af-hidden");
+  }
+}
+
+function closeAfModal(id) {
+  const el = document.getElementById(id);
+
+  if (el) {
+    el.classList.add("af-hidden");
+  }
+}
+
 function afSafeText(value) {
   if (value === null || value === undefined) return "";
   return String(value);
 }
 
-function afEscapeHtml(value) {
-  return afSafeText(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+function afStudentKey(student) {
+  if (!student) return "";
 
-function afSetText(id, value) {
-  const element = document.getElementById(id);
-
-  if (!element) return;
-
-  const finalValue = value && String(value).trim() ? String(value).trim() : "-";
-  element.textContent = finalValue;
-}
-
-function afGetInput(id) {
-  const element = document.getElementById(id);
-
-  if (!element) return "";
-
-  return String(element.value || "").trim();
-}
-
-function afSetInput(id, value) {
-  const element = document.getElementById(id);
-
-  if (!element) return;
-
-  element.value = value || "";
-}
-
-function afInitial(name) {
-  const safeName = afSafeText(name).trim();
-
-  if (!safeName) return "S";
-
-  return safeName.charAt(0).toUpperCase();
-}
-
-function afShowElement(id) {
-  const element = document.getElementById(id);
-
-  if (!element) return;
-
-  element.classList.remove("af-extra-hidden-v2");
-  element.classList.remove("af-hidden");
-}
-
-function afHideElement(id) {
-  const element = document.getElementById(id);
-
-  if (!element) return;
-
-  element.classList.add("af-extra-hidden-v2");
-}
-
-function afSetButtonLoading(buttonId, isLoading, loadingText, defaultText) {
-  const button = document.getElementById(buttonId);
-
-  if (!button) return;
-
-  button.disabled = Boolean(isLoading);
-  button.textContent = isLoading ? loadingText : defaultText;
-}
-
-function afSetInlineMessage(id, message, type) {
-  const element = document.getElementById(id);
-
-  if (!element) return;
-
-  element.textContent = message || "";
-  element.dataset.type = type || "info";
-}
-
-function afNormalizeName(name) {
-  return afSafeText(name)
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function afIsValidName(name) {
-  const normalized = afNormalizeName(name);
-
-  if (normalized.length < 2) return false;
-  if (normalized.length > 90) return false;
-
-  return /^[A-Za-zÀ-ÖØ-öø-ÿ\u0900-\u097F\s.'-]+$/.test(normalized);
-}
-
-function afStudentMatchQuery(backend, student) {
-  let query = backend.from("students_af").update({
-    name: student.nextName
-  });
-
-  if (student.email) {
-    query = query.eq("email", student.email);
-  } else if (student.mobile) {
-    query = query.eq("mobile", student.mobile);
-  } else if (student.uuid) {
-    query = query.eq("id", student.uuid);
-  } else if (student.student_id) {
-    query = query.eq("student_id", student.student_id);
-  } else {
-    throw new Error("Student record key not found.");
-  }
-
-  return query;
+  return (
+    student.email ||
+    student.mobile ||
+    student.name ||
+    ""
+  );
 }
 
 /* ==============================
-   MERGED DISPLAY DATA
+   OTP
 ================================ */
 
-function afMergedName() {
-  const login = afGetLoginData();
+async function afSendOtp(email) {
+  if (!email) {
+    throw new Error("Email is required.");
+  }
 
-  return (
-    afCurrentStudent && afCurrentStudent.name
-      ? afCurrentStudent.name
-      : login.name || "Student"
-  );
+  if (typeof sendSupabaseEmailOtpaf !== "function") {
+    throw new Error("OTP send function not found.");
+  }
+
+  let res = await sendSupabaseEmailOtpaf(email, false);
+
+  if (!res || !res.ok) {
+    console.log(
+      "Profile OTP first attempt failed:",
+      res ? res.message : "No response"
+    );
+
+    res = await sendSupabaseEmailOtpaf(email, true);
+  }
+
+  if (!res || !res.ok) {
+    throw new Error(
+      res && res.message
+        ? res.message
+        : "OTP send failed."
+    );
+  }
+
+  return true;
 }
 
-function afMergedEmail() {
-  const login = afGetLoginData();
+async function afVerifyOtp(email, otp) {
+  if (!email) {
+    throw new Error("Email is required.");
+  }
 
-  return (
-    afCurrentStudent && afCurrentStudent.email
-      ? afCurrentStudent.email
-      : login.email || "-"
-  );
-}
+  if (!otp) {
+    throw new Error("OTP is required.");
+  }
 
-function afMergedMobile() {
-  const login = afGetLoginData();
+  if (typeof verifySupabaseEmailOtpaf !== "function") {
+    throw new Error("OTP verify function not found.");
+  }
 
-  return (
-    afCurrentStudent && afCurrentStudent.mobile
-      ? afCurrentStudent.mobile
-      : login.mobile || "-"
-  );
+  const res = await verifySupabaseEmailOtpaf(email, otp);
+
+  if (!res || !res.ok) {
+    throw new Error(
+      res && res.message
+        ? res.message
+        : "Invalid OTP."
+    );
+  }
+
+  return true;
 }
 
 /* ==============================
    STUDENT FETCH
+   Uses localStorage first.
+   Direct students_af fallback kept for name/email/mobile.
 ================================ */
 
 async function afFetchStudent() {
   const backend = afBackend();
 
-  if (!backend || typeof backend.from !== "function") {
-    afMsg("Student backend not connected.", "error", "Backend Error");
+  if (!backend) {
+    afMsg(
+      "Student backend not connected.",
+      "error",
+      "Backend Error"
+    );
+
     return null;
   }
 
@@ -33260,59 +32107,32 @@ async function afFetchStudent() {
 
   let result = null;
 
-  try {
-    if (login.email) {
-      result = await backend
-        .from("students_af")
-        .select("name, mobile, email, status")
-        .eq("email", login.email)
-        .maybeSingle();
-    }
+  if (login.email) {
+    result = await backend
+      .from("students_af")
+      .select("name, mobile, email, status")
+      .eq("email", login.email)
+      .maybeSingle();
+  }
 
-    if ((!result || !result.data) && login.mobile) {
-      result = await backend
-        .from("students_af")
-        .select("name, mobile, email, status")
-        .eq("mobile", login.mobile)
-        .maybeSingle();
-    }
+  if ((!result || !result.data) && login.mobile) {
+    result = await backend
+      .from("students_af")
+      .select("name, mobile, email, status")
+      .eq("mobile", login.mobile)
+      .maybeSingle();
+  }
 
-    if ((!result || !result.data) && login.name) {
-      result = await backend
-        .from("students_af")
-        .select("name, mobile, email, status")
-        .eq("name", login.name)
-        .maybeSingle();
-    }
+  if ((!result || !result.data) && login.name) {
+    result = await backend
+      .from("students_af")
+      .select("name, mobile, email, status")
+      .eq("name", login.name)
+      .maybeSingle();
+  }
 
-    if (result && result.error) {
-      console.error("students_af fetch error:", result.error);
-
-      return {
-        name: login.name || "Student",
-        email: login.email || "",
-        mobile: login.mobile || "",
-        status: "active"
-      };
-    }
-
-    if (!result || !result.data) {
-      return {
-        name: login.name || "Student",
-        email: login.email || "",
-        mobile: login.mobile || "",
-        status: "active"
-      };
-    }
-
-    if (result.data.status === "deleted") {
-      afMsg("This account is marked as deleted.", "error", "Account Deleted");
-      return null;
-    }
-
-    return result.data;
-  } catch (error) {
-    console.error("afFetchStudent failed:", error);
+  if (result && result.error) {
+    console.error("students_af fetch error:", result.error);
 
     return {
       name: login.name || "Student",
@@ -33321,13 +32141,112 @@ async function afFetchStudent() {
       status: "active"
     };
   }
+
+  if (!result || !result.data) {
+    return {
+      name: login.name || "Student",
+      email: login.email || "",
+      mobile: login.mobile || "",
+      status: "active"
+    };
+  }
+
+  if (result.data.status === "deleted") {
+    afMsg(
+      "This account is marked as deleted.",
+      "error",
+      "Account Deleted"
+    );
+
+    return null;
+  }
+
+  return result.data;
+}
+
+/* ==============================
+   EXTRA DETAILS FETCH / SAVE
+   state/district/class only here
+================================ */
+
+async function afFetchExtra(student) {
+  const backend = afBackend();
+
+  if (!backend || !student) {
+    return null;
+  }
+
+  const key = afStudentKey(student);
+
+  if (!key) {
+    return null;
+  }
+
+  const { data, error } = await backend
+    .from("student_profile_details_af")
+    .select("student_key, state, district, class_name")
+    .eq("student_key", key)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Profile extra fetch error:", error);
+    return null;
+  }
+
+  return data || null;
+}
+
+async function afUpsertExtra(payload) {
+  const backend = afBackend();
+
+  if (!backend) {
+    throw new Error("Backend not connected.");
+  }
+
+  if (!afCurrentStudent) {
+    afCurrentStudent = await afFetchStudent();
+  }
+
+  if (!afCurrentStudent) {
+    throw new Error("Student profile not loaded.");
+  }
+
+  const key = afStudentKey(afCurrentStudent);
+
+  if (!key) {
+    throw new Error("Student key not found.");
+  }
+
+  const finalPayload = {
+    student_key: key,
+    ...payload,
+    updated_at: new Date().toISOString()
+  };
+
+  const { data, error } = await backend
+    .from("student_profile_details_af")
+    .upsert(finalPayload, {
+      onConflict: "student_key"
+    })
+    .select()
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  afCurrentExtra = data;
+
+  return data;
 }
 
 /* ==============================
    ENROLLED COURSES FETCH
+   Backend Edge Function:
+   student-courses-af
 ================================ */
 
-async function afFetchBatches() {
+async function afFetchBatches(student) {
   const login = afGetLoginData();
 
   const studentUuid =
@@ -33349,21 +32268,88 @@ async function afFetchBatches() {
     return [];
   }
 
-  const courses = Array.isArray(result.courses) ? result.courses : [];
+  const courses = Array.isArray(result.courses)
+    ? result.courses
+    : [];
 
   if (!courses.length) {
+    console.warn("No enrolled courses returned from student-courses-af.");
     return [];
   }
 
-  return courses.map(function (course) {
+  return courses.map(function(course) {
     return {
       raw: course,
-      title: course.title || "Enrolled Course",
-      slug: course.slug || "Active",
-      icon: course.icon || "📚",
-      status: course.status || "active"
+      course: course,
+
+      title:
+        course.title ||
+        "Enrolled Course",
+
+      slug:
+        course.slug ||
+        "Active",
+
+      icon:
+        course.icon ||
+        "📚",
+
+      status:
+        "active"
     };
   });
+}
+
+/* ==============================
+   MERGED DISPLAY DATA
+================================ */
+
+function afMergedName() {
+  return (
+    afCurrentStudent?.name ||
+    afGetLoginData().name ||
+    "Student"
+  );
+}
+
+function afMergedEmail() {
+  return (
+    afCurrentStudent?.email ||
+    afGetLoginData().email ||
+    "-"
+  );
+}
+
+function afMergedMobile() {
+  return (
+    afCurrentStudent?.mobile ||
+    afGetLoginData().mobile ||
+    "-"
+  );
+}
+
+function afMergedState() {
+  return (
+    afCurrentExtra && afCurrentExtra.state
+      ? afCurrentExtra.state
+      : "Not added yet"
+  );
+}
+
+function afMergedDistrict() {
+  return (
+    afCurrentExtra && afCurrentExtra.district
+      ? afCurrentExtra.district
+      : "Not added yet"
+  );
+}
+
+function afMergedClass() {
+  return (
+    afCurrentExtra && afCurrentExtra.class_name
+      ? afCurrentExtra.class_name
+      : "Not added yet"
+  );
 }
 
 /* ==============================
@@ -33371,23 +32357,29 @@ async function afFetchBatches() {
 ================================ */
 
 function afRenderCard() {
-  const nameElement = document.getElementById("studentDashboardCardNameAf");
-  const subElement = document.getElementById("studentDashboardCardSubAf");
+  const nameEl = document.getElementById("studentDashboardCardNameAf");
+  const subEl = document.getElementById("studentDashboardCardSubAf");
 
   if (!afIsLoggedIn()) {
-    if (nameElement) nameElement.textContent = "Hi, Student";
-    if (subElement) subElement.textContent = "Login to view profile";
+    if (nameEl) {
+      nameEl.textContent = "Hi, Student";
+    }
+
+    if (subEl) {
+      subEl.textContent = "Login to view profile";
+    }
+
     return;
   }
 
   const name = afMergedName();
 
-  if (nameElement) {
-    nameElement.textContent = "Hi, " + name;
+  if (nameEl) {
+    nameEl.textContent = "Hi, " + name;
   }
 
-  if (subElement) {
-    subElement.textContent = "View Profile";
+  if (subEl) {
+    subEl.textContent = "View Profile";
   }
 }
 
@@ -33404,34 +32396,49 @@ function afRenderProfile(batches) {
   afSetText("afInfoEmail", email);
   afSetText("afInfoMobile", mobile);
 
+  afSetText("afInfoState", afMergedState());
+  afSetText("afInfoDistrict", afMergedDistrict());
+  afSetText("afInfoClass", afMergedClass());
+
   const list = document.getElementById("afBatchList");
 
-  if (!list) return;
+  if (!list) {
+    return;
+  }
 
-  if (!Array.isArray(batches) || !batches.length) {
-    list.innerHTML = '<p class="af-empty">No enrolled course found.</p>';
+  if (!batches || !batches.length) {
+    list.innerHTML = `
+      <p class="af-empty">
+        No enrolled course found.
+      </p>
+    `;
+
     return;
   }
 
   list.innerHTML = batches
-    .map(function (item) {
-      const title = afEscapeHtml(item.title || "Enrolled Course");
-      const slug = afEscapeHtml(item.slug || "Active");
-      const icon = afEscapeHtml(item.icon || "📚");
-      const status = afEscapeHtml(item.status || "active");
+    .map(function(item) {
+      const title = afSafeText(item.title || "Enrolled Course");
+      const slug = afSafeText(item.slug || "Active");
+      const icon = afSafeText(item.icon || "📚");
+      const status = afSafeText(item.status || "active");
 
-      return (
-        '<div class="af-batch-item">' +
-          '<div style="display:flex;align-items:center;gap:10px;">' +
-            '<span style="font-size:22px;">' + icon + '</span>' +
-            '<div>' +
-              '<h4>' + title + '</h4>' +
-              '<p>' + slug + '</p>' +
-            '</div>' +
-          '</div>' +
-          '<span class="af-batch-status">' + status + '</span>' +
-        '</div>'
-      );
+      return `
+        <div class="af-batch-item">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:22px;">${icon}</span>
+
+            <div>
+              <h4>${title}</h4>
+              <p>${slug}</p>
+            </div>
+          </div>
+
+          <span class="af-batch-status">
+            ${status}
+          </span>
+        </div>
+      `;
     })
     .join("");
 }
@@ -33447,434 +32454,554 @@ async function openStudentDashboardCardAf(event) {
   }
 
   if (!afIsLoggedIn()) {
-    afMsg("Login to fetch your dashboard.", "warning", "Login Required");
+    afMsg(
+      "Login to fetch your dashboard.",
+      "warning",
+      "Login Required"
+    );
+
     return false;
   }
 
-  if (typeof showSection === "function") {
-    showSection("studentDashboardAf");
-  } else {
-    const section = document.getElementById("studentDashboardAf");
-
-    document.querySelectorAll(".section, .app-section").forEach(function (item) {
-      item.classList.remove("active");
-      item.style.display = "none";
-    });
-
-    if (section) {
-      section.classList.add("active");
-      section.style.display = "block";
-    }
-  }
+  showSection("studentDashboardAf");
 
   afSetText("afProfileHeroName", "Loading...");
   afSetText("afProfileHeroSub", "Fetching your details...");
   afSetText("afInfoName", "Loading...");
   afSetText("afInfoEmail", "Loading...");
   afSetText("afInfoMobile", "Loading...");
+  afSetText("afInfoState", "Loading...");
+  afSetText("afInfoDistrict", "Loading...");
+  afSetText("afInfoClass", "Loading...");
 
   const list = document.getElementById("afBatchList");
 
   if (list) {
-    list.innerHTML = '<p class="af-empty">Loading enrolled courses...</p>';
+    list.innerHTML = `
+      <p class="af-empty">
+        Loading enrolled courses...
+      </p>
+    `;
   }
 
-  try {
-    const student = await afFetchStudent();
+  const student = await afFetchStudent();
 
-    if (!student) {
-      afMsg("Could not fetch your dashboard. Please login again.", "warning", "Login Required");
-
-      afSetText("afProfileHeroName", "Login Required");
-      afSetText("afProfileHeroSub", "Please login again.");
-      afSetText("afInfoName", "-");
-      afSetText("afInfoEmail", "-");
-      afSetText("afInfoMobile", "-");
-
-      if (list) {
-        list.innerHTML = '<p class="af-empty">Please login again to view enrolled courses.</p>';
-      }
-
-      return false;
-    }
-
-    afCurrentStudent = student;
-    afCurrentBatches = await afFetchBatches();
-
-    afRenderCard();
-    afRenderProfile(afCurrentBatches);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-    return false;
-  } catch (error) {
-    console.error("openStudentDashboardCardAf failed:", error);
-
+  if (!student) {
     afMsg(
-      error && error.message ? error.message : "Dashboard loading failed.",
-      "error",
-      "Dashboard Error"
+      "Could not fetch your dashboard. Please login again.",
+      "warning",
+      "Login Required"
     );
 
+    afSetText("afProfileHeroName", "Login Required");
+    afSetText("afProfileHeroSub", "Please login again.");
+    afSetText("afInfoName", "-");
+    afSetText("afInfoEmail", "-");
+    afSetText("afInfoMobile", "-");
+    afSetText("afInfoState", "-");
+    afSetText("afInfoDistrict", "-");
+    afSetText("afInfoClass", "-");
+
+    if (list) {
+      list.innerHTML = `
+        <p class="af-empty">
+          Please login again to view enrolled courses.
+        </p>
+      `;
+    }
+
     return false;
   }
+
+  afCurrentStudent = student;
+
+  afCurrentExtra =
+    await afFetchExtra(student);
+
+  const batches =
+    await afFetchBatches(student);
+
+  afRenderCard();
+  afRenderProfile(batches);
+
+  return false;
 }
 
 /* ==============================
-   EDIT NAME ONLY
+   EDIT YOUR DETAILS
 ================================ */
 
-function openAfNameEditModal() {
+function openYourDetailsEditAf() {
   if (!afIsLoggedIn()) {
-    afMsg("Login to edit your name.", "warning", "Login Required");
+    afMsg(
+      "Login to edit your details.",
+      "warning",
+      "Login Required"
+    );
+
     return;
   }
 
-  afSetInlineMessage("afNameEditMessage", "", "info");
+  afSetInput(
+    "afEditName",
+    afMergedName() === "Student"
+      ? ""
+      : afMergedName()
+  );
 
-  const currentName = afMergedName();
-  afSetInput("afEditOnlyName", currentName === "Student" ? "" : currentName);
+  afSetInput(
+    "afEditEmail",
+    afMergedEmail() === "-"
+      ? ""
+      : afMergedEmail()
+  );
 
-  afShowElement("afNameEditModal");
+  afSetInput(
+    "afEditMobile",
+    afMergedMobile() === "-"
+      ? ""
+      : afMergedMobile()
+  );
 
-  window.setTimeout(function () {
-    const input = document.getElementById("afEditOnlyName");
+  const box = document.getElementById("afYourDetailsOtpBox");
 
-    if (input) {
-      input.focus();
-      input.select();
+  if (box) {
+    box.classList.add("af-hidden");
+  }
+
+  afSetInput("afEditOtp", "");
+
+  openAfModal("afYourDetailsModal");
+}
+
+async function sendYourDetailsOtpAf() {
+  const name = afGetInput("afEditName");
+  const email = afGetInput("afEditEmail");
+  const mobile = afGetInput("afEditMobile");
+
+  if (!name || !email || !mobile) {
+    afMsg(
+      "Please fill name, email and phone number.",
+      "warning",
+      "Missing Details"
+    );
+
+    return;
+  }
+
+  afPendingEdit = {
+    name,
+    email,
+    mobile
+  };
+
+  try {
+    await afSendOtp(email);
+
+    const box = document.getElementById("afYourDetailsOtpBox");
+
+    if (box) {
+      box.classList.remove("af-hidden");
     }
-  }, 80);
+
+    afMsg(
+      "OTP sent to your email.",
+      "success",
+      "OTP Sent"
+    );
+  } catch (err) {
+    afMsg(
+      err.message || "OTP send failed.",
+      "error",
+      "OTP Error"
+    );
+  }
 }
 
-function closeAfNameEditModal() {
-  afHideElement("afNameEditModal");
-  afSetInlineMessage("afNameEditMessage", "", "info");
-  afSetButtonLoading("afNameEditSubmitBtn", false, "Saving...", "Save Name");
-}
+async function confirmYourDetailsEditAf() {
+  if (!afPendingEdit) {
+    afMsg(
+      "Please send OTP first.",
+      "warning",
+      "OTP Required"
+    );
 
-async function saveAfStudentName(event) {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
+    return;
+  }
+
+  const otp = afGetInput("afEditOtp");
+
+  if (!otp) {
+    afMsg(
+      "Enter OTP.",
+      "warning",
+      "OTP Required"
+    );
+
+    return;
   }
 
   const backend = afBackend();
 
-  if (!backend || typeof backend.from !== "function") {
-    afSetInlineMessage("afNameEditMessage", "Backend not connected.", "error");
-    afMsg("Backend not connected.", "error", "Backend Error");
-    return false;
-  }
-
-  const nextName = afNormalizeName(afGetInput("afEditOnlyName"));
-
-  if (!afIsValidName(nextName)) {
-    afSetInlineMessage(
-      "afNameEditMessage",
-      "Enter a valid name. Use 2-90 letters only.",
-      "error"
+  if (!backend) {
+    afMsg(
+      "Backend not connected.",
+      "error",
+      "Backend Error"
     );
-    return false;
+
+    return;
   }
-
-  const currentName = afNormalizeName(afMergedName());
-
-  if (nextName === currentName) {
-    afSetInlineMessage("afNameEditMessage", "No changes found.", "warning");
-    return false;
-  }
-
-  afSetButtonLoading("afNameEditSubmitBtn", true, "Saving...", "Save Name");
-  afSetInlineMessage("afNameEditMessage", "Saving your name...", "info");
 
   try {
-    if (!afCurrentStudent) {
-      afCurrentStudent = await afFetchStudent();
+    await afVerifyOtp(
+      afPendingEdit.email,
+      otp
+    );
+
+    const oldStudent =
+      afCurrentStudent ||
+      await afFetchStudent();
+
+    let updateQuery = backend
+      .from("students_af")
+      .update({
+        name: afPendingEdit.name,
+        email: afPendingEdit.email,
+        mobile: afPendingEdit.mobile
+      });
+
+    if (oldStudent && oldStudent.email) {
+      updateQuery =
+        updateQuery.eq("email", oldStudent.email);
+    } else if (oldStudent && oldStudent.mobile) {
+      updateQuery =
+        updateQuery.eq("mobile", oldStudent.mobile);
+    } else if (oldStudent && oldStudent.name) {
+      updateQuery =
+        updateQuery.eq("name", oldStudent.name);
+    } else {
+      throw new Error("Old student record not found.");
     }
 
-    const login = afGetLoginData();
-
-    const updatePayload = {
-      nextName: nextName,
-      email: afCurrentStudent && afCurrentStudent.email ? afCurrentStudent.email : login.email,
-      mobile: afCurrentStudent && afCurrentStudent.mobile ? afCurrentStudent.mobile : login.mobile,
-      uuid: login.uuid,
-      student_id: login.student_id
-    };
-
-    const updateQuery = afStudentMatchQuery(backend, updatePayload);
     const { error } = await updateQuery;
 
     if (error) {
-      throw new Error(error.message || "Name update failed.");
+      throw new Error(error.message);
     }
 
     afCurrentStudent = {
-      ...(afCurrentStudent || {}),
-      name: nextName,
-      email: afCurrentStudent && afCurrentStudent.email ? afCurrentStudent.email : login.email,
-      mobile: afCurrentStudent && afCurrentStudent.mobile ? afCurrentStudent.mobile : login.mobile,
+      name: afPendingEdit.name,
+      email: afPendingEdit.email,
+      mobile: afPendingEdit.mobile,
       status: "active"
     };
 
-    localStorage.setItem("af_student_name", nextName);
+    localStorage.setItem(
+      "af_student_name",
+      afPendingEdit.name
+    );
 
-    const localObjectKeys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
+    localStorage.setItem(
+      "af_student_email",
+      afPendingEdit.email
+    );
 
-    localObjectKeys.forEach(function (key) {
-      const obj = afParseLocalJson(key);
+    localStorage.setItem(
+      "af_student_mobile",
+      afPendingEdit.mobile
+    );
 
-      if (!obj) return;
-
-      obj.name = nextName;
-      obj.full_name = nextName;
-      obj.student_name = nextName;
-      obj.studentName = nextName;
-
-      try {
-        localStorage.setItem(key, JSON.stringify(obj));
-      } catch (error) {
-        console.warn("Could not update local student object:", key, error);
-      }
+    await afUpsertExtra({
+      name: afPendingEdit.name
     });
 
-    afRenderCard();
-    afRenderProfile(afCurrentBatches);
+    afPendingEdit = null;
 
-    afSetInlineMessage("afNameEditMessage", "Name updated successfully.", "success");
-    afMsg("Name updated successfully.", "success", "Updated");
+    closeAfModal("afYourDetailsModal");
 
-    window.setTimeout(function () {
-      closeAfNameEditModal();
-    }, 450);
+    afMsg(
+      "Profile updated successfully.",
+      "success",
+      "Updated"
+    );
 
-    return false;
-  } catch (error) {
-    console.error("saveAfStudentName failed:", error);
+    await openStudentDashboardCardAf();
 
-    const message = error && error.message ? error.message : "Could not update name.";
-
-    afSetInlineMessage("afNameEditMessage", message, "error");
-    afMsg(message, "error", "Update Failed");
-
-    return false;
-  } finally {
-    afSetButtonLoading("afNameEditSubmitBtn", false, "Saving...", "Save Name");
+  } catch (err) {
+    afMsg(
+      err.message || "Update failed.",
+      "error",
+      "Update Failed"
+    );
   }
 }
 
 /* ==============================
-   ADDITIONAL SETTINGS V2
+   OTHER DETAILS
 ================================ */
 
-function toggleAfExtraSettingsV2() {
-  const body = document.getElementById("afExtraSettingsBodyV2");
-  const toggle = document.getElementById("afExtraSettingsToggleV2");
-  const arrow = document.getElementById("afExtraSettingsArrowV2");
-
-  if (!body) return;
-
-  const isHidden = body.classList.contains("af-extra-hidden-v2");
-
-  if (isHidden) {
-    body.classList.remove("af-extra-hidden-v2");
-
-    if (toggle) toggle.setAttribute("aria-expanded", "true");
-    if (arrow) arrow.textContent = "⌃";
-  } else {
-    body.classList.add("af-extra-hidden-v2");
-
-    if (toggle) toggle.setAttribute("aria-expanded", "false");
-    if (arrow) arrow.textContent = "⌄";
-  }
-}
-
-/* ==============================
-   DELETE ACCOUNT REQUEST V2
-================================ */
-
-function openAfDeleteAccountRequestV2() {
+function openOtherDetailsEditAf() {
   if (!afIsLoggedIn()) {
-    afMsg("Login required to request account deletion.", "warning", "Login Required");
+    afMsg(
+      "Login to edit details.",
+      "warning",
+      "Login Required"
+    );
+
     return;
   }
 
-  const name = afMergedName();
-  const email = afMergedEmail();
-  const mobile = afMergedMobile();
+  afSetInput(
+    "afEditState",
+    afCurrentExtra && afCurrentExtra.state
+      ? afCurrentExtra.state
+      : ""
+  );
 
-  afSetInput("afDeleteFullNameV2", name === "Student" ? "" : name);
-  afSetInput("afDeleteEmailV2", email === "-" ? "" : email);
-  afSetInput("afDeletePhoneV2", mobile === "-" ? "" : mobile);
-  afSetInput("afDeleteDetailsV2", "");
+  afSetInput(
+    "afEditDistrict",
+    afCurrentExtra && afCurrentExtra.district
+      ? afCurrentExtra.district
+      : ""
+  );
 
-  const reason = document.getElementById("afDeleteReasonV2");
-  const confirm = document.getElementById("afDeleteConfirmV2");
+  afSetInput(
+    "afEditClass",
+    afCurrentExtra && afCurrentExtra.class_name
+      ? afCurrentExtra.class_name
+      : ""
+  );
 
-  if (reason) reason.value = "";
-  if (confirm) confirm.checked = false;
-
-  afSetInlineMessage("afDeleteMessageV2", "", "info");
-  afShowElement("afDeleteAccountModalV2");
-
-  const openButton = document.getElementById("afDeleteAccountOpenBtnV2");
-
-  if (openButton) {
-    openButton.setAttribute("aria-expanded", "true");
-  }
+  openAfModal("afOtherDetailsModal");
 }
 
-function closeAfDeleteAccountRequestV2() {
-  afHideElement("afDeleteAccountModalV2");
-  afSetInlineMessage("afDeleteMessageV2", "", "info");
-  afSetButtonLoading("afDeleteSubmitBtnV2", false, "Submitting...", "Submit Deletion Request");
+async function saveOtherDetailsAf() {
+  const state = afGetInput("afEditState");
+  const district = afGetInput("afEditDistrict");
+  const className = afGetInput("afEditClass");
 
-  const openButton = document.getElementById("afDeleteAccountOpenBtnV2");
+  if (!state || !district) {
+    afMsg(
+      "Please fill state and district.",
+      "warning",
+      "Missing Details"
+    );
 
-  if (openButton) {
-    openButton.setAttribute("aria-expanded", "false");
+    return;
   }
-}
-
-function afValidateDeleteRequestV2(payload) {
-  if (!payload.full_name || payload.full_name.length < 2) {
-    return "Enter your full name.";
-  }
-
-  if (!payload.registered_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.registered_email)) {
-    return "Enter a valid registered email.";
-  }
-
-  if (!payload.registered_phone || payload.registered_phone.length < 7) {
-    return "Enter a valid registered phone number.";
-  }
-
-  if (!payload.delete_reason) {
-    return "Select a deletion reason.";
-  }
-
-  if (!payload.additional_details || payload.additional_details.length < 10) {
-    return "Write at least 10 characters in additional details.";
-  }
-
-  if (!payload.confirmed) {
-    return "Please confirm the deletion policy.";
-  }
-
-  return "";
-}
-
-async function submitAfDeleteAccountRequestV2(event) {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  const backend = afBackend();
-
-  if (!backend || typeof backend.from !== "function") {
-    afSetInlineMessage("afDeleteMessageV2", "Backend not connected.", "error");
-    afMsg("Backend not connected.", "error", "Backend Error");
-    return false;
-  }
-
-  if (!afIsLoggedIn()) {
-    afSetInlineMessage("afDeleteMessageV2", "Login required.", "error");
-    afMsg("Login required.", "warning", "Login Required");
-    return false;
-  }
-
-  const confirmBox = document.getElementById("afDeleteConfirmV2");
-
-  const payload = {
-    full_name: afNormalizeName(afGetInput("afDeleteFullNameV2")),
-    registered_email: afGetInput("afDeleteEmailV2").toLowerCase(),
-    registered_phone: afGetInput("afDeletePhoneV2"),
-    delete_reason: afGetInput("afDeleteReasonV2"),
-    additional_details: afGetInput("afDeleteDetailsV2"),
-    confirmed: Boolean(confirmBox && confirmBox.checked)
-  };
-
-  const validationError = afValidateDeleteRequestV2(payload);
-
-  if (validationError) {
-    afSetInlineMessage("afDeleteMessageV2", validationError, "error");
-    return false;
-  }
-
-  afSetButtonLoading("afDeleteSubmitBtnV2", true, "Submitting...", "Submit Deletion Request");
-  afSetInlineMessage("afDeleteMessageV2", "Submitting deletion request...", "info");
 
   try {
-    const login = afGetLoginData();
-
     if (!afCurrentStudent) {
       afCurrentStudent = await afFetchStudent();
     }
 
-    const insertPayload = {
-      full_name: payload.full_name,
-      registered_email: payload.registered_email,
-      registered_phone: payload.registered_phone,
-      delete_reason: payload.delete_reason,
-      additional_details: payload.additional_details,
-      status: "pending_review",
-      requested_at: new Date().toISOString(),
-      scheduled_delete_after_days: 90,
-      student_snapshot: {
-        student: afCurrentStudent || {},
-        login: login || {}
+    await afUpsertExtra({
+      state: state,
+      district: district,
+      class_name: className || ""
+    });
+
+    closeAfModal("afOtherDetailsModal");
+
+    afMsg(
+      "State and district saved successfully.",
+      "success",
+      "Saved"
+    );
+
+    await openStudentDashboardCardAf();
+
+  } catch (err) {
+    console.error("Save other details error:", err);
+
+    afMsg(
+      err.message || "Could not save details.",
+      "error",
+      "Save Failed"
+    );
+  }
+}
+
+/* ==============================
+   DELETE ACCOUNT
+================================ */
+
+async function sendDeleteAccountOtpAf() {
+  const email = afGetInput("afDeleteEmail");
+  const mobile = afGetInput("afDeleteMobile");
+  const reason = afGetInput("afDeleteReason");
+
+  if (!afIsLoggedIn()) {
+    afMsg(
+      "Login required.",
+      "warning",
+      "Login Required"
+    );
+
+    return;
+  }
+
+  if (!email || !mobile) {
+    afMsg(
+      "Please enter email and phone number.",
+      "warning",
+      "Missing Details"
+    );
+
+    return;
+  }
+
+  afPendingDelete = {
+    email,
+    mobile,
+    reason
+  };
+
+  try {
+    await afSendOtp(email);
+
+    const box = document.getElementById("afDeleteOtpBox");
+
+    if (box) {
+      box.classList.remove("af-hidden");
+    }
+
+    afMsg(
+      "OTP sent to your email.",
+      "success",
+      "OTP Sent"
+    );
+  } catch (err) {
+    afMsg(
+      err.message || "OTP send failed.",
+      "error",
+      "OTP Error"
+    );
+  }
+}
+
+async function confirmDeleteAccountAf() {
+  if (!afPendingDelete) {
+    afMsg(
+      "Please send OTP first.",
+      "warning",
+      "OTP Required"
+    );
+
+    return;
+  }
+
+  const otp = afGetInput("afDeleteOtp");
+
+  if (!otp) {
+    afMsg(
+      "Enter OTP.",
+      "warning",
+      "OTP Required"
+    );
+
+    return;
+  }
+
+  const backend = afBackend();
+
+  if (!backend) {
+    afMsg(
+      "Backend not connected.",
+      "error",
+      "Backend Error"
+    );
+
+    return;
+  }
+
+  try {
+    await afVerifyOtp(
+      afPendingDelete.email,
+      otp
+    );
+
+    const student =
+      afCurrentStudent ||
+      await afFetchStudent();
+
+    const extra =
+      afCurrentExtra ||
+      await afFetchExtra(student);
+
+    const backup = {
+      name: student?.name || "",
+      email: afPendingDelete.email,
+      phone: afPendingDelete.mobile,
+      state: extra?.state || "",
+      district: extra?.district || "",
+      delete_reason: afPendingDelete.reason || "",
+      status: "deleted",
+      raw_profile: {
+        student: student || {},
+        extra: extra || {}
       }
     };
 
-    const { error } = await backend
-      .from("account_deletion_requests_af")
-      .insert([insertPayload]);
+    const { error: insertError } =
+      await backend
+        .from("deleted_accounts_af")
+        .insert([backup]);
 
-    if (error) {
-      throw new Error(error.message || "Could not submit deletion request.");
+    if (insertError) {
+      throw new Error(insertError.message);
     }
 
-    afSetInlineMessage(
-      "afDeleteMessageV2",
-      "Deletion request submitted successfully.",
-      "success"
-    );
+    let updateQuery =
+      backend
+        .from("students_af")
+        .update({
+          status: "deleted"
+        });
+
+    if (student?.email) {
+      updateQuery =
+        updateQuery.eq("email", student.email);
+    } else if (student?.mobile) {
+      updateQuery =
+        updateQuery.eq("mobile", student.mobile);
+    } else if (student?.name) {
+      updateQuery =
+        updateQuery.eq("name", student.name);
+    } else {
+      throw new Error("Student record not found.");
+    }
+
+    const { error: updateError } =
+      await updateQuery;
+
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
+
+    afClearStudentLoginStorage();
+
+    afCurrentStudent = null;
+    afCurrentExtra = null;
+    afPendingDelete = null;
+
+    afRenderCard();
 
     afMsg(
-      "Your deletion request has been submitted for review.",
+      "Your account has been deleted.",
       "success",
-      "Request Submitted"
+      "Account Deleted"
     );
 
-    window.setTimeout(function () {
-      closeAfDeleteAccountRequestV2();
-    }, 700);
+    showSection("home");
 
-    return false;
-  } catch (error) {
-    console.error("submitAfDeleteAccountRequestV2 failed:", error);
-
-    const message = error && error.message ? error.message : "Could not submit deletion request.";
-
-    afSetInlineMessage("afDeleteMessageV2", message, "error");
-    afMsg(message, "error", "Request Failed");
-
-    return false;
-  } finally {
-    afSetButtonLoading("afDeleteSubmitBtnV2", false, "Submitting...", "Submit Deletion Request");
+  } catch (err) {
+    afMsg(
+      err.message || "Delete failed.",
+      "error",
+      "Delete Failed"
+    );
   }
 }
 
@@ -33883,325 +33010,127 @@ async function submitAfDeleteAccountRequestV2(event) {
 ================================ */
 
 function afClearStudentLoginStorage() {
-  const keys = [
-    "af_student_logged_in",
-    "af_student_uuid",
-    "af_student_id",
-    "student_id",
-    "af_student_name",
-    "af_student_email",
-    "af_student_mobile",
-    "af_logged_student",
-    "afStudent",
-    "af_student",
-    "loggedStudent",
-    "studentData",
-    "currentStudent",
-    "student"
-  ];
-
-  keys.forEach(function (key) {
-    localStorage.removeItem(key);
-  });
-
-  afCurrentStudent = null;
-  afCurrentBatches = [];
-  afRenderCard();
+  localStorage.removeItem("af_student_logged_in");
+  localStorage.removeItem("af_student_uuid");
+  localStorage.removeItem("af_student_id");
+  localStorage.removeItem("student_id");
+  localStorage.removeItem("af_student_name");
+  localStorage.removeItem("af_student_email");
+  localStorage.removeItem("af_student_mobile");
+  localStorage.removeItem("af_logged_student");
+  localStorage.removeItem("afStudent");
+  localStorage.removeItem("af_student");
+  localStorage.removeItem("loggedStudent");
+  localStorage.removeItem("studentData");
+  localStorage.removeItem("currentStudent");
+  localStorage.removeItem("student");
 }
 
-/* ==============================
-   MODAL OUTSIDE CLICK / ESC
-================================ */
-
-document.addEventListener("click", function (event) {
-  const nameModal = document.getElementById("afNameEditModal");
-  const deleteModal = document.getElementById("afDeleteAccountModalV2");
-
-  if (nameModal && event.target === nameModal) {
-    closeAfNameEditModal();
-  }
-
-  if (deleteModal && event.target === deleteModal) {
-    closeAfDeleteAccountRequestV2();
-  }
-});
-
-document.addEventListener("keydown", function (event) {
-  if (event.key !== "Escape") return;
-
-  closeAfNameEditModal();
-  closeAfDeleteAccountRequestV2();
-});
+/*
+  Existing logout function ke end me ye add karna:
+  afClearStudentLoginStorage();
+  afRenderCard();
+*/
 
 /* ==============================
    INIT
 ================================ */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   afRenderCard();
 });
 
+  
 /* =========================================================
-   SETTINGS NAME DIRECT BACKEND FETCH - AF
-   Replaces old DOM-copy sync logic
-   Fetches name from students_af directly
+   SETTINGS VIEW PROFILE -> WORKING STUDENT DASHBOARD - AF
+   Opens #studentDashboardAf and triggers existing fetch/render logic
 ========================================================= */
 
-(function () {
-  "use strict";
+function openStudentDashboardFromSettingsAf() {
+  try {
+    const dashboardSection = document.getElementById("studentDashboardAf");
 
-  let afSettingsNameSyncInFlight = false;
-  let afSettingsNameLastFetchAt = 0;
-  let afSettingsNameCached = "";
-
-  function afSettingsBackend() {
-    if (typeof getStudentBackendaf === "function") {
-      return getStudentBackendaf();
+    if (!dashboardSection) {
+      console.error("studentDashboardAf section not found.");
+      return;
     }
 
-    if (typeof studentDb !== "undefined" && studentDb) {
-      return studentDb;
+    if (typeof showSection === "function") {
+      showSection("studentDashboardAf");
+    } else {
+      document.querySelectorAll(".section, .app-section").forEach(function (section) {
+        section.classList.remove("active");
+        section.style.display = "none";
+      });
+
+      dashboardSection.classList.add("active");
+      dashboardSection.style.display = "block";
     }
 
-    if (typeof supabase !== "undefined" && supabase) {
-      return supabase;
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-    return null;
+    window.setTimeout(function () {
+      if (typeof loadStudentDashboardAf === "function") {
+        loadStudentDashboardAf();
+        return;
+      }
+
+      if (typeof loadAfStudentDashboard === "function") {
+        loadAfStudentDashboard();
+        return;
+      }
+
+      if (typeof fetchStudentDashboardAf === "function") {
+        fetchStudentDashboardAf();
+        return;
+      }
+
+      if (typeof renderStudentDashboardAf === "function") {
+        renderStudentDashboardAf();
+        return;
+      }
+
+      if (typeof openSettingsProfile === "function") {
+        openSettingsProfile();
+        return;
+      }
+
+      console.warn("No dashboard fetch function found. Section opened only.");
+    }, 80);
+  } catch (error) {
+    console.error("openStudentDashboardFromSettingsAf failed:", error);
   }
+}
 
-  function afSettingsParseLocalJson(key) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
+/* =========================================================
+   SETTINGS NAME SYNC FROM WORKING PROFILE PAGE - AF
+========================================================= */
 
-      const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== "object") return null;
-
-      return parsed;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function afSettingsGetLoginData() {
-    const data = {
-      id: "",
-      uuid: "",
-      student_id: "",
-      name: "",
-      email: "",
-      mobile: ""
-    };
-
-    data.uuid = localStorage.getItem("af_student_uuid") || "";
-    data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
-    data.id = data.uuid || data.student_id || "";
-
-    data.name = localStorage.getItem("af_student_name") || "";
-    data.email = localStorage.getItem("af_student_email") || "";
-    data.mobile = localStorage.getItem("af_student_mobile") || "";
-
-    const possibleKeys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    for (let i = 0; i < possibleKeys.length; i += 1) {
-      const obj = afSettingsParseLocalJson(possibleKeys[i]);
-
-      if (!obj) continue;
-
-      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
-      data.student_id = data.student_id || obj.student_id || obj.studentId || "";
-      data.id = data.uuid || data.student_id || data.id || "";
-
-      data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
-      data.email = data.email || obj.email || obj.student_email || "";
-      data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
-    }
-
-    if (typeof loggedStudent !== "undefined" && loggedStudent) {
-      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
-      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
-      data.id = data.uuid || data.student_id || data.id || "";
-
-      data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
-      data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
-      data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
-    }
-
-    return data;
-  }
-
-  function afSettingsNormalizeName(name) {
-    return String(name || "")
-      .replace(/^Hi,\s*/i, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function afSettingsSetName(name) {
+function syncSettingsNameFromStudentDashboardAf() {
+  try {
     const settingsNameEl = document.getElementById("settingsStudentName");
     if (!settingsNameEl) return;
 
-    const cleanName = afSettingsNormalizeName(name);
-    settingsNameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
+    const profileNameEl = document.getElementById("afProfileHeroName");
+    const detailNameEl = document.getElementById("afInfoName");
+
+    const profileName = profileNameEl ? String(profileNameEl.textContent || "").trim() : "";
+    const detailName = detailNameEl ? String(detailNameEl.textContent || "").trim() : "";
+
+    const finalName =
+      profileName && profileName !== "Student" && profileName !== "-"
+        ? profileName
+        : detailName && detailName !== "-"
+          ? detailName
+          : "";
+
+    settingsNameEl.textContent = finalName ? "Hi, " + finalName.replace(/^Hi,\s*/i, "") : "Hi, Student";
+  } catch (error) {
+    console.error("syncSettingsNameFromStudentDashboardAf failed:", error);
   }
+}
 
-  function afSettingsPersistName(name) {
-    const cleanName = afSettingsNormalizeName(name);
-
-    if (!cleanName) return;
-
-    try {
-      localStorage.setItem("af_student_name", cleanName);
-    } catch (error) {
-      console.warn("Could not persist af_student_name:", error);
-    }
-
-    const localObjectKeys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    localObjectKeys.forEach(function (key) {
-      const obj = afSettingsParseLocalJson(key);
-
-      if (!obj) return;
-
-      obj.name = cleanName;
-      obj.full_name = cleanName;
-      obj.student_name = cleanName;
-      obj.studentName = cleanName;
-
-      try {
-        localStorage.setItem(key, JSON.stringify(obj));
-      } catch (error) {
-        console.warn("Could not update local student object:", key, error);
-      }
-    });
-  }
-
-  async function afSettingsFetchStudentNameFromBackend(force) {
-    const now = Date.now();
-
-    if (!force && afSettingsNameCached && now - afSettingsNameLastFetchAt < 15000) {
-      return afSettingsNameCached;
-    }
-
-    if (afSettingsNameSyncInFlight) {
-      return afSettingsNameCached || afSettingsGetLoginData().name || "";
-    }
-
-    const backend = afSettingsBackend();
-    const login = afSettingsGetLoginData();
-
-    if (!backend || typeof backend.from !== "function") {
-      return login.name || "";
-    }
-
-    if (!login.email && !login.mobile && !login.name && !login.uuid && !login.student_id) {
-      return "";
-    }
-
-    afSettingsNameSyncInFlight = true;
-
-    try {
-      let result = null;
-
-      if (login.email) {
-        result = await backend
-          .from("students_af")
-          .select("name, status")
-          .eq("email", login.email)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.mobile) {
-        result = await backend
-          .from("students_af")
-          .select("name, status")
-          .eq("mobile", login.mobile)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.uuid) {
-        result = await backend
-          .from("students_af")
-          .select("name, status")
-          .eq("id", login.uuid)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.student_id) {
-        result = await backend
-          .from("students_af")
-          .select("name, status")
-          .eq("student_id", login.student_id)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.name) {
-        result = await backend
-          .from("students_af")
-          .select("name, status")
-          .eq("name", login.name)
-          .maybeSingle();
-      }
-
-      if (result && result.error) {
-        console.error("settings students_af name fetch error:", result.error);
-        return login.name || "";
-      }
-
-      if (!result || !result.data) {
-        return login.name || "";
-      }
-
-      if (result.data.status === "deleted") {
-        return "";
-      }
-
-      const backendName = afSettingsNormalizeName(result.data.name);
-
-      if (backendName) {
-        afSettingsNameCached = backendName;
-        afSettingsNameLastFetchAt = Date.now();
-        afSettingsPersistName(backendName);
-      }
-
-      return backendName || login.name || "";
-    } catch (error) {
-      console.error("afSettingsFetchStudentNameFromBackend failed:", error);
-      return login.name || "";
-    } finally {
-      afSettingsNameSyncInFlight = false;
-    }
-  }
-
-  async function syncSettingsNameFromStudentDashboardAf(force) {
-    const login = afSettingsGetLoginData();
-
-    afSettingsSetName(login.name || afSettingsNameCached || "");
-
-    const backendName = await afSettingsFetchStudentNameFromBackend(Boolean(force));
-
-    afSettingsSetName(backendName || login.name || "");
-  }
-
-  window.syncSettingsNameFromStudentDashboardAf = syncSettingsNameFromStudentDashboardAf;
-
+(function () {
   const previousShowSection = window.showSection;
 
   window.showSection = function (sectionId) {
@@ -34214,7 +33143,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const target = document.getElementById(sectionId);
-
       if (target) {
         target.classList.add("active");
         target.style.display = "block";
@@ -34222,51 +33150,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (sectionId === "settings") {
-      window.setTimeout(function () {
-        syncSettingsNameFromStudentDashboardAf(false);
-      }, 80);
-
-      window.setTimeout(function () {
-        syncSettingsNameFromStudentDashboardAf(true);
-      }, 450);
+      window.setTimeout(syncSettingsNameFromStudentDashboardAf, 150);
+      window.setTimeout(syncSettingsNameFromStudentDashboardAf, 700);
     }
 
     if (sectionId === "studentDashboardAf") {
-      window.setTimeout(function () {
-        syncSettingsNameFromStudentDashboardAf(true);
-      }, 700);
+      window.setTimeout(syncSettingsNameFromStudentDashboardAf, 700);
     }
   };
 
   document.addEventListener("DOMContentLoaded", function () {
-    window.setTimeout(function () {
-      syncSettingsNameFromStudentDashboardAf(false);
-    }, 250);
-
-    window.setTimeout(function () {
-      syncSettingsNameFromStudentDashboardAf(true);
-    }, 900);
-  });
-
-  window.addEventListener("storage", function (event) {
-    if (
-      event.key === "af_student_name" ||
-      event.key === "af_student_email" ||
-      event.key === "af_student_mobile" ||
-      event.key === "af_student_uuid" ||
-      event.key === "af_logged_student" ||
-      event.key === "afStudent" ||
-      event.key === "af_student" ||
-      event.key === "loggedStudent" ||
-      event.key === "studentData" ||
-      event.key === "currentStudent" ||
-      event.key === "student"
-    ) {
-      syncSettingsNameFromStudentDashboardAf(true);
-    }
+    window.setTimeout(syncSettingsNameFromStudentDashboardAf, 700);
   });
 })();
-  
+
   /* =========================================================
    AF HOME BANNER SWIPE + TOUCH PAUSE + MARQUEE FIX
    Paste at END of JS
@@ -40861,1256 +39758,7 @@ async function loadContactRequestStatusAf(forceRefresh) {
     );
   }
 }
-/* =========================================================
-   AF STUDENT PROFILE PAGE V3 JS
-   Backend Fetch + Name Edit Only
-   Works with:
-   - #afStudentProfilePageV3
-   - #afStudentNameHeroV3
-   - #afStudentInfoNameV3
-   - #afStudentInfoEmailV3
-   - #afStudentInfoMobileV3
-   - #afStudentBatchListV3
-   - #afStudentNameEditModalV3
-   - students_af
-   - Edge Function: student-courses-af
-========================================================= */
 
-(function () {
-  "use strict";
-
-  let afStudentV3CurrentStudent = null;
-  let afStudentV3CurrentBatches = [];
-  let afStudentV3Loading = false;
-
-  /* ==============================
-     MESSAGE
-  ================================ */
-
-  function afStudentV3Msg(message, type, title) {
-    const safeMessage = message || "Something went wrong.";
-    const safeType = type || "info";
-    const safeTitle = title || "Message";
-
-    if (typeof showAfToast === "function") {
-      showAfToast(safeMessage, safeType, safeTitle);
-      return;
-    }
-
-    if (typeof showToast === "function") {
-      showToast(safeTitle, safeMessage);
-      return;
-    }
-
-    if (typeof showStudentMessageaf === "function") {
-      showStudentMessageaf(
-        safeType === "error" ? "err" : safeType === "success" ? "ok" : "info",
-        safeMessage
-      );
-      return;
-    }
-
-    window.alert((safeTitle ? safeTitle + ": " : "") + safeMessage);
-  }
-
-  /* ==============================
-     BACKEND
-  ================================ */
-
-  function afStudentV3Backend() {
-    if (typeof getStudentBackendaf === "function") {
-      return getStudentBackendaf();
-    }
-
-    if (typeof studentDb !== "undefined" && studentDb) {
-      return studentDb;
-    }
-
-    if (typeof supabase !== "undefined" && supabase) {
-      return supabase;
-    }
-
-    return null;
-  }
-
-  async function afStudentV3EdgeCall(functionName, payload) {
-    const backend = afStudentV3Backend();
-
-    if (!backend || !backend.functions || typeof backend.functions.invoke !== "function") {
-      return {
-        ok: false,
-        message: "Student backend is not connected."
-      };
-    }
-
-    try {
-      const { data, error } = await backend.functions.invoke(functionName, {
-        body: payload || {}
-      });
-
-      if (error) {
-        return {
-          ok: false,
-          message: error.message || "Server request failed."
-        };
-      }
-
-      if (!data) {
-        return {
-          ok: false,
-          message: "Empty server response."
-        };
-      }
-
-      return data;
-    } catch (error) {
-      return {
-        ok: false,
-        message: error && error.message ? error.message : "Server request failed."
-      };
-    }
-  }
-
-  /* ==============================
-     LOGIN DATA
-  ================================ */
-
-  function afStudentV3ParseLocalJson(key) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-
-      const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== "object") return null;
-
-      return parsed;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function afStudentV3GetLoginData() {
-    const data = {
-      id: "",
-      uuid: "",
-      student_id: "",
-      name: "",
-      email: "",
-      mobile: ""
-    };
-
-    data.uuid = localStorage.getItem("af_student_uuid") || "";
-    data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
-    data.id = data.uuid || data.student_id || "";
-
-    data.name = localStorage.getItem("af_student_name") || "";
-    data.email = localStorage.getItem("af_student_email") || "";
-    data.mobile = localStorage.getItem("af_student_mobile") || "";
-
-    const possibleKeys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    for (let i = 0; i < possibleKeys.length; i += 1) {
-      const obj = afStudentV3ParseLocalJson(possibleKeys[i]);
-
-      if (!obj) continue;
-
-      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
-      data.student_id = data.student_id || obj.student_id || obj.studentId || "";
-      data.id = data.uuid || data.student_id || data.id || "";
-
-      data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
-      data.email = data.email || obj.email || obj.student_email || "";
-      data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
-    }
-
-    if (typeof loggedStudent !== "undefined" && loggedStudent) {
-      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
-      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
-      data.id = data.uuid || data.student_id || data.id || "";
-
-      data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
-      data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
-      data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
-    }
-
-    return data;
-  }
-
-  function afStudentV3IsLoggedIn() {
-    const data = afStudentV3GetLoginData();
-
-    return Boolean(
-      data.email ||
-      data.mobile ||
-      data.name ||
-      data.id
-    );
-  }
-
-  /* ==============================
-     HELPERS
-  ================================ */
-
-  function afStudentV3SafeText(value) {
-    if (value === null || value === undefined) return "";
-    return String(value);
-  }
-
-  function afStudentV3EscapeHtml(value) {
-    return afStudentV3SafeText(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function afStudentV3SetText(id, value) {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    const finalValue = value && String(value).trim() ? String(value).trim() : "-";
-    element.textContent = finalValue;
-  }
-
-  function afStudentV3GetInput(id) {
-    const element = document.getElementById(id);
-
-    if (!element) return "";
-
-    return String(element.value || "").trim();
-  }
-
-  function afStudentV3SetInput(id, value) {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    element.value = value || "";
-  }
-
-  function afStudentV3NormalizeName(name) {
-    return afStudentV3SafeText(name)
-      .replace(/^Hi,\s*/i, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function afStudentV3Initial(name) {
-    const safeName = afStudentV3NormalizeName(name);
-
-    if (!safeName) return "S";
-
-    return safeName.charAt(0).toUpperCase();
-  }
-
-  function afStudentV3IsValidName(name) {
-    const normalized = afStudentV3NormalizeName(name);
-
-    if (normalized.length < 2) return false;
-    if (normalized.length > 90) return false;
-
-    return /^[A-Za-zÀ-ÖØ-öø-ÿ\u0900-\u097F\s.'-]+$/.test(normalized);
-  }
-
-  function afStudentV3SetInlineMessage(id, message, type) {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    element.textContent = message || "";
-    element.dataset.type = type || "info";
-  }
-
-  function afStudentV3SetButtonLoading(buttonId, isLoading, loadingText, defaultText) {
-    const button = document.getElementById(buttonId);
-
-    if (!button) return;
-
-    button.disabled = Boolean(isLoading);
-    button.textContent = isLoading ? loadingText : defaultText;
-  }
-
-  function afStudentV3ShowElement(id) {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    element.classList.remove("af-student-hidden-v3");
-    element.style.display = "grid";
-  }
-
-  function afStudentV3HideElement(id) {
-    const element = document.getElementById(id);
-
-    if (!element) return;
-
-    element.classList.add("af-student-hidden-v3");
-    element.style.display = "none";
-  }
-
-  function afStudentV3PersistName(name) {
-    const cleanName = afStudentV3NormalizeName(name);
-
-    if (!cleanName) return;
-
-    try {
-      localStorage.setItem("af_student_name", cleanName);
-    } catch (error) {
-      console.warn("Could not persist af_student_name:", error);
-    }
-
-    const localObjectKeys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    localObjectKeys.forEach(function (key) {
-      const obj = afStudentV3ParseLocalJson(key);
-
-      if (!obj) return;
-
-      obj.name = cleanName;
-      obj.full_name = cleanName;
-      obj.student_name = cleanName;
-      obj.studentName = cleanName;
-
-      try {
-        localStorage.setItem(key, JSON.stringify(obj));
-      } catch (error) {
-        console.warn("Could not update local student object:", key, error);
-      }
-    });
-  }
-
-  function afStudentV3UpdateSettingsName(name) {
-    const settingsNameEl = document.getElementById("settingsStudentName");
-
-    if (!settingsNameEl) return;
-
-    const cleanName = afStudentV3NormalizeName(name);
-    settingsNameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
-  }
-
-  function afStudentV3UpdateHomeProfileCard(name) {
-    const nameEl = document.getElementById("studentDashboardCardNameAf");
-    const subEl = document.getElementById("studentDashboardCardSubAf");
-
-    const cleanName = afStudentV3NormalizeName(name);
-
-    if (nameEl) {
-      nameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
-    }
-
-    if (subEl) {
-      subEl.textContent = cleanName ? "View Profile" : "Login to view profile";
-    }
-  }
-
-  function afStudentV3ForceOpenPage() {
-    const target = document.getElementById("afStudentProfilePageV3");
-
-    if (!target) {
-      console.error("afStudentProfilePageV3 section not found.");
-      afStudentV3Msg("Student profile page not found.", "error", "Profile Error");
-      return false;
-    }
-
-    try {
-      if (typeof showSection === "function") {
-        showSection("afStudentProfilePageV3");
-      }
-    } catch (error) {
-      console.error("showSection afStudentProfilePageV3 failed:", error);
-    }
-
-    document.querySelectorAll(".section, .app-section").forEach(function (section) {
-      section.classList.remove("active");
-      section.classList.remove("show");
-      section.classList.remove("visible");
-
-      section.style.display = "none";
-      section.style.visibility = "hidden";
-      section.style.opacity = "0";
-      section.style.pointerEvents = "none";
-    });
-
-    target.classList.add("active");
-    target.classList.add("show");
-    target.classList.add("visible");
-
-    target.style.display = "block";
-    target.style.visibility = "visible";
-    target.style.opacity = "1";
-    target.style.pointerEvents = "auto";
-    target.style.minHeight = "100vh";
-    target.style.position = "relative";
-    target.style.zIndex = "5";
-
-    const shell = target.querySelector(".af-student-shell-v3");
-
-    if (shell) {
-      shell.style.display = "grid";
-      shell.style.visibility = "visible";
-      shell.style.opacity = "1";
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-    return true;
-  }
-
-  /* ==============================
-     MERGED DISPLAY DATA
-  ================================ */
-
-  function afStudentV3MergedName() {
-    const login = afStudentV3GetLoginData();
-
-    return (
-      afStudentV3CurrentStudent && afStudentV3CurrentStudent.name
-        ? afStudentV3CurrentStudent.name
-        : login.name || "Student"
-    );
-  }
-
-  function afStudentV3MergedEmail() {
-    const login = afStudentV3GetLoginData();
-
-    return (
-      afStudentV3CurrentStudent && afStudentV3CurrentStudent.email
-        ? afStudentV3CurrentStudent.email
-        : login.email || "-"
-    );
-  }
-
-  function afStudentV3MergedMobile() {
-    const login = afStudentV3GetLoginData();
-
-    return (
-      afStudentV3CurrentStudent && afStudentV3CurrentStudent.mobile
-        ? afStudentV3CurrentStudent.mobile
-        : login.mobile || "-"
-    );
-  }
-
-  /* ==============================
-     FETCH STUDENT FROM BACKEND
-  ================================ */
-
-  async function afStudentV3FetchStudentFromBackend() {
-    const backend = afStudentV3Backend();
-
-    if (!backend || typeof backend.from !== "function") {
-      throw new Error("Student backend is not connected.");
-    }
-
-    const login = afStudentV3GetLoginData();
-
-    if (!afStudentV3IsLoggedIn()) {
-      return null;
-    }
-
-    let result = null;
-
-    if (login.email) {
-      result = await backend
-        .from("students_af")
-        .select("id, student_id, name, mobile, email, status")
-        .eq("email", login.email)
-        .maybeSingle();
-    }
-
-    if ((!result || !result.data) && login.mobile) {
-      result = await backend
-        .from("students_af")
-        .select("id, student_id, name, mobile, email, status")
-        .eq("mobile", login.mobile)
-        .maybeSingle();
-    }
-
-    if ((!result || !result.data) && login.uuid) {
-      result = await backend
-        .from("students_af")
-        .select("id, student_id, name, mobile, email, status")
-        .eq("id", login.uuid)
-        .maybeSingle();
-    }
-
-    if ((!result || !result.data) && login.student_id) {
-      result = await backend
-        .from("students_af")
-        .select("id, student_id, name, mobile, email, status")
-        .eq("student_id", login.student_id)
-        .maybeSingle();
-    }
-
-    if ((!result || !result.data) && login.name) {
-      result = await backend
-        .from("students_af")
-        .select("id, student_id, name, mobile, email, status")
-        .eq("name", login.name)
-        .maybeSingle();
-    }
-
-    if (result && result.error) {
-      throw new Error(result.error.message || "Could not fetch student profile.");
-    }
-
-    if (!result || !result.data) {
-      return {
-        id: login.uuid || "",
-        student_id: login.student_id || "",
-        name: login.name || "Student",
-        email: login.email || "",
-        mobile: login.mobile || "",
-        status: "active"
-      };
-    }
-
-    if (result.data.status === "deleted") {
-      throw new Error("This account is marked as deleted.");
-    }
-
-    return result.data;
-  }
-
-  /* ==============================
-     FETCH BATCHES FROM BACKEND
-  ================================ */
-
-  async function afStudentV3FetchBatchesFromBackend(student) {
-    const login = afStudentV3GetLoginData();
-
-    const studentUuid =
-      (student && student.id) ||
-      login.uuid ||
-      localStorage.getItem("af_student_uuid") ||
-      "";
-
-    const studentId =
-      (student && student.student_id) ||
-      login.student_id ||
-      localStorage.getItem("af_student_id") ||
-      localStorage.getItem("student_id") ||
-      "";
-
-    const finalStudentId = studentUuid || studentId;
-
-    if (!finalStudentId) {
-      console.warn("V3 course fetch skipped: student id missing.");
-      return [];
-    }
-
-    const result = await afStudentV3EdgeCall("student-courses-af", {
-      student_id: finalStudentId
-    });
-
-    if (!result || !result.ok) {
-      console.warn("V3 course edge error:", result);
-      return [];
-    }
-
-    const courses = Array.isArray(result.courses) ? result.courses : [];
-
-    return courses.map(function (course) {
-      return {
-        raw: course,
-        title: course.title || course.course_title || course.name || "Enrolled Course",
-        slug: course.slug || course.batch_name || course.subtitle || "Active",
-        icon: course.icon || "📚",
-        status: course.status || "active"
-      };
-    });
-  }
-
-  /* ==============================
-     RENDER
-  ================================ */
-
-  function afStudentV3RenderProfile(batches) {
-    const name = afStudentV3MergedName();
-    const email = afStudentV3MergedEmail();
-    const mobile = afStudentV3MergedMobile();
-
-    afStudentV3SetText("afStudentAvatarV3", afStudentV3Initial(name));
-    afStudentV3SetText("afStudentNameHeroV3", name);
-    afStudentV3SetText("afStudentHeroSubtitleV3", "View your account details and enrolled batches");
-
-    afStudentV3SetText("afStudentInfoNameV3", name);
-    afStudentV3SetText("afStudentInfoEmailV3", email);
-    afStudentV3SetText("afStudentInfoMobileV3", mobile);
-
-    afStudentV3UpdateHomeProfileCard(name);
-    afStudentV3UpdateSettingsName(name);
-
-    const list = document.getElementById("afStudentBatchListV3");
-
-    if (!list) return;
-
-    if (!Array.isArray(batches) || !batches.length) {
-      list.innerHTML = '<p class="af-student-empty-v3">No enrolled batch found.</p>';
-      return;
-    }
-
-    list.innerHTML = batches
-      .map(function (item) {
-        const title = afStudentV3EscapeHtml(item.title || "Enrolled Course");
-        const slug = afStudentV3EscapeHtml(item.slug || "Active");
-        const icon = afStudentV3EscapeHtml(item.icon || "📚");
-        const status = afStudentV3EscapeHtml(item.status || "active");
-
-        return (
-          '<article class="af-student-batch-item-v3">' +
-            '<div class="af-student-batch-main-v3">' +
-              '<div class="af-student-batch-icon-v3">' + icon + '</div>' +
-              '<div class="af-student-batch-copy-v3">' +
-                '<h4>' + title + '</h4>' +
-                '<p>' + slug + '</p>' +
-              '</div>' +
-            '</div>' +
-            '<span class="af-student-batch-status-v3">' + status + '</span>' +
-          '</article>'
-        );
-      })
-      .join("");
-  }
-
-  function afStudentV3RenderLoading() {
-    afStudentV3SetText("afStudentAvatarV3", "S");
-    afStudentV3SetText("afStudentNameHeroV3", "Loading...");
-    afStudentV3SetText("afStudentHeroSubtitleV3", "Fetching your profile from backend...");
-    afStudentV3SetText("afStudentInfoNameV3", "Loading...");
-    afStudentV3SetText("afStudentInfoEmailV3", "Loading...");
-    afStudentV3SetText("afStudentInfoMobileV3", "Loading...");
-
-    const list = document.getElementById("afStudentBatchListV3");
-
-    if (list) {
-      list.innerHTML = '<p class="af-student-empty-v3">Loading enrolled batches...</p>';
-    }
-  }
-
-  function afStudentV3RenderError(message) {
-    afStudentV3SetText("afStudentAvatarV3", "!");
-    afStudentV3SetText("afStudentNameHeroV3", "Profile Error");
-    afStudentV3SetText("afStudentHeroSubtitleV3", message || "Could not load profile.");
-    afStudentV3SetText("afStudentInfoNameV3", "-");
-    afStudentV3SetText("afStudentInfoEmailV3", "-");
-    afStudentV3SetText("afStudentInfoMobileV3", "-");
-
-    const list = document.getElementById("afStudentBatchListV3");
-
-    if (list) {
-      list.innerHTML = '<p class="af-student-empty-v3">Could not load enrolled batches.</p>';
-    }
-  }
-
-  /* ==============================
-     OPEN PAGE
-  ================================ */
-
-  async function openAfStudentProfilePageV3(event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    if (!afStudentV3IsLoggedIn()) {
-      afStudentV3Msg("Login to fetch your profile.", "warning", "Login Required");
-      return false;
-    }
-
-    if (afStudentV3Loading) {
-      afStudentV3ForceOpenPage();
-      return false;
-    }
-
-    const opened = afStudentV3ForceOpenPage();
-
-    if (!opened) {
-      return false;
-    }
-
-    afStudentV3Loading = true;
-    afStudentV3RenderLoading();
-
-    try {
-      const student = await afStudentV3FetchStudentFromBackend();
-
-      if (!student) {
-        throw new Error("Student profile not found. Please login again.");
-      }
-
-      afStudentV3CurrentStudent = student;
-
-      if (student.name) {
-        afStudentV3PersistName(student.name);
-      }
-
-      afStudentV3CurrentBatches = await afStudentV3FetchBatchesFromBackend(student);
-
-      afStudentV3RenderProfile(afStudentV3CurrentBatches);
-      afStudentV3ForceOpenPage();
-
-      return false;
-    } catch (error) {
-      console.error("openAfStudentProfilePageV3 failed:", error);
-
-      const message = error && error.message ? error.message : "Profile loading failed.";
-
-      afStudentV3RenderError(message);
-      afStudentV3Msg(message, "error", "Profile Error");
-      afStudentV3ForceOpenPage();
-
-      return false;
-    } finally {
-      afStudentV3Loading = false;
-    }
-  }
-
-  /* ==============================
-     EDIT NAME
-  ================================ */
-
-  function openAfStudentNameEditV3() {
-    if (!afStudentV3IsLoggedIn()) {
-      afStudentV3Msg("Login to edit your name.", "warning", "Login Required");
-      return;
-    }
-
-    const currentName = afStudentV3MergedName();
-
-    afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "", "info");
-    afStudentV3SetInput("afStudentEditNameInputV3", currentName === "Student" ? "" : currentName);
-    afStudentV3ShowElement("afStudentNameEditModalV3");
-
-    window.setTimeout(function () {
-      const input = document.getElementById("afStudentEditNameInputV3");
-
-      if (input) {
-        input.focus();
-        input.select();
-      }
-    }, 80);
-  }
-
-  function closeAfStudentNameEditV3() {
-    afStudentV3HideElement("afStudentNameEditModalV3");
-    afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "", "info");
-    afStudentV3SetButtonLoading("afStudentNameSaveBtnV3", false, "Saving...", "Save Name");
-  }
-
-  async function saveAfStudentNameV3(event) {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    const backend = afStudentV3Backend();
-
-    if (!backend || typeof backend.from !== "function") {
-      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "Backend not connected.", "error");
-      afStudentV3Msg("Backend not connected.", "error", "Backend Error");
-      return false;
-    }
-
-    const nextName = afStudentV3NormalizeName(afStudentV3GetInput("afStudentEditNameInputV3"));
-
-    if (!afStudentV3IsValidName(nextName)) {
-      afStudentV3SetInlineMessage(
-        "afStudentNameEditMessageV3",
-        "Enter a valid name. Use 2-90 letters only.",
-        "error"
-      );
-      return false;
-    }
-
-    const currentName = afStudentV3NormalizeName(afStudentV3MergedName());
-
-    if (nextName === currentName) {
-      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "No changes found.", "warning");
-      return false;
-    }
-
-    afStudentV3SetButtonLoading("afStudentNameSaveBtnV3", true, "Saving...", "Save Name");
-    afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "Saving name to backend...", "info");
-
-    try {
-      if (!afStudentV3CurrentStudent) {
-        afStudentV3CurrentStudent = await afStudentV3FetchStudentFromBackend();
-      }
-
-      const login = afStudentV3GetLoginData();
-      const student = afStudentV3CurrentStudent || {};
-
-      let updateQuery = backend
-        .from("students_af")
-        .update({
-          name: nextName
-        });
-
-      if (student.email || login.email) {
-        updateQuery = updateQuery.eq("email", student.email || login.email);
-      } else if (student.mobile || login.mobile) {
-        updateQuery = updateQuery.eq("mobile", student.mobile || login.mobile);
-      } else if (student.id || login.uuid) {
-        updateQuery = updateQuery.eq("id", student.id || login.uuid);
-      } else if (student.student_id || login.student_id) {
-        updateQuery = updateQuery.eq("student_id", student.student_id || login.student_id);
-      } else {
-        throw new Error("Student record key not found.");
-      }
-
-      const { error } = await updateQuery;
-
-      if (error) {
-        throw new Error(error.message || "Name update failed.");
-      }
-
-      afStudentV3CurrentStudent = {
-        ...student,
-        name: nextName,
-        email: student.email || login.email || "",
-        mobile: student.mobile || login.mobile || "",
-        status: student.status || "active"
-      };
-
-      afStudentV3PersistName(nextName);
-      afStudentV3RenderProfile(afStudentV3CurrentBatches);
-
-      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "Name updated successfully.", "success");
-      afStudentV3Msg("Name updated successfully.", "success", "Updated");
-
-      window.setTimeout(function () {
-        closeAfStudentNameEditV3();
-      }, 450);
-
-      return false;
-    } catch (error) {
-      console.error("saveAfStudentNameV3 failed:", error);
-
-      const message = error && error.message ? error.message : "Could not update name.";
-
-      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", message, "error");
-      afStudentV3Msg(message, "error", "Update Failed");
-
-      return false;
-    } finally {
-      afStudentV3SetButtonLoading("afStudentNameSaveBtnV3", false, "Saving...", "Save Name");
-    }
-  }
-
-  /* ==============================
-     PUBLIC FUNCTIONS
-  ================================ */
-
-  window.openAfStudentProfilePageV3 = openAfStudentProfilePageV3;
-  window.openAfStudentNameEditV3 = openAfStudentNameEditV3;
-  window.closeAfStudentNameEditV3 = closeAfStudentNameEditV3;
-  window.saveAfStudentNameV3 = saveAfStudentNameV3;
-
-  window.openStudentDashboardCardAf = openAfStudentProfilePageV3;
-
-  /* ==============================
-     MODAL OUTSIDE CLICK / ESC
-  ================================ */
-
-  document.addEventListener("click", function (event) {
-    const nameModal = document.getElementById("afStudentNameEditModalV3");
-
-    if (nameModal && event.target === nameModal) {
-      closeAfStudentNameEditV3();
-    }
-  });
-
-  document.addEventListener("keydown", function (event) {
-    if (event.key !== "Escape") return;
-
-    closeAfStudentNameEditV3();
-  });
-
-  /* ==============================
-     INIT
-  ================================ */
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const login = afStudentV3GetLoginData();
-
-    afStudentV3UpdateHomeProfileCard(login.name || "");
-    afStudentV3UpdateSettingsName(login.name || "");
-
-    window.setTimeout(function () {
-      if (afStudentV3IsLoggedIn()) {
-        afStudentV3FetchStudentFromBackend()
-          .then(function (student) {
-            if (!student || !student.name) return;
-
-            afStudentV3CurrentStudent = student;
-            afStudentV3PersistName(student.name);
-            afStudentV3UpdateHomeProfileCard(student.name);
-            afStudentV3UpdateSettingsName(student.name);
-          })
-          .catch(function (error) {
-            console.warn("Initial V3 backend name sync failed:", error);
-          });
-      }
-    }, 500);
-  });
-})();
-
-  /* =========================================================
-   SETTINGS TOP PROFILE NAME BACKEND FETCH - AF
-   Target:
-   - #settingsStudentName
-   - .settings-avatar
-   Backend:
-   - students_af
-========================================================= */
-
-(function () {
-  "use strict";
-
-  let afSettingsProfileNameCache = "";
-  let afSettingsProfileLastFetchAt = 0;
-  let afSettingsProfileInFlight = false;
-
-  function afSettingsProfileBackend() {
-    if (typeof getStudentBackendaf === "function") {
-      return getStudentBackendaf();
-    }
-
-    if (typeof studentDb !== "undefined" && studentDb) {
-      return studentDb;
-    }
-
-    if (typeof supabase !== "undefined" && supabase) {
-      return supabase;
-    }
-
-    return null;
-  }
-
-  function afSettingsProfileParseJson(key) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-
-      const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== "object") return null;
-
-      return parsed;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function afSettingsProfileGetLoginData() {
-    const data = {
-      id: "",
-      uuid: "",
-      student_id: "",
-      name: "",
-      email: "",
-      mobile: ""
-    };
-
-    data.uuid = localStorage.getItem("af_student_uuid") || "";
-    data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
-    data.id = data.uuid || data.student_id || "";
-
-    data.name = localStorage.getItem("af_student_name") || "";
-    data.email = localStorage.getItem("af_student_email") || "";
-    data.mobile = localStorage.getItem("af_student_mobile") || "";
-
-    const possibleKeys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    for (let i = 0; i < possibleKeys.length; i += 1) {
-      const obj = afSettingsProfileParseJson(possibleKeys[i]);
-
-      if (!obj) continue;
-
-      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
-      data.student_id = data.student_id || obj.student_id || obj.studentId || "";
-      data.id = data.uuid || data.student_id || data.id || "";
-
-      data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
-      data.email = data.email || obj.email || obj.student_email || "";
-      data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
-    }
-
-    if (typeof loggedStudent !== "undefined" && loggedStudent) {
-      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
-      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
-      data.id = data.uuid || data.student_id || data.id || "";
-
-      data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
-      data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
-      data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
-    }
-
-    return data;
-  }
-
-  function afSettingsProfileNormalizeName(name) {
-    return String(name || "")
-      .replace(/^Hi,\s*/i, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function afSettingsProfileSetName(name) {
-    const nameEl = document.getElementById("settingsStudentName");
-    const avatarEl = document.querySelector("#settings .settings-avatar");
-
-    const cleanName = afSettingsProfileNormalizeName(name);
-
-    if (nameEl) {
-      nameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
-    }
-
-    if (avatarEl) {
-      avatarEl.textContent = cleanName ? cleanName.charAt(0).toUpperCase() : "👨‍🎓";
-      avatarEl.setAttribute("aria-label", cleanName ? cleanName + " profile" : "Student profile");
-    }
-  }
-
-  function afSettingsProfilePersistName(name) {
-    const cleanName = afSettingsProfileNormalizeName(name);
-
-    if (!cleanName) return;
-
-    try {
-      localStorage.setItem("af_student_name", cleanName);
-    } catch (error) {
-      console.warn("Could not save af_student_name:", error);
-    }
-
-    const keys = [
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    keys.forEach(function (key) {
-      const obj = afSettingsProfileParseJson(key);
-
-      if (!obj) return;
-
-      obj.name = cleanName;
-      obj.full_name = cleanName;
-      obj.student_name = cleanName;
-      obj.studentName = cleanName;
-
-      try {
-        localStorage.setItem(key, JSON.stringify(obj));
-      } catch (error) {
-        console.warn("Could not update local student object:", key, error);
-      }
-    });
-  }
-
-  async function afSettingsProfileFetchNameFromBackend(force) {
-    const now = Date.now();
-
-    if (!force && afSettingsProfileNameCache && now - afSettingsProfileLastFetchAt < 12000) {
-      return afSettingsProfileNameCache;
-    }
-
-    if (afSettingsProfileInFlight) {
-      return afSettingsProfileNameCache || afSettingsProfileGetLoginData().name || "";
-    }
-
-    const backend = afSettingsProfileBackend();
-    const login = afSettingsProfileGetLoginData();
-
-    if (!backend || typeof backend.from !== "function") {
-      return login.name || "";
-    }
-
-    if (!login.email && !login.mobile && !login.uuid && !login.student_id && !login.name) {
-      return "";
-    }
-
-    afSettingsProfileInFlight = true;
-
-    try {
-      let result = null;
-
-      if (login.email) {
-        result = await backend
-          .from("students_af")
-          .select("id, student_id, name, email, mobile, status")
-          .eq("email", login.email)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.mobile) {
-        result = await backend
-          .from("students_af")
-          .select("id, student_id, name, email, mobile, status")
-          .eq("mobile", login.mobile)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.uuid) {
-        result = await backend
-          .from("students_af")
-          .select("id, student_id, name, email, mobile, status")
-          .eq("id", login.uuid)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.student_id) {
-        result = await backend
-          .from("students_af")
-          .select("id, student_id, name, email, mobile, status")
-          .eq("student_id", login.student_id)
-          .maybeSingle();
-      }
-
-      if ((!result || !result.data) && login.name) {
-        result = await backend
-          .from("students_af")
-          .select("id, student_id, name, email, mobile, status")
-          .eq("name", login.name)
-          .maybeSingle();
-      }
-
-      if (result && result.error) {
-        console.error("settings profile backend fetch error:", result.error);
-        return login.name || "";
-      }
-
-      if (!result || !result.data) {
-        return login.name || "";
-      }
-
-      if (result.data.status === "deleted") {
-        return "";
-      }
-
-      const backendName = afSettingsProfileNormalizeName(result.data.name);
-
-      if (backendName) {
-        afSettingsProfileNameCache = backendName;
-        afSettingsProfileLastFetchAt = Date.now();
-        afSettingsProfilePersistName(backendName);
-      }
-
-      return backendName || login.name || "";
-    } catch (error) {
-      console.error("afSettingsProfileFetchNameFromBackend failed:", error);
-      return login.name || "";
-    } finally {
-      afSettingsProfileInFlight = false;
-    }
-  }
-
-  async function syncSettingsProfileNameFromBackendAf(force) {
-    const login = afSettingsProfileGetLoginData();
-
-    afSettingsProfileSetName(login.name || afSettingsProfileNameCache || "");
-
-    const backendName = await afSettingsProfileFetchNameFromBackend(Boolean(force));
-
-    afSettingsProfileSetName(backendName || login.name || "");
-  }
-
-  window.syncSettingsProfileNameFromBackendAf = syncSettingsProfileNameFromBackendAf;
-
-  const previousShowSection = window.showSection;
-
-  window.showSection = function (sectionId) {
-    if (typeof previousShowSection === "function") {
-      previousShowSection.apply(this, arguments);
-    } else {
-      document.querySelectorAll(".section, .app-section").forEach(function (section) {
-        section.classList.remove("active");
-        section.style.display = "none";
-      });
-
-      const target = document.getElementById(sectionId);
-
-      if (target) {
-        target.classList.add("active");
-        target.style.display = "block";
-      }
-    }
-
-    if (sectionId === "settings") {
-      window.setTimeout(function () {
-        syncSettingsProfileNameFromBackendAf(false);
-      }, 80);
-
-      window.setTimeout(function () {
-        syncSettingsProfileNameFromBackendAf(true);
-      }, 450);
-    }
-  };
-
-  document.addEventListener("DOMContentLoaded", function () {
-    window.setTimeout(function () {
-      syncSettingsProfileNameFromBackendAf(false);
-    }, 200);
-
-    window.setTimeout(function () {
-      syncSettingsProfileNameFromBackendAf(true);
-    }, 900);
-  });
-
-  window.addEventListener("storage", function (event) {
-    const keys = [
-      "af_student_name",
-      "af_student_email",
-      "af_student_mobile",
-      "af_student_uuid",
-      "af_student_id",
-      "student_id",
-      "af_logged_student",
-      "afStudent",
-      "af_student",
-      "loggedStudent",
-      "studentData",
-      "currentStudent",
-      "student"
-    ];
-
-    if (keys.includes(event.key)) {
-      syncSettingsProfileNameFromBackendAf(true);
-    }
-  });
-})();
-  
 </script>
 </body>
 </html>
