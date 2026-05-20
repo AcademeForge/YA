@@ -24035,6 +24035,19 @@ body.dark-mode .request-status-message-af,
     <span class="settings-arrow" aria-hidden="true">›</span>
   </button>
 
+   <button
+  type="button"
+  class="settings-support-row"
+  onclick="openContactRequestStatusPageAf()"
+  aria-label="Open Contact Request Status"
+>
+  <div class="settings-support-left">
+    <span class="settings-support-icon" aria-hidden="true">📨</span>
+    <span>Contact Request Status</span>
+  </div>
+  <span class="settings-arrow" aria-hidden="true">›</span>
+</button>
+
   <div class="settings-support-divider"></div>
 
   <button
@@ -24056,7 +24069,49 @@ body.dark-mode .request-status-message-af,
 </div>
 </section>
 
+<!-- ==============================
+     CONTACT REQUEST STATUS PAGE - AF
+================================ -->
 
+<section
+  id="contactRequestStatusAf"
+  class="section request-status-section-af contact-request-status-section-af"
+  aria-label="Contact Request Status"
+>
+  <div class="request-status-page-af">
+    <div class="request-status-hero-af">
+      <button
+        type="button"
+        class="request-status-back-af"
+        onclick="showSection('settings')"
+        aria-label="Back to settings"
+      >
+        ← Back
+      </button>
+
+      <div class="request-status-hero-text-af">
+        <p>Support Center</p>
+        <h2>Contact Status</h2>
+        <span>Track your contact requests and replies.</span>
+      </div>
+
+      <button
+        type="button"
+        class="request-status-refresh-af"
+        onclick="loadContactRequestStatusAf(true)"
+        aria-label="Refresh contact request status"
+      >
+        ↻
+      </button>
+    </div>
+
+    <div id="contactRequestStatusMessageAf" class="request-status-message-af">
+      Loading your contact requests...
+    </div>
+
+    <div id="contactRequestStatusListAf" class="request-status-list-af"></div>
+  </div>
+</section>
     <!-- ==============================
   LANGUAGE AF
 ================================ -->
@@ -38629,6 +38684,565 @@ async function loadRequestStatusAf(forceRefresh) {
     initAFSplashControl();
   }
 })();
+
+ 
+/* =========================================================
+   CONTACT REQUEST STATUS PAGE - AF
+   Paste at VERY END before </body>
+========================================================= */
+
+const AF_CONTACT_REQUEST_STATUS_EDGE_URL =
+  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/contact-request-status-af";
+
+function afContactStatusById(id) {
+  return document.getElementById(id);
+}
+
+function openContactRequestStatusPageAf() {
+  try {
+    if (typeof showSection === "function") {
+      showSection("contactRequestStatusAf");
+    } else {
+      document.querySelectorAll(".section").forEach(function (section) {
+        section.classList.remove("active");
+        section.style.display = "none";
+      });
+
+      const page = afContactStatusById("contactRequestStatusAf");
+      if (page) {
+        page.classList.add("active");
+        page.style.display = "block";
+      }
+    }
+
+    window.setTimeout(function () {
+      loadContactRequestStatusAf(false);
+    }, 80);
+  } catch (error) {
+    console.error("openContactRequestStatusPageAf failed:", error);
+  }
+}
+
+function setContactRequestStatusMessageAf(type, message) {
+  try {
+    const box = afContactStatusById("contactRequestStatusMessageAf");
+    if (!box) return;
+
+    box.classList.remove("is-error", "is-empty");
+    box.style.display = message ? "block" : "none";
+    box.textContent = message || "";
+
+    if (type === "error") box.classList.add("is-error");
+    if (type === "empty") box.classList.add("is-empty");
+  } catch (error) {
+    console.error("setContactRequestStatusMessageAf failed:", error);
+  }
+}
+
+function getAfCurrentStudentForContactStatus() {
+  const keys = [
+    "af_current_student",
+    "af_logged_student",
+    "af_student_session",
+    "af_student_data",
+    "studentaf_session",
+    "student_session_af",
+    "currentStudentaf",
+    "current_student_af",
+    "af_user",
+    "af_auth_user",
+    "sb-afooyyydhlwngzssgqih-auth-token"
+  ];
+
+  for (let i = 0; i < keys.length; i += 1) {
+    try {
+      const raw = localStorage.getItem(keys[i]);
+      if (!raw) continue;
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") continue;
+
+      const student =
+        parsed.student ||
+        parsed.data ||
+        parsed.user ||
+        parsed.currentUser ||
+        parsed.current_student ||
+        parsed.session?.user ||
+        parsed;
+
+      if (student && typeof student === "object") {
+        const email =
+          student.email ||
+          student.contact_email ||
+          student.registered_email ||
+          student.student_email ||
+          student.user_email ||
+          parsed.email ||
+          parsed.contact_email ||
+          parsed.registered_email ||
+          parsed.student_email ||
+          "";
+
+        if (email) {
+          return {
+            ...student,
+            email: String(email).trim().toLowerCase()
+          };
+        }
+      }
+    } catch (error) {}
+  }
+
+  const fallbackEmail =
+    localStorage.getItem("af_student_email") ||
+    localStorage.getItem("student_email_af") ||
+    localStorage.getItem("studentEmailaf") ||
+    localStorage.getItem("contact_email") ||
+    localStorage.getItem("registered_email") ||
+    "";
+
+  return {
+    email: String(fallbackEmail || "").trim().toLowerCase()
+  };
+}
+
+function normalizeContactRequestFlagAf(value) {
+  const normalized = String(value ?? "F").trim().toUpperCase();
+  return (
+    normalized === "T" ||
+    normalized === "TRUE" ||
+    normalized === "YES" ||
+    normalized === "1"
+  );
+}
+
+function formatContactRequestDateAf(value) {
+  try {
+    if (!value) return "Recently submitted";
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Recently submitted";
+
+    return date.toLocaleString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  } catch (error) {
+    return "Recently submitted";
+  }
+}
+
+function escapeContactRequestHtmlAf(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function getContactRequestTitleAf(request) {
+  return (
+    request.subject ||
+    request.category ||
+    request.request_type ||
+    "Contact Request"
+  );
+}
+
+function getContactRequestDescriptionAf(request) {
+  return (
+    request.message ||
+    request.description ||
+    request.query ||
+    "Your contact request has been submitted to our team."
+  );
+}
+
+function getContactRequestOverallStatusAf(request) {
+  const isRead = normalizeContactRequestFlagAf(
+    request.team_read || request.admin_read || request.is_read
+  );
+
+  const isSolved = normalizeContactRequestFlagAf(
+    request.request_solved || request.resolved || request.is_resolved
+  );
+
+  if (isSolved) {
+    return {
+      label: "Resolved",
+      className: "solved"
+    };
+  }
+
+  if (isRead) {
+    return {
+      label: "In Review",
+      className: "read"
+    };
+  }
+
+  return {
+    label: "Pending",
+    className: "pending"
+  };
+}
+
+function renderContactRequestStatusCardAf(request, index) {
+  const isRead = normalizeContactRequestFlagAf(
+    request.team_read || request.admin_read || request.is_read
+  );
+
+  const isSolved = normalizeContactRequestFlagAf(
+    request.request_solved || request.resolved || request.is_resolved
+  );
+
+  const status = getContactRequestOverallStatusAf(request);
+
+  const title = escapeContactRequestHtmlAf(getContactRequestTitleAf(request));
+  const description = escapeContactRequestHtmlAf(getContactRequestDescriptionAf(request));
+  const createdAt = escapeContactRequestHtmlAf(formatContactRequestDateAf(request.created_at));
+  const updatedAt = escapeContactRequestHtmlAf(formatContactRequestDateAf(request.updated_at));
+  const name = escapeContactRequestHtmlAf(request.name || request.full_name || request.reporter_name || "Student");
+  const email = escapeContactRequestHtmlAf(request.email || request.contact_email || request.reporter_email || "");
+  const phone = escapeContactRequestHtmlAf(request.phone || request.mobile || request.contact_number || "Not added");
+  const statusNote = escapeContactRequestHtmlAf(request.status_note || request.reply_note || "");
+  const adminReply = escapeContactRequestHtmlAf(request.admin_reply || request.reply || request.admin_notes || "");
+  const requestStatus = escapeContactRequestHtmlAf(request.status || "open");
+
+  const readStepClass = isRead ? "is-done" : "is-pending";
+  const solvedStepClass = isSolved ? "is-done" : "is-pending";
+
+  const readStepIcon = isRead ? "✓" : "!";
+  const solvedStepIcon = isSolved ? "✓" : "!";
+
+  const readStepText = isRead
+    ? "Team has read your contact request."
+    : "Pending — team has not read it yet.";
+
+  const solvedStepText = isSolved
+    ? "Your contact request has been resolved."
+    : "Pending — response is not marked resolved yet.";
+
+  const safeCardId =
+    "contactRequestFlipCardAf_" +
+    String(request.id || index).replace(/[^a-zA-Z0-9_-]/g, "");
+
+  return `
+    <article
+      id="${safeCardId}"
+      class="request-card-af request-flip-card-af contact-request-flip-card-af"
+      style="animation-delay:${index * 70}ms"
+      tabindex="0"
+      role="button"
+      aria-label="Tap to flip contact request card"
+      onclick="toggleContactRequestFlipCardAf('${safeCardId}')"
+      onkeydown="handleContactRequestFlipCardKeyAf(event, '${safeCardId}')"
+    >
+      <div class="request-flip-inner-af">
+        <div class="request-flip-face-af request-flip-front-af">
+          <div class="request-card-top-af">
+            <div class="request-card-title-af">
+              <div class="request-card-kicker-af">
+                <span>${requestStatus}</span>
+                <span>contact</span>
+              </div>
+
+              <h3>${title}</h3>
+
+              <p class="request-front-summary-af">
+                ${description}
+              </p>
+
+              <p class="request-date-af">
+                Submitted: ${createdAt}
+              </p>
+            </div>
+
+            <span class="request-status-pill-af ${status.className}">
+              ${status.label}
+            </span>
+          </div>
+
+          <div class="request-progress-af">
+            <div class="request-step-af is-done">
+              <div class="request-step-dot-af">✓</div>
+              <div class="request-step-content-af">
+                <strong>Request Sent</strong>
+                <span>Your contact request has been submitted successfully.</span>
+              </div>
+            </div>
+
+            <div class="request-step-af ${readStepClass}">
+              <div class="request-step-dot-af">${readStepIcon}</div>
+              <div class="request-step-content-af">
+                <strong>Team Read Your Request</strong>
+                <span>${readStepText}</span>
+              </div>
+            </div>
+
+            <div class="request-step-af ${solvedStepClass}">
+              <div class="request-step-dot-af">${solvedStepIcon}</div>
+              <div class="request-step-content-af">
+                <strong>Resolved Your Request</strong>
+                <span>${solvedStepText}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="request-flip-hint-af">
+            <span>Tap to view full contact request</span>
+            <b>↻</b>
+          </div>
+        </div>
+
+        <div class="request-flip-face-af request-flip-back-af">
+          <div class="request-back-head-af">
+            <div>
+              <span>Contact Request</span>
+              <h3>${title}</h3>
+            </div>
+
+            <button
+              type="button"
+              class="request-back-close-af"
+              aria-label="Back to status"
+              onclick="event.stopPropagation(); toggleContactRequestFlipCardAf('${safeCardId}')"
+            >
+              ↩
+            </button>
+          </div>
+
+          <div class="request-back-scroll-af">
+            <div class="request-back-block-af">
+              <strong>Message</strong>
+              <p>${description}</p>
+            </div>
+
+            <div class="request-back-grid-af">
+              <div class="request-back-block-af">
+                <strong>Name</strong>
+                <p>${name}</p>
+              </div>
+
+              <div class="request-back-block-af">
+                <strong>Email</strong>
+                <p>${email}</p>
+              </div>
+
+              <div class="request-back-block-af">
+                <strong>Phone</strong>
+                <p>${phone}</p>
+              </div>
+
+              <div class="request-back-block-af">
+                <strong>Last Updated</strong>
+                <p>${updatedAt}</p>
+              </div>
+            </div>
+
+            ${
+              statusNote
+                ? `
+                  <div class="request-back-block-af request-back-note-af">
+                    <strong>Status Note</strong>
+                    <p>${statusNote}</p>
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              adminReply
+                ? `
+                  <div class="request-back-block-af request-back-note-af">
+                    <strong>Admin Reply</strong>
+                    <p>${adminReply}</p>
+                  </div>
+                `
+                : ""
+            }
+          </div>
+
+          <div class="request-flip-hint-af request-flip-hint-back-af">
+            <span>Tap to return to status</span>
+            <b>↩</b>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function toggleContactRequestFlipCardAf(cardId) {
+  try {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+
+    card.classList.toggle("is-flipped");
+
+    const isFlipped = card.classList.contains("is-flipped");
+    card.setAttribute(
+      "aria-label",
+      isFlipped
+        ? "Tap to return to contact request status"
+        : "Tap to view full contact request"
+    );
+  } catch (error) {
+    console.error("toggleContactRequestFlipCardAf failed:", error);
+  }
+}
+
+function handleContactRequestFlipCardKeyAf(event, cardId) {
+  try {
+    const key = event.key || event.code;
+
+    if (key === "Enter" || key === " " || key === "Spacebar") {
+      event.preventDefault();
+      toggleContactRequestFlipCardAf(cardId);
+    }
+  } catch (error) {
+    console.error("handleContactRequestFlipCardKeyAf failed:", error);
+  }
+}
+
+async function loadContactRequestStatusAf(forceRefresh) {
+  const list = afContactStatusById("contactRequestStatusListAf");
+
+  try {
+    if (list) list.innerHTML = "";
+
+    setContactRequestStatusMessageAf(
+      "",
+      forceRefresh
+        ? "Refreshing contact request status..."
+        : "Loading your contact requests..."
+    );
+
+    const student = getAfCurrentStudentForContactStatus();
+
+    const email = String(
+      student.email ||
+      student.contact_email ||
+      student.registered_email ||
+      student.student_email ||
+      ""
+    )
+      .trim()
+      .toLowerCase();
+
+    if (!email) {
+      setContactRequestStatusMessageAf(
+        "error",
+        "Login first to view your contact request status."
+      );
+      console.warn("No email found for contact request status.", student);
+      return;
+    }
+
+    const payload = {
+      contact_email: email,
+      registered_email: email,
+      student_email: email,
+      email: email
+    };
+
+    console.log("contact-request-status-af payload:", payload);
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    if (typeof SUPABASE_ANON_KEY !== "undefined" && SUPABASE_ANON_KEY) {
+      headers.apikey = SUPABASE_ANON_KEY;
+      headers.Authorization = "Bearer " + SUPABASE_ANON_KEY;
+    }
+
+    const response = await fetch(AF_CONTACT_REQUEST_STATUS_EDGE_URL, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload)
+    });
+
+    const responseText = await response.text();
+
+    let result = null;
+
+    try {
+      result = responseText ? JSON.parse(responseText) : null;
+    } catch (error) {
+      console.error("Invalid JSON from contact-request-status-af:", responseText);
+      throw new Error("Server returned invalid response.");
+    }
+
+    console.log("contact-request-status-af response:", {
+      status: response.status,
+      ok: response.ok,
+      result
+    });
+
+    if (!response.ok || !result || result.success !== true) {
+      throw new Error(
+        result && result.message
+          ? result.message
+          : "Unable to load contact request status right now."
+      );
+    }
+
+    const requests = Array.isArray(result.requests)
+      ? result.requests
+      : Array.isArray(result.reports)
+        ? result.reports
+        : [];
+
+    if (!requests.length) {
+      setContactRequestStatusMessageAf(
+        "empty",
+        "No contact request found. Your contact requests will appear here after submission."
+      );
+      return;
+    }
+
+    setContactRequestStatusMessageAf("", "");
+
+    if (list) {
+      list.innerHTML = requests
+        .map(function (request, index) {
+          return renderContactRequestStatusCardAf(request, index);
+        })
+        .join("");
+    }
+
+    window.setTimeout(function () {
+      try {
+        const firstPending = document.querySelector(
+          "#contactRequestStatusAf .request-step-af.is-pending"
+        );
+
+        if (firstPending) {
+          firstPending.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }
+      } catch (error) {}
+    }, 450);
+  } catch (error) {
+    console.error("loadContactRequestStatusAf failed:", error);
+
+    setContactRequestStatusMessageAf(
+      "error",
+      error && error.message
+        ? error.message
+        : "Something went wrong. Please try again."
+    );
+  }
+}
+
 </script>
 </body>
 </html>
