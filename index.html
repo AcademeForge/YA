@@ -22986,6 +22986,140 @@ body.dark-mode .request-status-message-af,
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+    /* =========================================================
+   SETTINGS TOP "VIEW PROFILE" BUTTON FIX
+   Scope: only settings profile card top button
+   Paste at END of CSS
+========================================================= */
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card {
+  width: auto !important;
+  min-width: 118px !important;
+  min-height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+
+  margin-top: 8px !important;
+  padding: 0 14px !important;
+
+  border: 1px solid rgba(59, 130, 246, 0.22) !important;
+  border-radius: 999px !important;
+
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.13), rgba(99, 102, 241, 0.10)),
+    rgba(255, 255, 255, 0.72) !important;
+
+  color: #1e3a8a !important;
+  box-shadow:
+    0 10px 24px rgba(37, 99, 235, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.70) !important;
+
+  cursor: pointer !important;
+  overflow: hidden !important;
+  position: relative !important;
+
+  transform: none !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.52) 42%, transparent 72%);
+  transform: translateX(-130%);
+  transition: transform 520ms ease;
+  pointer-events: none;
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card:hover::before {
+  transform: translateX(130%);
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card:hover {
+  border-color: rgba(59, 130, 246, 0.36) !important;
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(99, 102, 241, 0.14)),
+    rgba(255, 255, 255, 0.86) !important;
+  box-shadow:
+    0 14px 30px rgba(37, 99, 235, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  transform: translateY(-1px) !important;
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card > div {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card p {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  color: inherit !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: capitalize !important;
+  white-space: nowrap !important;
+}
+
+#settings .settings-profile-card .settings-profile-info .student-profile-card p::after {
+  content: "  →";
+  font-weight: 950;
+}
+
+/* Dark mode */
+body.dark #settings .settings-profile-card .settings-profile-info .student-profile-card,
+html.dark #settings .settings-profile-card .settings-profile-info .student-profile-card,
+[data-theme="dark"] #settings .settings-profile-card .settings-profile-info .student-profile-card,
+.dark-mode #settings .settings-profile-card .settings-profile-info .student-profile-card {
+  border-color: rgba(129, 140, 248, 0.30) !important;
+  background:
+    linear-gradient(135deg, rgba(129, 140, 248, 0.18), rgba(56, 189, 248, 0.10)),
+    rgba(15, 23, 42, 0.68) !important;
+
+  color: #dbeafe !important;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark #settings .settings-profile-card .settings-profile-info .student-profile-card:hover,
+html.dark #settings .settings-profile-card .settings-profile-info .student-profile-card:hover,
+[data-theme="dark"] #settings .settings-profile-card .settings-profile-info .student-profile-card:hover,
+.dark-mode #settings .settings-profile-card .settings-profile-info .student-profile-card:hover {
+  border-color: rgba(129, 140, 248, 0.46) !important;
+  background:
+    linear-gradient(135deg, rgba(129, 140, 248, 0.24), rgba(56, 189, 248, 0.15)),
+    rgba(15, 23, 42, 0.84) !important;
+}
+
+/* Mobile compact */
+@media (max-width: 480px) {
+  #settings .settings-profile-card .settings-profile-info .student-profile-card {
+    min-width: 104px !important;
+    min-height: 31px !important;
+    padding: 0 12px !important;
+    margin-top: 6px !important;
+  }
+
+  #settings .settings-profile-card .settings-profile-info .student-profile-card p {
+    font-size: 11px !important;
+  }
+}
 </style>
 </head>
 
