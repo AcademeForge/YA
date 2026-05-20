@@ -20947,7 +20947,417 @@ body.dark-mode .request-note-af {
     width: max-content !important;
   }
 }
+/* =========================================================
+   AF LANGUAGE MODAL - MOBILE BOTTOM SHEET
+   Dark / Light Mode Ready
+========================================================= */
 
+:root {
+  --af-lang-bg: #ffffff;
+  --af-lang-bg-soft: #f8fafc;
+  --af-lang-bg-elevated: rgba(255, 255, 255, 0.92);
+  --af-lang-text: #0f172a;
+  --af-lang-muted: #64748b;
+  --af-lang-border: rgba(15, 23, 42, 0.1);
+  --af-lang-border-strong: rgba(15, 23, 42, 0.16);
+  --af-lang-overlay: rgba(15, 23, 42, 0.48);
+  --af-lang-primary: #4f46e5;
+  --af-lang-primary-2: #7c3aed;
+  --af-lang-primary-soft: rgba(79, 70, 229, 0.1);
+  --af-lang-primary-border: rgba(79, 70, 229, 0.26);
+  --af-lang-success: #10b981;
+  --af-lang-shadow: 0 -24px 70px rgba(15, 23, 42, 0.28);
+  --af-lang-radius: 28px;
+}
+
+html.dark,
+body.dark,
+[data-theme="dark"],
+.dark-mode {
+  --af-lang-bg: #0b1120;
+  --af-lang-bg-soft: #111827;
+  --af-lang-bg-elevated: rgba(15, 23, 42, 0.94);
+  --af-lang-text: #f8fafc;
+  --af-lang-muted: #94a3b8;
+  --af-lang-border: rgba(255, 255, 255, 0.1);
+  --af-lang-border-strong: rgba(255, 255, 255, 0.16);
+  --af-lang-overlay: rgba(2, 6, 23, 0.72);
+  --af-lang-primary: #818cf8;
+  --af-lang-primary-2: #c084fc;
+  --af-lang-primary-soft: rgba(129, 140, 248, 0.14);
+  --af-lang-primary-border: rgba(129, 140, 248, 0.3);
+  --af-lang-shadow: 0 -24px 80px rgba(0, 0, 0, 0.56);
+}
+
+/* Overlay */
+.af-lang-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px 12px 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.22), transparent 38%),
+    var(--af-lang-overlay);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition:
+    opacity 240ms ease,
+    visibility 240ms ease,
+    backdrop-filter 240ms ease,
+    -webkit-backdrop-filter 240ms ease;
+}
+
+/* Open states: support multiple JS styles */
+.af-lang-overlay.active,
+.af-lang-overlay.is-open,
+.af-lang-overlay[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Modal Bottom Sheet */
+.af-lang-modal {
+  position: relative;
+  width: min(100%, 430px);
+  max-height: min(78vh, 720px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 16px;
+  color: var(--af-lang-text);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 24%),
+    var(--af-lang-bg-elevated);
+  border: 1px solid var(--af-lang-border);
+  border-bottom: 0;
+  border-radius: var(--af-lang-radius) var(--af-lang-radius) 0 0;
+  box-shadow: var(--af-lang-shadow);
+  transform: translate3d(0, 105%, 0) scale(0.985);
+  opacity: 0.96;
+  transition:
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease;
+  will-change: transform, opacity;
+}
+
+.af-lang-overlay.active .af-lang-modal,
+.af-lang-overlay.is-open .af-lang-modal,
+.af-lang-overlay[aria-hidden="false"] .af-lang-modal {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+}
+
+/* iOS-like drag handle */
+.af-lang-drag-handle {
+  width: 46px;
+  height: 5px;
+  margin: 2px auto 14px;
+  border-radius: 999px;
+  background: var(--af-lang-border-strong);
+}
+
+/* Header */
+.af-lang-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 2px 14px;
+  border-bottom: 1px solid var(--af-lang-border);
+}
+
+.af-lang-head-copy {
+  min-width: 0;
+}
+
+.af-lang-kicker {
+  margin: 0 0 4px;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--af-lang-primary);
+}
+
+.af-lang-heading {
+  margin: 0;
+  font-size: clamp(20px, 5vw, 24px);
+  line-height: 1.12;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  color: var(--af-lang-text);
+}
+
+.af-lang-close {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--af-lang-border);
+  border-radius: 999px;
+  color: var(--af-lang-text);
+  background: var(--af-lang-bg-soft);
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 400;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.af-lang-close:hover {
+  transform: scale(1.04);
+  border-color: var(--af-lang-border-strong);
+}
+
+.af-lang-close:active {
+  transform: scale(0.94);
+  opacity: 0.82;
+}
+
+/* Language grid */
+.af-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 0 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--af-lang-border-strong) transparent;
+}
+
+.af-lang-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.af-lang-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.af-lang-grid::-webkit-scrollbar-thumb {
+  background: var(--af-lang-border-strong);
+  border-radius: 999px;
+}
+
+/* Language option */
+.af-lang-option {
+  position: relative;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 13px;
+  border: 1px solid var(--af-lang-border);
+  border-radius: 22px;
+  color: var(--af-lang-text);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent),
+    var(--af-lang-bg-soft);
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 190ms ease,
+    border-color 190ms ease,
+    background 190ms ease,
+    box-shadow 190ms ease;
+}
+
+.af-lang-option::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(79, 70, 229, 0.24), transparent 32%),
+    linear-gradient(135deg, var(--af-lang-primary-soft), transparent);
+  transition: opacity 190ms ease;
+}
+
+.af-lang-option::after {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--af-lang-primary), var(--af-lang-primary-2));
+  font-size: 13px;
+  font-weight: 950;
+  opacity: 0;
+  transform: scale(0.72);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.af-lang-option:hover {
+  transform: translateY(-2px);
+  border-color: var(--af-lang-primary-border);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.af-lang-option:hover::before {
+  opacity: 1;
+}
+
+.af-lang-option:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.af-lang-option.active,
+.af-lang-option[aria-selected="true"] {
+  border-color: var(--af-lang-primary-border);
+  background: var(--af-lang-primary-soft);
+  box-shadow:
+    0 0 0 1px var(--af-lang-primary-border) inset,
+    0 14px 34px rgba(79, 70, 229, 0.14);
+}
+
+.af-lang-option.active::before,
+.af-lang-option[aria-selected="true"]::before {
+  opacity: 1;
+}
+
+.af-lang-option.active::after,
+.af-lang-option[aria-selected="true"]::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.af-lang-option-icon {
+  position: absolute;
+  top: 12px;
+  left: 13px;
+  font-size: 25px;
+  line-height: 1;
+  filter: saturate(1.1);
+}
+
+.af-lang-option-name {
+  display: block;
+  max-width: 100%;
+  margin-top: 28px;
+  font-size: 15px;
+  line-height: 1.15;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  color: var(--af-lang-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.af-lang-option-meta {
+  display: block;
+  max-width: 100%;
+  font-size: 11px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--af-lang-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status */
+.af-lang-status {
+  margin: 10px 0 0;
+  padding: 11px 12px;
+  border: 1px solid var(--af-lang-border);
+  border-radius: 18px;
+  color: var(--af-lang-muted);
+  background: var(--af-lang-bg-soft);
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 750;
+  text-align: center;
+}
+
+/* Focus accessibility */
+.af-lang-close:focus-visible,
+.af-lang-option:focus-visible {
+  outline: 3px solid var(--af-lang-primary-border);
+  outline-offset: 3px;
+}
+
+/* Smaller phones */
+@media (max-width: 360px) {
+  .af-lang-overlay {
+    padding-inline: 8px;
+  }
+
+  .af-lang-modal {
+    padding-inline: 12px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .af-lang-grid {
+    gap: 8px;
+  }
+
+  .af-lang-option {
+    min-height: 88px;
+    padding: 12px;
+    border-radius: 19px;
+  }
+
+  .af-lang-option-name {
+    font-size: 14px;
+  }
+}
+
+/* Laptop/Desktop: keep mobile sheet feel */
+@media (min-width: 768px) {
+  .af-lang-overlay {
+    padding-bottom: 0;
+  }
+
+  .af-lang-modal {
+    width: 430px;
+    max-height: 76vh;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .af-lang-overlay,
+  .af-lang-modal,
+  .af-lang-close,
+  .af-lang-option,
+  .af-lang-option::before,
+  .af-lang-option::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
 </style>
 </head>
 
@@ -22537,6 +22947,112 @@ body.dark-mode .request-note-af {
   <span>Made with ❤️ in India</span>
 </div>
 </section>
+
+
+    <!-- ==============================
+  LANGUAGE AF
+================================ -->
+
+<div
+  id="afTranslationOverlay"
+  class="af-lang-overlay"
+  aria-hidden="true"
+  onclick="closeAFTranslationModal()"
+>
+  <div
+    class="af-lang-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="afTranslationTitle"
+    onclick="event.stopPropagation()"
+  >
+    <div class="af-lang-drag-handle" aria-hidden="true"></div>
+
+    <div class="af-lang-modal-head">
+      <div class="af-lang-head-copy">
+        <p class="af-lang-kicker">AcademeForge</p>
+        <h3 id="afTranslationTitle" class="af-lang-heading" data-i18n="Choose Language">
+          Choose Language
+        </h3>
+      </div>
+
+      <button
+        type="button"
+        class="af-lang-close"
+        onclick="closeAFTranslationModal()"
+        aria-label="Close language selector"
+      >
+        ×
+      </button>
+    </div>
+
+    <div class="af-lang-grid" role="listbox" aria-label="Available languages">
+      <button type="button" class="af-lang-option active" data-lang="en" onclick="setAFAppLanguage('en')" role="option" aria-selected="true">
+        <span class="af-lang-option-icon" aria-hidden="true">🇬🇧</span>
+        <strong class="af-lang-option-name">English</strong>
+        <small class="af-lang-option-meta">Default</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="hi" onclick="setAFAppLanguage('hi')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">हिन्दी</strong>
+        <small class="af-lang-option-meta">Hindi</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="bho" onclick="setAFAppLanguage('bho')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">भोजपुरी</strong>
+        <small class="af-lang-option-meta">Bhojpuri</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="bn" onclick="setAFAppLanguage('bn')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">বাংলা</strong>
+        <small class="af-lang-option-meta">Bengali</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="mr" onclick="setAFAppLanguage('mr')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">मराठी</strong>
+        <small class="af-lang-option-meta">Marathi</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="te" onclick="setAFAppLanguage('te')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">తెలుగు</strong>
+        <small class="af-lang-option-meta">Telugu</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="ta" onclick="setAFAppLanguage('ta')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">தமிழ்</strong>
+        <small class="af-lang-option-meta">Tamil</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="gu" onclick="setAFAppLanguage('gu')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">ગુજરાતી</strong>
+        <small class="af-lang-option-meta">Gujarati</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="ur" onclick="setAFAppLanguage('ur')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">اردو</strong>
+        <small class="af-lang-option-meta">Urdu</small>
+      </button>
+
+      <button type="button" class="af-lang-option" data-lang="kn" onclick="setAFAppLanguage('kn')" role="option" aria-selected="false">
+        <span class="af-lang-option-icon" aria-hidden="true">🇮🇳</span>
+        <strong class="af-lang-option-name">ಕನ್ನಡ</strong>
+        <small class="af-lang-option-meta">Kannada</small>
+      </button>
+    </div>
+
+    <p id="afTranslationStatus" class="af-lang-status">
+      Select a language to update the app instantly.
+    </p>
+  </div>
+</div>
 <!-- ==============================
      REQUEST STATUS PAGE - AF
 ================================ -->
@@ -35980,7 +36496,713 @@ async function loadRequestStatusAf(forceRefresh) {
     );
   }
 }
+  
+/* =========================================================
+   AF SUPABASE DYNAMIC TRANSLATION SYSTEM
+   Paste at the END of your main <script>
+========================================================= */
 
+(function () {
+  "use strict";
+
+  const AF_TRANSLATION_CONFIG = Object.freeze({
+    storageKey: "af_app_language_v2",
+    cachePrefix: "af_i18n_cache_v2_",
+    edgeFunctionName: "get-translations",
+    defaultLang: "en",
+    minFontPx: 10,
+    shrinkStepPx: 1,
+    maxShrinkPasses: 18,
+    cacheTtlMs: 1000 * 60 * 60 * 24,
+    dynamicScanDelayMs: 120,
+    supportedLanguages: {
+      en: "English",
+      hi: "Hindi",
+      bho: "Bhojpuri",
+      bn: "Bengali",
+      mr: "Marathi",
+      te: "Telugu",
+      ta: "Tamil",
+      gu: "Gujarati",
+      ur: "Urdu",
+      kn: "Kannada"
+    }
+  });
+
+  let afCurrentLanguage = getAFSafeStoredLanguage();
+  let afLastTranslations = {};
+  let afMutationObserver = null;
+  let afScanTimer = null;
+  let afResizeTimer = null;
+  let afIsApplyingTranslations = false;
+  let afResolvedSupabaseClient = null;
+
+  function getAFSafeStoredLanguage() {
+    try {
+      const saved = localStorage.getItem(AF_TRANSLATION_CONFIG.storageKey);
+      return AF_TRANSLATION_CONFIG.supportedLanguages[saved]
+        ? saved
+        : AF_TRANSLATION_CONFIG.defaultLang;
+    } catch (error) {
+      console.warn("Language storage read failed:", error);
+      return AF_TRANSLATION_CONFIG.defaultLang;
+    }
+  }
+
+  function getAFSupabaseClient() {
+    if (afResolvedSupabaseClient && typeof afResolvedSupabaseClient.functions?.invoke === "function") {
+      return afResolvedSupabaseClient;
+    }
+
+    if (window.studentDb && typeof window.studentDb.functions?.invoke === "function") {
+      afResolvedSupabaseClient = window.studentDb;
+      return afResolvedSupabaseClient;
+    }
+
+    if (window.db && typeof window.db.functions?.invoke === "function") {
+      afResolvedSupabaseClient = window.db;
+      return afResolvedSupabaseClient;
+    }
+
+    if (typeof studentDb !== "undefined" && studentDb && typeof studentDb.functions?.invoke === "function") {
+      afResolvedSupabaseClient = studentDb;
+      return afResolvedSupabaseClient;
+    }
+
+    if (typeof db !== "undefined" && db && typeof db.functions?.invoke === "function") {
+      afResolvedSupabaseClient = db;
+      return afResolvedSupabaseClient;
+    }
+
+    if (
+      typeof supabase !== "undefined" &&
+      typeof STUDENT_SUPABASE_URL !== "undefined" &&
+      typeof STUDENT_SUPABASE_ANON_KEY !== "undefined"
+    ) {
+      afResolvedSupabaseClient = supabase.createClient(STUDENT_SUPABASE_URL, STUDENT_SUPABASE_ANON_KEY);
+      return afResolvedSupabaseClient;
+    }
+
+    if (
+      typeof supabase !== "undefined" &&
+      typeof SUPABASE_URL !== "undefined" &&
+      typeof SUPABASE_ANON_KEY !== "undefined"
+    ) {
+      afResolvedSupabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      return afResolvedSupabaseClient;
+    }
+
+    throw new Error("Supabase client not found. Ensure Supabase script and client constants exist before translation system.");
+  }
+
+  window.openAFTranslationModal = function openAFTranslationModal() {
+    try {
+      const overlay = document.getElementById("afTranslationOverlay");
+      if (!overlay) return;
+
+      updateAFLanguageUI(afCurrentLanguage);
+
+      overlay.classList.add("active");
+      overlay.setAttribute("aria-hidden", "false");
+
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+
+      const activeButton = overlay.querySelector(".af-lang-option.active");
+      if (activeButton && typeof activeButton.focus === "function") {
+        setTimeout(function () {
+          activeButton.focus({ preventScroll: true });
+        }, 80);
+      }
+    } catch (error) {
+      console.error("Failed to open translation modal:", error);
+    }
+  };
+
+  window.closeAFTranslationModal = function closeAFTranslationModal() {
+    try {
+      const overlay = document.getElementById("afTranslationOverlay");
+      if (!overlay) return;
+
+      overlay.classList.remove("active");
+      overlay.setAttribute("aria-hidden", "true");
+
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    } catch (error) {
+      console.error("Failed to close translation modal:", error);
+    }
+  };
+
+  window.setAFAppLanguage = async function setAFAppLanguage(lang) {
+    if (!AF_TRANSLATION_CONFIG.supportedLanguages[lang]) {
+      setAFStatus("Unsupported language selected.", "error");
+      return;
+    }
+
+    try {
+      setAFStatus("Updating language...", "loading");
+
+      afCurrentLanguage = lang;
+
+      try {
+        localStorage.setItem(AF_TRANSLATION_CONFIG.storageKey, lang);
+      } catch (storageError) {
+        console.warn("Language storage write failed:", storageError);
+      }
+
+      updateAFLanguageUI(lang);
+      applyAFDocumentLanguageMode(lang);
+
+      if (lang === AF_TRANSLATION_CONFIG.defaultLang) {
+        afLastTranslations = {};
+        restoreAFOriginalTexts();
+        setAFStatus("Language updated.", "");
+        closeAFTranslationModal();
+        return;
+      }
+
+      const translations = await fetchAFTranslations(lang);
+      afLastTranslations = translations;
+
+      applyAFTranslations(translations, lang);
+      setAFStatus("Language updated.", "");
+      closeAFTranslationModal();
+    } catch (error) {
+      console.error("Language update failed:", error);
+      setAFStatus("Could not update language. Please try again.", "error");
+    }
+  };
+
+  async function fetchAFTranslations(lang) {
+    const cached = readAFTranslationCache(lang);
+
+    if (cached) {
+      return cached;
+    }
+
+    const client = getAFSupabaseClient();
+
+    const response = await client.functions.invoke(AF_TRANSLATION_CONFIG.edgeFunctionName, {
+      body: {
+        lang: lang,
+        page: "student-app",
+        includeDynamic: true,
+        requestedAt: new Date().toISOString()
+      }
+    });
+
+    if (!response || response.error) {
+      throw response?.error || new Error("Translation Edge Function failed.");
+    }
+
+    const data = response.data;
+
+    if (!data || typeof data !== "object") {
+      throw new Error("Invalid translation response from Edge Function.");
+    }
+
+    const translations = normalizeAFTranslationPayload(data);
+
+    if (!translations || typeof translations !== "object") {
+      throw new Error("Invalid translations object.");
+    }
+
+    writeAFTranslationCache(lang, translations);
+
+    return translations;
+  }
+
+  function normalizeAFTranslationPayload(data) {
+    if (data.translations && typeof data.translations === "object") {
+      return data.translations;
+    }
+
+    if (data.data && data.data.translations && typeof data.data.translations === "object") {
+      return data.data.translations;
+    }
+
+    return data;
+  }
+
+  function getAFCacheKey(lang) {
+    return AF_TRANSLATION_CONFIG.cachePrefix + lang;
+  }
+
+  function readAFTranslationCache(lang) {
+    try {
+      const raw = localStorage.getItem(getAFCacheKey(lang));
+
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw);
+
+      if (!parsed || typeof parsed !== "object") return null;
+      if (!parsed.createdAt || !parsed.translations || typeof parsed.translations !== "object") return null;
+
+      const age = Date.now() - Number(parsed.createdAt);
+
+      if (!Number.isFinite(age) || age > AF_TRANSLATION_CONFIG.cacheTtlMs) {
+        localStorage.removeItem(getAFCacheKey(lang));
+        return null;
+      }
+
+      return parsed.translations;
+    } catch (error) {
+      console.warn("Translation cache read failed:", error);
+      return null;
+    }
+  }
+
+  function writeAFTranslationCache(lang, translations) {
+    try {
+      localStorage.setItem(
+        getAFCacheKey(lang),
+        JSON.stringify({
+          createdAt: Date.now(),
+          translations: translations
+        })
+      );
+    } catch (error) {
+      console.warn("Translation cache write failed:", error);
+    }
+  }
+
+  function applyAFTranslations(translations, lang) {
+    if (!translations || typeof translations !== "object") return;
+
+    afIsApplyingTranslations = true;
+
+    try {
+      ensureAFI18nKeys(document.body);
+      applyAFTextNodeTranslations(translations);
+      applyAFAttributeTranslations(translations);
+
+      requestAnimationFrame(function () {
+        applyAFFontGuardrails(lang);
+      });
+    } finally {
+      setTimeout(function () {
+        afIsApplyingTranslations = false;
+      }, 0);
+    }
+  }
+
+  function ensureAFI18nKeys(root) {
+    if (!root) return;
+
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function (node) {
+          if (!node || !node.nodeValue) return NodeFilter.FILTER_REJECT;
+
+          const parent = node.parentElement;
+
+          if (!parent) return NodeFilter.FILTER_REJECT;
+          if (shouldSkipAFNode(parent)) return NodeFilter.FILTER_REJECT;
+
+          const text = normalizeAFText(node.nodeValue);
+
+          if (!text) return NodeFilter.FILTER_REJECT;
+
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes = [];
+
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach(function (node) {
+      const parent = node.parentElement;
+
+      if (!parent) return;
+
+      const original = normalizeAFText(node.nodeValue);
+
+      if (!original) return;
+
+      if (!parent.dataset.i18nOriginal) {
+        parent.dataset.i18nOriginal = original;
+      }
+
+      parent.classList.add("af-i18n-text");
+    });
+
+    const attrNodes = root.querySelectorAll("input, textarea, button, [title], [aria-label], [placeholder]");
+
+    attrNodes.forEach(function (el) {
+      if (shouldSkipAFNode(el)) return;
+
+      if (el.hasAttribute("placeholder") && !el.dataset.i18nPlaceholderOriginal) {
+        const value = normalizeAFText(el.getAttribute("placeholder"));
+        if (value) el.dataset.i18nPlaceholderOriginal = value;
+      }
+
+      if (el.hasAttribute("title") && !el.dataset.i18nTitleOriginal) {
+        const value = normalizeAFText(el.getAttribute("title"));
+        if (value) el.dataset.i18nTitleOriginal = value;
+      }
+
+      if (el.hasAttribute("aria-label") && !el.dataset.i18nAriaLabelOriginal) {
+        const value = normalizeAFText(el.getAttribute("aria-label"));
+        if (value) el.dataset.i18nAriaLabelOriginal = value;
+      }
+    });
+  }
+
+  function applyAFTextNodeTranslations(translations) {
+    const nodes = document.querySelectorAll("[data-i18n-original], [data-i18n]");
+
+    nodes.forEach(function (el) {
+      if (shouldSkipAFNode(el)) return;
+
+      const explicitKey = el.getAttribute("data-i18n");
+      const originalKey = el.dataset.i18nOriginal;
+      const key = explicitKey || originalKey;
+
+      if (!key) return;
+
+      const translated = resolveAFTranslation(translations, key);
+
+      if (!translated) return;
+
+      setAFElementText(el, translated);
+      el.classList.add("af-i18n-applied");
+    });
+  }
+
+  function applyAFAttributeTranslations(translations) {
+    const nodes = document.querySelectorAll("[data-i18n-placeholder-original], [data-i18n-title-original], [data-i18n-aria-label-original], [data-i18n-placeholder], [data-i18n-title], [data-i18n-aria-label]");
+
+    nodes.forEach(function (el) {
+      if (shouldSkipAFNode(el)) return;
+
+      const placeholderKey = el.getAttribute("data-i18n-placeholder") || el.dataset.i18nPlaceholderOriginal;
+      const titleKey = el.getAttribute("data-i18n-title") || el.dataset.i18nTitleOriginal;
+      const ariaKey = el.getAttribute("data-i18n-aria-label") || el.dataset.i18nAriaLabelOriginal;
+
+      if (placeholderKey) {
+        const translated = resolveAFTranslation(translations, placeholderKey);
+        if (translated) el.setAttribute("placeholder", translated);
+      }
+
+      if (titleKey) {
+        const translated = resolveAFTranslation(translations, titleKey);
+        if (translated) el.setAttribute("title", translated);
+      }
+
+      if (ariaKey) {
+        const translated = resolveAFTranslation(translations, ariaKey);
+        if (translated) el.setAttribute("aria-label", translated);
+      }
+    });
+  }
+
+  function setAFElementText(el, text) {
+    if (!el) return;
+
+    const hasOnlyText = Array.from(el.childNodes).every(function (node) {
+      return node.nodeType === Node.TEXT_NODE || (node.nodeType === Node.ELEMENT_NODE && node.tagName === "BR");
+    });
+
+    if (hasOnlyText) {
+      el.textContent = text;
+      return;
+    }
+
+    const textNode = Array.from(el.childNodes).find(function (node) {
+      return node.nodeType === Node.TEXT_NODE && normalizeAFText(node.nodeValue);
+    });
+
+    if (textNode) {
+      textNode.nodeValue = text;
+    }
+  }
+
+  function restoreAFOriginalTexts() {
+    afIsApplyingTranslations = true;
+
+    try {
+      document.querySelectorAll("[data-i18n-original], [data-i18n]").forEach(function (el) {
+        if (shouldSkipAFNode(el)) return;
+
+        const original = el.dataset.i18nOriginal || el.getAttribute("data-i18n");
+
+        if (original) {
+          setAFElementText(el, original);
+        }
+
+        el.classList.remove("af-i18n-applied", "af-i18n-compact", "af-i18n-ellipsis");
+        el.style.removeProperty("--af-i18n-font-size");
+      });
+
+      document.querySelectorAll("[data-i18n-placeholder-original]").forEach(function (el) {
+        el.setAttribute("placeholder", el.dataset.i18nPlaceholderOriginal);
+      });
+
+      document.querySelectorAll("[data-i18n-title-original]").forEach(function (el) {
+        el.setAttribute("title", el.dataset.i18nTitleOriginal);
+      });
+
+      document.querySelectorAll("[data-i18n-aria-label-original]").forEach(function (el) {
+        el.setAttribute("aria-label", el.dataset.i18nAriaLabelOriginal);
+      });
+
+      applyAFDocumentLanguageMode(AF_TRANSLATION_CONFIG.defaultLang);
+      applyAFFontGuardrails(AF_TRANSLATION_CONFIG.defaultLang);
+    } finally {
+      setTimeout(function () {
+        afIsApplyingTranslations = false;
+      }, 0);
+    }
+  }
+
+  function resolveAFTranslation(translations, key) {
+    if (!key) return "";
+
+    if (Object.prototype.hasOwnProperty.call(translations, key)) {
+      return String(translations[key]);
+    }
+
+    const trimmedKey = normalizeAFText(key);
+
+    if (Object.prototype.hasOwnProperty.call(translations, trimmedKey)) {
+      return String(translations[trimmedKey]);
+    }
+
+    return "";
+  }
+
+  function normalizeAFText(value) {
+    return String(value || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function shouldSkipAFNode(el) {
+    if (!el) return true;
+
+    const tag = el.tagName ? el.tagName.toLowerCase() : "";
+
+    if (
+      tag === "script" ||
+      tag === "style" ||
+      tag === "noscript" ||
+      tag === "code" ||
+      tag === "pre" ||
+      tag === "svg" ||
+      tag === "canvas" ||
+      tag === "iframe"
+    ) {
+      return true;
+    }
+
+    if (el.closest("[data-i18n-skip='true'], .af-no-translate, .notranslate")) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function applyAFFontGuardrails(lang) {
+    const isRegional = lang !== AF_TRANSLATION_CONFIG.defaultLang;
+
+    document.documentElement.classList.toggle("af-lang-regional", isRegional);
+
+    const nodes = document.querySelectorAll("[data-i18n-original], [data-i18n], .af-i18n-text");
+
+    nodes.forEach(function (el) {
+      if (shouldSkipAFNode(el)) return;
+
+      el.classList.add("af-i18n-flex-safe");
+
+      if (!isRegional) {
+        el.style.removeProperty("--af-i18n-font-size");
+        el.classList.remove("af-i18n-compact", "af-i18n-ellipsis");
+        return;
+      }
+
+      shrinkAFTextToFit(el);
+    });
+  }
+
+  function shrinkAFTextToFit(el) {
+    if (!el || !el.isConnected) return;
+
+    const computed = window.getComputedStyle(el);
+    const currentFontSize = parseFloat(computed.fontSize);
+
+    if (!Number.isFinite(currentFontSize)) return;
+
+    const originalFontSize = Number(el.dataset.afOriginalFontSize || currentFontSize);
+
+    if (!el.dataset.afOriginalFontSize) {
+      el.dataset.afOriginalFontSize = String(originalFontSize);
+    }
+
+    let nextFontSize = originalFontSize;
+    let pass = 0;
+
+    el.style.setProperty("--af-i18n-font-size", `${nextFontSize}px`);
+
+    while (
+      pass < AF_TRANSLATION_CONFIG.maxShrinkPasses &&
+      nextFontSize > AF_TRANSLATION_CONFIG.minFontPx &&
+      isAFOverflowing(el)
+    ) {
+      nextFontSize -= AF_TRANSLATION_CONFIG.shrinkStepPx;
+      el.style.setProperty("--af-i18n-font-size", `${nextFontSize}px`);
+      el.classList.add("af-i18n-compact");
+      pass += 1;
+    }
+
+    if (isAFOverflowing(el)) {
+      el.classList.add("af-i18n-ellipsis");
+      el.setAttribute("title", normalizeAFText(el.textContent));
+    } else {
+      el.classList.remove("af-i18n-ellipsis");
+    }
+  }
+
+  function isAFOverflowing(el) {
+    if (!el) return false;
+
+    const horizontalOverflow = el.scrollWidth > el.clientWidth + 1;
+    const verticalOverflow = el.scrollHeight > el.clientHeight + 1;
+
+    return horizontalOverflow || verticalOverflow;
+  }
+
+  function updateAFLanguageUI(lang) {
+    const label = AF_TRANSLATION_CONFIG.supportedLanguages[lang] || "English";
+    const pill = document.getElementById("afCurrentLanguagePill");
+
+    if (pill) {
+      pill.textContent = label;
+    }
+
+    document.querySelectorAll(".af-lang-option").forEach(function (button) {
+      const isActive = button.dataset.lang === lang;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+  }
+
+  function applyAFDocumentLanguageMode(lang) {
+    document.documentElement.setAttribute("lang", lang);
+
+    if (lang === "ur") {
+      document.documentElement.setAttribute("dir", "rtl");
+    } else {
+      document.documentElement.setAttribute("dir", "ltr");
+    }
+
+    document.documentElement.classList.toggle("af-lang-regional", lang !== AF_TRANSLATION_CONFIG.defaultLang);
+  }
+
+  function setAFStatus(message, type) {
+    const status = document.getElementById("afTranslationStatus");
+
+    if (!status) return;
+
+    status.textContent = message || "";
+    status.classList.remove("loading", "error", "success");
+
+    if (type) {
+      status.classList.add(type);
+    }
+  }
+
+  function startAFDynamicTranslationWatcher() {
+    if (!document.body) return;
+
+    if (afMutationObserver) {
+      afMutationObserver.disconnect();
+    }
+
+    afMutationObserver = new MutationObserver(function (mutationList) {
+      if (afIsApplyingTranslations) return;
+
+      const hasUsefulMutation = mutationList.some(function (mutation) {
+        if (mutation.type === "childList" && mutation.addedNodes.length > 0) return true;
+        if (mutation.type === "characterData") return true;
+        return false;
+      });
+
+      if (!hasUsefulMutation) return;
+
+      clearTimeout(afScanTimer);
+
+      afScanTimer = setTimeout(function () {
+        ensureAFI18nKeys(document.body);
+
+        if (afCurrentLanguage !== AF_TRANSLATION_CONFIG.defaultLang && afLastTranslations && Object.keys(afLastTranslations).length > 0) {
+          applyAFTranslations(afLastTranslations, afCurrentLanguage);
+        } else {
+          applyAFFontGuardrails(afCurrentLanguage);
+        }
+      }, AF_TRANSLATION_CONFIG.dynamicScanDelayMs);
+    });
+
+    afMutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+
+  async function initAFTranslationSystem() {
+    try {
+      if (!document.body) return;
+
+      ensureAFI18nKeys(document.body);
+      updateAFLanguageUI(afCurrentLanguage);
+      applyAFDocumentLanguageMode(afCurrentLanguage);
+      startAFDynamicTranslationWatcher();
+
+      if (afCurrentLanguage !== AF_TRANSLATION_CONFIG.defaultLang) {
+        const translations = await fetchAFTranslations(afCurrentLanguage);
+        afLastTranslations = translations;
+        applyAFTranslations(translations, afCurrentLanguage);
+      } else {
+        applyAFFontGuardrails(afCurrentLanguage);
+      }
+    } catch (error) {
+      console.error("Translation system init failed:", error);
+      setAFStatus("Translation system could not start.", "error");
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAFTranslationSystem, { once: true });
+  } else {
+    initAFTranslationSystem();
+  }
+
+  window.addEventListener(
+    "resize",
+    function () {
+      clearTimeout(afResizeTimer);
+
+      afResizeTimer = setTimeout(function () {
+        applyAFFontGuardrails(afCurrentLanguage);
+      }, 140);
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeAFTranslationModal();
+    }
+  });
+})();
 </script>
 </body>
 </html>
