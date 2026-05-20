@@ -21395,8 +21395,8 @@ html.af-lang-regional select {
 }
 
 /* =========================================================
-   ACADEMEFORGE FIXED BOTTOM NAV - STABLE VERSION
-   Equal size | No jump | Centered | Translation-safe
+   ACADEMEFORGE FIXED BOTTOM NAV - SPLASH SAFE
+   Hidden during splash | Equal size | Centered | Stable
 ========================================================= */
 
 .bottom-nav {
@@ -21404,7 +21404,7 @@ html.af-lang-regional select {
   left: 50% !important;
   right: auto !important;
   bottom: max(10px, env(safe-area-inset-bottom)) !important;
-  z-index: 99999 !important;
+  z-index: 9000 !important;
 
   width: min(calc(100% - 24px), 430px) !important;
   height: 68px !important;
@@ -21429,9 +21429,31 @@ html.af-lang-regional select {
   backdrop-filter: blur(16px) saturate(1.18) !important;
   -webkit-backdrop-filter: blur(16px) saturate(1.18) !important;
 
-  transform: translateX(-50%) !important;
+  transform: translateX(-50%) translateY(120%) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+
   box-sizing: border-box !important;
   overflow: hidden !important;
+
+  transition:
+    transform 260ms ease,
+    opacity 220ms ease,
+    visibility 220ms ease !important;
+}
+
+/* Show nav only after app/splash is ready */
+body.app-ready .bottom-nav,
+body.af-app-ready .bottom-nav,
+body.loaded .bottom-nav,
+body.ready .bottom-nav,
+html.app-ready .bottom-nav,
+html.af-app-ready .bottom-nav {
+  transform: translateX(-50%) translateY(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .bottom-nav.glass {
@@ -21562,13 +21584,11 @@ html.af-lang-regional select {
     inset 0 0 0 1px rgba(37, 99, 235, 0.1) !important;
 }
 
-/* No active jump */
 .nav-btn.active .nav-icon-wrap,
 .nav-btn.active > b {
   transform: none !important;
 }
 
-/* No click shrink */
 .nav-btn:active {
   transform: none !important;
 }
@@ -21623,7 +21643,6 @@ html.af-lang-regional select {
   transform: none !important;
 }
 
-/* Prevent global i18n font shrinking variable from affecting nav */
 .bottom-nav .af-i18n-flex-safe {
   font-size: unset !important;
 }
@@ -21638,8 +21657,11 @@ html.af-lang-regional select {
   font-size: 15px !important;
 }
 
-/* Keep page content above nav */
-body {
+/* Add bottom space only after app is ready */
+body.app-ready,
+body.af-app-ready,
+body.loaded,
+body.ready {
   padding-bottom: 96px !important;
 }
 
@@ -21680,7 +21702,7 @@ body.dark .nav-btn.active,
     inset 0 0 0 1px rgba(147, 197, 253, 0.11) !important;
 }
 
-/* Same size on all screens: do not resize nav */
+/* Same size on all screens */
 @media (max-width: 360px) {
   .bottom-nav {
     width: calc(100% - 16px) !important;
@@ -21729,6 +21751,104 @@ body.dark .nav-btn.active,
   .nav-btn > span {
     transition: none !important;
   }
+}
+
+    /* =========================================================
+   AF SPLASH + APP READY NAV CONTROL
+   Nav hidden during splash, visible only after app-ready
+========================================================= */
+
+#splashScreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  transition:
+    opacity 420ms ease,
+    visibility 420ms ease,
+    transform 420ms ease !important;
+}
+
+html.dark #splashScreen,
+body.dark #splashScreen,
+[data-theme="dark"] #splashScreen,
+.dark-mode #splashScreen {
+  background: #020617 !important;
+  color: #f8fafc !important;
+}
+
+#splashScreen .splash-img {
+  width: 104px !important;
+  height: 104px !important;
+  object-fit: contain !important;
+  border-radius: 28px !important;
+}
+
+#splashScreen h1 {
+  margin: 0 !important;
+  font-size: 30px !important;
+  line-height: 1.1 !important;
+  font-weight: 950 !important;
+  letter-spacing: -0.045em !important;
+}
+
+#splashScreen p {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  font-weight: 750 !important;
+  color: #64748b !important;
+}
+
+html.dark #splashScreen p,
+body.dark #splashScreen p,
+[data-theme="dark"] #splashScreen p,
+.dark-mode #splashScreen p {
+  color: #94a3b8 !important;
+}
+
+/* Splash hide state */
+body.app-ready #splashScreen {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: scale(1.02) !important;
+}
+
+/* App hidden during splash */
+body:not(.app-ready) .app {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* App visible after ready */
+body.app-ready .app {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Critical: nav must never show during splash */
+body:not(.app-ready) .bottom-nav {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateX(-50%) translateY(120%) !important;
+}
+
+/* Nav visible only after splash */
+body.app-ready .bottom-nav {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) !important;
 }
     
 </style>
@@ -37627,6 +37747,45 @@ async function loadRequestStatusAf(forceRefresh) {
       closeAFTranslationModal();
     }
   });
+})();
+
+  /* =========================================================
+   AF SPLASH -> APP READY NAV CONTROL
+   Paste at END of existing JS. No script tag needed.
+========================================================= */
+
+(function () {
+  "use strict";
+
+  function markAFAppReady() {
+    try {
+      document.body.classList.add("app-ready");
+
+      const splash = document.getElementById("splashScreen");
+      if (splash) {
+        splash.setAttribute("aria-hidden", "true");
+      }
+    } catch (error) {
+      console.error("AF splash ready failed:", error);
+    }
+  }
+
+  function initAFSplashControl() {
+    const splash = document.getElementById("splashScreen");
+
+    if (!splash) {
+      markAFAppReady();
+      return;
+    }
+
+    window.setTimeout(markAFAppReady, 1800);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAFSplashControl, { once: true });
+  } else {
+    initAFSplashControl();
+  }
 })();
 </script>
 </body>
