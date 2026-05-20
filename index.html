@@ -23671,59 +23671,29 @@ body.dark .nav-btn.active,
 <!-----------------------  NAV BUTTONS --------------------------------------->
 
 <nav class="bottom-nav glass" aria-label="Primary navigation">
-  <button
-    class="nav-btn active"
-    data-section="home"
-    type="button"
-    onclick="showSection('home')"
-    aria-label="Open Home"
-  >
+  <button class="nav-btn active" data-section="home" type="button" onclick="showSection('home')" aria-label="Open Home">
     <b class="nav-icon-wrap" aria-hidden="true">🏠</b>
-    <span class="nav-label">Home</span>
+    <span class="nav-label" data-i18n="Home">Home</span>
   </button>
 
-  <button
-    class="nav-btn"
-    data-section="studentaf"
-    type="button"
-    onclick="showSection('studentaf')"
-    aria-label="Open Student"
-  >
+  <button class="nav-btn" data-section="studentaf" type="button" onclick="showSection('studentaf')" aria-label="Open Student">
     <b class="nav-icon-wrap" aria-hidden="true">🎓</b>
-    <span class="nav-label">Student</span>
+    <span class="nav-label" data-i18n="Student">Student</span>
   </button>
 
-  <button
-    class="nav-btn"
-    data-section="batchaf"
-    type="button"
-    onclick="showSection('batchaf')"
-    aria-label="Open Batches"
-  >
+  <button class="nav-btn" data-section="batchaf" type="button" onclick="showSection('batchaf')" aria-label="Open Batches">
     <b class="nav-icon-wrap" aria-hidden="true">📚</b>
-    <span class="nav-label">Batches</span>
+    <span class="nav-label" data-i18n="Batches">Batches</span>
   </button>
 
-  <button
-    class="nav-btn"
-    data-section="community"
-    type="button"
-    onclick="showSection('community')"
-    aria-label="Open Community"
-  >
+  <button class="nav-btn" data-section="community" type="button" onclick="showSection('community')" aria-label="Open Community">
     <b class="nav-icon-wrap" aria-hidden="true">💬</b>
-    <span class="nav-label">Community</span>
+    <span class="nav-label" data-i18n="Community">Community</span>
   </button>
 
-  <button
-    class="nav-btn"
-    data-section="settings"
-    type="button"
-    onclick="showSection('settings')"
-    aria-label="Open Settings"
-  >
+  <button class="nav-btn" data-section="settings" type="button" onclick="showSection('settings')" aria-label="Open Settings">
     <b class="nav-icon-wrap" aria-hidden="true">⚙️</b>
-    <span class="nav-label">Settings</span>
+    <span class="nav-label" data-i18n="Settings">Settings</span>
   </button>
 </nav>
   </main>
@@ -36901,6 +36871,12 @@ async function loadRequestStatusAf(forceRefresh) {
   
 /* =========================================================
    AF SUPABASE DYNAMIC TRANSLATION SYSTEM
+   Fixed Version:
+   - Bottom nav translates but never gets font-shrunk
+   - Stable modal open/close
+   - Supabase client cached
+   - Cache safe
+   - Dynamic DOM safe
    Paste at the END of your main <script>
 ========================================================= */
 
@@ -36917,6 +36893,7 @@ async function loadRequestStatusAf(forceRefresh) {
     maxShrinkPasses: 18,
     cacheTtlMs: 1000 * 60 * 60 * 24,
     dynamicScanDelayMs: 120,
+    resizeDelayMs: 140,
     supportedLanguages: {
       en: "English",
       hi: "Hindi",
@@ -36942,9 +36919,12 @@ async function loadRequestStatusAf(forceRefresh) {
   function getAFSafeStoredLanguage() {
     try {
       const saved = localStorage.getItem(AF_TRANSLATION_CONFIG.storageKey);
-      return AF_TRANSLATION_CONFIG.supportedLanguages[saved]
-        ? saved
-        : AF_TRANSLATION_CONFIG.defaultLang;
+
+      if (saved && AF_TRANSLATION_CONFIG.supportedLanguages[saved]) {
+        return saved;
+      }
+
+      return AF_TRANSLATION_CONFIG.defaultLang;
     } catch (error) {
       console.warn("Language storage read failed:", error);
       return AF_TRANSLATION_CONFIG.defaultLang;
@@ -37013,7 +36993,11 @@ async function loadRequestStatusAf(forceRefresh) {
       const activeButton = overlay.querySelector(".af-lang-option.active");
       if (activeButton && typeof activeButton.focus === "function") {
         setTimeout(function () {
-          activeButton.focus({ preventScroll: true });
+          try {
+            activeButton.focus({ preventScroll: true });
+          } catch (error) {
+            activeButton.focus();
+          }
         }, 80);
       }
     } catch (error) {
@@ -37059,7 +37043,8 @@ async function loadRequestStatusAf(forceRefresh) {
       if (lang === AF_TRANSLATION_CONFIG.defaultLang) {
         afLastTranslations = {};
         restoreAFOriginalTexts();
-        setAFStatus("Language updated.", "");
+        updateAFLanguageUI(lang);
+        setAFStatus("Language updated.", "success");
         closeAFTranslationModal();
         return;
       }
@@ -37068,11 +37053,28 @@ async function loadRequestStatusAf(forceRefresh) {
       afLastTranslations = translations;
 
       applyAFTranslations(translations, lang);
-      setAFStatus("Language updated.", "");
+      updateAFLanguageUI(lang);
+      setAFStatus("Language updated.", "success");
       closeAFTranslationModal();
     } catch (error) {
       console.error("Language update failed:", error);
       setAFStatus("Could not update language. Please try again.", "error");
+    }
+  };
+
+  window.clearAFTranslationCache = function clearAFTranslationCache() {
+    try {
+      Object.keys(localStorage)
+        .filter(function (key) {
+          return key.indexOf(AF_TRANSLATION_CONFIG.cachePrefix) === 0;
+        })
+        .forEach(function (key) {
+          localStorage.removeItem(key);
+        });
+
+      console.info("AF translation cache cleared.");
+    } catch (error) {
+      console.warn("Failed to clear AF translation cache:", error);
     }
   };
 
@@ -37280,7 +37282,9 @@ async function loadRequestStatusAf(forceRefresh) {
   }
 
   function applyAFAttributeTranslations(translations) {
-    const nodes = document.querySelectorAll("[data-i18n-placeholder-original], [data-i18n-title-original], [data-i18n-aria-label-original], [data-i18n-placeholder], [data-i18n-title], [data-i18n-aria-label]");
+    const nodes = document.querySelectorAll(
+      "[data-i18n-placeholder-original], [data-i18n-title-original], [data-i18n-aria-label-original], [data-i18n-placeholder], [data-i18n-title], [data-i18n-aria-label]"
+    );
 
     nodes.forEach(function (el) {
       if (shouldSkipAFNode(el)) return;
@@ -37340,19 +37344,22 @@ async function loadRequestStatusAf(forceRefresh) {
           setAFElementText(el, original);
         }
 
-        el.classList.remove("af-i18n-applied", "af-i18n-compact", "af-i18n-ellipsis");
+        el.classList.remove("af-i18n-applied", "af-i18n-compact", "af-i18n-ellipsis", "af-i18n-flex-safe");
         el.style.removeProperty("--af-i18n-font-size");
       });
 
       document.querySelectorAll("[data-i18n-placeholder-original]").forEach(function (el) {
+        if (shouldSkipAFNode(el)) return;
         el.setAttribute("placeholder", el.dataset.i18nPlaceholderOriginal);
       });
 
       document.querySelectorAll("[data-i18n-title-original]").forEach(function (el) {
+        if (shouldSkipAFNode(el)) return;
         el.setAttribute("title", el.dataset.i18nTitleOriginal);
       });
 
       document.querySelectorAll("[data-i18n-aria-label-original]").forEach(function (el) {
+        if (shouldSkipAFNode(el)) return;
         el.setAttribute("aria-label", el.dataset.i18nAriaLabelOriginal);
       });
 
@@ -37422,6 +37429,12 @@ async function loadRequestStatusAf(forceRefresh) {
     nodes.forEach(function (el) {
       if (shouldSkipAFNode(el)) return;
 
+      if (el.closest(".bottom-nav")) {
+        el.classList.remove("af-i18n-flex-safe", "af-i18n-compact", "af-i18n-ellipsis");
+        el.style.removeProperty("--af-i18n-font-size");
+        return;
+      }
+
       el.classList.add("af-i18n-flex-safe");
 
       if (!isRegional) {
@@ -37436,6 +37449,12 @@ async function loadRequestStatusAf(forceRefresh) {
 
   function shrinkAFTextToFit(el) {
     if (!el || !el.isConnected) return;
+
+    if (el.closest(".bottom-nav")) {
+      el.classList.remove("af-i18n-flex-safe", "af-i18n-compact", "af-i18n-ellipsis");
+      el.style.removeProperty("--af-i18n-font-size");
+      return;
+    }
 
     const computed = window.getComputedStyle(el);
     const currentFontSize = parseFloat(computed.fontSize);
@@ -37544,7 +37563,11 @@ async function loadRequestStatusAf(forceRefresh) {
       afScanTimer = setTimeout(function () {
         ensureAFI18nKeys(document.body);
 
-        if (afCurrentLanguage !== AF_TRANSLATION_CONFIG.defaultLang && afLastTranslations && Object.keys(afLastTranslations).length > 0) {
+        if (
+          afCurrentLanguage !== AF_TRANSLATION_CONFIG.defaultLang &&
+          afLastTranslations &&
+          Object.keys(afLastTranslations).length > 0
+        ) {
           applyAFTranslations(afLastTranslations, afCurrentLanguage);
         } else {
           applyAFFontGuardrails(afCurrentLanguage);
@@ -37594,7 +37617,7 @@ async function loadRequestStatusAf(forceRefresh) {
 
       afResizeTimer = setTimeout(function () {
         applyAFFontGuardrails(afCurrentLanguage);
-      }, 140);
+      }, AF_TRANSLATION_CONFIG.resizeDelayMs);
     },
     { passive: true }
   );
