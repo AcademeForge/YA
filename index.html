@@ -38842,13 +38842,8 @@ function getContactRequestDescriptionAf(request) {
 }
 
 function getContactRequestOverallStatusAf(request) {
-  const isRead = normalizeContactRequestFlagAf(
-    request.team_read || request.admin_read || request.is_read
-  );
-
-  const isSolved = normalizeContactRequestFlagAf(
-    request.request_solved || request.resolved || request.is_resolved
-  );
+  const isRead = normalizeContactRequestFlagAf(request.team_read);
+  const isSolved = normalizeContactRequestFlagAf(request.request_solved);
 
   if (isSolved) {
     return {
@@ -38871,33 +38866,38 @@ function getContactRequestOverallStatusAf(request) {
 }
 
 function renderContactRequestStatusCardAf(request, index) {
-  const isRead = normalizeContactRequestFlagAf(
-    request.team_read || request.admin_read || request.is_read
-  );
-
-  const isSolved = normalizeContactRequestFlagAf(
-    request.request_solved || request.resolved || request.is_resolved
-  );
-
+  const isRead = normalizeContactRequestFlagAf(request.team_read);
+  const isSolved = normalizeContactRequestFlagAf(request.request_solved);
   const status = getContactRequestOverallStatusAf(request);
 
-  const title = escapeContactRequestHtmlAf(getContactRequestTitleAf(request));
-  const description = escapeContactRequestHtmlAf(getContactRequestDescriptionAf(request));
-  const createdAt = escapeContactRequestHtmlAf(formatContactRequestDateAf(request.created_at));
-  const updatedAt = escapeContactRequestHtmlAf(formatContactRequestDateAf(request.updated_at));
+  const title = escapeContactRequestHtmlAf(
+    request.contact_reason || "Contact Request"
+  );
+
+  const description = escapeContactRequestHtmlAf(
+    request.problem_description || "Your contact request has been submitted to our team."
+  );
+
+  const createdAt = escapeContactRequestHtmlAf(
+    formatContactRequestDateAf(request.created_at)
+  );
+
+  const updatedAt = escapeContactRequestHtmlAf(
+    formatContactRequestDateAf(request.updated_at)
+  );
+
   const name = escapeContactRequestHtmlAf(
-    request.name || request.full_name || request.reporter_name || "Student"
+    request.full_name || request.student_name || "Student"
   );
-  const email = escapeContactRequestHtmlAf(
-    request.email || request.contact_email || request.reporter_email || ""
-  );
+
+  const email = escapeContactRequestHtmlAf(request.email || "");
+
   const phone = escapeContactRequestHtmlAf(
-    request.phone || request.mobile || request.contact_number || "Not added"
+    request.mobile_number || "Not added"
   );
-  const statusNote = escapeContactRequestHtmlAf(request.status_note || request.reply_note || "");
-  const adminReply = escapeContactRequestHtmlAf(
-    request.admin_reply || request.reply || request.admin_notes || ""
-  );
+
+  const statusNote = escapeContactRequestHtmlAf(request.status_note || "");
+  const adminReply = escapeContactRequestHtmlAf(request.admin_notes || "");
   const requestStatus = escapeContactRequestHtmlAf(request.status || "open");
 
   const readStepClass = isRead ? "is-done" : "is-pending";
