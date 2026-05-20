@@ -22986,6 +22986,1101 @@ body.dark-mode .request-status-message-af,
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+
+    /* =========================================================
+   AF STUDENT PROFILE PAGE V3
+   Premium Responsive CSS
+   Light + Dark Mode
+   Paste at END of your main CSS
+========================================================= */
+
+/* ==============================
+   THEME TOKENS
+================================ */
+
+:root {
+  --af-v3-bg-page:
+    radial-gradient(circle at 18% 10%, rgba(99, 102, 241, 0.16), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.14), transparent 32%),
+    linear-gradient(135deg, #f8fafc 0%, #eef2ff 42%, #f8fafc 100%);
+
+  --af-v3-card-bg: rgba(255, 255, 255, 0.82);
+  --af-v3-card-bg-solid: #ffffff;
+  --af-v3-card-border: rgba(15, 23, 42, 0.10);
+  --af-v3-card-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+
+  --af-v3-text: #0f172a;
+  --af-v3-text-soft: #475569;
+  --af-v3-text-muted: #64748b;
+  --af-v3-line: rgba(15, 23, 42, 0.10);
+
+  --af-v3-primary: #4f46e5;
+  --af-v3-primary-2: #2563eb;
+  --af-v3-primary-soft: rgba(79, 70, 229, 0.12);
+  --af-v3-primary-border: rgba(79, 70, 229, 0.24);
+
+  --af-v3-success: #059669;
+  --af-v3-danger: #dc2626;
+  --af-v3-warning: #d97706;
+
+  --af-v3-input-bg: rgba(255, 255, 255, 0.92);
+  --af-v3-input-border: rgba(15, 23, 42, 0.16);
+  --af-v3-input-focus: rgba(79, 70, 229, 0.34);
+
+  --af-v3-radius-xl: 28px;
+  --af-v3-radius-lg: 22px;
+  --af-v3-radius-md: 16px;
+  --af-v3-radius-sm: 12px;
+
+  --af-v3-transition: 180ms ease;
+}
+
+body.dark,
+html.dark,
+[data-theme="dark"],
+.dark-mode {
+  --af-v3-bg-page:
+    radial-gradient(circle at 18% 10%, rgba(129, 140, 248, 0.18), transparent 34%),
+    radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.13), transparent 32%),
+    linear-gradient(135deg, #020617 0%, #0f172a 48%, #020617 100%);
+
+  --af-v3-card-bg: rgba(15, 23, 42, 0.78);
+  --af-v3-card-bg-solid: #0f172a;
+  --af-v3-card-border: rgba(148, 163, 184, 0.18);
+  --af-v3-card-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+
+  --af-v3-text: #f8fafc;
+  --af-v3-text-soft: #cbd5e1;
+  --af-v3-text-muted: #94a3b8;
+  --af-v3-line: rgba(148, 163, 184, 0.16);
+
+  --af-v3-primary: #818cf8;
+  --af-v3-primary-2: #38bdf8;
+  --af-v3-primary-soft: rgba(129, 140, 248, 0.15);
+  --af-v3-primary-border: rgba(129, 140, 248, 0.28);
+
+  --af-v3-input-bg: rgba(2, 6, 23, 0.54);
+  --af-v3-input-border: rgba(148, 163, 184, 0.24);
+  --af-v3-input-focus: rgba(129, 140, 248, 0.42);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --af-v3-bg-page:
+      radial-gradient(circle at 18% 10%, rgba(129, 140, 248, 0.18), transparent 34%),
+      radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.13), transparent 32%),
+      linear-gradient(135deg, #020617 0%, #0f172a 48%, #020617 100%);
+
+    --af-v3-card-bg: rgba(15, 23, 42, 0.78);
+    --af-v3-card-bg-solid: #0f172a;
+    --af-v3-card-border: rgba(148, 163, 184, 0.18);
+    --af-v3-card-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+
+    --af-v3-text: #f8fafc;
+    --af-v3-text-soft: #cbd5e1;
+    --af-v3-text-muted: #94a3b8;
+    --af-v3-line: rgba(148, 163, 184, 0.16);
+
+    --af-v3-primary: #818cf8;
+    --af-v3-primary-2: #38bdf8;
+    --af-v3-primary-soft: rgba(129, 140, 248, 0.15);
+    --af-v3-primary-border: rgba(129, 140, 248, 0.28);
+
+    --af-v3-input-bg: rgba(2, 6, 23, 0.54);
+    --af-v3-input-border: rgba(148, 163, 184, 0.24);
+    --af-v3-input-focus: rgba(129, 140, 248, 0.42);
+  }
+}
+
+/* ==============================
+   PAGE SHELL
+================================ */
+
+#afStudentProfilePageV3 {
+  min-height: 100vh;
+  width: 100%;
+  color: var(--af-v3-text);
+  background: var(--af-v3-bg-page);
+  overflow-x: hidden;
+}
+
+#afStudentProfilePageV3,
+#afStudentProfilePageV3 * {
+  box-sizing: border-box;
+}
+
+#afStudentProfilePageV3.active,
+#afStudentProfilePageV3.show,
+#afStudentProfilePageV3.visible {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.af-student-profile-page-v3 {
+  padding: 18px 0 44px;
+}
+
+.af-student-shell-v3 {
+  width: min(1120px, calc(100% - 28px));
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+/* ==============================
+   HERO
+================================ */
+
+.af-student-hero-v3 {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--af-v3-card-border);
+  border-radius: var(--af-v3-radius-xl);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.48)),
+    var(--af-v3-card-bg);
+  box-shadow: var(--af-v3-card-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  padding: 18px;
+  animation: afV3FadeUp 360ms ease both;
+}
+
+body.dark .af-student-hero-v3,
+html.dark .af-student-hero-v3,
+[data-theme="dark"] .af-student-hero-v3,
+.dark-mode .af-student-hero-v3 {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(2, 6, 23, 0.62)),
+    var(--af-v3-card-bg);
+}
+
+.af-student-hero-v3::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.22), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(14, 165, 233, 0.20), transparent 30%);
+  pointer-events: none;
+}
+
+.af-student-hero-v3 > * {
+  position: relative;
+  z-index: 1;
+}
+
+.af-student-back-btn-v3 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--af-v3-card-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--af-v3-text);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition:
+    transform var(--af-v3-transition),
+    border-color var(--af-v3-transition),
+    background var(--af-v3-transition),
+    box-shadow var(--af-v3-transition);
+}
+
+body.dark .af-student-back-btn-v3,
+html.dark .af-student-back-btn-v3,
+[data-theme="dark"] .af-student-back-btn-v3,
+.dark-mode .af-student-back-btn-v3 {
+  background: rgba(2, 6, 23, 0.42);
+}
+
+.af-student-back-btn-v3:hover {
+  transform: translateY(-1px);
+  border-color: var(--af-v3-primary-border);
+  background: var(--af-v3-primary-soft);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.14);
+}
+
+.af-student-back-btn-v3:active {
+  transform: translateY(0);
+}
+
+.af-student-hero-main-v3 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.af-student-avatar-v3 {
+  width: 84px;
+  height: 84px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  box-shadow:
+    0 20px 44px rgba(79, 70, 229, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.af-student-hero-copy-v3 {
+  min-width: 0;
+}
+
+.af-student-eyebrow-v3 {
+  margin: 0 0 6px;
+  color: var(--af-v3-primary);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.af-student-hero-copy-v3 h2 {
+  margin: 0;
+  color: var(--af-v3-text);
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.02;
+  font-weight: 950;
+  letter-spacing: -0.055em;
+  overflow-wrap: anywhere;
+}
+
+.af-student-hero-copy-v3 p:last-child {
+  margin: 8px 0 0;
+  color: var(--af-v3-text-soft);
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+/* ==============================
+   CARDS
+================================ */
+
+.af-student-card-v3 {
+  border: 1px solid var(--af-v3-card-border);
+  border-radius: var(--af-v3-radius-xl);
+  background: var(--af-v3-card-bg);
+  box-shadow: var(--af-v3-card-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  padding: 18px;
+  animation: afV3FadeUp 420ms ease both;
+}
+
+.af-student-card-v3:nth-of-type(2) {
+  animation-delay: 40ms;
+}
+
+.af-student-card-head-v3 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.af-student-section-kicker-v3 {
+  margin: 0 0 5px;
+  color: var(--af-v3-primary);
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+
+.af-student-card-head-v3 h3 {
+  margin: 0;
+  color: var(--af-v3-text);
+  font-size: 21px;
+  line-height: 1.16;
+  font-weight: 950;
+  letter-spacing: -0.035em;
+}
+
+.af-student-card-head-v3 p {
+  margin: 6px 0 0;
+  color: var(--af-v3-text-muted);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.af-student-edit-btn-v3 {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid var(--af-v3-primary-border);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+  transition:
+    transform var(--af-v3-transition),
+    box-shadow var(--af-v3-transition),
+    filter var(--af-v3-transition);
+}
+
+.af-student-edit-btn-v3:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.08);
+  box-shadow: 0 18px 38px rgba(79, 70, 229, 0.30);
+}
+
+.af-student-edit-btn-v3:active {
+  transform: translateY(0);
+}
+
+/* ==============================
+   DETAILS GRID
+================================ */
+
+.af-student-details-grid-v3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.af-student-detail-box-v3 {
+  position: relative;
+  overflow: hidden;
+  min-height: 108px;
+  border: 1px solid var(--af-v3-line);
+  border-radius: var(--af-v3-radius-lg);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.36));
+  padding: 16px;
+  transition:
+    transform var(--af-v3-transition),
+    border-color var(--af-v3-transition),
+    background var(--af-v3-transition),
+    box-shadow var(--af-v3-transition);
+}
+
+body.dark .af-student-detail-box-v3,
+html.dark .af-student-detail-box-v3,
+[data-theme="dark"] .af-student-detail-box-v3,
+.dark-mode .af-student-detail-box-v3 {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.70), rgba(2, 6, 23, 0.42));
+}
+
+.af-student-detail-box-v3::after {
+  content: "";
+  position: absolute;
+  right: -26px;
+  bottom: -26px;
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  background: var(--af-v3-primary-soft);
+  pointer-events: none;
+}
+
+.af-student-detail-box-v3:hover {
+  transform: translateY(-2px);
+  border-color: var(--af-v3-primary-border);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.10);
+}
+
+body.dark .af-student-detail-box-v3:hover,
+html.dark .af-student-detail-box-v3:hover,
+[data-theme="dark"] .af-student-detail-box-v3:hover,
+.dark-mode .af-student-detail-box-v3:hover {
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
+}
+
+.af-student-detail-box-v3 span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--af-v3-text-muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.af-student-detail-box-v3 strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: var(--af-v3-text);
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+/* ==============================
+   BATCH LIST
+================================ */
+
+.af-student-batch-list-v3 {
+  display: grid;
+  gap: 12px;
+}
+
+.af-student-empty-v3 {
+  margin: 0;
+  border: 1px dashed var(--af-v3-primary-border);
+  border-radius: var(--af-v3-radius-lg);
+  background: var(--af-v3-primary-soft);
+  color: var(--af-v3-text-soft);
+  padding: 18px;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.af-student-batch-list-v3 .af-student-batch-item-v3,
+.af-student-batch-item-v3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--af-v3-line);
+  border-radius: var(--af-v3-radius-lg);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
+  padding: 14px;
+  transition:
+    transform var(--af-v3-transition),
+    border-color var(--af-v3-transition),
+    box-shadow var(--af-v3-transition);
+}
+
+body.dark .af-student-batch-item-v3,
+html.dark .af-student-batch-item-v3,
+[data-theme="dark"] .af-student-batch-item-v3,
+.dark-mode .af-student-batch-item-v3 {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.42));
+}
+
+.af-student-batch-item-v3:hover {
+  transform: translateY(-2px);
+  border-color: var(--af-v3-primary-border);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10);
+}
+
+.af-student-batch-main-v3 {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.af-student-batch-icon-v3 {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--af-v3-primary-soft);
+  color: var(--af-v3-primary);
+  font-size: 22px;
+  border: 1px solid var(--af-v3-primary-border);
+}
+
+.af-student-batch-copy-v3 {
+  min-width: 0;
+}
+
+.af-student-batch-copy-v3 h4 {
+  margin: 0;
+  color: var(--af-v3-text);
+  font-size: 15px;
+  font-weight: 950;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.af-student-batch-copy-v3 p {
+  margin: 4px 0 0;
+  color: var(--af-v3-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.af-student-batch-status-v3 {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(5, 150, 105, 0.22);
+  background: rgba(5, 150, 105, 0.10);
+  color: var(--af-v3-success);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: capitalize;
+}
+
+/* ==============================
+   NAME EDIT MODAL V3
+================================ */
+
+.af-student-hidden-v3 {
+  display: none !important;
+}
+
+.af-student-modal-overlay-v3 {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(79, 70, 229, 0.22), transparent 34%),
+    rgba(15, 23, 42, 0.52);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.af-student-modal-card-v3 {
+  width: min(480px, 100%);
+  overflow: hidden;
+  border: 1px solid var(--af-v3-card-border);
+  border-radius: 28px;
+  background: var(--af-v3-card-bg-solid);
+  color: var(--af-v3-text);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.28);
+  animation: afV3ModalIn 220ms ease both;
+}
+
+.af-student-modal-head-v3 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px;
+  border-bottom: 1px solid var(--af-v3-line);
+  background:
+    linear-gradient(135deg, var(--af-v3-primary-soft), transparent);
+}
+
+.af-student-modal-title-wrap-v3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.af-student-modal-icon-v3 {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background:
+    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 950;
+  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.24);
+}
+
+.af-student-modal-title-wrap-v3 h4 {
+  margin: 0;
+  color: var(--af-v3-text);
+  font-size: 19px;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+}
+
+.af-student-modal-title-wrap-v3 p {
+  margin: 4px 0 0;
+  color: var(--af-v3-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.af-student-modal-close-v3 {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--af-v3-line);
+  border-radius: 14px;
+  background: transparent;
+  color: var(--af-v3-text);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    transform var(--af-v3-transition),
+    background var(--af-v3-transition),
+    border-color var(--af-v3-transition);
+}
+
+.af-student-modal-close-v3:hover {
+  transform: rotate(4deg);
+  background: rgba(220, 38, 38, 0.10);
+  border-color: rgba(220, 38, 38, 0.24);
+  color: var(--af-v3-danger);
+}
+
+.af-student-name-form-v3 {
+  padding: 18px;
+}
+
+.af-student-field-v3 {
+  display: grid;
+  gap: 8px;
+}
+
+.af-student-field-v3 label {
+  color: var(--af-v3-text);
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+
+.af-student-field-v3 input {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--af-v3-input-border);
+  border-radius: 16px;
+  background: var(--af-v3-input-bg);
+  color: var(--af-v3-text);
+  outline: none;
+  padding: 0 14px;
+  font-size: 15px;
+  font-weight: 750;
+  transition:
+    border-color var(--af-v3-transition),
+    box-shadow var(--af-v3-transition),
+    background var(--af-v3-transition);
+}
+
+.af-student-field-v3 input::placeholder {
+  color: var(--af-v3-text-muted);
+  opacity: 0.82;
+}
+
+.af-student-field-v3 input:focus {
+  border-color: var(--af-v3-primary);
+  box-shadow: 0 0 0 4px var(--af-v3-input-focus);
+}
+
+.af-student-form-message-v3 {
+  min-height: 20px;
+  margin-top: 12px;
+  color: var(--af-v3-text-muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.af-student-form-message-v3[data-type="success"] {
+  color: var(--af-v3-success);
+}
+
+.af-student-form-message-v3[data-type="error"] {
+  color: var(--af-v3-danger);
+}
+
+.af-student-form-message-v3[data-type="warning"] {
+  color: var(--af-v3-warning);
+}
+
+.af-student-modal-actions-v3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.af-student-save-btn-v3,
+.af-student-cancel-btn-v3 {
+  min-height: 46px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 950;
+  cursor: pointer;
+  transition:
+    transform var(--af-v3-transition),
+    box-shadow var(--af-v3-transition),
+    background var(--af-v3-transition),
+    border-color var(--af-v3-transition),
+    opacity var(--af-v3-transition);
+}
+
+.af-student-save-btn-v3 {
+  border: 1px solid var(--af-v3-primary-border);
+  background:
+    linear-gradient(135deg, var(--af-v3-primary), var(--af-v3-primary-2));
+  color: #ffffff;
+  box-shadow: 0 16px 34px rgba(79, 70, 229, 0.26);
+}
+
+.af-student-save-btn-v3:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 42px rgba(79, 70, 229, 0.32);
+}
+
+.af-student-cancel-btn-v3 {
+  border: 1px solid var(--af-v3-line);
+  background: transparent;
+  color: var(--af-v3-text);
+}
+
+.af-student-cancel-btn-v3:hover {
+  transform: translateY(-1px);
+  border-color: var(--af-v3-primary-border);
+  background: var(--af-v3-primary-soft);
+}
+
+.af-student-save-btn-v3:disabled,
+.af-student-cancel-btn-v3:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+  transform: none;
+}
+
+/* ==============================
+   OLD ADDITIONAL SETTINGS V2
+   Polished to match V3, IDs/classes kept same
+================================ */
+
+#afStudentProfilePageV3 .af-additional-settings-panel-v2 {
+  border: 1px solid var(--af-v3-card-border) !important;
+  border-radius: var(--af-v3-radius-xl) !important;
+  background: var(--af-v3-card-bg) !important;
+  box-shadow: var(--af-v3-card-shadow) !important;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  padding: 14px !important;
+  overflow: hidden;
+  animation: afV3FadeUp 460ms ease both;
+}
+
+#afStudentProfilePageV3 .af-extra-settings-toggle-v2 {
+  width: 100%;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 1px solid var(--af-v3-line);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.34));
+  color: var(--af-v3-text);
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--af-v3-transition),
+    border-color var(--af-v3-transition),
+    background var(--af-v3-transition),
+    box-shadow var(--af-v3-transition);
+}
+
+body.dark #afStudentProfilePageV3 .af-extra-settings-toggle-v2,
+html.dark #afStudentProfilePageV3 .af-extra-settings-toggle-v2,
+[data-theme="dark"] #afStudentProfilePageV3 .af-extra-settings-toggle-v2,
+.dark-mode #afStudentProfilePageV3 .af-extra-settings-toggle-v2 {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.42));
+}
+
+#afStudentProfilePageV3 .af-extra-settings-toggle-v2:hover {
+  transform: translateY(-1px);
+  border-color: var(--af-v3-primary-border);
+  background: var(--af-v3-primary-soft);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.10);
+}
+
+#afStudentProfilePageV3 .af-extra-settings-icon-v2 {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--af-v3-primary-soft);
+  border: 1px solid var(--af-v3-primary-border);
+  font-size: 21px;
+}
+
+#afStudentProfilePageV3 .af-extra-settings-text-v2 {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  flex: 1;
+}
+
+#afStudentProfilePageV3 .af-extra-settings-text-v2 strong {
+  color: var(--af-v3-text);
+  font-size: 15px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+#afStudentProfilePageV3 .af-extra-settings-text-v2 small {
+  color: var(--af-v3-text-muted);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+#afStudentProfilePageV3 .af-extra-settings-arrow-v2 {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  color: var(--af-v3-text);
+  font-size: 20px;
+  font-weight: 950;
+}
+
+body.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
+html.dark #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
+[data-theme="dark"] #afStudentProfilePageV3 .af-extra-settings-arrow-v2,
+.dark-mode #afStudentProfilePageV3 .af-extra-settings-arrow-v2 {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+#afStudentProfilePageV3 .af-extra-settings-body-v2 {
+  padding-top: 12px;
+}
+
+#afStudentProfilePageV3 .af-extra-hidden-v2 {
+  display: none !important;
+}
+
+#afStudentProfilePageV3 .af-delete-open-btn-v2 {
+  width: 100%;
+  min-height: 64px;
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(220, 38, 38, 0.24);
+  border-radius: 20px;
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--af-v3-danger);
+  padding: 13px 14px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--af-v3-transition),
+    background var(--af-v3-transition),
+    box-shadow var(--af-v3-transition);
+}
+
+#afStudentProfilePageV3 .af-delete-open-btn-v2:hover {
+  transform: translateY(-1px);
+  background: rgba(220, 38, 38, 0.12);
+  box-shadow: 0 16px 36px rgba(220, 38, 38, 0.12);
+}
+
+#afStudentProfilePageV3 .af-delete-open-btn-v2 span {
+  font-size: 14px;
+  font-weight: 950;
+}
+
+#afStudentProfilePageV3 .af-delete-open-btn-v2 small {
+  color: var(--af-v3-text-muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+/* ==============================
+   FOCUS ACCESSIBILITY
+================================ */
+
+.af-student-back-btn-v3:focus-visible,
+.af-student-edit-btn-v3:focus-visible,
+.af-student-modal-close-v3:focus-visible,
+.af-student-save-btn-v3:focus-visible,
+.af-student-cancel-btn-v3:focus-visible,
+.af-student-field-v3 input:focus-visible,
+#afStudentProfilePageV3 .af-extra-settings-toggle-v2:focus-visible,
+#afStudentProfilePageV3 .af-delete-open-btn-v2:focus-visible {
+  outline: 3px solid var(--af-v3-input-focus);
+  outline-offset: 3px;
+}
+
+/* ==============================
+   ANIMATIONS
+================================ */
+
+@keyframes afV3FadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes afV3ModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+  .af-student-details-grid-v3 {
+    grid-template-columns: 1fr;
+  }
+
+  .af-student-detail-box-v3 {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .af-student-profile-page-v3 {
+    padding: 12px 0 32px;
+  }
+
+  .af-student-shell-v3 {
+    width: min(100% - 18px, 1120px);
+    gap: 12px;
+  }
+
+  .af-student-hero-v3,
+  .af-student-card-v3 {
+    border-radius: 22px;
+    padding: 14px;
+  }
+
+  .af-student-hero-main-v3 {
+    align-items: flex-start;
+    gap: 13px;
+    margin-top: 14px;
+  }
+
+  .af-student-avatar-v3 {
+    width: 64px;
+    height: 64px;
+    border-radius: 22px;
+    font-size: 27px;
+  }
+
+  .af-student-hero-copy-v3 h2 {
+    font-size: 28px;
+  }
+
+  .af-student-hero-copy-v3 p:last-child {
+    font-size: 13px;
+  }
+
+  .af-student-card-head-v3 {
+    display: grid;
+    gap: 12px;
+  }
+
+  .af-student-edit-btn-v3 {
+    width: 100%;
+  }
+
+  .af-student-batch-item-v3 {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .af-student-batch-status-v3 {
+    align-self: flex-start;
+  }
+
+  .af-student-modal-overlay-v3 {
+    align-items: end;
+    padding: 10px;
+  }
+
+  .af-student-modal-card-v3 {
+    border-radius: 24px;
+  }
+
+  .af-student-modal-actions-v3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 380px) {
+  .af-student-hero-main-v3 {
+    flex-direction: column;
+  }
+
+  .af-student-avatar-v3 {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    font-size: 24px;
+  }
+
+  .af-student-hero-copy-v3 h2 {
+    font-size: 25px;
+  }
+
+  .af-student-back-btn-v3 {
+    width: 100%;
+  }
+}
+
+/* ==============================
+   REDUCED MOTION
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  #afStudentProfilePageV3 *,
+  #afStudentProfilePageV3 *::before,
+  #afStudentProfilePageV3 *::after,
+  .af-student-modal-overlay-v3 *,
+  .af-student-modal-overlay-v3 *::before,
+  .af-student-modal-overlay-v3 *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
 
@@ -23085,19 +24180,21 @@ body.dark-mode .request-status-message-af,
       <p>Access your course dashboard.</p>
     </div>
   </button>
+  
+<button
+  id="openAfStudentProfileBtnV3"
+  class="action-card glass student-profile-card af-student-profile-card-v3"
+  type="button"
+  onclick="openAfStudentProfilePageV3(event)"
+  aria-label="Open student profile dashboard"
+>
+  <div class="icon student-profile-card-icon af-student-profile-card-icon-v3" aria-hidden="true">👤</div>
 
-  <button
-    class="action-card glass student-profile-card"
-    type="button"
-    onclick="openStudentDashboardCardAf(event)"
-  >
-    <div class="icon student-profile-card-icon">👤</div>
-    <div>
-      <h3 id="studentDashboardCardNameAf">Hi, Student</h3>
-      <p id="studentDashboardCardSubAf">Login to view profile</p>
-    </div>
-  </button>
-</div>
+  <div class="af-student-profile-card-copy-v3">
+    <h3 id="studentDashboardCardNameAf">Hi, Student</h3>
+    <p id="studentDashboardCardSubAf">Login to view profile</p>
+  </div>
+</button>
      
   <!-- EXPLORE + TEAM -->
 <div class="actions home-extra-actions">
@@ -23569,66 +24666,100 @@ body.dark-mode .request-status-message-af,
 </div>
 
 
+    <!-- =========================================================
+     NEW STUDENT PROFILE PAGE - AF V3
+     New ID + New Classes
+     No dependency on old studentDashboardAf layout
+     Additional Setting block kept old V2 HTML/classes/functions
+========================================================= -->
+
+<section id="afStudentProfilePageV3" class="af-student-profile-page-v3 section">
+  <div class="af-student-shell-v3">
+
     <!-- ==============================
-     Student dashboard- AF
-================================ -->
-<section id="studentDashboardAf" class="section">
-  <div class="af-profile-wrap">
+         TOP HERO
+    =============================== -->
+    <header class="af-student-hero-v3">
+      <button
+        class="af-student-back-btn-v3"
+        type="button"
+        onclick="showSection('home')"
+        aria-label="Go back to home"
+      >
+        <span aria-hidden="true">←</span>
+        <span>Back</span>
+      </button>
 
-    <div class="af-profile-hero glass">
-      <button class="af-back-btn" type="button" onclick="showSection('home')">← Back</button>
+      <div class="af-student-hero-main-v3">
+        <div class="af-student-avatar-v3" id="afStudentAvatarV3">S</div>
 
-      <div class="af-avatar" id="afProfileAvatar">S</div>
-
-      <div class="af-hero-text">
-        <h2 id="afProfileHeroName">Student</h2>
-        <p id="afProfileHeroSub">View and manage your dashboard</p>
+        <div class="af-student-hero-copy-v3">
+          <p class="af-student-eyebrow-v3">Student Profile</p>
+          <h2 id="afStudentNameHeroV3">Student</h2>
+          <p id="afStudentHeroSubtitleV3">View your account details and enrolled batches</p>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <div class="af-panel glass">
-      <div class="af-panel-head">
+    <!-- ==============================
+         PROFILE DETAILS CARD
+    =============================== -->
+    <section class="af-student-card-v3" aria-labelledby="afStudentDetailsTitleV3">
+      <div class="af-student-card-head-v3">
         <div>
-          <h3>Your Details</h3>
-          <p>Name, email and phone number</p>
+          <p class="af-student-section-kicker-v3">Account</p>
+          <h3 id="afStudentDetailsTitleV3">Your Details</h3>
+          <p>Name, email and phone number linked with your student account</p>
         </div>
 
-        <button class="af-mini-btn" type="button" onclick="openAfNameEditModal()">Edit Name</button>
+        <button
+          id="afStudentEditNameBtnV3"
+          class="af-student-edit-btn-v3"
+          type="button"
+          onclick="openAfStudentNameEditV3()"
+        >
+          Edit Name
+        </button>
       </div>
 
-      <div class="af-detail-grid">
-        <div class="af-detail-row">
+      <div class="af-student-details-grid-v3">
+        <article class="af-student-detail-box-v3">
           <span>Name</span>
-          <strong id="afInfoName">-</strong>
-        </div>
+          <strong id="afStudentInfoNameV3">-</strong>
+        </article>
 
-        <div class="af-detail-row">
+        <article class="af-student-detail-box-v3">
           <span>Email</span>
-          <strong id="afInfoEmail">-</strong>
-        </div>
+          <strong id="afStudentInfoEmailV3">-</strong>
+        </article>
 
-        <div class="af-detail-row">
+        <article class="af-student-detail-box-v3">
           <span>Phone Number</span>
-          <strong id="afInfoMobile">-</strong>
-        </div>
+          <strong id="afStudentInfoMobileV3">-</strong>
+        </article>
       </div>
-    </div>
-
-    <div class="af-panel glass">
-      <div class="af-panel-head">
-        <div>
-          <h3>Batch Enrolled In</h3>
-          <p>Your enrolled courses or batches</p>
-        </div>
-      </div>
-
-      <div id="afBatchList" class="af-batch-list">
-        <p class="af-empty">No enrolled batch found.</p>
-      </div>
-    </div>
+    </section>
 
     <!-- ==============================
-         ADDITIONAL SETTINGS PANEL V2 - AF
+         ENROLLED BATCHES CARD
+    =============================== -->
+    <section class="af-student-card-v3" aria-labelledby="afStudentBatchTitleV3">
+      <div class="af-student-card-head-v3">
+        <div>
+          <p class="af-student-section-kicker-v3">Learning</p>
+          <h3 id="afStudentBatchTitleV3">Batch Enrolled In</h3>
+          <p>Your active courses or batches will appear here</p>
+        </div>
+      </div>
+
+      <div id="afStudentBatchListV3" class="af-student-batch-list-v3">
+        <p class="af-student-empty-v3">No enrolled batch found.</p>
+      </div>
+    </section>
+
+    <!-- ==============================
+         ADDITIONAL SETTINGS PANEL V2 - OLD HTML KEPT
+         JS mat dena bola tha, isliye only old HTML block
     ================================ -->
     <div class="af-panel glass af-additional-settings-panel-v2">
       <button
@@ -23663,74 +24794,92 @@ body.dark-mode .request-status-message-af,
         </button>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ==============================
-     EDIT NAME MODAL - AF
-     Paste near end of body
-================================ -->
+<!-- =========================================================
+     EDIT NAME MODAL - AF V3
+     New ID + New Classes
+========================================================= -->
+
 <div
-  id="afNameEditModal"
-  class="af-delete-modal-overlay-v2 af-extra-hidden-v2"
+  id="afStudentNameEditModalV3"
+  class="af-student-modal-overlay-v3 af-student-hidden-v3"
   role="dialog"
   aria-modal="true"
-  aria-labelledby="afNameEditModalTitle"
+  aria-labelledby="afStudentNameEditTitleV3"
 >
-  <div class="af-delete-modal-card-v2">
-    <div class="af-delete-modal-top-v2">
-      <div class="af-delete-request-head-v2">
-        <div class="af-delete-request-alert-v2" aria-hidden="true">✎</div>
+  <div class="af-student-modal-card-v3">
+    <div class="af-student-modal-head-v3">
+      <div class="af-student-modal-title-wrap-v3">
+        <div class="af-student-modal-icon-v3" aria-hidden="true">✎</div>
+
         <div>
-          <h4 id="afNameEditModalTitle">Edit Name</h4>
+          <h4 id="afStudentNameEditTitleV3">Edit Name</h4>
           <p>Only your display name can be changed here</p>
         </div>
       </div>
 
       <button
+        class="af-student-modal-close-v3"
         type="button"
-        class="af-delete-modal-close-v2"
-        onclick="closeAfNameEditModal()"
+        onclick="closeAfStudentNameEditV3()"
         aria-label="Close edit name modal"
       >
         ×
       </button>
     </div>
 
-    <div class="af-delete-modal-scroll-v2">
-      <form id="afNameEditForm" class="af-delete-form-v2" onsubmit="saveAfStudentName(event)">
-        <div class="af-delete-field-v2">
-          <label for="afEditOnlyName">Full Name</label>
-          <input
-            id="afEditOnlyName"
-            name="name"
-            type="text"
-            autocomplete="name"
-            placeholder="Enter your full name"
-            maxlength="90"
-            required
-          />
-        </div>
+    <form
+      id="afStudentNameEditFormV3"
+      class="af-student-name-form-v3"
+      onsubmit="saveAfStudentNameV3(event)"
+    >
+      <div class="af-student-field-v3">
+        <label for="afStudentEditNameInputV3">Full Name</label>
+        <input
+          id="afStudentEditNameInputV3"
+          name="student_name"
+          type="text"
+          autocomplete="name"
+          placeholder="Enter your full name"
+          maxlength="90"
+          required
+        />
+      </div>
 
-        <div id="afNameEditMessage" class="af-delete-message-v2" aria-live="polite"></div>
+      <div
+        id="afStudentNameEditMessageV3"
+        class="af-student-form-message-v3"
+        aria-live="polite"
+      ></div>
 
-        <button id="afNameEditSubmitBtn" class="af-delete-submit-v2" type="submit">
+      <div class="af-student-modal-actions-v3">
+        <button
+          id="afStudentNameSaveBtnV3"
+          class="af-student-save-btn-v3"
+          type="submit"
+        >
           Save Name
         </button>
 
-        <button class="af-delete-home-btn-v2" type="button" onclick="closeAfNameEditModal()">
+        <button
+          class="af-student-cancel-btn-v3"
+          type="button"
+          onclick="closeAfStudentNameEditV3()"
+        >
           Cancel
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </div>
 
-
-<!-- ==============================
-     DELETE ACCOUNT REQUEST MODAL V2 - AF
-     Paste near end of body
-================================ -->
+<!-- =========================================================
+     DELETE ACCOUNT REQUEST MODAL V2 - OLD HTML KEPT
+     JS not included
+========================================================= -->
 
 <div
   id="afDeleteAccountModalV2"
@@ -23862,8 +25011,6 @@ body.dark-mode .request-status-message-af,
     </div>
   </div>
 </div>
-</section>
-    
     <!-- ==============================
      BATCH PURCHASES - AF
 ================================ -->
@@ -39714,7 +40861,1256 @@ async function loadContactRequestStatusAf(forceRefresh) {
     );
   }
 }
+/* =========================================================
+   AF STUDENT PROFILE PAGE V3 JS
+   Backend Fetch + Name Edit Only
+   Works with:
+   - #afStudentProfilePageV3
+   - #afStudentNameHeroV3
+   - #afStudentInfoNameV3
+   - #afStudentInfoEmailV3
+   - #afStudentInfoMobileV3
+   - #afStudentBatchListV3
+   - #afStudentNameEditModalV3
+   - students_af
+   - Edge Function: student-courses-af
+========================================================= */
 
+(function () {
+  "use strict";
+
+  let afStudentV3CurrentStudent = null;
+  let afStudentV3CurrentBatches = [];
+  let afStudentV3Loading = false;
+
+  /* ==============================
+     MESSAGE
+  ================================ */
+
+  function afStudentV3Msg(message, type, title) {
+    const safeMessage = message || "Something went wrong.";
+    const safeType = type || "info";
+    const safeTitle = title || "Message";
+
+    if (typeof showAfToast === "function") {
+      showAfToast(safeMessage, safeType, safeTitle);
+      return;
+    }
+
+    if (typeof showToast === "function") {
+      showToast(safeTitle, safeMessage);
+      return;
+    }
+
+    if (typeof showStudentMessageaf === "function") {
+      showStudentMessageaf(
+        safeType === "error" ? "err" : safeType === "success" ? "ok" : "info",
+        safeMessage
+      );
+      return;
+    }
+
+    window.alert((safeTitle ? safeTitle + ": " : "") + safeMessage);
+  }
+
+  /* ==============================
+     BACKEND
+  ================================ */
+
+  function afStudentV3Backend() {
+    if (typeof getStudentBackendaf === "function") {
+      return getStudentBackendaf();
+    }
+
+    if (typeof studentDb !== "undefined" && studentDb) {
+      return studentDb;
+    }
+
+    if (typeof supabase !== "undefined" && supabase) {
+      return supabase;
+    }
+
+    return null;
+  }
+
+  async function afStudentV3EdgeCall(functionName, payload) {
+    const backend = afStudentV3Backend();
+
+    if (!backend || !backend.functions || typeof backend.functions.invoke !== "function") {
+      return {
+        ok: false,
+        message: "Student backend is not connected."
+      };
+    }
+
+    try {
+      const { data, error } = await backend.functions.invoke(functionName, {
+        body: payload || {}
+      });
+
+      if (error) {
+        return {
+          ok: false,
+          message: error.message || "Server request failed."
+        };
+      }
+
+      if (!data) {
+        return {
+          ok: false,
+          message: "Empty server response."
+        };
+      }
+
+      return data;
+    } catch (error) {
+      return {
+        ok: false,
+        message: error && error.message ? error.message : "Server request failed."
+      };
+    }
+  }
+
+  /* ==============================
+     LOGIN DATA
+  ================================ */
+
+  function afStudentV3ParseLocalJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return null;
+
+      return parsed;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function afStudentV3GetLoginData() {
+    const data = {
+      id: "",
+      uuid: "",
+      student_id: "",
+      name: "",
+      email: "",
+      mobile: ""
+    };
+
+    data.uuid = localStorage.getItem("af_student_uuid") || "";
+    data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
+    data.id = data.uuid || data.student_id || "";
+
+    data.name = localStorage.getItem("af_student_name") || "";
+    data.email = localStorage.getItem("af_student_email") || "";
+    data.mobile = localStorage.getItem("af_student_mobile") || "";
+
+    const possibleKeys = [
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    for (let i = 0; i < possibleKeys.length; i += 1) {
+      const obj = afStudentV3ParseLocalJson(possibleKeys[i]);
+
+      if (!obj) continue;
+
+      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
+      data.student_id = data.student_id || obj.student_id || obj.studentId || "";
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
+      data.email = data.email || obj.email || obj.student_email || "";
+      data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
+    }
+
+    if (typeof loggedStudent !== "undefined" && loggedStudent) {
+      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
+      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
+      data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
+      data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
+    }
+
+    return data;
+  }
+
+  function afStudentV3IsLoggedIn() {
+    const data = afStudentV3GetLoginData();
+
+    return Boolean(
+      data.email ||
+      data.mobile ||
+      data.name ||
+      data.id
+    );
+  }
+
+  /* ==============================
+     HELPERS
+  ================================ */
+
+  function afStudentV3SafeText(value) {
+    if (value === null || value === undefined) return "";
+    return String(value);
+  }
+
+  function afStudentV3EscapeHtml(value) {
+    return afStudentV3SafeText(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function afStudentV3SetText(id, value) {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    const finalValue = value && String(value).trim() ? String(value).trim() : "-";
+    element.textContent = finalValue;
+  }
+
+  function afStudentV3GetInput(id) {
+    const element = document.getElementById(id);
+
+    if (!element) return "";
+
+    return String(element.value || "").trim();
+  }
+
+  function afStudentV3SetInput(id, value) {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    element.value = value || "";
+  }
+
+  function afStudentV3NormalizeName(name) {
+    return afStudentV3SafeText(name)
+      .replace(/^Hi,\s*/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function afStudentV3Initial(name) {
+    const safeName = afStudentV3NormalizeName(name);
+
+    if (!safeName) return "S";
+
+    return safeName.charAt(0).toUpperCase();
+  }
+
+  function afStudentV3IsValidName(name) {
+    const normalized = afStudentV3NormalizeName(name);
+
+    if (normalized.length < 2) return false;
+    if (normalized.length > 90) return false;
+
+    return /^[A-Za-zÀ-ÖØ-öø-ÿ\u0900-\u097F\s.'-]+$/.test(normalized);
+  }
+
+  function afStudentV3SetInlineMessage(id, message, type) {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    element.textContent = message || "";
+    element.dataset.type = type || "info";
+  }
+
+  function afStudentV3SetButtonLoading(buttonId, isLoading, loadingText, defaultText) {
+    const button = document.getElementById(buttonId);
+
+    if (!button) return;
+
+    button.disabled = Boolean(isLoading);
+    button.textContent = isLoading ? loadingText : defaultText;
+  }
+
+  function afStudentV3ShowElement(id) {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    element.classList.remove("af-student-hidden-v3");
+    element.style.display = "grid";
+  }
+
+  function afStudentV3HideElement(id) {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    element.classList.add("af-student-hidden-v3");
+    element.style.display = "none";
+  }
+
+  function afStudentV3PersistName(name) {
+    const cleanName = afStudentV3NormalizeName(name);
+
+    if (!cleanName) return;
+
+    try {
+      localStorage.setItem("af_student_name", cleanName);
+    } catch (error) {
+      console.warn("Could not persist af_student_name:", error);
+    }
+
+    const localObjectKeys = [
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    localObjectKeys.forEach(function (key) {
+      const obj = afStudentV3ParseLocalJson(key);
+
+      if (!obj) return;
+
+      obj.name = cleanName;
+      obj.full_name = cleanName;
+      obj.student_name = cleanName;
+      obj.studentName = cleanName;
+
+      try {
+        localStorage.setItem(key, JSON.stringify(obj));
+      } catch (error) {
+        console.warn("Could not update local student object:", key, error);
+      }
+    });
+  }
+
+  function afStudentV3UpdateSettingsName(name) {
+    const settingsNameEl = document.getElementById("settingsStudentName");
+
+    if (!settingsNameEl) return;
+
+    const cleanName = afStudentV3NormalizeName(name);
+    settingsNameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
+  }
+
+  function afStudentV3UpdateHomeProfileCard(name) {
+    const nameEl = document.getElementById("studentDashboardCardNameAf");
+    const subEl = document.getElementById("studentDashboardCardSubAf");
+
+    const cleanName = afStudentV3NormalizeName(name);
+
+    if (nameEl) {
+      nameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
+    }
+
+    if (subEl) {
+      subEl.textContent = cleanName ? "View Profile" : "Login to view profile";
+    }
+  }
+
+  function afStudentV3ForceOpenPage() {
+    const target = document.getElementById("afStudentProfilePageV3");
+
+    if (!target) {
+      console.error("afStudentProfilePageV3 section not found.");
+      afStudentV3Msg("Student profile page not found.", "error", "Profile Error");
+      return false;
+    }
+
+    try {
+      if (typeof showSection === "function") {
+        showSection("afStudentProfilePageV3");
+      }
+    } catch (error) {
+      console.error("showSection afStudentProfilePageV3 failed:", error);
+    }
+
+    document.querySelectorAll(".section, .app-section").forEach(function (section) {
+      section.classList.remove("active");
+      section.classList.remove("show");
+      section.classList.remove("visible");
+
+      section.style.display = "none";
+      section.style.visibility = "hidden";
+      section.style.opacity = "0";
+      section.style.pointerEvents = "none";
+    });
+
+    target.classList.add("active");
+    target.classList.add("show");
+    target.classList.add("visible");
+
+    target.style.display = "block";
+    target.style.visibility = "visible";
+    target.style.opacity = "1";
+    target.style.pointerEvents = "auto";
+    target.style.minHeight = "100vh";
+    target.style.position = "relative";
+    target.style.zIndex = "5";
+
+    const shell = target.querySelector(".af-student-shell-v3");
+
+    if (shell) {
+      shell.style.display = "grid";
+      shell.style.visibility = "visible";
+      shell.style.opacity = "1";
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    return true;
+  }
+
+  /* ==============================
+     MERGED DISPLAY DATA
+  ================================ */
+
+  function afStudentV3MergedName() {
+    const login = afStudentV3GetLoginData();
+
+    return (
+      afStudentV3CurrentStudent && afStudentV3CurrentStudent.name
+        ? afStudentV3CurrentStudent.name
+        : login.name || "Student"
+    );
+  }
+
+  function afStudentV3MergedEmail() {
+    const login = afStudentV3GetLoginData();
+
+    return (
+      afStudentV3CurrentStudent && afStudentV3CurrentStudent.email
+        ? afStudentV3CurrentStudent.email
+        : login.email || "-"
+    );
+  }
+
+  function afStudentV3MergedMobile() {
+    const login = afStudentV3GetLoginData();
+
+    return (
+      afStudentV3CurrentStudent && afStudentV3CurrentStudent.mobile
+        ? afStudentV3CurrentStudent.mobile
+        : login.mobile || "-"
+    );
+  }
+
+  /* ==============================
+     FETCH STUDENT FROM BACKEND
+  ================================ */
+
+  async function afStudentV3FetchStudentFromBackend() {
+    const backend = afStudentV3Backend();
+
+    if (!backend || typeof backend.from !== "function") {
+      throw new Error("Student backend is not connected.");
+    }
+
+    const login = afStudentV3GetLoginData();
+
+    if (!afStudentV3IsLoggedIn()) {
+      return null;
+    }
+
+    let result = null;
+
+    if (login.email) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, mobile, email, status")
+        .eq("email", login.email)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.mobile) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, mobile, email, status")
+        .eq("mobile", login.mobile)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.uuid) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, mobile, email, status")
+        .eq("id", login.uuid)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.student_id) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, mobile, email, status")
+        .eq("student_id", login.student_id)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.name) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, mobile, email, status")
+        .eq("name", login.name)
+        .maybeSingle();
+    }
+
+    if (result && result.error) {
+      throw new Error(result.error.message || "Could not fetch student profile.");
+    }
+
+    if (!result || !result.data) {
+      return {
+        id: login.uuid || "",
+        student_id: login.student_id || "",
+        name: login.name || "Student",
+        email: login.email || "",
+        mobile: login.mobile || "",
+        status: "active"
+      };
+    }
+
+    if (result.data.status === "deleted") {
+      throw new Error("This account is marked as deleted.");
+    }
+
+    return result.data;
+  }
+
+  /* ==============================
+     FETCH BATCHES FROM BACKEND
+  ================================ */
+
+  async function afStudentV3FetchBatchesFromBackend(student) {
+    const login = afStudentV3GetLoginData();
+
+    const studentUuid =
+      (student && student.id) ||
+      login.uuid ||
+      localStorage.getItem("af_student_uuid") ||
+      "";
+
+    const studentId =
+      (student && student.student_id) ||
+      login.student_id ||
+      localStorage.getItem("af_student_id") ||
+      localStorage.getItem("student_id") ||
+      "";
+
+    const finalStudentId = studentUuid || studentId;
+
+    if (!finalStudentId) {
+      console.warn("V3 course fetch skipped: student id missing.");
+      return [];
+    }
+
+    const result = await afStudentV3EdgeCall("student-courses-af", {
+      student_id: finalStudentId
+    });
+
+    if (!result || !result.ok) {
+      console.warn("V3 course edge error:", result);
+      return [];
+    }
+
+    const courses = Array.isArray(result.courses) ? result.courses : [];
+
+    return courses.map(function (course) {
+      return {
+        raw: course,
+        title: course.title || course.course_title || course.name || "Enrolled Course",
+        slug: course.slug || course.batch_name || course.subtitle || "Active",
+        icon: course.icon || "📚",
+        status: course.status || "active"
+      };
+    });
+  }
+
+  /* ==============================
+     RENDER
+  ================================ */
+
+  function afStudentV3RenderProfile(batches) {
+    const name = afStudentV3MergedName();
+    const email = afStudentV3MergedEmail();
+    const mobile = afStudentV3MergedMobile();
+
+    afStudentV3SetText("afStudentAvatarV3", afStudentV3Initial(name));
+    afStudentV3SetText("afStudentNameHeroV3", name);
+    afStudentV3SetText("afStudentHeroSubtitleV3", "View your account details and enrolled batches");
+
+    afStudentV3SetText("afStudentInfoNameV3", name);
+    afStudentV3SetText("afStudentInfoEmailV3", email);
+    afStudentV3SetText("afStudentInfoMobileV3", mobile);
+
+    afStudentV3UpdateHomeProfileCard(name);
+    afStudentV3UpdateSettingsName(name);
+
+    const list = document.getElementById("afStudentBatchListV3");
+
+    if (!list) return;
+
+    if (!Array.isArray(batches) || !batches.length) {
+      list.innerHTML = '<p class="af-student-empty-v3">No enrolled batch found.</p>';
+      return;
+    }
+
+    list.innerHTML = batches
+      .map(function (item) {
+        const title = afStudentV3EscapeHtml(item.title || "Enrolled Course");
+        const slug = afStudentV3EscapeHtml(item.slug || "Active");
+        const icon = afStudentV3EscapeHtml(item.icon || "📚");
+        const status = afStudentV3EscapeHtml(item.status || "active");
+
+        return (
+          '<article class="af-student-batch-item-v3">' +
+            '<div class="af-student-batch-main-v3">' +
+              '<div class="af-student-batch-icon-v3">' + icon + '</div>' +
+              '<div class="af-student-batch-copy-v3">' +
+                '<h4>' + title + '</h4>' +
+                '<p>' + slug + '</p>' +
+              '</div>' +
+            '</div>' +
+            '<span class="af-student-batch-status-v3">' + status + '</span>' +
+          '</article>'
+        );
+      })
+      .join("");
+  }
+
+  function afStudentV3RenderLoading() {
+    afStudentV3SetText("afStudentAvatarV3", "S");
+    afStudentV3SetText("afStudentNameHeroV3", "Loading...");
+    afStudentV3SetText("afStudentHeroSubtitleV3", "Fetching your profile from backend...");
+    afStudentV3SetText("afStudentInfoNameV3", "Loading...");
+    afStudentV3SetText("afStudentInfoEmailV3", "Loading...");
+    afStudentV3SetText("afStudentInfoMobileV3", "Loading...");
+
+    const list = document.getElementById("afStudentBatchListV3");
+
+    if (list) {
+      list.innerHTML = '<p class="af-student-empty-v3">Loading enrolled batches...</p>';
+    }
+  }
+
+  function afStudentV3RenderError(message) {
+    afStudentV3SetText("afStudentAvatarV3", "!");
+    afStudentV3SetText("afStudentNameHeroV3", "Profile Error");
+    afStudentV3SetText("afStudentHeroSubtitleV3", message || "Could not load profile.");
+    afStudentV3SetText("afStudentInfoNameV3", "-");
+    afStudentV3SetText("afStudentInfoEmailV3", "-");
+    afStudentV3SetText("afStudentInfoMobileV3", "-");
+
+    const list = document.getElementById("afStudentBatchListV3");
+
+    if (list) {
+      list.innerHTML = '<p class="af-student-empty-v3">Could not load enrolled batches.</p>';
+    }
+  }
+
+  /* ==============================
+     OPEN PAGE
+  ================================ */
+
+  async function openAfStudentProfilePageV3(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (!afStudentV3IsLoggedIn()) {
+      afStudentV3Msg("Login to fetch your profile.", "warning", "Login Required");
+      return false;
+    }
+
+    if (afStudentV3Loading) {
+      afStudentV3ForceOpenPage();
+      return false;
+    }
+
+    const opened = afStudentV3ForceOpenPage();
+
+    if (!opened) {
+      return false;
+    }
+
+    afStudentV3Loading = true;
+    afStudentV3RenderLoading();
+
+    try {
+      const student = await afStudentV3FetchStudentFromBackend();
+
+      if (!student) {
+        throw new Error("Student profile not found. Please login again.");
+      }
+
+      afStudentV3CurrentStudent = student;
+
+      if (student.name) {
+        afStudentV3PersistName(student.name);
+      }
+
+      afStudentV3CurrentBatches = await afStudentV3FetchBatchesFromBackend(student);
+
+      afStudentV3RenderProfile(afStudentV3CurrentBatches);
+      afStudentV3ForceOpenPage();
+
+      return false;
+    } catch (error) {
+      console.error("openAfStudentProfilePageV3 failed:", error);
+
+      const message = error && error.message ? error.message : "Profile loading failed.";
+
+      afStudentV3RenderError(message);
+      afStudentV3Msg(message, "error", "Profile Error");
+      afStudentV3ForceOpenPage();
+
+      return false;
+    } finally {
+      afStudentV3Loading = false;
+    }
+  }
+
+  /* ==============================
+     EDIT NAME
+  ================================ */
+
+  function openAfStudentNameEditV3() {
+    if (!afStudentV3IsLoggedIn()) {
+      afStudentV3Msg("Login to edit your name.", "warning", "Login Required");
+      return;
+    }
+
+    const currentName = afStudentV3MergedName();
+
+    afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "", "info");
+    afStudentV3SetInput("afStudentEditNameInputV3", currentName === "Student" ? "" : currentName);
+    afStudentV3ShowElement("afStudentNameEditModalV3");
+
+    window.setTimeout(function () {
+      const input = document.getElementById("afStudentEditNameInputV3");
+
+      if (input) {
+        input.focus();
+        input.select();
+      }
+    }, 80);
+  }
+
+  function closeAfStudentNameEditV3() {
+    afStudentV3HideElement("afStudentNameEditModalV3");
+    afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "", "info");
+    afStudentV3SetButtonLoading("afStudentNameSaveBtnV3", false, "Saving...", "Save Name");
+  }
+
+  async function saveAfStudentNameV3(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const backend = afStudentV3Backend();
+
+    if (!backend || typeof backend.from !== "function") {
+      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "Backend not connected.", "error");
+      afStudentV3Msg("Backend not connected.", "error", "Backend Error");
+      return false;
+    }
+
+    const nextName = afStudentV3NormalizeName(afStudentV3GetInput("afStudentEditNameInputV3"));
+
+    if (!afStudentV3IsValidName(nextName)) {
+      afStudentV3SetInlineMessage(
+        "afStudentNameEditMessageV3",
+        "Enter a valid name. Use 2-90 letters only.",
+        "error"
+      );
+      return false;
+    }
+
+    const currentName = afStudentV3NormalizeName(afStudentV3MergedName());
+
+    if (nextName === currentName) {
+      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "No changes found.", "warning");
+      return false;
+    }
+
+    afStudentV3SetButtonLoading("afStudentNameSaveBtnV3", true, "Saving...", "Save Name");
+    afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "Saving name to backend...", "info");
+
+    try {
+      if (!afStudentV3CurrentStudent) {
+        afStudentV3CurrentStudent = await afStudentV3FetchStudentFromBackend();
+      }
+
+      const login = afStudentV3GetLoginData();
+      const student = afStudentV3CurrentStudent || {};
+
+      let updateQuery = backend
+        .from("students_af")
+        .update({
+          name: nextName
+        });
+
+      if (student.email || login.email) {
+        updateQuery = updateQuery.eq("email", student.email || login.email);
+      } else if (student.mobile || login.mobile) {
+        updateQuery = updateQuery.eq("mobile", student.mobile || login.mobile);
+      } else if (student.id || login.uuid) {
+        updateQuery = updateQuery.eq("id", student.id || login.uuid);
+      } else if (student.student_id || login.student_id) {
+        updateQuery = updateQuery.eq("student_id", student.student_id || login.student_id);
+      } else {
+        throw new Error("Student record key not found.");
+      }
+
+      const { error } = await updateQuery;
+
+      if (error) {
+        throw new Error(error.message || "Name update failed.");
+      }
+
+      afStudentV3CurrentStudent = {
+        ...student,
+        name: nextName,
+        email: student.email || login.email || "",
+        mobile: student.mobile || login.mobile || "",
+        status: student.status || "active"
+      };
+
+      afStudentV3PersistName(nextName);
+      afStudentV3RenderProfile(afStudentV3CurrentBatches);
+
+      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", "Name updated successfully.", "success");
+      afStudentV3Msg("Name updated successfully.", "success", "Updated");
+
+      window.setTimeout(function () {
+        closeAfStudentNameEditV3();
+      }, 450);
+
+      return false;
+    } catch (error) {
+      console.error("saveAfStudentNameV3 failed:", error);
+
+      const message = error && error.message ? error.message : "Could not update name.";
+
+      afStudentV3SetInlineMessage("afStudentNameEditMessageV3", message, "error");
+      afStudentV3Msg(message, "error", "Update Failed");
+
+      return false;
+    } finally {
+      afStudentV3SetButtonLoading("afStudentNameSaveBtnV3", false, "Saving...", "Save Name");
+    }
+  }
+
+  /* ==============================
+     PUBLIC FUNCTIONS
+  ================================ */
+
+  window.openAfStudentProfilePageV3 = openAfStudentProfilePageV3;
+  window.openAfStudentNameEditV3 = openAfStudentNameEditV3;
+  window.closeAfStudentNameEditV3 = closeAfStudentNameEditV3;
+  window.saveAfStudentNameV3 = saveAfStudentNameV3;
+
+  window.openStudentDashboardCardAf = openAfStudentProfilePageV3;
+
+  /* ==============================
+     MODAL OUTSIDE CLICK / ESC
+  ================================ */
+
+  document.addEventListener("click", function (event) {
+    const nameModal = document.getElementById("afStudentNameEditModalV3");
+
+    if (nameModal && event.target === nameModal) {
+      closeAfStudentNameEditV3();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+
+    closeAfStudentNameEditV3();
+  });
+
+  /* ==============================
+     INIT
+  ================================ */
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const login = afStudentV3GetLoginData();
+
+    afStudentV3UpdateHomeProfileCard(login.name || "");
+    afStudentV3UpdateSettingsName(login.name || "");
+
+    window.setTimeout(function () {
+      if (afStudentV3IsLoggedIn()) {
+        afStudentV3FetchStudentFromBackend()
+          .then(function (student) {
+            if (!student || !student.name) return;
+
+            afStudentV3CurrentStudent = student;
+            afStudentV3PersistName(student.name);
+            afStudentV3UpdateHomeProfileCard(student.name);
+            afStudentV3UpdateSettingsName(student.name);
+          })
+          .catch(function (error) {
+            console.warn("Initial V3 backend name sync failed:", error);
+          });
+      }
+    }, 500);
+  });
+})();
+
+  /* =========================================================
+   SETTINGS TOP PROFILE NAME BACKEND FETCH - AF
+   Target:
+   - #settingsStudentName
+   - .settings-avatar
+   Backend:
+   - students_af
+========================================================= */
+
+(function () {
+  "use strict";
+
+  let afSettingsProfileNameCache = "";
+  let afSettingsProfileLastFetchAt = 0;
+  let afSettingsProfileInFlight = false;
+
+  function afSettingsProfileBackend() {
+    if (typeof getStudentBackendaf === "function") {
+      return getStudentBackendaf();
+    }
+
+    if (typeof studentDb !== "undefined" && studentDb) {
+      return studentDb;
+    }
+
+    if (typeof supabase !== "undefined" && supabase) {
+      return supabase;
+    }
+
+    return null;
+  }
+
+  function afSettingsProfileParseJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return null;
+
+      return parsed;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function afSettingsProfileGetLoginData() {
+    const data = {
+      id: "",
+      uuid: "",
+      student_id: "",
+      name: "",
+      email: "",
+      mobile: ""
+    };
+
+    data.uuid = localStorage.getItem("af_student_uuid") || "";
+    data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
+    data.id = data.uuid || data.student_id || "";
+
+    data.name = localStorage.getItem("af_student_name") || "";
+    data.email = localStorage.getItem("af_student_email") || "";
+    data.mobile = localStorage.getItem("af_student_mobile") || "";
+
+    const possibleKeys = [
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    for (let i = 0; i < possibleKeys.length; i += 1) {
+      const obj = afSettingsProfileParseJson(possibleKeys[i]);
+
+      if (!obj) continue;
+
+      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
+      data.student_id = data.student_id || obj.student_id || obj.studentId || "";
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
+      data.email = data.email || obj.email || obj.student_email || "";
+      data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
+    }
+
+    if (typeof loggedStudent !== "undefined" && loggedStudent) {
+      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
+      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
+      data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
+      data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
+    }
+
+    return data;
+  }
+
+  function afSettingsProfileNormalizeName(name) {
+    return String(name || "")
+      .replace(/^Hi,\s*/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function afSettingsProfileSetName(name) {
+    const nameEl = document.getElementById("settingsStudentName");
+    const avatarEl = document.querySelector("#settings .settings-avatar");
+
+    const cleanName = afSettingsProfileNormalizeName(name);
+
+    if (nameEl) {
+      nameEl.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
+    }
+
+    if (avatarEl) {
+      avatarEl.textContent = cleanName ? cleanName.charAt(0).toUpperCase() : "👨‍🎓";
+      avatarEl.setAttribute("aria-label", cleanName ? cleanName + " profile" : "Student profile");
+    }
+  }
+
+  function afSettingsProfilePersistName(name) {
+    const cleanName = afSettingsProfileNormalizeName(name);
+
+    if (!cleanName) return;
+
+    try {
+      localStorage.setItem("af_student_name", cleanName);
+    } catch (error) {
+      console.warn("Could not save af_student_name:", error);
+    }
+
+    const keys = [
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    keys.forEach(function (key) {
+      const obj = afSettingsProfileParseJson(key);
+
+      if (!obj) return;
+
+      obj.name = cleanName;
+      obj.full_name = cleanName;
+      obj.student_name = cleanName;
+      obj.studentName = cleanName;
+
+      try {
+        localStorage.setItem(key, JSON.stringify(obj));
+      } catch (error) {
+        console.warn("Could not update local student object:", key, error);
+      }
+    });
+  }
+
+  async function afSettingsProfileFetchNameFromBackend(force) {
+    const now = Date.now();
+
+    if (!force && afSettingsProfileNameCache && now - afSettingsProfileLastFetchAt < 12000) {
+      return afSettingsProfileNameCache;
+    }
+
+    if (afSettingsProfileInFlight) {
+      return afSettingsProfileNameCache || afSettingsProfileGetLoginData().name || "";
+    }
+
+    const backend = afSettingsProfileBackend();
+    const login = afSettingsProfileGetLoginData();
+
+    if (!backend || typeof backend.from !== "function") {
+      return login.name || "";
+    }
+
+    if (!login.email && !login.mobile && !login.uuid && !login.student_id && !login.name) {
+      return "";
+    }
+
+    afSettingsProfileInFlight = true;
+
+    try {
+      let result = null;
+
+      if (login.email) {
+        result = await backend
+          .from("students_af")
+          .select("id, student_id, name, email, mobile, status")
+          .eq("email", login.email)
+          .maybeSingle();
+      }
+
+      if ((!result || !result.data) && login.mobile) {
+        result = await backend
+          .from("students_af")
+          .select("id, student_id, name, email, mobile, status")
+          .eq("mobile", login.mobile)
+          .maybeSingle();
+      }
+
+      if ((!result || !result.data) && login.uuid) {
+        result = await backend
+          .from("students_af")
+          .select("id, student_id, name, email, mobile, status")
+          .eq("id", login.uuid)
+          .maybeSingle();
+      }
+
+      if ((!result || !result.data) && login.student_id) {
+        result = await backend
+          .from("students_af")
+          .select("id, student_id, name, email, mobile, status")
+          .eq("student_id", login.student_id)
+          .maybeSingle();
+      }
+
+      if ((!result || !result.data) && login.name) {
+        result = await backend
+          .from("students_af")
+          .select("id, student_id, name, email, mobile, status")
+          .eq("name", login.name)
+          .maybeSingle();
+      }
+
+      if (result && result.error) {
+        console.error("settings profile backend fetch error:", result.error);
+        return login.name || "";
+      }
+
+      if (!result || !result.data) {
+        return login.name || "";
+      }
+
+      if (result.data.status === "deleted") {
+        return "";
+      }
+
+      const backendName = afSettingsProfileNormalizeName(result.data.name);
+
+      if (backendName) {
+        afSettingsProfileNameCache = backendName;
+        afSettingsProfileLastFetchAt = Date.now();
+        afSettingsProfilePersistName(backendName);
+      }
+
+      return backendName || login.name || "";
+    } catch (error) {
+      console.error("afSettingsProfileFetchNameFromBackend failed:", error);
+      return login.name || "";
+    } finally {
+      afSettingsProfileInFlight = false;
+    }
+  }
+
+  async function syncSettingsProfileNameFromBackendAf(force) {
+    const login = afSettingsProfileGetLoginData();
+
+    afSettingsProfileSetName(login.name || afSettingsProfileNameCache || "");
+
+    const backendName = await afSettingsProfileFetchNameFromBackend(Boolean(force));
+
+    afSettingsProfileSetName(backendName || login.name || "");
+  }
+
+  window.syncSettingsProfileNameFromBackendAf = syncSettingsProfileNameFromBackendAf;
+
+  const previousShowSection = window.showSection;
+
+  window.showSection = function (sectionId) {
+    if (typeof previousShowSection === "function") {
+      previousShowSection.apply(this, arguments);
+    } else {
+      document.querySelectorAll(".section, .app-section").forEach(function (section) {
+        section.classList.remove("active");
+        section.style.display = "none";
+      });
+
+      const target = document.getElementById(sectionId);
+
+      if (target) {
+        target.classList.add("active");
+        target.style.display = "block";
+      }
+    }
+
+    if (sectionId === "settings") {
+      window.setTimeout(function () {
+        syncSettingsProfileNameFromBackendAf(false);
+      }, 80);
+
+      window.setTimeout(function () {
+        syncSettingsProfileNameFromBackendAf(true);
+      }, 450);
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    window.setTimeout(function () {
+      syncSettingsProfileNameFromBackendAf(false);
+    }, 200);
+
+    window.setTimeout(function () {
+      syncSettingsProfileNameFromBackendAf(true);
+    }, 900);
+  });
+
+  window.addEventListener("storage", function (event) {
+    const keys = [
+      "af_student_name",
+      "af_student_email",
+      "af_student_mobile",
+      "af_student_uuid",
+      "af_student_id",
+      "student_id",
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    if (keys.includes(event.key)) {
+      syncSettingsProfileNameFromBackendAf(true);
+    }
+  });
+})();
+  
 </script>
 </body>
 </html>
