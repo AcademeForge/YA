@@ -23120,6 +23120,75 @@ html.dark #settings .settings-profile-card .settings-profile-info .student-profi
     font-size: 11px !important;
   }
 }
+
+    /* =========================================================
+   AF NAME ONLY EDIT BUTTON
+========================================================= */
+
+.af-name-edit-row {
+  gap: 10px;
+}
+
+.af-name-value-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.af-name-value-wrap strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.af-name-edit-btn {
+  flex: 0 0 auto;
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(99, 102, 241, 0.12)),
+    rgba(255, 255, 255, 0.72);
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.10);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.af-name-edit-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(59, 130, 246, 0.42);
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(99, 102, 241, 0.16)),
+    rgba(255, 255, 255, 0.88);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
+}
+
+.af-name-edit-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+body.dark .af-name-edit-btn,
+html.dark .af-name-edit-btn,
+[data-theme="dark"] .af-name-edit-btn,
+.dark-mode .af-name-edit-btn {
+  border-color: rgba(129, 140, 248, 0.34);
+  background:
+    linear-gradient(135deg, rgba(129, 140, 248, 0.20), rgba(56, 189, 248, 0.12)),
+    rgba(15, 23, 42, 0.68);
+  color: #dbeafe;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+}
 </style>
 </head>
 
@@ -23718,35 +23787,43 @@ html.dark #settings .settings-profile-card .settings-profile-info .student-profi
         <p id="afProfileHeroSub">View and manage your dashboard</p>
       </div>
     </div>
+<div class="af-panel glass">
+  <div class="af-panel-head">
+    <div>
+      <h3>Your Details</h3>
+      <p>Name, email and phone number</p>
+    </div>
+  </div>
 
-    <div class="af-panel glass">
-      <div class="af-panel-head">
-        <div>
-          <h3>Your Details</h3>
-          <p>Name, email and phone number</p>
-        </div>
+  <div class="af-detail-grid">
+    <div class="af-detail-row af-name-edit-row">
+      <span>Name</span>
 
-        <button class="af-mini-btn" type="button" onclick="openYourDetailsEditAf()">AF Nexus</button>
-      </div>
+      <div class="af-name-value-wrap">
+        <strong id="afInfoName">-</strong>
 
-      <div class="af-detail-grid">
-        <div class="af-detail-row">
-          <span>Name</span>
-          <strong id="afInfoName">-</strong>
-        </div>
-
-        <div class="af-detail-row">
-          <span>Email</span>
-          <strong id="afInfoEmail">-</strong>
-        </div>
-
-        <div class="af-detail-row">
-          <span>Phone Number</span>
-          <strong id="afInfoMobile">-</strong>
-        </div>
+        <button
+          class="af-name-edit-btn"
+          type="button"
+          onclick="openYourDetailsEditAf()"
+          aria-label="Edit student name"
+        >
+          Edit
+        </button>
       </div>
     </div>
 
+    <div class="af-detail-row">
+      <span>Email</span>
+      <strong id="afInfoEmail">-</strong>
+    </div>
+
+    <div class="af-detail-row">
+      <span>Phone Number</span>
+      <strong id="afInfoMobile">-</strong>
+    </div>
+  </div>
+</div>
   
     <div class="af-panel glass">
       <div class="af-panel-head">
