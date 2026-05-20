@@ -23189,6 +23189,64 @@ html.dark .af-name-edit-btn,
   color: #dbeafe;
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
 }
+    /* =========================================================
+   AF DETAILS NAME ROW ALIGNMENT FIX
+   Paste at END of CSS
+========================================================= */
+
+#studentDashboardAf .af-detail-row.af-name-edit-row {
+  display: grid !important;
+  grid-template-columns: 72px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  column-gap: 10px !important;
+}
+
+#studentDashboardAf .af-detail-row.af-name-edit-row > span {
+  margin: 0 !important;
+  min-width: 0 !important;
+  color: inherit !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+}
+
+#studentDashboardAf .af-name-value-wrap {
+  display: contents !important;
+}
+
+#studentDashboardAf .af-name-value-wrap strong,
+#studentDashboardAf .af-detail-row.af-name-edit-row #afInfoName {
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  text-align: left !important;
+  justify-self: start !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.2 !important;
+}
+
+#studentDashboardAf .af-name-edit-btn {
+  justify-self: end !important;
+  margin: 0 !important;
+  min-width: 48px !important;
+  height: 30px !important;
+  padding: 0 12px !important;
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  #studentDashboardAf .af-detail-row.af-name-edit-row {
+    grid-template-columns: 64px minmax(0, 1fr) auto !important;
+    column-gap: 8px !important;
+  }
+
+  #studentDashboardAf .af-name-edit-btn {
+    min-width: 44px !important;
+    height: 28px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+  }
+}
 </style>
 </head>
 
@@ -39967,7 +40025,480 @@ async function loadContactRequestStatusAf(forceRefresh) {
     );
   }
 }
+/* =========================================================
+   AF OLD STUDENT DASHBOARD - NAME ONLY EDIT JS
+   Works with:
+   - #studentDashboardAf
+   - #afInfoName
+   - #afProfileHeroName
+   - #afProfileAvatar
+   - students_af.name
+========================================================= */
 
+(function () {
+  "use strict";
+
+  let afNameEditCurrentStudent = null;
+  let afNameEditSaving = false;
+
+  function afNameEditBackend() {
+    if (typeof getStudentBackendaf === "function") {
+      return getStudentBackendaf();
+    }
+
+    if (typeof studentDb !== "undefined" && studentDb) {
+      return studentDb;
+    }
+
+    if (typeof supabase !== "undefined" && supabase) {
+      return supabase;
+    }
+
+    return null;
+  }
+
+  function afNameEditParseJson(key) {
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return null;
+
+      return parsed;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function afNameEditGetLoginData() {
+    const data = {
+      id: "",
+      uuid: "",
+      student_id: "",
+      name: "",
+      email: "",
+      mobile: ""
+    };
+
+    data.uuid = localStorage.getItem("af_student_uuid") || "";
+    data.student_id = localStorage.getItem("af_student_id") || localStorage.getItem("student_id") || "";
+    data.id = data.uuid || data.student_id || "";
+
+    data.name = localStorage.getItem("af_student_name") || "";
+    data.email = localStorage.getItem("af_student_email") || "";
+    data.mobile = localStorage.getItem("af_student_mobile") || "";
+
+    const keys = [
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    for (let i = 0; i < keys.length; i += 1) {
+      const obj = afNameEditParseJson(keys[i]);
+
+      if (!obj) continue;
+
+      data.uuid = data.uuid || obj.id || obj.uuid || obj.student_uuid || "";
+      data.student_id = data.student_id || obj.student_id || obj.studentId || "";
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name = data.name || obj.name || obj.full_name || obj.student_name || obj.studentName || "";
+      data.email = data.email || obj.email || obj.student_email || "";
+      data.mobile = data.mobile || obj.mobile || obj.phone || obj.phone_number || obj.student_mobile || "";
+    }
+
+    if (typeof loggedStudent !== "undefined" && loggedStudent) {
+      data.uuid = data.uuid || loggedStudent.id || loggedStudent.uuid || loggedStudent.student_uuid || "";
+      data.student_id = data.student_id || loggedStudent.student_id || loggedStudent.studentId || "";
+      data.id = data.uuid || data.student_id || data.id || "";
+
+      data.name = data.name || loggedStudent.name || loggedStudent.full_name || loggedStudent.student_name || loggedStudent.studentName || "";
+      data.email = data.email || loggedStudent.email || loggedStudent.student_email || "";
+      data.mobile = data.mobile || loggedStudent.mobile || loggedStudent.phone || loggedStudent.phone_number || "";
+    }
+
+    return data;
+  }
+
+  function afNameEditNormalizeName(name) {
+    return String(name || "")
+      .replace(/^Hi,\s*/i, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function afNameEditValidName(name) {
+    const cleanName = afNameEditNormalizeName(name);
+
+    if (cleanName.length < 2) return false;
+    if (cleanName.length > 90) return false;
+
+    return /^[A-Za-zÀ-ÖØ-öø-ÿ\u0900-\u097F\s.'-]+$/.test(cleanName);
+  }
+
+  function afNameEditSetText(id, value) {
+    const element = document.getElementById(id);
+
+    if (!element) return;
+
+    element.textContent = value && String(value).trim() ? String(value).trim() : "-";
+  }
+
+  function afNameEditSetNameEverywhere(name) {
+    const cleanName = afNameEditNormalizeName(name);
+    const finalName = cleanName || "Student";
+
+    afNameEditSetText("afInfoName", finalName);
+    afNameEditSetText("afProfileHeroName", finalName);
+
+    const avatar = document.getElementById("afProfileAvatar");
+    if (avatar) {
+      avatar.textContent = cleanName ? cleanName.charAt(0).toUpperCase() : "S";
+    }
+
+    const settingsName = document.getElementById("settingsStudentName");
+    if (settingsName) {
+      settingsName.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
+    }
+
+    const homeName = document.getElementById("studentDashboardCardNameAf");
+    if (homeName) {
+      homeName.textContent = cleanName ? "Hi, " + cleanName : "Hi, Student";
+    }
+
+    const homeSub = document.getElementById("studentDashboardCardSubAf");
+    if (homeSub) {
+      homeSub.textContent = cleanName ? "View Profile" : "Login to view profile";
+    }
+  }
+
+  function afNameEditPersistName(name) {
+    const cleanName = afNameEditNormalizeName(name);
+
+    if (!cleanName) return;
+
+    try {
+      localStorage.setItem("af_student_name", cleanName);
+    } catch (error) {
+      console.warn("Could not save af_student_name:", error);
+    }
+
+    const keys = [
+      "af_logged_student",
+      "afStudent",
+      "af_student",
+      "loggedStudent",
+      "studentData",
+      "currentStudent",
+      "student"
+    ];
+
+    keys.forEach(function (key) {
+      const obj = afNameEditParseJson(key);
+
+      if (!obj) return;
+
+      obj.name = cleanName;
+      obj.full_name = cleanName;
+      obj.student_name = cleanName;
+      obj.studentName = cleanName;
+
+      try {
+        localStorage.setItem(key, JSON.stringify(obj));
+      } catch (error) {
+        console.warn("Could not update local student object:", key, error);
+      }
+    });
+  }
+
+  async function afNameEditFetchStudent() {
+    const backend = afNameEditBackend();
+    const login = afNameEditGetLoginData();
+
+    if (!backend || typeof backend.from !== "function") {
+      throw new Error("Backend not connected.");
+    }
+
+    if (!login.email && !login.mobile && !login.uuid && !login.student_id && !login.name) {
+      throw new Error("Student login data not found.");
+    }
+
+    let result = null;
+
+    if (login.email) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, email, mobile, status")
+        .eq("email", login.email)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.mobile) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, email, mobile, status")
+        .eq("mobile", login.mobile)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.uuid) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, email, mobile, status")
+        .eq("id", login.uuid)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.student_id) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, email, mobile, status")
+        .eq("student_id", login.student_id)
+        .maybeSingle();
+    }
+
+    if ((!result || !result.data) && login.name) {
+      result = await backend
+        .from("students_af")
+        .select("id, student_id, name, email, mobile, status")
+        .eq("name", login.name)
+        .maybeSingle();
+    }
+
+    if (result && result.error) {
+      throw new Error(result.error.message || "Student fetch failed.");
+    }
+
+    if (!result || !result.data) {
+      throw new Error("Student record not found.");
+    }
+
+    if (result.data.status === "deleted") {
+      throw new Error("This account is marked as deleted.");
+    }
+
+    afNameEditCurrentStudent = result.data;
+    return result.data;
+  }
+
+  async function afNameEditUpdateBackendName(nextName) {
+    const backend = afNameEditBackend();
+    const login = afNameEditGetLoginData();
+
+    if (!backend || typeof backend.from !== "function") {
+      throw new Error("Backend not connected.");
+    }
+
+    const student = afNameEditCurrentStudent || await afNameEditFetchStudent();
+
+    let query = backend
+      .from("students_af")
+      .update({
+        name: nextName
+      });
+
+    if (student.email || login.email) {
+      query = query.eq("email", student.email || login.email);
+    } else if (student.mobile || login.mobile) {
+      query = query.eq("mobile", student.mobile || login.mobile);
+    } else if (student.id || login.uuid) {
+      query = query.eq("id", student.id || login.uuid);
+    } else if (student.student_id || login.student_id) {
+      query = query.eq("student_id", student.student_id || login.student_id);
+    } else {
+      throw new Error("Student update key not found.");
+    }
+
+    const { error } = await query;
+
+    if (error) {
+      throw new Error(error.message || "Name update failed.");
+    }
+
+    afNameEditCurrentStudent = {
+      ...student,
+      name: nextName
+    };
+
+    return afNameEditCurrentStudent;
+  }
+
+  function afNameEditEnsureModal() {
+    let modal = document.getElementById("afNameOnlyEditModal");
+
+    if (modal) return modal;
+
+    modal = document.createElement("div");
+    modal.id = "afNameOnlyEditModal";
+    modal.className = "af-name-only-modal af-name-only-hidden";
+    modal.innerHTML =
+      '<div class="af-name-only-card" role="dialog" aria-modal="true" aria-labelledby="afNameOnlyTitle">' +
+        '<div class="af-name-only-head">' +
+          '<div>' +
+            '<h3 id="afNameOnlyTitle">Edit Name</h3>' +
+            '<p>Only your display name will be updated.</p>' +
+          '</div>' +
+          '<button type="button" class="af-name-only-close" onclick="closeYourDetailsEditAf()" aria-label="Close">×</button>' +
+        '</div>' +
+        '<form class="af-name-only-form" onsubmit="saveYourDetailsNameAf(event)">' +
+          '<label for="afNameOnlyInput">Full Name</label>' +
+          '<input id="afNameOnlyInput" type="text" autocomplete="name" maxlength="90" placeholder="Enter your full name" required />' +
+          '<div id="afNameOnlyMessage" class="af-name-only-message" aria-live="polite"></div>' +
+          '<div class="af-name-only-actions">' +
+            '<button id="afNameOnlySaveBtn" type="submit" class="af-name-only-save">Save Name</button>' +
+            '<button type="button" class="af-name-only-cancel" onclick="closeYourDetailsEditAf()">Cancel</button>' +
+          '</div>' +
+        '</form>' +
+      '</div>';
+
+    document.body.appendChild(modal);
+
+    return modal;
+  }
+
+  function afNameEditSetMessage(message, type) {
+    const element = document.getElementById("afNameOnlyMessage");
+
+    if (!element) return;
+
+    element.textContent = message || "";
+    element.dataset.type = type || "info";
+  }
+
+  function afNameEditSetSaving(isSaving) {
+    const button = document.getElementById("afNameOnlySaveBtn");
+
+    if (!button) return;
+
+    button.disabled = Boolean(isSaving);
+    button.textContent = isSaving ? "Saving..." : "Save Name";
+  }
+
+  function openYourDetailsEditAf() {
+    const modal = afNameEditEnsureModal();
+    const input = document.getElementById("afNameOnlyInput");
+
+    const currentName =
+      afNameEditNormalizeName(document.getElementById("afInfoName")?.textContent) ||
+      afNameEditGetLoginData().name ||
+      "";
+
+    if (input) {
+      input.value = currentName === "-" || currentName === "Student" ? "" : currentName;
+    }
+
+    afNameEditSetMessage("", "info");
+
+    modal.classList.remove("af-name-only-hidden");
+    modal.style.display = "grid";
+
+    window.setTimeout(function () {
+      if (input) {
+        input.focus();
+        input.select();
+      }
+    }, 80);
+  }
+
+  function closeYourDetailsEditAf() {
+    const modal = document.getElementById("afNameOnlyEditModal");
+
+    if (!modal) return;
+
+    modal.classList.add("af-name-only-hidden");
+    modal.style.display = "none";
+    afNameEditSetMessage("", "info");
+    afNameEditSetSaving(false);
+  }
+
+  async function saveYourDetailsNameAf(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (afNameEditSaving) return false;
+
+    const input = document.getElementById("afNameOnlyInput");
+    const nextName = afNameEditNormalizeName(input ? input.value : "");
+
+    if (!afNameEditValidName(nextName)) {
+      afNameEditSetMessage("Enter a valid name. Use 2-90 letters only.", "error");
+      return false;
+    }
+
+    const currentName =
+      afNameEditNormalizeName(document.getElementById("afInfoName")?.textContent) ||
+      afNameEditGetLoginData().name ||
+      "";
+
+    if (nextName === currentName) {
+      afNameEditSetMessage("No changes found.", "warning");
+      return false;
+    }
+
+    afNameEditSaving = true;
+    afNameEditSetSaving(true);
+    afNameEditSetMessage("Saving name to backend...", "info");
+
+    try {
+      await afNameEditUpdateBackendName(nextName);
+
+      afNameEditPersistName(nextName);
+      afNameEditSetNameEverywhere(nextName);
+
+      afNameEditSetMessage("Name updated successfully.", "success");
+
+      if (typeof showAfToast === "function") {
+        showAfToast("Name updated successfully.", "success", "Updated");
+      } else if (typeof showToast === "function") {
+        showToast("Updated", "Name updated successfully.");
+      }
+
+      window.setTimeout(function () {
+        closeYourDetailsEditAf();
+      }, 450);
+
+      return false;
+    } catch (error) {
+      console.error("saveYourDetailsNameAf failed:", error);
+
+      afNameEditSetMessage(
+        error && error.message ? error.message : "Could not update name.",
+        "error"
+      );
+
+      return false;
+    } finally {
+      afNameEditSaving = false;
+      afNameEditSetSaving(false);
+    }
+  }
+
+  window.openYourDetailsEditAf = openYourDetailsEditAf;
+  window.closeYourDetailsEditAf = closeYourDetailsEditAf;
+  window.saveYourDetailsNameAf = saveYourDetailsNameAf;
+
+  document.addEventListener("click", function (event) {
+    const modal = document.getElementById("afNameOnlyEditModal");
+
+    if (modal && event.target === modal) {
+      closeYourDetailsEditAf();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeYourDetailsEditAf();
+    }
+  });
+})();
 </script>
 </body>
 </html>
