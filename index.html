@@ -21805,6 +21805,667 @@ body.app-ready #splashScreen {
     opacity 420ms ease,
     visibility 420ms ease !important;
 }
+
+    /* =========================================================
+   REQUEST STATUS FLIP CARD UI - AF
+   Paste at VERY END of CSS
+========================================================= */
+
+.request-status-section-af {
+  min-height: 100dvh;
+  padding: 88px 18px 96px;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(124, 92, 255, 0.16), transparent 30%),
+    radial-gradient(circle at 95% 8%, rgba(236, 72, 153, 0.14), transparent 34%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2f7 48%, #f8fafc 100%);
+  color: #111827;
+}
+
+.request-status-page-af {
+  width: min(100%, 430px);
+  margin: 0 auto;
+}
+
+.request-status-hero-af {
+  position: relative;
+  overflow: hidden;
+  min-height: 152px;
+  padding: 18px 18px 18px;
+  border-radius: 26px;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(255, 255, 255, 0.22), transparent 30%),
+    radial-gradient(circle at 92% 86%, rgba(15, 23, 42, 0.16), transparent 34%),
+    linear-gradient(135deg, #667eea 0%, #7c3aed 48%, #db2777 100%);
+  box-shadow:
+    0 24px 58px rgba(79, 70, 229, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+
+.request-status-hero-af::before {
+  content: "";
+  position: absolute;
+  width: 168px;
+  height: 168px;
+  right: -42px;
+  top: -56px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+}
+
+.request-status-hero-af::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: -70px;
+  bottom: -92px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.13);
+  pointer-events: none;
+}
+
+.request-status-back-af,
+.request-status-refresh-af {
+  position: relative;
+  z-index: 2;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.request-status-back-af {
+  min-width: 86px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.request-status-refresh-af {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 38px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.request-status-back-af:hover,
+.request-status-refresh-af:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.56);
+}
+
+.request-status-hero-text-af {
+  position: relative;
+  z-index: 2;
+  margin-top: 8px;
+}
+
+.request-status-hero-text-af p {
+  margin: 0 0 4px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.request-status-hero-text-af h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(30px, 8vw, 42px);
+  line-height: 0.96;
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  text-shadow: 0 8px 22px rgba(15, 23, 42, 0.16);
+}
+
+.request-status-hero-text-af span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.request-status-message-af {
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border-radius: 20px;
+  color: #475569;
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.request-status-message-af.is-error {
+  color: #991b1b;
+  background: #fff1f2;
+  border-color: rgba(244, 63, 94, 0.28);
+}
+
+.request-status-message-af.is-empty {
+  color: #854d0e;
+  background: #fffbeb;
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+.request-status-list-af {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+  perspective: 1400px;
+}
+
+.request-flip-card-af {
+  position: relative;
+  width: 100%;
+  min-height: 332px;
+  border: 0;
+  border-radius: 28px;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  perspective: 1400px;
+  outline: none;
+  animation: requestCardEnterAf 520ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.request-flip-card-af:focus-visible {
+  outline: 3px solid rgba(124, 58, 237, 0.36);
+  outline-offset: 4px;
+}
+
+.request-flip-inner-af {
+  position: relative;
+  width: 100%;
+  min-height: 332px;
+  border-radius: 28px;
+  transform-style: preserve-3d;
+  transition: transform 680ms cubic-bezier(0.2, 0.85, 0.2, 1);
+}
+
+.request-flip-card-af.is-flipped .request-flip-inner-af {
+  transform: rotateY(180deg);
+}
+
+.request-flip-face-af {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 332px;
+  padding: 18px;
+  border-radius: 28px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.92);
+  box-shadow:
+    0 24px 58px rgba(15, 23, 42, 0.10),
+    0 2px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.request-flip-front-af {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.08), transparent 32%),
+    radial-gradient(circle at 100% 100%, rgba(219, 39, 119, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92));
+}
+
+.request-flip-back-af {
+  transform: rotateY(180deg);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.10), transparent 34%),
+    radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.10), transparent 34%),
+    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 26px 62px rgba(15, 23, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+}
+
+.request-card-top-af {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 14px;
+}
+
+.request-card-title-af {
+  min-width: 0;
+}
+
+.request-card-kicker-af {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 9px;
+}
+
+.request-card-kicker-af span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: #6d28d9;
+  background: rgba(124, 58, 237, 0.10);
+  font-size: 10px;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.request-card-title-af h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 19px;
+  line-height: 1.1;
+  font-weight: 950;
+  letter-spacing: -0.045em;
+}
+
+.request-card-title-af p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 12.5px;
+  line-height: 1.42;
+  font-weight: 800;
+}
+
+.request-front-summary-af {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.request-date-af {
+  color: #475569 !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
+}
+
+.request-status-pill-af {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 10.5px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+}
+
+.request-status-pill-af.pending {
+  color: #92400e;
+  background: #fef3c7;
+  border-color: rgba(245, 158, 11, 0.22);
+}
+
+.request-status-pill-af.read {
+  color: #1d4ed8;
+  background: #dbeafe;
+  border-color: rgba(59, 130, 246, 0.22);
+}
+
+.request-status-pill-af.solved {
+  color: #047857;
+  background: #d1fae5;
+  border-color: rgba(16, 185, 129, 0.22);
+}
+
+.request-progress-af {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+  padding-left: 0;
+}
+
+.request-progress-af::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 26px;
+  bottom: 26px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #22c55e, rgba(245, 158, 11, 0.45));
+}
+
+.request-step-af {
+  position: relative;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.request-step-dot-af {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 950;
+  box-shadow:
+    0 12px 24px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.request-step-af.is-done .request-step-dot-af {
+  color: #ffffff;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.request-step-af.is-pending .request-step-dot-af {
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid rgba(245, 158, 11, 0.26);
+}
+
+.request-step-content-af strong {
+  display: block;
+  color: #111827;
+  font-size: 14px;
+  line-height: 1.15;
+  font-weight: 950;
+  letter-spacing: -0.035em;
+}
+
+.request-step-content-af span {
+  display: block;
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+.request-step-af.is-pending .request-step-content-af span {
+  color: #b45309;
+}
+
+.request-flip-hint-af {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 16px;
+  color: #7c3aed;
+  font-size: 11.5px;
+  font-weight: 950;
+}
+
+.request-flip-hint-af b {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.22);
+}
+
+.request-back-head-af {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.request-back-head-af span {
+  display: block;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.request-back-head-af h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 19px;
+  line-height: 1.1;
+  font-weight: 950;
+  letter-spacing: -0.045em;
+}
+
+.request-back-close-af {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.10);
+  font-size: 16px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.request-back-scroll-af {
+  display: grid;
+  gap: 10px;
+  max-height: 238px;
+  margin-top: 12px;
+  padding-right: 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.request-back-scroll-af::-webkit-scrollbar {
+  width: 4px;
+}
+
+.request-back-scroll-af::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.request-back-grid-af {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.request-back-block-af {
+  padding: 11px 12px;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.request-back-block-af strong {
+  display: block;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.request-back-block-af p,
+.request-back-block-af pre {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 750;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.request-back-block-af pre {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    monospace;
+  font-size: 10.5px;
+}
+
+.request-back-url-af {
+  color: #bfdbfe !important;
+}
+
+.request-back-note-af {
+  background: rgba(250, 204, 21, 0.12);
+  border-color: rgba(250, 204, 21, 0.18);
+}
+
+.request-flip-hint-back-af {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.request-flip-hint-back-af b {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+}
+
+@keyframes requestCardEnterAf {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 420px) {
+  .request-status-section-af {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .request-status-hero-af {
+    border-radius: 24px;
+  }
+
+  .request-flip-card-af,
+  .request-flip-inner-af,
+  .request-flip-face-af {
+    min-height: 348px;
+  }
+
+  .request-flip-face-af {
+    padding: 16px;
+    border-radius: 24px;
+  }
+
+  .request-back-grid-af {
+    grid-template-columns: 1fr;
+  }
+
+  .request-back-scroll-af {
+    max-height: 254px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .request-flip-inner-af,
+  .request-status-back-af,
+  .request-status-refresh-af {
+    transition: none !important;
+  }
+
+  .request-flip-card-af {
+    animation: none !important;
+  }
+}
+
+/* Dark mode support if your app uses body.dark-mode / .dark-mode */
+body.dark-mode .request-status-section-af,
+.dark-mode .request-status-section-af {
+  background:
+    radial-gradient(circle at 15% 0%, rgba(124, 92, 255, 0.20), transparent 30%),
+    radial-gradient(circle at 95% 8%, rgba(236, 72, 153, 0.16), transparent 34%),
+    linear-gradient(180deg, #020617 0%, #0f172a 48%, #020617 100%);
+  color: #f8fafc;
+}
+
+body.dark-mode .request-flip-front-af,
+.dark-mode .request-flip-front-af {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.18), transparent 32%),
+    radial-gradient(circle at 100% 100%, rgba(219, 39, 119, 0.16), transparent 30%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.94));
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 24px 58px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .request-card-title-af h3,
+body.dark-mode .request-step-content-af strong,
+.dark-mode .request-card-title-af h3,
+.dark-mode .request-step-content-af strong {
+  color: #f8fafc;
+}
+
+body.dark-mode .request-card-title-af p,
+body.dark-mode .request-step-content-af span,
+.dark-mode .request-card-title-af p,
+.dark-mode .request-step-content-af span {
+  color: #cbd5e1;
+}
+
+body.dark-mode .request-date-af,
+.dark-mode .request-date-af {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .request-status-message-af,
+.dark-mode .request-status-message-af {
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.82);
+  border-color: rgba(255, 255, 255, 0.10);
+}
 </style>
 </head>
 
@@ -36820,7 +37481,28 @@ function renderRequestStatusCardAf(report, index) {
   const title = escapeRequestHtmlAf(getRequestTitleAf(report));
   const description = escapeRequestHtmlAf(getRequestDescriptionAf(report));
   const createdAt = escapeRequestHtmlAf(formatRequestDateAf(report.created_at));
-  const note = escapeRequestHtmlAf(report.status_note || "");
+  const updatedAt = escapeRequestHtmlAf(formatRequestDateAf(report.updated_at));
+  const priority = escapeRequestHtmlAf(report.priority || "normal");
+  const activeSection = escapeRequestHtmlAf(report.active_section || "Not captured");
+  const pageUrl = escapeRequestHtmlAf(report.page_url || "Not captured");
+  const steps = escapeRequestHtmlAf(report.steps_to_reproduce || "No steps added.");
+  const adminNotes = escapeRequestHtmlAf(report.admin_notes || "");
+  const statusNote = escapeRequestHtmlAf(report.status_note || "");
+  const requestStatus = escapeRequestHtmlAf(report.status || "open");
+
+  let deviceInfoText = "Not captured";
+
+  try {
+    if (report.device_info && typeof report.device_info === "object") {
+      deviceInfoText = JSON.stringify(report.device_info, null, 2);
+    } else if (typeof report.device_info === "string" && report.device_info.trim()) {
+      deviceInfoText = report.device_info.trim();
+    }
+  } catch (error) {
+    deviceInfoText = "Not captured";
+  }
+
+  const deviceInfo = escapeRequestHtmlAf(deviceInfoText);
 
   const readStepClass = isRead ? "is-done" : "is-pending";
   const solvedStepClass = isSolved ? "is-done" : "is-pending";
@@ -36836,51 +37518,197 @@ function renderRequestStatusCardAf(report, index) {
     ? "Your request has been solved."
     : "Pending — solution is not marked yet.";
 
+  const safeCardId = "requestFlipCardAf_" + String(report.id || index).replace(/[^a-zA-Z0-9_-]/g, "");
+
   return `
-    <article class="request-card-af" style="animation-delay:${index * 70}ms">
-      <div class="request-card-top-af">
-        <div class="request-card-title-af">
-          <h3>${title}</h3>
-          <p>${description}</p>
-          <p>Submitted: ${createdAt}</p>
+    <article
+      id="${safeCardId}"
+      class="request-card-af request-flip-card-af"
+      style="animation-delay:${index * 70}ms"
+      tabindex="0"
+      role="button"
+      aria-label="Tap to flip request card"
+      onclick="toggleRequestFlipCardAf('${safeCardId}')"
+      onkeydown="handleRequestFlipCardKeyAf(event, '${safeCardId}')"
+    >
+      <div class="request-flip-inner-af">
+        <div class="request-flip-face-af request-flip-front-af">
+          <div class="request-card-top-af">
+            <div class="request-card-title-af">
+              <div class="request-card-kicker-af">
+                <span>${priority}</span>
+                <span>${requestStatus}</span>
+              </div>
+
+              <h3>${title}</h3>
+
+              <p class="request-front-summary-af">
+                ${description}
+              </p>
+
+              <p class="request-date-af">
+                Submitted: ${createdAt}
+              </p>
+            </div>
+
+            <span class="request-status-pill-af ${status.className}">
+              ${status.label}
+            </span>
+          </div>
+
+          <div class="request-progress-af">
+            <div class="request-step-af is-done">
+              <div class="request-step-dot-af">✓</div>
+              <div class="request-step-content-af">
+                <strong>Report Sent</strong>
+                <span>Your report has been submitted successfully.</span>
+              </div>
+            </div>
+
+            <div class="request-step-af ${readStepClass}">
+              <div class="request-step-dot-af">${readStepIcon}</div>
+              <div class="request-step-content-af">
+                <strong>Team Read Your Report</strong>
+                <span>${readStepText}</span>
+              </div>
+            </div>
+
+            <div class="request-step-af ${solvedStepClass}">
+              <div class="request-step-dot-af">${solvedStepIcon}</div>
+              <div class="request-step-content-af">
+                <strong>Solved Your Request</strong>
+                <span>${solvedStepText}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="request-flip-hint-af">
+            <span>Tap to view full report</span>
+            <b>↻</b>
+          </div>
         </div>
 
-        <span class="request-status-pill-af ${status.className}">
-          ${status.label}
-        </span>
+        <div class="request-flip-face-af request-flip-back-af">
+          <div class="request-back-head-af">
+            <div>
+              <span>Submitted Report</span>
+              <h3>${title}</h3>
+            </div>
+
+            <button
+              type="button"
+              class="request-back-close-af"
+              aria-label="Back to status"
+              onclick="event.stopPropagation(); toggleRequestFlipCardAf('${safeCardId}')"
+            >
+              ↩
+            </button>
+          </div>
+
+          <div class="request-back-scroll-af">
+            <div class="request-back-block-af">
+              <strong>Description</strong>
+              <p>${description}</p>
+            </div>
+
+            <div class="request-back-block-af">
+              <strong>Steps To Reproduce</strong>
+              <p>${steps}</p>
+            </div>
+
+            <div class="request-back-grid-af">
+              <div class="request-back-block-af">
+                <strong>Priority</strong>
+                <p>${priority}</p>
+              </div>
+
+              <div class="request-back-block-af">
+                <strong>Status</strong>
+                <p>${status.label}</p>
+              </div>
+
+              <div class="request-back-block-af">
+                <strong>Active Section</strong>
+                <p>${activeSection}</p>
+              </div>
+
+              <div class="request-back-block-af">
+                <strong>Last Updated</strong>
+                <p>${updatedAt}</p>
+              </div>
+            </div>
+
+            <div class="request-back-block-af">
+              <strong>Page URL</strong>
+              <p class="request-back-url-af">${pageUrl}</p>
+            </div>
+
+            <div class="request-back-block-af">
+              <strong>Device Info</strong>
+              <pre>${deviceInfo}</pre>
+            </div>
+
+            ${
+              statusNote
+                ? `
+                  <div class="request-back-block-af request-back-note-af">
+                    <strong>Status Note</strong>
+                    <p>${statusNote}</p>
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              adminNotes
+                ? `
+                  <div class="request-back-block-af request-back-note-af">
+                    <strong>Admin Notes</strong>
+                    <p>${adminNotes}</p>
+                  </div>
+                `
+                : ""
+            }
+          </div>
+
+          <div class="request-flip-hint-af request-flip-hint-back-af">
+            <span>Tap to return to status</span>
+            <b>↩</b>
+          </div>
+        </div>
       </div>
-
-      <div class="request-progress-af">
-        <div class="request-step-af is-done">
-          <div class="request-step-dot-af">✓</div>
-          <div class="request-step-content-af">
-            <strong>Report Sent</strong>
-            <span>Your report has been submitted successfully.</span>
-          </div>
-        </div>
-
-        <div class="request-step-af ${readStepClass}">
-          <div class="request-step-dot-af">${readStepIcon}</div>
-          <div class="request-step-content-af">
-            <strong>Team Read Your Report</strong>
-            <span>${readStepText}</span>
-          </div>
-        </div>
-
-        <div class="request-step-af ${solvedStepClass}">
-          <div class="request-step-dot-af">${solvedStepIcon}</div>
-          <div class="request-step-content-af">
-            <strong>Solved Your Request</strong>
-            <span>${solvedStepText}</span>
-          </div>
-        </div>
-      </div>
-
-      ${note ? `<div class="request-note-af">${note}</div>` : ""}
     </article>
   `;
 }
+  function toggleRequestFlipCardAf(cardId) {
+  try {
+    const card = document.getElementById(cardId);
+    if (!card) return;
 
+    card.classList.toggle("is-flipped");
+
+    const isFlipped = card.classList.contains("is-flipped");
+    card.setAttribute(
+      "aria-label",
+      isFlipped ? "Tap to return to request status" : "Tap to view full report"
+    );
+  } catch (error) {
+    console.error("toggleRequestFlipCardAf failed:", error);
+  }
+}
+
+function handleRequestFlipCardKeyAf(event, cardId) {
+  try {
+    const key = event.key || event.code;
+
+    if (key === "Enter" || key === " " || key === "Spacebar") {
+      event.preventDefault();
+      toggleRequestFlipCardAf(cardId);
+    }
+  } catch (error) {
+    console.error("handleRequestFlipCardKeyAf failed:", error);
+  }
+}
 async function loadRequestStatusAf(forceRefresh) {
   const list = afRequestStatusById("requestStatusListAf");
 
