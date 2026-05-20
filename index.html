@@ -22466,6 +22466,526 @@ body.dark-mode .request-status-message-af,
   background: rgba(15, 23, 42, 0.82);
   border-color: rgba(255, 255, 255, 0.10);
 }
+
+    /* =========================================================
+   AF REQUEST + CONTACT STATUS CARD CUT FIX
+   Paste at VERY END of CSS
+========================================================= */
+
+#requestStatusAf,
+#contactRequestStatusAf,
+.request-status-section-af,
+.contact-request-status-section-af {
+  min-height: 100dvh !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding-bottom: calc(118px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#requestStatusAf .request-status-page-af,
+#contactRequestStatusAf .request-status-page-af {
+  min-height: 100dvh !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: calc(128px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#requestStatusAf .request-status-list-af,
+#contactRequestStatusAf .request-status-list-af {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 18px !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 0 0 calc(150px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#requestStatusAf .request-card-af,
+#contactRequestStatusAf .request-card-af,
+#requestStatusAf .request-flip-card-af,
+#contactRequestStatusAf .request-flip-card-af {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 420px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  border-radius: 24px !important;
+  isolation: isolate !important;
+  contain: none !important;
+  transform-style: preserve-3d !important;
+}
+
+#requestStatusAf .request-flip-inner-af,
+#contactRequestStatusAf .request-flip-inner-af {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 420px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  transform-style: preserve-3d !important;
+  transition: transform 0.72s cubic-bezier(0.2, 0.9, 0.2, 1) !important;
+}
+
+#requestStatusAf .request-flip-card-af.is-flipped .request-flip-inner-af,
+#contactRequestStatusAf .request-flip-card-af.is-flipped .request-flip-inner-af {
+  transform: rotateY(180deg) !important;
+}
+
+#requestStatusAf .request-flip-face-af,
+#contactRequestStatusAf .request-flip-face-af {
+  width: 100% !important;
+  min-height: 420px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  border-radius: 24px !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+#requestStatusAf .request-flip-front-af,
+#contactRequestStatusAf .request-flip-front-af {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  padding: 18px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217, 70, 239, 0.13), transparent 34%),
+    linear-gradient(145deg, #ffffff 0%, #fbfdff 54%, #fff5fb 100%) !important;
+  border: 1px solid rgba(148, 163, 184, 0.24) !important;
+  box-shadow:
+    0 22px 60px rgba(15, 23, 42, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86) !important;
+  color: #0f172a !important;
+}
+
+#requestStatusAf .request-flip-back-af,
+#contactRequestStatusAf .request-flip-back-af {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  padding: 18px !important;
+  transform: rotateY(180deg) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.14), transparent 34%),
+    radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.12), transparent 38%),
+    linear-gradient(145deg, #ffffff 0%, #f8fbff 52%, #fff7fb 100%) !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  color: #0f172a !important;
+}
+
+#requestStatusAf .request-card-top-af,
+#contactRequestStatusAf .request-card-top-af {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: start !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+
+#requestStatusAf .request-card-title-af,
+#contactRequestStatusAf .request-card-title-af {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+#requestStatusAf .request-card-kicker-af,
+#contactRequestStatusAf .request-card-kicker-af {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+  margin-bottom: 9px !important;
+}
+
+#requestStatusAf .request-card-kicker-af span,
+#contactRequestStatusAf .request-card-kicker-af span {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 24px !important;
+  padding: 5px 9px !important;
+  border-radius: 999px !important;
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+#requestStatusAf .request-card-title-af h3,
+#contactRequestStatusAf .request-card-title-af h3 {
+  margin: 0 0 8px !important;
+  color: #0f172a !important;
+  font-size: clamp(15px, 4.2vw, 19px) !important;
+  font-weight: 950 !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.03em !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+#requestStatusAf .request-front-summary-af,
+#contactRequestStatusAf .request-front-summary-af,
+#requestStatusAf .request-card-title-af p,
+#contactRequestStatusAf .request-card-title-af p {
+  margin: 0 0 7px !important;
+  color: #64748b !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.45 !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+}
+
+#requestStatusAf .request-date-af,
+#contactRequestStatusAf .request-date-af {
+  color: #475569 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1.35 !important;
+}
+
+#requestStatusAf .request-status-pill-af,
+#contactRequestStatusAf .request-status-pill-af {
+  flex: 0 0 auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 30px !important;
+  padding: 7px 12px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  border: 1px solid rgba(245, 158, 11, 0.34) !important;
+  background: #fff7d6 !important;
+  color: #92400e !important;
+}
+
+#requestStatusAf .request-status-pill-af.read,
+#contactRequestStatusAf .request-status-pill-af.read {
+  border-color: rgba(59, 130, 246, 0.28) !important;
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+#requestStatusAf .request-status-pill-af.solved,
+#contactRequestStatusAf .request-status-pill-af.solved {
+  border-color: rgba(34, 197, 94, 0.28) !important;
+  background: #dcfce7 !important;
+  color: #15803d !important;
+}
+
+#requestStatusAf .request-progress-af,
+#contactRequestStatusAf .request-progress-af {
+  position: relative !important;
+  display: grid !important;
+  gap: 18px !important;
+  padding: 4px 0 0 0 !important;
+  overflow: visible !important;
+}
+
+#requestStatusAf .request-step-af,
+#contactRequestStatusAf .request-step-af {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 42px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  align-items: start !important;
+  min-height: 52px !important;
+  overflow: visible !important;
+}
+
+#requestStatusAf .request-step-af::before,
+#contactRequestStatusAf .request-step-af::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 20px !important;
+  top: 38px !important;
+  bottom: -22px !important;
+  width: 2px !important;
+  border-radius: 999px !important;
+  background: #e2e8f0 !important;
+  z-index: 0 !important;
+}
+
+#requestStatusAf .request-step-af:last-child::before,
+#contactRequestStatusAf .request-step-af:last-child::before {
+  display: none !important;
+}
+
+#requestStatusAf .request-step-af.is-done::before,
+#contactRequestStatusAf .request-step-af.is-done::before {
+  background: #22c55e !important;
+}
+
+#requestStatusAf .request-step-dot-af,
+#contactRequestStatusAf .request-step-dot-af {
+  position: relative !important;
+  z-index: 1 !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 17px !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08) !important;
+}
+
+#requestStatusAf .request-step-af.is-done .request-step-dot-af,
+#contactRequestStatusAf .request-step-af.is-done .request-step-dot-af {
+  background: #22c55e !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(22, 163, 74, 0.18) !important;
+}
+
+#requestStatusAf .request-step-af.is-pending .request-step-dot-af,
+#contactRequestStatusAf .request-step-af.is-pending .request-step-dot-af {
+  background: #fff7d6 !important;
+  color: #b45309 !important;
+  border: 1px solid rgba(245, 158, 11, 0.34) !important;
+}
+
+#requestStatusAf .request-step-content-af,
+#contactRequestStatusAf .request-step-content-af {
+  min-width: 0 !important;
+  padding-top: 2px !important;
+}
+
+#requestStatusAf .request-step-content-af strong,
+#contactRequestStatusAf .request-step-content-af strong {
+  display: block !important;
+  margin: 0 0 4px !important;
+  color: #0f172a !important;
+  font-size: 14px !important;
+  font-weight: 950 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em !important;
+  overflow-wrap: anywhere !important;
+}
+
+#requestStatusAf .request-step-content-af span,
+#contactRequestStatusAf .request-step-content-af span {
+  display: block !important;
+  color: #64748b !important;
+  font-size: 12.5px !important;
+  font-weight: 850 !important;
+  line-height: 1.42 !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+#requestStatusAf .request-step-af.is-pending .request-step-content-af span,
+#contactRequestStatusAf .request-step-af.is-pending .request-step-content-af span {
+  color: #b45309 !important;
+}
+
+#requestStatusAf .request-flip-hint-af,
+#contactRequestStatusAf .request-flip-hint-af {
+  margin-top: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding-top: 8px !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  font-weight: 950 !important;
+  line-height: 1.25 !important;
+}
+
+#requestStatusAf .request-flip-hint-af b,
+#contactRequestStatusAf .request-flip-hint-af b {
+  flex: 0 0 auto !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  box-shadow: 0 12px 24px rgba(219, 39, 119, 0.22) !important;
+}
+
+#requestStatusAf .request-back-head-af,
+#contactRequestStatusAf .request-back-head-af {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+  align-items: start !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22) !important;
+}
+
+#requestStatusAf .request-back-head-af span,
+#contactRequestStatusAf .request-back-head-af span {
+  display: block !important;
+  margin: 0 0 5px !important;
+  color: #64748b !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+#requestStatusAf .request-back-head-af h3,
+#contactRequestStatusAf .request-back-head-af h3 {
+  margin: 0 !important;
+  color: #0f172a !important;
+  font-size: 18px !important;
+  font-weight: 950 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.03em !important;
+  overflow-wrap: anywhere !important;
+}
+
+#requestStatusAf .request-back-close-af,
+#contactRequestStatusAf .request-back-close-af {
+  width: 34px !important;
+  height: 34px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  font-size: 16px !important;
+  font-weight: 950 !important;
+  cursor: pointer !important;
+}
+
+#requestStatusAf .request-back-scroll-af,
+#contactRequestStatusAf .request-back-scroll-af {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  display: grid !important;
+  gap: 12px !important;
+  padding: 0 !important;
+}
+
+#requestStatusAf .request-back-grid-af,
+#contactRequestStatusAf .request-back-grid-af {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+}
+
+#requestStatusAf .request-back-block-af,
+#contactRequestStatusAf .request-back-block-af {
+  min-width: 0 !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78) !important;
+}
+
+#requestStatusAf .request-back-block-af strong,
+#contactRequestStatusAf .request-back-block-af strong {
+  display: block !important;
+  margin: 0 0 6px !important;
+  color: #334155 !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+}
+
+#requestStatusAf .request-back-block-af p,
+#contactRequestStatusAf .request-back-block-af p,
+#requestStatusAf .request-back-block-af pre,
+#contactRequestStatusAf .request-back-block-af pre {
+  margin: 0 !important;
+  color: #0f172a !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.45 !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+#requestStatusAf .request-back-note-af,
+#contactRequestStatusAf .request-back-note-af {
+  background:
+    linear-gradient(135deg, rgba(236, 253, 245, 0.92), rgba(240, 253, 250, 0.92)) !important;
+  border-color: rgba(34, 197, 94, 0.22) !important;
+}
+
+@media (max-width: 420px) {
+  #requestStatusAf .request-status-page-af,
+  #contactRequestStatusAf .request-status-page-af {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  #requestStatusAf .request-card-af,
+  #contactRequestStatusAf .request-card-af,
+  #requestStatusAf .request-flip-card-af,
+  #contactRequestStatusAf .request-flip-card-af,
+  #requestStatusAf .request-flip-inner-af,
+  #contactRequestStatusAf .request-flip-inner-af,
+  #requestStatusAf .request-flip-face-af,
+  #contactRequestStatusAf .request-flip-face-af {
+    min-height: 450px !important;
+  }
+
+  #requestStatusAf .request-flip-front-af,
+  #contactRequestStatusAf .request-flip-front-af,
+  #requestStatusAf .request-flip-back-af,
+  #contactRequestStatusAf .request-flip-back-af {
+    padding: 16px !important;
+    border-radius: 22px !important;
+  }
+
+  #requestStatusAf .request-step-af,
+  #contactRequestStatusAf .request-step-af {
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    gap: 11px !important;
+  }
+
+  #requestStatusAf .request-step-dot-af,
+  #contactRequestStatusAf .request-step-dot-af {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  #requestStatusAf .request-step-af::before,
+  #contactRequestStatusAf .request-step-af::before {
+    left: 19px !important;
+  }
+}
+
+@media (min-width: 700px) {
+  #requestStatusAf .request-back-grid-af,
+  #contactRequestStatusAf .request-back-grid-af {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
 </style>
 </head>
 
