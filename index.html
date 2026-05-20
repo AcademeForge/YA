@@ -40868,7 +40868,7 @@ async function loadContactRequestStatusAf(forceRefresh) {
         '<div class="af-name-only-head">' +
           '<div>' +
             '<h3 id="afNameOnlyTitle">Edit Name</h3>' +
-            '<p>Only your display name will be updated.</p>' +
+            '<p>Your display name will be updated.</p>' +
           '</div>' +
           '<button type="button" class="af-name-only-close" onclick="closeYourDetailsEditAf()" aria-label="Close">×</button>' +
         '</div>' +
@@ -40976,7 +40976,7 @@ async function loadContactRequestStatusAf(forceRefresh) {
 
     afNameEditSaving = true;
     afNameEditSetSaving(true);
-    afNameEditSetMessage("Saving name to backend...", "info");
+    afNameEditSetMessage("Updating name, please wait...", "info");
 
     try {
       await afNameEditUpdateBackendName(nextName);
