@@ -36618,7 +36618,7 @@ document.addEventListener("click", function (event) {
   } catch (error) {}
 });
 
-  
+
 /* =========================================================
    REQUEST STATUS PAGE - AF
    Paste at VERY END before </body>
@@ -36681,7 +36681,11 @@ function getAfCurrentStudentForRequestStatus() {
     "studentaf_session",
     "student_session_af",
     "currentStudentaf",
-    "current_student_af"
+    "current_student_af",
+    "af_user",
+    "af_auth_user",
+    "supabase.auth.token",
+    "sb-afooyyydhlwngzssgqih-auth-token"
   ];
 
   for (let i = 0; i < keys.length; i += 1) {
@@ -36690,24 +36694,61 @@ function getAfCurrentStudentForRequestStatus() {
       if (!raw) continue;
 
       const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === "object") {
-        const student = parsed.student || parsed.data || parsed.user || parsed;
-        if (student && typeof student === "object") return student;
+      if (!parsed || typeof parsed !== "object") continue;
+
+      const student =
+        parsed.student ||
+        parsed.data ||
+        parsed.user ||
+        parsed.currentUser ||
+        parsed.current_student ||
+        parsed.session?.user ||
+        parsed;
+
+      if (student && typeof student === "object") {
+        const email =
+          student.email ||
+          student.reporter_email ||
+          student.registered_email ||
+          student.student_email ||
+          student.user_email ||
+          parsed.email ||
+          parsed.reporter_email ||
+          parsed.registered_email ||
+          parsed.student_email ||
+          "";
+
+        if (email) {
+          return {
+            ...student,
+            email: String(email).trim().toLowerCase()
+          };
+        }
       }
     } catch (error) {}
   }
 
+  const fallbackEmail =
+    localStorage.getItem("af_student_email") ||
+    localStorage.getItem("student_email_af") ||
+    localStorage.getItem("studentEmailaf") ||
+    localStorage.getItem("reporter_email") ||
+    localStorage.getItem("registered_email") ||
+    "";
+
   return {
-    email:
-      localStorage.getItem("af_student_email") ||
-      localStorage.getItem("student_email_af") ||
-      localStorage.getItem("studentEmailaf") ||
-      ""
+    email: String(fallbackEmail || "").trim().toLowerCase()
   };
 }
 
 function normalizeRequestFlagAf(value) {
-  return String(value || "F").trim().toUpperCase() === "T";
+  const normalized = String(value ?? "F").trim().toUpperCase();
+  return (
+    normalized === "T" ||
+    normalized === "TRUE" ||
+    normalized === "YES" ||
+    normalized === "1"
+  );
 }
 
 function formatRequestDateAf(value) {
@@ -36730,7 +36771,7 @@ function formatRequestDateAf(value) {
 }
 
 function escapeRequestHtmlAf(value) {
-  return String(value || "")
+  return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -36739,10 +36780,11 @@ function escapeRequestHtmlAf(value) {
 }
 
 function getRequestTitleAf(report) {
-  return report.category || "Bug Report";
+  return report.category || report.priority || "Bug Report";
 }
 
 function getRequestDescriptionAf(report) {
+  if (report.description) return report.description;
   return "Your report has been submitted to our team.";
 }
 
@@ -36834,11 +36876,7 @@ function renderRequestStatusCardAf(report, index) {
         </div>
       </div>
 
-      ${
-        note
-          ? `<div class="request-note-af">${note}</div>`
-          : ""
-      }
+      ${note ? `<div class="request-note-af">${note}</div>` : ""}
     </article>
   `;
 }
@@ -36856,39 +36894,60 @@ async function loadRequestStatusAf(forceRefresh) {
 
     const student = getAfCurrentStudentForRequestStatus();
 
+    const email = String(
+      student.email ||
+      student.reporter_email ||
+      student.registered_email ||
+      student.student_email ||
+      ""
+    )
+      .trim()
+      .toLowerCase();
+
+    if (!email) {
+      setRequestStatusMessageAf("error", "Login first to view your request status.");
+      console.warn("Request status failed: no logged-in student email found.");
+      return;
+    }
+
     const payload = {
-      registered_email:
-        student.email ||
-        student.registered_email ||
-        student.student_email ||
-        ""
+      reporter_email: email,
+      registered_email: email,
+      email: email
     };
 
-    if (!payload.registered_email) {
-      setRequestStatusMessageAf("error", "Login first to view your request status.");
-      return;
+    console.log("Request status payload:", payload);
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    if (typeof SUPABASE_ANON_KEY !== "undefined" && SUPABASE_ANON_KEY) {
+      headers.apikey = SUPABASE_ANON_KEY;
+      headers.Authorization = "Bearer " + SUPABASE_ANON_KEY;
     }
 
     const response = await fetch(AF_REQUEST_STATUS_EDGE_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": typeof SUPABASE_ANON_KEY !== "undefined" ? SUPABASE_ANON_KEY : "",
-        "Authorization":
-          typeof SUPABASE_ANON_KEY !== "undefined"
-            ? "Bearer " + SUPABASE_ANON_KEY
-            : ""
-      },
+      headers,
       body: JSON.stringify(payload)
     });
 
-    let result = null;
+    const responseText = await response.text();
 
+    let result = null;
     try {
-      result = await response.json();
+      result = responseText ? JSON.parse(responseText) : null;
     } catch (error) {
-      result = null;
+      console.error("Invalid JSON from request-status-af:", responseText);
+      throw new Error("Server returned invalid response.");
     }
+
+    console.log("Request status response:", {
+      status: response.status,
+      ok: response.ok,
+      result
+    });
 
     if (!response.ok || !result || result.success !== true) {
       throw new Error(
@@ -36942,6 +37001,7 @@ async function loadRequestStatusAf(forceRefresh) {
     );
   }
 }
+
   
 /* =========================================================
    AF SUPABASE DYNAMIC TRANSLATION SYSTEM
