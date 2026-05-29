@@ -25139,8 +25139,8 @@ onclick="openNotesAF()"
   </div>
   <span class="settings-arrow" aria-hidden="true">›</span>
 </button>
-
-      <button
+      
+<button
   type="button"
   class="settings-row settings-row-btn"
   onclick="openVerifyAF()"
@@ -41066,8 +41066,15 @@ async function loadContactRequestStatusAf(forceRefresh) {
     window.location.href = "/YA/NotesAF/";
 }
 
-  function openVerifyAF() {
-  window.location.href = "/verify/";
+function openVerifyAF() {
+
+    sessionStorage.setItem(
+        "af_return_section",
+        "settings"
+    );
+
+    window.location.href =
+        "/YA/verify/";
 }
 </script>
 </body>
