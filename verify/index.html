@@ -851,6 +851,34 @@
         padding: 16px;
       }
     }
+    .mobile-back-btn{
+
+  width:100%;
+
+  min-height:52px;
+
+  border:none;
+
+  border-radius:16px;
+
+  color:#fff;
+
+  font-size:.95rem;
+
+  font-weight:800;
+
+  background:
+  linear-gradient(
+    135deg,
+    #f97316,
+    #ea580c
+  );
+
+  box-shadow:
+  0 12px 24px
+  rgba(249,115,22,.25);
+
+}
   </style>
 </head>
 <body>
@@ -863,16 +891,16 @@
           <span class="brand-sub">Verification Infrastructure</span>
         </div>
       </a>
-
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="https://academeforge.in">Home</a>
-        <a href="https://academeforge.in/join-team/">Join Team</a>
-        <a href="https://academeforge.in/verify-team/">Verify Team</a>
-        <a class="active" href="#">Certificates</a>
-      </nav>
-
+      
       <div class="header-actions">
-        <a href="https://academeforge.in" class="back-btn">Back To Site</a>
+       <button
+  type="button"
+  class="back-btn"
+  onclick="sessionStorage.setItem('af_return_section','settings'); window.location.href='/YA/#settings';">
+
+  ← Back
+
+</button>
         <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
           <span id="themeText">Light</span>
           <span class="switch" aria-hidden="true"><span class="knob"></span></span>
@@ -888,13 +916,18 @@
       <button id="closeBtn" class="close-btn" type="button" aria-label="Close menu">✕</button>
     </div>
 
-    <nav class="mobile-nav">
-      <a href="/YA/">Home</a>
-      <a href="https://academeforge.in/join-team/">Join Team</a>
-      <a href="https://academeforge.in/verify-team/">Verify Team</a>
-      <a href="#">Certificates</a>
-      <a href="https://academeforge.in">Back To Site</a>
-    </nav>
+   <nav class="mobile-nav">
+
+  <button
+    type="button"
+    class="mobile-back-btn"
+    onclick="sessionStorage.setItem('af_return_section','settings');window.location.href='/YA/#settings';">
+
+    ← Back To Settings
+
+  </button>
+
+</nav>
   </aside>
 
   <main class="main">
