@@ -2,170 +2,214 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AcademeForge Notes</title>
 <style>
 :root{
---bg:#08111f;--card:#111827;--card2:#1f2937;--text:#fff;--border:rgba(255,255,255,.08);
+--bg:#020617;
+--bg2:#0f172a;
+--card:rgba(15,23,42,.75);
+--text:#fff;
+--muted:#cbd5e1;
+--accent:#22c55e;
+--border:rgba(255,255,255,.08);
 }
 [data-theme="light"]{
---bg:#f8fafc;--card:#fff;--card2:#eef2f7;--text:#0f172a;--border:rgba(0,0,0,.08);
+--bg:#eef4ff;
+--bg2:#f8fafc;
+--card:rgba(255,255,255,.85);
+--text:#0f172a;
+--muted:#475569;
+--border:rgba(15,23,42,.08);
 }
 *{box-sizing:border-box}
 body{
-margin:0;font-family:Inter,Arial,sans-serif;
-background:linear-gradient(135deg,#08111f,#0f172a);
+margin:0;
+font-family:Inter,Arial,sans-serif;
 color:var(--text);
+background:linear-gradient(135deg,var(--bg),var(--bg2));
 min-height:100vh;
+overflow:hidden;
 }
-[data-theme="light"] body{background:#f8fafc}
-.container{max-width:1200px;margin:auto;padding:24px}
-.header{
-display:flex;justify-content:space-between;align-items:center;
-margin-bottom:24px;gap:12px;flex-wrap:wrap;
+.bg{
+position:fixed;inset:0;
+background:
+radial-gradient(circle at 10% 20%,rgba(34,197,94,.18),transparent 25%),
+radial-gradient(circle at 90% 10%,rgba(59,130,246,.18),transparent 25%),
+radial-gradient(circle at 50% 90%,rgba(168,85,247,.18),transparent 25%);
+pointer-events:none;
 }
-.left-actions{display:flex;gap:12px}
+.topbar{
+position:fixed;top:0;left:0;right:0;
+height:72px;display:flex;justify-content:space-between;align-items:center;
+padding:0 16px;z-index:100;
+}
 .btn{
-border:none;cursor:pointer;padding:12px 18px;border-radius:14px;
-font-weight:700;background:var(--card);color:var(--text);
+border:none;cursor:pointer;border-radius:16px;padding:12px 18px;
+background:var(--card);color:var(--text);backdrop-filter:blur(20px);
+font-weight:700;
 }
-.primary{
-background:linear-gradient(135deg,#22c55e,#16a34a);color:white;
+.page{
+display:none;position:absolute;inset:0;padding:90px 20px 20px;overflow:auto;
 }
-.hero{
-background:var(--card);
-border:1px solid var(--border);
-padding:28px;border-radius:24px;margin-bottom:24px;
-text-align:center;
+.page.active{display:block}
+.hero{max-width:1000px;margin:40px auto;text-align:center}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);margin:0}
+.hero p{color:var(--muted)}
+.start{
+background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
+padding:14px 24px;
 }
-.hero h1{margin:0 0 8px}
-.hero p{opacity:.8}
-.controls{
+.grid{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:20px;
+max-width:1100px;
+margin:30px auto;
 }
 .card{
 background:var(--card);
 border:1px solid var(--border);
-border-radius:22px;
-padding:20px;
+backdrop-filter:blur(20px);
+border-radius:24px;
+padding:24px;
+cursor:pointer;
+transition:.25s;
 }
-select{
-width:100%;height:54px;border:none;border-radius:14px;
-background:var(--card2);color:var(--text);padding:0 14px;
+.card:hover{transform:translateY(-5px)}
+.card h3{margin:0 0 10px}
+.card p{margin:0;color:var(--muted)}
+.viewer{
+width:100%;
+height:calc(100vh - 150px);
+border:none;
+border-radius:24px;
+background:#fff;
 }
-iframe{
-width:100%;height:75vh;border:none;border-radius:20px;background:white;
+.title{
+font-size:1.4rem;
+font-weight:800;
+margin-bottom:15px;
+}
+.badges{
+display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;
+}
+.badge{
+background:var(--card);padding:10px 14px;border-radius:999px;border:1px solid var(--border)
 }
 @media(max-width:768px){
-.controls{grid-template-columns:1fr}
-.hero{text-align:left}
+.hero{margin-top:10px}
+.viewer{height:calc(100vh - 180px)}
+.grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="bg"></div>
 
-<div class="header">
-<div class="left-actions">
-<button class="btn" onclick="goBack()">← Back</button>
-</div>
-<button class="btn" id="themeBtn">🌙 Dark / Light</button>
+<div class="topbar">
+<button class="btn" onclick="window.location.href='../settings.html'">← Back</button>
+<button class="btn" onclick="toggleTheme()">🌙 Theme</button>
 </div>
 
+<section id="home" class="page active">
 <div class="hero">
 <h1>📚 AcademeForge Notes</h1>
-<p>Select your class and subject to open notes instantly.</p>
-</div>
+<p>Class 9 & 10 Notes Library</p>
+<button class="btn start" onclick="openPage('classes')">Start Learning</button>
 
-<div class="controls">
-<div class="card">
-<h3>Select Class</h3>
-<select id="afnxClassSelect">
-<option value="">Choose Class</option>
-</select>
+<div class="badges">
+<div class="badge">⚡ Instant Access</div>
+<div class="badge">📖 10 Subjects</div>
+<div class="badge">🌙 Dark Mode</div>
 </div>
+</div>
+</section>
 
-<div class="card">
-<h3>Select Subject</h3>
-<select id="afnxSubjectSelect">
-<option value="">Choose Subject</option>
-</select>
+<section id="classes" class="page">
+<div class="hero"><h2>Select Your Class</h2></div>
+<div class="grid">
+<div class="card" onclick="selectClass('9')">
+<h3>🎓 Class 9</h3>
+<p>Foundation Learning Notes</p>
+</div>
+<div class="card" onclick="selectClass('10')">
+<h3>🏆 Class 10</h3>
+<p>Board Exam Preparation Notes</p>
 </div>
 </div>
+</section>
 
-<div class="card" style="margin-top:20px">
-<h3 id="afnxCurrentNoteTitle">Select Class & Subject</h3>
-</div>
+<section id="subjects" class="page">
+<div class="hero"><h2>Select Subject</h2></div>
+<div id="subjectsGrid" class="grid"></div>
+</section>
 
-<div style="margin-top:20px">
-<iframe id="afnxNotesViewer" allowfullscreen></iframe>
-</div>
-
-</div>
+<section id="viewerPage" class="page">
+<div class="title" id="noteTitle"></div>
+<iframe id="viewer" class="viewer"></iframe>
+</section>
 
 <script>
-const AFNX_BASE_URL="https://afooyyydhlwngzssgqih.supabase.co/functions/v1";
-
-function goBack(){
- window.location.href="../settings.html";
+const NOTES={
+"9":{
+"🔬 Science":["Class 9 Science Notes","1-CtgsAx1kXo67-UUf6HsBunPIgm8FgUl"],
+"🧮 Math":["Class 9 Mathematics Notes","1-DH3yoNSnF0iFSIH2CsGGf5RobYwYKyp"],
+"🌍 Social Science":["Class 9 Social Science Notes","1-Dm4Tg6UIlYBiNqGYOYAWZvJExikh7my"],
+"📖 English":["Class 9 English Notes","1-Gd2i8_7ylzy-gM_sFQMGrtDbiE70vRr"],
+"📝 Hindi":["Class 9 Hindi Notes","1-EHtC6OQMkNE3qEU5JgPggm5I4ggUWf9"]
+},
+"10":{
+"🔬 Science":["Class 10 Science Notes","1-bVnCZbCabVmNGCxJ0gY4-FP4BwN9F02"],
+"🧮 Math":["Class 10 Mathematics Notes","1-Z7LCbOvKhHvMxqXS3W4qVcAukPVmhXK"],
+"🌍 Social Science":["Class 10 Social Science Notes","1-c9q3sV8BCZjtch0WqWnXnJWSE1il5uS"],
+"📖 English":["Class 10 English Notes","1-VKypMW3rybYR_0dPrro1JscD8eGtj9u"],
+"📝 Hindi":["Class 10 Hindi Notes","1-Ud6Gv65aE25yPcul3cbprGvXZrXX2O0"]
 }
-
-const themeBtn=document.getElementById("themeBtn");
-const savedTheme=localStorage.getItem("af_notes_theme")||"dark";
-document.documentElement.setAttribute("data-theme",savedTheme);
-
-themeBtn.onclick=()=>{
- const current=document.documentElement.getAttribute("data-theme");
- const next=current==="dark"?"light":"dark";
- document.documentElement.setAttribute("data-theme",next);
- localStorage.setItem("af_notes_theme",next);
 };
 
-async function loadClasses(){
- try{
- const res=await fetch(`${AFNX_BASE_URL}/afnx-notes-meta`);
- const data=await res.json();
- const select=document.getElementById("afnxClassSelect");
- (data.classes||[]).forEach(item=>{
- select.innerHTML+=`<option value="${item.id}">${item.name}</option>`;
- });
- }catch(e){console.error(e);}
+let currentClass="";
+
+function openPage(id){
+document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
 
-document.getElementById("afnxClassSelect").addEventListener("change",async function(){
- try{
- const res=await fetch(`${AFNX_BASE_URL}/afnx-subjects?class=${this.value}`);
- const data=await res.json();
+function selectClass(cls){
+currentClass=cls;
+const grid=document.getElementById('subjectsGrid');
+grid.innerHTML='';
 
- const subject=document.getElementById("afnxSubjectSelect");
- subject.innerHTML='<option value="">Choose Subject</option>';
-
- (data.subjects||[]).forEach(item=>{
- subject.innerHTML+=`<option value="${item.id}">${item.name}</option>`;
- });
- }catch(e){console.error(e);}
+Object.keys(NOTES[cls]).forEach(subject=>{
+const card=document.createElement('div');
+card.className='card';
+card.innerHTML=`<h3>${subject}</h3><p>Open Notes</p>`;
+card.onclick=()=>openNotes(subject);
+grid.appendChild(card);
 });
 
-document.getElementById("afnxSubjectSelect").addEventListener("change",async function(){
- try{
- const classId=document.getElementById("afnxClassSelect").value;
+openPage('subjects');
+}
 
- const res=await fetch(`${AFNX_BASE_URL}/afnx-notes`,{
- method:"POST",
- headers:{"Content-Type":"application/json"},
- body:JSON.stringify({classId,subjectId:this.value})
- });
+function openNotes(subject){
+const note=NOTES[currentClass][subject];
+document.getElementById('noteTitle').textContent=note[0];
+document.getElementById('viewer').src=
+`https://drive.google.com/embeddedfolderview?id=${note[1]}#list`;
+openPage('viewerPage');
+}
 
- const data=await res.json();
+function toggleTheme(){
+const current=document.documentElement.getAttribute('data-theme');
+const next=current==='dark'?'light':'dark';
+document.documentElement.setAttribute('data-theme',next);
+localStorage.setItem('af_theme',next);
+}
 
- document.getElementById("afnxCurrentNoteTitle").textContent=data.title||"Notes";
- document.getElementById("afnxNotesViewer").src=data.embed_url||"";
- }catch(e){console.error(e);}
-});
-
-loadClasses();
+document.documentElement.setAttribute(
+'data-theme',
+localStorage.getItem('af_theme')||'dark'
+);
 </script>
 </body>
 </html>
