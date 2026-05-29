@@ -1,235 +1,1267 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AcademeForge Notes</title>
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+AcademeForge Notes
+</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
+
 <style>
+
+/* ===========================
+ROOT
+=========================== */
+
 :root{
---bg:#020617;
---bg2:#0f172a;
---card:rgba(15,23,42,.75);
---text:#fff;
---muted:#cbd5e1;
---accent:#22c55e;
---border:rgba(255,255,255,.08);
+
+--bg:
+#050816;
+
+--surface:
+#101726;
+
+--surface-2:
+#171f31;
+
+--border:
+rgba(255,255,255,.06);
+
+--text:
+#ffffff;
+
+--muted:
+#9ca3af;
+
+--primary:
+#22c55e;
+
+--primary-2:
+#16a34a;
+
+--shadow:
+0 20px 50px rgba(0,0,0,.35);
+
 }
+
 [data-theme="light"]{
---bg:#eef4ff;
---bg2:#f8fafc;
---card:rgba(255,255,255,.85);
---text:#0f172a;
---muted:#475569;
---border:rgba(15,23,42,.08);
+
+--bg:
+#f5f7fb;
+
+--surface:
+#ffffff;
+
+--surface-2:
+#f1f5f9;
+
+--border:
+rgba(15,23,42,.08);
+
+--text:
+#0f172a;
+
+--muted:
+#64748b;
+
+--shadow:
+0 20px 40px rgba(15,23,42,.08);
+
 }
-*{box-sizing:border-box}
-body{
+
+/* ===========================
+RESET
+=========================== */
+
+*{
+
 margin:0;
-font-family:Inter,Arial,sans-serif;
-color:var(--text);
-background:linear-gradient(135deg,var(--bg),var(--bg2));
-min-height:100vh;
-overflow:hidden;
+padding:0;
+
+box-sizing:border-box;
+
 }
-.bg{
-position:fixed;inset:0;
+
+html{
+
+height:100%;
+
+}
+
+body{
+
+height:100%;
+
+font-family:
+'Inter',
+sans-serif;
+
 background:
-radial-gradient(circle at 10% 20%,rgba(34,197,94,.18),transparent 25%),
-radial-gradient(circle at 90% 10%,rgba(59,130,246,.18),transparent 25%),
-radial-gradient(circle at 50% 90%,rgba(168,85,247,.18),transparent 25%);
-pointer-events:none;
+var(--bg);
+
+overflow:hidden;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:
+var(--text);
+
 }
-.topbar{
-position:fixed;top:0;left:0;right:0;
-height:72px;display:flex;justify-content:space-between;align-items:center;
-padding:0 16px;z-index:100;
-}
-.btn{
-border:none;cursor:pointer;border-radius:16px;padding:12px 18px;
-background:var(--card);color:var(--text);backdrop-filter:blur(20px);
-font-weight:700;
-}
-.page{
-display:none;position:absolute;inset:0;padding:90px 20px 20px;overflow:auto;
-}
-.page.active{display:block}
-.hero{max-width:1000px;margin:40px auto;text-align:center}
-.hero h1{font-size:clamp(2.5rem,6vw,5rem);margin:0}
-.hero p{color:var(--muted)}
-.start{
-background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;
-padding:14px 24px;
-}
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
-max-width:1100px;
-margin:30px auto;
-}
-.card{
-background:var(--card);
-border:1px solid var(--border);
-backdrop-filter:blur(20px);
-border-radius:24px;
-padding:24px;
-cursor:pointer;
-transition:.25s;
-}
-.card:hover{transform:translateY(-5px)}
-.card h3{margin:0 0 10px}
-.card p{margin:0;color:var(--muted)}
-.viewer{
+
+/* ===========================
+APP FRAME
+=========================== */
+
+.af-app{
+
 width:100%;
-height:calc(100vh - 150px);
-border:none;
-border-radius:24px;
-background:#fff;
+
+max-width:430px;
+
+height:100vh;
+
+background:
+var(--bg);
+
+position:relative;
+
+overflow:hidden;
+
 }
-.title{
-font-size:1.4rem;
+
+@media(min-width:768px){
+
+.af-app{
+
+height:92vh;
+
+border-radius:36px;
+
+border:
+1px solid var(--border);
+
+box-shadow:
+var(--shadow);
+
+}
+
+}
+
+/* ===========================
+BACKGROUND
+=========================== */
+
+.af-bg{
+
+position:absolute;
+
+inset:0;
+
+overflow:hidden;
+
+pointer-events:none;
+
+}
+
+.af-blob{
+
+position:absolute;
+
+border-radius:50%;
+
+filter:blur(90px);
+
+opacity:.35;
+
+}
+
+.af-blob-1{
+
+width:240px;
+height:240px;
+
+background:
+#22c55e;
+
+top:-60px;
+left:-80px;
+
+}
+
+.af-blob-2{
+
+width:260px;
+height:260px;
+
+background:
+#3b82f6;
+
+right:-100px;
+top:180px;
+
+}
+
+.af-blob-3{
+
+width:220px;
+height:220px;
+
+background:
+#8b5cf6;
+
+bottom:-60px;
+left:90px;
+
+}
+
+/* ===========================
+HEADER
+=========================== */
+
+.af-header{
+
+height:82px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:16px;
+
+border-bottom:
+1px solid var(--border);
+
+background:
+rgba(0,0,0,.18);
+
+backdrop-filter:
+blur(20px);
+
+position:relative;
+
+z-index:10;
+
+}
+
+.af-brand{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+}
+
+.af-logo{
+
+width:44px;
+height:44px;
+
+border-radius:14px;
+
+background:
+#fff;
+
+object-fit:contain;
+
+padding:4px;
+
+}
+
+.af-brand-title{
+
+font-size:18px;
+
 font-weight:800;
-margin-bottom:15px;
+
+line-height:1.1;
+
 }
-.badges{
-display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;
+
+.af-brand-sub{
+
+font-size:11px;
+
+color:
+var(--muted);
+
+margin-top:2px;
+
 }
-.badge{
-background:var(--card);padding:10px 14px;border-radius:999px;border:1px solid var(--border)
+
+.af-header-actions{
+
+display:flex;
+
+gap:10px;
+
 }
-@media(max-width:768px){
-.hero{margin-top:10px}
-.viewer{height:calc(100vh - 180px)}
-.grid{grid-template-columns:1fr}
+
+.af-icon-btn{
+
+width:42px;
+height:42px;
+
+border:none;
+
+cursor:pointer;
+
+border-radius:14px;
+
+background:
+var(--surface);
+
+color:
+var(--text);
+
+font-size:18px;
+
 }
+
+/* ===========================
+PAGES
+=========================== */
+
+.af-page{
+
+position:absolute;
+
+top:82px;
+left:0;
+right:0;
+bottom:0;
+
+overflow-y:auto;
+
+padding:22px;
+
+display:none;
+
+}
+
+.af-page.active{
+
+display:block;
+
+animation:
+fade .25s ease;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+transform:
+translateY(10px);
+
+}
+
+to{
+
+opacity:1;
+transform:none;
+
+}
+
+}
+
+/* ===========================
+HOME
+=========================== */
+
+.af-home{
+
+text-align:center;
+
+padding-top:30px;
+
+}
+
+.af-home-icon{
+
+font-size:58px;
+
+margin-bottom:18px;
+
+}
+
+.af-home h1{
+
+font-size:36px;
+
+font-weight:900;
+
+line-height:1.1;
+
+margin-bottom:12px;
+
+}
+
+.af-home p{
+
+font-size:15px;
+
+line-height:1.8;
+
+color:
+var(--muted);
+
+}
+
+.af-start-btn{
+
+margin-top:28px;
+
+width:100%;
+
+height:58px;
+
+border:none;
+
+cursor:pointer;
+
+border-radius:20px;
+
+font-size:16px;
+
+font-weight:800;
+
+background:
+
+linear-gradient(
+135deg,
+#22c55e,
+#16a34a
+);
+
+color:#fff;
+
+}
+
+/* ===========================
+STATS
+=========================== */
+
+.af-stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:12px;
+
+margin-top:22px;
+
+}
+
+.af-stat{
+
+background:
+var(--surface);
+
+border:
+1px solid var(--border);
+
+border-radius:18px;
+
+padding:16px;
+
+}
+
+.af-stat strong{
+
+display:block;
+
+font-size:20px;
+
+}
+
+.af-stat span{
+
+font-size:12px;
+
+color:
+var(--muted);
+
+}
+
+/* ===========================
+CARDS
+=========================== */
+
+.af-grid{
+
+display:grid;
+
+gap:16px;
+
+margin-top:20px;
+
+}
+
+.af-card{
+
+background:
+var(--surface);
+
+border:
+1px solid var(--border);
+
+border-radius:24px;
+
+padding:22px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.af-card:hover{
+
+transform:
+translateY(-3px);
+
+}
+
+.af-card-title{
+
+font-size:18px;
+
+font-weight:800;
+
+margin-bottom:6px;
+
+}
+
+.af-card-sub{
+
+font-size:13px;
+
+color:
+var(--muted);
+
+}
+
+/* ===========================
+VIEWER
+=========================== */
+
+.af-note-title{
+
+font-size:18px;
+
+font-weight:800;
+
+margin-bottom:12px;
+
+}
+
+.af-viewer{
+
+width:100%;
+
+height:calc(100vh - 190px);
+
+border:none;
+
+border-radius:24px;
+
+background:#fff;
+
+}
+
+@media(min-width:768px){
+
+.af-viewer{
+
+height:calc(92vh - 190px);
+
+}
+
+}
+
 </style>
 </head>
+
 <body>
-<div class="bg"></div>
 
-<div class="topbar">
-<button class="btn" onclick="goBack()">
-    ← Back
+<div class="af-app">
+
+<div class="af-bg">
+
+<div class="af-blob af-blob-1"></div>
+<div class="af-blob af-blob-2"></div>
+<div class="af-blob af-blob-3"></div>
+
+</div>
+
+<header class="af-header">
+
+<div class="af-brand">
+
+<img
+src="../AF LOGO 2.png"
+class="af-logo"
+alt="AcademeForge">
+
+<div>
+
+<div class="af-brand-title">
+AcademeForge
+</div>
+
+<div class="af-brand-sub">
+Learning Beyond the Classroom
+</div>
+
+</div>
+
+</div>
+
+<div class="af-header-actions">
+
+<button
+class="af-icon-btn"
+id="themeBtn">
+
+🌙
+
 </button>
-<button class="btn" onclick="toggleTheme()">🌙 Theme</button>
+
+<button
+class="af-icon-btn"
+onclick="goBack()">
+
+←
+
+</button>
+
 </div>
 
-<section id="home" class="page active">
-<div class="hero">
-<h1>📚 AcademeForge Notes</h1>
-<p>Class 9 & 10 Notes Library</p>
-<button class="btn start" onclick="openPage('classes')">Start Learning</button>
+</header>
+<!-- ===========================
+HOME PAGE
+=========================== -->
 
-<div class="badges">
-<div class="badge">⚡ Instant Access</div>
-<div class="badge">📖 10 Subjects</div>
-<div class="badge">🌙 Dark Mode</div>
+<section
+id="homePage"
+class="af-page active">
+
+<div class="af-home">
+
+<div class="af-home-icon">
+📚
 </div>
+
+<h1>
+Notes Hub
+</h1>
+
+<p>
+Access Class 9 & Class 10 notes instantly.
+Organized, fast and distraction free learning.
+</p>
+
+<button
+class="af-start-btn"
+onclick="openPage('classPage')">
+
+Start Learning
+
+</button>
+
+<div class="af-stats">
+
+<div class="af-stat">
+<strong>10</strong>
+<span>Subjects</span>
 </div>
+
+<div class="af-stat">
+<strong>2</strong>
+<span>Classes</span>
+</div>
+
+<div class="af-stat">
+<strong>∞</strong>
+<span>Access</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="af-grid">
+
+<div class="af-card">
+
+<div class="af-card-title">
+⚡ Instant Access
+</div>
+
+<div class="af-card-sub">
+Open notes with one tap.
+</div>
+
+</div>
+
+<div class="af-card">
+
+<div class="af-card-title">
+📖 Organized Notes
+</div>
+
+<div class="af-card-sub">
+Subject wise note collection.
+</div>
+
+</div>
+
+<div class="af-card">
+
+<div class="af-card-title">
+🌙 Dark Mode
+</div>
+
+<div class="af-card-sub">
+Comfortable day and night reading.
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="classes" class="page">
-<div class="hero"><h2>Select Your Class</h2></div>
-<div class="grid">
-<div class="card" onclick="selectClass('9')">
-<h3>🎓 Class 9</h3>
-<p>Foundation Learning Notes</p>
+<!-- ===========================
+CLASS PAGE
+=========================== -->
+
+<section
+id="classPage"
+class="af-page">
+
+<h2
+style="
+font-size:28px;
+font-weight:900;
+margin-bottom:6px;
+">
+
+Choose Class
+
+</h2>
+
+<p
+style="
+color:var(--muted);
+margin-bottom:20px;
+">
+
+Select your class to continue.
+
+</p>
+
+<div class="af-grid">
+
+<div
+class="af-card"
+onclick="selectClass('9')">
+
+<div class="af-card-title">
+🎓 Class 9
 </div>
-<div class="card" onclick="selectClass('10')">
-<h3>🏆 Class 10</h3>
-<p>Board Exam Preparation Notes</p>
+
+<div class="af-card-sub">
+Foundation Learning Notes
 </div>
+
 </div>
+
+<div
+class="af-card"
+onclick="selectClass('10')">
+
+<div class="af-card-title">
+🏆 Class 10
+</div>
+
+<div class="af-card-sub">
+Board Exam Preparation
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="subjects" class="page">
-<div class="hero"><h2>Select Subject</h2></div>
-<div id="subjectsGrid" class="grid"></div>
+<!-- ===========================
+SUBJECT PAGE
+=========================== -->
+
+<section
+id="subjectPage"
+class="af-page">
+
+<h2
+style="
+font-size:28px;
+font-weight:900;
+margin-bottom:6px;
+">
+
+Subjects
+
+</h2>
+
+<p
+style="
+color:var(--muted);
+margin-bottom:20px;
+">
+
+Choose a subject.
+
+</p>
+
+<div
+id="subjectGrid"
+class="af-grid">
+
+</div>
+
 </section>
 
-<section id="viewerPage" class="page">
-<div class="title" id="noteTitle"></div>
-<iframe id="viewer" class="viewer"></iframe>
-</section>
+<!-- ===========================
+VIEWER PAGE
+=========================== -->
 
+<section
+id="viewerPage"
+class="af-page">
+
+<div
+class="af-note-title"
+id="noteTitle">
+
+Loading...
+
+</div>
+
+<iframe
+id="notesViewer"
+class="af-viewer"
+allowfullscreen>
+
+</iframe>
+
+</section>
 <script>
-const NOTES={
+
+/* ===========================
+NOTES DATABASE
+=========================== */
+
+const NOTES = {
+
 "9":{
-"🔬 Science":["Class 9 Science Notes","1-CtgsAx1kXo67-UUf6HsBunPIgm8FgUl"],
-"🧮 Math":["Class 9 Mathematics Notes","1-DH3yoNSnF0iFSIH2CsGGf5RobYwYKyp"],
-"🌍 Social Science":["Class 9 Social Science Notes","1-Dm4Tg6UIlYBiNqGYOYAWZvJExikh7my"],
-"📖 English":["Class 9 English Notes","1-Gd2i8_7ylzy-gM_sFQMGrtDbiE70vRr"],
-"📝 Hindi":["Class 9 Hindi Notes","1-EHtC6OQMkNE3qEU5JgPggm5I4ggUWf9"]
+
+"Science":{
+title:"Class 9 Science Notes",
+folderId:"1-CtgsAx1kXo67-UUf6HsBunPIgm8FgUl",
+icon:"🔬"
 },
-"10":{
-"🔬 Science":["Class 10 Science Notes","1-bVnCZbCabVmNGCxJ0gY4-FP4BwN9F02"],
-"🧮 Math":["Class 10 Mathematics Notes","1-Z7LCbOvKhHvMxqXS3W4qVcAukPVmhXK"],
-"🌍 Social Science":["Class 10 Social Science Notes","1-c9q3sV8BCZjtch0WqWnXnJWSE1il5uS"],
-"📖 English":["Class 10 English Notes","1-VKypMW3rybYR_0dPrro1JscD8eGtj9u"],
-"📝 Hindi":["Class 10 Hindi Notes","1-Ud6Gv65aE25yPcul3cbprGvXZrXX2O0"]
+
+"Math":{
+title:"Class 9 Mathematics Notes",
+folderId:"1-DH3yoNSnF0iFSIH2CsGGf5RobYwYKyp",
+icon:"🧮"
+},
+
+"Social Science":{
+title:"Class 9 Social Science Notes",
+folderId:"1-Dm4Tg6UIlYBiNqGYOYAWZvJExikh7my",
+icon:"🌍"
+},
+
+"English":{
+title:"Class 9 English Notes",
+folderId:"1-Gd2i8_7ylzy-gM_sFQMGrtDbiE70vRr",
+icon:"📖"
+},
+
+"Hindi":{
+title:"Class 9 Hindi Notes",
+folderId:"1-EHtC6OQMkNE3qEU5JgPggm5I4ggUWf9",
+icon:"📝"
 }
+
+},
+
+"10":{
+
+"Science":{
+title:"Class 10 Science Notes",
+folderId:"1-bVnCZbCabVmNGCxJ0gY4-FP4BwN9F02",
+icon:"🔬"
+},
+
+"Math":{
+title:"Class 10 Mathematics Notes",
+folderId:"1-Z7LCbOvKhHvMxqXS3W4qVcAukPVmhXK",
+icon:"🧮"
+},
+
+"Social Science":{
+title:"Class 10 Social Science Notes",
+folderId:"1-c9q3sV8BCZjtch0WqWnXnJWSE1il5uS",
+icon:"🌍"
+},
+
+"English":{
+title:"Class 10 English Notes",
+folderId:"1-VKypMW3rybYR_0dPrro1JscD8eGtj9u",
+icon:"📖"
+},
+
+"Hindi":{
+title:"Class 10 Hindi Notes",
+folderId:"1-Ud6Gv65aE25yPcul3cbprGvXZrXX2O0",
+icon:"📝"
+}
+
+}
+
 };
 
-let currentClass="";
+/* ===========================
+STATE
+=========================== */
 
-function openPage(id){
-document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-}
+let currentPage = "homePage";
+let currentClass = null;
 
-function selectClass(cls){
-currentClass=cls;
-const grid=document.getElementById('subjectsGrid');
-grid.innerHTML='';
+/* ===========================
+PAGE NAVIGATION
+=========================== */
 
-Object.keys(NOTES[cls]).forEach(subject=>{
-const card=document.createElement('div');
-card.className='card';
-card.innerHTML=`<h3>${subject}</h3><p>Open Notes</p>`;
-card.onclick=()=>openNotes(subject);
-grid.appendChild(card);
+function openPage(pageId){
+
+document
+.querySelectorAll(".af-page")
+.forEach(page=>{
+
+page.classList.remove("active");
+
 });
 
-openPage('subjects');
+document
+.getElementById(pageId)
+.classList.add("active");
+
+currentPage = pageId;
+
 }
 
-function openNotes(subject){
-const note=NOTES[currentClass][subject];
-document.getElementById('noteTitle').textContent=note[0];
-document.getElementById('viewer').src=
-`https://drive.google.com/embeddedfolderview?id=${note[1]}#list`;
-openPage('viewerPage');
+/* ===========================
+SELECT CLASS
+=========================== */
+
+function selectClass(classValue){
+
+currentClass = classValue;
+
+const subjectGrid =
+document.getElementById(
+"subjectGrid"
+);
+
+subjectGrid.innerHTML = "";
+
+Object.keys(
+NOTES[classValue]
+)
+.forEach(subject=>{
+
+const note =
+NOTES[classValue][subject];
+
+const card =
+document.createElement("div");
+
+card.className =
+"af-card";
+
+card.innerHTML = `
+
+<div
+class="af-card-title">
+
+${note.icon}
+${subject}
+
+</div>
+
+<div
+class="af-card-sub">
+
+Tap to open notes
+
+</div>
+
+`;
+
+card.onclick = ()=>{
+
+openNotes(
+classValue,
+subject
+);
+
+};
+
+subjectGrid.appendChild(
+card
+);
+
+});
+
+openPage(
+"subjectPage"
+);
+
+}
+
+/* ===========================
+OPEN NOTES
+=========================== */
+
+function openNotes(
+classValue,
+subject
+){
+
+const note =
+NOTES[classValue][subject];
+
+document
+.getElementById(
+"noteTitle"
+)
+.textContent =
+note.title;
+
+document
+.getElementById(
+"notesViewer"
+)
+.src =
+
+`https://drive.google.com/embeddedfolderview?id=${note.folderId}#list`;
+
+localStorage.setItem(
+"af_last_note",
+JSON.stringify({
+
+classValue,
+subject
+
+})
+);
+
+openPage(
+"viewerPage"
+);
+
+}
+
+/* ===========================
+THEME
+=========================== */
+
+const themeBtn =
+document.getElementById(
+"themeBtn"
+);
+
+function applyTheme(theme){
+
+document
+.documentElement
+.setAttribute(
+"data-theme",
+theme
+);
+
+localStorage.setItem(
+"af_notes_theme",
+theme
+);
+
+themeBtn.textContent =
+
+theme === "dark"
+?
+"🌙"
+:
+"☀️";
+
 }
 
 function toggleTheme(){
-const current=document.documentElement.getAttribute('data-theme');
-const next=current==='dark'?'light':'dark';
-document.documentElement.setAttribute('data-theme',next);
-localStorage.setItem('af_theme',next);
-}
 
-document.documentElement.setAttribute(
-'data-theme',
-localStorage.getItem('af_theme')||'dark'
+const current =
+document
+.documentElement
+.getAttribute(
+"data-theme"
 );
-  function goBack() {
 
-    const returnSection =
-        sessionStorage.getItem(
-            "af_return_section"
-        );
+applyTheme(
 
-    if (returnSection === "settings") {
+current === "dark"
+?
+"light"
+:
+"dark"
 
-        window.location.href =
-            "../index.html#settings";
+);
 
-        return;
-    }
-
-    window.location.href =
-        "../index.html";
 }
+
+themeBtn.addEventListener(
+"click",
+toggleTheme
+);
+
+applyTheme(
+
+localStorage.getItem(
+"af_notes_theme"
+)
+||
+"dark"
+
+);
+
+/* ===========================
+BACK BUTTON
+=========================== */
+
+function goBack(){
+
+if(
+currentPage ===
+"viewerPage"
+){
+
+openPage(
+"subjectPage"
+);
+
+return;
+
+}
+
+if(
+currentPage ===
+"subjectPage"
+){
+
+openPage(
+"classPage"
+);
+
+return;
+
+}
+
+if(
+currentPage ===
+"classPage"
+){
+
+openPage(
+"homePage"
+);
+
+return;
+
+}
+
+/* Return To Settings */
+
+window.location.href =
+"../index.html#settings";
+
+}
+
+/* ===========================
+RESTORE LAST NOTE
+=========================== */
+
+const lastNote =
+localStorage.getItem(
+"af_last_note"
+);
+
+if(lastNote){
+
+try{
+
+const data =
+JSON.parse(
+lastNote
+);
+
+console.log(
+"Last Note:",
+data
+);
+
+}
+catch(error){}
+
+}
+
+/* ===========================
+SETTINGS RETURN
+=========================== */
+
+window.addEventListener(
+"load",
+()=>{
+
+sessionStorage.setItem(
+"af_return_section",
+"settings"
+);
+
+}
+);
+
 </script>
+
 </body>
 </html>
