@@ -625,6 +625,49 @@
     window.addEventListener("load", () => {
       sessionStorage.setItem("af_return_section", "settings");
     });
+
+  
+document.addEventListener(
+'copy',
+e => e.preventDefault()
+);
+
+document.addEventListener(
+'cut',
+e => e.preventDefault()
+);
+
+document.addEventListener(
+'selectstart',
+e => e.preventDefault()
+);
+
+document.addEventListener(
+'contextmenu',
+e => e.preventDefault()
+);
+
+document.addEventListener(
+'keydown',
+e => {
+
+if (
+e.key === 'F12' ||
+
+(e.ctrlKey && e.shiftKey && e.key === 'I') ||
+
+(e.ctrlKey && e.shiftKey && e.key === 'J') ||
+
+(e.ctrlKey && e.shiftKey && e.key === 'C') ||
+
+(e.ctrlKey && e.key === 'U')
+) {
+
+e.preventDefault();
+
+}
+
+});
   </script>
 </body>
 </html>
