@@ -882,106 +882,184 @@
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="cw header-inner">
-      <a href="/YA/#settings" class="brand">
-        <div class="logo">AF</div>
-        <div>
-          <span class="brand-title">AcademeForge</span>
-          <span class="brand-sub">Certificate Verification</span>
-        </div>
-      </a>
-      
-      <div class="header-actions">
-       <button
-  type="button"
-  class="back-btn"
-  onclick="sessionStorage.setItem('af_return_section','settings'); window.location.href='/YA/#settings';">
+ <header class="header">
+  <div class="cw header-inner">
 
-  ← Back
-
-</button>
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
-          <span id="themeText">Light</span>
-          <span class="switch" aria-hidden="true"><span class="knob"></span></span>
-        </button>
-        <button id="menuBtn" class="menu-btn" type="button" aria-label="Open menu">☰</button>
-      </div>
-    </div>
-  </header>
-
-  <aside id="mobileMenu" class="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
-    <div class="mobile-top">
+    <a href="/YA/#settings" class="brand">
       <div class="logo">AF</div>
-      <button id="closeBtn" class="close-btn" type="button" aria-label="Close menu">✕</button>
+      <div>
+        <span class="brand-title">AcademeForge</span>
+
+        <span
+          class="brand-sub"
+          data-i18n="Certificate Verification">
+          Certificate Verification
+        </span>
+
+      </div>
+    </a>
+
+    <div class="header-actions">
+
+      <button
+        type="button"
+        class="back-btn"
+        onclick="sessionStorage.setItem('af_return_section','settings');window.location.href='/YA/#settings';">
+
+        ← Back
+
+      </button>
+
+      <button
+        id="themeToggle"
+        class="theme-toggle"
+        type="button"
+        aria-label="Toggle theme">
+
+        <span id="themeText">Light</span>
+
+        <span class="switch" aria-hidden="true">
+          <span class="knob"></span>
+        </span>
+
+      </button>
+
     </div>
 
-   <nav class="mobile-nav">
+  </div>
+</header>
 
-  <button
-    type="button"
-    class="mobile-back-btn"
-    onclick="sessionStorage.setItem('af_return_section','settings');window.location.href='/YA/#settings';">
+<main class="main">
 
-    ← Back To Settings
+  <div class="cw hero">
 
-  </button>
+    <section
+      class="verify-panel"
+      aria-label="Certificate verification form">
 
-</nav>
-  </aside>
+      <div class="panel-content">
 
-  <main class="main">
-    <div class="cw hero">
-     
-<section class="verify-panel" aria-label="Certificate verification form">
-        <div class="panel-content">
-          <div class="panel-kicker">Credential lookup</div>
-          <h2 class="panel-title">Enter certificate details</h2>
-          <p class="panel-copy">
-            Choose the certificate year prefix and type the four-digit certificate number.
-          </p>
+        <div
+          class="panel-kicker"
+          data-i18n="Credential Lookup">
 
-          <div class="certificate-input-wrap">
-            <label class="select-wrap">
-              <span class="field-label">Certificate prefix</span>
-              <select id="certificatePrefix">
-                <option value="AF-CERT-2024-">AF-CERT-2024-</option>
-                <option value="AF-CERT-2025-">AF-CERT-2025-</option>
-                <option value="AF-CERT-2026-" selected>AF-CERT-2026-</option>
-                <option value="AF-CERT-2027-">AF-CERT-2027-</option>
-                <option value="AF-CERT-2028-">AF-CERT-2028-</option>
-                <option value="AF-CERT-2029-">AF-CERT-2029-</option>
-              </select>
-            </label>
+          Credential Lookup
 
-            <label>
-              <span class="field-label">Number</span>
-              <input
-                id="certificateSuffix"
-                type="text"
-                placeholder="0001"
-                maxlength="4"
-                inputmode="numeric"
-                autocomplete="off"
-                spellcheck="false"
-              />
-            </label>
-          </div>
-
-          <button id="verifyBtn" class="verify-btn" type="button">Verify Certificate</button>
-
-          <div id="loading" class="loading">
-            <div class="spinner" aria-hidden="true"></div>
-            <span>Verifying certificate...</span>
-          </div>
-
-          <div id="result" class="result"></div>
-
-          <div class="footer">
-            © 2026 AcademeForge
-          </div>
         </div>
-      </section>
+
+        <h2
+          class="panel-title"
+          data-i18n="Enter Certificate Details">
+
+          Enter Certificate Details
+
+        </h2>
+
+        <p
+          class="panel-copy"
+          data-i18n="Choose the certificate year prefix and type the four-digit certificate number.">
+
+          Choose the certificate year prefix and type the four-digit certificate number.
+
+        </p>
+
+        <div class="certificate-input-wrap">
+
+          <label class="select-wrap">
+
+            <span
+              class="field-label"
+              data-i18n="Certificate Prefix">
+
+              Certificate Prefix
+
+            </span>
+
+            <select id="certificatePrefix">
+
+              <option value="AF-CERT-2024-">
+                AF-CERT-2024-
+              </option>
+
+              <option value="AF-CERT-2025-">
+                AF-CERT-2025-
+              </option>
+
+              <option value="AF-CERT-2026-" selected>
+                AF-CERT-2026-
+              </option>
+
+              <option value="AF-CERT-2027-">
+                AF-CERT-2027-
+              </option>
+
+              <option value="AF-CERT-2028-">
+                AF-CERT-2028-
+              </option>
+
+              <option value="AF-CERT-2029-">
+                AF-CERT-2029-
+              </option>
+
+            </select>
+
+          </label>
+
+          <label>
+
+            <span
+              class="field-label"
+              data-i18n="Number">
+
+              Number
+
+            </span>
+
+            <input
+              id="certificateSuffix"
+              type="text"
+              placeholder="0001"
+              maxlength="4"
+              inputmode="numeric"
+              autocomplete="off"
+              spellcheck="false"
+            />
+
+          </label>
+
+        </div>
+
+        <button
+          id="verifyBtn"
+          class="verify-btn"
+          type="button"
+          data-i18n="Verify Certificate">
+
+          Verify Certificate
+
+        </button>
+
+        <div id="loading" class="loading">
+
+          <div class="spinner" aria-hidden="true"></div>
+
+          <span data-i18n="Verifying Certificate...">
+
+            Verifying Certificate...
+
+          </span>
+
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <div class="footer">
+          © 2026 AcademeForge
+        </div>
+
+      </div>
+
+    </section>
     </div>
   </main>
 
@@ -1178,6 +1256,98 @@
         verifyCertificate();
       }
     });
+   
+let currentLanguage =
+    localStorage.getItem("af_language") || "en";
+
+async function loadTranslations() {
+
+    try {
+
+        const { data, error } = await supabase
+            .from("app_translations")
+            .select("source_key, translated_value")
+            .eq("page", "student-app")
+            .eq("lang", currentLanguage)
+            .eq("is_active", true);
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        const translations = {};
+
+        data.forEach(item => {
+
+            translations[item.source_key] =
+                item.translated_value;
+
+        });
+
+        applyTranslations(translations);
+
+    } catch (err) {
+
+        console.error(
+            "Translation Error:",
+            err
+        );
+
+    }
+
+}
+
+function applyTranslations(translations) {
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(element => {
+
+            const key =
+                element.getAttribute(
+                    "data-i18n"
+                );
+
+            if (translations[key]) {
+
+                element.textContent =
+                    translations[key];
+
+            }
+
+        });
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        await loadTranslations();
+
+    }
+);
+
+window.addEventListener(
+    "storage",
+    async (event) => {
+
+        if (
+            event.key === "af_language"
+        ) {
+
+            currentLanguage =
+                event.newValue || "en";
+
+            await loadTranslations();
+
+        }
+
+    }
+);
+
+
   </script>
 </body>
 </html>
