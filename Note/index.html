@@ -1,0 +1,3270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+AcademeForge Notes Portal
+</title>
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+rel="stylesheet">
+
+<style>
+
+/* =====================================================
+ROOT
+===================================================== */
+
+:root{
+
+--afnx-bg:
+#08111f;
+
+--afnx-surface:
+#111827;
+
+--afnx-surface-2:
+#1f2937;
+
+--afnx-surface-3:
+#293548;
+
+--afnx-primary:
+#22c55e;
+
+--afnx-primary-hover:
+#16a34a;
+
+--afnx-danger:
+#ef4444;
+
+--afnx-warning:
+#f59e0b;
+
+--afnx-text:
+#ffffff;
+
+--afnx-text-soft:
+#cbd5e1;
+
+--afnx-border:
+rgba(255,255,255,.08);
+
+--afnx-radius:
+22px;
+
+--afnx-shadow:
+0 10px 40px rgba(0,0,0,.35);
+
+}
+
+/* =====================================================
+LIGHT
+===================================================== */
+
+[data-theme="light"]{
+
+--afnx-bg:
+#f8fafc;
+
+--afnx-surface:
+#ffffff;
+
+--afnx-surface-2:
+#f1f5f9;
+
+--afnx-surface-3:
+#e2e8f0;
+
+--afnx-text:
+#0f172a;
+
+--afnx-text-soft:
+#475569;
+
+--afnx-border:
+rgba(15,23,42,.08);
+
+--afnx-shadow:
+0 10px 40px rgba(15,23,42,.08);
+
+}
+
+/* =====================================================
+RESET
+===================================================== */
+
+*{
+
+margin:0;
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+font-family:
+'Inter',
+sans-serif;
+
+background:
+var(--afnx-bg);
+
+color:
+var(--afnx-text);
+
+overflow-x:hidden;
+
+min-height:100vh;
+
+}
+
+/* =====================================================
+APP
+===================================================== */
+
+#afnxApp{
+
+min-height:100vh;
+
+background:
+
+radial-gradient(
+circle at top left,
+rgba(34,197,94,.08),
+transparent 35%
+),
+
+radial-gradient(
+circle at top right,
+rgba(59,130,246,.08),
+transparent 35%
+),
+
+var(--afnx-bg);
+
+}
+
+/* =====================================================
+HEADER
+===================================================== */
+
+.afnx-header{
+
+position:fixed;
+
+top:0;
+left:0;
+right:0;
+
+height:76px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 20px;
+
+backdrop-filter:
+blur(18px);
+
+background:
+rgba(0,0,0,.25);
+
+border-bottom:
+1px solid
+var(--afnx-border);
+
+z-index:10000;
+
+}
+
+.afnx-brand-wrap{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.afnx-logo{
+
+width:50px;
+height:50px;
+
+border-radius:16px;
+
+background:
+
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:18px;
+
+font-weight:900;
+
+color:#fff;
+
+flex-shrink:0;
+
+}
+
+.afnx-brand{
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+.afnx-brand-title{
+
+font-size:18px;
+
+font-weight:800;
+
+line-height:1.1;
+
+}
+
+.afnx-brand-subtitle{
+
+font-size:12px;
+
+color:
+var(--afnx-text-soft);
+
+margin-top:2px;
+
+}
+
+.afnx-header-actions{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+.afnx-icon-btn{
+
+width:44px;
+height:44px;
+
+border:none;
+
+cursor:pointer;
+
+border-radius:14px;
+
+background:
+var(--afnx-surface);
+
+color:
+var(--afnx-text);
+
+font-size:18px;
+
+}
+
+/* =====================================================
+SIDEBAR
+===================================================== */
+
+.afnx-sidebar{
+
+position:fixed;
+
+top:76px;
+left:0;
+
+width:250px;
+
+height:
+calc(100vh - 76px);
+
+padding:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+border-right:
+1px solid
+var(--afnx-border);
+
+background:
+rgba(0,0,0,.12);
+
+backdrop-filter:
+blur(16px);
+
+}
+
+.afnx-nav-btn{
+
+border:none;
+
+cursor:pointer;
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+padding:16px;
+
+border-radius:18px;
+
+background:
+transparent;
+
+color:
+var(--afnx-text);
+
+font-size:15px;
+
+font-weight:700;
+
+transition:.25s;
+
+}
+
+.afnx-nav-btn:hover{
+
+background:
+var(--afnx-surface);
+
+}
+
+.afnx-nav-btn.active{
+
+background:
+
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+color:#fff;
+
+}
+
+/* =====================================================
+MAIN
+===================================================== */
+
+.afnx-main{
+
+margin-left:250px;
+
+padding-top:100px;
+
+padding-left:28px;
+
+padding-right:28px;
+
+padding-bottom:120px;
+
+}
+
+.afnx-page{
+
+display:none;
+
+animation:
+afnxFade .25s ease;
+
+}
+
+.afnx-page.active{
+
+display:block;
+
+}
+
+@keyframes afnxFade{
+
+from{
+
+opacity:0;
+transform:
+translateY(10px);
+
+}
+
+to{
+
+opacity:1;
+transform:none;
+
+}
+
+}
+
+/* =====================================================
+HOME HERO
+===================================================== */
+
+.afnx-hero{
+
+max-width:950px;
+
+margin:auto;
+
+text-align:center;
+
+padding:20px 0 40px;
+
+}
+
+.afnx-badge{
+
+display:inline-flex;
+
+padding:10px 16px;
+
+border-radius:999px;
+
+background:
+rgba(34,197,94,.15);
+
+color:#4ade80;
+
+font-size:13px;
+
+font-weight:700;
+
+margin-bottom:24px;
+
+}
+
+.afnx-hero h1{
+
+font-size:62px;
+
+line-height:1.05;
+
+font-weight:900;
+
+margin-bottom:20px;
+
+}
+
+.afnx-hero p{
+
+max-width:760px;
+
+margin:auto;
+
+font-size:18px;
+
+line-height:1.9;
+
+color:
+var(--afnx-text-soft);
+
+}
+
+.afnx-actions{
+
+display:flex;
+
+justify-content:center;
+
+gap:14px;
+
+flex-wrap:wrap;
+
+margin-top:30px;
+
+}
+
+/* =====================================================
+BUTTONS
+===================================================== */
+
+.afnx-primary{
+
+border:none;
+
+cursor:pointer;
+
+padding:14px 22px;
+
+border-radius:18px;
+
+background:
+
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+color:#fff;
+
+font-size:15px;
+
+font-weight:800;
+
+}
+
+.afnx-secondary{
+
+border:none;
+
+cursor:pointer;
+
+padding:14px 22px;
+
+border-radius:18px;
+
+background:
+var(--afnx-surface);
+
+color:
+var(--afnx-text);
+
+font-weight:700;
+
+}
+
+/* =====================================================
+FEATURES
+===================================================== */
+
+.afnx-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(260px,1fr)
+);
+
+gap:20px;
+
+margin-top:40px;
+
+}
+
+.afnx-card{
+
+background:
+var(--afnx-surface);
+
+border:
+1px solid
+var(--afnx-border);
+
+padding:24px;
+
+border-radius:22px;
+
+box-shadow:
+var(--afnx-shadow);
+
+}
+
+.afnx-card h3{
+
+margin-bottom:10px;
+
+font-size:18px;
+
+}
+
+.afnx-card p{
+
+line-height:1.8;
+
+color:
+var(--afnx-text-soft);
+
+}
+
+/* =====================================================
+ALERT
+===================================================== */
+
+.afnx-alert{
+
+padding:16px;
+
+border-radius:18px;
+
+font-size:14px;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.afnx-alert-danger{
+
+background:
+rgba(239,68,68,.15);
+
+border:
+1px solid
+rgba(239,68,68,.25);
+
+color:
+#f87171;
+
+}
+
+/* =====================================================
+MOBILE NAV
+===================================================== */
+
+.afnx-mobile-nav{
+
+display:none;
+
+position:fixed;
+
+left:0;
+right:0;
+bottom:0;
+
+height:72px;
+
+padding:0 12px;
+
+background:
+rgba(0,0,0,.45);
+
+backdrop-filter:
+blur(18px);
+
+border-top:
+1px solid
+var(--afnx-border);
+
+z-index:9999;
+
+}
+
+.afnx-mobile-btn{
+
+flex:1;
+
+border:none;
+
+background:none;
+
+cursor:pointer;
+
+font-size:22px;
+
+color:
+var(--afnx-text);
+
+}
+
+.afnx-mobile-btn.active{
+
+color:#22c55e;
+
+}
+
+/* =====================================================
+LOADER
+===================================================== */
+
+#afnxLoader{
+
+position:fixed;
+
+inset:0;
+
+display:none;
+
+align-items:center;
+
+justify-content:center;
+
+background:
+rgba(0,0,0,.5);
+
+backdrop-filter:
+blur(10px);
+
+z-index:20000;
+
+}
+
+.afnx-spinner{
+
+width:50px;
+height:50px;
+
+border-radius:50%;
+
+border:4px solid
+rgba(255,255,255,.15);
+
+border-top-color:
+#22c55e;
+
+animation:
+afnxSpin .8s linear infinite;
+
+}
+
+@keyframes afnxSpin{
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media(max-width:992px){
+
+.afnx-sidebar{
+display:none;
+}
+
+.afnx-main{
+
+margin-left:0;
+
+padding-left:16px;
+padding-right:16px;
+
+}
+
+.afnx-mobile-nav{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+}
+
+.afnx-hero h1{
+
+font-size:40px;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.afnx-header{
+
+padding:0 14px;
+
+}
+
+.afnx-hero{
+
+text-align:left;
+
+}
+
+.afnx-hero h1{
+
+font-size:34px;
+
+}
+
+.afnx-hero p{
+
+font-size:15px;
+
+}
+
+.afnx-card{
+
+padding:18px;
+
+}
+
+}
+    /* =====================================================
+AUTH
+===================================================== */
+
+.afnx-auth-wrapper{
+
+max-width:650px;
+
+margin:auto;
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.afnx-auth-card{
+
+background:
+var(--afnx-surface);
+
+border:
+1px solid
+var(--afnx-border);
+
+padding:24px;
+
+border-radius:24px;
+
+box-shadow:
+var(--afnx-shadow);
+
+}
+
+.afnx-auth-card h2{
+
+margin-bottom:10px;
+
+font-size:26px;
+
+font-weight:800;
+
+}
+
+.afnx-auth-card p{
+
+margin-bottom:20px;
+
+line-height:1.7;
+
+color:
+var(--afnx-text-soft);
+
+}
+
+/* =====================================================
+INPUTS
+===================================================== */
+
+input,
+select{
+
+width:100%;
+
+height:56px;
+
+padding:0 16px;
+
+border:none;
+
+outline:none;
+
+margin-bottom:14px;
+
+border-radius:16px;
+
+background:
+var(--afnx-surface-2);
+
+color:
+var(--afnx-text);
+
+font-size:15px;
+
+font-family:
+inherit;
+
+}
+
+input:focus,
+select:focus{
+
+outline:
+2px solid
+rgba(34,197,94,.25);
+
+}
+
+/* =====================================================
+LINK BUTTON
+===================================================== */
+
+.afnx-link-btn{
+
+background:none;
+
+border:none;
+
+cursor:pointer;
+
+padding:8px 0;
+
+font-size:14px;
+
+font-weight:700;
+
+color:#60a5fa;
+
+display:block;
+
+}
+
+/* =====================================================
+NOTES
+===================================================== */
+
+.afnx-notes-controls{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:20px;
+
+margin-bottom:20px;
+
+}
+
+.afnx-viewer{
+
+margin-top:20px;
+
+height:75vh;
+
+border-radius:24px;
+
+overflow:hidden;
+
+border:
+1px solid
+var(--afnx-border);
+
+background:
+var(--afnx-surface);
+
+}
+
+#afnxNotesViewer{
+
+width:100%;
+
+height:100%;
+
+border:none;
+
+background:#fff;
+
+}
+
+/* =====================================================
+SETTINGS
+===================================================== */
+
+#afnxLanguageSelect{
+
+margin-top:12px;
+
+}
+
+/* =====================================================
+BUTTON HOVER
+===================================================== */
+
+.afnx-primary:hover{
+
+transform:
+translateY(-2px);
+
+}
+
+.afnx-secondary:hover{
+
+transform:
+translateY(-2px);
+
+}
+
+/* =====================================================
+MOBILE
+===================================================== */
+
+@media(max-width:768px){
+
+.afnx-notes-controls{
+
+grid-template-columns:
+1fr;
+
+}
+
+.afnx-viewer{
+
+height:65vh;
+
+}
+
+.afnx-auth-card{
+
+padding:18px;
+
+}
+
+input,
+select{
+
+height:52px;
+
+}
+
+}
+
+/* =====================================================
+SMALL MOBILE
+===================================================== */
+
+@media(max-width:480px){
+
+.afnx-main{
+
+padding-left:12px;
+
+padding-right:12px;
+
+}
+
+.afnx-auth-card h2{
+
+font-size:22px;
+
+}
+
+.afnx-viewer{
+
+height:60vh;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="afnxLoader">
+<div class="afnx-spinner"></div>
+</div>
+
+<div id="afnxApp">
+
+<header class="afnx-header">
+
+<div class="afnx-brand-wrap">
+
+<div class="afnx-logo">
+AF
+</div>
+
+<div class="afnx-brand">
+
+<div class="afnx-brand-title">
+AcademeForge
+</div>
+
+<div class="afnx-brand-subtitle">
+Notes Portal
+</div>
+
+</div>
+
+</div>
+
+<div class="afnx-header-actions">
+
+<button
+class="afnx-icon-btn"
+id="afnxThemeBtn">
+🌙
+</button>
+
+</div>
+
+</header>
+
+<aside class="afnx-sidebar">
+
+<button
+class="afnx-nav-btn active"
+data-page="home">
+
+🏠
+<span>Home</span>
+
+</button>
+
+<button
+class="afnx-nav-btn"
+data-page="login">
+
+🔐
+<span>Login</span>
+
+</button>
+
+<button
+class="afnx-nav-btn"
+data-page="notes">
+
+📚
+<span>Notes</span>
+
+</button>
+
+<button
+class="afnx-nav-btn"
+data-page="settings">
+
+⚙
+<span>Settings</span>
+
+</button>
+
+</aside>
+
+<main class="afnx-main">
+
+<!-- ===================================================== -->
+<!-- HOME -->
+<!-- ===================================================== -->
+
+<section
+id="afnx-home-page"
+class="afnx-page active">
+
+<div class="afnx-hero">
+
+<div class="afnx-badge">
+AcademeForge Learning Platform
+</div>
+
+<h1>
+Learn Faster.<br>
+Study Smarter.
+</h1>
+
+<p>
+
+Access structured notes,
+class resources,
+learning materials,
+and future educational tools
+through one unified platform.
+
+</p>
+
+<div class="afnx-actions">
+
+<button
+class="afnx-primary"
+id="afnxHomeLoginBtn">
+
+Login To Access Notes
+
+</button>
+
+<button
+class="afnx-secondary"
+id="afnxHomeNotesBtn">
+
+Open Notes
+
+</button>
+
+</div>
+
+</div>
+
+<div class="afnx-grid">
+
+<div class="afnx-card">
+
+<h3>
+📚 Notes Library
+</h3>
+
+<p>
+
+Class 9 and Class 10
+subject wise notes
+organized in one place.
+
+</p>
+
+</div>
+
+<div class="afnx-card">
+
+<h3>
+⚡ Fast Access
+</h3>
+
+<p>
+
+Open learning material
+directly inside the portal.
+
+</p>
+
+</div>
+
+<div class="afnx-card">
+
+<h3>
+🌍 Multi Language
+</h3>
+
+<p>
+
+Switch language instantly
+using translation services.
+
+</p>
+
+</div>
+
+<div class="afnx-card">
+
+<h3>
+🔒 Secure Login
+</h3>
+
+<p>
+
+Persistent session storage
+keeps users logged in.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- LOGIN PAGE -->
+<!-- ===================================================== -->
+
+<section
+id="afnx-login-page"
+class="afnx-page">
+
+<div class="afnx-auth-wrapper">
+
+<div
+id="afnxAlreadyLogged"
+class="afnx-alert afnx-alert-danger"
+style="display:none;">
+
+You are already logged in.
+Open Notes to access content.
+
+</div>
+
+<div
+id="afnxAuthMessage"
+class="afnx-alert"
+style="display:none;">
+</div>
+
+<!-- ===================================================== -->
+<!-- LOGIN CARD -->
+<!-- ===================================================== -->
+
+<div
+class="afnx-auth-card">
+
+<h2>
+Student Login
+</h2>
+
+<p>
+Login using your Student ID,
+Phone Number or Email Address.
+</p>
+
+<input
+type="text"
+id="afnxLoginId"
+placeholder="Student ID / Phone / Email">
+
+<input
+type="password"
+id="afnxLoginPassword"
+placeholder="Password">
+
+<button
+class="afnx-primary"
+id="afnxLoginBtn">
+
+Login
+
+</button>
+
+<div class="afnx-auth-links">
+
+<button
+class="afnx-link-btn"
+id="afnxShowCreate">
+
+Create Account
+
+</button>
+
+<button
+class="afnx-link-btn"
+id="afnxShowForgot">
+
+Forgot Password
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CREATE ACCOUNT -->
+<!-- ===================================================== -->
+
+<div
+class="afnx-auth-card"
+id="afnxCreateCard"
+style="display:none;">
+
+<h2>
+Create Account
+</h2>
+
+<p>
+Create your Student ID and
+verify your email using OTP.
+</p>
+
+<input
+type="text"
+id="afnxCreateName"
+placeholder="Full Name">
+
+<input
+type="text"
+id="afnxCreatePhone"
+placeholder="Phone Number">
+
+<input
+type="email"
+id="afnxCreateEmail"
+placeholder="Email Address">
+
+<input
+type="password"
+id="afnxCreatePassword"
+placeholder="Password">
+
+<button
+class="afnx-primary"
+id="afnxCreateBtn">
+
+Send OTP
+
+</button>
+
+<div
+id="afnxCreateOtpArea"
+style="display:none; margin-top:16px;">
+
+<input
+type="text"
+id="afnxCreateOtp"
+placeholder="Enter OTP">
+
+<button
+class="afnx-primary"
+id="afnxVerifyCreateBtn">
+
+Verify OTP & Create Account
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- FORGOT PASSWORD -->
+<!-- ===================================================== -->
+
+<div
+class="afnx-auth-card"
+id="afnxForgotCard"
+style="display:none;">
+
+<h2>
+Forgot Password
+</h2>
+
+<p>
+Find your account and verify
+OTP to reset password.
+</p>
+
+<input
+type="text"
+id="afnxForgotValue"
+placeholder="Student ID / Phone / Email">
+
+<button
+class="afnx-primary"
+id="afnxForgotBtn">
+
+Find Account
+
+</button>
+
+<div
+id="afnxForgotOtpArea"
+style="display:none; margin-top:16px;">
+
+<input
+type="text"
+id="afnxForgotOtp"
+placeholder="Enter OTP">
+
+<button
+class="afnx-primary"
+id="afnxVerifyForgotOtpBtn">
+
+Verify OTP
+
+</button>
+
+</div>
+
+<div
+id="afnxResetPasswordArea"
+style="display:none; margin-top:16px;">
+
+<input
+type="password"
+id="afnxNewPassword"
+placeholder="New Password">
+
+<button
+class="afnx-primary"
+id="afnxResetPasswordBtn">
+
+Update Password
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- ===================================================== -->
+<!-- NOTES -->
+<!-- ===================================================== -->
+
+<section
+id="afnx-notes-page"
+class="afnx-page">
+
+<div
+id="afnxNotesLoginRequired"
+class="afnx-alert afnx-alert-danger">
+
+Looks like you haven't logged in.
+Login to continue.
+
+</div>
+
+<div
+id="afnxNotesArea"
+style="display:none;">
+
+<div class="afnx-notes-controls">
+
+<div class="afnx-card">
+
+<h3>
+Select Class
+</h3>
+
+<select
+id="afnxClassSelect">
+
+<option value="">
+Choose Class
+</option>
+
+<option value="9">
+Class 9
+</option>
+
+<option value="10">
+Class 10
+</option>
+
+</select>
+
+</div>
+
+<div class="afnx-card">
+
+<h3>
+Select Subject
+</h3>
+
+<select
+id="afnxSubjectSelect">
+
+<option value="">
+Choose Subject
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="afnx-card">
+
+<h3
+id="afnxCurrentNoteTitle">
+
+Select a note
+
+</h3>
+
+</div>
+
+<div class="afnx-viewer">
+
+<iframe
+id="afnxNotesViewer"
+allowfullscreen>
+
+</iframe>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SETTINGS -->
+<!-- ===================================================== -->
+
+<section
+id="afnx-settings-page"
+class="afnx-page">
+
+<div class="afnx-grid">
+
+<div class="afnx-card">
+
+<h3>
+Theme
+</h3>
+
+<p>
+
+Switch between
+Dark and Light mode.
+
+</p>
+
+<button
+class="afnx-primary"
+id="afnxToggleTheme">
+
+Toggle Theme
+
+</button>
+
+</div>
+
+<div class="afnx-card">
+
+<h3>
+Language
+</h3>
+
+<p>
+
+Select preferred language.
+
+</p>
+
+<select
+id="afnxLanguageSelect">
+
+<option value="en">
+English
+</option>
+
+<option value="hi">
+Hindi
+</option>
+
+<option value="bho">
+Bhojpuri
+</option>
+
+<option value="bn">
+Bengali
+</option>
+
+<option value="mr">
+Marathi
+</option>
+
+<option value="gu">
+Gujarati
+</option>
+
+<option value="ta">
+Tamil
+</option>
+
+<option value="te">
+Telugu
+</option>
+
+<option value="kn">
+Kannada
+</option>
+
+<option value="ur">
+Urdu
+</option>
+
+</select>
+
+</div>
+
+<div class="afnx-card">
+
+<h3>
+Session
+</h3>
+
+<p>
+
+Logout from current account.
+
+</p>
+
+<button
+class="afnx-primary"
+id="afnxLogoutBtn">
+
+Logout
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- ===================================================== -->
+<!-- MOBILE NAV -->
+<!-- ===================================================== -->
+
+<nav
+class="afnx-mobile-nav">
+
+<button
+class="afnx-mobile-btn active"
+data-page="home">
+
+🏠
+
+</button>
+
+<button
+class="afnx-mobile-btn"
+data-page="login">
+
+🔐
+
+</button>
+
+<button
+class="afnx-mobile-btn"
+data-page="notes">
+
+📚
+
+</button>
+
+<button
+class="afnx-mobile-btn"
+data-page="settings">
+
+⚙
+
+</button>
+
+</nav>
+
+</div>
+
+<script>
+
+/* ============================================
+AFNX CONFIG
+============================================ */
+
+const AFNX_BASE_URL =
+"https://afooyyydhlwngzssgqih.supabase.co/functions/v1";
+
+const AFNX_ENDPOINTS = {
+
+login:
+"student-login-af",
+
+checkExisting:
+"student-check-existing-af",
+
+sendOtp:
+"student-send-otp-af",
+
+verifyOtp:
+"student-verify-otp-af",
+
+create:
+"student-create-af",
+
+findReset:
+"student-find-reset-af",
+
+reset:
+"student-reset-password-af",
+
+notes:
+"afnx-notes",
+
+translations:
+"afnx-translations"
+
+};
+const afnxState = {
+
+loggedIn:false,
+
+theme:"dark",
+
+language:"en",
+
+student:null,
+
+selectedClass:"",
+
+selectedSubject:""
+
+};
+
+/* =====================================================
+HELPERS
+===================================================== */
+
+function afnxEl(id){
+
+return document.getElementById(id);
+
+}
+
+function afnxShowLoader(){
+
+const loader =
+afnxEl("afnxLoader");
+
+if(loader){
+
+loader.style.display =
+"flex";
+
+}
+
+}
+
+function afnxHideLoader(){
+
+const loader =
+afnxEl("afnxLoader");
+
+if(loader){
+
+loader.style.display =
+"none";
+
+}
+
+}
+
+function afnxToast(message){
+
+alert(message);
+
+}
+
+/* =====================================================
+API
+===================================================== */
+
+async function afnxApi(
+endpoint,
+payload={}
+){
+
+try{
+
+afnxShowLoader();
+
+const response =
+await fetch(
+`${AFNX_BASE_URL}/${endpoint}`,
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify(payload)
+}
+);
+
+const data =
+await response.json();
+
+afnxHideLoader();
+
+return data;
+
+}
+catch(error){
+
+afnxHideLoader();
+
+return{
+
+ok:false,
+message:error.message
+
+};
+
+}
+
+}
+
+/* =====================================================
+PAGE NAVIGATION
+===================================================== */
+
+function afnxOpenPage(page){
+
+document
+.querySelectorAll(
+".afnx-page"
+)
+.forEach(pageEl=>{
+
+pageEl.classList.remove(
+"active"
+);
+
+});
+
+const pageElement =
+document.getElementById(
+`afnx-${page}-page`
+);
+
+if(pageElement){
+
+pageElement.classList.add(
+"active"
+);
+
+}
+
+document
+.querySelectorAll(
+".afnx-nav-btn"
+)
+.forEach(btn=>{
+
+btn.classList.remove(
+"active"
+);
+
+if(
+btn.dataset.page === page
+){
+
+btn.classList.add(
+"active"
+);
+
+}
+
+});
+
+document
+.querySelectorAll(
+".afnx-mobile-btn"
+)
+.forEach(btn=>{
+
+btn.classList.remove(
+"active"
+);
+
+if(
+btn.dataset.page === page
+){
+
+btn.classList.add(
+"active"
+);
+
+}
+
+});
+
+if(
+page === "notes"
+){
+
+afnxRefreshNotesAccess();
+
+}
+
+}
+
+/* =====================================================
+SIDEBAR NAV
+===================================================== */
+
+document
+.querySelectorAll(
+".afnx-nav-btn"
+)
+.forEach(btn=>{
+
+btn.addEventListener(
+"click",
+()=>{
+
+afnxOpenPage(
+btn.dataset.page
+);
+
+});
+
+});
+
+/* =====================================================
+MOBILE NAV
+===================================================== */
+
+document
+.querySelectorAll(
+".afnx-mobile-btn"
+)
+.forEach(btn=>{
+
+btn.addEventListener(
+"click",
+()=>{
+
+afnxOpenPage(
+btn.dataset.page
+);
+
+});
+
+});
+
+/* =====================================================
+HOME BUTTONS
+===================================================== */
+
+afnxEl(
+"afnxHomeLoginBtn"
+)
+.addEventListener(
+"click",
+()=>{
+
+afnxOpenPage(
+"login"
+);
+
+}
+);
+
+afnxEl(
+"afnxHomeNotesBtn"
+)
+.addEventListener(
+"click",
+()=>{
+
+afnxOpenPage(
+"notes"
+);
+
+}
+);
+
+/* =====================================================
+THEME
+===================================================== */
+
+function afnxApplyTheme(
+theme
+){
+
+document
+.documentElement
+.setAttribute(
+"data-theme",
+theme
+);
+
+localStorage.setItem(
+"afnx_theme",
+theme
+);
+
+afnxState.theme =
+theme;
+
+}
+
+function afnxToggleTheme(){
+
+const current =
+document
+.documentElement
+.getAttribute(
+"data-theme"
+);
+
+if(
+current === "dark"
+){
+
+afnxApplyTheme(
+"light"
+);
+
+}else{
+
+afnxApplyTheme(
+"dark"
+);
+
+}
+
+}
+
+afnxEl(
+"afnxThemeBtn"
+).onclick =
+afnxToggleTheme;
+
+afnxEl(
+"afnxToggleTheme"
+).onclick =
+afnxToggleTheme;
+
+/* =====================================================
+SESSION SAVE
+===================================================== */
+
+function afnxSaveSession(
+student
+){
+
+localStorage.setItem(
+"afnx_logged_in",
+"true"
+);
+
+localStorage.setItem(
+"afnx_student",
+JSON.stringify(
+student
+)
+);
+
+localStorage.setItem(
+"afnx_last_login",
+new Date()
+.toISOString()
+);
+
+afnxState.loggedIn =
+true;
+
+afnxState.student =
+student;
+
+}
+
+/* =====================================================
+SESSION RESTORE
+===================================================== */
+
+function afnxRestoreSession(){
+
+const loggedIn =
+localStorage.getItem(
+"af_student_logged_in"
+);
+
+if(
+loggedIn !== "true"
+){
+
+return;
+
+}
+
+afnxState.loggedIn =
+true;
+
+afnxState.student = {
+
+id:
+localStorage.getItem(
+"af_student_uuid"
+),
+
+student_id:
+localStorage.getItem(
+"af_student_id"
+),
+
+mobile:
+localStorage.getItem(
+"af_student_mobile"
+),
+
+name:
+localStorage.getItem(
+"af_student_name"
+),
+
+email:
+localStorage.getItem(
+"af_student_email"
+)
+
+};
+
+const box =
+afnxEl(
+"afnxAlreadyLogged"
+);
+
+if(box){
+
+box.style.display =
+"block";
+
+}
+
+}
+
+/* =====================================================
+LOGOUT
+===================================================== */
+
+function afnxLogout(){
+
+[
+"af_student_logged_in",
+"af_session_token",
+"af_student_uuid",
+"af_student_id",
+"af_student_mobile",
+"af_student_name",
+"af_student_email"
+]
+.forEach(key=>{
+
+localStorage.removeItem(
+key
+);
+
+});
+
+location.reload();
+
+}
+
+/* =====================================================
+AUTH ACCESS
+===================================================== */
+
+function afnxRefreshNotesAccess(){
+
+const loginBox =
+afnxEl(
+"afnxNotesLoginRequired"
+);
+
+const notesArea =
+afnxEl(
+"afnxNotesArea"
+);
+
+if(
+afnxState.loggedIn
+){
+
+loginBox.style.display =
+"none";
+
+notesArea.style.display =
+"block";
+
+}else{
+
+loginBox.style.display =
+"block";
+
+notesArea.style.display =
+"none";
+
+}
+
+}
+
+/* =====================================================
+LOGIN
+===================================================== */
+
+async function afnxLogin(){
+
+const loginId =
+afnxEl("afnxLoginId")
+.value
+.trim();
+
+const password =
+afnxEl("afnxLoginPassword")
+.value
+.trim();
+
+if(!loginId){
+
+afnxToast(
+"Enter Student ID / Phone Number"
+);
+
+return;
+
+}
+
+if(!password){
+
+afnxToast(
+"Enter Password"
+);
+
+return;
+
+}
+
+const cleanLoginId =
+loginId.replace(
+/\D/g,
+""
+);
+
+const result =
+await afnxApi(
+AFNX_ENDPOINTS.login,
+{
+login_id:
+loginId,
+
+clean_login_id:
+cleanLoginId,
+
+password:
+password,
+
+device_id:
+navigator.userAgent,
+
+device_name:
+navigator.platform
+}
+);
+
+if(
+!result ||
+!result.ok
+){
+
+afnxToast(
+result?.message ||
+"Login failed"
+);
+
+return;
+
+}
+
+if(
+!result.student
+){
+
+afnxToast(
+"Student data missing"
+);
+
+return;
+
+}
+
+localStorage.setItem(
+"af_student_logged_in",
+"true"
+);
+
+localStorage.setItem(
+"af_session_token",
+result.session_token || ""
+);
+
+localStorage.setItem(
+"af_student_uuid",
+result.student.id || ""
+);
+
+localStorage.setItem(
+"af_student_id",
+result.student.student_id || ""
+);
+
+localStorage.setItem(
+"af_student_mobile",
+result.student.mobile || ""
+);
+
+localStorage.setItem(
+"af_student_name",
+result.student.name || ""
+);
+
+localStorage.setItem(
+"af_student_email",
+result.student.email || ""
+);
+
+afnxState.loggedIn =
+true;
+
+afnxState.student =
+result.student;
+
+afnxRefreshNotesAccess();
+
+afnxToast(
+"Login successful"
+);
+
+afnxOpenPage(
+"notes"
+);
+
+}
+
+/* =====================================================
+REGISTER
+===================================================== */
+
+async function afnxRegister(){
+
+const name =
+afnxEl(
+"afnxCreateName"
+)
+.value
+.trim();
+
+const phone =
+afnxEl(
+"afnxCreatePhone"
+)
+.value
+.trim();
+
+const email =
+afnxEl(
+"afnxCreateEmail"
+)
+.value
+.trim();
+
+const password =
+afnxEl(
+"afnxCreatePassword"
+)
+.value
+.trim();
+
+if(
+!name ||
+!phone ||
+!email ||
+!password
+){
+
+afnxToast(
+"Fill all fields"
+);
+
+return;
+
+}
+
+const result =
+await afnxApi(
+AFNX_ENDPOINTS.register,
+{
+name,
+phone,
+email,
+password
+}
+);
+
+if(
+!result ||
+!result.success
+){
+
+afnxToast(
+result?.message ||
+"Account creation failed"
+);
+
+return;
+
+}
+
+afnxToast(
+"Account created successfully"
+);
+
+}
+
+afnxEl(
+"afnxCreateBtn"
+)
+.addEventListener(
+"click",
+afnxRegister
+);
+
+/* =====================================================
+FORGOT PASSWORD
+===================================================== */
+
+async function afnxForgotPassword(){
+
+const value =
+afnxEl(
+"afnxForgotValue"
+)
+.value
+.trim();
+
+if(!value){
+
+afnxToast(
+"Enter details"
+);
+
+return;
+
+}
+
+const result =
+await afnxApi(
+AFNX_ENDPOINTS.forgot,
+{
+value
+}
+);
+
+if(
+!result ||
+!result.success
+){
+
+afnxToast(
+result?.message ||
+"Request failed"
+);
+
+return;
+
+}
+
+afnxToast(
+result.message ||
+"Password reset request sent"
+);
+
+}
+
+afnxEl(
+"afnxForgotBtn"
+)
+.addEventListener(
+"click",
+afnxForgotPassword
+);
+/* =====================================================
+SUBJECTS
+===================================================== */
+
+const afnxSubjects = {
+
+9:[
+"Science",
+"Math",
+"Social Science",
+"English",
+"Hindi"
+],
+
+10:[
+"Science",
+"Math",
+"Social Science",
+"English",
+"Hindi"
+]
+
+};
+
+/* =====================================================
+CLASS CHANGE
+===================================================== */
+
+afnxEl(
+"afnxClassSelect"
+)
+.addEventListener(
+"change",
+()=>{
+
+const classValue =
+afnxEl(
+"afnxClassSelect"
+).value;
+
+afnxState.selectedClass =
+classValue;
+
+const subjectSelect =
+afnxEl(
+"afnxSubjectSelect"
+);
+
+subjectSelect.innerHTML =
+`
+<option value="">
+Choose Subject
+</option>
+`;
+
+if(
+!classValue
+){
+return;
+}
+
+afnxSubjects[
+classValue
+]
+.forEach(subject=>{
+
+const option =
+document.createElement(
+"option"
+);
+
+option.value =
+subject;
+
+option.textContent =
+subject;
+
+subjectSelect.appendChild(
+option
+);
+
+});
+
+}
+);
+
+/* =====================================================
+SUBJECT CHANGE
+===================================================== */
+
+afnxEl(
+"afnxSubjectSelect"
+)
+.addEventListener(
+"change",
+()=>{
+
+afnxState.selectedSubject =
+afnxEl(
+"afnxSubjectSelect"
+).value;
+
+afnxLoadNotes();
+
+}
+);
+
+/* =====================================================
+NOTES
+===================================================== */
+
+async function afnxLoadNotes(){
+
+if(
+!afnxState.loggedIn
+){
+
+afnxToast(
+"Login required"
+);
+
+return;
+
+}
+
+if(
+!afnxState.selectedClass
+){
+
+return;
+
+}
+
+if(
+!afnxState.selectedSubject
+){
+
+return;
+
+}
+
+const result =
+await afnxApi(
+AFNX_ENDPOINTS.notes,
+{
+
+class:
+afnxState.selectedClass,
+
+subject:
+afnxState.selectedSubject
+
+}
+);
+
+if(
+!result ||
+!result.ok
+){
+
+afnxToast(
+result?.message ||
+"Notes unavailable"
+);
+
+return;
+
+}
+
+if(
+!result.note ||
+!result.note.drive_url
+){
+
+afnxToast(
+"No notes found"
+);
+
+return;
+
+}
+
+afnxEl(
+"afnxCurrentNoteTitle"
+).textContent =
+result.note.title;
+
+afnxOpenDriveViewer(
+result.note.drive_url
+);
+
+}
+
+/* =====================================================
+DRIVE VIEWER
+===================================================== */
+
+function afnxOpenDriveViewer(
+url
+){
+
+const viewer =
+afnxEl(
+"afnxNotesViewer"
+);
+
+if(!viewer){
+return;
+}
+
+if(
+url.includes(
+"/folders/"
+)
+){
+
+const folderId =
+url
+.split("/folders/")[1]
+.split("?")[0];
+
+viewer.src =
+`https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
+
+return;
+
+}
+
+viewer.src =
+url;
+
+}
+
+/* =====================================================
+LANGUAGE
+===================================================== */
+
+let afnxTranslations =
+{};
+
+async function afnxLoadTranslations(
+language="en"
+){
+
+const result =
+await afnxApi(
+AFNX_ENDPOINTS.translations,
+{
+language
+}
+);
+
+if(
+!result ||
+!result.ok
+){
+return;
+}
+
+afnxTranslations =
+result.translations || {};
+
+afnxApplyTranslations();
+
+}
+
+function afnxT(key){
+
+return (
+afnxTranslations[key]
+||
+key
+);
+
+}
+
+function afnxApplyTranslations(){
+
+const loginBtn =
+afnxEl(
+"afnxHomeLoginBtn"
+);
+
+const notesBtn =
+afnxEl(
+"afnxHomeNotesBtn"
+);
+
+if(loginBtn){
+
+loginBtn.textContent =
+afnxT(
+"login_button"
+);
+
+}
+
+if(notesBtn){
+
+notesBtn.textContent =
+afnxT(
+"notes_button"
+);
+
+}
+
+}
+
+afnxEl(
+"afnxLanguageSelect"
+)
+.addEventListener(
+"change",
+async e=>{
+
+const language =
+e.target.value;
+
+localStorage.setItem(
+"afnx_language",
+language
+);
+
+afnxState.language =
+language;
+
+await afnxLoadTranslations(
+language
+);
+
+}
+);
+
+/* =====================================================
+RESTORE LANGUAGE
+===================================================== */
+
+function afnxRestoreLanguage(){
+
+const language =
+localStorage.getItem(
+"afnx_language"
+) || "en";
+
+afnxState.language =
+language;
+
+const select =
+afnxEl(
+"afnxLanguageSelect"
+);
+
+if(select){
+
+select.value =
+language;
+
+}
+
+afnxLoadTranslations(
+language
+);
+
+}
+
+/* =====================================================
+RESTORE THEME
+===================================================== */
+
+function afnxRestoreTheme(){
+
+const theme =
+localStorage.getItem(
+"afnx_theme"
+);
+
+if(!theme){
+
+return;
+
+}
+
+afnxApplyTheme(
+theme
+);
+
+}
+
+/* =====================================================
+AUTH CARDS
+===================================================== */
+
+const createCard =
+afnxEl(
+"afnxCreateCard"
+);
+
+const forgotCard =
+afnxEl(
+"afnxForgotCard"
+);
+
+createCard.style.display =
+"none";
+
+forgotCard.style.display =
+"none";
+
+afnxEl(
+"afnxShowCreate"
+)
+.addEventListener(
+"click",
+()=>{
+
+createCard.style.display =
+createCard.style.display ===
+"none"
+?
+"block"
+:
+"none";
+
+forgotCard.style.display =
+"none";
+
+}
+);
+
+afnxEl(
+"afnxShowForgot"
+)
+.addEventListener(
+"click",
+()=>{
+
+forgotCard.style.display =
+forgotCard.style.display ===
+"none"
+?
+"block"
+:
+"none";
+
+createCard.style.display =
+"none";
+
+}
+);
+
+/* =====================================================
+APP INIT
+===================================================== */
+
+function afnxInit(){
+
+afnxRestoreTheme();
+
+afnxRestoreLanguage();
+
+afnxRestoreSession();
+
+afnxRefreshNotesAccess();
+
+}
+
+window.addEventListener(
+"load",
+afnxInit
+);
+
+    let afnxPendingStudent =
+null;
+
+async function afnxCreateAccount(){
+
+const name =
+afnxEl(
+"afnxCreateName"
+).value.trim();
+
+const phone =
+afnxEl(
+"afnxCreatePhone"
+).value.trim();
+
+const email =
+afnxEl(
+"afnxCreateEmail"
+).value.trim();
+
+const password =
+afnxEl(
+"afnxCreatePassword"
+).value.trim();
+
+const check =
+await afnxApi(
+AFNX_ENDPOINTS.checkExisting,
+{
+mobile:phone,
+email:email
+}
+);
+
+if(
+!check ||
+!check.ok
+){
+
+afnxToast(
+check?.message ||
+"Validation failed"
+);
+
+return;
+
+}
+
+if(
+check.mobile_exists
+){
+
+afnxToast(
+"Phone already registered"
+);
+
+return;
+
+}
+
+if(
+check.email_exists
+){
+
+afnxToast(
+"Email already registered"
+);
+
+return;
+
+}
+
+afnxPendingStudent = {
+
+student_id:
+phone,
+
+name:
+name,
+
+mobile:
+phone,
+
+email:
+email,
+
+password:
+password,
+
+status:
+"active",
+
+email_verified:
+false
+
+};
+
+const otpResult =
+await afnxApi(
+AFNX_ENDPOINTS.sendOtp,
+{
+email,
+mobile:phone,
+purpose:"create"
+}
+);
+
+if(
+!otpResult ||
+!otpResult.ok
+){
+
+afnxToast(
+"OTP send failed"
+);
+
+return;
+
+}
+
+afnxEl(
+"afnxCreateOtpArea"
+).style.display =
+"block";
+
+afnxToast(
+"OTP sent to email"
+);
+
+}
+
+    async function afnxVerifyCreateOtp(){
+
+const otp =
+afnxEl(
+"afnxCreateOtp"
+).value.trim();
+
+if(
+!afnxPendingStudent
+){
+
+afnxToast(
+"Send OTP first"
+);
+
+return;
+
+}
+
+const result =
+await afnxApi(
+AFNX_ENDPOINTS.create,
+{
+...afnxPendingStudent,
+
+otp,
+
+purpose:
+"create"
+}
+);
+
+if(
+!result ||
+!result.ok
+){
+
+afnxToast(
+result?.message ||
+"Creation failed"
+);
+
+return;
+
+}
+
+afnxToast(
+"Student ID created successfully"
+);
+
+}
+
+    
+</script>
+
+</body>
+</html>
