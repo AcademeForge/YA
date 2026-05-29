@@ -340,6 +340,7 @@
       align-items: center;
       gap: 9px;
       margin-top: 26px;
+      margin-bottom: 32px;
       padding: 9px 13px;
       border: 1px solid rgba(249, 115, 22, .26);
       border-radius: 999px;
@@ -898,39 +899,17 @@
   class="back-btn"
   onclick="sessionStorage.setItem('af_return_section','settings'); window.location.href='/YA/#settings';">
 
-  ← Back
+  ← Back to Settings
 
 </button>
         <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
           <span id="themeText">Light</span>
           <span class="switch" aria-hidden="true"><span class="knob"></span></span>
         </button>
-        <button id="menuBtn" class="menu-btn" type="button" aria-label="Open menu">☰</button>
-      </div>
+</div>
     </div>
   </header>
-
-  <aside id="mobileMenu" class="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
-    <div class="mobile-top">
-      <div class="logo">AF</div>
-      <button id="closeBtn" class="close-btn" type="button" aria-label="Close menu">✕</button>
-    </div>
-
-   <nav class="mobile-nav">
-
-  <button
-    type="button"
-    class="mobile-back-btn"
-    onclick="sessionStorage.setItem('af_return_section','settings');window.location.href='/YA/#settings';">
-
-    ← Back To Settings
-
-  </button>
-
-</nav>
-  </aside>
-
-  <main class="main">
+<main class="main">
     <div class="cw hero">
       <section class="intro" aria-labelledby="pageTitle">
         <div class="eyebrow">Official Certificate Verification</div>
@@ -996,10 +975,7 @@
     const html = document.documentElement;
     const themeToggle = document.getElementById("themeToggle");
     const themeText = document.getElementById("themeText");
-    const menuBtn = document.getElementById("menuBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
-    const certificatePrefix = document.getElementById("certificatePrefix");
+const certificatePrefix = document.getElementById("certificatePrefix");
     const certificateSuffix = document.getElementById("certificateSuffix");
     const verifyBtn = document.getElementById("verifyBtn");
     const result = document.getElementById("result");
@@ -1028,34 +1004,9 @@
       const isDark = html.getAttribute("data-theme") === "dark";
       themeText.textContent = isDark ? "Light" : "Dark";
     }
-
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.add("open");
-      mobileMenu.setAttribute("aria-hidden", "false");
+mobileMenu.setAttribute("aria-hidden", "false");
     });
-
-    closeBtn.addEventListener("click", closeMobileMenu);
-
-    document.addEventListener("click", event => {
-      const clickedInside = mobileMenu.contains(event.target) || menuBtn.contains(event.target);
-
-      if (!clickedInside && mobileMenu.classList.contains("open")) {
-        closeMobileMenu();
-      }
-    });
-
-    window.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeMobileMenu();
-      }
-    });
-
-    function closeMobileMenu() {
-      mobileMenu.classList.remove("open");
-      mobileMenu.setAttribute("aria-hidden", "true");
-    }
-
-    async function verifyCertificate() {
+async function verifyCertificate() {
       if (isLoading) {
         return;
       }
