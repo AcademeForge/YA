@@ -882,722 +882,302 @@
   </style>
 </head>
 <body>
- <header class="header">
-  <div class="cw header-inner">
+  <header class="header">
+    <div class="cw header-inner">
+      <a href="/YA/#settings" class="brand">
+        <div class="logo">AF</div>
+        <div>
+          <span class="brand-title">AcademeForge</span>
+          <span class="brand-sub">Certificate Verification</span>
+        </div>
+      </a>
+      
+      <div class="header-actions">
+       <button
+  type="button"
+  class="back-btn"
+  onclick="sessionStorage.setItem('af_return_section','settings'); window.location.href='/YA/#settings';">
 
-    <a href="/YA/#settings" class="brand">
-      <div class="logo">AF</div>
-      <div>
-        <span class="brand-title">AcademeForge</span>
+  ← Back
 
-        <span
-          class="brand-sub"
-          data-i18n="Certificate Verification">
-          Certificate Verification
-        </span>
-
+</button>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+          <span id="themeText">Light</span>
+          <span class="switch" aria-hidden="true"><span class="knob"></span></span>
+        </button>
+        <button id="menuBtn" class="menu-btn" type="button" aria-label="Open menu">☰</button>
       </div>
-    </a>
+    </div>
+  </header>
 
-    <div class="header-actions">
-
-      <button
-        type="button"
-        class="back-btn"
-        onclick="sessionStorage.setItem('af_return_section','settings');window.location.href='/YA/#settings';">
-
-        ← Back
-
-      </button>
-
-      <button
-        id="themeToggle"
-        class="theme-toggle"
-        type="button"
-        aria-label="Toggle theme">
-
-        <span id="themeText">Light</span>
-
-        <span class="switch" aria-hidden="true">
-          <span class="knob"></span>
-        </span>
-
-      </button>
-
+  <aside id="mobileMenu" class="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
+    <div class="mobile-top">
+      <div class="logo">AF</div>
+      <button id="closeBtn" class="close-btn" type="button" aria-label="Close menu">✕</button>
     </div>
 
-  </div>
-</header>
+   <nav class="mobile-nav">
 
-<main class="main">
+  <button
+    type="button"
+    class="mobile-back-btn"
+    onclick="sessionStorage.setItem('af_return_section','settings');window.location.href='/YA/#settings';">
 
-  <div class="cw hero">
+    ← Back To Settings
 
-    <section
-      class="verify-panel"
-      aria-label="Certificate verification form">
+  </button>
 
-      <div class="panel-content">
+</nav>
+  </aside>
 
-        <div
-          class="panel-kicker"
-          data-i18n="Credential Lookup">
+  <main class="main">
+    <div class="cw hero">
+     
+<section class="verify-panel" aria-label="Certificate verification form">
+        <div class="panel-content">
+          <div class="panel-kicker">Credential lookup</div>
+          <h2 class="panel-title">Enter certificate details</h2>
+          <p class="panel-copy">
+            Choose the certificate year prefix and type the four-digit certificate number.
+          </p>
 
-          Credential Lookup
+          <div class="certificate-input-wrap">
+            <label class="select-wrap">
+              <span class="field-label">Certificate prefix</span>
+              <select id="certificatePrefix">
+                <option value="AF-CERT-2024-">AF-CERT-2024-</option>
+                <option value="AF-CERT-2025-">AF-CERT-2025-</option>
+                <option value="AF-CERT-2026-" selected>AF-CERT-2026-</option>
+                <option value="AF-CERT-2027-">AF-CERT-2027-</option>
+                <option value="AF-CERT-2028-">AF-CERT-2028-</option>
+                <option value="AF-CERT-2029-">AF-CERT-2029-</option>
+              </select>
+            </label>
 
+            <label>
+              <span class="field-label">Number</span>
+              <input
+                id="certificateSuffix"
+                type="text"
+                placeholder="0001"
+                maxlength="4"
+                inputmode="numeric"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </label>
+          </div>
+
+          <button id="verifyBtn" class="verify-btn" type="button">Verify Certificate</button>
+
+          <div id="loading" class="loading">
+            <div class="spinner" aria-hidden="true"></div>
+            <span>Verifying certificate...</span>
+          </div>
+
+          <div id="result" class="result"></div>
+
+          <div class="footer">
+            © 2026 AcademeForge
+          </div>
         </div>
-
-        <h2
-          class="panel-title"
-          data-i18n="Enter Certificate Details">
-
-          Enter Certificate Details
-
-        </h2>
-
-        <p
-          class="panel-copy"
-          data-i18n="Choose the certificate year prefix and type the four-digit certificate number.">
-
-          Choose the certificate year prefix and type the four-digit certificate number.
-
-        </p>
-
-        <div class="certificate-input-wrap">
-
-          <label class="select-wrap">
-
-            <span
-              class="field-label"
-              data-i18n="Certificate Prefix">
-
-              Certificate Prefix
-
-            </span>
-
-            <select id="certificatePrefix">
-
-              <option value="AF-CERT-2024-">
-                AF-CERT-2024-
-              </option>
-
-              <option value="AF-CERT-2025-">
-                AF-CERT-2025-
-              </option>
-
-              <option value="AF-CERT-2026-" selected>
-                AF-CERT-2026-
-              </option>
-
-              <option value="AF-CERT-2027-">
-                AF-CERT-2027-
-              </option>
-
-              <option value="AF-CERT-2028-">
-                AF-CERT-2028-
-              </option>
-
-              <option value="AF-CERT-2029-">
-                AF-CERT-2029-
-              </option>
-
-            </select>
-
-          </label>
-
-          <label>
-
-            <span
-              class="field-label"
-              data-i18n="Number">
-
-              Number
-
-            </span>
-
-            <input
-              id="certificateSuffix"
-              type="text"
-              placeholder="0001"
-              maxlength="4"
-              inputmode="numeric"
-              autocomplete="off"
-              spellcheck="false"
-            />
-
-          </label>
-
-        </div>
-
-        <button
-          id="verifyBtn"
-          class="verify-btn"
-          type="button"
-          data-i18n="Verify Certificate">
-
-          Verify Certificate
-
-        </button>
-
-        <div id="loading" class="loading">
-
-          <div class="spinner" aria-hidden="true"></div>
-
-          <span data-i18n="Verifying Certificate...">
-
-            Verifying Certificate...
-
-          </span>
-
-        </div>
-
-        <div id="result" class="result"></div>
-
-        <div class="footer">
-          © 2026 AcademeForge
-        </div>
-
-      </div>
-
-    </section>
+      </section>
     </div>
   </main>
-<script>
-const API_URL =
-  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/verify-af-certificate";
 
-const TRANSLATION_URL =
-  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/get-translations";
+  <script>
+    const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/verify-af-certificate";
 
-const html = document.documentElement;
+    const html = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeText = document.getElementById("themeText");
+    const menuBtn = document.getElementById("menuBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const certificatePrefix = document.getElementById("certificatePrefix");
+    const certificateSuffix = document.getElementById("certificateSuffix");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const result = document.getElementById("result");
+    const loading = document.getElementById("loading");
 
-const themeToggle =
-  document.getElementById("themeToggle");
+    let isLoading = false;
 
-const themeText =
-  document.getElementById("themeText");
+    const savedTheme = localStorage.getItem("af-theme");
 
-const certificatePrefix =
-  document.getElementById("certificatePrefix");
-
-const certificateSuffix =
-  document.getElementById("certificateSuffix");
-
-const verifyBtn =
-  document.getElementById("verifyBtn");
-
-const result =
-  document.getElementById("result");
-
-const loading =
-  document.getElementById("loading");
-
-let isLoading = false;
-
-/* =========================
-   THEME
-========================= */
-
-const savedTheme =
-  localStorage.getItem("af-theme");
-
-if (savedTheme) {
-  html.setAttribute(
-    "data-theme",
-    savedTheme
-  );
-}
-
-updateThemeText();
-
-themeToggle.addEventListener(
-  "click",
-  () => {
-
-    const current =
-      html.getAttribute(
-        "data-theme"
-      );
-
-    const next =
-      current === "dark"
-        ? "light"
-        : "dark";
-
-    html.setAttribute(
-      "data-theme",
-      next
-    );
-
-    localStorage.setItem(
-      "af-theme",
-      next
-    );
+    if (savedTheme) {
+      html.setAttribute("data-theme", savedTheme);
+    }
 
     updateThemeText();
 
-  }
-);
+    themeToggle.addEventListener("click", () => {
+      const current = html.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
 
-function updateThemeText() {
+      html.setAttribute("data-theme", next);
+      localStorage.setItem("af-theme", next);
+      updateThemeText();
+    });
 
-  const isDark =
-    html.getAttribute(
-      "data-theme"
-    ) === "dark";
+    function updateThemeText() {
+      const isDark = html.getAttribute("data-theme") === "dark";
+      themeText.textContent = isDark ? "Light" : "Dark";
+    }
 
-  themeText.textContent =
-    isDark
-      ? "Light"
-      : "Dark";
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.add("open");
+      mobileMenu.setAttribute("aria-hidden", "false");
+    });
 
-}
+    closeBtn.addEventListener("click", closeMobileMenu);
 
-/* =========================
-   VERIFY CERTIFICATE
-========================= */
+    document.addEventListener("click", event => {
+      const clickedInside = mobileMenu.contains(event.target) || menuBtn.contains(event.target);
 
-async function verifyCertificate() {
+      if (!clickedInside && mobileMenu.classList.contains("open")) {
+        closeMobileMenu();
+      }
+    });
 
-  if (isLoading) {
-    return;
-  }
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeMobileMenu();
+      }
+    });
 
-  const suffix =
-    certificateSuffix.value
-      .replace(/\D/g, "")
-      .trim();
+    function closeMobileMenu() {
+      mobileMenu.classList.remove("open");
+      mobileMenu.setAttribute("aria-hidden", "true");
+    }
 
-  if (!suffix) {
+    async function verifyCertificate() {
+      if (isLoading) {
+        return;
+      }
 
-    showFailed(
-      "Please enter certificate number."
-    );
+      const suffix = certificateSuffix.value.replace(/\D/g, "").trim();
 
-    return;
-  }
+      if (!suffix) {
+        showFailed("Please enter certificate number.");
+        return;
+      }
 
-  const certificateNumber =
-    (
-      certificatePrefix.value +
-      suffix.padStart(4, "0")
-    ).toUpperCase();
+      const certificateNumber = (certificatePrefix.value + suffix.padStart(4, "0")).toUpperCase();
 
-  try {
+      try {
+        isLoading = true;
+        verifyBtn.disabled = true;
+        loading.classList.add("active");
+        result.classList.remove("active");
 
-    isLoading = true;
-
-    verifyBtn.disabled = true;
-
-    loading.classList.add(
-      "active"
-    );
-
-    result.classList.remove(
-      "active"
-    );
-
-    const response =
-      await fetch(
-        API_URL,
-        {
+        const response = await fetch(API_URL, {
           method: "POST",
           headers: {
-            "Content-Type":
-              "application/json"
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            certificate_number:
-              certificateNumber
+            certificate_number: certificateNumber
           })
-        }
-      );
+        });
 
-    let data = null;
+        let data = null;
 
-    try {
-
-      data =
-        await response.json();
-
-    } catch {
-
-      throw new Error(
-        "Invalid server response"
-      );
-
-    }
-
-    if (
-      response.ok &&
-      data?.found &&
-      data?.certificate
-    ) {
-
-      showSuccess(
-        data.certificate
-      );
-
-    } else {
-
-      showFailed(
-        data?.message ||
-        "Certificate not found"
-      );
-
-    }
-
-  } catch (error) {
-
-    console.error(error);
-
-    showFailed(
-      error?.message ||
-      "Verification failed"
-    );
-
-  } finally {
-
-    isLoading = false;
-
-    verifyBtn.disabled = false;
-
-    loading.classList.remove(
-      "active"
-    );
-
-  }
-
-}
-
-function showSuccess(
-  certificate
-) {
-
-  result.innerHTML = `
-    <div class="result-card success">
-
-      <div class="verify-top">
-
-        <div class="verify-icon success">
-          ✓
-        </div>
-
-        <div>
-
-          <div class="verify-title">
-            Certificate Verified
-          </div>
-
-          <div class="verify-sub">
-            This certificate is officially issued and verified by AcademeForge.
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="details">
-
-        ${detailTemplate(
-          "Certificate ID",
-          certificate.certificate_id
-        )}
-
-        ${detailTemplate(
-          "Full Name",
-          certificate.full_name
-        )}
-
-        ${detailTemplate(
-          "Role",
-          certificate.role
-        )}
-
-        ${detailTemplate(
-          "Certificate Type",
-          certificate.certificate_type
-        )}
-
-        ${detailTemplate(
-          "Issue Date",
-          certificate.issue_date
-        )}
-
-        ${detailTemplate(
-          "Work Type",
-          certificate.work_type
-        )}
-
-        ${
-          certificate.start_date
-            ? detailTemplate(
-                "Start Date",
-                certificate.start_date
-              )
-            : ""
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("Invalid server response");
         }
 
-        ${
-          certificate.end_date
-            ? detailTemplate(
-                "End Date",
-                certificate.end_date
-              )
-            : ""
+        if (response.ok && data?.found && data?.certificate) {
+          showSuccess(data.certificate);
+        } else {
+          showFailed(data?.message || "Certificate not found");
         }
-
-      </div>
-
-    </div>
-  `;
-
-  result.classList.add(
-    "active"
-  );
-
-}
-
-function showFailed(
-  message
-) {
-
-  result.innerHTML = `
-    <div class="result-card failed">
-
-      <div class="verify-top">
-
-        <div class="verify-icon failed">
-          ✕
-        </div>
-
-        <div>
-
-          <div class="verify-title">
-            Certificate Not Found
-          </div>
-
-          <div class="verify-sub">
-            ${escapeHtml(message)}
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-
-  result.classList.add(
-    "active"
-  );
-
-}
-
-function detailTemplate(
-  label,
-  value
-) {
-
-  return `
-    <div class="detail">
-
-      <div class="label">
-        ${escapeHtml(label)}
-      </div>
-
-      <div class="value">
-        ${escapeHtml(value)}
-      </div>
-
-    </div>
-  `;
-
-}
-
-function escapeHtml(
-  value
-) {
-
-  return String(
-    value || ""
-  )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    );
-
-}
-
-certificateSuffix.addEventListener(
-  "input",
-  () => {
-
-    certificateSuffix.value =
-      certificateSuffix.value.replace(
-        /\D/g,
-        ""
-      );
-
-  }
-);
-
-verifyBtn.addEventListener(
-  "click",
-  verifyCertificate
-);
-
-certificateSuffix.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Enter"
-    ) {
-
-      verifyCertificate();
-
-    }
-
-  }
-);
-
-/* =========================
-   TRANSLATIONS
-========================= */
-
-let currentLanguage =
-  localStorage.getItem(
-    "af_language"
-  ) || "en";
-
-async function loadTranslations() {
-
-  try {
-
-    const response =
-      await fetch(
-        TRANSLATION_URL,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-          body: JSON.stringify({
-            page: "student-app",
-            lang: currentLanguage
-          })
-        }
-      );
-
-    if (!response.ok) {
-      throw new Error(
-        "Translation request failed"
-      );
-    }
-
-    const data =
-      await response.json();
-
-    const translations = {};
-
-    (data || []).forEach(
-      item => {
-
-        translations[
-          item.source_key
-        ] =
-          item.translated_value;
-
+      } catch (error) {
+        console.error(error);
+        showFailed(error?.message || "Verification failed");
+      } finally {
+        isLoading = false;
+        verifyBtn.disabled = false;
+        loading.classList.remove("active");
       }
-    );
-
-    applyTranslations(
-      translations
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Translation Error:",
-      error
-    );
-
-  }
-
-}
-
-function applyTranslations(
-  translations
-) {
-
-  document
-    .querySelectorAll(
-      "[data-i18n]"
-    )
-    .forEach(
-      element => {
-
-        const key =
-          element.getAttribute(
-            "data-i18n"
-          );
-
-        if (
-          translations[key]
-        ) {
-
-          element.textContent =
-            translations[key];
-
-        }
-
-      }
-    );
-
-}
-
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-
-    await loadTranslations();
-
-  }
-);
-
-window.addEventListener(
-  "storage",
-  async event => {
-
-    if (
-      event.key ===
-      "af_language"
-    ) {
-
-      currentLanguage =
-        event.newValue ||
-        "en";
-
-      await loadTranslations();
-
     }
 
-  }
-);
-</script>
+    function showSuccess(certificate) {
+      result.innerHTML = `
+        <div class="result-card success">
+          <div class="verify-top">
+            <div class="verify-icon success">✓</div>
+            <div>
+              <div class="verify-title">Certificate Verified</div>
+              <div class="verify-sub">This certificate is officially issued and verified by AcademeForge.</div>
+            </div>
+          </div>
+
+          <div class="details">
+            ${detailTemplate("Certificate ID", certificate.certificate_id)}
+            ${detailTemplate("Full Name", certificate.full_name)}
+            ${detailTemplate("Role", certificate.role)}
+            ${detailTemplate("Certificate Type", certificate.certificate_type)}
+            ${detailTemplate("Issue Date", certificate.issue_date)}
+            ${detailTemplate("Work Type", certificate.work_type)}
+            ${certificate.start_date ? detailTemplate("Start Date", certificate.start_date) : ""}
+            ${certificate.end_date ? detailTemplate("End Date", certificate.end_date) : ""}
+          </div>
+        </div>
+      `;
+
+      result.classList.add("active");
+      result.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+    function showFailed(message) {
+      result.innerHTML = `
+        <div class="result-card failed">
+          <div class="verify-top">
+            <div class="verify-icon failed">✕</div>
+            <div>
+              <div class="verify-title">Certificate Not Found</div>
+              <div class="verify-sub">${escapeHtml(message)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      result.classList.add("active");
+    }
+
+    function detailTemplate(label, value) {
+      return `
+        <div class="detail">
+          <div class="label">${escapeHtml(label)}</div>
+          <div class="value">${escapeHtml(value)}</div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    certificateSuffix.addEventListener("input", () => {
+      certificateSuffix.value = certificateSuffix.value.replace(/\D/g, "");
+    });
+
+    verifyBtn.addEventListener("click", verifyCertificate);
+
+    certificateSuffix.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        verifyCertificate();
+      }
+    });
+  </script>
 </body>
 </html>
