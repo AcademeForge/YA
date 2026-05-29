@@ -25139,6 +25139,19 @@ onclick="openNotesAF()"
   </div>
   <span class="settings-arrow" aria-hidden="true">›</span>
 </button>
+
+      <button
+  type="button"
+  class="settings-row settings-row-btn"
+  onclick="openVerifyAF()"
+  aria-label="Certificate Verification"
+>
+  <div class="settings-row-left">
+    <span class="settings-row-icon" aria-hidden="true">🎖️</span>
+    <span>Certificate Verification</span>
+  </div>
+  <span class="settings-arrow" aria-hidden="true">›</span>
+</button>
       
       <button
         type="button"
@@ -41051,6 +41064,10 @@ async function loadContactRequestStatusAf(forceRefresh) {
     );
 
     window.location.href = "/YA/NotesAF/";
+}
+
+  function openVerifyAF() {
+  window.location.href = "/verify/";
 }
 </script>
 </body>
