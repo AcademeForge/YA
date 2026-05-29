@@ -25130,7 +25130,7 @@ html.dark .af-name-only-cancel,
       <button
   type="button"
   class="settings-row settings-row-btn"
-  onclick="window.location.href='/NotesAF/'"
+onclick="openNotesAF()"
   aria-label="Open Notes"
 >
   <div class="settings-row-left">
@@ -41043,6 +41043,15 @@ async function loadContactRequestStatusAf(forceRefresh) {
     }
   });
 })();
+
+  function openNotesAF() {
+    sessionStorage.setItem(
+        "af_return_section",
+        "settings"
+    );
+
+    window.location.href = "/NotesAF/";
+}
 </script>
 </body>
 </html>
