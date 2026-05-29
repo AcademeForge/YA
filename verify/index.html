@@ -1062,292 +1062,542 @@
     </section>
     </div>
   </main>
+<script>
+const API_URL =
+  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/verify-af-certificate";
 
-  <script>
-    const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/verify-af-certificate";
+const TRANSLATION_URL =
+  "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/get-translations";
 
-    const html = document.documentElement;
-    const themeToggle = document.getElementById("themeToggle");
-    const themeText = document.getElementById("themeText");
-    const menuBtn = document.getElementById("menuBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
-    const certificatePrefix = document.getElementById("certificatePrefix");
-    const certificateSuffix = document.getElementById("certificateSuffix");
-    const verifyBtn = document.getElementById("verifyBtn");
-    const result = document.getElementById("result");
-    const loading = document.getElementById("loading");
+const html = document.documentElement;
 
-    let isLoading = false;
+const themeToggle =
+  document.getElementById("themeToggle");
 
-    const savedTheme = localStorage.getItem("af-theme");
+const themeText =
+  document.getElementById("themeText");
 
-    if (savedTheme) {
-      html.setAttribute("data-theme", savedTheme);
-    }
+const certificatePrefix =
+  document.getElementById("certificatePrefix");
+
+const certificateSuffix =
+  document.getElementById("certificateSuffix");
+
+const verifyBtn =
+  document.getElementById("verifyBtn");
+
+const result =
+  document.getElementById("result");
+
+const loading =
+  document.getElementById("loading");
+
+let isLoading = false;
+
+/* =========================
+   THEME
+========================= */
+
+const savedTheme =
+  localStorage.getItem("af-theme");
+
+if (savedTheme) {
+  html.setAttribute(
+    "data-theme",
+    savedTheme
+  );
+}
+
+updateThemeText();
+
+themeToggle.addEventListener(
+  "click",
+  () => {
+
+    const current =
+      html.getAttribute(
+        "data-theme"
+      );
+
+    const next =
+      current === "dark"
+        ? "light"
+        : "dark";
+
+    html.setAttribute(
+      "data-theme",
+      next
+    );
+
+    localStorage.setItem(
+      "af-theme",
+      next
+    );
 
     updateThemeText();
 
-    themeToggle.addEventListener("click", () => {
-      const current = html.getAttribute("data-theme");
-      const next = current === "dark" ? "light" : "dark";
+  }
+);
 
-      html.setAttribute("data-theme", next);
-      localStorage.setItem("af-theme", next);
-      updateThemeText();
-    });
+function updateThemeText() {
 
-    function updateThemeText() {
-      const isDark = html.getAttribute("data-theme") === "dark";
-      themeText.textContent = isDark ? "Light" : "Dark";
-    }
+  const isDark =
+    html.getAttribute(
+      "data-theme"
+    ) === "dark";
 
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.add("open");
-      mobileMenu.setAttribute("aria-hidden", "false");
-    });
-
-    closeBtn.addEventListener("click", closeMobileMenu);
-
-    document.addEventListener("click", event => {
-      const clickedInside = mobileMenu.contains(event.target) || menuBtn.contains(event.target);
-
-      if (!clickedInside && mobileMenu.classList.contains("open")) {
-        closeMobileMenu();
-      }
-    });
-
-    window.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeMobileMenu();
-      }
-    });
-
-    function closeMobileMenu() {
-      mobileMenu.classList.remove("open");
-      mobileMenu.setAttribute("aria-hidden", "true");
-    }
-
-    async function verifyCertificate() {
-      if (isLoading) {
-        return;
-      }
-
-      const suffix = certificateSuffix.value.replace(/\D/g, "").trim();
-
-      if (!suffix) {
-        showFailed("Please enter certificate number.");
-        return;
-      }
-
-      const certificateNumber = (certificatePrefix.value + suffix.padStart(4, "0")).toUpperCase();
-
-      try {
-        isLoading = true;
-        verifyBtn.disabled = true;
-        loading.classList.add("active");
-        result.classList.remove("active");
-
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            certificate_number: certificateNumber
-          })
-        });
-
-        let data = null;
-
-        try {
-          data = await response.json();
-        } catch {
-          throw new Error("Invalid server response");
-        }
-
-        if (response.ok && data?.found && data?.certificate) {
-          showSuccess(data.certificate);
-        } else {
-          showFailed(data?.message || "Certificate not found");
-        }
-      } catch (error) {
-        console.error(error);
-        showFailed(error?.message || "Verification failed");
-      } finally {
-        isLoading = false;
-        verifyBtn.disabled = false;
-        loading.classList.remove("active");
-      }
-    }
-
-    function showSuccess(certificate) {
-      result.innerHTML = `
-        <div class="result-card success">
-          <div class="verify-top">
-            <div class="verify-icon success">✓</div>
-            <div>
-              <div class="verify-title">Certificate Verified</div>
-              <div class="verify-sub">This certificate is officially issued and verified by AcademeForge.</div>
-            </div>
-          </div>
-
-          <div class="details">
-            ${detailTemplate("Certificate ID", certificate.certificate_id)}
-            ${detailTemplate("Full Name", certificate.full_name)}
-            ${detailTemplate("Role", certificate.role)}
-            ${detailTemplate("Certificate Type", certificate.certificate_type)}
-            ${detailTemplate("Issue Date", certificate.issue_date)}
-            ${detailTemplate("Work Type", certificate.work_type)}
-            ${certificate.start_date ? detailTemplate("Start Date", certificate.start_date) : ""}
-            ${certificate.end_date ? detailTemplate("End Date", certificate.end_date) : ""}
-          </div>
-        </div>
-      `;
-
-      result.classList.add("active");
-      result.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-    }
-
-    function showFailed(message) {
-      result.innerHTML = `
-        <div class="result-card failed">
-          <div class="verify-top">
-            <div class="verify-icon failed">✕</div>
-            <div>
-              <div class="verify-title">Certificate Not Found</div>
-              <div class="verify-sub">${escapeHtml(message)}</div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      result.classList.add("active");
-    }
-
-    function detailTemplate(label, value) {
-      return `
-        <div class="detail">
-          <div class="label">${escapeHtml(label)}</div>
-          <div class="value">${escapeHtml(value)}</div>
-        </div>
-      `;
-    }
-
-    function escapeHtml(value) {
-      return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
-    certificateSuffix.addEventListener("input", () => {
-      certificateSuffix.value = certificateSuffix.value.replace(/\D/g, "");
-    });
-
-    verifyBtn.addEventListener("click", verifyCertificate);
-
-    certificateSuffix.addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        verifyCertificate();
-      }
-    });
-   
-let currentLanguage =
-    localStorage.getItem("af_language") || "en";
-
-async function loadTranslations() {
-
-    try {
-
-        const { data, error } = await supabase
-            .from("app_translations")
-            .select("source_key, translated_value")
-            .eq("page", "student-app")
-            .eq("lang", currentLanguage)
-            .eq("is_active", true);
-
-        if (error) {
-            console.error(error);
-            return;
-        }
-
-        const translations = {};
-
-        data.forEach(item => {
-
-            translations[item.source_key] =
-                item.translated_value;
-
-        });
-
-        applyTranslations(translations);
-
-    } catch (err) {
-
-        console.error(
-            "Translation Error:",
-            err
-        );
-
-    }
+  themeText.textContent =
+    isDark
+      ? "Light"
+      : "Dark";
 
 }
 
-function applyTranslations(translations) {
+/* =========================
+   VERIFY CERTIFICATE
+========================= */
 
-    document
-        .querySelectorAll("[data-i18n]")
-        .forEach(element => {
+async function verifyCertificate() {
 
-            const key =
-                element.getAttribute(
-                    "data-i18n"
-                );
+  if (isLoading) {
+    return;
+  }
 
-            if (translations[key]) {
+  const suffix =
+    certificateSuffix.value
+      .replace(/\D/g, "")
+      .trim();
 
-                element.textContent =
-                    translations[key];
+  if (!suffix) {
 
-            }
+    showFailed(
+      "Please enter certificate number."
+    );
 
-        });
+    return;
+  }
+
+  const certificateNumber =
+    (
+      certificatePrefix.value +
+      suffix.padStart(4, "0")
+    ).toUpperCase();
+
+  try {
+
+    isLoading = true;
+
+    verifyBtn.disabled = true;
+
+    loading.classList.add(
+      "active"
+    );
+
+    result.classList.remove(
+      "active"
+    );
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body: JSON.stringify({
+            certificate_number:
+              certificateNumber
+          })
+        }
+      );
+
+    let data = null;
+
+    try {
+
+      data =
+        await response.json();
+
+    } catch {
+
+      throw new Error(
+        "Invalid server response"
+      );
+
+    }
+
+    if (
+      response.ok &&
+      data?.found &&
+      data?.certificate
+    ) {
+
+      showSuccess(
+        data.certificate
+      );
+
+    } else {
+
+      showFailed(
+        data?.message ||
+        "Certificate not found"
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    showFailed(
+      error?.message ||
+      "Verification failed"
+    );
+
+  } finally {
+
+    isLoading = false;
+
+    verifyBtn.disabled = false;
+
+    loading.classList.remove(
+      "active"
+    );
+
+  }
+
+}
+
+function showSuccess(
+  certificate
+) {
+
+  result.innerHTML = `
+    <div class="result-card success">
+
+      <div class="verify-top">
+
+        <div class="verify-icon success">
+          ✓
+        </div>
+
+        <div>
+
+          <div class="verify-title">
+            Certificate Verified
+          </div>
+
+          <div class="verify-sub">
+            This certificate is officially issued and verified by AcademeForge.
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="details">
+
+        ${detailTemplate(
+          "Certificate ID",
+          certificate.certificate_id
+        )}
+
+        ${detailTemplate(
+          "Full Name",
+          certificate.full_name
+        )}
+
+        ${detailTemplate(
+          "Role",
+          certificate.role
+        )}
+
+        ${detailTemplate(
+          "Certificate Type",
+          certificate.certificate_type
+        )}
+
+        ${detailTemplate(
+          "Issue Date",
+          certificate.issue_date
+        )}
+
+        ${detailTemplate(
+          "Work Type",
+          certificate.work_type
+        )}
+
+        ${
+          certificate.start_date
+            ? detailTemplate(
+                "Start Date",
+                certificate.start_date
+              )
+            : ""
+        }
+
+        ${
+          certificate.end_date
+            ? detailTemplate(
+                "End Date",
+                certificate.end_date
+              )
+            : ""
+        }
+
+      </div>
+
+    </div>
+  `;
+
+  result.classList.add(
+    "active"
+  );
+
+}
+
+function showFailed(
+  message
+) {
+
+  result.innerHTML = `
+    <div class="result-card failed">
+
+      <div class="verify-top">
+
+        <div class="verify-icon failed">
+          ✕
+        </div>
+
+        <div>
+
+          <div class="verify-title">
+            Certificate Not Found
+          </div>
+
+          <div class="verify-sub">
+            ${escapeHtml(message)}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  result.classList.add(
+    "active"
+  );
+
+}
+
+function detailTemplate(
+  label,
+  value
+) {
+
+  return `
+    <div class="detail">
+
+      <div class="label">
+        ${escapeHtml(label)}
+      </div>
+
+      <div class="value">
+        ${escapeHtml(value)}
+      </div>
+
+    </div>
+  `;
+
+}
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value || ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    );
+
+}
+
+certificateSuffix.addEventListener(
+  "input",
+  () => {
+
+    certificateSuffix.value =
+      certificateSuffix.value.replace(
+        /\D/g,
+        ""
+      );
+
+  }
+);
+
+verifyBtn.addEventListener(
+  "click",
+  verifyCertificate
+);
+
+certificateSuffix.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Enter"
+    ) {
+
+      verifyCertificate();
+
+    }
+
+  }
+);
+
+/* =========================
+   TRANSLATIONS
+========================= */
+
+let currentLanguage =
+  localStorage.getItem(
+    "af_language"
+  ) || "en";
+
+async function loadTranslations() {
+
+  try {
+
+    const response =
+      await fetch(
+        TRANSLATION_URL,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body: JSON.stringify({
+            page: "student-app",
+            lang: currentLanguage
+          })
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "Translation request failed"
+      );
+    }
+
+    const data =
+      await response.json();
+
+    const translations = {};
+
+    (data || []).forEach(
+      item => {
+
+        translations[
+          item.source_key
+        ] =
+          item.translated_value;
+
+      }
+    );
+
+    applyTranslations(
+      translations
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Translation Error:",
+      error
+    );
+
+  }
+
+}
+
+function applyTranslations(
+  translations
+) {
+
+  document
+    .querySelectorAll(
+      "[data-i18n]"
+    )
+    .forEach(
+      element => {
+
+        const key =
+          element.getAttribute(
+            "data-i18n"
+          );
+
+        if (
+          translations[key]
+        ) {
+
+          element.textContent =
+            translations[key];
+
+        }
+
+      }
+    );
 
 }
 
 document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+  "DOMContentLoaded",
+  async () => {
 
-        await loadTranslations();
+    await loadTranslations();
 
-    }
+  }
 );
 
 window.addEventListener(
-    "storage",
-    async (event) => {
+  "storage",
+  async event => {
 
-        if (
-            event.key === "af_language"
-        ) {
+    if (
+      event.key ===
+      "af_language"
+    ) {
 
-            currentLanguage =
-                event.newValue || "en";
+      currentLanguage =
+        event.newValue ||
+        "en";
 
-            await loadTranslations();
-
-        }
+      await loadTranslations();
 
     }
+
+  }
 );
-
-
-  </script>
+</script>
 </body>
 </html>
