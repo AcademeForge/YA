@@ -1260,6 +1260,389 @@ sessionStorage.setItem(
 
 }
 );
+<script>
+
+/* ===========================
+NOTES DATABASE
+=========================== */
+
+const NOTES = {
+
+"9":{
+
+"Science":{
+title:"Class 9 Science Notes",
+folderId:"1-CtgsAx1kXo67-UUf6HsBunPIgm8FgUl",
+icon:"🔬"
+},
+
+"Math":{
+title:"Class 9 Mathematics Notes",
+folderId:"1-DH3yoNSnF0iFSIH2CsGGf5RobYwYKyp",
+icon:"🧮"
+},
+
+"Social Science":{
+title:"Class 9 Social Science Notes",
+folderId:"1-Dm4Tg6UIlYBiNqGYOYAWZvJExikh7my",
+icon:"🌍"
+},
+
+"English":{
+title:"Class 9 English Notes",
+folderId:"1-Gd2i8_7ylzy-gM_sFQMGrtDbiE70vRr",
+icon:"📖"
+},
+
+"Hindi":{
+title:"Class 9 Hindi Notes",
+folderId:"1-EHtC6OQMkNE3qEU5JgPggm5I4ggUWf9",
+icon:"📝"
+}
+
+},
+
+"10":{
+
+"Science":{
+title:"Class 10 Science Notes",
+folderId:"1-bVnCZbCabVmNGCxJ0gY4-FP4BwN9F02",
+icon:"🔬"
+},
+
+"Math":{
+title:"Class 10 Mathematics Notes",
+folderId:"1-Z7LCbOvKhHvMxqXS3W4qVcAukPVmhXK",
+icon:"🧮"
+},
+
+"Social Science":{
+title:"Class 10 Social Science Notes",
+folderId:"1-c9q3sV8BCZjtch0WqWnXnJWSE1il5uS",
+icon:"🌍"
+},
+
+"English":{
+title:"Class 10 English Notes",
+folderId:"1-VKypMW3rybYR_0dPrro1JscD8eGtj9u",
+icon:"📖"
+},
+
+"Hindi":{
+title:"Class 10 Hindi Notes",
+folderId:"1-Ud6Gv65aE25yPcul3cbprGvXZrXX2O0",
+icon:"📝"
+}
+
+}
+
+};
+
+/* ===========================
+STATE
+=========================== */
+
+let currentPage = "homePage";
+let currentClass = null;
+
+/* ===========================
+PAGE NAVIGATION
+=========================== */
+
+function openPage(pageId){
+
+document
+.querySelectorAll(".af-page")
+.forEach(page=>{
+
+page.classList.remove("active");
+
+});
+
+document
+.getElementById(pageId)
+.classList.add("active");
+
+currentPage = pageId;
+
+}
+
+/* ===========================
+SELECT CLASS
+=========================== */
+
+function selectClass(classValue){
+
+currentClass = classValue;
+
+const subjectGrid =
+document.getElementById(
+"subjectGrid"
+);
+
+subjectGrid.innerHTML = "";
+
+Object.keys(
+NOTES[classValue]
+)
+.forEach(subject=>{
+
+const note =
+NOTES[classValue][subject];
+
+const card =
+document.createElement("div");
+
+card.className =
+"af-card";
+
+card.innerHTML = `
+
+<div
+class="af-card-title">
+
+${note.icon}
+${subject}
+
+</div>
+
+<div
+class="af-card-sub">
+
+Tap to open notes
+
+</div>
+
+`;
+
+card.onclick = ()=>{
+
+openNotes(
+classValue,
+subject
+);
+
+};
+
+subjectGrid.appendChild(
+card
+);
+
+});
+
+openPage(
+"subjectPage"
+);
+
+}
+
+/* ===========================
+OPEN NOTES
+=========================== */
+
+function openNotes(
+classValue,
+subject
+){
+
+const note =
+NOTES[classValue][subject];
+
+document
+.getElementById(
+"noteTitle"
+)
+.textContent =
+note.title;
+
+document
+.getElementById(
+"notesViewer"
+)
+.src =
+
+`https://drive.google.com/embeddedfolderview?id=${note.folderId}#list`;
+
+localStorage.setItem(
+"af_last_note",
+JSON.stringify({
+
+classValue,
+subject
+
+})
+);
+
+openPage(
+"viewerPage"
+);
+
+}
+
+/* ===========================
+THEME
+=========================== */
+
+const themeBtn =
+document.getElementById(
+"themeBtn"
+);
+
+function applyTheme(theme){
+
+document
+.documentElement
+.setAttribute(
+"data-theme",
+theme
+);
+
+localStorage.setItem(
+"af_notes_theme",
+theme
+);
+
+themeBtn.textContent =
+
+theme === "dark"
+?
+"🌙"
+:
+"☀️";
+
+}
+
+function toggleTheme(){
+
+const current =
+document
+.documentElement
+.getAttribute(
+"data-theme"
+);
+
+applyTheme(
+
+current === "dark"
+?
+"light"
+:
+"dark"
+
+);
+
+}
+
+themeBtn.addEventListener(
+"click",
+toggleTheme
+);
+
+applyTheme(
+
+localStorage.getItem(
+"af_notes_theme"
+)
+||
+"dark"
+
+);
+
+/* ===========================
+BACK BUTTON
+=========================== */
+
+function goBack(){
+
+if(
+currentPage ===
+"viewerPage"
+){
+
+openPage(
+"subjectPage"
+);
+
+return;
+
+}
+
+if(
+currentPage ===
+"subjectPage"
+){
+
+openPage(
+"classPage"
+);
+
+return;
+
+}
+
+if(
+currentPage ===
+"classPage"
+){
+
+openPage(
+"homePage"
+);
+
+return;
+
+}
+
+/* Return To Settings */
+
+window.location.href =
+"../index.html#settings";
+
+}
+
+/* ===========================
+RESTORE LAST NOTE
+=========================== */
+
+const lastNote =
+localStorage.getItem(
+"af_last_note"
+);
+
+if(lastNote){
+
+try{
+
+const data =
+JSON.parse(
+lastNote
+);
+
+console.log(
+"Last Note:",
+data
+);
+
+}
+catch(error){}
+
+}
+
+/* ===========================
+SETTINGS RETURN
+=========================== */
+
+window.addEventListener(
+"load",
+()=>{
+
+sessionStorage.setItem(
+"af_return_section",
+"settings"
+);
+
+}
+);
 
 </script>
 
