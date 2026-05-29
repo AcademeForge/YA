@@ -108,7 +108,9 @@ background:var(--card);padding:10px 14px;border-radius:999px;border:1px solid va
 <div class="bg"></div>
 
 <div class="topbar">
-<button class="btn" onclick="window.location.href='../settings.html'">← Back</button>
+<button class="btn" onclick="goBack()">
+    ← Back
+</button>
 <button class="btn" onclick="toggleTheme()">🌙 Theme</button>
 </div>
 
@@ -210,6 +212,24 @@ document.documentElement.setAttribute(
 'data-theme',
 localStorage.getItem('af_theme')||'dark'
 );
+  function goBack() {
+
+    const returnSection =
+        sessionStorage.getItem(
+            "af_return_section"
+        );
+
+    if (returnSection === "settings") {
+
+        window.location.href =
+            "../index.html#settings";
+
+        return;
+    }
+
+    window.location.href =
+        "../index.html";
+}
 </script>
 </body>
 </html>
