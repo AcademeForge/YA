@@ -373,6 +373,55 @@
     display:none;
 
 }
+    /* ===========================
+HIDE ALL SCROLLBARS
+=========================== */
+
+.af-app,
+.af-page,
+body,
+html{
+
+    scrollbar-width:none !important;
+    -ms-overflow-style:none !important;
+
+}
+
+.af-app::-webkit-scrollbar,
+.af-page::-webkit-scrollbar,
+body::-webkit-scrollbar,
+html::-webkit-scrollbar{
+
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+
+}
+
+/* Floating Back Button Hide */
+
+.af-floating-back{
+
+    display:none !important;
+
+}
+
+/* Extra Safety */
+
+*{
+
+    scrollbar-width:none !important;
+
+}
+
+*::-webkit-scrollbar{
+
+    width:0 !important;
+    height:0 !important;
+    display:none !important;
+
+}
+    
   </style>
 </head>
 <body>
