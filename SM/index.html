@@ -1664,58 +1664,60 @@ const API_URL =
 "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/player";
 
 /* ===================================
+   APP STATE
+=================================== */
+
+let selectedAvatar = "😀";
+
+let currentBoardSize = 4;
+
+let currentDifficulty = "easy";
+
+let currentUser = null;
+
+/* ===================================
    API
 =================================== */
 
 async function api(payload){
 
-  try{
+  const response =
+  await fetch(
+    API_URL,
+    {
+      method:"POST",
 
-    const response =
-    await fetch(
-      API_URL,
-      {
-        method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
 
-        headers:{
-          "Content-Type":"application/json"
-        },
+      body:
+      JSON.stringify(
+        payload
+      )
+    }
+  );
 
-        body:
-        JSON.stringify(
-          payload
-        )
-      }
+  const data =
+  await response.json();
+
+  if(
+    !response.ok
+  ){
+
+    throw new Error(
+      data.message ||
+      "Request Failed"
     );
 
-    const data =
-    await response.json();
-
-    if(
-      !response.ok
-    ){
-
-      throw new Error(
-        data.message ||
-        "Request Failed"
-      );
-
-    }
-
-    return data;
-
-  }catch(error){
-
-    console.error(error);
-
-    throw error;
-
   }
+
+  return data;
 
 }
 
 /* ===================================
-   CREATE PROFILE
+   PROFILE API
 =================================== */
 
 async function createProfile(
@@ -1735,10 +1737,6 @@ async function createProfile(
 
 }
 
-/* ===================================
-   PROFILE
-=================================== */
-
 async function getProfile(
   username
 ){
@@ -1753,42 +1751,6 @@ async function getProfile(
 
 }
 
-/* ===================================
-   SAVE GAME
-=================================== */
-
-async function saveGame({
-
-  username,
-
-  difficulty,
-
-  won,
-
-  time
-
-}){
-
-  return api({
-
-    action:"save-game",
-
-    username,
-
-    difficulty,
-
-    won,
-
-    time
-
-  });
-
-}
-
-/* ===================================
-   LEADERBOARD
-=================================== */
-
 async function getLeaderboard(){
 
   return api({
@@ -1799,9 +1761,283 @@ async function getLeaderboard(){
 
 }
 
+async function saveGame(
+  won,
+  time
+){
+
+  const username =
+  localStorage.getItem(
+    "sudoku_username"
+  );
+
+  if(
+    !username
+  ){
+    return;
+  }
+
+  return api({
+
+    action:"save-game",
+
+    username,
+
+    difficulty:
+    currentDifficulty,
+
+    won,
+
+    time
+
+  });
+
+}
+
 /* ===================================
-   LOAD PROFILE
+   SCREENS
 =================================== */
+
+function openScreen(
+  screenId
+){
+
+  document
+  .querySelectorAll(
+    ".screen"
+  )
+  .forEach(
+    screen =>
+    screen.classList.remove(
+      "active"
+    )
+  );
+
+  document
+  .getElementById(
+    screenId
+  )
+  .classList.add(
+    "active"
+  );
+
+  document
+  .querySelectorAll(
+    ".nav-btn"
+  )
+  .forEach(
+    btn =>
+    btn.classList.remove(
+      "active"
+    )
+  );
+
+  const activeBtn =
+  document.querySelector(
+    `[data-screen="${screenId}"]`
+  );
+
+  if(
+    activeBtn
+  ){
+
+    activeBtn
+    .classList
+    .add(
+      "active"
+    );
+
+  }
+
+}
+
+/* ===================================
+   THEME
+=================================== */
+
+function loadTheme(){
+
+  const savedTheme =
+  localStorage.getItem(
+    "sudoku_theme"
+  );
+
+  if(
+    savedTheme === "dark"
+  ){
+
+    document.body
+    .classList.add(
+      "dark"
+    );
+
+  }
+
+}
+
+function toggleTheme(){
+
+  document.body
+  .classList.toggle(
+    "dark"
+  );
+
+  localStorage.setItem(
+
+    "sudoku_theme",
+
+    document.body
+    .classList.contains(
+      "dark"
+    )
+    ? "dark"
+    : "light"
+
+  );
+
+}
+
+/* ===================================
+   AVATAR GRID
+=================================== */
+
+function buildAvatarGrid(){
+
+  const avatars = [
+
+    "😀","😎","🤖","🔥",
+
+    "🚀","👑","🎯","⚡",
+
+    "🧠","🐱","🐼","🦁"
+
+  ];
+
+  const container =
+  document.getElementById(
+    "avatarGrid"
+  );
+
+  container.innerHTML = "";
+
+  avatars.forEach(
+    avatar => {
+
+      const btn =
+      document.createElement(
+        "button"
+      );
+
+      btn.type =
+      "button";
+
+      btn.textContent =
+      avatar;
+
+      btn.style.height =
+      "58px";
+
+      btn.style.fontSize =
+      "26px";
+
+      btn.style.borderRadius =
+      "14px";
+
+      btn.style.background =
+      "var(--surface)";
+
+      btn.style.border =
+      "1px solid var(--border)";
+
+      btn.onclick =
+      () => {
+
+        selectedAvatar =
+        avatar;
+
+        document
+        .querySelectorAll(
+          "#avatarGrid button"
+        )
+        .forEach(
+          button =>
+          button.style.border =
+          "1px solid var(--border)"
+        );
+
+        btn.style.border =
+        "2px solid var(--primary)";
+
+      };
+
+      container.appendChild(
+        btn
+      );
+
+    }
+  );
+
+}
+
+/* ===================================
+   PROFILE
+=================================== */
+
+async function saveProfileSetup(){
+
+  const username =
+  document
+  .getElementById(
+    "usernameInput"
+  )
+  .value
+  .trim();
+
+  if(
+    username.length < 3
+  ){
+
+    alert(
+      "Username must be at least 3 characters"
+    );
+
+    return;
+
+  }
+
+  try{
+
+    await createProfile(
+      username,
+      selectedAvatar
+    );
+
+    localStorage.setItem(
+      "sudoku_username",
+      username
+    );
+
+    document
+    .getElementById(
+      "profileModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+    await loadProfile();
+
+    await loadLeaderboard();
+
+  }catch(error){
+
+    alert(
+      error.message
+    );
+
+  }
+
+}
 
 async function loadProfile(){
 
@@ -1823,44 +2059,92 @@ async function loadProfile(){
       username
     );
 
-    const profile =
+    currentUser =
     result.profile;
 
     document.getElementById(
       "profileUsername"
     ).textContent =
-    profile.username;
+    currentUser.username;
 
     document.getElementById(
       "profileAvatar"
     ).textContent =
-    profile.avatar;
+    currentUser.avatar;
 
     document.getElementById(
       "profileXP"
     ).textContent =
-    profile.xp;
+    currentUser.xp;
 
     document.getElementById(
       "profileWins"
     ).textContent =
-    profile.wins;
+    currentUser.wins;
 
     document.getElementById(
       "profileGames"
     ).textContent =
-    profile.games_played;
+    currentUser.games_played;
+
+    document.getElementById(
+      "profileBest"
+    ).textContent =
+    currentUser.best_time ??
+    "--";
 
     document.getElementById(
       "profileLevel"
     ).textContent =
-    `Level ${profile.level}`;
+    `Level ${currentUser.level}`;
+
+    document.getElementById(
+      "homeLevel"
+    ).textContent =
+    currentUser.level;
+
+    updateXPBar();
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
   }
+
+}
+
+function updateXPBar(){
+
+  if(
+    !currentUser
+  ){
+    return;
+  }
+
+  const levelXP =
+  currentUser.level * 100;
+
+  const progress =
+  currentUser.xp %
+  levelXP;
+
+  const percent =
+  Math.min(
+    100,
+    (progress / levelXP) * 100
+  );
+
+  document.getElementById(
+    "xpFill"
+  ).style.width =
+  `${percent}%`;
+
+  document.getElementById(
+    "xpText"
+  ).textContent =
+  `${currentUser.xp} XP`;
 
 }
 
@@ -1904,22 +2188,16 @@ async function loadLeaderboard(){
             align-items:center;
             ">
 
-              <span>
-              #${index + 1}
-              </span>
+              <span>#${index + 1}</span>
 
-              <span>
-              ${player.avatar}
-              </span>
+              <span>${player.avatar}</span>
 
-              <span>
-              ${player.username}
-              </span>
+              <span>${player.username}</span>
 
             </div>
 
             <span>
-            ${player.xp} XP
+              ${player.xp} XP
             </span>
 
           </div>
@@ -1933,59 +2211,856 @@ async function loadLeaderboard(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
+  }
+
+}
+     /* ===================================
+   SUDOKU STATE
+=================================== */
+
+let puzzle = [];
+
+let solution = [];
+
+let selectedCell = null;
+
+let notesMode = false;
+
+/* ===================================
+   DIFFICULTY SETTINGS
+=================================== */
+
+const DIFFICULTY_CONFIG = {
+
+  easy:{
+    remove4:4,
+    remove9:30
+  },
+
+  moderate:{
+    remove4:6,
+    remove9:42
+  },
+
+  hard:{
+    remove4:8,
+    remove9:55
+  }
+
+};
+
+/* ===================================
+   UTIL
+=================================== */
+
+function shuffle(array){
+
+  const arr =
+  [...array];
+
+  for(
+    let i = arr.length - 1;
+    i > 0;
+    i--
+  ){
+
+    const j =
+    Math.floor(
+      Math.random() *
+      (i + 1)
+    );
+
+    [
+      arr[i],
+      arr[j]
+    ] = [
+      arr[j],
+      arr[i]
+    ];
+
+  }
+
+  return arr;
+
+}
+
+/* ===================================
+   4x4 GENERATOR
+=================================== */
+
+function generate4x4Solution(){
+
+  return [
+
+    [1,2,3,4],
+    [3,4,1,2],
+    [2,1,4,3],
+    [4,3,2,1]
+
+  ];
+
+}
+
+function create4x4Puzzle(){
+
+  solution =
+  generate4x4Solution();
+
+  puzzle =
+  solution.map(
+    row => [...row]
+  );
+
+  const removeCount =
+  DIFFICULTY_CONFIG[
+    currentDifficulty
+  ].remove4;
+
+  let removed = 0;
+
+  while(
+    removed < removeCount
+  ){
+
+    const row =
+    Math.floor(
+      Math.random() * 4
+    );
+
+    const col =
+    Math.floor(
+      Math.random() * 4
+    );
+
+    if(
+      puzzle[row][col] !== 0
+    ){
+
+      puzzle[row][col] = 0;
+
+      removed++;
+
+    }
 
   }
 
 }
 
 /* ===================================
-   PROFILE CREATION
+   9x9 GENERATOR
 =================================== */
 
-async function saveProfileSetup(){
+function generate9x9Solution(){
 
-  const username =
-  document
-  .getElementById(
-    "usernameInput"
-  )
-  .value
-  .trim();
+  const base = [
 
-  if(
-    username.length < 3
+    [1,2,3,4,5,6,7,8,9],
+    [4,5,6,7,8,9,1,2,3],
+    [7,8,9,1,2,3,4,5,6],
+
+    [2,3,4,5,6,7,8,9,1],
+    [5,6,7,8,9,1,2,3,4],
+    [8,9,1,2,3,4,5,6,7],
+
+    [3,4,5,6,7,8,9,1,2],
+    [6,7,8,9,1,2,3,4,5],
+    [9,1,2,3,4,5,6,7,8]
+
+  ];
+
+  const nums =
+  shuffle([
+    1,2,3,4,5,
+    6,7,8,9
+  ]);
+
+  return base.map(
+    row =>
+    row.map(
+      n => nums[n - 1]
+    )
+  );
+
+}
+
+function create9x9Puzzle(){
+
+  solution =
+  generate9x9Solution();
+
+  puzzle =
+  solution.map(
+    row => [...row]
+  );
+
+  const removeCount =
+  DIFFICULTY_CONFIG[
+    currentDifficulty
+  ].remove9;
+
+  let removed = 0;
+
+  while(
+    removed < removeCount
   ){
 
-    alert(
-      "Username too short"
+    const row =
+    Math.floor(
+      Math.random() * 9
     );
+
+    const col =
+    Math.floor(
+      Math.random() * 9
+    );
+
+    if(
+      puzzle[row][col] !== 0
+    ){
+
+      puzzle[row][col] = 0;
+
+      removed++;
+
+    }
+
+  }
+
+}
+
+/* ===================================
+   BOARD
+=================================== */
+
+function renderBoard(){
+
+  const board =
+  document.getElementById(
+    "sudokuBoard"
+  );
+
+  board.innerHTML = "";
+
+  board.className =
+  `sudoku-board grid-${currentBoardSize}`;
+
+  puzzle.forEach(
+    (
+      row,
+      rowIndex
+    ) => {
+
+      row.forEach(
+        (
+          value,
+          colIndex
+        ) => {
+
+          const cell =
+          document.createElement(
+            "div"
+          );
+
+          cell.className =
+          "cell";
+
+          cell.dataset.row =
+          rowIndex;
+
+          cell.dataset.col =
+          colIndex;
+
+          if(
+            value !== 0
+          ){
+
+            cell.textContent =
+            value;
+
+            cell.classList.add(
+              "fixed"
+            );
+
+          }
+
+          cell.addEventListener(
+            "click",
+            () => {
+
+              document
+              .querySelectorAll(
+                ".cell"
+              )
+              .forEach(
+                c =>
+                c.classList.remove(
+                  "selected"
+                )
+              );
+
+              selectedCell = {
+
+                row:rowIndex,
+
+                col:colIndex,
+
+                element:cell
+
+              };
+
+              cell.classList.add(
+                "selected"
+              );
+
+            }
+          );
+
+          board.appendChild(
+            cell
+          );
+
+        }
+      );
+
+    }
+  );
+
+}
+
+/* ===================================
+   NUMBER PAD
+=================================== */
+
+function renderNumberPad(){
+
+  const pad =
+  document.getElementById(
+    "numberPad"
+  );
+
+  pad.innerHTML = "";
+
+  const max =
+  currentBoardSize === 4
+  ? 4
+  : 9;
+
+  for(
+    let number = 1;
+    number <= max;
+    number++
+  ){
+
+    const button =
+    document.createElement(
+      "button"
+    );
+
+    button.className =
+    "num-btn";
+
+    button.textContent =
+    number;
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        placeNumber(
+          number
+        );
+
+      }
+    );
+
+    pad.appendChild(
+      button
+    );
+
+  }
+
+}
+
+/* ===================================
+   START GAME
+=================================== */
+
+function startGame(){
+
+  selectedCell = null;
+
+  if(
+    currentBoardSize === 4
+  ){
+
+    create4x4Puzzle();
+
+  }else{
+
+    create9x9Puzzle();
+
+  }
+
+  renderBoard();
+
+  renderNumberPad();
+
+  openScreen(
+    "playScreen"
+  );
+
+}
+
+/* ===================================
+   HOME EVENTS
+=================================== */
+
+document
+.querySelectorAll(
+  ".board-btn"
+)
+.forEach(
+  btn => {
+
+    btn.addEventListener(
+      "click",
+      () => {
+
+        currentBoardSize =
+        Number(
+          btn.dataset.board
+        );
+
+        startGame();
+
+      }
+    );
+
+  }
+);
+
+document
+.querySelectorAll(
+  ".difficulty-btn"
+)
+.forEach(
+  btn => {
+
+    btn.addEventListener(
+      "click",
+      () => {
+
+        currentDifficulty =
+        btn.dataset.difficulty;
+
+        document
+        .getElementById(
+          "difficultyText"
+        )
+        .textContent =
+        currentDifficulty;
+
+      }
+    );
+
+  }
+);
+
+document
+.getElementById(
+  "newGameBtn"
+)
+?.addEventListener(
+  "click",
+  startGame
+);
+
+document
+.getElementById(
+  "notesBtn"
+)
+?.addEventListener(
+  "click",
+  () => {
+
+    notesMode =
+    !notesMode;
+
+    document
+    .getElementById(
+      "notesBtn"
+    )
+    .classList.toggle(
+      "active"
+    );
+
+  }
+);
+     /* ===================================
+   GAME STATE
+=================================== */
+
+let mistakes = 0;
+
+let hints = 10;
+
+let timerSeconds = 0;
+
+let timerInterval = null;
+
+/* ===================================
+   TIMER
+=================================== */
+
+function startTimer(){
+
+  clearInterval(
+    timerInterval
+  );
+
+  timerSeconds = 0;
+
+  timerInterval =
+  setInterval(
+    () => {
+
+      timerSeconds++;
+
+      const mins =
+      Math.floor(
+        timerSeconds / 60
+      );
+
+      const secs =
+      timerSeconds % 60;
+
+      document
+      .getElementById(
+        "timer"
+      )
+      .textContent =
+      `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+
+    },
+    1000
+  );
+
+}
+
+function resetGameStats(){
+
+  mistakes = 0;
+
+  hints = 10;
+
+  document
+  .getElementById(
+    "mistakeCount"
+  )
+  .textContent =
+  "0 / 20";
+
+  document
+  .getElementById(
+    "hintCount"
+  )
+  .textContent =
+  "10";
+
+}
+
+/* ===================================
+   OVERRIDE START GAME
+=================================== */
+
+const originalStartGame =
+startGame;
+
+startGame =
+function(){
+
+  resetGameStats();
+
+  originalStartGame();
+
+  startTimer();
+
+};
+
+/* ===================================
+   NUMBER PLACEMENT
+=================================== */
+
+function placeNumber(
+  number
+){
+
+  if(
+    !selectedCell
+  ){
+    return;
+  }
+
+  const {
+    row,
+    col,
+    element
+  } =
+  selectedCell;
+
+  if(
+    element.classList.contains(
+      "fixed"
+    )
+  ){
+    return;
+  }
+
+  if(
+    notesMode
+  ){
+
+    element.textContent =
+    element.textContent
+    ? `${element.textContent},${number}`
+    : number;
 
     return;
 
   }
 
-  const avatar =
-  selectedAvatar || "😀";
+  if(
+    solution[row][col] ===
+    number
+  ){
 
-  try{
+    puzzle[row][col] =
+    number;
 
-    await createProfile(
-      username,
-      avatar
+    element.textContent =
+    number;
+
+    element.classList.remove(
+      "wrong"
     );
 
-    localStorage.setItem(
-      "sudoku_username",
-      username
+    element.classList.add(
+      "correct"
     );
+
+    checkWin();
+
+  }else{
+
+    mistakes++;
 
     document
     .getElementById(
-      "profileModal"
+      "mistakeCount"
     )
-    .classList.remove(
-      "show"
+    .textContent =
+    `${mistakes} / 20`;
+
+    element.classList.add(
+      "wrong"
+    );
+
+    setTimeout(
+      () => {
+
+        element.classList.remove(
+          "wrong"
+        );
+
+      },
+      800
+    );
+
+    if(
+      mistakes >= 20
+    ){
+
+      gameOver();
+
+    }
+
+  }
+
+}
+
+/* ===================================
+   HINT
+=================================== */
+
+function useHint(){
+
+  if(
+    hints <= 0
+  ){
+    return;
+  }
+
+  if(
+    !selectedCell
+  ){
+    return;
+  }
+
+  const {
+    row,
+    col,
+    element
+  } =
+  selectedCell;
+
+  if(
+    element.classList.contains(
+      "fixed"
+    )
+  ){
+    return;
+  }
+
+  hints--;
+
+  document
+  .getElementById(
+    "hintCount"
+  )
+  .textContent =
+  hints;
+
+  const answer =
+  solution[row][col];
+
+  puzzle[row][col] =
+  answer;
+
+  element.textContent =
+  answer;
+
+  element.classList.add(
+    "correct"
+  );
+
+  checkWin();
+
+}
+
+/* ===================================
+   ERASE
+=================================== */
+
+function eraseCell(){
+
+  if(
+    !selectedCell
+  ){
+    return;
+  }
+
+  const {
+    row,
+    col,
+    element
+  } =
+  selectedCell;
+
+  if(
+    element.classList.contains(
+      "fixed"
+    )
+  ){
+    return;
+  }
+
+  puzzle[row][col] = 0;
+
+  element.textContent = "";
+
+}
+
+/* ===================================
+   SOLVE
+=================================== */
+
+function solvePuzzle(){
+
+  puzzle =
+  solution.map(
+    row => [...row]
+  );
+
+  renderBoard();
+
+  checkWin();
+
+}
+
+/* ===================================
+   GAME OVER
+=================================== */
+
+function gameOver(){
+
+  clearInterval(
+    timerInterval
+  );
+
+  document
+  .getElementById(
+    "gameOverModal"
+  )
+  .classList.add(
+    "show"
+  );
+
+}
+
+/* ===================================
+   WIN
+=================================== */
+
+async function checkWin(){
+
+  for(
+    let r=0;
+    r<puzzle.length;
+    r++
+  ){
+
+    for(
+      let c=0;
+      c<puzzle[r].length;
+      c++
+    ){
+
+      if(
+        puzzle[r][c] !==
+        solution[r][c]
+      ){
+
+        return;
+
+      }
+
+    }
+
+  }
+
+  clearInterval(
+    timerInterval
+  );
+
+  try{
+
+    await saveGame(
+      true,
+      timerSeconds
     );
 
     await loadProfile();
@@ -1994,26 +3069,164 @@ async function saveProfileSetup(){
 
   }catch(error){
 
-    alert(
-      error.message
+    console.error(
+      error
     );
 
   }
 
+  document
+  .getElementById(
+    "winMessage"
+  )
+  .textContent =
+  `Completed in ${timerSeconds}s`;
+
+  document
+  .getElementById(
+    "winModal"
+  )
+  .classList.add(
+    "show"
+  );
+
 }
 
-window.saveProfileSetup =
-saveProfileSetup;
+/* ===================================
+   TOOL BUTTONS
+=================================== */
 
-window.loadProfile =
-loadProfile;
+document
+.getElementById(
+  "hintBtn"
+)
+?.addEventListener(
+  "click",
+  useHint
+);
 
-window.loadLeaderboard =
-loadLeaderboard;
+document
+.getElementById(
+  "eraseBtn"
+)
+?.addEventListener(
+  "click",
+  eraseCell
+);
 
-window.saveGame =
-saveGame;
+document
+.getElementById(
+  "solveBtn"
+)
+?.addEventListener(
+  "click",
+  solvePuzzle
+);
 
+document
+.getElementById(
+  "checkBtn"
+)
+?.addEventListener(
+  "click",
+  checkWin
+);
+
+/* ===================================
+   PLAY AGAIN
+=================================== */
+
+document
+.getElementById(
+  "playAgainBtn"
+)
+?.addEventListener(
+  "click",
+  () => {
+
+    document
+    .getElementById(
+      "gameOverModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+    startGame();
+
+  }
+);
+
+document
+.getElementById(
+  "nextGameBtn"
+)
+?.addEventListener(
+  "click",
+  () => {
+
+    document
+    .getElementById(
+      "winModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+    startGame();
+
+  }
+);
+
+/* ===================================
+   HOME BUTTONS
+=================================== */
+
+document
+.getElementById(
+  "goHomeBtn"
+)
+?.addEventListener(
+  "click",
+  () => {
+
+    document
+    .getElementById(
+      "gameOverModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+    openScreen(
+      "homeScreen"
+    );
+
+  }
+);
+
+document
+.getElementById(
+  "winHomeBtn"
+)
+?.addEventListener(
+  "click",
+  () => {
+
+    document
+    .getElementById(
+      "winModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+    openScreen(
+      "homeScreen"
+    );
+
+  }
+);
 </script>
 </body>
 </html>
