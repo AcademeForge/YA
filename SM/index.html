@@ -1601,47 +1601,44 @@ function startGame() {
 }
 
 function confirmNewGame() {
-  if (!gameActive) { openScreen("homeScreen"); goStep(1); return; }
-showConfirm({
-  title: "Start New Game",
-  message: "Your current progress will be lost.",
-  icon: "🔄",
-  onConfirm() {
 
+  if (!gameActive) {
     openScreen("homeScreen");
-
-    setupBoard = null;
-    setupDifficulty = null;
-
     goStep(1);
-
-    document
-      .querySelectorAll(".board-card")
-      .forEach(c => c.classList.remove("selected"));
-
-    document
-      .querySelectorAll(".diff-card")
-      .forEach(c => c.classList.remove("selected"));
-
-    document.getElementById("step1Next").disabled = true;
-    document.getElementById("step2Next").disabled = true;
-
-    clearInterval(timerInterval);
-
-    gameActive = false;
+    return;
   }
-});
-    openScreen("homeScreen");
-    // Reset setup flow
-    setupBoard = null; setupDifficulty = null;
-    goStep(1);
-    document.querySelectorAll(".board-card").forEach(c => c.classList.remove("selected"));
-    document.querySelectorAll(".diff-card").forEach(c => c.classList.remove("selected"));
-    document.getElementById("step1Next").disabled = true;
-    document.getElementById("step2Next").disabled = true;
-    clearInterval(timerInterval);
-    gameActive = false;
-  }
+
+  showConfirm({
+    title: "Start New Game",
+    message: "Your current progress will be lost.",
+    icon: "🔄",
+
+    onConfirm() {
+
+      openScreen("homeScreen");
+
+      setupBoard = null;
+      setupDifficulty = null;
+
+      goStep(1);
+
+      document
+        .querySelectorAll(".board-card")
+        .forEach(c => c.classList.remove("selected"));
+
+      document
+        .querySelectorAll(".diff-card")
+        .forEach(c => c.classList.remove("selected"));
+
+      document.getElementById("step1Next").disabled = true;
+      document.getElementById("step2Next").disabled = true;
+
+      clearInterval(timerInterval);
+
+      gameActive = false;
+    }
+  });
+
 }
 
 /* ===================================
@@ -1846,19 +1843,35 @@ function eraseCell() {
 }
 
 function solvePuzzle() {
- showConfirm({
-  title: "Reveal Solution",
-  message: "This will instantly complete the puzzle and end the current game.",
-  icon: "🎯",
-  onConfirm() {
-  }
-});
-  clearInterval(timerInterval);
-  gameActive = false;
-  puzzle = solution.map(r => [...r]);
-  renderBoard();
-  document.querySelectorAll(".cell").forEach(c => c.classList.add("correct"));
-  toast("Solution revealed", "Better luck next time!", "info");
+
+  showConfirm({
+    title: "Reveal Solution",
+    message: "This will instantly complete the puzzle and end the current game.",
+    icon: "🎯",
+
+    onConfirm() {
+
+      clearInterval(timerInterval);
+
+      gameActive = false;
+
+      puzzle = solution.map(r => [...r]);
+
+      renderBoard();
+
+      document
+        .querySelectorAll(".cell")
+        .forEach(c => c.classList.add("correct"));
+
+      toast(
+        "Solution revealed",
+        "Better luck next time!",
+        "info"
+      );
+
+    }
+  });
+
 }
 
 function checkBoard() {
