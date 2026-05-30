@@ -1664,6 +1664,500 @@ navButtons.forEach(btn => {
 
 });
 
+  /* ==========================
+   SUDOKU ENGINE
+========================== */
+
+let board = [];
+let solution = [];
+
+let selectedCell = null;
+
+let notesMode = false;
+
+let hintsRemaining = 3;
+
+const boardElement =
+document.getElementById(
+"sudokuBoard"
+);
+
+/* ==========================
+   SHUFFLE
+========================== */
+
+function shuffle(array){
+
+for(
+let i = array.length - 1;
+i > 0;
+i--
+){
+
+const j =
+Math.floor(
+Math.random() * (i + 1)
+);
+
+[array[i],array[j]] =
+[array[j],array[i]];
+
+}
+
+return array;
+
+}
+
+/* ==========================
+   VALIDATION
+========================== */
+
+function isValid(
+grid,
+row,
+col,
+num
+){
+
+for(
+let x=0;
+x<9;
+x++
+){
+
+if(
+grid[row][x] === num
+){
+return false;
+}
+
+}
+
+for(
+let x=0;
+x<9;
+x++
+){
+
+if(
+grid[x][col] === num
+){
+return false;
+}
+
+}
+
+const startRow =
+row - row % 3;
+
+const startCol =
+col - col % 3;
+
+for(
+let r=0;
+r<3;
+r++
+){
+
+for(
+let c=0;
+c<3;
+c++
+){
+
+if(
+grid[
+startRow + r
+][
+startCol + c
+] === num
+){
+return false;
+}
+
+}
+
+}
+
+return true;
+
+}
+
+/* ==========================
+   SOLVER
+========================== */
+
+function solve(grid){
+
+for(
+let row=0;
+row<9;
+row++
+){
+
+for(
+let col=0;
+col<9;
+col++
+){
+
+if(
+grid[row][col] === 0
+){
+
+const nums =
+shuffle(
+[1,2,3,4,5,6,7,8,9]
+);
+
+for(
+const num of nums
+){
+
+if(
+isValid(
+grid,
+row,
+col,
+num
+)
+){
+
+grid[row][col] =
+num;
+
+if(
+solve(grid)
+){
+return true;
+}
+
+grid[row][col] =
+0;
+
+}
+
+}
+
+return false;
+
+}
+
+}
+
+}
+
+return true;
+
+}
+
+/* ==========================
+   GENERATE SOLUTION
+========================== */
+
+function createSolution(){
+
+const grid = [];
+
+for(
+let i=0;
+i<9;
+i++
+){
+
+grid.push(
+[
+0,0,0,
+0,0,0,
+0,0,0
+]
+);
+
+}
+
+solve(grid);
+
+return grid;
+
+}
+
+/* ==========================
+   COPY GRID
+========================== */
+
+function cloneGrid(grid){
+
+return JSON.parse(
+JSON.stringify(grid)
+);
+
+}
+
+/* ==========================
+   CREATE PUZZLE
+========================== */
+
+function createPuzzle(
+difficulty
+){
+
+const solved =
+createSolution();
+
+solution =
+cloneGrid(
+solved
+);
+
+board =
+cloneGrid(
+solved
+);
+
+let removeCount = 40;
+
+if(
+difficulty === "easy"
+){
+removeCount = 40;
+}
+
+if(
+difficulty === "moderate"
+){
+removeCount = 50;
+}
+
+if(
+difficulty === "hard"
+){
+removeCount = 60;
+}
+
+while(
+removeCount > 0
+){
+
+const row =
+Math.floor(
+Math.random() * 9
+);
+
+const col =
+Math.floor(
+Math.random() * 9
+);
+
+if(
+board[row][col] !== 0
+){
+
+board[row][col] =
+0;
+
+removeCount--;
+
+}
+
+}
+
+renderBoard();
+
+}
+
+/* ==========================
+   RENDER BOARD
+========================== */
+
+function renderBoard(){
+
+boardElement.innerHTML = "";
+
+for(
+let row=0;
+row<9;
+row++
+){
+
+for(
+let col=0;
+col<9;
+col++
+){
+
+const cell =
+document.createElement(
+"div"
+);
+
+cell.className =
+"cell";
+
+cell.dataset.row =
+row;
+
+cell.dataset.col =
+col;
+
+const value =
+board[row][col];
+
+if(
+value !== 0
+){
+
+cell.textContent =
+value;
+
+cell.classList.add(
+"fixed"
+);
+
+}else{
+
+cell.textContent = "";
+
+}
+
+cell.addEventListener(
+"click",
+() => {
+
+document
+.querySelectorAll(
+".cell"
+)
+.forEach(
+c =>
+c.classList.remove(
+"selected"
+)
+);
+
+cell.classList.add(
+"selected"
+);
+
+selectedCell =
+cell;
+
+}
+);
+
+boardElement.appendChild(
+cell
+);
+
+}
+
+}
+
+}
+
+/* ==========================
+   NUMBER INPUT
+========================== */
+
+document
+.querySelectorAll(
+".num-btn"
+)
+.forEach(
+button => {
+
+button.addEventListener(
+"click",
+() => {
+
+if(
+!selectedCell
+){
+return;
+}
+
+const row =
+parseInt(
+selectedCell.dataset.row
+);
+
+const col =
+parseInt(
+selectedCell.dataset.col
+);
+
+if(
+selectedCell.classList.contains(
+"fixed"
+)
+){
+return;
+}
+
+const value =
+parseInt(
+button.dataset.number
+);
+
+board[row][col] =
+value;
+
+selectedCell.textContent =
+value;
+
+selectedCell.classList.add(
+"user"
+);
+
+}
+);
+
+}
+);
+
+/* ==========================
+   DIFFICULTY START
+========================== */
+
+function startSudokuGame(){
+
+const difficulty =
+localStorage.getItem(
+"selectedDifficulty"
+) || "easy";
+
+document.getElementById(
+"difficultyLabel"
+).textContent =
+difficulty.charAt(0)
+.toUpperCase() +
+difficulty.slice(1);
+
+hintsRemaining = 3;
+
+document.getElementById(
+"hintCount"
+).textContent =
+hintsRemaining;
+
+createPuzzle(
+difficulty
+);
+
+}
+
+/* ==========================
+   NEW GAME BUTTON
+========================== */
+
+document
+.getElementById(
+"newGameBtn"
+)
+.addEventListener(
+"click",
+startSudokuGame
+);
+  
 /* ==========================
    THEME SYSTEM
 ========================== */
@@ -1793,9 +2287,7 @@ playButtons.forEach(
           "active"
         );
 
-        alert(
-          `${mode.toUpperCase()} selected.\n\nSudoku board will be added in Part 2.`
-        );
+        startSudokuGame();
 
       }
     );
