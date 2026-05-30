@@ -840,10 +840,210 @@ height:52px;
 }
 
 }
+  .setup-modal{
+position:fixed;
+inset:0;
+z-index:5000;
+
+display:none;
+align-items:center;
+justify-content:center;
+
+padding:20px;
+
+background:
+rgba(0,0,0,.7);
+
+backdrop-filter:blur(10px);
+}
+
+.setup-box{
+width:100%;
+max-width:420px;
+
+padding:24px;
+
+border-radius:28px;
+
+background:
+var(--surface);
+
+border:
+1px solid var(--line);
+}
+
+.setup-box h2{
+font-size:1.4rem;
+font-weight:900;
+}
+
+.setup-box p{
+margin-top:10px;
+color:var(--muted);
+}
+
+.setup-input{
+width:100%;
+height:56px;
+
+margin-top:20px;
+
+padding:0 16px;
+
+border-radius:16px;
+
+color:var(--heading);
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid var(--line);
+
+outline:none;
+}
+
+.avatar-grid{
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:12px;
+
+margin-top:20px;
+}
+
+.avatar-option{
+height:64px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:1.8rem;
+
+border-radius:18px;
+
+cursor:pointer;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid var(--line);
+}
+
+.active-avatar{
+border-color:var(--orange);
+
+background:
+rgba(249,115,22,.15);
+}
+
+.setup-btn{
+width:100%;
+height:54px;
+
+margin-top:20px;
+
+border-radius:16px;
+
+color:white;
+
+font-weight:800;
+
+background:
+linear-gradient(
+135deg,
+var(--orange),
+var(--orange-dark)
+);
+}
+
+  .achievement-card{
+padding:18px;
+margin-bottom:14px;
+}
+
+.achievement-top{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.achievement-icon{
+width:54px;
+height:54px;
+
+border-radius:16px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:1.5rem;
+
+background:
+rgba(249,115,22,.15);
+}
+
+.achievement-title{
+font-weight:900;
+}
+
+.achievement-desc{
+margin-top:4px;
+
+font-size:.82rem;
+
+color:var(--muted);
+}
+
+.locked{
+opacity:.45;
+filter:grayscale(1);
+}
+
+.daily-card{
+padding:20px;
+margin-bottom:18px;
+}
+
+.daily-title{
+font-size:1rem;
+font-weight:900;
+}
+
+.daily-desc{
+margin-top:10px;
+line-height:1.7;
+color:var(--muted);
+}
+
+.daily-reward{
+margin-top:14px;
+
+display:inline-flex;
+
+padding:8px 12px;
+
+border-radius:999px;
+
+font-size:.8rem;
+font-weight:800;
+
+background:
+rgba(249,115,22,.15);
+
+color:var(--orange);
+}
+
   
 </style>
 </head>
 <body>
+  
 <div class="app">
 
 <header class="header">
@@ -867,6 +1067,47 @@ height:52px;
 
 <main class="main">
 
+  <!-- USER SETUP MODAL -->
+
+<div
+id="setupModal"
+class="setup-modal">
+
+<div class="setup-box">
+
+<h2>Welcome To Sudoku Master</h2>
+
+<p>
+Create your player profile.
+</p>
+
+<input
+id="usernameInput"
+class="setup-input"
+type="text"
+maxlength="20"
+placeholder="Enter username">
+
+<div class="avatar-grid">
+
+<div class="avatar-option active-avatar">😀</div>
+<div class="avatar-option">😎</div>
+<div class="avatar-option">🧠</div>
+<div class="avatar-option">🔥</div>
+<div class="avatar-option">⚡</div>
+<div class="avatar-option">🏆</div>
+
+</div>
+
+<button
+id="saveProfileBtn"
+class="setup-btn">
+Start Playing
+</button>
+
+</div>
+
+</div>
   <!-- HOME -->
 
   <section
@@ -1007,7 +1248,28 @@ height:52px;
         </button>
 
       </div>
+      
+<h3 class="section-title">
+Daily Challenge
+</h3>
 
+<div class="card daily-card">
+
+<div class="daily-title">
+Daily Sudoku Challenge
+</div>
+
+<div class="daily-desc">
+Complete today's puzzle with
+less than 3 mistakes.
+</div>
+
+<div class="daily-reward">
+Reward +300 XP
+</div>
+
+</div>
+      
       <div class="card mode-card hard">
 
         <div class="mode-title">
@@ -1307,7 +1569,15 @@ Check Board
       </div>
 
     </div>
+    
+<h3 class="section-title">
+Achievements
+</h3>
 
+<div id="achievementContainer">
+
+</div>
+    
   </section>
 
   <!-- LEADERBOARD -->
@@ -1553,6 +1823,286 @@ function loadProfileUI() {
   updateXPBar();
 }
 
+  /* ==========================
+   PROFILE CREATION
+========================== */
+
+let selectedAvatar = "😀";
+
+const modal =
+document.getElementById(
+"setupModal"
+);
+
+const avatarOptions =
+document.querySelectorAll(
+".avatar-option"
+);
+
+avatarOptions.forEach(
+avatar => {
+
+avatar.addEventListener(
+"click",
+() => {
+
+avatarOptions.forEach(
+a =>
+a.classList.remove(
+"active-avatar"
+)
+);
+
+avatar.classList.add(
+"active-avatar"
+);
+
+selectedAvatar =
+avatar.textContent;
+
+}
+);
+
+}
+);
+
+function checkProfileSetup(){
+
+if(
+!profile.username ||
+profile.username === "Devraj"
+){
+
+modal.style.display =
+"flex";
+
+}
+
+}
+
+document
+.getElementById(
+"saveProfileBtn"
+)
+.addEventListener(
+"click",
+() => {
+
+const username =
+document
+.getElementById(
+"usernameInput"
+)
+.value
+.trim();
+
+if(
+username.length < 3
+){
+alert(
+"Username must be at least 3 characters."
+);
+return;
+}
+
+profile.username =
+username;
+
+profile.avatar =
+selectedAvatar;
+
+saveProfile();
+
+loadProfileUI();
+
+document.querySelector(
+".avatar"
+).textContent =
+selectedAvatar;
+
+modal.style.display =
+"none";
+
+}
+);
+
+checkProfileSetup();
+
+  /* ==========================
+   ACHIEVEMENTS
+========================== */
+
+const achievements = [
+
+{
+id:"first_win",
+icon:"🏆",
+title:"First Victory",
+desc:"Win your first Sudoku.",
+check:() => profile.wins >= 1
+},
+
+{
+id:"ten_wins",
+icon:"🔥",
+title:"Sudoku Warrior",
+desc:"Win 10 Sudoku games.",
+check:() => profile.wins >= 10
+},
+
+{
+id:"fifty_wins",
+icon:"⚡",
+title:"Puzzle Master",
+desc:"Win 50 Sudoku games.",
+check:() => profile.wins >= 50
+},
+
+{
+id:"level_5",
+icon:"⭐",
+title:"Level 5",
+desc:"Reach level 5.",
+check:() => profile.level >= 5
+},
+
+{
+id:"level_10",
+icon:"👑",
+title:"Level 10",
+desc:"Reach level 10.",
+check:() => profile.level >= 10
+},
+
+{
+id:"streak_7",
+icon:"📅",
+title:"Weekly Streak",
+desc:"Maintain 7 streak.",
+check:() => profile.streak >= 7
+}
+
+];
+
+  function renderAchievements(){
+
+const container =
+document.getElementById(
+"achievementContainer"
+);
+
+if(!container){
+return;
+}
+
+container.innerHTML = "";
+
+achievements.forEach(
+achievement => {
+
+const unlocked =
+achievement.check();
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+`card achievement-card ${
+unlocked ? "" : "locked"
+}`;
+
+card.innerHTML = `
+<div class="achievement-top">
+
+<div class="achievement-icon">
+${achievement.icon}
+</div>
+
+<div>
+
+<div class="achievement-title">
+${achievement.title}
+</div>
+
+<div class="achievement-desc">
+${achievement.desc}
+</div>
+
+</div>
+
+</div>
+`;
+
+container.appendChild(
+card
+);
+
+}
+);
+
+}
+
+  renderAchievements();
+
+  function completeDailyChallenge(){
+
+const today =
+new Date()
+.toDateString();
+
+const lastDaily =
+localStorage.getItem(
+"dailyChallengeDate"
+);
+
+if(
+lastDaily === today
+){
+return false;
+}
+
+profile.xp += 300;
+
+localStorage.setItem(
+"dailyChallengeDate",
+today
+);
+
+saveProfile();
+
+loadProfileUI();
+
+alert(
+"Daily Challenge Complete! +300 XP"
+);
+
+return true;
+
+}
+
+  const today =
+new Date()
+.toDateString();
+
+const lastPlayed =
+localStorage.getItem(
+"lastPlayedDate"
+);
+
+if(
+lastPlayed !== today
+){
+
+profile.streak++;
+
+localStorage.setItem(
+"lastPlayedDate",
+today
+);
+
+}
 /* ==========================
    XP SYSTEM
 ========================== */
