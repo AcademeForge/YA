@@ -644,6 +644,203 @@ button{
 
   --line:rgba(15,23,42,.1);
 }
+
+  .sudoku-toolbar{
+display:grid;
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+margin-top:20px;
+margin-bottom:20px;
+}
+
+.tool-btn{
+height:48px;
+
+border-radius:14px;
+
+color:var(--heading);
+
+font-weight:800;
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid var(--line);
+}
+
+.active-tool{
+background:
+linear-gradient(
+135deg,
+var(--orange),
+var(--orange-dark)
+);
+
+color:white;
+}
+
+.sudoku-card{
+padding:14px;
+}
+
+.sudoku-board{
+display:grid;
+
+grid-template-columns:
+repeat(9,1fr);
+
+aspect-ratio:1;
+}
+
+.cell{
+position:relative;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:1.2rem;
+font-weight:800;
+
+border:
+1px solid rgba(255,255,255,.08);
+
+background:
+rgba(255,255,255,.03);
+
+cursor:pointer;
+
+user-select:none;
+}
+
+.cell.fixed{
+font-weight:900;
+color:var(--heading);
+}
+
+.cell.selected{
+background:
+rgba(249,115,22,.18);
+}
+
+.cell.user{
+color:var(--orange);
+}
+
+.cell:nth-child(3n){
+border-right:
+2px solid rgba(255,255,255,.25);
+}
+
+.number-pad{
+display:grid;
+
+grid-template-columns:
+repeat(5,1fr);
+
+gap:10px;
+
+margin-top:20px;
+}
+
+.num-btn{
+height:58px;
+
+border-radius:18px;
+
+font-size:1.1rem;
+font-weight:900;
+
+color:var(--heading);
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid var(--line);
+}
+
+.num-btn:hover{
+transform:translateY(-1px);
+}
+
+.game-actions{
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:12px;
+
+margin-top:20px;
+}
+
+.action-btn{
+height:56px;
+
+border-radius:18px;
+
+font-weight:800;
+}
+
+.primary-btn{
+color:white;
+
+background:
+linear-gradient(
+135deg,
+var(--orange),
+var(--orange-dark)
+);
+}
+
+.secondary-btn{
+color:var(--heading);
+
+background:
+rgba(255,255,255,.06);
+
+border:
+1px solid var(--line);
+}
+
+.notes-grid{
+position:absolute;
+inset:2px;
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+font-size:.55rem;
+}
+
+.note{
+display:flex;
+align-items:center;
+justify-content:center;
+
+color:
+rgba(255,255,255,.65);
+}
+
+@media(max-width:420px){
+
+.cell{
+font-size:1rem;
+}
+
+.num-btn{
+height:52px;
+}
+
+}
+  
 </style>
 </head>
 <body>
@@ -836,61 +1033,199 @@ button{
 
   <!-- PLAY SCREEN -->
 
-  <section
-    class="screen"
-    id="playScreen">
+<section
+class="screen"
+id="playScreen">
 
-    <div class="card hero">
+<div class="card hero">
 
-      <div class="level-badge">
-        Sudoku Game
-      </div>
+<div class="level-badge">
+SUDOKU MATCH
+</div>
 
-      <h2>
-        Ready To Play
-      </h2>
+<h2>
+Brain Challenge
+</h2>
 
-      <p>
-        Sudoku board and puzzle engine
-        will be added in Part 2.
-      </p>
+<p>
+Fill every row, column and box
+with numbers 1-9.
+</p>
 
-    </div>
+</div>
 
-    <h3 class="section-title">
-      Game Information
-    </h3>
+<h3 class="section-title">
+Game Status
+</h3>
 
-    <div class="stats-grid">
+<div class="stats-grid">
 
-      <div class="card stat-card">
-        <div
-          class="stat-number"
-          id="timer">
-          00:00
-        </div>
+<div class="card stat-card">
+<div
+class="stat-number"
+id="timer">
+00:00
+</div>
 
-        <div class="stat-label">
-          Timer
-        </div>
-      </div>
+<div class="stat-label">
+Timer
+</div>
+</div>
 
-      <div class="card stat-card">
-        <div
-          class="stat-number"
-          id="mistakes">
-          0
-        </div>
+<div class="card stat-card">
+<div
+class="stat-number"
+id="mistakes">
+0/3
+</div>
 
-        <div class="stat-label">
-          Mistakes
-        </div>
-      </div>
+<div class="stat-label">
+Mistakes
+</div>
+</div>
 
-    </div>
+<div class="card stat-card">
+<div
+class="stat-number"
+id="difficultyLabel">
+Easy
+</div>
 
-  </section>
+<div class="stat-label">
+Difficulty
+</div>
+</div>
 
+<div class="card stat-card">
+<div
+class="stat-number"
+id="hintCount">
+3
+</div>
+
+<div class="stat-label">
+Hints
+</div>
+</div>
+
+</div>
+
+<div class="sudoku-toolbar">
+
+<button
+class="tool-btn active-tool"
+id="normalModeBtn">
+Number
+</button>
+
+<button
+class="tool-btn"
+id="notesModeBtn">
+Notes
+</button>
+
+<button
+class="tool-btn"
+id="eraseBtn">
+Erase
+</button>
+
+<button
+class="tool-btn"
+id="hintBtn">
+Hint
+</button>
+
+</div>
+
+<div
+class="card sudoku-card">
+
+<div
+class="sudoku-board"
+id="sudokuBoard">
+
+</div>
+
+</div>
+
+<div
+class="number-pad">
+
+<button
+class="num-btn"
+data-number="1">
+1
+</button>
+
+<button
+class="num-btn"
+data-number="2">
+2
+</button>
+
+<button
+class="num-btn"
+data-number="3">
+3
+</button>
+
+<button
+class="num-btn"
+data-number="4">
+4
+</button>
+
+<button
+class="num-btn"
+data-number="5">
+5
+</button>
+
+<button
+class="num-btn"
+data-number="6">
+6
+</button>
+
+<button
+class="num-btn"
+data-number="7">
+7
+</button>
+
+<button
+class="num-btn"
+data-number="8">
+8
+</button>
+
+<button
+class="num-btn"
+data-number="9">
+9
+</button>
+
+</div>
+
+<div
+class="game-actions">
+
+<button
+class="action-btn secondary-btn"
+id="newGameBtn">
+New Game
+</button>
+
+<button
+class="action-btn primary-btn"
+id="submitBoardBtn">
+Check Board
+</button>
+
+</div>
+
+</section>
   <!-- PROFILE -->
 
   <section
