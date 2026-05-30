@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sudoku Master</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#07111f;
+  --bg-soft:#101827;
+  --surface:rgba(14,23,38,.82);
+  --surface-strong:rgba(15,23,42,.96);
+
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --heading:#ffffff;
+
+  --orange:#f97316;
+  --orange-dark:#ea580c;
+
+  --green:#22c55e;
+  --red:#ef4444;
+  --blue:#3b82f6;
+
+  --line:rgba(255,255,255,.08);
+
+  --shadow:
+  0 24px 80px rgba(0,0,0,.42);
+
+  --radius:28px;
+
+  --nav-height:82px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+
+  font-family:
+  Inter,
+  system-ui,
+  sans-serif;
+
+  color:var(--text);
+
+  background:
+  radial-gradient(
+    circle at 8% 4%,
+    rgba(249,115,22,.18),
+    transparent 24rem
+  ),
+
+  radial-gradient(
+    circle at 86% 12%,
+    rgba(59,130,246,.16),
+    transparent 24rem
+  ),
+
+  linear-gradient(
+    145deg,
+    var(--bg),
+    var(--bg-soft)
+  );
+}
+
+body::before{
+  content:"";
+
+  position:fixed;
+  inset:0;
+  z-index:-1;
+
+  background-image:
+  linear-gradient(
+    rgba(255,255,255,.03) 1px,
+    transparent 1px
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255,255,255,.03) 1px,
+    transparent 1px
+  );
+
+  background-size:52px 52px;
+
+  mask-image:
+  linear-gradient(
+    180deg,
+    #000,
+    transparent 84%
+  );
+}
+
+button,
+input,
+textarea{
+  font:inherit;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+}
+
+.app{
+  width:min(100%,540px);
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:110px;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+
+  backdrop-filter:blur(20px);
+
+  background:
+  rgba(7,17,31,.72);
+
+  border-bottom:
+  1px solid var(--line);
+}
+
+.header-inner{
+  min-height:74px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:16px;
+
+  font-weight:900;
+  font-size:18px;
+
+  color:#111827;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--orange),
+    #fb923c
+  );
+
+  box-shadow:
+  0 12px 28px
+  rgba(249,115,22,.3);
+}
+
+.brand h1{
+  font-size:1rem;
+  font-weight:900;
+}
+
+.brand span{
+  display:block;
+
+  margin-top:2px;
+
+  color:var(--muted);
+
+  font-size:.72rem;
+}
+
+.theme-btn{
+  width:46px;
+  height:46px;
+
+  border-radius:16px;
+
+  color:white;
+
+  background:
+  rgba(255,255,255,.06);
+
+  border:
+  1px solid var(--line);
+}
+
+.main{
+  padding:18px;
+}
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+.card{
+  background:
+  var(--surface);
+
+  border:
+  1px solid var(--line);
+
+  border-radius:28px;
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:
+  var(--shadow);
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+
+  padding:24px;
+}
+
+.hero::before{
+  content:"";
+
+  position:absolute;
+
+  top:-140px;
+  right:-140px;
+
+  width:280px;
+  height:280px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(249,115,22,.24),
+    transparent 70%
+  );
+}
+
+.level-badge{
+  display:inline-flex;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  background:
+  rgba(249,115,22,.12);
+
+  color:var(--orange);
+
+  font-size:.72rem;
+  font-weight:900;
+
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.hero h2{
+  margin-top:14px;
+
+  font-size:2rem;
+  line-height:1.1;
+
+  font-weight:900;
+}
+
+.hero p{
+  margin-top:10px;
+
+  color:var(--muted);
+
+  line-height:1.7;
+}
+
+.xp-wrap{
+  margin-top:22px;
+}
+
+.xp-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:10px;
+}
+
+.xp-top span{
+  font-size:.9rem;
+  font-weight:800;
+}
+
+.xp-bar{
+  height:14px;
+
+  overflow:hidden;
+
+  border-radius:999px;
+
+  background:
+  rgba(255,255,255,.08);
+}
+
+.xp-fill{
+  width:35%;
+  height:100%;
+
+  border-radius:999px;
+
+  background:
+  linear-gradient(
+    90deg,
+    var(--orange),
+    #fb923c
+  );
+}
+
+.section-title{
+  margin-top:24px;
+  margin-bottom:14px;
+
+  font-size:1rem;
+  font-weight:900;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:
+  repeat(2,1fr);
+
+  gap:14px;
+}
+
+.stat-card{
+  padding:18px;
+}
+
+.stat-number{
+  font-size:1.5rem;
+  font-weight:900;
+}
+
+.stat-label{
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:.82rem;
+}
+
+.mode-grid{
+  display:grid;
+  gap:14px;
+}
+
+.mode-card{
+  padding:18px;
+}
+
+.mode-card.easy{
+  border-left:
+  4px solid var(--green);
+}
+
+.mode-card.medium{
+  border-left:
+  4px solid var(--blue);
+}
+
+.mode-card.hard{
+  border-left:
+  4px solid var(--red);
+}
+
+.mode-title{
+  font-size:1rem;
+  font-weight:900;
+}
+
+.mode-desc{
+  margin-top:8px;
+
+  color:var(--muted);
+
+  line-height:1.6;
+
+  font-size:.88rem;
+}
+
+.play-btn{
+  width:100%;
+  height:50px;
+
+  margin-top:14px;
+
+  border-radius:16px;
+
+  color:white;
+  font-weight:800;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--orange),
+    var(--orange-dark)
+  );
+}
+
+.profile-card{
+  padding:24px;
+  text-align:center;
+}
+
+.avatar{
+  width:90px;
+  height:90px;
+
+  margin:auto;
+
+  border-radius:50%;
+
+  display:grid;
+  place-items:center;
+
+  font-size:2rem;
+  font-weight:900;
+
+  color:#111827;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--orange),
+    #fb923c
+  );
+}
+
+.username{
+  margin-top:16px;
+
+  font-size:1.2rem;
+  font-weight:900;
+}
+
+.user-level{
+  margin-top:4px;
+
+  color:var(--muted);
+}
+
+.bottom-nav{
+  position:fixed;
+
+  left:50%;
+  bottom:0;
+
+  transform:
+  translateX(-50%);
+
+  width:min(100%,540px);
+
+  height:var(--nav-height);
+
+  display:grid;
+  grid-template-columns:
+  repeat(5,1fr);
+
+  backdrop-filter:blur(20px);
+
+  background:
+  rgba(7,17,31,.92);
+
+  border-top:
+  1px solid var(--line);
+
+  z-index:999;
+}
+
+.nav-btn{
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:5px;
+
+  background:none;
+
+  color:var(--muted);
+}
+
+.nav-btn.active{
+  color:var(--orange);
+}
+
+.nav-icon{
+  font-size:1.2rem;
+}
+
+.nav-text{
+  font-size:.72rem;
+  font-weight:800;
+}
+
+.list-card{
+  padding:16px;
+}
+
+.rank{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:14px 0;
+
+  border-bottom:
+  1px solid var(--line);
+}
+
+.rank:last-child{
+  border-bottom:none;
+}
+
+.rank-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.rank-pos{
+  width:36px;
+  height:36px;
+
+  border-radius:12px;
+
+  display:grid;
+  place-items:center;
+
+  font-weight:900;
+
+  background:
+  rgba(255,255,255,.06);
+}
+
+.setting-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px;
+}
+
+.setting-left h4{
+  font-size:.95rem;
+}
+
+.setting-left p{
+  margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:.8rem;
+}
+
+.switch{
+  width:52px;
+  height:28px;
+
+  border-radius:999px;
+
+  position:relative;
+
+  background:
+  rgba(255,255,255,.1);
+}
+
+.switch::after{
+  content:"";
+
+  position:absolute;
+
+  top:4px;
+  left:4px;
+
+  width:20px;
+  height:20px;
+
+  border-radius:50%;
+
+  background:white;
+}
+
+@media(max-width:420px){
+
+  .hero h2{
+    font-size:1.7rem;
+  }
+
+  .stats-grid{
+    gap:10px;
+  }
+
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="header">
+  <div class="header-inner">
+
+    <div class="brand">
+      <div class="logo">SM</div>
+
+      <div>
+        <h1>Sudoku Master</h1>
+        <span>Daily Brain Training</span>
+      </div>
+    </div>
+
+    <button class="theme-btn" id="themeBtn">
+      🌙
+    </button>
+
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- HOME -->
+
+  <section
+    class="screen active"
+    id="homeScreen">
+
+    <div class="card hero">
+
+      <div class="level-badge">
+        Level 1
+      </div>
+
+      <h2>
+        Welcome Back
+      </h2>
+
+      <p>
+        Solve puzzles, earn XP, level up,
+        and climb the leaderboard.
+      </p>
+
+      <div class="xp-wrap">
+
+        <div class="xp-top">
+          <span>XP Progress</span>
+          <span id="xpText">
+            70 / 200 XP
+          </span>
+        </div>
+
+        <div class="xp-bar">
+          <div
+            class="xp-fill"
+            id="xpFill">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <h3 class="section-title">
+      Quick Stats
+    </h3>
+
+    <div class="stats-grid">
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="gamesPlayed">
+          0
+        </div>
+
+        <div class="stat-label">
+          Games Played
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="gamesWon">
+          0
+        </div>
+
+        <div class="stat-label">
+          Wins
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="bestTime">
+          --
+        </div>
+
+        <div class="stat-label">
+          Best Time
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="streak">
+          0
+        </div>
+
+        <div class="stat-label">
+          Current Streak
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="section-title">
+      Select Difficulty
+    </h3>
+
+    <div class="mode-grid">
+
+      <div class="card mode-card easy">
+
+        <div class="mode-title">
+          Easy
+        </div>
+
+        <div class="mode-desc">
+          Beginner friendly puzzle with
+          lots of clues.
+        </div>
+
+        <button
+          class="play-btn"
+          data-mode="easy">
+          Play Easy
+        </button>
+
+      </div>
+
+      <div class="card mode-card medium">
+
+        <div class="mode-title">
+          Moderate
+        </div>
+
+        <div class="mode-desc">
+          Balanced challenge for regular
+          Sudoku players.
+        </div>
+
+        <button
+          class="play-btn"
+          data-mode="moderate">
+          Play Moderate
+        </button>
+
+      </div>
+
+      <div class="card mode-card hard">
+
+        <div class="mode-title">
+          Difficult
+        </div>
+
+        <div class="mode-desc">
+          Minimal clues. Designed for
+          experienced players.
+        </div>
+
+        <button
+          class="play-btn"
+          data-mode="hard">
+          Play Difficult
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PLAY SCREEN -->
+
+  <section
+    class="screen"
+    id="playScreen">
+
+    <div class="card hero">
+
+      <div class="level-badge">
+        Sudoku Game
+      </div>
+
+      <h2>
+        Ready To Play
+      </h2>
+
+      <p>
+        Sudoku board and puzzle engine
+        will be added in Part 2.
+      </p>
+
+    </div>
+
+    <h3 class="section-title">
+      Game Information
+    </h3>
+
+    <div class="stats-grid">
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="timer">
+          00:00
+        </div>
+
+        <div class="stat-label">
+          Timer
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="mistakes">
+          0
+        </div>
+
+        <div class="stat-label">
+          Mistakes
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PROFILE -->
+
+  <section
+    class="screen"
+    id="profileScreen">
+
+    <div class="card profile-card">
+
+      <div class="avatar">
+        D
+      </div>
+
+      <div
+        class="username"
+        id="profileName">
+        Devraj
+      </div>
+
+      <div
+        class="user-level"
+        id="profileLevel">
+        Level 1
+      </div>
+
+    </div>
+
+    <h3 class="section-title">
+      Statistics
+    </h3>
+
+    <div class="stats-grid">
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="profileXP">
+          70
+        </div>
+
+        <div class="stat-label">
+          XP
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="profileGames">
+          0
+        </div>
+
+        <div class="stat-label">
+          Games
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="profileWins">
+          0
+        </div>
+
+        <div class="stat-label">
+          Wins
+        </div>
+      </div>
+
+      <div class="card stat-card">
+        <div
+          class="stat-number"
+          id="profileBest">
+          --
+        </div>
+
+        <div class="stat-label">
+          Best Time
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- LEADERBOARD -->
+
+  <section
+    class="screen"
+    id="leaderboardScreen">
+
+    <h3 class="section-title">
+      Global Leaderboard
+    </h3>
+
+    <div class="card list-card">
+
+      <div class="rank">
+        <div class="rank-left">
+          <div class="rank-pos">1</div>
+          <div>SudokuKing</div>
+        </div>
+
+        <div>5800 XP</div>
+      </div>
+
+      <div class="rank">
+        <div class="rank-left">
+          <div class="rank-pos">2</div>
+          <div>PuzzlePro</div>
+        </div>
+
+        <div>4920 XP</div>
+      </div>
+
+      <div class="rank">
+        <div class="rank-left">
+          <div class="rank-pos">3</div>
+          <div>BrainMaster</div>
+        </div>
+
+        <div>4480 XP</div>
+      </div>
+
+      <div class="rank">
+        <div class="rank-left">
+          <div class="rank-pos">4</div>
+          <div>You</div>
+        </div>
+
+        <div>70 XP</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SETTINGS -->
+
+  <section
+    class="screen"
+    id="settingsScreen">
+
+    <h3 class="section-title">
+      Settings
+    </h3>
+
+    <div class="card">
+
+      <div class="setting-row">
+
+        <div class="setting-left">
+          <h4>Dark Mode</h4>
+          <p>Toggle app theme</p>
+        </div>
+
+        <div
+          class="switch"
+          id="themeSwitch">
+        </div>
+
+      </div>
+
+      <div class="setting-row">
+
+        <div class="setting-left">
+          <h4>Sound Effects</h4>
+          <p>Coming Soon</p>
+        </div>
+
+      </div>
+
+      <div class="setting-row">
+
+        <div class="setting-left">
+          <h4>Daily Challenge</h4>
+          <p>Coming Soon</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+
+  <button
+    class="nav-btn active"
+    data-screen="homeScreen">
+
+    <span class="nav-icon">🏠</span>
+    <span class="nav-text">Home</span>
+
+  </button>
+
+  <button
+    class="nav-btn"
+    data-screen="playScreen">
+
+    <span class="nav-icon">🎮</span>
+    <span class="nav-text">Play</span>
+
+  </button>
+
+  <button
+    class="nav-btn"
+    data-screen="profileScreen">
+
+    <span class="nav-icon">👤</span>
+    <span class="nav-text">Profile</span>
+
+  </button>
+
+  <button
+    class="nav-btn"
+    data-screen="leaderboardScreen">
+
+    <span class="nav-icon">🏆</span>
+    <span class="nav-text">Leaderboard</span>
+
+  </button>
+
+  <button
+    class="nav-btn"
+    data-screen="settingsScreen">
+
+    <span class="nav-icon">⚙️</span>
+    <span class="nav-text">Settings</span>
+
+  </button>
+
+</nav>
+
+</div>
+<script>
+
+/* ==========================
+   LOCAL PROFILE
+========================== */
+
+const DEFAULT_PROFILE = {
+  username: "Devraj",
+  xp: 70,
+  level: 1,
+  gamesPlayed: 0,
+  wins: 0,
+  bestTime: "--",
+  streak: 0
+};
+
+let profile =
+JSON.parse(
+localStorage.getItem("sudokuProfile")
+) || DEFAULT_PROFILE;
+
+/* ==========================
+   SAVE PROFILE
+========================== */
+
+function saveProfile() {
+  localStorage.setItem(
+    "sudokuProfile",
+    JSON.stringify(profile)
+  );
+}
+
+/* ==========================
+   LOAD PROFILE UI
+========================== */
+
+function loadProfileUI() {
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+  profile.username;
+
+  document.getElementById(
+    "profileLevel"
+  ).textContent =
+  `Level ${profile.level}`;
+
+  document.getElementById(
+    "profileXP"
+  ).textContent =
+  profile.xp;
+
+  document.getElementById(
+    "profileGames"
+  ).textContent =
+  profile.gamesPlayed;
+
+  document.getElementById(
+    "profileWins"
+  ).textContent =
+  profile.wins;
+
+  document.getElementById(
+    "profileBest"
+  ).textContent =
+  profile.bestTime;
+
+  document.getElementById(
+    "gamesPlayed"
+  ).textContent =
+  profile.gamesPlayed;
+
+  document.getElementById(
+    "gamesWon"
+  ).textContent =
+  profile.wins;
+
+  document.getElementById(
+    "bestTime"
+  ).textContent =
+  profile.bestTime;
+
+  document.getElementById(
+    "streak"
+  ).textContent =
+  profile.streak;
+
+  updateXPBar();
+}
+
+/* ==========================
+   XP SYSTEM
+========================== */
+
+function getLevelFromXP(xp) {
+
+  return Math.floor(
+    Math.sqrt(xp / 100)
+  ) + 1;
+
+}
+
+function updateXPBar() {
+
+  profile.level =
+  getLevelFromXP(
+    profile.xp
+  );
+
+  const currentLevelXP =
+  Math.pow(
+    profile.level - 1,
+    2
+  ) * 100;
+
+  const nextLevelXP =
+  Math.pow(
+    profile.level,
+    2
+  ) * 100;
+
+  const progressXP =
+  profile.xp - currentLevelXP;
+
+  const neededXP =
+  nextLevelXP - currentLevelXP;
+
+  const percent =
+  Math.min(
+    100,
+    (progressXP / neededXP) * 100
+  );
+
+  document.querySelector(
+    ".level-badge"
+  ).textContent =
+  `LEVEL ${profile.level}`;
+
+  document.getElementById(
+    "xpText"
+  ).textContent =
+  `${progressXP} / ${neededXP} XP`;
+
+  document.getElementById(
+    "xpFill"
+  ).style.width =
+  percent + "%";
+}
+
+/* ==========================
+   SCREEN NAVIGATION
+========================== */
+
+const screens =
+document.querySelectorAll(
+  ".screen"
+);
+
+const navButtons =
+document.querySelectorAll(
+  ".nav-btn"
+);
+
+navButtons.forEach(btn => {
+
+  btn.addEventListener(
+    "click",
+    () => {
+
+      const target =
+      btn.dataset.screen;
+
+      screens.forEach(
+        screen =>
+        screen.classList.remove(
+          "active"
+        )
+      );
+
+      navButtons.forEach(
+        nav =>
+        nav.classList.remove(
+          "active"
+        )
+      );
+
+      document.getElementById(
+        target
+      ).classList.add(
+        "active"
+      );
+
+      btn.classList.add(
+        "active"
+      );
+
+    }
+  );
+
+});
+
+/* ==========================
+   THEME SYSTEM
+========================== */
+
+const themeBtn =
+document.getElementById(
+  "themeBtn"
+);
+
+const themeSwitch =
+document.getElementById(
+  "themeSwitch"
+);
+
+let currentTheme =
+localStorage.getItem(
+  "sudokuTheme"
+) || "dark";
+
+function applyTheme() {
+
+  if(
+    currentTheme === "light"
+  ){
+
+    document.body.classList.add(
+      "light-theme"
+    );
+
+    themeBtn.textContent =
+    "☀️";
+
+    themeSwitch.classList.add(
+      "active"
+    );
+
+  }else{
+
+    document.body.classList.remove(
+      "light-theme"
+    );
+
+    themeBtn.textContent =
+    "🌙";
+
+    themeSwitch.classList.remove(
+      "active"
+    );
+
+  }
+
+}
+
+function toggleTheme(){
+
+  currentTheme =
+  currentTheme === "dark"
+  ? "light"
+  : "dark";
+
+  localStorage.setItem(
+    "sudokuTheme",
+    currentTheme
+  );
+
+  applyTheme();
+
+}
+
+themeBtn.addEventListener(
+  "click",
+  toggleTheme
+);
+
+themeSwitch.addEventListener(
+  "click",
+  toggleTheme
+);
+
+/* ==========================
+   PLAY BUTTONS
+========================== */
+
+const playButtons =
+document.querySelectorAll(
+  ".play-btn"
+);
+
+playButtons.forEach(
+  button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const mode =
+        button.dataset.mode;
+
+        localStorage.setItem(
+          "selectedDifficulty",
+          mode
+        );
+
+        screens.forEach(
+          screen =>
+          screen.classList.remove(
+            "active"
+          )
+        );
+
+        navButtons.forEach(
+          nav =>
+          nav.classList.remove(
+            "active"
+          )
+        );
+
+        document.getElementById(
+          "playScreen"
+        ).classList.add(
+          "active"
+        );
+
+        document.querySelector(
+          '[data-screen="playScreen"]'
+        ).classList.add(
+          "active"
+        );
+
+        alert(
+          `${mode.toUpperCase()} selected.\n\nSudoku board will be added in Part 2.`
+        );
+
+      }
+    );
+
+  }
+);
+
+/* ==========================
+   DEMO XP FUNCTION
+========================== */
+
+function addXP(amount){
+
+  profile.xp += amount;
+
+  saveProfile();
+
+  loadProfileUI();
+
+}
+
+/* ==========================
+   FIRST LOAD
+========================== */
+
+applyTheme();
+
+loadProfileUI();
+
+saveProfile();
+
+/* ==========================
+   DEBUG
+========================== */
+
+window.addXP =
+addXP;
+
+console.log(
+  "Sudoku Master Loaded"
+);
+
+console.log(
+  "Try addXP(100)"
+);
+
+</script>
+
+</body>
+</html>
