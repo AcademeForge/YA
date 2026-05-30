@@ -1232,7 +1232,10 @@ let mistakes = 0, hints = 10;
 let timerSeconds = 0, timerInterval = null;
 let gameActive = false;
 let soundEnabled = false;
+const bgMusic = new Audio("game-musicc.mp3");
 
+bgMusic.loop = true;
+bgMusic.volume = 0.35;
 const AVATARS = ["😀","😎","🤖","🔥","🚀","👑","🎯","⚡","🧠","🐱","🐼","🦁"];
 
 const DIFFICULTY_CONFIG = {
@@ -1932,6 +1935,44 @@ function toggleSound() {
   soundEnabled = !soundEnabled;
   document.getElementById("soundToggle").classList.toggle("on", soundEnabled);
 }
+   function loadSoundSetting() {
+  soundEnabled =
+    localStorage.getItem("sudoku_sound") !== "off";
+
+  document
+    .getElementById("soundToggle")
+    ?.classList.toggle("on", soundEnabled);
+}
+
+function startMusic() {
+  if (!soundEnabled) return;
+
+  bgMusic.play().catch(() => {});
+}
+
+function stopMusic() {
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+
+  localStorage.setItem(
+    "sudoku_sound",
+    soundEnabled ? "on" : "off"
+  );
+
+  document
+    .getElementById("soundToggle")
+    .classList.toggle("on", soundEnabled);
+
+  if (soundEnabled) {
+    startMusic();
+  } else {
+    stopMusic();
+  }
+}
 
 /* ===================================
    KEYBOARD SUPPORT
@@ -1967,11 +2008,24 @@ document.getElementById("authRowBtn").addEventListener("click", () => {
   else openAuthModal();
 });
 
+   document.addEventListener(
+  "click",
+  () => {
+    if (
+      soundEnabled &&
+      bgMusic.paused
+    ) {
+      bgMusic.play().catch(() => {});
+    }
+  },
+  { once: true }
+);
 /* ===================================
    INIT
 =================================== */
 async function init() {
   loadTheme();
+   loadSoundSetting();
   refreshUI();
   await restoreSession();
   refreshUI();
