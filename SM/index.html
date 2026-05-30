@@ -6,7 +6,7 @@
 <title>Sudoku Master</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ===================================
@@ -15,51 +15,47 @@
 :root {
   --primary: #ff7a18;
   --primary-dark: #ea580c;
+  --primary-light: rgba(255,122,24,.12);
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
-  --bg: #f5f7fb;
+  --info: #3b82f6;
+  --bg: #f0f2f8;
   --surface: #ffffff;
   --surface-2: #f8fafc;
+  --surface-3: #f1f5f9;
   --text: #111827;
   --text-soft: #64748b;
-  --border: #e5e7eb;
-  --shadow: 0 10px 40px rgba(0,0,0,.08);
-  --radius: 24px;
-  --nav-height: 78px;
+  --border: #e2e8f0;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.06);
+  --shadow: 0 8px 32px rgba(0,0,0,.09);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.14);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --nav-height: 74px;
 }
 
-/* ===================================
-   DARK MODE
-=================================== */
 body.dark {
-  --bg: #07111f;
-  --surface: #0f172a;
-  --surface-2: #111827;
-  --text: #f8fafc;
+  --bg: #060e1a;
+  --surface: #0d1b2e;
+  --surface-2: #0f2035;
+  --surface-3: #132540;
+  --text: #f1f5f9;
   --text-soft: #94a3b8;
-  --border: rgba(255,255,255,.08);
-  --shadow: 0 20px 60px rgba(0,0,0,.45);
+  --border: rgba(255,255,255,.07);
+  --shadow: 0 20px 60px rgba(0,0,0,.5);
+  --shadow-lg: 0 30px 80px rgba(0,0,0,.6);
 }
 
-/* ===================================
-   RESET
-=================================== */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-  -webkit-tap-highlight-color: transparent;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  transition: background .25s ease, color .25s ease;
+  transition: background .3s ease, color .3s ease;
+  overflow-x: hidden;
 }
 button, input { font: inherit; }
 button { cursor: pointer; border: none; outline: none; }
@@ -73,7 +69,7 @@ a { text-decoration: none; color: inherit; }
   max-width: 540px;
   margin: auto;
   min-height: 100vh;
-  padding-bottom: calc(var(--nav-height) + 20px);
+  padding-bottom: calc(var(--nav-height) + 16px);
 }
 
 /* ===================================
@@ -82,59 +78,52 @@ a { text-decoration: none; color: inherit; }
 .header {
   position: sticky;
   top: 0;
-  z-index: 1000;
-  background: rgba(255,255,255,.85);
-  backdrop-filter: blur(20px);
+  z-index: 100;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
 }
-body.dark .header {
-  background: rgba(7,17,31,.85);
-}
+body.dark .header { background: rgba(6,14,26,.82); }
 .header-inner {
-  height: 72px;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+  padding: 0 16px;
 }
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.logo-wrap { display: flex; align-items: center; gap: 11px; }
 .logo {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: .9rem;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
-  font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(255,122,24,.35);
 }
-.logo-info h1 { font-size: 1rem; font-weight: 800; }
-.logo-info p { font-size: .75rem; color: var(--text-soft); }
-.theme-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
+.logo-info h1 { font-size: .95rem; font-weight: 800; letter-spacing: -.01em; }
+.logo-info p { font-size: .72rem; color: var(--text-soft); margin-top: 1px; }
+.header-actions { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 42px; height: 42px;
+  border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, box-shadow .15s;
 }
+.icon-btn:active { transform: scale(.94); }
 
 /* ===================================
-   SCREEN
+   MAIN / SCREENS
 =================================== */
-.main { padding: 16px; }
-.screen { display: none; }
+.main { padding: 14px; }
+.screen { display: none; animation: fadeIn .2s ease; }
 .screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 /* ===================================
    CARD
@@ -147,375 +136,634 @@ body.dark .header {
 }
 
 /* ===================================
-   HERO
+   HERO CARD
 =================================== */
 .hero {
-  padding: 24px;
+  padding: 22px;
   position: relative;
   overflow: hidden;
 }
-.hero::after {
+.hero::before {
   content: "";
   position: absolute;
-  right: -120px;
-  top: -120px;
-  width: 250px;
-  height: 250px;
+  right: -80px; top: -80px;
+  width: 200px; height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,122,24,.15), transparent);
+  background: radial-gradient(circle, rgba(255,122,24,.13), transparent 70%);
   pointer-events: none;
 }
 .badge {
-  display: inline-flex;
-  padding: 8px 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: .72rem;
-  font-weight: 800;
-  background: rgba(255,122,24,.12);
+  font-size: .7rem; font-weight: 800; letter-spacing: .04em;
+  background: var(--primary-light);
   color: var(--primary);
 }
-.hero h2 {
-  margin-top: 14px;
-  font-size: 2rem;
-  font-weight: 900;
-}
-.hero p {
-  margin-top: 10px;
-  line-height: 1.7;
-  color: var(--text-soft);
-}
+.hero h2 { margin-top: 12px; font-size: 1.8rem; font-weight: 900; letter-spacing: -.02em; line-height: 1.15; }
+.hero p { margin-top: 8px; line-height: 1.65; color: var(--text-soft); font-size: .9rem; }
 
-/* ===================================
-   XP BAR
-=================================== */
-.xp-wrap { margin-top: 20px; }
-.xp-head {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-size: .85rem;
-  font-weight: 700;
-}
-.xp-bar {
-  height: 14px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(0,0,0,.08);
-}
-body.dark .xp-bar { background: rgba(255,255,255,.08); }
+/* XP Bar */
+.xp-wrap { margin-top: 18px; }
+.xp-head { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: .82rem; font-weight: 700; }
+.xp-bar { height: 12px; border-radius: 999px; overflow: hidden; background: var(--surface-3); }
 .xp-fill {
-  height: 100%;
-  width: 0%;
+  height: 100%; width: 0%;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  transition: width 0.4s ease;
+  transition: width .5s cubic-bezier(.4,0,.2,1);
 }
 
 /* ===================================
-   SECTION
+   SECTION TITLE
 =================================== */
-.section-title {
-  margin-top: 24px;
-  margin-bottom: 14px;
-  font-size: 1rem;
-  font-weight: 800;
-}
+.section-title { margin-top: 22px; margin-bottom: 12px; font-size: .9rem; font-weight: 800; letter-spacing: -.01em; }
 
 /* ===================================
-   STATS
+   STATS GRID
 =================================== */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-.stat-card { padding: 18px; }
-.stat-number { font-size: 1.6rem; font-weight: 900; font-family: 'DM Mono', monospace; }
-.stat-label { margin-top: 6px; font-size: .82rem; color: var(--text-soft); }
+.stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.stat-card { padding: 16px; }
+.stat-number { font-size: 1.5rem; font-weight: 900; font-family: 'DM Mono', monospace; }
+.stat-label { margin-top: 5px; font-size: .78rem; color: var(--text-soft); font-weight: 500; }
 
 /* ===================================
-   MODES
+   HOME — SETUP FLOW
+   3 steps: board → difficulty → start
 =================================== */
-.mode-grid { display: grid; gap: 14px; }
-.mode-card { padding: 18px; }
-.mode-title { font-size: 1rem; font-weight: 800; }
-.mode-desc { margin-top: 8px; font-size: .85rem; line-height: 1.6; color: var(--text-soft); }
-.play-btn {
-  width: 100%;
+.setup-flow { margin-top: 4px; }
+
+/* Step indicator */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.step-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 800;
+  background: var(--surface-3);
+  color: var(--text-soft);
+  border: 2px solid var(--border);
+  transition: all .25s;
+  position: relative;
+  z-index: 1;
+}
+.step-dot.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(255,122,24,.2);
+}
+.step-dot.done {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  max-width: 60px;
+  transition: background .25s;
+}
+.step-line.done { background: var(--success); }
+
+/* Step panels */
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+/* Board cards */
+.board-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.board-card {
+  padding: 20px 16px;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.board-card::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  opacity: 0;
+  transition: opacity .2s;
+}
+.board-card.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255,122,24,.18);
+}
+.board-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.board-card-icon { font-size: 2rem; margin-bottom: 10px; }
+.board-card-title { font-size: .95rem; font-weight: 800; }
+.board-card-desc { font-size: .78rem; color: var(--text-soft); margin-top: 4px; line-height: 1.5; }
+.board-card-check {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: .7rem;
+  display: none;
+  align-items: center; justify-content: center;
+}
+.board-card.selected .board-card-check { display: flex; }
+
+/* Difficulty pills */
+.diff-grid { display: grid; gap: 10px; }
+.diff-card {
+  padding: 16px 18px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 14px;
+  transition: all .2s;
+}
+.diff-card:hover { border-color: var(--primary); background: var(--primary-light); }
+.diff-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(255,122,24,.15);
+}
+.diff-icon { font-size: 1.6rem; flex-shrink: 0; }
+.diff-info { flex: 1; }
+.diff-name { font-size: .92rem; font-weight: 800; }
+.diff-desc { font-size: .78rem; color: var(--text-soft); margin-top: 3px; }
+.diff-xp {
+  font-size: .75rem; font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-family: 'DM Mono', monospace;
+}
+.diff-card.selected .diff-xp { background: var(--primary); color: white; }
+
+/* Step nav buttons */
+.step-actions { display: flex; gap: 10px; margin-top: 18px; }
+.btn-step-back {
   height: 52px;
-  margin-top: 16px;
-  border-radius: 16px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text-soft);
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.btn-step-back:hover { border-color: var(--primary); color: var(--primary); }
+.btn-step-next {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--radius-sm);
   font-weight: 800;
   color: white;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  transition: opacity 0.2s;
+  box-shadow: 0 4px 16px rgba(255,122,24,.3);
+  transition: all .2s;
+  font-size: .95rem;
 }
-.play-btn:hover { opacity: 0.88; }
+.btn-step-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,122,24,.4); }
+.btn-step-next:active { transform: scale(.97); }
+.btn-step-next:disabled { opacity: .45; pointer-events: none; }
 
-/* difficulty selected state */
-.difficulty-btn.selected-diff {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+/* Start game card */
+.start-summary {
+  padding: 22px;
+  text-align: center;
 }
+.start-summary-icon { font-size: 3rem; margin-bottom: 12px; }
+.start-summary h3 { font-size: 1.15rem; font-weight: 900; }
+.start-summary p { color: var(--text-soft); font-size: .88rem; margin-top: 8px; line-height: 1.6; }
+.start-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+.start-tag {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: .78rem; font-weight: 700;
+  background: var(--surface-3);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+}
+.start-tag.highlight { background: var(--primary-light); color: var(--primary); border-color: transparent; }
+.btn-start-game {
+  width: 100%;
+  height: 56px;
+  margin-top: 20px;
+  border-radius: var(--radius-sm);
+  font-size: 1.05rem; font-weight: 900;
+  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 6px 24px rgba(255,122,24,.35);
+  letter-spacing: .01em;
+  transition: all .2s;
+}
+.btn-start-game:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,122,24,.45); }
+.btn-start-game:active { transform: scale(.97); }
 
 /* ===================================
-   SUDOKU BOARD
+   PLAY SCREEN
 =================================== */
-.sudoku-card { padding: 12px; }
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.game-title { font-size: 1.1rem; font-weight: 900; }
+.game-meta { font-size: .78rem; color: var(--text-soft); margin-top: 2px; }
+
+.game-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+.gs-card { padding: 12px 8px; text-align: center; }
+.gs-value { font-size: 1.1rem; font-weight: 900; font-family: 'DM Mono', monospace; }
+.gs-label { font-size: .65rem; color: var(--text-soft); margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+
+.tools { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+.tool-btn {
+  height: 46px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  font-weight: 700;
+  font-size: .78rem;
+  transition: all .15s;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px;
+}
+.tool-btn .t-icon { font-size: 1rem; }
+.tool-btn .t-label { font-size: .6rem; text-transform: uppercase; letter-spacing: .04em; opacity: .7; }
+.tool-btn:hover { border-color: var(--primary); color: var(--primary); }
+.tool-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white; border-color: transparent;
+  box-shadow: 0 3px 12px rgba(255,122,24,.3);
+}
+
+/* Board */
+.sudoku-card { padding: 10px; }
 .sudoku-board {
   display: grid;
   aspect-ratio: 1;
   border: 3px solid var(--primary);
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 12px;
   background: var(--surface-2);
 }
-.sudoku-board.grid-4 { grid-template-columns: repeat(4, 1fr); }
-.sudoku-board.grid-9 { grid-template-columns: repeat(9, 1fr); }
+.sudoku-board.grid-4 { grid-template-columns: repeat(4,1fr); }
+.sudoku-board.grid-9 { grid-template-columns: repeat(9,1fr); }
 
 .cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  cursor: pointer;
-  user-select: none;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; cursor: pointer; user-select: none;
   border: 1px solid var(--border);
   background: var(--surface);
-  transition: background 0.15s;
+  transition: background .12s;
   font-size: 1rem;
 }
-
-/* 9x9 smaller font */
-.sudoku-board.grid-9 .cell { font-size: .82rem; font-weight: 700; }
-
+.sudoku-board.grid-9 .cell { font-size: .8rem; }
 .cell.fixed { font-weight: 900; color: var(--text); }
-.cell.selected { background: rgba(255,122,24,.18) !important; }
-.cell.wrong { background: rgba(239,68,68,.18) !important; color: var(--danger); }
+.cell.selected { background: rgba(255,122,24,.2) !important; }
+.cell.wrong { background: rgba(239,68,68,.15) !important; color: var(--danger); }
 .cell.correct { color: var(--primary); }
-.cell.highlight { background: rgba(255,122,24,.07); }
+.cell.highlight { background: rgba(255,122,24,.06); }
+.cell.same-value { background: rgba(255,122,24,.1); }
 
-/* 3x3 box borders for 9x9 */
+/* Box borders */
 .sudoku-board.grid-9 .cell[data-col="2"],
-.sudoku-board.grid-9 .cell[data-col="5"] {
-  border-right: 2px solid var(--primary);
-}
+.sudoku-board.grid-9 .cell[data-col="5"] { border-right: 2px solid rgba(255,122,24,.4); }
 .sudoku-board.grid-9 .cell[data-row="2"],
-.sudoku-board.grid-9 .cell[data-row="5"] {
-  border-bottom: 2px solid var(--primary);
-}
+.sudoku-board.grid-9 .cell[data-row="5"] { border-bottom: 2px solid rgba(255,122,24,.4); }
+.sudoku-board.grid-4 .cell[data-col="1"] { border-right: 2px solid rgba(255,122,24,.4); }
+.sudoku-board.grid-4 .cell[data-row="1"] { border-bottom: 2px solid rgba(255,122,24,.4); }
 
-/* 2x2 box borders for 4x4 */
-.sudoku-board.grid-4 .cell[data-col="1"] { border-right: 2px solid var(--primary); }
-.sudoku-board.grid-4 .cell[data-row="1"] { border-bottom: 2px solid var(--primary); }
-
-/* ===================================
-   NUMBER PAD
-=================================== */
-.number-pad {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-  margin-top: 20px;
-}
+/* Number pad */
+.number-pad { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-top: 14px; }
 .num-btn {
-  height: 56px;
-  border-radius: 16px;
-  font-weight: 800;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  font-weight: 900; font-size: 1.1rem;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   color: var(--text);
-  font-size: 1.1rem;
-  transition: background 0.15s, transform 0.1s;
+  transition: all .12s;
 }
-.num-btn:active { transform: scale(0.95); }
+.num-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+.num-btn:active { transform: scale(.93); }
 
-/* ===================================
-   TOOLBAR
-=================================== */
-.tools {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 18px;
-  margin-bottom: 18px;
-}
-.tool-btn {
-  height: 48px;
-  border-radius: 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-weight: 700;
-  font-size: .85rem;
-  transition: background 0.15s, color 0.15s;
-}
-.tool-btn.active {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  border-color: transparent;
-}
-
-/* ===================================
-   ACTION BUTTONS
-=================================== */
-.actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 18px;
-}
+.play-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 .btn {
-  height: 56px;
-  border-radius: 16px;
-  font-weight: 800;
-  font-size: 1rem;
-  transition: opacity 0.2s, transform 0.1s;
+  height: 52px; border-radius: var(--radius-sm);
+  font-weight: 800; font-size: .9rem;
+  transition: all .15s;
 }
-.btn:active { transform: scale(0.97); }
+.btn:active { transform: scale(.97); }
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
+  box-shadow: 0 4px 14px rgba(255,122,24,.3);
 }
-.btn-secondary {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-}
+.btn-secondary { background: var(--surface); border: 1.5px solid var(--border); color: var(--text); }
 
 /* ===================================
    PROFILE
 =================================== */
-.profile-card { padding: 24px; text-align: center; }
-.avatar {
-  width: 90px;
-  height: 90px;
+.profile-hero {
+  padding: 28px 24px;
+  text-align: center;
+}
+.avatar-ring {
+  width: 86px; height: 86px;
   margin: auto;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 6px 24px rgba(255,122,24,.3);
 }
-.username { margin-top: 16px; font-size: 1.2rem; font-weight: 800; }
+.profile-name { margin-top: 14px; font-size: 1.2rem; font-weight: 900; }
+.profile-level { margin-top: 4px; font-size: .84rem; color: var(--text-soft); font-weight: 600; }
+.profile-email { margin-top: 4px; font-size: .78rem; color: var(--text-soft); }
 
 /* ===================================
    LEADERBOARD
 =================================== */
-.leaderboard-item {
-  margin-bottom: 12px;
-  padding: 16px 18px;
-}
-.leaderboard-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.leaderboard-left {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.leaderboard-rank { font-weight: 900; font-size: 1rem; width: 26px; }
-.leaderboard-name { font-weight: 700; }
-.leaderboard-xp { font-weight: 800; color: var(--primary); font-family: 'DM Mono', monospace; }
-
-/* ===================================
-   MODAL
-=================================== */
-.modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(8px);
-  z-index: 5000;
-}
-.modal.show { display: flex; }
-.modal-card {
-  width: 100%;
-  max-width: 420px;
-  padding: 24px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  text-align: center;
-}
-.modal-card h2 { font-size: 1.5rem; font-weight: 900; }
-.modal-card p { margin-top: 10px; line-height: 1.6; color: var(--text-soft); }
+.lb-item { margin-bottom: 10px; padding: 14px 16px; }
+.lb-row { display: flex; justify-content: space-between; align-items: center; }
+.lb-left { display: flex; gap: 12px; align-items: center; }
+.lb-rank { font-weight: 900; font-size: .95rem; width: 28px; text-align: center; }
+.lb-name { font-weight: 700; font-size: .9rem; }
+.lb-sub { font-size: .72rem; color: var(--text-soft); margin-top: 2px; }
+.lb-xp { font-weight: 800; color: var(--primary); font-family: 'DM Mono', monospace; font-size: .9rem; }
 
 /* ===================================
    SETTINGS
 =================================== */
 .settings-row {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 18px 20px;
+  display: flex; justify-content: space-between; align-items: center;
   border-bottom: 1px solid var(--border);
 }
 .settings-row:last-child { border-bottom: none; }
+.settings-label { font-weight: 600; font-size: .9rem; }
+.settings-sub { font-size: .75rem; color: var(--text-soft); margin-top: 2px; }
+
+/* Toggle switch */
+.toggle {
+  width: 48px; height: 26px;
+  border-radius: 999px;
+  background: var(--border);
+  position: relative;
+  cursor: pointer;
+  border: none;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--primary); }
+.toggle::after {
+  content: "";
+  position: absolute;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: white;
+  top: 3px; left: 3px;
+  transition: transform .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.toggle.on::after { transform: translateX(22px); }
 
 /* ===================================
    BOTTOM NAV
 =================================== */
 .bottom-nav {
   position: fixed;
-  left: 50%;
-  bottom: 0;
+  left: 50%; bottom: 0;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 540px;
+  width: 100%; max-width: 540px;
   height: var(--nav-height);
   background: var(--surface);
   border-top: 1px solid var(--border);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  z-index: 1000;
+  grid-template-columns: repeat(5,1fr);
+  z-index: 100;
+  backdrop-filter: blur(20px);
 }
+body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 .nav-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: none;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px; background: none;
   color: var(--text-soft);
-  transition: color 0.2s;
+  transition: color .2s;
+  position: relative;
 }
 .nav-btn.active { color: var(--primary); }
-.nav-icon { font-size: 1.2rem; }
-.nav-text { font-size: .72rem; font-weight: 700; }
+.nav-btn.active::before {
+  content: "";
+  position: absolute; top: 0;
+  width: 32px; height: 2px;
+  border-radius: 0 0 4px 4px;
+  background: var(--primary);
+}
+.nav-icon { font-size: 1.15rem; }
+.nav-text { font-size: .66rem; font-weight: 700; letter-spacing: .02em; }
 
 /* ===================================
-   RESPONSIVE
+   TOAST NOTIFICATION SYSTEM
 =================================== */
-@media(max-width: 420px) {
-  .hero h2 { font-size: 1.65rem; }
-  .cell { font-size: .85rem; }
-  .sudoku-board.grid-9 .cell { font-size: .7rem; }
-  .num-btn { height: 48px; }
+.toast-container {
+  position: fixed;
+  top: 80px; left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 480px;
+  z-index: 9999;
+  display: flex; flex-direction: column; gap: 10px;
+  pointer-events: none;
 }
+.toast {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  pointer-events: all;
+  animation: toastIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
+  position: relative;
+  overflow: hidden;
+}
+.toast.leaving { animation: toastOut .25s ease forwards; }
+.toast::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.toast.success::before { background: var(--success); }
+.toast.error::before { background: var(--danger); }
+.toast.warning::before { background: var(--warning); }
+.toast.info::before { background: var(--info); }
+.toast-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.toast-body { flex: 1; }
+.toast-title { font-size: .88rem; font-weight: 800; line-height: 1.3; }
+.toast-msg { font-size: .8rem; color: var(--text-soft); margin-top: 3px; line-height: 1.4; }
+.toast-close {
+  background: none; border: none;
+  color: var(--text-soft); font-size: 1rem;
+  cursor: pointer; padding: 0; line-height: 1;
+  flex-shrink: 0; margin-top: 1px;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-12px) scale(.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes toastOut {
+  to { opacity: 0; transform: translateY(-8px) scale(.95); }
+}
+
+/* ===================================
+   MODAL SYSTEM
+=================================== */
+.modal {
+  position: fixed; inset: 0;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(10px);
+  z-index: 5000;
+}
+.modal.show { display: flex; }
+.modal-card {
+  width: 100%; max-width: 400px;
+  padding: 28px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn .25s cubic-bezier(.34,1.3,.64,1);
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(.94) translateY(10px); } to { opacity: 1; transform: none; } }
+.modal-icon { font-size: 3rem; text-align: center; margin-bottom: 14px; }
+.modal-card h2 { font-size: 1.35rem; font-weight: 900; text-align: center; letter-spacing: -.02em; }
+.modal-card p { margin-top: 10px; line-height: 1.6; color: var(--text-soft); text-align: center; font-size: .88rem; }
+.modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
+.modal-actions.single { grid-template-columns: 1fr; }
+
+/* Auth modal */
+.auth-tabs { display: flex; gap: 0; margin-bottom: 20px; background: var(--surface-3); border-radius: 12px; padding: 3px; }
+.auth-tab {
+  flex: 1; height: 36px; border-radius: 10px;
+  font-weight: 700; font-size: .84rem;
+  background: none; color: var(--text-soft);
+  transition: all .2s;
+}
+.auth-tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+
+.auth-field {
+  margin-bottom: 12px;
+}
+.auth-field label {
+  display: block; font-size: .78rem; font-weight: 700; color: var(--text-soft);
+  margin-bottom: 6px; letter-spacing: .02em;
+}
+.auth-input {
+  width: 100%; height: 48px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text); font-size: .92rem;
+  transition: border .15s, box-shadow .15s;
+}
+.auth-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,122,24,.15); }
+
+.avatar-select { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 14px 0; }
+.av-btn {
+  height: 52px; font-size: 1.5rem;
+  border-radius: 12px;
+  background: var(--surface-3);
+  border: 2px solid transparent;
+  transition: all .15s;
+}
+.av-btn:hover { transform: scale(1.05); }
+.av-btn.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 0 0 2px rgba(255,122,24,.2); }
+
+.btn-auth {
+  width: 100%; height: 50px;
+  border-radius: 12px; font-weight: 800; font-size: .95rem;
+  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 4px 16px rgba(255,122,24,.3);
+  margin-top: 6px;
+  transition: all .2s;
+}
+.btn-auth:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,122,24,.4); }
+.btn-auth:active { transform: scale(.97); }
+.btn-auth:disabled { opacity: .5; pointer-events: none; }
+
+.auth-divider {
+  text-align: center;
+  font-size: .75rem; color: var(--text-soft); font-weight: 600;
+  margin: 12px 0;
+  position: relative;
+}
+.auth-divider::before, .auth-divider::after {
+  content: "";
+  position: absolute; top: 50%;
+  width: 38%; height: 1px; background: var(--border);
+}
+.auth-divider::before { left: 0; }
+.auth-divider::after { right: 0; }
+
+.btn-google {
+  width: 100%; height: 48px;
+  border-radius: 12px; font-weight: 700; font-size: .88rem;
+  background: var(--surface); border: 1.5px solid var(--border);
+  color: var(--text);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .15s;
+  margin-bottom: 6px;
+}
+.btn-google:hover { border-color: var(--primary); background: var(--primary-light); }
+.btn-google svg { width: 20px; height: 20px; }
 
 /* ===================================
    EMPTY STATE
 =================================== */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-soft);
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-soft); }
+.empty-state .e-icon { font-size: 2.8rem; margin-bottom: 12px; }
+.empty-state p { font-size: .88rem; }
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+@media(max-width:420px) {
+  .hero h2 { font-size: 1.55rem; }
+  .cell { font-size: .8rem; }
+  .sudoku-board.grid-9 .cell { font-size: .65rem; }
+  .num-btn { height: 46px; }
+  .game-stats { grid-template-columns: repeat(2,1fr); }
 }
-.empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
 </style>
 </head>
 <body>
 
 <div class="app">
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <!-- HEADER -->
   <header class="header">
@@ -527,99 +775,180 @@ body.dark .xp-bar { background: rgba(255,255,255,.08); }
           <p>Brain Training Game</p>
         </div>
       </div>
-      <button id="themeBtn" class="theme-btn" aria-label="Toggle theme">🌙</button>
+      <div class="header-actions">
+        <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">🌙</button>
+        <button id="headerAuthBtn" class="icon-btn" aria-label="Account">👤</button>
+      </div>
     </div>
   </header>
 
   <main class="main">
 
-    <!-- HOME SCREEN -->
+    <!-- ========================
+         HOME SCREEN
+    ======================== -->
     <section id="homeScreen" class="screen active">
 
       <div class="card hero">
-        <div class="badge">LEVEL <span id="homeLevel">1</span></div>
+        <div class="badge">⚡ LEVEL <span id="homeLevel">1</span></div>
         <h2>Challenge Your Brain</h2>
-        <p>Play Sudoku, gain XP, unlock levels and compete with players worldwide.</p>
+        <p>Play Sudoku, earn XP, climb the leaderboard, and unlock new levels.</p>
         <div class="xp-wrap">
           <div class="xp-head">
             <span>XP Progress</span>
-            <span id="xpText">0 / 100 XP</span>
+            <span id="xpText">0 XP</span>
           </div>
-          <div class="xp-bar">
-            <div id="xpFill" class="xp-fill"></div>
+          <div class="xp-bar"><div id="xpFill" class="xp-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- 3-Step Setup Flow -->
+      <div class="setup-flow">
+
+        <!-- Step Indicators -->
+        <div class="step-indicator">
+          <div class="step-dot active" id="sd1">1</div>
+          <div class="step-line" id="sl1"></div>
+          <div class="step-dot" id="sd2">2</div>
+          <div class="step-line" id="sl2"></div>
+          <div class="step-dot" id="sd3">3</div>
+        </div>
+
+        <!-- Step 1: Choose Board -->
+        <div class="step-panel active" id="step1">
+          <h3 class="section-title" style="margin-top:0">Choose Board Size</h3>
+          <div class="board-grid">
+            <div class="board-card" data-board="4" onclick="selectBoard(4)">
+              <div class="board-card-check">✓</div>
+              <div class="board-card-icon">🔢</div>
+              <div class="board-card-title">4 × 4</div>
+              <div class="board-card-desc">Quick games,<br>perfect for beginners</div>
+            </div>
+            <div class="board-card" data-board="9" onclick="selectBoard(9)">
+              <div class="board-card-check">✓</div>
+              <div class="board-card-icon">🧩</div>
+              <div class="board-card-title">9 × 9</div>
+              <div class="board-card-desc">Classic Sudoku,<br>full challenge</div>
+            </div>
+          </div>
+          <div class="step-actions">
+            <button class="btn-step-next" id="step1Next" onclick="goStep(2)" disabled>
+              Choose Difficulty →
+            </button>
           </div>
         </div>
-      </div>
 
-      <h3 class="section-title">Difficulty</h3>
-      <div class="mode-grid">
-        <div class="card mode-card">
-          <div class="mode-title">Easy</div>
-          <div class="mode-desc">More cells revealed, great for starters.</div>
-          <button class="play-btn difficulty-btn" data-difficulty="easy">Easy</button>
+        <!-- Step 2: Choose Difficulty -->
+        <div class="step-panel" id="step2">
+          <h3 class="section-title" style="margin-top:0">Choose Difficulty</h3>
+          <div class="diff-grid">
+            <div class="diff-card" data-difficulty="easy" onclick="selectDifficulty('easy')">
+              <div class="diff-icon">🌱</div>
+              <div class="diff-info">
+                <div class="diff-name">Easy</div>
+                <div class="diff-desc">More hints, relaxed pace</div>
+              </div>
+              <div class="diff-xp">+100 XP</div>
+            </div>
+            <div class="diff-card" data-difficulty="moderate" onclick="selectDifficulty('moderate')">
+              <div class="diff-icon">🔥</div>
+              <div class="diff-info">
+                <div class="diff-name">Moderate</div>
+                <div class="diff-desc">Balanced challenge</div>
+              </div>
+              <div class="diff-xp">+250 XP</div>
+            </div>
+            <div class="diff-card" data-difficulty="hard" onclick="selectDifficulty('hard')">
+              <div class="diff-icon">💀</div>
+              <div class="diff-info">
+                <div class="diff-name">Hard</div>
+                <div class="diff-desc">Maximum brain workout</div>
+              </div>
+              <div class="diff-xp">+500 XP</div>
+            </div>
+          </div>
+          <div class="step-actions">
+            <button class="btn-step-back" onclick="goStep(1)">← Back</button>
+            <button class="btn-step-next" id="step2Next" onclick="goStep(3)" disabled>
+              Preview Game →
+            </button>
+          </div>
         </div>
-        <div class="card mode-card">
-          <div class="mode-title">Moderate</div>
-          <div class="mode-desc">Balanced challenge for regular players.</div>
-          <button class="play-btn difficulty-btn" data-difficulty="moderate">Moderate</button>
-        </div>
-        <div class="card mode-card">
-          <div class="mode-title">Hard</div>
-          <div class="mode-desc">Fewer clues, maximum brain workout.</div>
-          <button class="play-btn difficulty-btn" data-difficulty="hard">Hard</button>
-        </div>
-      </div>
 
-      <h3 class="section-title">Choose Board</h3>
-      <div class="mode-grid">
-        <div class="card mode-card">
-          <div class="mode-title">4×4 Sudoku</div>
-          <div class="mode-desc">Quick games for beginners.</div>
-          <button class="play-btn board-btn" data-board="4">Play 4×4</button>
+        <!-- Step 3: Start -->
+        <div class="step-panel" id="step3">
+          <div class="card start-summary">
+            <div class="start-summary-icon" id="summaryIcon">🧩</div>
+            <h3 id="summaryTitle">Ready to Play!</h3>
+            <p id="summaryDesc">Your game is configured and ready to go.</p>
+            <div class="start-tags">
+              <span class="start-tag highlight" id="summaryBoard">9×9</span>
+              <span class="start-tag highlight" id="summaryDiff">Easy</span>
+              <span class="start-tag" id="summaryXP">+100 XP on win</span>
+              <span class="start-tag">10 Hints</span>
+              <span class="start-tag">20 Max mistakes</span>
+            </div>
+            <button class="btn-start-game" onclick="startGame()">
+              🚀 Start Game
+            </button>
+          </div>
+          <div class="step-actions">
+            <button class="btn-step-back" onclick="goStep(2)">← Change Settings</button>
+          </div>
         </div>
-        <div class="card mode-card">
-          <div class="mode-title">9×9 Sudoku</div>
-          <div class="mode-desc">Classic Sudoku challenge.</div>
-          <button class="play-btn board-btn" data-board="9">Play 9×9</button>
-        </div>
-      </div>
 
+      </div>
     </section>
 
-    <!-- PLAY SCREEN -->
+    <!-- ========================
+         PLAY SCREEN
+    ======================== -->
     <section id="playScreen" class="screen">
 
-      <div class="card hero">
-        <div class="badge">GAME</div>
-        <h2>Sudoku Match</h2>
-        <p id="gameSubtitle">Hints: 10 · Mistakes Allowed: 20 · Easy · 4×4</p>
+      <div class="game-header">
+        <div>
+          <div class="game-title">Sudoku Match</div>
+          <div class="game-meta" id="gameSubtitle">Easy · 4×4</div>
+        </div>
+        <button class="icon-btn" onclick="confirmNewGame()" title="New game">🔄</button>
       </div>
 
-      <h3 class="section-title">Game Status</h3>
-      <div class="stats-grid">
-        <div class="card stat-card">
-          <div id="timer" class="stat-number">00:00</div>
-          <div class="stat-label">Timer</div>
+      <div class="game-stats">
+        <div class="card gs-card">
+          <div id="timer" class="gs-value">00:00</div>
+          <div class="gs-label">Time</div>
         </div>
-        <div class="card stat-card">
-          <div id="mistakeCount" class="stat-number">0 / 20</div>
-          <div class="stat-label">Mistakes</div>
+        <div class="card gs-card">
+          <div id="mistakeCount" class="gs-value">0/20</div>
+          <div class="gs-label">Mistakes</div>
         </div>
-        <div class="card stat-card">
-          <div id="hintCount" class="stat-number">10</div>
-          <div class="stat-label">Hints Left</div>
+        <div class="card gs-card">
+          <div id="hintCount" class="gs-value">10</div>
+          <div class="gs-label">Hints</div>
         </div>
-        <div class="card stat-card">
-          <div id="difficultyText" class="stat-number">Easy</div>
-          <div class="stat-label">Difficulty</div>
+        <div class="card gs-card">
+          <div id="difficultyText" class="gs-value">Easy</div>
+          <div class="gs-label">Level</div>
         </div>
       </div>
 
       <div class="tools">
-        <button id="notesBtn" class="tool-btn">📝 Notes</button>
-        <button id="eraseBtn" class="tool-btn">🧹 Erase</button>
-        <button id="hintBtn" class="tool-btn">💡 Hint</button>
-        <button id="newGameBtn" class="tool-btn">🔄 New</button>
+        <button id="notesBtn" class="tool-btn" onclick="toggleNotes()">
+          <span class="t-icon">📝</span>
+          <span class="t-label">Notes</span>
+        </button>
+        <button class="tool-btn" onclick="eraseCell()">
+          <span class="t-icon">🧹</span>
+          <span class="t-label">Erase</span>
+        </button>
+        <button class="tool-btn" onclick="useHint()">
+          <span class="t-icon">💡</span>
+          <span class="t-label">Hint</span>
+        </button>
+        <button class="tool-btn" onclick="solvePuzzle()">
+          <span class="t-icon">🎯</span>
+          <span class="t-label">Solve</span>
+        </button>
       </div>
 
       <div class="card sudoku-card">
@@ -628,27 +957,30 @@ body.dark .xp-bar { background: rgba(255,255,255,.08); }
 
       <div id="numberPad" class="number-pad"></div>
 
-      <div class="actions">
-        <button id="checkBtn" class="btn btn-secondary">✔ Check</button>
-        <button id="solveBtn" class="btn btn-primary">🎯 Solve</button>
+      <div class="play-actions">
+        <button class="btn btn-secondary" onclick="checkBoard()">✔ Check</button>
+        <button class="btn btn-primary" onclick="confirmNewGame()">🔄 New Game</button>
       </div>
 
     </section>
 
-    <!-- PROFILE SCREEN -->
+    <!-- ========================
+         PROFILE SCREEN
+    ======================== -->
     <section id="profileScreen" class="screen">
 
-      <div class="card profile-card">
-        <div id="profileAvatar" class="avatar">😀</div>
-        <div id="profileUsername" class="username">Guest Player</div>
-        <p id="profileLevel" style="margin-top:6px;color:var(--text-soft);font-weight:600;">Level 1</p>
+      <div class="card profile-hero">
+        <div id="profileAvatar" class="avatar-ring">😀</div>
+        <div id="profileUsername" class="profile-name">Guest Player</div>
+        <div id="profileLevel" class="profile-level">Level 1</div>
+        <div id="profileEmail" class="profile-email"></div>
       </div>
 
       <h3 class="section-title">Statistics</h3>
       <div class="stats-grid">
         <div class="card stat-card">
           <div id="profileXP" class="stat-number">0</div>
-          <div class="stat-label">XP</div>
+          <div class="stat-label">Total XP</div>
         </div>
         <div class="card stat-card">
           <div id="profileWins" class="stat-number">0</div>
@@ -656,7 +988,7 @@ body.dark .xp-bar { background: rgba(255,255,255,.08); }
         </div>
         <div class="card stat-card">
           <div id="profileGames" class="stat-number">0</div>
-          <div class="stat-label">Games</div>
+          <div class="stat-label">Games Played</div>
         </div>
         <div class="card stat-card">
           <div id="profileBest" class="stat-number">--</div>
@@ -667,82 +999,162 @@ body.dark .xp-bar { background: rgba(255,255,255,.08); }
       <h3 class="section-title">Account</h3>
       <div class="card">
         <div class="settings-row">
-          <span>Edit Profile</span>
-          <button class="tool-btn" id="editProfileBtn" style="width:auto;padding:0 16px;">Edit</button>
+          <div>
+            <div class="settings-label">Edit Profile</div>
+            <div class="settings-sub">Change username or avatar</div>
+          </div>
+          <button class="icon-btn" id="editProfileBtn">✏️</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label" id="authRowLabel">Sign In</div>
+            <div class="settings-sub" id="authRowSub">Login to save your progress</div>
+          </div>
+          <button class="icon-btn" id="authRowBtn">→</button>
         </div>
       </div>
 
     </section>
 
-    <!-- LEADERBOARD SCREEN -->
+    <!-- ========================
+         LEADERBOARD
+    ======================== -->
     <section id="leaderboardScreen" class="screen">
       <h3 class="section-title">🏆 Leaderboard</h3>
       <div id="leaderboardContainer"></div>
     </section>
 
-    <!-- SETTINGS SCREEN -->
+    <!-- ========================
+         SETTINGS
+    ======================== -->
     <section id="settingsScreen" class="screen">
       <h3 class="section-title">Settings</h3>
       <div class="card">
         <div class="settings-row">
-          <span>Dark Mode</span>
-          <button id="darkToggle" class="tool-btn" style="width:auto;padding:0 16px;">Toggle</button>
+          <div>
+            <div class="settings-label">Dark Mode</div>
+            <div class="settings-sub">Switch to dark theme</div>
+          </div>
+          <button id="darkToggle" class="toggle" onclick="toggleTheme()"></button>
         </div>
         <div class="settings-row">
-          <span>Sound Effects</span>
-          <button id="soundToggle" class="tool-btn" style="width:auto;padding:0 16px;">Off</button>
+          <div>
+            <div class="settings-label">Sound Effects</div>
+            <div class="settings-sub">Play sounds on actions</div>
+          </div>
+          <button id="soundToggle" class="toggle" onclick="toggleSound()"></button>
         </div>
         <div class="settings-row">
-          <span>Version</span>
-          <span style="color:var(--text-soft);font-size:.85rem;">1.0.0</span>
+          <div class="settings-label">Version</div>
+          <span style="color:var(--text-soft);font-size:.82rem;font-family:'DM Mono',monospace;">2.0.0</span>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- GAME OVER MODAL -->
+  <!-- ========================
+       GAME OVER MODAL
+  ======================== -->
   <div id="gameOverModal" class="modal">
     <div class="modal-card">
-      <h2>💀 Game Over</h2>
-      <p>You reached the maximum mistake limit. Better luck next time!</p>
-      <div class="actions">
-        <button id="playAgainBtn" class="btn btn-primary">Play Again</button>
-        <button id="goHomeBtn" class="btn btn-secondary">Home</button>
+      <div class="modal-icon">💀</div>
+      <h2>Game Over</h2>
+      <p>You hit 20 mistakes. Don't give up — try again!</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="closeModal('gameOverModal');startGame()">Play Again</button>
+        <button class="btn btn-secondary" onclick="closeModal('gameOverModal');openScreen('homeScreen')">Home</button>
       </div>
     </div>
   </div>
 
-  <!-- WIN MODAL -->
+  <!-- ========================
+       WIN MODAL
+  ======================== -->
   <div id="winModal" class="modal">
     <div class="modal-card">
-      <h2>🎉 Puzzle Solved!</h2>
+      <div class="modal-icon">🎉</div>
+      <h2>Puzzle Solved!</h2>
       <p id="winMessage">Great job!</p>
-      <div class="actions">
-        <button id="nextGameBtn" class="btn btn-primary">Play Again</button>
-        <button id="winHomeBtn" class="btn btn-secondary">Home</button>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="closeModal('winModal');startGame()">Play Again</button>
+        <button class="btn btn-secondary" onclick="closeModal('winModal');openScreen('homeScreen')">Home</button>
       </div>
     </div>
   </div>
 
-  <!-- PROFILE SETUP MODAL -->
-  <div id="profileModal" class="modal">
+  <!-- ========================
+       AUTH MODAL (Sign up / Sign in)
+  ======================== -->
+  <div id="authModal" class="modal">
     <div class="modal-card">
-      <h2>Create Profile</h2>
-      <p>Choose a username and avatar to track your progress.</p>
-      <input
-        id="usernameInput"
-        type="text"
-        placeholder="Username (min 3 chars)"
-        maxlength="20"
-        style="
-          width:100%;height:52px;margin-top:16px;padding:0 14px;
-          border-radius:14px;border:1px solid var(--border);
-          background:var(--surface);color:var(--text);font-size:1rem;
-        "
-      >
-      <div id="avatarGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;"></div>
-      <button id="saveProfileBtn" class="btn btn-primary" style="width:100%;margin-top:18px;">Save Profile</button>
+      <h2 style="margin-bottom:18px">Welcome Back 👋</h2>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
+        <button class="auth-tab" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+      </div>
+
+      <!-- Signup panel -->
+      <div id="signupPanel">
+        <div class="auth-field">
+          <label>EMAIL</label>
+          <input class="auth-input" id="signupEmail" type="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label>PASSWORD</label>
+          <input class="auth-input" id="signupPassword" type="password" placeholder="Min 6 characters">
+        </div>
+        <div class="auth-field">
+          <label>USERNAME</label>
+          <input class="auth-input" id="signupUsername" type="text" placeholder="Min 3 characters" maxlength="20">
+        </div>
+        <div class="auth-field">
+          <label>CHOOSE AVATAR</label>
+          <div class="avatar-select" id="signupAvatarGrid"></div>
+        </div>
+        <button class="btn-auth" id="signupBtn" onclick="handleSignup()">Create Account</button>
+      </div>
+
+      <!-- Login panel -->
+      <div id="loginPanel" style="display:none">
+        <div class="auth-field">
+          <label>EMAIL</label>
+          <input class="auth-input" id="loginEmail" type="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label>PASSWORD</label>
+          <input class="auth-input" id="loginPassword" type="password" placeholder="Your password">
+        </div>
+        <button class="btn-auth" id="loginBtn" onclick="handleLogin()">Sign In</button>
+      </div>
+
+      <div style="margin-top:14px;text-align:center">
+        <button style="background:none;border:none;color:var(--text-soft);font-size:.82rem;cursor:pointer" onclick="closeModal('authModal')">
+          Maybe later
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================
+       EDIT PROFILE MODAL
+  ======================== -->
+  <div id="editProfileModal" class="modal">
+    <div class="modal-card">
+      <h2 style="margin-bottom:18px">Edit Profile ✏️</h2>
+      <div class="auth-field">
+        <label>USERNAME</label>
+        <input class="auth-input" id="editUsername" type="text" maxlength="20" placeholder="New username">
+      </div>
+      <div class="auth-field">
+        <label>AVATAR</label>
+        <div class="avatar-select" id="editAvatarGrid"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <button class="btn btn-secondary" style="flex:1;height:50px" onclick="closeModal('editProfileModal')">Cancel</button>
+        <button class="btn btn-primary" style="flex:2;height:50px" onclick="saveProfileEdit()">Save Changes</button>
+      </div>
     </div>
   </div>
 
@@ -779,153 +1191,230 @@ body.dark .xp-bar { background: rgba(255,255,255,.08); }
 const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/player";
 
 /* ===================================
-   APP STATE
+   STATE
 =================================== */
 let selectedAvatar = "😀";
-let currentBoardSize = 4;
+let editSelectedAvatar = "😀";
+let currentBoardSize = 9;
 let currentDifficulty = "easy";
-let currentUser = null;
+let currentUser = null;  // { email, username, avatar, xp, level, ... }
 
-// Game state
-let puzzle = [];
-let solution = [];
+let puzzle = [], solution = [];
 let selectedCell = null;
 let notesMode = false;
-let mistakes = 0;
-let hints = 10;
-let timerSeconds = 0;
-let timerInterval = null;
+let mistakes = 0, hints = 10;
+let timerSeconds = 0, timerInterval = null;
 let gameActive = false;
+let soundEnabled = false;
+
+const AVATARS = ["😀","😎","🤖","🔥","🚀","👑","🎯","⚡","🧠","🐱","🐼","🦁"];
+
+const DIFFICULTY_CONFIG = {
+  easy:     { remove4: 4,  remove9: 30, xp: 100,  icon: "🌱" },
+  moderate: { remove4: 6,  remove9: 42, xp: 250,  icon: "🔥" },
+  hard:     { remove4: 8,  remove9: 55, xp: 500,  icon: "💀" }
+};
 
 /* ===================================
-   API HELPERS
+   TOAST SYSTEM
+=================================== */
+function toast(title, msg = "", type = "info", duration = 3500) {
+  const icons = { success: "✅", error: "❌", warning: "⚠️", info: "ℹ️" };
+  const container = document.getElementById("toastContainer");
+  const el = document.createElement("div");
+  el.className = `toast ${type}`;
+  el.innerHTML = `
+    <div class="toast-icon">${icons[type]}</div>
+    <div class="toast-body">
+      <div class="toast-title">${title}</div>
+      ${msg ? `<div class="toast-msg">${msg}</div>` : ""}
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+  `;
+  container.appendChild(el);
+  setTimeout(() => {
+    el.classList.add("leaving");
+    setTimeout(() => el.remove(), 260);
+  }, duration);
+}
+
+/* ===================================
+   API
 =================================== */
 async function api(payload) {
-  const response = await fetch(API_URL, {
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   });
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.message || "Request Failed");
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Request failed");
   return data;
 }
 
-async function createProfile(username, avatar) {
-  return api({ action: "create", username, avatar });
+/* ===================================
+   AUTH
+=================================== */
+async function handleSignup() {
+  const email    = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+  const username = document.getElementById("signupUsername").value.trim();
+
+  if (!email || !password || !username) { toast("Missing fields", "Please fill in all fields.", "warning"); return; }
+  if (password.length < 6)             { toast("Weak password", "Password must be at least 6 characters.", "warning"); return; }
+  if (username.length < 3)             { toast("Short username", "Username must be at least 3 characters.", "warning"); return; }
+
+  setBtnLoading("signupBtn", true);
+  try {
+    const result = await api({ action: "signup", email, password, username, avatar: selectedAvatar });
+    currentUser = result.profile;
+    saveSession(email);
+    closeModal("authModal");
+    toast("Account created! 🎉", `Welcome, ${username}!`, "success");
+    refreshUI();
+  } catch (e) {
+    toast("Sign up failed", e.message, "error");
+  }
+  setBtnLoading("signupBtn", false);
 }
 
-async function getProfile(username) {
-  return api({ action: "profile", username });
+async function handleLogin() {
+  const email    = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (!email || !password) { toast("Missing fields", "Please enter email and password.", "warning"); return; }
+
+  setBtnLoading("loginBtn", true);
+  try {
+    const result = await api({ action: "login", email, password });
+    currentUser = result.profile;
+    saveSession(email);
+    closeModal("authModal");
+    toast("Signed in! 👋", `Welcome back, ${currentUser.username}!`, "success");
+    refreshUI();
+  } catch (e) {
+    toast("Sign in failed", e.message, "error");
+  }
+  setBtnLoading("loginBtn", false);
 }
 
-async function getLeaderboard() {
-  return api({ action: "leaderboard" });
+function handleSignOut() {
+  currentUser = null;
+  localStorage.removeItem("sudoku_email");
+  refreshUI();
+  toast("Signed out", "Your session has ended.", "info");
+}
+
+function saveSession(email) {
+  localStorage.setItem("sudoku_email", email);
+}
+
+async function restoreSession() {
+  const email = localStorage.getItem("sudoku_email");
+  if (!email) return;
+  try {
+    const result = await api({ action: "profile-by-email", email });
+    currentUser = result.profile;
+    refreshUI();
+  } catch (e) {
+    // session invalid, clear it
+    localStorage.removeItem("sudoku_email");
+  }
+}
+
+function setBtnLoading(id, loading) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? "Please wait…" : (id === "signupBtn" ? "Create Account" : "Sign In");
+}
+
+/* ===================================
+   PROFILE EDIT
+=================================== */
+function openEditProfile() {
+  if (!currentUser) { openAuthModal(); return; }
+  document.getElementById("editUsername").value = currentUser.username;
+  editSelectedAvatar = currentUser.avatar;
+  buildAvatarGrid("editAvatarGrid", "editSelectedAvatar", (av) => { editSelectedAvatar = av; });
+  // Pre-select current avatar
+  setTimeout(() => {
+    document.querySelectorAll("#editAvatarGrid .av-btn").forEach(b => {
+      if (b.textContent === currentUser.avatar) b.classList.add("selected");
+    });
+  }, 50);
+  openModal("editProfileModal");
+}
+
+async function saveProfileEdit() {
+  if (!currentUser) return;
+  const username = document.getElementById("editUsername").value.trim();
+  if (username.length < 3) { toast("Short username", "At least 3 characters needed.", "warning"); return; }
+  try {
+    const result = await api({ action: "update-profile", email: currentUser.email, username, avatar: editSelectedAvatar });
+    currentUser = result.profile;
+    closeModal("editProfileModal");
+    toast("Profile updated!", "", "success");
+    refreshUI();
+  } catch (e) {
+    toast("Update failed", e.message, "error");
+  }
 }
 
 async function saveGame(won, time) {
-  const username = localStorage.getItem("sudoku_username");
-  if (!username) return;
-  return api({ action: "save-game", username, difficulty: currentDifficulty, won, time });
-}
-
-/* ===================================
-   SCREENS
-=================================== */
-function openScreen(screenId) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(screenId).classList.add("active");
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-  const activeBtn = document.querySelector(`[data-screen="${screenId}"]`);
-  if (activeBtn) activeBtn.classList.add("active");
-
-  // Load data when switching to screens
-  if (screenId === "profileScreen") loadProfile();
-  if (screenId === "leaderboardScreen") loadLeaderboard();
-  if (screenId === "playScreen" && !gameActive) startGame();
-}
-
-/* ===================================
-   THEME
-=================================== */
-function loadTheme() {
-  const savedTheme = localStorage.getItem("sudoku_theme");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark");
-    document.getElementById("themeBtn").textContent = "☀️";
-  }
-}
-
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-  const isDark = document.body.classList.contains("dark");
-  localStorage.setItem("sudoku_theme", isDark ? "dark" : "light");
-  document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
-}
-
-/* ===================================
-   AVATAR GRID
-=================================== */
-function buildAvatarGrid() {
-  const avatars = ["😀","😎","🤖","🔥","🚀","👑","🎯","⚡","🧠","🐱","🐼","🦁"];
-  const container = document.getElementById("avatarGrid");
-  container.innerHTML = "";
-  avatars.forEach(avatar => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.textContent = avatar;
-    btn.style.cssText = "height:58px;font-size:26px;border-radius:14px;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:border 0.15s;";
-    btn.onclick = () => {
-      selectedAvatar = avatar;
-      document.querySelectorAll("#avatarGrid button").forEach(b => b.style.border = "1px solid var(--border)");
-      btn.style.border = "2px solid var(--primary)";
-    };
-    container.appendChild(btn);
-  });
-}
-
-/* ===================================
-   PROFILE
-=================================== */
-async function saveProfileSetup() {
-  const username = document.getElementById("usernameInput").value.trim();
-  if (username.length < 3) {
-    alert("Username must be at least 3 characters");
-    return;
-  }
+  if (!currentUser) return;
   try {
-    await createProfile(username, selectedAvatar);
-    localStorage.setItem("sudoku_username", username);
-    document.getElementById("profileModal").classList.remove("show");
-    await loadProfile();
-    await loadLeaderboard();
-  } catch (error) {
-    alert(error.message);
+    const result = await api({ action: "save-game", email: currentUser.email, difficulty: currentDifficulty, won, time });
+    if (result.xpEarned > 0) toast(`+${result.xpEarned} XP`, `Now Level ${result.newLevel}`, "success", 4000);
+    // Refresh profile silently
+    const prof = await api({ action: "profile-by-email", email: currentUser.email });
+    currentUser = prof.profile;
+    refreshUI();
+  } catch (e) {
+    console.error(e);
   }
 }
 
-async function loadProfile() {
-  const username = localStorage.getItem("sudoku_username");
-  if (!username) {
-    // Show guest state
-    document.getElementById("profileUsername").textContent = "Guest Player";
-    document.getElementById("profileAvatar").textContent = "😀";
-    return;
-  }
-  try {
-    const result = await getProfile(username);
-    currentUser = result.profile;
-    document.getElementById("profileUsername").textContent = currentUser.username;
+/* ===================================
+   UI REFRESH
+=================================== */
+function refreshUI() {
+  if (currentUser) {
+    // Header auth btn
+    document.getElementById("headerAuthBtn").textContent = currentUser.avatar;
+    // Home hero
+    document.getElementById("homeLevel").textContent = currentUser.level;
+    updateXPBar();
+    // Profile screen
     document.getElementById("profileAvatar").textContent = currentUser.avatar;
+    document.getElementById("profileUsername").textContent = currentUser.username;
+    document.getElementById("profileLevel").textContent = `Level ${currentUser.level}`;
+    document.getElementById("profileEmail").textContent = currentUser.email;
     document.getElementById("profileXP").textContent = currentUser.xp;
     document.getElementById("profileWins").textContent = currentUser.wins;
     document.getElementById("profileGames").textContent = currentUser.games_played;
-    document.getElementById("profileBest").textContent = currentUser.best_time ?? "--";
-    document.getElementById("profileLevel").textContent = `Level ${currentUser.level}`;
-    document.getElementById("homeLevel").textContent = currentUser.level;
-    updateXPBar();
-  } catch (error) {
-    console.error("Profile load error:", error);
+    document.getElementById("profileBest").textContent = currentUser.best_time ? formatTime(currentUser.best_time) : "--";
+    // Auth row in profile
+    document.getElementById("authRowLabel").textContent = "Sign Out";
+    document.getElementById("authRowSub").textContent = currentUser.email;
+    document.getElementById("authRowBtn").textContent = "→";
+    document.getElementById("authRowBtn").onclick = handleSignOut;
+  } else {
+    document.getElementById("headerAuthBtn").textContent = "👤";
+    document.getElementById("homeLevel").textContent = "1";
+    document.getElementById("xpFill").style.width = "0%";
+    document.getElementById("xpText").textContent = "0 XP";
+    document.getElementById("profileAvatar").textContent = "😀";
+    document.getElementById("profileUsername").textContent = "Guest Player";
+    document.getElementById("profileLevel").textContent = "Level 1";
+    document.getElementById("profileEmail").textContent = "Not signed in";
+    document.getElementById("profileXP").textContent = "0";
+    document.getElementById("profileWins").textContent = "0";
+    document.getElementById("profileGames").textContent = "0";
+    document.getElementById("profileBest").textContent = "--";
+    document.getElementById("authRowLabel").textContent = "Sign In / Sign Up";
+    document.getElementById("authRowSub").textContent = "Login to save your progress";
+    document.getElementById("authRowBtn").onclick = openAuthModal;
   }
 }
 
@@ -938,124 +1427,187 @@ function updateXPBar() {
   document.getElementById("xpText").textContent = `${currentUser.xp} XP`;
 }
 
+function formatTime(secs) {
+  const m = Math.floor(secs / 60), s = secs % 60;
+  return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
 /* ===================================
    LEADERBOARD
 =================================== */
 async function loadLeaderboard() {
   const container = document.getElementById("leaderboardContainer");
-  container.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>Loading...</p></div>';
+  container.innerHTML = '<div class="empty-state"><div class="e-icon">⏳</div><p>Loading rankings…</p></div>';
   try {
-    const result = await getLeaderboard();
-    if (!result.leaderboard || result.leaderboard.length === 0) {
-      container.innerHTML = '<div class="empty-state"><div class="icon">🏆</div><p>No players yet. Be the first!</p></div>';
+    const result = await api({ action: "leaderboard" });
+    if (!result.leaderboard?.length) {
+      container.innerHTML = '<div class="empty-state"><div class="e-icon">🏆</div><p>No players yet — be the first!</p></div>';
       return;
     }
-    container.innerHTML = "";
-    result.leaderboard.forEach((player, index) => {
-      const medals = ["🥇","🥈","🥉"];
-      const rank = medals[index] || `#${index + 1}`;
-      container.innerHTML += `
-        <div class="card leaderboard-item">
-          <div class="leaderboard-row">
-            <div class="leaderboard-left">
-              <span class="leaderboard-rank">${rank}</span>
-              <span style="font-size:1.4rem">${player.avatar}</span>
-              <span class="leaderboard-name">${player.username}</span>
+    const medals = ["🥇","🥈","🥉"];
+    container.innerHTML = result.leaderboard.map((p, i) => `
+      <div class="card lb-item">
+        <div class="lb-row">
+          <div class="lb-left">
+            <span class="lb-rank">${medals[i] || `#${i+1}`}</span>
+            <span style="font-size:1.3rem">${p.avatar}</span>
+            <div>
+              <div class="lb-name">${p.username}</div>
+              <div class="lb-sub">Level ${p.level} · ${p.wins} wins</div>
             </div>
-            <span class="leaderboard-xp">${player.xp} XP</span>
           </div>
+          <span class="lb-xp">${p.xp} XP</span>
         </div>
-      `;
-    });
-  } catch (error) {
-    container.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Could not load leaderboard.</p></div>';
-    console.error(error);
+      </div>
+    `).join("");
+  } catch (e) {
+    container.innerHTML = '<div class="empty-state"><div class="e-icon">⚠️</div><p>Could not load leaderboard.</p></div>';
   }
 }
 
 /* ===================================
-   DIFFICULTY CONFIG
+   SETUP FLOW
 =================================== */
-const DIFFICULTY_CONFIG = {
-  easy:     { remove4: 4,  remove9: 30 },
-  moderate: { remove4: 6,  remove9: 42 },
-  hard:     { remove4: 8,  remove9: 55 }
-};
+let setupBoard = null;
+let setupDifficulty = null;
 
-/* ===================================
-   UTIL
-=================================== */
-function shuffle(array) {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
+function selectBoard(size) {
+  setupBoard = size;
+  document.querySelectorAll(".board-card").forEach(c => c.classList.toggle("selected", Number(c.dataset.board) === size));
+  document.getElementById("step1Next").disabled = false;
+}
+
+function selectDifficulty(diff) {
+  setupDifficulty = diff;
+  document.querySelectorAll(".diff-card").forEach(c => c.classList.toggle("selected", c.dataset.difficulty === diff));
+  document.getElementById("step2Next").disabled = false;
+}
+
+function goStep(step) {
+  // Validate
+  if (step === 2 && !setupBoard) { toast("Select a board", "Please choose 4×4 or 9×9 first.", "warning"); return; }
+  if (step === 3 && !setupDifficulty) { toast("Select difficulty", "Please choose a difficulty level.", "warning"); return; }
+
+  // Update indicators
+  [1,2,3].forEach(i => {
+    const dot = document.getElementById(`sd${i}`);
+    dot.classList.toggle("active", i === step);
+    dot.classList.toggle("done", i < step);
+  });
+  [1,2].forEach(i => {
+    document.getElementById(`sl${i}`)?.classList.toggle("done", i < step);
+  });
+
+  // Show panel
+  document.querySelectorAll(".step-panel").forEach(p => p.classList.remove("active"));
+  document.getElementById(`step${step}`).classList.add("active");
+
+  // Update summary
+  if (step === 3) updateSummary();
+}
+
+function updateSummary() {
+  const conf = DIFFICULTY_CONFIG[setupDifficulty];
+  document.getElementById("summaryIcon").textContent = conf.icon;
+  document.getElementById("summaryTitle").textContent = `Ready to Play!`;
+  document.getElementById("summaryDesc").textContent = `A ${setupBoard}×${setupBoard} ${setupDifficulty} game awaits you. Good luck!`;
+  document.getElementById("summaryBoard").textContent = `${setupBoard}×${setupBoard}`;
+  document.getElementById("summaryDiff").textContent = setupDifficulty.charAt(0).toUpperCase() + setupDifficulty.slice(1);
+  document.getElementById("summaryXP").textContent = `+${conf.xp} XP on win`;
 }
 
 /* ===================================
-   4x4 GENERATOR
+   GAME START
 =================================== */
+function startGame() {
+  if (setupBoard)      currentBoardSize   = setupBoard;
+  if (setupDifficulty) currentDifficulty  = setupDifficulty;
+
+  gameActive = true;
+  selectedCell = null;
+  notesMode = false;
+  document.getElementById("notesBtn").classList.remove("active");
+
+  currentBoardSize === 4 ? create4x4Puzzle() : create9x9Puzzle();
+
+  mistakes = 0; hints = 10;
+  document.getElementById("mistakeCount").textContent = "0/20";
+  document.getElementById("hintCount").textContent = "10";
+  document.getElementById("difficultyText").textContent =
+    currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1);
+  document.getElementById("gameSubtitle").textContent =
+    `${currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)} · ${currentBoardSize}×${currentBoardSize}`;
+
+  renderBoard();
+  renderNumberPad();
+  startTimer();
+  openScreen("playScreen");
+}
+
+function confirmNewGame() {
+  if (!gameActive) { openScreen("homeScreen"); goStep(1); return; }
+  if (confirm("Start a new game? Your current progress will be lost.")) {
+    openScreen("homeScreen");
+    // Reset setup flow
+    setupBoard = null; setupDifficulty = null;
+    goStep(1);
+    document.querySelectorAll(".board-card").forEach(c => c.classList.remove("selected"));
+    document.querySelectorAll(".diff-card").forEach(c => c.classList.remove("selected"));
+    document.getElementById("step1Next").disabled = true;
+    document.getElementById("step2Next").disabled = true;
+    clearInterval(timerInterval);
+    gameActive = false;
+  }
+}
+
+/* ===================================
+   PUZZLE GENERATORS
+=================================== */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
 function generate4x4Solution() {
-  // Randomly pick one of several valid 4x4 Latin squares
   const bases = [
     [[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]],
     [[1,2,3,4],[3,4,1,2],[4,3,2,1],[2,1,4,3]],
     [[2,1,4,3],[4,3,2,1],[1,2,3,4],[3,4,1,2]],
   ];
-  return bases[Math.floor(Math.random() * bases.length)];
+  return bases[Math.floor(Math.random()*bases.length)];
 }
-
 function create4x4Puzzle() {
   solution = generate4x4Solution();
-  puzzle = solution.map(row => [...row]);
-  const removeCount = DIFFICULTY_CONFIG[currentDifficulty].remove4;
-  let removed = 0;
-  let attempts = 0;
-  while (removed < removeCount && attempts < 100) {
-    const row = Math.floor(Math.random() * 4);
-    const col = Math.floor(Math.random() * 4);
-    if (puzzle[row][col] !== 0) {
-      puzzle[row][col] = 0;
-      removed++;
-    }
+  puzzle = solution.map(r => [...r]);
+  let removed = 0, attempts = 0;
+  const count = DIFFICULTY_CONFIG[currentDifficulty].remove4;
+  while (removed < count && attempts < 200) {
+    const r = Math.floor(Math.random()*4), c = Math.floor(Math.random()*4);
+    if (puzzle[r][c] !== 0) { puzzle[r][c] = 0; removed++; }
     attempts++;
   }
 }
-
-/* ===================================
-   9x9 GENERATOR
-=================================== */
 function generate9x9Solution() {
   const base = [
-    [1,2,3,4,5,6,7,8,9],
-    [4,5,6,7,8,9,1,2,3],
-    [7,8,9,1,2,3,4,5,6],
-    [2,3,4,5,6,7,8,9,1],
-    [5,6,7,8,9,1,2,3,4],
-    [8,9,1,2,3,4,5,6,7],
-    [3,4,5,6,7,8,9,1,2],
-    [6,7,8,9,1,2,3,4,5],
-    [9,1,2,3,4,5,6,7,8]
+    [1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],
+    [2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],[8,9,1,2,3,4,5,6,7],
+    [3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]
   ];
   const nums = shuffle([1,2,3,4,5,6,7,8,9]);
-  return base.map(row => row.map(n => nums[n - 1]));
+  return base.map(row => row.map(n => nums[n-1]));
 }
-
 function create9x9Puzzle() {
   solution = generate9x9Solution();
-  puzzle = solution.map(row => [...row]);
-  const removeCount = DIFFICULTY_CONFIG[currentDifficulty].remove9;
-  let removed = 0;
-  let attempts = 0;
-  while (removed < removeCount && attempts < 500) {
-    const row = Math.floor(Math.random() * 9);
-    const col = Math.floor(Math.random() * 9);
-    if (puzzle[row][col] !== 0) {
-      puzzle[row][col] = 0;
-      removed++;
-    }
+  puzzle = solution.map(r => [...r]);
+  let removed = 0, attempts = 0;
+  const count = DIFFICULTY_CONFIG[currentDifficulty].remove9;
+  while (removed < count && attempts < 1000) {
+    const r = Math.floor(Math.random()*9), c = Math.floor(Math.random()*9);
+    if (puzzle[r][c] !== 0) { puzzle[r][c] = 0; removed++; }
     attempts++;
   }
 }
@@ -1068,64 +1620,43 @@ function renderBoard() {
   board.innerHTML = "";
   board.className = `sudoku-board grid-${currentBoardSize}`;
   selectedCell = null;
-
-  puzzle.forEach((row, rowIndex) => {
-    row.forEach((value, colIndex) => {
+  puzzle.forEach((row, ri) => {
+    row.forEach((val, ci) => {
       const cell = document.createElement("div");
       cell.className = "cell";
-      cell.dataset.row = rowIndex;
-      cell.dataset.col = colIndex;
-
-      if (value !== 0) {
-        cell.textContent = value;
-        cell.classList.add("fixed");
-      }
-
-      cell.addEventListener("click", () => selectCell(rowIndex, colIndex));
+      cell.dataset.row = ri;
+      cell.dataset.col = ci;
+      if (val !== 0) { cell.textContent = val; cell.classList.add("fixed"); }
+      cell.addEventListener("click", () => selectCell(ri, ci));
       board.appendChild(cell);
     });
   });
 }
 
 function selectCell(row, col) {
-  // Clear all highlights
+  document.querySelectorAll(".cell").forEach(c => c.classList.remove("selected","highlight","same-value"));
+  const el = getCellEl(row, col);
+  if (!el) return;
+  selectedCell = { row, col, element: el };
+  el.classList.add("selected");
+
+  const cellVal = puzzle[row][col];
   document.querySelectorAll(".cell").forEach(c => {
-    c.classList.remove("selected", "highlight");
-  });
-
-  const clickedEl = getCellElement(row, col);
-  if (!clickedEl) return;
-
-  selectedCell = { row, col, element: clickedEl };
-  clickedEl.classList.add("selected");
-
-  // Highlight same row, col, and box
-  document.querySelectorAll(".cell").forEach(c => {
-    const r = parseInt(c.dataset.row);
-    const co = parseInt(c.dataset.col);
-    if (c === clickedEl) return;
-    if (r === row || co === col) {
-      c.classList.add("highlight");
-    }
+    if (c === el) return;
+    const r = +c.dataset.row, co = +c.dataset.col;
+    let shouldHighlight = r === row || co === col;
     if (currentBoardSize === 9) {
-      const boxRow = Math.floor(row / 3);
-      const boxCol = Math.floor(col / 3);
-      if (Math.floor(r / 3) === boxRow && Math.floor(co / 3) === boxCol) {
-        c.classList.add("highlight");
-      }
+      shouldHighlight |= (Math.floor(r/3) === Math.floor(row/3) && Math.floor(co/3) === Math.floor(col/3));
+    } else {
+      shouldHighlight |= (Math.floor(r/2) === Math.floor(row/2) && Math.floor(co/2) === Math.floor(col/2));
     }
-    if (currentBoardSize === 4) {
-      const boxRow = Math.floor(row / 2);
-      const boxCol = Math.floor(col / 2);
-      if (Math.floor(r / 2) === boxRow && Math.floor(co / 2) === boxCol) {
-        c.classList.add("highlight");
-      }
-    }
+    if (shouldHighlight) c.classList.add("highlight");
+    if (cellVal !== 0 && puzzle[r][co] === cellVal && !shouldHighlight) c.classList.add("same-value");
   });
 }
 
-function getCellElement(row, col) {
-  return document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+function getCellEl(r, c) {
+  return document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);
 }
 
 /* ===================================
@@ -1134,13 +1665,13 @@ function getCellElement(row, col) {
 function renderNumberPad() {
   const pad = document.getElementById("numberPad");
   pad.innerHTML = "";
-  const max = currentBoardSize === 4 ? 4 : 9;
-  for (let number = 1; number <= max; number++) {
-    const button = document.createElement("button");
-    button.className = "num-btn";
-    button.textContent = number;
-    button.addEventListener("click", () => placeNumber(number));
-    pad.appendChild(button);
+  const max = currentBoardSize;
+  for (let n = 1; n <= max; n++) {
+    const btn = document.createElement("button");
+    btn.className = "num-btn";
+    btn.textContent = n;
+    btn.onclick = () => placeNumber(n);
+    pad.appendChild(btn);
   }
 }
 
@@ -1153,51 +1684,14 @@ function startTimer() {
   document.getElementById("timer").textContent = "00:00";
   timerInterval = setInterval(() => {
     timerSeconds++;
-    const mins = Math.floor(timerSeconds / 60);
-    const secs = timerSeconds % 60;
+    const m = Math.floor(timerSeconds/60), s = timerSeconds%60;
     document.getElementById("timer").textContent =
-      `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+      `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
   }, 1000);
 }
 
 /* ===================================
-   RESET STATS
-=================================== */
-function resetGameStats() {
-  mistakes = 0;
-  hints = 10;
-  document.getElementById("mistakeCount").textContent = "0 / 20";
-  document.getElementById("hintCount").textContent = "10";
-  document.getElementById("difficultyText").textContent =
-    currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1);
-  document.getElementById("gameSubtitle").textContent =
-    `Hints: 10 · Mistakes Allowed: 20 · ${currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)} · ${currentBoardSize}×${currentBoardSize}`;
-}
-
-/* ===================================
-   START GAME
-=================================== */
-function startGame() {
-  gameActive = true;
-  selectedCell = null;
-  notesMode = false;
-  document.getElementById("notesBtn").classList.remove("active");
-
-  if (currentBoardSize === 4) {
-    create4x4Puzzle();
-  } else {
-    create9x9Puzzle();
-  }
-
-  resetGameStats();
-  renderBoard();
-  renderNumberPad();
-  startTimer();
-  openScreen("playScreen");
-}
-
-/* ===================================
-   NUMBER PLACEMENT
+   GAME ACTIONS
 =================================== */
 function placeNumber(number) {
   if (!selectedCell || !gameActive) return;
@@ -1205,23 +1699,17 @@ function placeNumber(number) {
   if (element.classList.contains("fixed")) return;
 
   if (notesMode) {
-    // Notes mode: toggle note numbers
     const existing = element.dataset.notes ? element.dataset.notes.split(",") : [];
-    const numStr = String(number);
-    const idx = existing.indexOf(numStr);
-    if (idx > -1) {
-      existing.splice(idx, 1);
-    } else {
-      existing.push(numStr);
-    }
+    const ns = String(number);
+    const idx = existing.indexOf(ns);
+    if (idx > -1) existing.splice(idx,1); else existing.push(ns);
     element.dataset.notes = existing.join(",");
-    element.textContent = existing.join(" ");
-    element.style.fontSize = currentBoardSize === 4 ? ".65rem" : ".55rem";
+    element.textContent = existing.sort().join(" ");
+    element.style.fontSize = currentBoardSize===4 ? ".6rem" : ".5rem";
     element.style.color = "var(--text-soft)";
     return;
   }
 
-  // Clear any notes data if placing a real number
   element.dataset.notes = "";
   element.style.fontSize = "";
   element.style.color = "";
@@ -1231,164 +1719,209 @@ function placeNumber(number) {
     element.textContent = number;
     element.classList.remove("wrong");
     element.classList.add("correct");
+    // Re-highlight same values
+    selectCell(row, col);
     checkWin();
   } else {
     mistakes++;
-    document.getElementById("mistakeCount").textContent = `${mistakes} / 20`;
+    document.getElementById("mistakeCount").textContent = `${mistakes}/20`;
     element.classList.add("wrong");
-    setTimeout(() => element.classList.remove("wrong"), 800);
+    setTimeout(() => element.classList.remove("wrong"), 700);
     if (mistakes >= 20) gameOver();
   }
 }
 
-/* ===================================
-   HINT
-=================================== */
+function toggleNotes() {
+  notesMode = !notesMode;
+  document.getElementById("notesBtn").classList.toggle("active", notesMode);
+}
+
 function useHint() {
-  if (hints <= 0) { alert("No hints remaining!"); return; }
-  if (!selectedCell) { alert("Select a cell first."); return; }
+  if (hints <= 0) { toast("No hints left", "You've used all your hints.", "warning"); return; }
+  if (!selectedCell) { toast("Select a cell", "Tap a cell first, then use a hint.", "info"); return; }
   const { row, col, element } = selectedCell;
   if (element.classList.contains("fixed")) return;
-  if (puzzle[row][col] !== 0 && puzzle[row][col] === solution[row][col]) return;
-
+  if (puzzle[row][col] === solution[row][col]) { toast("Already correct!", "This cell is already right.", "info"); return; }
   hints--;
   document.getElementById("hintCount").textContent = hints;
-  const answer = solution[row][col];
-  puzzle[row][col] = answer;
-  element.textContent = answer;
-  element.classList.remove("wrong");
-  element.classList.add("correct");
-  element.dataset.notes = "";
-  element.style.fontSize = "";
-  element.style.color = "";
+  puzzle[row][col] = solution[row][col];
+  element.textContent = solution[row][col];
+  element.classList.remove("wrong"); element.classList.add("correct");
+  element.dataset.notes = ""; element.style.fontSize = ""; element.style.color = "";
   checkWin();
 }
 
-/* ===================================
-   ERASE
-=================================== */
 function eraseCell() {
   if (!selectedCell) return;
   const { row, col, element } = selectedCell;
   if (element.classList.contains("fixed")) return;
   puzzle[row][col] = 0;
   element.textContent = "";
-  element.dataset.notes = "";
-  element.style.fontSize = "";
-  element.style.color = "";
-  element.classList.remove("correct", "wrong");
+  element.dataset.notes = ""; element.style.fontSize = ""; element.style.color = "";
+  element.classList.remove("correct","wrong");
+}
+
+function solvePuzzle() {
+  if (!confirm("Reveal the full solution? This will end the game.")) return;
+  clearInterval(timerInterval);
+  gameActive = false;
+  puzzle = solution.map(r => [...r]);
+  renderBoard();
+  document.querySelectorAll(".cell").forEach(c => c.classList.add("correct"));
+  toast("Solution revealed", "Better luck next time!", "info");
+}
+
+function checkBoard() {
+  let allFilled = true, hasErrors = false;
+  for (let r = 0; r < currentBoardSize; r++) {
+    for (let c = 0; c < currentBoardSize; c++) {
+      if (puzzle[r][c] === 0) { allFilled = false; continue; }
+      if (puzzle[r][c] !== solution[r][c]) {
+        hasErrors = true;
+        const el = getCellEl(r,c);
+        el?.classList.add("wrong");
+        setTimeout(() => el?.classList.remove("wrong"), 1500);
+      }
+    }
+  }
+  if (!allFilled)    toast("Not done yet", "Some cells are still empty.", "info");
+  else if (hasErrors) toast("Errors found", "Incorrect cells are highlighted in red.", "warning");
+  else                checkWin();
+}
+
+function gameOver() {
+  clearInterval(timerInterval);
+  gameActive = false;
+  openModal("gameOverModal");
+}
+
+async function checkWin() {
+  for (let r = 0; r < puzzle.length; r++)
+    for (let c = 0; c < puzzle[r].length; c++)
+      if (puzzle[r][c] !== solution[r][c]) return;
+
+  clearInterval(timerInterval);
+  gameActive = false;
+  await saveGame(true, timerSeconds);
+  document.getElementById("winMessage").textContent =
+    `Completed in ${formatTime(timerSeconds)} on ${currentDifficulty} difficulty!`;
+  openModal("winModal");
 }
 
 /* ===================================
-   SOLVE
+   MODAL HELPERS
 =================================== */
-function solvePuzzle() {
-  if (!confirm("Are you sure you want to reveal the solution?")) return;
-  clearInterval(timerInterval);
-  gameActive = false;
-  puzzle = solution.map(row => [...row]);
-  renderBoard();
-  // Mark all cells as correct
-  document.querySelectorAll(".cell").forEach(cell => {
-    cell.classList.add("correct");
+function openModal(id) { document.getElementById(id).classList.add("show"); }
+function closeModal(id) { document.getElementById(id).classList.remove("show"); }
+
+function openAuthModal() {
+  buildAvatarGrid("signupAvatarGrid", "selectedAvatar", (av) => { selectedAvatar = av; });
+  switchAuthTab("signup");
+  openModal("authModal");
+}
+
+function switchAuthTab(tab) {
+  document.getElementById("signupPanel").style.display = tab==="signup" ? "block" : "none";
+  document.getElementById("loginPanel").style.display  = tab==="login"  ? "block" : "none";
+  document.getElementById("tabSignup").classList.toggle("active", tab==="signup");
+  document.getElementById("tabLogin").classList.toggle("active",  tab==="login");
+}
+
+// Close modal on backdrop click
+document.querySelectorAll(".modal").forEach(m => {
+  m.addEventListener("click", e => { if (e.target === m) m.classList.remove("show"); });
+});
+
+/* ===================================
+   AVATAR GRID BUILDER
+=================================== */
+function buildAvatarGrid(containerId, varName, onSelect) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = "";
+  AVATARS.forEach(av => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "av-btn";
+    btn.textContent = av;
+    btn.onclick = () => {
+      container.querySelectorAll(".av-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      onSelect(av);
+    };
+    container.appendChild(btn);
   });
 }
 
 /* ===================================
-   CHECK
+   SCREENS
 =================================== */
-function checkBoard() {
-  let allFilled = true;
-  let allCorrect = true;
-
-  for (let r = 0; r < currentBoardSize; r++) {
-    for (let c = 0; c < currentBoardSize; c++) {
-      const cell = getCellElement(r, c);
-      if (!cell) continue;
-      if (puzzle[r][c] === 0) {
-        allFilled = false;
-        continue;
-      }
-      if (puzzle[r][c] !== solution[r][c]) {
-        allCorrect = false;
-        cell.classList.add("wrong");
-        setTimeout(() => cell.classList.remove("wrong"), 1500);
-      }
-    }
-  }
-
-  if (!allFilled) {
-    alert("Board is not complete yet. Keep going!");
-  } else if (allCorrect) {
-    checkWin();
-  } else {
-    alert("Some cells are incorrect. They are highlighted in red.");
-  }
+function openScreen(screenId) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(screenId).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector(`[data-screen="${screenId}"]`)?.classList.add("active");
+  if (screenId === "leaderboardScreen") loadLeaderboard();
 }
 
+// Nav buttons
+document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const screen = btn.dataset.screen;
+    if (screen === "playScreen") {
+      if (gameActive) {
+        // Just switch to play screen without restarting
+        document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+        document.getElementById("playScreen").classList.add("active");
+        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      } else {
+        openScreen("homeScreen");
+      }
+    } else {
+      openScreen(screen);
+    }
+  });
+});
+
 /* ===================================
-   GAME OVER
+   THEME
 =================================== */
-function gameOver() {
-  clearInterval(timerInterval);
-  gameActive = false;
-  document.getElementById("gameOverModal").classList.add("show");
+function loadTheme() {
+  const dark = localStorage.getItem("sudoku_theme") === "dark";
+  document.body.classList.toggle("dark", dark);
+  document.getElementById("darkToggle").classList.toggle("on", dark);
+  document.getElementById("themeBtn").textContent = dark ? "☀️" : "🌙";
 }
 
-/* ===================================
-   WIN
-=================================== */
-async function checkWin() {
-  for (let r = 0; r < puzzle.length; r++) {
-    for (let c = 0; c < puzzle[r].length; c++) {
-      if (puzzle[r][c] !== solution[r][c]) return;
-    }
-  }
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  const isDark = document.body.classList.contains("dark");
+  localStorage.setItem("sudoku_theme", isDark ? "dark" : "light");
+  document.getElementById("darkToggle").classList.toggle("on", isDark);
+  document.getElementById("themeBtn").textContent = isDark ? "☀️" : "🌙";
+}
 
-  clearInterval(timerInterval);
-  gameActive = false;
-
-  const mins = Math.floor(timerSeconds / 60);
-  const secs = timerSeconds % 60;
-  const timeStr = mins > 0
-    ? `${mins}m ${secs}s`
-    : `${secs}s`;
-
-  try {
-    await saveGame(true, timerSeconds);
-    await loadProfile();
-    await loadLeaderboard();
-  } catch (error) {
-    console.error(error);
-  }
-
-  document.getElementById("winMessage").textContent =
-    `Completed in ${timeStr}! Difficulty: ${currentDifficulty}`;
-  document.getElementById("winModal").classList.add("show");
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById("soundToggle").classList.toggle("on", soundEnabled);
 }
 
 /* ===================================
    KEYBOARD SUPPORT
 =================================== */
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", e => {
   if (!gameActive) return;
   const num = parseInt(e.key);
-  if (num >= 1 && num <= currentBoardSize) {
-    placeNumber(num);
-    return;
-  }
-  if (e.key === "Backspace" || e.key === "Delete") {
-    eraseCell();
-    return;
-  }
-  // Arrow key navigation
+  if (num >= 1 && num <= currentBoardSize) { placeNumber(num); return; }
+  if (e.key === "Backspace" || e.key === "Delete") { eraseCell(); return; }
   if (!selectedCell) return;
   let { row, col } = selectedCell;
-  const size = currentBoardSize;
-  if (e.key === "ArrowUp")    row = Math.max(0, row - 1);
-  if (e.key === "ArrowDown")  row = Math.min(size - 1, row + 1);
-  if (e.key === "ArrowLeft")  col = Math.max(0, col - 1);
-  if (e.key === "ArrowRight") col = Math.min(size - 1, col + 1);
+  const sz = currentBoardSize;
+  if (e.key==="ArrowUp")    row = Math.max(0,row-1);
+  if (e.key==="ArrowDown")  row = Math.min(sz-1,row+1);
+  if (e.key==="ArrowLeft")  col = Math.max(0,col-1);
+  if (e.key==="ArrowRight") col = Math.min(sz-1,col+1);
   if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) {
     e.preventDefault();
     selectCell(row, col);
@@ -1396,109 +1929,26 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* ===================================
-   EVENT LISTENERS
+   PROFILE SCREEN BUTTONS
 =================================== */
-
-// Nav buttons
-document.querySelectorAll(".nav-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const screen = btn.dataset.screen;
-    if (screen === "playScreen" && gameActive) {
-      openScreen("playScreen");
-      // just switch screen, don't restart
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById("playScreen").classList.add("active");
-      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-    } else {
-      openScreen(screen);
-    }
-  });
+document.getElementById("editProfileBtn").addEventListener("click", openEditProfile);
+document.getElementById("headerAuthBtn").addEventListener("click", () => {
+  if (currentUser) openScreen("profileScreen");
+  else openAuthModal();
 });
-
-// Theme
-document.getElementById("themeBtn").addEventListener("click", toggleTheme);
-document.getElementById("darkToggle").addEventListener("click", toggleTheme);
-
-// Home board select
-document.querySelectorAll(".board-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    currentBoardSize = Number(btn.dataset.board);
-    startGame();
-  });
-});
-
-// Difficulty buttons
-document.querySelectorAll(".difficulty-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    currentDifficulty = btn.dataset.difficulty;
-    document.querySelectorAll(".difficulty-btn").forEach(b => b.classList.remove("selected-diff"));
-    btn.classList.add("selected-diff");
-  });
-});
-
-// Tool buttons
-document.getElementById("notesBtn").addEventListener("click", () => {
-  notesMode = !notesMode;
-  document.getElementById("notesBtn").classList.toggle("active", notesMode);
-});
-
-document.getElementById("eraseBtn").addEventListener("click", eraseCell);
-document.getElementById("hintBtn").addEventListener("click", useHint);
-document.getElementById("newGameBtn").addEventListener("click", startGame);
-document.getElementById("solveBtn").addEventListener("click", solvePuzzle);
-document.getElementById("checkBtn").addEventListener("click", checkBoard);
-
-// Modal buttons
-document.getElementById("playAgainBtn").addEventListener("click", () => {
-  document.getElementById("gameOverModal").classList.remove("show");
-  startGame();
-});
-document.getElementById("goHomeBtn").addEventListener("click", () => {
-  document.getElementById("gameOverModal").classList.remove("show");
-  openScreen("homeScreen");
-});
-document.getElementById("nextGameBtn").addEventListener("click", () => {
-  document.getElementById("winModal").classList.remove("show");
-  startGame();
-});
-document.getElementById("winHomeBtn").addEventListener("click", () => {
-  document.getElementById("winModal").classList.remove("show");
-  openScreen("homeScreen");
-});
-
-// Profile
-document.getElementById("saveProfileBtn").addEventListener("click", saveProfileSetup);
-document.getElementById("editProfileBtn").addEventListener("click", () => {
-  buildAvatarGrid();
-  const stored = localStorage.getItem("sudoku_username");
-  if (stored) document.getElementById("usernameInput").value = stored;
-  document.getElementById("profileModal").classList.add("show");
-});
-
-// Close modals on backdrop click
-document.querySelectorAll(".modal").forEach(modal => {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) modal.classList.remove("show");
-  });
+document.getElementById("authRowBtn").addEventListener("click", () => {
+  if (currentUser) handleSignOut();
+  else openAuthModal();
 });
 
 /* ===================================
    INIT
 =================================== */
-function init() {
+async function init() {
   loadTheme();
-  buildAvatarGrid();
-  loadProfile();
-  loadLeaderboard();
-
-  // Check if profile exists, if not prompt
-  const username = localStorage.getItem("sudoku_username");
-  if (!username) {
-    setTimeout(() => {
-      document.getElementById("profileModal").classList.add("show");
-    }, 800);
-  }
+  refreshUI();
+  await restoreSession();
+  refreshUI();
 }
 
 init();
