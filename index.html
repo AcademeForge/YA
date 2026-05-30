@@ -23625,6 +23625,131 @@ html.dark .af-name-only-cancel,
     grid-template-columns: 1fr !important;
   }
 }
+    .af-answer-review-wrapper-v1{
+  margin-top:20px;
+}
+
+.af-answer-review-card-v1{
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:12px;
+  background:#fff;
+}
+
+.af-answer-review-card-v1.correct{
+  border-left:4px solid #22c55e;
+}
+
+.af-answer-review-card-v1.wrong{
+  border-left:4px solid #ef4444;
+}
+
+.af-answer-review-head-v1{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+
+.af-answer-review-row-v1{
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+}
+
+.af-answer-review-explanation-v1{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:rgba(255,255,255,.05);
+}
+    .af-test-dashboard-actions-v1{
+  margin-top:16px;
+}
+
+.af-test-review-btn-v1{
+  width:100%;
+}
+    /* =========================
+   REVIEW ANSWERS DARK MODE
+========================= */
+
+body.dark-mode .af-answer-review-card-v1,
+.dark-mode .af-answer-review-card-v1 {
+  background: #1b2238 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .af-answer-review-card-v1 p,
+body.dark-mode .af-answer-review-card-v1 b,
+body.dark-mode .af-answer-review-card-v1 small,
+body.dark-mode .af-answer-review-card-v1 span,
+.dark-mode .af-answer-review-card-v1 p,
+.dark-mode .af-answer-review-card-v1 b,
+.dark-mode .af-answer-review-card-v1 small,
+.dark-mode .af-answer-review-card-v1 span {
+  color: #ffffff !important;
+}
+
+body.dark-mode .af-answer-review-row-v1,
+.dark-mode .af-answer-review-row-v1 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .af-answer-review-head-v1,
+.dark-mode .af-answer-review-head-v1 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .af-answer-review-wrapper-v1 h4,
+.dark-mode .af-answer-review-wrapper-v1 h4 {
+  color: #ffffff !important;
+}
+
+body.dark-mode .af-test-result-card-v1,
+.dark-mode .af-test-result-card-v1 {
+  background: #1b2238 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .af-test-result-card-v1 *,
+.dark-mode .af-test-result-card-v1 * {
+  color: #ffffff !important;
+}
+    /* =========================
+   REVIEW RESULT DARK MODE
+========================= */
+
+.dark-mode .af-test-result-card-v1 .af-test-result-grid-v1 span,
+body.dark-mode .af-test-result-card-v1 .af-test-result-grid-v1 span {
+  background: #11182d !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  color: #ffffff !important;
+}
+
+.dark-mode .af-test-result-card-v1 .af-test-result-grid-v1 span b,
+body.dark-mode .af-test-result-card-v1 .af-test-result-grid-v1 span b {
+  color: #ffffff !important;
+}
+
+.dark-mode .af-test-result-card-v1,
+body.dark-mode .af-test-result-card-v1 {
+  background: #18223f !important;
+}
+
+.dark-mode .af-test-result-card-v1 h3,
+.dark-mode .af-test-result-card-v1 strong,
+body.dark-mode .af-test-result-card-v1 h3,
+body.dark-mode .af-test-result-card-v1 strong {
+  color: #ffffff !important;
+}
+    #afTestDashboardPageV1 .af-test-dashboard-actions-v1{
+  display:block;
+}
+
+#afTestMainContentV1 .af-test-dashboard-actions-v1,
+#afTestRankingPageV1 .af-test-dashboard-actions-v1{
+  display:none !important;
+}
 </style>
 </head>
 
@@ -23810,7 +23935,7 @@ html.dark .af-name-only-cancel,
             <span>📊</span>
             <b>Your Dashboard</b>
           </button>
-
+          
           <button type="button" onclick="openAFTestRankingPageV1()">
             <span>🏆</span>
             <b>National Rankings</b>
@@ -23859,12 +23984,14 @@ html.dark .af-name-only-cancel,
             <p>Track your latest score, rank, speed and overall performance.</p>
           </div>
         </div>
+<div id="afTestHistoryV1" class="af-test-history-v1">
+  <div class="af-test-history-empty-v1">
+    No test ranking yet.
+  </div>
+</div>
 
-        <div id="afTestHistoryV1" class="af-test-history-v1">
-          <div class="af-test-history-empty-v1">No test ranking yet.</div>
-        </div>
-      </div>
-
+</div>
+      
       <!-- NATIONAL RANKING FULL PAGE -->
       <div id="afTestRankingPageV1" class="af-test-sub-page-v1 af-hidden">
         <div class="af-test-sub-head-v1">
@@ -25127,6 +25254,18 @@ html.dark .af-name-only-cancel,
   <span class="settings-new-badge">Track</span>
 </button>
       
+    <button
+  type="button"
+  class="settings-row settings-row-btn"
+  onclick="showSection('afReviewPageV1'); openLastTestReviewV1();"
+>
+  <div class="settings-row-left">
+    <span class="settings-row-icon">📖</span>
+    <span>Latest Test Review</span>
+  </div>
+  <span class="settings-arrow">›</span>
+</button>
+      
       <button
   type="button"
   class="settings-row settings-row-btn"
@@ -25316,6 +25455,37 @@ onclick="openNotesAF()"
     <div id="contactRequestStatusListAf" class="request-status-list-af"></div>
   </div>
 </section>
+
+       <!-- ==============================
+ REview page
+================================ -->
+  <section id="afReviewPageV1" class="section">
+
+  <div class="panel glass">
+
+    <button
+      class="back-mini"
+      onclick="showSection('settings')"
+    >
+      ← Back
+    </button>
+
+    <h2>Latest Test Review</h2>
+
+    <div id="afReviewContentV1">
+
+      <div class="af-test-empty-card-v1">
+        <div class="af-test-empty-icon-v1">📖</div>
+        <h3>Loading Review...</h3>
+        <p>Please wait.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+    
     <!-- ==============================
   LANGUAGE AF
 ================================ -->
@@ -35985,6 +36155,7 @@ let afCurrentQuestionIndexV1 = 0;
 let afTestAnswersV1 = {};
 let afCurrentAttemptedDataV1 = null;
 let afPendingSubmitAutoV1 = false;
+let afReviewVisibleV1 = false;
 
 /* =========================
    STUDENT
@@ -36530,36 +36701,222 @@ function renderAFTestResultV1(result) {
   const area = document.getElementById("afTestAreaV1");
   if (!area) return;
 
+  const reviewHtml = (result.review || [])
+    .map((r, index) => {
+      return `
+        <div class="af-answer-review-card-v1 ${r.is_correct ? "correct" : "wrong"}">
+
+          <div class="af-answer-review-head-v1">
+            <b>Q${index + 1}</b>
+            <span>${r.is_correct ? "✅ Correct" : "❌ Wrong"}</span>
+          </div>
+
+          <p>${r.question || ""}</p>
+
+          <div class="af-answer-review-row-v1">
+            <small>Your Answer:</small>
+            <b>${r.selected_option || "Not Answered"}</b>
+          </div>
+
+          <div class="af-answer-review-row-v1">
+            <small>Correct Answer:</small>
+            <b>${r.correct_option || "-"}</b>
+          </div>
+
+        </div>
+      `;
+    })
+    .join("");
+
   area.innerHTML = `
     <div class="af-test-result-card-v1">
-      <div class="af-test-result-badge-v1">#${result.rank}</div>
-      <h3>${result.remark}</h3>
+
+      <div class="af-test-result-badge-v1">
+        #${result.rank || "--"}
+      </div>
+
+      <h3>${result.remark || ""}</h3>
+
       <p>Your score is</p>
-      <strong>${result.score}/${result.total_questions}</strong>
+
+      <strong>
+        ${result.score || 0}/${result.total_questions || 0}
+      </strong>
 
       <div class="af-test-result-grid-v1">
-        <span>Total Attempts <b>${result.total_attempts}</b></span>
-        <span>Time Taken <b>${result.time_taken_seconds}s</b></span>
-        <span>Avg Time / Q <b>${result.avg_time_per_question}s</b></span>
+        <span>
+          Total Attempts
+          <b>${result.total_attempts || 0}</b>
+        </span>
+
+        <span>
+          Time Taken
+          <b>${result.time_taken_seconds || 0}s</b>
+        </span>
+
+        <span>
+          Avg Time / Q
+          <b>${result.avg_time_per_question || 0}s</b>
+        </span>
       </div>
+
     </div>
+
+    ${
+      reviewHtml
+        ? `
+          <div class="af-answer-review-wrapper-v1">
+            <h4>Answer Review</h4>
+            ${reviewHtml}
+          </div>
+        `
+        : ""
+    }
   `;
 
   showAFTestPopupV1(
     "Test Submitted",
     `
       <p>Your test has been submitted successfully.</p>
+
       <div class="af-popup-result-v1">
         <b>${result.score}/${result.total_questions}</b>
         <span>${result.remark}</span>
-        <small>Rank: #${result.rank} • Time: ${result.time_taken_seconds}s</small>
+        <small>
+          Rank: #${result.rank}
+          •
+          Time: ${result.time_taken_seconds}s
+        </small>
       </div>
     `,
     "success"
   );
 }
+ /* =========================
+   REVIEW ANSWERS
+========================= */
 
-  /* =========================
+async function openLastTestReviewV1() {
+  const student = getAFTestStudentV1();
+
+  if (!student.student_id) {
+    showAFTestPopupV1(
+      "Login Required",
+      "<p>Please login first.</p>",
+      "error"
+    );
+    return;
+  }
+
+ const area = document.getElementById("afReviewContentV1");
+  if (!area) return;
+
+  area.innerHTML = `
+    <div class="af-test-empty-card-v1">
+      <div class="af-test-empty-icon-v1">📖</div>
+      <h3>Loading Review...</h3>
+      <p>Please wait.</p>
+    </div>
+  `;
+
+  const reviewData = await afTestEdgeCallV1(
+    "student-test-review-af",
+    {
+      student_id: student.student_id
+    }
+  );
+
+  if (!reviewData || !reviewData.ok) {
+    area.innerHTML = `
+      <div class="af-test-empty-card-v1">
+        <div class="af-test-empty-icon-v1">⚠️</div>
+        <h3>Review Not Available</h3>
+        <p>${reviewData?.message || "Could not load review."}</p>
+      </div>
+    `;
+    return;
+  }
+
+  const reviewHtml = (reviewData.review || [])
+    .map((r) => {
+
+      const selectedText =
+        r.selected_option === "A" ? r.option_a :
+        r.selected_option === "B" ? r.option_b :
+        r.selected_option === "C" ? r.option_c :
+        r.selected_option === "D" ? r.option_d :
+        "Not Answered";
+
+      const correctText =
+        r.correct_option === "A" ? r.option_a :
+        r.correct_option === "B" ? r.option_b :
+        r.correct_option === "C" ? r.option_c :
+        r.correct_option === "D" ? r.option_d :
+        "-";
+
+      return `
+        <div class="af-answer-review-card-v1 ${r.is_correct ? "correct" : "wrong"}">
+
+          <div class="af-answer-review-head-v1">
+            <b>Q${r.question_no}</b>
+            <span>${r.is_correct ? "✅ Correct" : "❌ Wrong"}</span>
+          </div>
+
+          <p>${r.question || ""}</p>
+
+          <div class="af-answer-review-row-v1">
+            <small>Your Answer</small>
+            <b>${r.selected_option || "-"} - ${selectedText}</b>
+          </div>
+
+          <div class="af-answer-review-row-v1">
+            <small>Correct Answer</small>
+            <b>${r.correct_option || "-"} - ${correctText}</b>
+          </div>
+
+        </div>
+      `;
+    })
+    .join("");
+
+  area.innerHTML = `
+    <div class="af-test-result-card-v1">
+
+      <h3>Answer Review</h3>
+
+      <strong>
+        ${reviewData.score || 0}/${reviewData.total_questions || 0}
+      </strong>
+
+      <div class="af-test-result-grid-v1">
+        <span>
+          Time
+          <b>${reviewData.time_taken_seconds || 0}s</b>
+        </span>
+
+        <span>
+          Avg / Q
+          <b>${reviewData.avg_time_per_question || 0}s</b>
+        </span>
+
+        <span>
+          Remark
+          <b>${reviewData.remark || "-"}</b>
+        </span>
+      </div>
+
+    </div>
+
+    <div class="af-answer-review-wrapper-v1">
+      ${reviewHtml}
+    </div>
+  `;
+  
+ afReviewVisibleV1 = true;
+}
+
+  
+/* =========================
    ALREADY ATTEMPTED POPUP
 ========================= */
 
@@ -36570,21 +36927,28 @@ function showAFAlreadyAttemptedPopupV1() {
   showAFTestPopupV1(
     "Already Attempted",
     `
-      <p>Oops! Looks like you have already attempted this test. Wait for new one.</p>
+      <p>
+        Oops! Looks like you have already attempted this test.
+        Wait for a new one.
+      </p>
+
       ${
         attempt.score !== undefined
-          ? `<div class="af-popup-result-v1">
+          ? `
+            <div class="af-popup-result-v1">
               <b>${attempt.score}/${attempt.total_questions}</b>
               <span>${attempt.remark || ""}</span>
-              <small>Time taken: ${attempt.time_taken_seconds || 0}s</small>
-            </div>`
+              <small>
+                Time: ${attempt.time_taken_seconds || 0}s
+              </small>
+            </div>
+          `
           : ""
       }
     `,
     "error"
   );
 }
-
 /* =========================
    POPUP
 ========================= */
@@ -41092,6 +41456,93 @@ function openVerifyAF() {
   
   function openSM() {
   window.location.href = "/YA/SM/";
+}
+  /* =========================
+   AUTO HIDE TEST REVIEW
+========================= */
+
+(function () {
+
+  const originalShowSection = window.showSection;
+
+  if (typeof originalShowSection === "function") {
+
+    window.showSection = function (...args) {
+
+      const reviewWrapper = document.querySelector(
+        ".af-answer-review-wrapper-v1"
+      );
+
+      if (reviewWrapper) {
+        reviewWrapper.remove();
+      }
+
+      const area = document.getElementById("afTestAreaV1");
+
+      if (
+        area &&
+        area.querySelector(".af-test-result-card-v1")
+      ) {
+        area.innerHTML = `
+          <div class="af-test-empty-card-v1">
+            <div class="af-test-empty-icon-v1">📅</div>
+            <h3>Select a test option</h3>
+            <p>Review closed.</p>
+          </div>
+        `;
+      }
+
+      return originalShowSection.apply(this, args);
+    };
+
+  }
+
+})();
+
+async function openAFReviewPageV1() {
+
+  showSection("afReviewPageV1");
+
+  const container =
+    document.getElementById("afReviewContentV1");
+
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="af-test-empty-card-v1">
+      <div class="af-test-empty-icon-v1">📖</div>
+      <h3>Loading Review...</h3>
+      <p>Please wait.</p>
+    </div>
+  `;
+
+  const student = getAFTestStudentV1();
+
+  const reviewData = await afTestEdgeCallV1(
+    "student-test-review-af",
+    {
+      student_id: student.student_id
+    }
+  );
+
+  if (!reviewData?.ok) {
+
+    container.innerHTML = `
+      <div class="af-test-empty-card-v1">
+        <div class="af-test-empty-icon-v1">⚠️</div>
+        <h3>Review Not Available</h3>
+        <p>${reviewData?.message || "Could not load review."}</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  renderAFReviewPageV1(reviewData);
+}
+
+function closeAFReviewPageV1() {
+  showSection("settings");
 }
 </script>
 </body>
