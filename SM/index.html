@@ -2157,7 +2157,587 @@ document
 "click",
 startSudokuGame
 );
-  
+  /* ==========================
+   TIMER
+========================== */
+
+let gameTimer = null;
+let secondsElapsed = 0;
+
+function startTimer(){
+
+clearInterval(gameTimer);
+
+secondsElapsed = 0;
+
+updateTimerDisplay();
+
+gameTimer = setInterval(() => {
+
+secondsElapsed++;
+
+updateTimerDisplay();
+
+saveCurrentGame();
+
+},1000);
+
+}
+
+function updateTimerDisplay(){
+
+const minutes =
+String(
+Math.floor(secondsElapsed / 60)
+).padStart(2,"0");
+
+const seconds =
+String(
+secondsElapsed % 60
+).padStart(2,"0");
+
+document.getElementById(
+"timer"
+).textContent =
+`${minutes}:${seconds}`;
+
+}
+
+/* ==========================
+   MISTAKES
+========================== */
+
+let mistakes = 0;
+const MAX_MISTAKES = 3;
+
+function updateMistakes(){
+
+document.getElementById(
+"mistakes"
+).textContent =
+`${mistakes}/${MAX_MISTAKES}`;
+
+if(
+mistakes >= MAX_MISTAKES
+){
+
+clearInterval(
+gameTimer
+);
+
+alert(
+"Game Over!"
+);
+
+}
+
+}
+
+/* ==========================
+   NOTES MODE
+========================== */
+
+document
+.getElementById(
+"notesModeBtn"
+)
+.addEventListener(
+"click",
+() => {
+
+notesMode =
+!notesMode;
+
+document
+.getElementById(
+"notesModeBtn"
+)
+.classList.toggle(
+"active-tool"
+);
+
+}
+);
+
+/* ==========================
+   NUMBER INPUT OVERRIDE
+========================== */
+
+document
+.querySelectorAll(
+".num-btn"
+)
+.forEach(
+button => {
+
+button.onclick = () => {
+
+if(
+!selectedCell
+){
+return;
+}
+
+const row =
+parseInt(
+selectedCell.dataset.row
+);
+
+const col =
+parseInt(
+selectedCell.dataset.col
+);
+
+if(
+selectedCell.classList.contains(
+"fixed"
+)
+){
+return;
+}
+
+const value =
+parseInt(
+button.dataset.number
+);
+
+if(
+notesMode
+){
+
+let notesGrid =
+selectedCell.querySelector(
+".notes-grid"
+);
+
+if(
+!notesGrid
+){
+
+notesGrid =
+document.createElement(
+"div"
+);
+
+notesGrid.className =
+"notes-grid";
+
+for(
+let i=1;
+i<=9;
+i++
+){
+
+const note =
+document.createElement(
+"div"
+);
+
+note.className =
+"note";
+
+notesGrid.appendChild(
+note
+);
+
+}
+
+selectedCell.innerHTML =
+"";
+
+selectedCell.appendChild(
+notesGrid
+);
+
+}
+
+notesGrid.children[
+value - 1
+].textContent =
+value;
+
+return;
+
+}
+
+board[row][col] =
+value;
+
+selectedCell.innerHTML =
+value;
+
+selectedCell.classList.add(
+"user"
+);
+
+if(
+solution[row][col] !== value
+){
+
+mistakes++;
+
+updateMistakes();
+
+selectedCell.style.color =
+"#ef4444";
+
+}else{
+
+selectedCell.style.color =
+"#f97316";
+
+}
+
+saveCurrentGame();
+
+checkWin();
+
+};
+
+}
+);
+
+/* ==========================
+   ERASE
+========================== */
+
+document
+.getElementById(
+"eraseBtn"
+)
+.addEventListener(
+"click",
+() => {
+
+if(
+!selectedCell
+){
+return;
+}
+
+if(
+selectedCell.classList.contains(
+"fixed"
+)
+){
+return;
+}
+
+const row =
+parseInt(
+selectedCell.dataset.row
+);
+
+const col =
+parseInt(
+selectedCell.dataset.col
+);
+
+board[row][col] = 0;
+
+selectedCell.innerHTML = "";
+
+saveCurrentGame();
+
+}
+);
+
+/* ==========================
+   HINT SYSTEM
+========================== */
+
+document
+.getElementById(
+"hintBtn"
+)
+.addEventListener(
+"click",
+() => {
+
+if(
+!selectedCell
+){
+return;
+}
+
+if(
+hintsRemaining <= 0
+){
+return;
+}
+
+const row =
+parseInt(
+selectedCell.dataset.row
+);
+
+const col =
+parseInt(
+selectedCell.dataset.col
+);
+
+if(
+selectedCell.classList.contains(
+"fixed"
+)
+){
+return;
+}
+
+board[row][col] =
+solution[row][col];
+
+selectedCell.innerHTML =
+solution[row][col];
+
+selectedCell.classList.add(
+"user"
+);
+
+hintsRemaining--;
+
+document.getElementById(
+"hintCount"
+).textContent =
+hintsRemaining;
+
+saveCurrentGame();
+
+checkWin();
+
+}
+);
+
+/* ==========================
+   WIN DETECTION
+========================== */
+
+function checkWin(){
+
+for(
+let row=0;
+row<9;
+row++
+){
+
+for(
+let col=0;
+col<9;
+col++
+){
+
+if(
+board[row][col] !==
+solution[row][col]
+){
+return false;
+}
+
+}
+
+}
+
+clearInterval(
+gameTimer
+);
+
+const difficulty =
+localStorage.getItem(
+"selectedDifficulty"
+) || "easy";
+
+let rewardXP = 100;
+
+if(
+difficulty === "moderate"
+){
+rewardXP = 250;
+}
+
+if(
+difficulty === "hard"
+){
+rewardXP = 500;
+}
+
+profile.gamesPlayed++;
+profile.wins++;
+profile.streak++;
+
+profile.xp += rewardXP;
+
+profile.level =
+getLevelFromXP(
+profile.xp
+);
+
+const timeString =
+document.getElementById(
+"timer"
+).textContent;
+
+if(
+profile.bestTime === "--"
+){
+profile.bestTime =
+timeString;
+}
+
+saveProfile();
+
+loadProfileUI();
+
+localStorage.removeItem(
+"sudokuCurrentGame"
+);
+
+alert(
+`Puzzle Solved!\n\n+${rewardXP} XP`
+);
+
+return true;
+
+}
+
+/* ==========================
+   SAVE CURRENT GAME
+========================== */
+
+function saveCurrentGame(){
+
+localStorage.setItem(
+"sudokuCurrentGame",
+JSON.stringify({
+
+board,
+solution,
+
+difficulty:
+localStorage.getItem(
+"selectedDifficulty"
+),
+
+timer:
+secondsElapsed,
+
+mistakes,
+
+hintsRemaining
+
+})
+);
+
+}
+
+/* ==========================
+   LOAD CURRENT GAME
+========================== */
+
+function loadSavedGame(){
+
+const save =
+localStorage.getItem(
+"sudokuCurrentGame"
+);
+
+if(
+!save
+){
+return false;
+}
+
+try{
+
+const game =
+JSON.parse(save);
+
+board =
+game.board;
+
+solution =
+game.solution;
+
+secondsElapsed =
+game.timer || 0;
+
+mistakes =
+game.mistakes || 0;
+
+hintsRemaining =
+game.hintsRemaining || 3;
+
+document.getElementById(
+"hintCount"
+).textContent =
+hintsRemaining;
+
+updateMistakes();
+
+updateTimerDisplay();
+
+renderBoard();
+
+startTimer();
+
+return true;
+
+}catch(error){
+
+console.error(error);
+
+return false;
+
+}
+
+}
+
+/* ==========================
+   START GAME OVERRIDE
+========================== */
+
+function startSudokuGame(){
+
+const loaded =
+loadSavedGame();
+
+if(
+loaded
+){
+return;
+}
+
+const difficulty =
+localStorage.getItem(
+"selectedDifficulty"
+) || "easy";
+
+document.getElementById(
+"difficultyLabel"
+).textContent =
+difficulty.charAt(0)
+.toUpperCase() +
+difficulty.slice(1);
+
+mistakes = 0;
+
+updateMistakes();
+
+hintsRemaining = 3;
+
+document.getElementById(
+"hintCount"
+).textContent =
+hintsRemaining;
+
+createPuzzle(
+difficulty
+);
+
+startTimer();
+
+saveCurrentGame();
+
+}
 /* ==========================
    THEME SYSTEM
 ========================== */
