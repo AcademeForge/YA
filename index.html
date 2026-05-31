@@ -23760,19 +23760,19 @@ body.dark-mode .af-test-result-card-v1 strong {
     .no-splash #splashScreen {
   display: none !important;
 }
-    /* =========================================
-   AF PULL TO REFRESH LOADER
+  /* =========================================
+   AF PREMIUM PULL TO REFRESH
 ========================================= */
 
 #afPullLoader {
   position: fixed;
-  top: -70px;
+  top: -80px;
   left: 50%;
 
   transform: translateX(-50%);
 
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
 
   display: flex;
   align-items: center;
@@ -23780,43 +23780,63 @@ body.dark-mode .af-test-result-card-v1 strong {
 
   border-radius: 50%;
 
-  background: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.82);
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 
-  border: 1px solid rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.5);
 
-  color: #fff;
-
-  font-size: 22px;
-  font-weight: 700;
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.12),
+    0 4px 12px rgba(15,23,42,.08);
 
   z-index: 99999;
 
-  transition:
-    top .25s ease,
-    opacity .25s ease;
-
   opacity: 0;
+
+  transition:
+    top .22s ease,
+    opacity .22s ease;
+}
+
+[data-theme="dark"] #afPullLoader {
+  background: rgba(15,23,42,.82);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    0 0 20px rgba(99,102,241,.15);
 }
 
 #afPullLoader.show {
-  top: 20px;
+  top: 14px;
   opacity: 1;
 }
 
-#afPullLoader.spin {
-  animation: afPullSpin .8s linear infinite;
+.af-pull-spinner {
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+
+  border: 3px solid rgba(99,102,241,.18);
+  border-top-color: var(--af-primary);
+
+  transition: transform .2s ease;
 }
 
-@keyframes afPullSpin {
-  from {
-    transform: translateX(-50%) rotate(0deg);
-  }
+#afPullLoader.spin .af-pull-spinner {
+  animation: afPremiumSpin .8s linear infinite;
+}
 
+@keyframes afPremiumSpin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
-    transform: translateX(-50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 </style>
@@ -26069,8 +26089,8 @@ onclick="openNotesAF()"
   <p>Message</p>
 </div>
 
-  <div id="afPullLoader">
-  ↻
+ <div id="afPullLoader">
+  <div class="af-pull-spinner"></div>
 </div>
   
   <!-----------------------  JAVA SCRIPT STARTS --------------------------------------->
@@ -41679,18 +41699,36 @@ document.addEventListener(
     afPullDistance =
       e.touches[0].clientY - afPullStartY;
 
-    if (afPullDistance > 60) {
+    const spinner =
+      afPullLoader.querySelector(".af-pull-spinner");
+
+    if (afPullDistance > 20) {
+
       afPullLoader.classList.add("show");
+
+      const rotation =
+        Math.min(afPullDistance * 2, 270);
+
+      spinner.style.transform =
+        `rotate(${rotation}deg)`;
+
     } else {
+
       afPullLoader.classList.remove("show");
+
+      spinner.style.transform =
+        "rotate(0deg)";
     }
   },
   { passive: true }
 );
-
+  
 document.addEventListener(
   "touchend",
   () => {
+
+    const spinner =
+      afPullLoader.querySelector(".af-pull-spinner");
 
     if (
       window.scrollY === 0 &&
@@ -41709,6 +41747,8 @@ document.addEventListener(
       afPullLoader.classList.remove("show");
       afPullLoader.classList.remove("spin");
 
+      spinner.style.transform =
+        "rotate(0deg)";
     }
 
     afPullDistance = 0;
