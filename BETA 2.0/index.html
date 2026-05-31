@@ -1449,7 +1449,1832 @@
       .af-quick-sub { font-size: 10px; }
     }
 
-  
+ /* ============================================================
+     BATCH PURCHASE CSS
+     ============================================================*/
+   /* =========================================================
+   AF BATCHES PREMIUM
+========================================================= */
+
+#batchaf{
+  min-height:100%;
+  padding:var(--gap-md);
+  color:var(--text-primary);
+}
+
+.batch-wrapaf{
+  width:100%;
+  max-width:100%;
+  margin:0 auto;
+}
+
+.batch-pageaf{
+  width:100%;
+}
+
+.hidden-box{
+  display:none;
+}
+
+/* HEADER */
+
+.batch-topbaraf{
+  margin-bottom:20px;
+}
+
+.batch-topbaraf h2{
+  font-family:var(--font-display);
+  font-size:34px;
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-0.05em;
+  color:var(--text-primary);
+}
+
+.batch-topbaraf p{
+  margin-top:6px;
+  font-size:14px;
+  font-weight:700;
+  color:var(--text-secondary);
+}
+
+/* SEARCH */
+
+.batch-search-boxaf{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  height:58px;
+  padding:0 18px;
+
+  border-radius:var(--r-lg);
+
+  background:var(--bg-card);
+  border:1px solid var(--border-card);
+
+  backdrop-filter:blur(var(--glass-blur));
+  -webkit-backdrop-filter:blur(var(--glass-blur));
+
+  box-shadow:var(--shadow-card);
+
+  margin-bottom:18px;
+
+  transition:
+    border-color var(--dur-fast),
+    box-shadow var(--dur-fast);
+}
+
+.batch-search-boxaf:focus-within{
+  border-color:var(--af-primary);
+  box-shadow:
+    0 0 0 3px rgba(79,70,229,.12),
+    var(--shadow-card);
+}
+
+.batch-search-boxaf span{
+  font-size:20px;
+}
+
+.batch-search-boxaf input{
+  width:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+
+  color:var(--text-primary);
+
+  font-size:15px;
+  font-weight:700;
+}
+
+.batch-search-boxaf input::placeholder{
+  color:var(--text-muted);
+}
+
+/* GRID */
+
+.batch-gridaf{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* CARD */
+
+.batch-cardaf{
+  overflow:hidden;
+
+  border-radius:var(--r-xl);
+
+  background:var(--bg-card);
+
+  border:1px solid var(--border-card);
+
+  backdrop-filter:blur(var(--glass-blur));
+  -webkit-backdrop-filter:blur(var(--glass-blur));
+
+  box-shadow:var(--shadow-card);
+
+  transition:
+    transform var(--dur-fast),
+    box-shadow var(--dur-fast);
+}
+
+.batch-cardaf:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-elevated);
+}
+
+.batch-enrolled-cardaf{
+  border-color:var(--af-success);
+}
+
+.batch-img-wrapaf{
+  position:relative;
+  cursor:pointer;
+}
+
+.batch-imgaf{
+  width:100%;
+  aspect-ratio:16/8;
+  object-fit:cover;
+}
+
+.batch-loaderaf{
+  position:absolute;
+  inset:0;
+  margin:auto;
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  border:4px solid rgba(79,70,229,.15);
+  border-top-color:var(--af-primary);
+
+  animation:batchSpinaf .8s linear infinite;
+}
+
+@keyframes batchSpinaf{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.batch-card-bodyaf{
+  padding:20px;
+}
+
+.batch-card-metaaf{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+
+  margin-bottom:12px;
+}
+
+.batch-categoryaf{
+  display:inline-flex;
+  align-items:center;
+
+  padding:6px 10px;
+
+  border-radius:var(--r-full);
+
+  background:rgba(245,158,11,.12);
+
+  border:1px solid rgba(245,158,11,.18);
+
+  color:var(--af-accent2);
+
+  font-size:11px;
+  font-weight:900;
+
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+
+.batch-languageaf{
+  padding:7px 12px;
+
+  border-radius:var(--r-full);
+
+  background:var(--bg-group);
+
+  border:1px solid var(--border-card);
+
+  color:var(--text-secondary);
+
+  font-size:11px;
+  font-weight:900;
+}
+
+.batch-titleaf{
+  font-family:var(--font-display);
+
+  font-size:21px;
+  font-weight:900;
+
+  line-height:1.25;
+  letter-spacing:-0.03em;
+
+  color:var(--text-primary);
+
+  cursor:pointer;
+}
+
+.batch-subaf{
+  margin-top:10px;
+
+  color:var(--text-secondary);
+
+  font-size:14px;
+  line-height:1.7;
+}
+
+.batch-statusaf{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  margin-top:14px;
+
+  color:var(--text-secondary);
+
+  font-size:13px;
+  font-weight:700;
+}
+
+.batch-dotaf{
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:var(--af-danger);
+}
+
+.batch-dot-enrolledaf{
+  background:var(--af-success);
+}
+
+.batch-enrolled-tagaf{
+  display:inline-flex;
+  align-items:center;
+
+  margin-top:14px;
+
+  padding:8px 14px;
+
+  border-radius:var(--r-full);
+
+  background:rgba(34,197,94,.12);
+
+  border:1px solid rgba(34,197,94,.25);
+
+  color:var(--af-success);
+
+  font-size:12px;
+  font-weight:800;
+}
+
+.batch-price-actionaf{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+
+  gap:14px;
+
+  margin-top:18px;
+}
+
+.batch-price-lineaf{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.batch-price-lineaf strong{
+  font-size:24px;
+  font-weight:900;
+  color:var(--text-primary);
+}
+
+.batch-price-lineaf del{
+  color:var(--text-muted);
+  font-size:14px;
+}
+
+.batch-offaf{
+  color:var(--af-success);
+  font-size:13px;
+  font-weight:900;
+}
+
+.batch-buy-rowaf{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* BUTTONS */
+
+.batch-buy-btnaf,
+.batch-buy-mainaf{
+  border:none;
+
+  border-radius:var(--r-md);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--af-primary),
+      var(--af-primary-dark)
+    );
+
+  color:white;
+
+  font-weight:900;
+
+  box-shadow:var(--shadow-btn);
+
+  transition:
+    transform var(--dur-fast),
+    box-shadow var(--dur-fast);
+}
+
+.batch-buy-btnaf:hover,
+.batch-buy-mainaf:hover{
+  transform:translateY(-2px);
+}
+
+.batch-buy-btnaf:active,
+.batch-buy-mainaf:active{
+  transform:scale(.98);
+}
+
+.batch-buy-btnaf{
+  min-width:140px;
+  padding:14px 18px;
+}
+
+.batch-buy-mainaf{
+  width:100%;
+  padding:16px;
+  margin-top:10px;
+}
+
+.batch-enrolled-btnaf{
+  background:var(--af-success);
+}
+
+.batch-arrowaf{
+  width:52px;
+  height:52px;
+
+  border-radius:var(--r-md);
+
+  background:var(--bg-group);
+
+  border:1px solid var(--border-card);
+
+  color:var(--text-primary);
+
+  font-size:24px;
+  font-weight:800;
+}
+
+.batch-backaf{
+  margin-bottom:16px;
+
+  padding:12px 16px;
+
+  border-radius:var(--r-md);
+
+  background:var(--bg-group);
+
+  border:1px solid var(--border-card);
+
+  color:var(--af-primary);
+
+  font-weight:800;
+}
+
+/* DETAILS */
+
+.batch-detail-cardaf,
+.batch-info-boxaf,
+.empty-textaf{
+  background:var(--bg-card);
+
+  border:1px solid var(--border-card);
+
+  backdrop-filter:blur(var(--glass-blur));
+  -webkit-backdrop-filter:blur(var(--glass-blur));
+
+  box-shadow:var(--shadow-card);
+}
+
+.batch-detail-cardaf{
+  overflow:hidden;
+  border-radius:var(--r-xl);
+}
+
+.batch-detail-imgaf{
+  width:100%;
+  aspect-ratio:16/8;
+  object-fit:cover;
+}
+
+.batch-detail-bodyaf{
+  padding:24px;
+}
+
+.batch-detail-headrowaf{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.batch-detail-headrowaf h2{
+  font-family:var(--font-display);
+  font-size:24px;
+  font-weight:900;
+  line-height:1.2;
+  color:var(--text-primary);
+}
+
+.batch-detail-descaf{
+  margin-top:12px;
+
+  color:var(--text-secondary);
+
+  line-height:1.8;
+}
+
+.batch-price-rowaf{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  margin:18px 0;
+}
+
+.batch-price-rowaf strong{
+  font-size:30px;
+  font-weight:900;
+  color:var(--text-primary);
+}
+
+.batch-price-rowaf del{
+  color:var(--text-muted);
+}
+
+.batch-price-rowaf span{
+  color:var(--af-success);
+  font-weight:900;
+}
+
+.batch-info-boxaf{
+  margin-top:18px;
+
+  padding:22px;
+
+  border-radius:var(--r-lg);
+}
+
+.batch-info-boxaf h3{
+  margin-bottom:12px;
+
+  font-size:17px;
+  font-weight:900;
+
+  color:var(--text-primary);
+}
+
+.batch-info-boxaf p,
+.batch-info-boxaf li{
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+
+.batch-info-boxaf ul{
+  padding-left:18px;
+}
+
+.batch-info-boxaf li{
+  list-style:disc;
+}
+
+.empty-textaf{
+  padding:22px;
+  border-radius:var(--r-lg);
+
+  text-align:center;
+
+  color:var(--text-secondary);
+}
+    /* =========================================================
+   AF BATCHES LUXURY UPGRADE
+   PASTE AT END OF BATCH CSS
+========================================================= */
+
+/* Hero Heading */
+
+.batch-topbaraf h2{
+  background:
+    linear-gradient(
+      135deg,
+      var(--text-primary) 0%,
+      #c7d2fe 45%,
+      var(--af-primary-light) 100%
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* Cards */
+
+.batch-cardaf,
+.batch-detail-cardaf{
+  position:relative;
+  overflow:hidden;
+}
+
+.batch-cardaf::before,
+.batch-detail-cardaf::before{
+  content:"";
+
+  position:absolute;
+
+  top:-140px;
+  right:-140px;
+
+  width:260px;
+  height:260px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(129,140,248,.14),
+      transparent 70%
+    );
+
+  pointer-events:none;
+}
+
+.batch-cardaf:hover{
+  transform:translateY(-6px);
+
+  box-shadow:
+    0 18px 42px rgba(79,70,229,.18),
+    0 0 0 1px rgba(129,140,248,.12);
+}
+
+/* Study Batch Badge */
+
+.batch-categoryaf{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(245,158,11,.16),
+      rgba(245,158,11,.08)
+    );
+
+  border:1px solid rgba(245,158,11,.22);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+/* Language Badge Fix */
+
+.batch-languageaf{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  width:auto;
+  min-width:auto;
+  height:auto;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(129,140,248,.14),
+      rgba(129,140,248,.06)
+    );
+
+  color:#c7d2fe;
+
+  white-space:nowrap;
+
+  flex-shrink:0;
+}
+
+/* Detail Page Badge */
+
+.batch-detail-headrowaf{
+  align-items:flex-start;
+}
+
+/* Batch Title */
+
+.batch-titleaf,
+.batch-detail-headrowaf h2{
+  background:
+    linear-gradient(
+      135deg,
+      var(--text-primary),
+      #bfc7ff
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* Price */
+
+.batch-price-lineaf strong,
+.batch-price-rowaf strong{
+  letter-spacing:-0.03em;
+}
+
+/* Enrolled Tag */
+
+.batch-enrolled-tagaf{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(34,197,94,.18),
+      rgba(34,197,94,.08)
+    );
+
+  box-shadow:
+    0 0 18px rgba(34,197,94,.12);
+}
+
+/* Buy Buttons */
+
+.batch-buy-btnaf,
+.batch-buy-mainaf{
+  position:relative;
+  overflow:hidden;
+}
+
+.batch-buy-btnaf::before,
+.batch-buy-mainaf::before{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:-120%;
+
+  width:80%;
+  height:100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.22),
+      transparent
+    );
+
+  transition:.7s;
+}
+
+.batch-buy-btnaf:hover::before,
+.batch-buy-mainaf:hover::before{
+  left:140%;
+}
+
+/* Info Boxes */
+
+.batch-info-boxaf{
+  position:relative;
+}
+
+.batch-info-boxaf::before{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:4px;
+  height:100%;
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--af-primary),
+      var(--af-accent)
+    );
+}
+
+/* Section Titles */
+
+.batch-info-boxaf h3{
+  font-size:18px;
+  letter-spacing:-0.02em;
+}
+
+/* ==============================
+   NEW STUDENT ID PAGE - AF
+   Safe classes: all end with af
+================================ */
+
+#studentaf {
+  min-height: 100vh;
+  padding: 22px 14px 90px;
+  background:
+    radial-gradient(circle at top left, rgba(22, 163, 74, 0.16), transparent 34%),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 32%),
+    linear-gradient(135deg, #f8fafc 0%, #eef6ff 45%, #f0fdf4 100%);
+}
+
+.student-wrapaf {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.student-cardaf {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 26px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+}
+
+.student-cardaf::before {
+  content: "";
+  position: absolute;
+  inset: -80px -90px auto auto;
+  width: 190px;
+  height: 190px;
+  border-radius: 999px;
+  background: rgba(22, 163, 74, 0.13);
+  pointer-events: none;
+}
+
+.student-cardaf::after {
+  content: "";
+  position: absolute;
+  inset: auto auto -95px -90px;
+  width: 210px;
+  height: 210px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.10);
+  pointer-events: none;
+}
+
+.student-iconaf {
+  position: relative;
+  z-index: 1;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 14px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  background:
+    linear-gradient(135deg, #dcfce7, #eff6ff);
+  border: 1px solid rgba(22, 163, 74, 0.16);
+  box-shadow:
+    0 14px 28px rgba(22, 163, 74, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
+
+.student-titleaf {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  text-align: center;
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  color: #0f172a;
+}
+
+.student-subtitleaf {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  margin: 10px auto 20px;
+  text-align: center;
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 14.5px;
+  font-weight: 650;
+}
+
+.student-tabsaf {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  padding: 6px;
+  margin: 0 0 18px;
+  border-radius: 20px;
+  background: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.30);
+}
+
+.student-tabaf {
+  border: 0;
+  min-height: 46px;
+  padding: 12px 10px;
+  border-radius: 15px;
+  background: transparent;
+  color: #475569;
+  font-weight: 950;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.student-tabaf:active {
+  transform: scale(0.98);
+}
+
+.student-tabaf.active {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(22, 163, 74, 0.26);
+}
+
+.student-boxaf {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+}
+
+.student-labelaf {
+  display: block;
+  margin: 14px 0 8px;
+  color: #334155;
+  font-size: 13.5px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+
+.student-inputaf {
+  width: 100%;
+  min-height: 50px;
+  box-sizing: border-box;
+  padding: 14px 15px;
+  border-radius: 17px;
+  border: 1px solid #cbd5e1;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  outline: none;
+  font-size: 15px;
+  font-weight: 700;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.student-inputaf::placeholder {
+  color: #94a3b8;
+  font-weight: 650;
+}
+
+.student-inputaf:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+  background: #ffffff;
+}
+
+.student-main-btnaf {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  margin-top: 16px;
+  padding: 15px 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: white;
+  font-size: 15px;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 16px 34px rgba(22, 163, 74, 0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.student-main-btnaf:hover {
+  filter: brightness(1.02);
+  box-shadow: 0 18px 40px rgba(22, 163, 74, 0.30);
+}
+
+.student-main-btnaf:active {
+  transform: scale(0.985);
+}
+
+.student-link-btnaf {
+  width: 100%;
+  border: 0;
+  margin-top: 13px;
+  padding: 12px 10px;
+  border-radius: 16px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 950;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.student-link-btnaf:hover {
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.student-link-btnaf:active {
+  transform: scale(0.985);
+}
+
+.student-helpaf {
+  margin: 13px 0 0;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 700;
+}
+
+.student-messageaf {
+  position: relative;
+  z-index: 1;
+  display: none;
+  margin-top: 15px;
+  padding: 13px 14px;
+  border-radius: 17px;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.student-messageaf.ok {
+  display: block;
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid rgba(22, 101, 52, 0.14);
+}
+
+.student-messageaf.err {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid rgba(153, 27, 27, 0.12);
+}
+
+.student-noteaf {
+  position: relative;
+  z-index: 1;
+  margin-top: 18px;
+  padding: 15px 16px;
+  border-radius: 19px;
+  background:
+    linear-gradient(135deg, rgba(219, 234, 254, 0.96), rgba(220, 252, 231, 0.84));
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  color: #1e3a8a;
+  font-size: 13.5px;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+.student-noteaf b {
+  color: #166534;
+}
+
+/* Mobile polish */
+@media (max-width: 480px) {
+  #studentaf {
+    padding: 16px 12px 88px;
+  }
+
+  .student-cardaf {
+    padding: 22px 18px;
+    border-radius: 26px;
+  }
+
+  .student-titleaf {
+    font-size: 26px;
+  }
+
+  .student-subtitleaf {
+    font-size: 13.5px;
+  }
+
+  .student-iconaf {
+    width: 66px;
+    height: 66px;
+    border-radius: 22px;
+    font-size: 31px;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  #studentaf {
+    background:
+      radial-gradient(circle at top left, rgba(34, 197, 94, 0.16), transparent 34%),
+      radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 32%),
+      linear-gradient(135deg, #020617 0%, #0f172a 48%, #052e16 100%);
+  }
+
+  .student-cardaf {
+    background: rgba(15, 23, 42, 0.94);
+    border-color: rgba(148, 163, 184, 0.20);
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .student-cardaf::before {
+    background: rgba(34, 197, 94, 0.10);
+  }
+
+  .student-cardaf::after {
+    background: rgba(59, 130, 246, 0.10);
+  }
+
+  .student-iconaf {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.20), rgba(37, 99, 235, 0.18));
+    border-color: rgba(148, 163, 184, 0.18);
+    box-shadow:
+      0 14px 28px rgba(0, 0, 0, 0.25),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .student-titleaf {
+    color: #f8fafc;
+  }
+
+  .student-subtitleaf,
+  .student-helpaf {
+    color: #94a3b8;
+  }
+
+  .student-tabsaf {
+    background: #1e293b;
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .student-tabaf {
+    color: #cbd5e1;
+  }
+
+  .student-tabaf.active {
+    color: #ffffff;
+  }
+
+  .student-labelaf {
+    color: #e2e8f0;
+  }
+
+  .student-inputaf {
+    background: rgba(2, 6, 23, 0.72);
+    border-color: #334155;
+    color: #f8fafc;
+  }
+
+  .student-inputaf::placeholder {
+    color: #64748b;
+  }
+
+  .student-inputaf:focus {
+    background: rgba(2, 6, 23, 0.92);
+    border-color: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.13);
+  }
+
+  .student-link-btnaf {
+    background: rgba(59, 130, 246, 0.13);
+    color: #93c5fd;
+  }
+
+  .student-link-btnaf:hover {
+    background: rgba(59, 130, 246, 0.18);
+  }
+
+  .student-noteaf {
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.20), rgba(22, 101, 52, 0.18));
+    border-color: rgba(148, 163, 184, 0.14);
+    color: #bfdbfe;
+  }
+
+  .student-noteaf b {
+    color: #86efac;
+  }
+}
+
+
+/* ==============================
+   FINAL VISIBILITY + THEME OVERRIDES - AF
+   Single source of truth. Replaces old duplicate text-fix blocks.
+================================ */
+
+#studentaf,
+#studentaf * {
+  box-sizing: border-box;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+#studentaf {
+  color-scheme: light dark;
+}
+
+#studentaf .student-titleaf,
+#studentaf .student-subtitleaf,
+#studentaf .student-helpaf,
+#studentaf .student-labelaf,
+#studentaf .student-tabaf,
+#studentaf .student-noteaf {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#studentaf .student-titleaf {
+  color: #000000 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+}
+
+#studentaf .student-subtitleaf,
+#studentaf .student-helpaf,
+#studentaf .student-labelaf,
+#studentaf .student-tabaf,
+#studentaf .student-noteaf {
+  color: #000000 !important;
+}
+
+#studentaf .student-noteaf b {
+  color: #15803d !important;
+}
+
+#studentaf .student-inputaf {
+  background: #020617 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 2px solid #16a34a !important;
+  caret-color: #ffffff !important;
+}
+
+#studentaf .student-inputaf::placeholder {
+  color: #e5e7eb !important;
+  -webkit-text-fill-color: #e5e7eb !important;
+  opacity: 1 !important;
+}
+
+#studentaf .student-main-btnaf,
+#studentaf .student-tabaf.active {
+  background: linear-gradient(135deg, #15803d, #22c55e) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#studentaf .student-link-btnaf {
+  background: linear-gradient(135deg, #7f1d1d, #b91c1c) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 28px rgba(127, 29, 29, 0.35) !important;
+}
+
+#studentaf .student-link-btnaf:hover {
+  background: linear-gradient(135deg, #991b1b, #dc2626) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  #studentaf .student-titleaf,
+  #studentaf .student-subtitleaf,
+  #studentaf .student-helpaf,
+  #studentaf .student-labelaf,
+  #studentaf .student-tabaf,
+  #studentaf .student-noteaf {
+    color: #ffffff !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75) !important;
+  }
+
+  #studentaf .student-inputaf {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    border: 2px solid #22c55e !important;
+    caret-color: #000000 !important;
+  }
+
+  #studentaf .student-inputaf::placeholder {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+  }
+}
+
+html.dark #studentaf .student-titleaf,
+html.dark-mode #studentaf .student-titleaf,
+body.dark #studentaf .student-titleaf,
+body.dark-mode #studentaf .student-titleaf,
+html[data-theme="dark"] #studentaf .student-titleaf,
+body[data-theme="dark"] #studentaf .student-titleaf,
+html.dark #studentaf .student-subtitleaf,
+html.dark-mode #studentaf .student-subtitleaf,
+body.dark #studentaf .student-subtitleaf,
+body.dark-mode #studentaf .student-subtitleaf,
+html[data-theme="dark"] #studentaf .student-subtitleaf,
+body[data-theme="dark"] #studentaf .student-subtitleaf,
+html.dark #studentaf .student-helpaf,
+html.dark-mode #studentaf .student-helpaf,
+body.dark #studentaf .student-helpaf,
+body.dark-mode #studentaf .student-helpaf,
+html[data-theme="dark"] #studentaf .student-helpaf,
+body[data-theme="dark"] #studentaf .student-helpaf,
+html.dark #studentaf .student-labelaf,
+html.dark-mode #studentaf .student-labelaf,
+body.dark #studentaf .student-labelaf,
+body.dark-mode #studentaf .student-labelaf,
+html[data-theme="dark"] #studentaf .student-labelaf,
+body[data-theme="dark"] #studentaf .student-labelaf,
+html.dark #studentaf .student-tabaf,
+html.dark-mode #studentaf .student-tabaf,
+body.dark #studentaf .student-tabaf,
+body.dark-mode #studentaf .student-tabaf,
+html[data-theme="dark"] #studentaf .student-tabaf,
+body[data-theme="dark"] #studentaf .student-tabaf,
+html.dark #studentaf .student-noteaf,
+html.dark-mode #studentaf .student-noteaf,
+body.dark #studentaf .student-noteaf,
+body.dark-mode #studentaf .student-noteaf,
+html[data-theme="dark"] #studentaf .student-noteaf,
+body[data-theme="dark"] #studentaf .student-noteaf {
+  color: #ffffff !important;
+}
+
+html.dark #studentaf .student-inputaf,
+html.dark-mode #studentaf .student-inputaf,
+body.dark #studentaf .student-inputaf,
+body.dark-mode #studentaf .student-inputaf,
+html[data-theme="dark"] #studentaf .student-inputaf,
+body[data-theme="dark"] #studentaf .student-inputaf {
+  background: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+
+/* ==============================
+   STUDENT DASHBOARD / COURSES - AF
+================================ */
+
+.student-dashboardaf {
+  position: relative;
+  width: 100%;
+  padding: 24px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+}
+
+.hidden-box {
+  display: none !important;
+}
+
+.student-dash-headaf {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.student-dash-headaf h2,
+.student-dashboardaf h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+}
+
+#studentWelcomeTextaf {
+  margin: 6px 0 0;
+  color: #16a34a;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.student-dash-subaf {
+  margin: 8px 0 18px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.student-logoutaf,
+.back-miniaf {
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 13px;
+  background: rgba(153, 27, 27, 0.10);
+  color: #991b1b;
+  font-size: 13px;
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.back-miniaf {
+  margin-bottom: 16px;
+  background: rgba(37, 99, 235, 0.10);
+  color: #1d4ed8;
+}
+
+.student-logoutaf:active,
+.back-miniaf:active {
+  transform: scale(0.98);
+}
+
+/* Course cards */
+
+.course-select-gridaf {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 13px;
+}
+
+.course-cardaf {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 22px;
+  padding: 16px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 253, 244, 0.88));
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.course-cardaf:hover {
+  transform: translateY(-2px);
+  border-color: rgba(22, 163, 74, 0.35);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.course-cardaf:active {
+  transform: scale(0.985);
+}
+
+.course-card-iconaf {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  background: linear-gradient(135deg, #dcfce7, #eff6ff);
+  border: 1px solid rgba(22, 163, 74, 0.16);
+}
+
+.course-card-bodyaf h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 950;
+}
+
+.course-card-bodyaf p {
+  margin: 7px 0 0;
+  color: #475569;
+  font-size: 13.5px;
+  line-height: 1.55;
+  font-weight: 700;
+}
+
+/* Course details */
+
+.course-detail-headaf {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.course-detail-iconaf {
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  background: linear-gradient(135deg, #dcfce7, #eff6ff);
+  border: 1px solid rgba(22, 163, 74, 0.16);
+}
+
+#courseTitleaf {
+  margin: 0;
+  color: #0f172a;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 950;
+}
+
+#courseIntroaf {
+  margin: 7px 0 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.course-info-boxaf {
+  margin-top: 14px;
+  padding: 15px;
+  border-radius: 20px;
+  background: rgba(248, 250, 252, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.course-info-boxaf h3 {
+  margin: 0 0 9px;
+  color: #166534;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.course-info-boxaf p,
+.course-info-boxaf li {
+  color: #334155;
+  font-size: 13.8px;
+  line-height: 1.65;
+  font-weight: 700;
+}
+
+.course-info-boxaf ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* Learning choice */
+
+.learning-choiceaf {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.learning-btnaf {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 22px;
+  padding: 18px 14px;
+  background: rgba(255, 255, 255, 0.96);
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.learning-btnaf span {
+  display: block;
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.learning-btnaf strong {
+  display: block;
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.learning-btnaf small {
+  display: block;
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.learning-btnaf:active {
+  transform: scale(0.985);
+}
+
+/* Chapters and content */
+
+.chapter-listaf,
+.content-listaf {
+  display: grid;
+  gap: 12px;
+}
+
+.chapter-itemaf,
+.content-itemaf {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 20px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.chapter-itemaf {
+  cursor: pointer;
+}
+
+.chapter-mainaf strong,
+.content-mainaf strong {
+  display: block;
+  color: #0f172a;
+  font-size: 14.5px;
+  line-height: 1.35;
+  font-weight: 950;
+}
+
+.chapter-mainaf small,
+.content-mainaf small {
+  display: block;
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 12.8px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.chapter-statusaf {
+  white-space: nowrap;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 950;
+}
+
+.lockedaf .chapter-statusaf,
+.locked-btnaf {
+  background: rgba(153, 27, 27, 0.10);
+  color: #991b1b;
+}
+
+.unlockedaf .chapter-statusaf {
+  background: rgba(22, 163, 74, 0.12);
+  color: #166534;
+}
+
+.content-actionaf {
+  border: 0;
+  border-radius: 13px;
+  padding: 10px 13px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: white;
+  font-size: 12.5px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.content-actionaf:disabled {
+  cursor: not-allowed;
+}
+
+.durationaf {
+  display: inline-block;
+  margin-top: 7px;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.loading-textaf,
+.empty-textaf,
+.error-textaf {
+  margin: 0;
+  padding: 14px;
+  border-radius: 16px;
+  font-size: 13.5px;
+  font-weight: 850;
+}
+
+.loading-textaf {
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+}
+
+.empty-textaf {
+  background: rgba(148, 163, 184, 0.12);
+  color: #475569;
+}
+
+.error-textaf {
+  background: rgba(153, 27, 27, 0.10);
+  color: #991b1b;
+}
+
+.no-course-cardaf {
+  text-align: center;
+  padding: 18px;
+}
+
+.no-course-iconaf {
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.no-course-cardaf h2 {
+  margin: 0 0 8px;
+  color: #991b1b;
+}
+
+.no-course-cardaf p {
+  margin: 6px 0;
+  color: #475569;
+  font-weight: 750;
+}
+
+/* Mobile */
+
+@media (max-width: 520px) {
+  .student-dashboardaf {
+    padding: 20px 16px;
+    border-radius: 26px;
+  }
+
+  .student-dash-headaf {
+    flex-direction: column;
+  }
+
+  .student-logoutaf {
+    width: 100%;
+  }
+
+  .learning-choiceaf {
+    grid-template-columns: 1fr;
+  }
+
+  .course-detail-headaf {
+    flex-direction: column;
+  }
+
+  .chapter-itemaf,
+  .content-itemaf {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .chapter-statusaf,
+  .content-actionaf {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Dark Mode */
+
+@media (prefers-color-scheme: dark) {
+  .student-dashboardaf {
+    background: rgba(15, 23, 42, 0.94);
+    border-color: rgba(148, 163, 184, 0.20);
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .student-dash-headaf h2,
+  .student-dashboardaf h2,
+  #courseTitleaf,
+  .course-card-bodyaf h3,
+  .learning-btnaf strong,
+  .chapter-mainaf strong,
+  .content-mainaf strong {
+    color: #ffffff;
+  }
+
+  #studentWelcomeTextaf,
+  .durationaf {
+    color: #86efac;
+  }
+
+  .student-dash-subaf,
+  #courseIntroaf,
+  .course-card-bodyaf p,
+  .learning-btnaf small,
+  .chapter-mainaf small,
+  .content-mainaf small,
+  .no-course-cardaf p {
+    color: #cbd5e1;
+  }
+
+  .course-cardaf,
+  .learning-btnaf,
+  .chapter-itemaf,
+  .content-itemaf {
+    background: rgba(2, 6, 23, 0.72);
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .course-info-boxaf {
+    background: rgba(2, 6, 23, 0.62);
+    border-color: rgba(148, 163, 184, 0.16);
+  }
+
+  .course-info-boxaf h3 {
+    color: #86efac;
+  }
+
+  .course-info-boxaf p,
+  .course-info-boxaf li {
+    color: #e2e8f0;
+  }
+
+  .course-card-iconaf,
+  .course-detail-iconaf {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.22), rgba(37, 99, 235, 0.18));
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .back-miniaf {
+    background: rgba(59, 130, 246, 0.16);
+    color: #93c5fd;
+  }
+
+  .student-logoutaf,
+  .locked-btnaf {
+    background: rgba(239, 68, 68, 0.14);
+    color: #fecaca;
+  }
+
+  .lockedaf .chapter-statusaf {
+    background: rgba(239, 68, 68, 0.14);
+    color: #fecaca;
+  }
+
+  .unlockedaf .chapter-statusaf {
+    background: rgba(34, 197, 94, 0.14);
+    color: #86efac;
+  }
+
+  .loading-textaf {
+    background: rgba(59, 130, 246, 0.14);
+    color: #bfdbfe;
+  }
+
+  .empty-textaf {
+    background: rgba(148, 163, 184, 0.12);
+    color: #cbd5e1;
+  }
+
+  .error-textaf {
+    background: rgba(239, 68, 68, 0.14);
+    color: #fecaca;
+  }
+
+  .no-course-cardaf h2 {
+    color: #fecaca;
+  }
+}
+
+
   </style>
 </head>
 
@@ -1559,17 +3384,16 @@
             <div class="af-section-label">Quick Access</div>
             <div class="af-quick-row af-stagger">
               <!-- Student Login → /account/ -->
-              <button
-                class="af-quick-card glass"
-                onclick="window.location.href='#'"
-                type="button"
-                aria-label="Student Login"
-              >
-                <div class="af-quick-icon">🎓</div>
-                <div class="af-quick-title">Student Login</div>
-                <div class="af-quick-sub">Access your course dashboard.</div>
-              </button>
-
+             <button
+  class="af-quick-card glass"
+  onclick="afSwitchView('student')"
+  type="button"
+  aria-label="Student Login"
+>
+  <div class="af-quick-icon">🎓</div>
+  <div class="af-quick-title">Student Login</div>
+  <div class="af-quick-sub">Access your course dashboard.</div>
+</button>
               <!-- Student Profile → /account/ -->
               <button
                 class="af-quick-card glass"
@@ -1654,42 +3478,399 @@
            VIEW: STUDENT (placeholder — navigates to /account/)
            ══════════════════════════════════════════════════════ -->
       <div class="af-view" id="viewStudent" aria-label="Student">
-        <div class="af-placeholder-section">
-          <div class="af-placeholder-icon">🎓</div>
-          <div class="af-placeholder-title">Student Login</div>
-          <p class="af-placeholder-sub">
-            Access your courses, batches, and community. Login or create your Student ID.
-          </p>
-          <button
-            class="af-placeholder-btn"
-            onclick="window.location.href='#'"
-            type="button"
-          >
-            Go to Account
-          </button>
-        </div>
+
+<section id="studentaf" class="section">
+  <div class="student-wrapaf">
+
+    <div class="student-cardaf" id="studentAuthCardaf">
+      <div class="student-iconaf">🎓</div>
+
+      <h2 class="student-titleaf">Student ID Access</h2>
+
+      <p class="student-subtitleaf">
+        Login with your verified Student ID to access courses, batches, and community features.
+      </p>
+
+      <div class="student-tabsaf">
+        <button
+          type="button"
+          id="loginTabBtnaf"
+          class="student-tabaf active"
+          onclick="switchStudentModeaf('login')"
+        >
+          Login
+        </button>
+
+        <button
+          type="button"
+          id="createTabBtnaf"
+          class="student-tabaf"
+          onclick="switchStudentModeaf('create')"
+        >
+          Create ID
+        </button>
       </div>
+
+      <!-- LOGIN BOX -->
+      <div id="studentLoginBoxaf" class="student-boxaf">
+        <label class="student-labelaf">Student ID / Phone Number</label>
+        <input
+          id="loginPhoneaf"
+          class="student-inputaf"
+          type="tel"
+          placeholder="Enter your phone number"
+        >
+
+        <label class="student-labelaf">Password</label>
+        <input
+          id="loginPasswordaf"
+          class="student-inputaf"
+          type="password"
+          placeholder="Enter password"
+        >
+
+        <button class="student-main-btnaf" type="button" onclick="loginStudentaf()">
+          Login
+        </button>
+
+        <button class="student-link-btnaf" type="button" onclick="switchStudentModeaf('forgot')">
+          Forgot Password?
+        </button>
+      </div>
+
+      <!-- CREATE ID BOX -->
+      <div id="studentCreateBoxaf" class="student-boxaf" style="display:none;">
+        <label class="student-labelaf">Full Name</label>
+        <input
+          id="createNameaf"
+          class="student-inputaf"
+          type="text"
+          placeholder="Enter your full name"
+        >
+
+        <label class="student-labelaf">Phone Number</label>
+        <input
+          id="createPhoneaf"
+          class="student-inputaf"
+          type="tel"
+          placeholder="Enter phone number"
+        >
+
+        <label class="student-labelaf">Email Address</label>
+        <input
+          id="createEmailaf"
+          class="student-inputaf"
+          type="email"
+          placeholder="Enter email address"
+        >
+
+        <label class="student-labelaf">Create Password</label>
+        <input
+          id="createPasswordaf"
+          class="student-inputaf"
+          type="password"
+          placeholder="Create password"
+        >
+
+    <button class="student-main-btnaf" type="button" onclick="sendCreateOtpaf()">
+  Send Email OTP
+</button>
+
+<div id="createOtpAreaaf" style="display:none; margin-top:14px;">
+  <label class="student-labelaf">Email OTP</label>
+  <input
+    id="createOtpaf"
+    class="student-inputaf"
+    type="text"
+    maxlength="6"
+    placeholder="Enter OTP sent to your email"
+  >
+
+  <button class="student-main-btnaf secondary" type="button" onclick="verifyCreateOtpAndCreateIdaf()">
+    Verify OTP & Create ID
+  </button>
+</div>
+
+        <p class="student-helpaf">
+          Your phone number will be used as your Student ID.
+        </p>
+      </div>
+
+<!-- FORGOT PASSWORD BOX -->
+<div id="studentForgotBoxaf" class="student-boxaf" style="display:none;">
+  <label class="student-labelaf">Student ID / Phone / Email</label>
+  <input
+    id="forgotLoginaf"
+    class="student-inputaf"
+    type="text"
+    placeholder="Enter your Student ID, phone, or email"
+  >
+
+  <button class="student-main-btnaf" type="button" onclick="findStudentForResetaf()">
+    Send Email OTP
+  </button>
+
+  <div id="forgotOtpAreaaf" style="display:none; margin-top:14px;">
+    <label class="student-labelaf">Email OTP</label>
+    <input
+      id="forgotOtpaf"
+      class="student-inputaf"
+      type="text"
+      maxlength="6"
+      placeholder="Enter OTP sent to your email"
+    >
+
+    <button class="student-main-btnaf secondary" type="button" onclick="verifyForgotOtpaf()">
+      Verify OTP
+    </button>
+  </div>
+
+  <div id="resetPasswordAreaaf" style="display:none; margin-top:14px;">
+    <label class="student-labelaf">New Password</label>
+    <input
+      id="newPasswordaf"
+      class="student-inputaf"
+      type="password"
+      placeholder="Create new password"
+    >
+
+    <button class="student-main-btnaf secondary" type="button" onclick="resetStudentPasswordaf()">
+      Reset Password
+    </button>
+  </div>
+
+  <button class="student-link-btnaf" type="button" onclick="switchStudentModeaf('login')">
+    Back to Login
+  </button>
+
+  <p class="student-helpaf">
+    We’ll verify your registered email before allowing password reset.
+  </p>
+</div>
+      <div id="studentMessageaf" class="student-messageaf"></div>
+
+      <div class="student-noteaf">
+        If you face any issue while creating your Student ID, email us at
+        <b>academeforge@gmail.com</b> with your name and WhatsApp number.
+      </div>
+    </div>
+
+   <!-- ==============================
+     STUDENT COURSE DASHBOARD - AF
+     Show after login
+================================ -->
+
+<div class="student-dashboardaf hidden-box" id="courseSelectBox">
+  <div class="student-dash-headaf">
+    <div>
+      <h2>📚 My Courses</h2>
+      <p id="studentWelcomeTextaf">Welcome Student</p>
+    </div>
+
+    <button class="student-logoutaf" type="button" onclick="logoutStudentaf()">
+      Logout
+    </button>
+  </div>
+
+  <p class="student-dash-subaf">
+    Your enrolled programs are ready to explore.
+  </p>
+
+  <div class="course-select-gridaf" id="courseCardsaf"></div>
+</div>
+
+
+<!-- ==============================
+     NO COURSE / MESSAGE AREA - AF
+================================ -->
+
+<div class="student-dashboardaf hidden-box" id="noCourseBoxaf">
+  <div class="no-course-cardaf">
+    <div class="no-course-iconaf">😬</div>
+    <h2>Oops!</h2>
+    <p>You are not enrolled in any batch.</p>
+    <p>Please enroll from the Batch section.</p>
+
+    <button class="student-logoutaf" type="button" onclick="logoutStudentafWithMessage()">
+      Logout
+    </button>
+  </div>
+</div>
+
+
+<!-- ==============================
+     COURSE DETAILS - AF
+================================ -->
+
+<div class="student-dashboardaf hidden-box" id="courseDetailsBoxaf">
+  <button class="back-miniaf" type="button" onclick="backToCoursesaf()">
+    ← Back to Courses
+  </button>
+
+  <div class="course-detail-headaf">
+    <div class="course-detail-iconaf" id="courseDetailIconaf">📘</div>
+
+    <div>
+      <h2 id="courseTitleaf">Course Name</h2>
+      <p id="courseIntroaf">Course intro will appear here.</p>
+    </div>
+  </div>
+
+  <div class="course-info-boxaf">
+    <h3>📌 Course Details</h3>
+    <p id="courseDetailsaf"></p>
+  </div>
+
+  <div class="course-info-boxaf">
+    <h3>🧾 Course Syllabus</h3>
+    <ul id="courseSyllabusaf"></ul>
+  </div>
+
+  <div class="course-info-boxaf">
+    <h3>🏫 Facilities</h3>
+    <ul id="courseFacilitiesaf"></ul>
+  </div>
+
+  <button class="student-main-btnaf" type="button" onclick="startLearningaf()">
+    Continue Learning
+  </button>
+</div>
+
+
+<!-- ==============================
+     LEARNING CHOICE - AF
+================================ -->
+
+<div class="student-dashboardaf hidden-box" id="learningBoxaf">
+  <button class="back-miniaf" type="button" onclick="backToCourseDetailsaf()">
+    ← Back to Course
+  </button>
+
+  <h2 id="learningTitleaf">Start Learning</h2>
+  <p class="student-dash-subaf">Select what you want to access.</p>
+
+  <div class="learning-choiceaf">
+    <button class="learning-btnaf" type="button" onclick="openLearningModeaf('lectures')">
+      <span>🎥</span>
+      <strong>Lectures</strong>
+      <small>Chapter-wise video lecture list</small>
+    </button>
+
+    <button class="learning-btnaf" type="button" onclick="openLearningModeaf('notes')">
+      <span>📝</span>
+      <strong>Notes</strong>
+      <small>Chapter-wise study notes list</small>
+    </button>
+  </div>
+</div>
+
+
+<!-- ==============================
+     CHAPTER LIST - AF
+================================ -->
+
+<div class="student-dashboardaf hidden-box" id="chapterBoxaf">
+  <button class="back-miniaf" type="button" onclick="backToLearningaf()">
+    ← Back
+  </button>
+
+  <h2 id="chapterModeTitleaf">Lectures</h2>
+  <p class="student-dash-subaf">Select a chapter to continue.</p>
+
+  <div class="chapter-listaf" id="chapterListaf"></div>
+</div>
+
+
+<!-- ==============================
+     CONTENT LIST - AF
+================================ -->
+
+<div class="student-dashboardaf hidden-box" id="contentBoxaf">
+  <button class="back-miniaf" type="button" onclick="backToChaptersaf()">
+    ← Back to Chapters
+  </button>
+
+  <h2 id="contentTitleaf">Chapter Content</h2>
+  <p class="student-dash-subaf" id="contentSubtitleaf">
+    Select and study one by one.
+  </p>
+
+  <div class="content-listaf" id="contentListaf"></div>
+</div>
+ </section>
+</div>
 
       <!-- ══════════════════════════════════════════════════════
            VIEW: BATCHES (placeholder — navigates to batches page)
            ══════════════════════════════════════════════════════ -->
       <div class="af-view" id="viewBatches" aria-label="Batches">
-        <div class="af-placeholder-section">
-          <div class="af-placeholder-icon">📚</div>
-          <div class="af-placeholder-title">All Batches</div>
-          <p class="af-placeholder-sub">
-            Browse and enroll in AcademeForge batches and courses designed for your growth.
-          </p>
-          <button
-            class="af-placeholder-btn"
-            onclick="window.location.href='#'"
-            type="button"
-          >
-            Browse Batches
-          </button>
+
+     <section id="batchaf" class="section">
+    <div class="batch-wrapaf">
+      <div class="batch-pageaf" id="batchListBoxaf">
+        <div class="batch-topbaraf">
+          <div>
+            <h2>All Batches</h2>
+            <p id="batchCountTextaf">5 batches available</p>
+          </div>
         </div>
+
+        <div class="batch-search-boxaf">
+          <span>🔍</span>
+          <input id="batchSearchInputaf" type="text" placeholder="Search for batches" oninput="filterBatchesaf()">
+        </div>
+
+        <div class="batch-gridaf" id="batchCardsaf"></div>
       </div>
 
+      <div class="batch-pageaf hidden-box" id="batchDetailsBoxaf">
+        <button class="batch-backaf" type="button" onclick="backToBatchListaf()">← Back to Batches</button>
+
+        <div class="batch-detail-cardaf">
+          <img id="batchDetailImageaf" src="" alt="Batch Image" class="batch-detail-imgaf">
+
+          <div class="batch-detail-bodyaf">
+            <div class="batch-detail-headrowaf">
+              <div>
+                <p class="batch-categoryaf" id="batchDetailCategoryaf">Target</p>
+                <h2 id="batchDetailTitleaf">Batch Name</h2>
+              </div>
+              <span class="batch-languageaf" id="batchDetailLanguageaf">HINGLISH</span>
+            </div>
+
+            <p class="batch-detail-descaf" id="batchDetailDescaf">Batch description will appear here.</p>
+
+            <div class="batch-price-rowaf">
+              <strong id="batchDetailPriceaf">₹49</strong>
+              <del id="batchDetailOldPriceaf">₹99</del>
+              <span id="batchDetailOffaf">51% OFF</span>
+            </div>
+
+            <button id="batchDetailBuyBtnaf" class="batch-buy-mainaf" type="button" onclick="buySelectedBatchaf()">Buy Now</button>
+          </div>
+        </div>
+
+        <div class="batch-info-boxaf">
+          <h3>📌 What you will learn</h3>
+          <ul id="batchLearnListaf"></ul>
+        </div>
+
+        <div class="batch-info-boxaf">
+          <h3>🏫 Batch Facilities</h3>
+          <ul id="batchFacilityListaf"></ul>
+        </div>
+
+        <div class="batch-info-boxaf">
+          <h3>🧾 Batch Details</h3>
+          <p id="batchFullDetailsaf"></p>
+        </div>
+      </div>
+      
+      <div id="afToastWrap" class="af-toast-wrap"></div>
+    </div>
+  </section>
+</div>
+      
       <!-- ══════════════════════════════════════════════════════
            VIEW: COMMUNITY (placeholder — navigates to community page)
            ══════════════════════════════════════════════════════ -->
@@ -1820,17 +4001,18 @@
               <div class="af-accordion-body" role="region">
                 <div class="af-accordion-divider"></div>
                 <a
-                  class="af-accordion-item"
-                  href="#"
-                  aria-label="Login or Create Student ID"
-                >
-                  <div class="af-accordion-item-icon" aria-hidden="true">📋</div>
-                  <div class="af-accordion-item-text">
-                    <div class="af-accordion-item-label">Login / Create ID</div>
-                    <div class="af-accordion-item-sub">Access your student account</div>
-                  </div>
-                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
-                </a>
+  class="af-accordion-item"
+  href="#"
+  onclick="afSwitchView('student'); return false;"
+  aria-label="Login or Create Student ID"
+>
+  <div class="af-accordion-item-icon" aria-hidden="true">📋</div>
+  <div class="af-accordion-item-text">
+    <div class="af-accordion-item-label">Login / Create ID</div>
+    <div class="af-accordion-item-sub">Access your student account</div>
+  </div>
+  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+</a>
               </div>
             </div>
 
@@ -2140,16 +4322,16 @@
         <span class="af-nav-label">Student</span>
       </button>
 
-      <button
-        class="af-nav-btn"
-        id="navBatches"
-        onclick="afSwitchView('batches')"
-        type="button"
-        aria-label="Batches"
-      >
-        <span class="af-nav-icon" aria-hidden="true">📚</span>
-        <span class="af-nav-label">Batches</span>
-      </button>
+     <button
+  class="af-nav-btn"
+  id="navBatches"
+  onclick="afSwitchView('batches')"
+  type="button"
+  aria-label="Batches"
+>
+  <span class="af-nav-icon" aria-hidden="true">📚</span>
+  <span class="af-nav-label">Batches</span>
+</button>
 
       <button
         class="af-nav-btn"
@@ -2193,7 +4375,34 @@
   <!-- ============================================================
        COMPLETE JAVASCRIPT — AcademeForge Multi-Page Architecture
        ============================================================ -->
-  <script>
+   <!-----------------------  JAVA SCRIPT STARTS --------------------------------------->
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Razorpay Checkout -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+const SUPABASE_URL = "https://nltmolhlwgsrxadknzzq.supabase.co";
+
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  /* NEW BACKEND - new student system ke liye */
+const STUDENT_SUPABASE_URL = "https://afooyyydhlwngzssgqih.supabase.co";
+
+const STUDENT_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmb295eXlkaGx3bmd6c3NncWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDQxMjgsImV4cCI6MjA5NDIyMDEyOH0.KG0XO0oP_2MpewHoIwTtbrKg5FkyOYRUtVzLH1MSJiE";
+
+const studentDb = supabase.createClient(
+  STUDENT_SUPABASE_URL,
+  STUDENT_SUPABASE_ANON_KEY
+);
+  
+const websiteLink = "https://academeforge.in";
+
+ 
     /* ─────────────────────────────────────────────────────────────
        SECTION 1: THEME / DARK MODE
        ─────────────────────────────────────────────────────────── */
@@ -2672,6 +4881,2086 @@ function afHandleSwipe(e) {
     window.afToggleDarkMode   = afToggleDarkMode;
     window.afLogout           = afLogout;
     window.afShowToast        = afShowToast;
+
+  /* ─────────────────────────────────────────────────────────────
+       SECTION 17: BATCHES PURCHASE 
+       ─────────────────────────────────────────────────────────── */
+ const RAZORPAY_KEY_ID = "rzp_test_SpO0DdKfoz5wRu";
+
+const afBatchPrice = 49;
+const afBatchOldPrice = 99;
+const afBatchDiscount = Math.round(((afBatchOldPrice - afBatchPrice) / afBatchOldPrice) * 100);
+
+let afSelectedBatch = null;
+let afEnrolledCourseSlugs = [];
+
+const afCourseIdBySlug = {
+  "ai-prompt-engineering": "0e6d4d11-0afc-4070-bbf2-23950cc71da0",
+  "ai-coding": "ad0b6211-f5d1-4d31-982f-386f286778bf",
+  "graphic-design": "483ed390-1923-4198-a003-0ff46ec8dba9",
+  "freelancing": "7fd5fc14-1ce8-46f8-9cbb-5fab1abb5cd9",
+  "video-editing": "4cdd5351-b370-4d07-8841-b4024a0bcb27"
+};
+
+const afBatches = [
+  {
+    id: "video-editing",
+    courseSlug: "video-editing",
+    courseId: afCourseIdBySlug["video-editing"],
+    image: "Course 1.jpeg",
+    category: "Target",
+    language: "HINGLISH",
+    title: "Video & Media Editing Mastery",
+    subtitle: "Learn editing, storytelling, reels, shorts, and professional content creation.",
+    status: "Beta Mode",
+    startText: "Test Payment",
+    price: afBatchPrice,
+    oldPrice: afBatchOldPrice,
+    details: "A practical batch for learners who want to build strong video editing skills for reels, shorts, YouTube content, social media creatives, and professional digital projects.",
+    learn: [
+      "Timeline editing and clean workflow",
+      "Reels, shorts, and social media video structure",
+      "Transitions, captions, audio sync, and color correction",
+      "Content planning and storytelling basics",
+      "Project-based editing practice"
+    ],
+    facilities: [
+      "Chapter-wise learning",
+      "Lecture and notes support",
+      "Practice-based tasks",
+      "Future certificate support",
+      "Batch access after successful purchase"
+    ]
+  },
+  {
+    id: "graphic-design",
+    courseSlug: "graphic-design",
+    courseId: afCourseIdBySlug["graphic-design"],
+    image: "Course 2.jpeg",
+    category: "Target",
+    language: "HINGLISH",
+    title: "Creative & Graphic Design Mastery",
+    subtitle: "Design posters, thumbnails, banners, brand creatives, and visual content.",
+    status: "Beta Mode",
+    startText: "Test Payment",
+    price: afBatchPrice,
+    oldPrice: afBatchOldPrice,
+    details: "A creative batch focused on design fundamentals, social media creatives, thumbnails, posters, brand layouts, typography, and portfolio-ready visual design practice.",
+    learn: [
+      "Design principles and layout basics",
+      "Poster, banner, and thumbnail design",
+      "Typography, color balance, and spacing",
+      "Brand-style social media creatives",
+      "Portfolio-focused design practice"
+    ],
+    facilities: [
+      "Design practice tasks",
+      "Creative assignments",
+      "Notes for quick revision",
+      "Portfolio guidance",
+      "Future project review"
+    ]
+  },
+  {
+    id: "ai-coding",
+    courseSlug: "ai-coding",
+    courseId: afCourseIdBySlug["ai-coding"],
+    image: "Course 3.jpeg",
+    category: "Target",
+    language: "HINGLISH",
+    title: "AI Coding & Logic Foundation",
+    subtitle: "Build coding logic, AI basics, prompts, and beginner-friendly programming thinking.",
+    status: "Beta Mode",
+    startText: "Test Payment",
+    price: afBatchPrice,
+    oldPrice: afBatchOldPrice,
+    details: "A beginner-friendly batch designed to build programming thinking, logic, AI-assisted coding workflow, problem solving, and project structure from the ground level.",
+    learn: [
+      "Logic building and problem solving",
+      "Programming basics for beginners",
+      "AI-assisted coding workflow",
+      "Prompt thinking for coding tasks",
+      "Mini project planning and structure"
+    ],
+    facilities: [
+      "Beginner-friendly explanations",
+      "Practice questions",
+      "Chapter-wise notes",
+      "Mini project ideas",
+      "Future coding dashboard support"
+    ]
+  },
+  {
+    id: "freelancing",
+    courseSlug: "freelancing",
+    courseId: afCourseIdBySlug["freelancing"],
+    image: "Course 4.jpeg",
+    category: "Target",
+    language: "HINGLISH",
+    title: "Freelancing & Monetization Roadmap",
+    subtitle: "Understand digital earning, freelancing basics, client work, and skill monetization.",
+    status: "Beta Mode",
+    startText: "Test Payment",
+    price: afBatchPrice,
+    oldPrice: afBatchOldPrice,
+    details: "A practical batch for students who want to understand freelancing basics, profile building, client communication, service packaging, pricing, and online earning discipline.",
+    learn: [
+      "Freelancing basics and service selection",
+      "Profile and portfolio building",
+      "Client communication fundamentals",
+      "Pricing and delivery discipline",
+      "Online earning mindset and roadmap"
+    ],
+    facilities: [
+      "Freelancing roadmap",
+      "Profile guidance",
+      "Notes and examples",
+      "Practical task ideas",
+      "Future mentorship support"
+    ]
+  },
+  {
+    id: "ai-prompt-engineering",
+    courseSlug: "ai-prompt-engineering",
+    courseId: afCourseIdBySlug["ai-prompt-engineering"],
+    image: "Course 5.jpeg",
+    category: "Target",
+    language: "HINGLISH",
+    title: "AI & Prompt Engineering",
+    subtitle: "Master AI tools, prompt structure, productivity workflows, and practical automation thinking.",
+    status: "Beta Mode",
+    startText: "Test Payment",
+    price: afBatchPrice,
+    oldPrice: afBatchOldPrice,
+    details: "A modern AI-focused batch covering prompt engineering, AI tool usage, structured prompting, productivity workflows, content generation, research support, and practical AI implementation for students and creators.",
+    learn: [
+      "Prompt engineering fundamentals",
+      "AI tools for study, content, and productivity",
+      "Structured prompts for better output",
+      "Research, writing, and automation workflows",
+      "Practical AI use cases for real projects"
+    ],
+    facilities: [
+      "Prompt templates and examples",
+      "Practice-based AI tasks",
+      "Chapter-wise notes",
+      "Real workflow demonstrations",
+      "Future AI project support"
+    ]
+  }
+];
+
+function afBatchEl(id) {
+  return document.getElementById(id);
+}
+
+function getCurrentStudentaf() {
+  return {
+    id: localStorage.getItem("af_student_uuid") || "",
+    student_id: localStorage.getItem("af_student_id") || "",
+    mobile: localStorage.getItem("af_student_mobile") || "",
+    name: localStorage.getItem("af_student_name") || "Student",
+    email: localStorage.getItem("af_student_email") || ""
+  };
+}
+
+function isBatchEnrolledaf(courseSlug) {
+  return afEnrolledCourseSlugs.includes(courseSlug);
+}
+
+function afBatchBackend() {
+  if (typeof studentDb !== "undefined") return studentDb;
+  return null;
+}
+
+async function afBatchEdgeCall(functionName, payload) {
+  const backend = afBatchBackend();
+
+  if (!navigator.onLine) {
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      console.error("AF Batch edge error:", error);
+
+      return {
+        ok: false,
+        message: "No internet connection."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "No internet connection."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    console.error("AF Batch edge catch:", err);
+
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+}
+function ensureAfToastWrap() {
+  let wrap = document.getElementById("afToastWrap");
+
+  if (!wrap) {
+    wrap = document.createElement("div");
+    wrap.id = "afToastWrap";
+    wrap.className = "af-toast-wrap";
+    document.body.appendChild(wrap);
+  }
+
+  return wrap;
+}
+
+function showAfToast(message, type = "info", title = "") {
+  const wrap = ensureAfToastWrap();
+  if (!wrap) return;
+
+  const icons = {
+    success: "✓",
+    error: "!",
+    warning: "!",
+    info: "i"
+  };
+
+  const titles = {
+    success: "Success",
+    error: "Something went wrong",
+    warning: "Notice",
+    info: "Info"
+  };
+
+  wrap.innerHTML = "";
+
+  const toast = document.createElement("div");
+  toast.className = `af-toast af-toast-${type}`;
+
+  toast.innerHTML = `
+    <div class="af-toast-icon">${icons[type] || icons.info}</div>
+    <div class="af-toast-content">
+      <p class="af-toast-title">${title || titles[type] || "Info"}</p>
+      <p class="af-toast-msg">${message}</p>
+    </div>
+    <button class="af-toast-close" type="button" aria-label="Close">×</button>
+  `;
+
+  wrap.appendChild(toast);
+
+  const closeToast = function() {
+    toast.style.animation = "afToastOut 0.22s ease forwards";
+    setTimeout(function() {
+      if (toast && toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 220);
+  };
+
+  const closeBtn = toast.querySelector(".af-toast-close");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeToast);
+  }
+
+  setTimeout(closeToast, 2600);
+}
+
+/* ==============================
+   BACKEND CHECK COURSE
+================================ */
+
+async function checkBatchCourseExistsaf(batch) {
+  if (!batch || !batch.courseId) {
+    throw new Error("Course ID missing for this batch.");
+  }
+
+  const result = await afBatchEdgeCall("batch-course-check-af", {
+    course_id: batch.courseId,
+    course_slug: batch.courseSlug
+  });
+
+  if (!result || !result.ok) {
+    throw new Error(result?.message || "Could not verify course.");
+  }
+
+  return true;
+}
+
+/* ==============================
+   BACKEND LOAD ENROLLED SLUGS
+================================ */
+
+async function loadEnrolledBatchSlugsaf() {
+  const student = getCurrentStudentaf();
+  afEnrolledCourseSlugs = [];
+
+  if (!student.id) return [];
+
+  try {
+    const result = await afBatchEdgeCall("batch-enrolled-af", {
+      student_id: student.id
+    });
+
+    if (!result || !result.ok) {
+      console.error("Enrolled check error:", result);
+      return [];
+    }
+
+    const enrolledCourseIds = Array.isArray(result.course_ids) ? result.course_ids : [];
+
+    afEnrolledCourseSlugs = afBatches
+      .filter(function(batch) {
+        return enrolledCourseIds.includes(batch.courseId);
+      })
+      .map(function(batch) {
+        return batch.courseSlug;
+      });
+
+    return afEnrolledCourseSlugs;
+
+  } catch (err) {
+    console.error("loadEnrolledBatchSlugsaf error:", err);
+    return [];
+  }
+}
+
+async function openBatchSectionaf() {
+  showBatchListaf();
+  await loadEnrolledBatchSlugsaf();
+  renderBatchesaf(afBatches);
+}
+
+function showBatchListaf() {
+  const list = afBatchEl("batchListBoxaf");
+  const details = afBatchEl("batchDetailsBoxaf");
+
+  if (details) {
+    details.classList.add("hidden-box");
+    details.style.display = "none";
+  }
+
+  if (list) {
+    list.classList.remove("hidden-box");
+    list.style.display = "block";
+  }
+}
+
+function backToBatchListaf() {
+  showBatchListaf();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function renderBatchesaf(list) {
+  const box = afBatchEl("batchCardsaf");
+  const count = afBatchEl("batchCountTextaf");
+
+  if (!box) return;
+
+  if (count) {
+    count.textContent = list.length + " batches available";
+  }
+
+  if (!list.length) {
+    box.innerHTML = '<p class="empty-textaf">No batch found.</p>';
+    return;
+  }
+
+  box.innerHTML = list.map(function(batch) {
+    const enrolled = isBatchEnrolledaf(batch.courseSlug);
+
+    return `
+      <div class="batch-cardaf ${enrolled ? "batch-enrolled-cardaf" : ""}">
+        <div class="batch-img-wrapaf" onclick="openBatchDetailsaf('${batch.id}')">
+          <span class="batch-loaderaf"></span>
+          <img class="batch-imgaf" src="${batch.image}" alt="${batch.title}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.previousElementSibling.style.display='none'">
+        </div>
+
+        <div class="batch-card-bodyaf">
+          <div class="batch-card-metaaf">
+            <p class="batch-categoryaf">${batch.category}</p>
+            <span class="batch-languageaf">${batch.language}</span>
+          </div>
+
+          <h3 class="batch-titleaf" onclick="openBatchDetailsaf('${batch.id}')">${batch.title}</h3>
+          <p class="batch-subaf">${batch.subtitle}</p>
+
+          <div class="batch-statusaf">
+            <span class="batch-dotaf ${enrolled ? "batch-dot-enrolledaf" : ""}"></span>
+            <span>${enrolled ? "Enrolled" : batch.status}</span>
+            <span>|</span>
+            <span>${enrolled ? "Access active" : batch.startText}</span>
+          </div>
+
+          ${enrolled ? `<div class="batch-enrolled-tagaf">✓ Already Enrolled</div>` : ""}
+
+          <div class="batch-price-actionaf">
+            <div class="batch-priceaf">
+              <div class="batch-price-lineaf">
+                <strong>₹${batch.price}</strong>
+                <del>₹${batch.oldPrice}</del>
+              </div>
+              <span class="batch-offaf">${afBatchDiscount}% OFF</span>
+            </div>
+
+            <div class="batch-buy-rowaf">
+              ${
+                enrolled
+                  ? `<button class="batch-buy-btnaf batch-enrolled-btnaf" type="button" disabled>Already Enrolled</button>`
+                  : `<button class="batch-buy-btnaf" type="button" onclick="buyBatchDirectaf('${batch.id}', this)">Buy Now</button>`
+              }
+              <button class="batch-arrowaf" type="button" onclick="openBatchDetailsaf('${batch.id}')">›</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function filterBatchesaf() {
+  const input = afBatchEl("batchSearchInputaf");
+  const query = input ? input.value.trim().toLowerCase() : "";
+
+  if (!query) {
+    renderBatchesaf(afBatches);
+    return;
+  }
+
+  const filtered = afBatches.filter(function(batch) {
+    return (
+      batch.title.toLowerCase().includes(query) ||
+      batch.subtitle.toLowerCase().includes(query) ||
+      batch.courseSlug.toLowerCase().includes(query)
+    );
+  });
+
+  renderBatchesaf(filtered);
+}
+
+function openBatchDetailsaf(batchId) {
+  const batch = afBatches.find(function(item) {
+    return item.id === batchId;
+  });
+
+  if (!batch) {
+    showAfToast("Batch not found.", "error", "Batch Error");
+    return;
+  }
+
+  afSelectedBatch = batch;
+
+  const list = afBatchEl("batchListBoxaf");
+  const details = afBatchEl("batchDetailsBoxaf");
+
+  if (list) {
+    list.classList.add("hidden-box");
+    list.style.display = "none";
+  }
+
+  if (details) {
+    details.classList.remove("hidden-box");
+    details.style.display = "block";
+  }
+
+  const enrolled = isBatchEnrolledaf(batch.courseSlug);
+
+  const img = afBatchEl("batchDetailImageaf");
+  if (img) img.src = batch.image;
+
+  if (afBatchEl("batchDetailCategoryaf")) afBatchEl("batchDetailCategoryaf").textContent = batch.category;
+  if (afBatchEl("batchDetailLanguageaf")) afBatchEl("batchDetailLanguageaf").textContent = batch.language;
+  if (afBatchEl("batchDetailTitleaf")) afBatchEl("batchDetailTitleaf").textContent = batch.title;
+  if (afBatchEl("batchDetailDescaf")) afBatchEl("batchDetailDescaf").textContent = batch.subtitle;
+  if (afBatchEl("batchDetailPriceaf")) afBatchEl("batchDetailPriceaf").textContent = "₹" + batch.price;
+  if (afBatchEl("batchDetailOldPriceaf")) afBatchEl("batchDetailOldPriceaf").textContent = "₹" + batch.oldPrice;
+  if (afBatchEl("batchDetailOffaf")) afBatchEl("batchDetailOffaf").textContent = afBatchDiscount + "% OFF";
+  if (afBatchEl("batchFullDetailsaf")) afBatchEl("batchFullDetailsaf").textContent = batch.details;
+
+  if (afBatchEl("batchLearnListaf")) {
+    afBatchEl("batchLearnListaf").innerHTML = batch.learn.map(function(item) {
+      return `<li>${item}</li>`;
+    }).join("");
+  }
+
+  if (afBatchEl("batchFacilityListaf")) {
+    afBatchEl("batchFacilityListaf").innerHTML = batch.facilities.map(function(item) {
+      return `<li>${item}</li>`;
+    }).join("");
+  }
+
+  const btn = afBatchEl("batchDetailBuyBtnaf");
+
+  if (btn) {
+    if (enrolled) {
+      btn.textContent = "Already Enrolled";
+      btn.disabled = true;
+      btn.classList.add("batch-enrolled-btnaf");
+    } else {
+      btn.textContent = "Buy Now";
+      btn.disabled = false;
+      btn.classList.remove("batch-enrolled-btnaf");
+    }
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function buyBatchDirectaf(batchId, btn) {
+  const batch = afBatches.find(function(item) {
+    return item.id === batchId;
+  });
+
+  if (!batch) {
+    showAfToast("Batch not found.", "error", "Batch Error");
+    return;
+  }
+
+  if (isBatchEnrolledaf(batch.courseSlug)) {
+    showAfToast("You already have access to this batch.", "success", "Already Enrolled");
+    return;
+  }
+
+  afSelectedBatch = batch;
+  startBatchPaymentaf(batch, btn);
+}
+
+function buySelectedBatchaf() {
+  if (!afSelectedBatch) {
+    showAfToast("Please select a batch first.", "warning", "Select Batch");
+    return;
+  }
+
+  if (isBatchEnrolledaf(afSelectedBatch.courseSlug)) {
+    showAfToast("You already have access to this batch.", "success", "Already Enrolled");
+    return;
+  }
+
+  const btn = afBatchEl("batchDetailBuyBtnaf");
+  startBatchPaymentaf(afSelectedBatch, btn);
+}
+
+async function startBatchPaymentaf(batch, btn) {
+  const student = getCurrentStudentaf();
+
+  if (!student.id) {
+    showAfToast("Please login in AcademeForge app first, then open Batches.", "warning", "Login Required");
+    return;
+  }
+
+  if (!batch.courseId) {
+    showAfToast("Course ID missing for this batch.", "error", "Course Error");
+    return;
+  }
+
+  if (typeof Razorpay === "undefined") {
+    showAfToast("Razorpay checkout script not loaded.", "error", "Payment Error");
+    return;
+  }
+
+  if (!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "YOUR_RAZORPAY_KEY_ID") {
+    showAfToast("Razorpay Key ID is not added yet.", "error", "Payment Error");
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Checking...";
+  }
+
+  try {
+    await checkBatchCourseExistsaf(batch);
+
+    if (btn) {
+      btn.textContent = "Opening Payment...";
+    }
+
+    const options = {
+      key: RAZORPAY_KEY_ID,
+      amount: Number(batch.price) * 100,
+      currency: "INR",
+      name: "AcademeForge",
+      description: batch.title,
+      image: "",
+      prefill: {
+        name: student.name,
+        email: student.email,
+        contact: student.mobile
+      },
+      notes: {
+        student_uuid: student.id,
+        student_id: student.student_id,
+        course_id: batch.courseId,
+        course_slug: batch.courseSlug,
+        batch_title: batch.title
+      },
+      method: {
+        upi: true,
+        card: true,
+        netbanking: true,
+        wallet: true,
+        paylater: false,
+        emi: false
+      },
+      theme: {
+        color: "#16a34a"
+      },
+      handler: async function(response) {
+        try {
+          if (btn) {
+            btn.textContent = "Adding Access...";
+          }
+
+          await grantBatchAccessaf(batch, response);
+          await loadEnrolledBatchSlugsaf();
+
+          showAfToast("Your batch access has been added successfully.", "success", "Payment Successful");
+
+          renderBatchesaf(afBatches);
+
+          if (typeof loadStudentCoursesaf === "function") {
+            await loadStudentCoursesaf();
+          }
+
+          backToBatchListaf();
+
+        } catch (err) {
+          console.log("After payment error:", err);
+          showAfToast(err.message || "Payment done, but access update failed.", "error", "Access Error");
+
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Buy Now";
+          }
+        }
+      },
+      modal: {
+        ondismiss: function() {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Buy Now";
+          }
+
+          showAfToast("Payment cancelled. You can try again anytime.", "warning", "Payment Cancelled");
+        }
+      }
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.on("payment.failed", function(response) {
+      console.error("Razorpay failed:", response);
+
+      let message = "Payment failed. Please try again.";
+
+      if (response && response.error && response.error.description) {
+        message = response.error.description;
+      }
+
+      showAfToast(message, "error", "Payment Failed");
+
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "Buy Now";
+      }
+    });
+
+    rzp.open();
+
+  } catch (err) {
+    console.log("Start batch payment error:", err);
+    showAfToast(err.message || "Something went wrong.", "error", "Course Error");
+
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Buy Now";
+    }
+  }
+}
+
+/* ==============================
+   BACKEND GRANT ACCESS
+================================ */
+
+async function grantBatchAccessaf(batch, paymentResponse) {
+  const student = getCurrentStudentaf();
+
+  if (!student.id) {
+    throw new Error("Student login session not found.");
+  }
+
+  if (!batch.courseId) {
+    throw new Error("Course ID missing.");
+  }
+
+  const result = await afBatchEdgeCall("batch-grant-access-af", {
+    student_uuid: student.id,
+    student_id: student.student_id,
+    student_name: student.name,
+    mobile: student.mobile,
+    email: student.email,
+
+    course_id: batch.courseId,
+    course_slug: batch.courseSlug,
+    batch_id: batch.id,
+    batch_title: batch.title,
+    amount: batch.price,
+    currency: "INR",
+
+    razorpay_payment_id: paymentResponse.razorpay_payment_id || "",
+    razorpay_order_id: paymentResponse.razorpay_order_id || "",
+    razorpay_signature: paymentResponse.razorpay_signature || ""
+  });
+
+  if (!result || !result.ok) {
+    throw new Error(result?.message || "Access update failed.");
+  }
+
+  return true;
+}
+
+async function debugBatchCoursesaf() {
+  const result = await afBatchEdgeCall("batch-course-check-af", {
+    debug: true
+  });
+
+  console.log("Batch course debug:", result);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  openBatchSectionaf();
+});
+
+  /* ─────────────────────────────────────────────────────────────
+       SECTION 18: LOGIN AUTH & COURSE CARD
+       ─────────────────────────────────────────────────────────── */
+
+/* ==============================
+   REQUIRED STANDALONE SAFETY HELPERS - AF
+================================ */
+
+function getAFDeviceId() {
+  try {
+    var key = "af_device_id";
+    var existing = localStorage.getItem(key);
+    if (existing) return existing;
+
+    var generated = "afdev_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 12);
+    localStorage.setItem(key, generated);
+    return generated;
+  } catch (error) {
+    return "afdev_fallback_" + Date.now().toString(36);
+  }
+}
+
+function getAFDeviceName() {
+  try {
+    var ua = navigator.userAgent || "Unknown Device";
+    if (/Android/i.test(ua)) return "Android WebView";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "iOS WebView";
+    if (/Windows/i.test(ua)) return "Windows Browser";
+    if (/Macintosh|Mac OS/i.test(ua)) return "Mac Browser";
+    if (/Linux/i.test(ua)) return "Linux Browser";
+    return "Web Browser";
+  } catch (error) {
+    return "Web Browser";
+  }
+}
+
+
+/* ==============================
+   NEW STUDENT SECTION JS - AF
+================================ */
+
+let afPendingCreateStudent = null;
+let afResetStudent = null;
+let afForgotOtpVerified = false;
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showStudentMessageaf(type, text) {
+  const box = document.getElementById("studentMessageaf");
+  if (!box) return;
+
+  box.className = "student-messageaf " + type;
+  box.textContent = text || "";
+}
+
+/* =========================
+   BACKEND HELPERS
+========================= */
+
+function getStudentBackendaf() {
+  if (typeof studentDb !== "undefined") return studentDb;
+  return null;
+}
+
+function cleanPhoneaf(value) {
+  return String(value || "").trim().replace(/\D/g, "");
+}
+
+async function afStudentEdgeCall(functionName, payload) {
+  const backend = getStudentBackendaf();
+
+  if (!navigator.onLine) {
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "Server connection failed. Please try again."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      console.error("AF Edge function error:", error);
+
+      return {
+        ok: false,
+        message: "No internet connection."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "No internet connection."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    console.error("AF Edge function catch:", err);
+
+    return {
+      ok: false,
+      message: "No internet connection."
+    };
+  }
+}
+
+/* =========================
+   CUSTOM EMAIL OTP - EDGE FUNCTION
+========================= */
+
+async function sendCustomEmailOtpaf(email, mobile, purpose) {
+  return await afStudentEdgeCall("student-send-otp-af", {
+    email: email,
+    mobile: mobile || "",
+    purpose: purpose || "create"
+  });
+}
+
+async function verifyCustomEmailOtpaf(email, otp, purpose) {
+  return await afStudentEdgeCall("student-verify-otp-af", {
+    email: email,
+    otp: otp,
+    purpose: purpose || "create"
+  });
+}
+
+/* =========================
+   SWITCH LOGIN / CREATE / FORGOT
+========================= */
+
+function switchStudentModeaf(mode) {
+  const loginBox = document.getElementById("studentLoginBoxaf");
+  const createBox = document.getElementById("studentCreateBoxaf");
+  const forgotBox = document.getElementById("studentForgotBoxaf");
+
+  const loginTabBtn = document.getElementById("loginTabBtnaf");
+  const createTabBtn = document.getElementById("createTabBtnaf");
+
+  const createOtpArea = document.getElementById("createOtpAreaaf");
+  const forgotOtpArea = document.getElementById("forgotOtpAreaaf");
+  const resetArea = document.getElementById("resetPasswordAreaaf");
+
+  const msg = document.getElementById("studentMessageaf");
+  if (msg) {
+    msg.className = "student-messageaf";
+    msg.textContent = "";
+  }
+
+  afPendingCreateStudent = null;
+  afResetStudent = null;
+  afForgotOtpVerified = false;
+
+  if (createOtpArea) createOtpArea.style.display = "none";
+  if (forgotOtpArea) forgotOtpArea.style.display = "none";
+  if (resetArea) resetArea.style.display = "none";
+
+  if (!loginBox || !createBox || !forgotBox) {
+    console.log("Student AF boxes missing");
+    return;
+  }
+
+  loginBox.style.display = "none";
+  createBox.style.display = "none";
+  forgotBox.style.display = "none";
+
+  if (loginTabBtn) loginTabBtn.classList.remove("active");
+  if (createTabBtn) createTabBtn.classList.remove("active");
+
+  if (mode === "login") {
+    loginBox.style.display = "block";
+    if (loginTabBtn) loginTabBtn.classList.add("active");
+  }
+
+  if (mode === "create") {
+    createBox.style.display = "block";
+    if (createTabBtn) createTabBtn.classList.add("active");
+  }
+
+  if (mode === "forgot") {
+    forgotBox.style.display = "block";
+  }
+}
+
+/* =========================
+   LOGIN - EDGE FUNCTION
+========================= */
+
+async function loginStudentaf() {
+  const idInput = document.getElementById("loginPhoneaf");
+  const passwordInput = document.getElementById("loginPasswordaf");
+
+  const loginId = idInput ? idInput.value.trim() : "";
+  const cleanLoginId = cleanPhoneaf(loginId);
+  const password = passwordInput ? passwordInput.value.trim() : "";
+
+  if (!loginId) {
+    showStudentMessageaf("err", "Enter your Student ID / phone number.");
+    return;
+  }
+
+  if (!password) {
+    showStudentMessageaf("err", "Enter your password.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Checking your login...");
+
+  try {
+    const result = await afStudentEdgeCall("student-login-af", {
+      login_id: loginId,
+      clean_login_id: cleanLoginId,
+      password: password,
+      device_id: getAFDeviceId(),
+      device_name: getAFDeviceName()
+    });
+
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Login failed.");
+      return;
+    }
+
+    if (!result.student) {
+  showStudentMessageaf("err", "Login failed. Student data not received.");
+  return;
+}
+
+var finalSessionToken = result.session_token || result.login_token || "";
+var finalDeviceId = result.device_id || getAFDeviceId();
+
+if (!finalSessionToken) {
+  showStudentMessageaf("err", "Login failed. Session token not received.");
+  return;
+}
+
+saveStudentSessionaf(result.student, finalSessionToken, finalDeviceId);
+
+localStorage.setItem("af_last_login_at", new Date().toISOString());
+
+console.log("LOGIN SAVED:", {
+  token: finalSessionToken,
+  device: finalDeviceId,
+  student: result.student.student_id || "",
+  mobile: result.student.mobile || result.student.phone || ""
+});
+
+openCourseSectionAfterLoginaf(result.student);
+  } catch (err) {
+    console.error("Login catch:", err);
+    showStudentMessageaf("err", "Login failed: " + err.message);
+  }
+}
+/* =========================
+   CREATE ID - SEND OTP
+========================= */
+
+async function sendCreateOtpaf() {
+  const nameInput = document.getElementById("createNameaf");
+  const phoneInput = document.getElementById("createPhoneaf");
+  const emailInput = document.getElementById("createEmailaf");
+  const passwordInput = document.getElementById("createPasswordaf");
+
+  const name = nameInput ? nameInput.value.trim() : "";
+  const mobile = phoneInput ? cleanPhoneaf(phoneInput.value) : "";
+  const email = emailInput ? emailInput.value.trim().toLowerCase() : "";
+  const password = passwordInput ? passwordInput.value.trim() : "";
+
+  if (!name || name.length < 3) {
+    showStudentMessageaf("err", "Enter your full name.");
+    return;
+  }
+
+  if (!mobile || mobile.length < 10) {
+    showStudentMessageaf("err", "Enter a valid phone number.");
+    return;
+  }
+
+  if (!email || !email.includes("@")) {
+    showStudentMessageaf("err", "Enter a valid email address.");
+    return;
+  }
+
+  if (!password || password.length < 4) {
+    showStudentMessageaf("err", "Create a password with at least 4 characters.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Checking existing account...");
+
+  try {
+    const checkResult = await afStudentEdgeCall("student-check-existing-af", {
+      mobile: mobile,
+      email: email
+    });
+
+    if (!checkResult || !checkResult.ok) {
+      showStudentMessageaf("err", checkResult?.message || "Could not check existing account.");
+      return;
+    }
+
+    if (checkResult.mobile_exists || checkResult.student_id_exists) {
+      showStudentMessageaf("err", "This phone number is already registered.");
+      return;
+    }
+
+    if (checkResult.email_exists) {
+      showStudentMessageaf("err", "This email is already registered.");
+      return;
+    }
+
+    afPendingCreateStudent = {
+      student_id: mobile,
+      name: name,
+      mobile: mobile,
+      email: email,
+      password: password,
+      status: "active",
+      email_verified: false
+    };
+
+    showStudentMessageaf("info", "Sending OTP to your email...");
+
+    const otpResult = await sendCustomEmailOtpaf(email, mobile, "create");
+
+    if (!otpResult || !otpResult.ok) {
+      showStudentMessageaf("err", "OTP send failed: " + (otpResult?.message || "Server error."));
+      return;
+    }
+
+    const otpArea = document.getElementById("createOtpAreaaf");
+    if (otpArea) otpArea.style.display = "block";
+
+    showStudentMessageaf("ok", "OTP sent to your email. Please verify to create your Student ID.");
+
+  } catch (err) {
+    console.error("Send create OTP catch:", err);
+    showStudentMessageaf("err", "OTP send failed: " + err.message);
+  }
+}
+
+/* =========================
+   CREATE ID - VERIFY OTP + EDGE INSERT
+========================= */
+
+async function verifyCreateOtpAndCreateIdaf() {
+  const otpInput = document.getElementById("createOtpaf");
+  const otp = otpInput ? otpInput.value.trim() : "";
+
+  if (!afPendingCreateStudent) {
+    showStudentMessageaf("err", "Please fill the form and send OTP first.");
+    return;
+  }
+
+  if (!otp) {
+    showStudentMessageaf("err", "Enter OTP.");
+    return;
+  }
+
+  if (otp.length < 4) {
+    showStudentMessageaf("err", "Enter valid OTP.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Verifying OTP and creating your Student ID...");
+
+  try {
+    const payload = {
+      ...afPendingCreateStudent,
+      otp: otp,
+      purpose: "create"
+    };
+
+    const result = await afStudentEdgeCall("student-create-af", payload);
+
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Could not create Student ID.");
+      return;
+    }
+
+    if (!result.student) {
+      showStudentMessageaf("err", "Student ID created but student data not received.");
+      return;
+    }
+
+    afPendingCreateStudent = null;
+
+    const otpArea = document.getElementById("createOtpAreaaf");
+    const otpInput2 = document.getElementById("createOtpaf");
+
+    if (otpArea) otpArea.style.display = "none";
+    if (otpInput2) otpInput2.value = "";
+
+    saveStudentSessionaf(result.student);
+    showStudentMessageaf("ok", "Student ID created successfully.");
+    openCourseSectionAfterLoginaf(result.student);
+
+  } catch (err) {
+    console.error("Create Student ID catch:", err);
+    showStudentMessageaf("err", "Create ID failed: " + err.message);
+  }
+}
+
+/* =========================
+   FORGOT PASSWORD - FIND ACCOUNT BY EDGE
+========================= */
+
+async function findStudentForResetaf() {
+  const input = document.getElementById("forgotLoginaf");
+  const value = input ? input.value.trim() : "";
+  const cleanValue = cleanPhoneaf(value);
+
+  if (!value) {
+    showStudentMessageaf("err", "Enter your Student ID, phone, or email.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Finding your account...");
+
+  try {
+    const result = await afStudentEdgeCall("student-find-reset-af", {
+      value: value,
+      clean_value: cleanValue,
+      email_value: value.toLowerCase()
+    });
+
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "No account found with this detail.");
+      return;
+    }
+
+    if (!result.student || !result.student.email) {
+      showStudentMessageaf("err", "Account found but email is missing.");
+      return;
+    }
+
+    afResetStudent = result.student;
+    afForgotOtpVerified = false;
+
+    showStudentMessageaf("info", "Sending OTP to your registered email...");
+
+    const otpResult = await sendCustomEmailOtpaf(
+      afResetStudent.email,
+      afResetStudent.mobile || afResetStudent.student_id || "",
+      "reset"
+    );
+
+    if (!otpResult || !otpResult.ok) {
+      showStudentMessageaf("err", "OTP send failed: " + (otpResult?.message || "Server error."));
+      return;
+    }
+
+    const otpArea = document.getElementById("forgotOtpAreaaf");
+    const resetArea = document.getElementById("resetPasswordAreaaf");
+
+    if (otpArea) otpArea.style.display = "block";
+    if (resetArea) resetArea.style.display = "none";
+
+    showStudentMessageaf("ok", "OTP sent to your registered email. Please verify.");
+
+  } catch (err) {
+    console.error("Find reset catch:", err);
+    showStudentMessageaf("err", "Account search failed: " + err.message);
+  }
+}
+
+/* =========================
+   FORGOT PASSWORD - VERIFY OTP
+========================= */
+
+async function verifyForgotOtpaf() {
+  const otpInput = document.getElementById("forgotOtpaf");
+  const otp = otpInput ? otpInput.value.trim() : "";
+
+  if (!afResetStudent) {
+    showStudentMessageaf("err", "Please find your account first.");
+    return;
+  }
+
+  if (!otp) {
+    showStudentMessageaf("err", "Enter OTP.");
+    return;
+  }
+
+  if (otp.length < 4) {
+    showStudentMessageaf("err", "Enter valid OTP.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Verifying OTP...");
+
+  try {
+    const verifyResult = await verifyCustomEmailOtpaf(
+      afResetStudent.email,
+      otp,
+      "reset"
+    );
+
+    if (!verifyResult || !verifyResult.ok) {
+      showStudentMessageaf("err", "Invalid OTP: " + (verifyResult?.message || "Verification failed."));
+      return;
+    }
+
+    afForgotOtpVerified = true;
+
+    const resetArea = document.getElementById("resetPasswordAreaaf");
+    if (resetArea) resetArea.style.display = "block";
+
+    showStudentMessageaf("ok", "Email verified. Create your new password.");
+
+  } catch (err) {
+    console.error("Forgot OTP verify catch:", err);
+    showStudentMessageaf("err", "OTP verification failed: " + err.message);
+  }
+}
+
+/* =========================
+   FORGOT PASSWORD - EDGE UPDATE
+========================= */
+
+async function resetStudentPasswordaf() {
+  const newPasswordInput = document.getElementById("newPasswordaf");
+  const newPassword = newPasswordInput ? newPasswordInput.value.trim() : "";
+
+  if (!afResetStudent) {
+    showStudentMessageaf("err", "Please find your account first.");
+    return;
+  }
+
+  if (!afForgotOtpVerified) {
+    showStudentMessageaf("err", "Please verify email OTP first.");
+    return;
+  }
+
+  if (!newPassword || newPassword.length < 4) {
+    showStudentMessageaf("err", "New password must be at least 4 characters.");
+    return;
+  }
+
+  showStudentMessageaf("info", "Resetting your password...");
+
+  try {
+    const result = await afStudentEdgeCall("student-reset-password-af", {
+      id: afResetStudent.id,
+      email: afResetStudent.email,
+      new_password: newPassword
+    });
+
+    if (!result || !result.ok) {
+      showStudentMessageaf("err", result?.message || "Password reset failed.");
+      return;
+    }
+
+    afResetStudent = null;
+    afForgotOtpVerified = false;
+
+    const resetArea = document.getElementById("resetPasswordAreaaf");
+    const otpArea = document.getElementById("forgotOtpAreaaf");
+    const forgotOtpInput = document.getElementById("forgotOtpaf");
+    const newPasswordInput2 = document.getElementById("newPasswordaf");
+
+    if (resetArea) resetArea.style.display = "none";
+    if (otpArea) otpArea.style.display = "none";
+    if (forgotOtpInput) forgotOtpInput.value = "";
+    if (newPasswordInput2) newPasswordInput2.value = "";
+
+    showStudentMessageaf("ok", "Password reset successful. Please login now.");
+
+    setTimeout(function () {
+      switchStudentModeaf("login");
+    }, 900);
+
+  } catch (err) {
+    console.error("Reset password catch:", err);
+    showStudentMessageaf("err", "Password reset failed: " + err.message);
+  }
+}
+
+/* =========================
+   SESSION
+========================= */
+
+function saveStudentSessionaf(student, sessionToken, deviceId) {
+  localStorage.setItem("af_student_logged_in", "true");
+
+  localStorage.setItem("af_session_token", sessionToken || "");
+  localStorage.setItem("af_device_id", deviceId || getAFDeviceId());
+
+  localStorage.setItem("af_student_uuid", student.id || "");
+  localStorage.setItem("af_student_id", student.student_id || student.mobile || student.phone || "");
+  localStorage.setItem("af_student_mobile", student.mobile || student.phone || "");
+  localStorage.setItem("af_student_name", student.name || "Student");
+  localStorage.setItem("af_student_email", student.email || "");
+}
+/* =========================
+   OPEN COURSE SECTION AFTER LOGIN
+========================= */
+
+function openCourseSectionAfterLoginaf(studentData) {
+  const authCard = document.getElementById("studentAuthCardaf");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+  const courseDetailsBox = document.getElementById("courseDetailsBox");
+  const welcomeText = document.getElementById("studentWelcomeText");
+
+  if (authCard) {
+    authCard.style.display = "none";
+  }
+
+  if (courseDetailsBox) {
+    courseDetailsBox.classList.add("hidden-box");
+    courseDetailsBox.style.display = "none";
+  }
+
+  if (courseSelectBox) {
+    courseSelectBox.classList.remove("hidden-box");
+    courseSelectBox.style.display = "block";
+  } else {
+    console.log("courseSelectBox not found");
+    showStudentMessageaf("err", "Course section not found.");
+    return;
+  }
+
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome " + ((studentData && studentData.name) || "Student");
+  }
+
+  if (typeof renderCourses === "function") {
+    renderCourses();
+  }
+
+  if (typeof loadCourses === "function") {
+    loadCourses();
+  }
+
+  if (typeof loadStudentCourses === "function") {
+    loadStudentCourses(studentData);
+  }
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutStudent() {
+  localStorage.removeItem("af_student_logged_in");
+  localStorage.removeItem("af_student_uuid");
+  localStorage.removeItem("af_student_id");
+  localStorage.removeItem("af_student_mobile");
+  localStorage.removeItem("af_student_name");
+  localStorage.removeItem("af_student_email");
+
+  const authCard = document.getElementById("studentAuthCardaf");
+  const courseSelectBox = document.getElementById("courseSelectBox");
+  const courseDetailsBox = document.getElementById("courseDetailsBox");
+
+  if (courseSelectBox) {
+    courseSelectBox.classList.add("hidden-box");
+    courseSelectBox.style.display = "none";
+  }
+
+  if (courseDetailsBox) {
+    courseDetailsBox.classList.add("hidden-box");
+    courseDetailsBox.style.display = "none";
+  }
+
+  if (authCard) {
+    authCard.style.display = "block";
+  }
+
+  switchStudentModeaf("login");
+}
+
+/* =========================
+   AUTO LOGIN FROM LOCAL SESSION
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loggedIn = localStorage.getItem("af_student_logged_in");
+
+  if (loggedIn === "true") {
+    const studentData = {
+      id: localStorage.getItem("af_student_uuid"),
+      student_id: localStorage.getItem("af_student_id"),
+      mobile: localStorage.getItem("af_student_mobile"),
+      name: localStorage.getItem("af_student_name"),
+      email: localStorage.getItem("af_student_email")
+    };
+
+    openCourseSectionAfterLoginaf(studentData);
+  } else {
+    switchStudentModeaf("login");
+  }
+});
+  
+/* ==============================
+   STUDENT COURSE DASHBOARD JS - AF
+   Secure Backend Fetch via Edge Functions
+
+   Edge Functions:
+   student-courses-af
+   student-chapters-af
+   student-lectures-af
+   student-notes-af
+================================ */
+
+let afEnrolledCourses = [];
+let afSelectedCourse = null;
+let afSelectedChapterId = null;
+let afLearningMode = "lectures";
+
+function afBackend() {
+  if (typeof studentDb !== "undefined") return studentDb;
+  return null;
+}
+
+function afEl(id) {
+  return document.getElementById(id);
+}
+
+function afSafe(value, fallback) {
+  if (value === null || value === undefined || value === "") return fallback || "";
+  return value;
+}
+
+async function afCourseEdgeCall(functionName, payload) {
+  const backend = afBackend();
+
+  if (!backend) {
+    return {
+      ok: false,
+      message: "Student backend is not connected."
+    };
+  }
+
+  try {
+    const { data, error } = await backend.functions.invoke(functionName, {
+      body: payload || {}
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message: error.message || "Server request failed."
+      };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        message: "Empty server response."
+      };
+    }
+
+    return data;
+
+  } catch (err) {
+    return {
+      ok: false,
+      message: err.message || "Server request failed."
+    };
+  }
+}
+
+function hideStudentPanelsaf() {
+  const panels = [
+    "studentAuthCardaf",
+    "courseSelectBox",
+    "noCourseBoxaf",
+    "courseDetailsBoxaf",
+    "learningBoxaf",
+    "chapterBoxaf",
+    "contentBoxaf"
+  ];
+
+  panels.forEach(function (id) {
+    const el = afEl(id);
+    if (!el) return;
+
+    if (id === "studentAuthCardaf") {
+      el.style.display = "none";
+    } else {
+      el.classList.add("hidden-box");
+      el.style.display = "none";
+    }
+  });
+}
+
+function showStudentPanelaf(id) {
+  hideStudentPanelsaf();
+
+  const el = afEl(id);
+  if (!el) return;
+
+  if (id === "studentAuthCardaf") {
+    el.style.display = "block";
+  } else {
+    el.classList.remove("hidden-box");
+    el.style.display = "block";
+  }
+}
+
+/* ==============================
+   LOGIN SUCCESS OPEN COURSE AREA
+================================ */
+
+function openCourseSectionAfterLoginaf(studentData) {
+  if (typeof saveStudentSessionaf === "function") {
+    saveStudentSessionaf(studentData);
+  }
+
+  const welcomeText = afEl("studentWelcomeTextaf");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome " + afSafe(studentData && studentData.name, "Student");
+  }
+
+  showStudentPanelaf("courseSelectBox");
+  loadStudentCoursesaf();
+}
+
+/* ==============================
+   LOAD ENROLLED COURSES - EDGE
+================================ */
+
+async function loadStudentCoursesaf() {
+  const studentUuid = localStorage.getItem("af_student_uuid");
+  const studentName = localStorage.getItem("af_student_name") || "Student";
+
+  const welcomeText = afEl("studentWelcomeTextaf");
+  if (welcomeText) {
+    welcomeText.textContent = "Welcome " + studentName;
+  }
+
+  if (!studentUuid) {
+    showNoCourseMessageaf("Student session not found. Please login again.");
+    return;
+  }
+
+  const courseBox = afEl("courseCardsaf");
+  if (courseBox) {
+    courseBox.innerHTML = '<p class="loading-textaf">Loading your courses...</p>';
+  }
+
+  try {
+    const result = await afCourseEdgeCall("student-courses-af", {
+      student_id: studentUuid
+    });
+
+    if (!result || !result.ok) {
+      console.log("Courses edge error:", result);
+      showNoCourseMessageaf(result?.message || "Could not load your courses.");
+      return;
+    }
+
+    afEnrolledCourses = Array.isArray(result.courses) ? result.courses : [];
+
+    if (!afEnrolledCourses.length) {
+      showNoCourseMessageaf("You are not enrolled in any batch.");
+      return;
+    }
+
+    renderCourseCardsaf();
+    showStudentPanelaf("courseSelectBox");
+
+  } catch (err) {
+    console.error("loadStudentCoursesaf catch:", err);
+    showNoCourseMessageaf("Unable to load courses right now.");
+  }
+}
+
+function renderCourseCardsaf() {
+  const box = afEl("courseCardsaf");
+  if (!box) return;
+
+  box.innerHTML = afEnrolledCourses.map(function (course) {
+    const icon = afSafe(course.icon, "📘");
+    const title = afSafe(course.title, "Course");
+    const desc = afSafe(course.short_description, "Course details will be available soon.");
+
+    return `
+      <button class="course-cardaf" type="button" onclick="openCourseDetailsaf('${course.id}')">
+        <div class="course-card-iconaf">${icon}</div>
+        <div class="course-card-bodyaf">
+          <h3>${title}</h3>
+          <p>${desc}</p>
+        </div>
+      </button>
+    `;
+  }).join("");
+}
+
+function showNoCourseMessageaf(message) {
+  const msgBox = afEl("noCourseBoxaf");
+
+  if (msgBox) {
+    const pList = msgBox.querySelectorAll("p");
+    if (pList && pList[0]) {
+      pList[0].textContent = message || "You are not enrolled in any batch.";
+    }
+  }
+
+  showStudentPanelaf("noCourseBoxaf");
+}
+
+/* ==============================
+   COURSE DETAILS
+================================ */
+
+function openCourseDetailsaf(courseId) {
+  afSelectedCourse = afEnrolledCourses.find(function (course) {
+    return String(course.id) === String(courseId);
+  });
+
+  if (!afSelectedCourse) {
+    alert("Course not found.");
+    return;
+  }
+
+  const icon = afSafe(afSelectedCourse.icon, "📘");
+
+  const iconBox = afEl("courseDetailIconaf");
+  const titleBox = afEl("courseTitleaf");
+  const introBox = afEl("courseIntroaf");
+  const detailsBox = afEl("courseDetailsaf");
+  const syllabusBox = afEl("courseSyllabusaf");
+  const facilitiesBox = afEl("courseFacilitiesaf");
+
+  if (iconBox) iconBox.textContent = icon;
+  if (titleBox) titleBox.textContent = afSafe(afSelectedCourse.title, "Course Name");
+  if (introBox) introBox.textContent = afSafe(afSelectedCourse.short_description, "Course intro will appear here.");
+  if (detailsBox) detailsBox.textContent = afSafe(afSelectedCourse.details, "Course details will be available soon.");
+
+  if (syllabusBox) {
+    syllabusBox.innerHTML = `
+      <li>Chapter-wise structured learning</li>
+      <li>Video lectures and study notes</li>
+      <li>Locked content will unlock after upload</li>
+      <li>Practice-based learning flow</li>
+    `;
+  }
+
+  if (facilitiesBox) {
+    let facilities = [];
+
+    if (Array.isArray(afSelectedCourse.facilities)) {
+      facilities = afSelectedCourse.facilities;
+    } else if (typeof afSelectedCourse.facilities === "string") {
+      try {
+        const parsed = JSON.parse(afSelectedCourse.facilities);
+        facilities = Array.isArray(parsed) ? parsed : [];
+      } catch (_err) {
+        facilities = afSelectedCourse.facilities
+          .split(",")
+          .map(function (x) { return x.trim(); })
+          .filter(Boolean);
+      }
+    }
+
+    facilitiesBox.innerHTML = facilities.length
+      ? facilities.map(function (item) {
+          return `<li>${item}</li>`;
+        }).join("")
+      : "<li>Facilities will be updated soon.</li>";
+  }
+
+  showStudentPanelaf("courseDetailsBoxaf");
+}
+
+function backToCoursesaf() {
+  showStudentPanelaf("courseSelectBox");
+}
+
+/* ==============================
+   LEARNING MODE
+================================ */
+
+function startLearningaf() {
+  if (!afSelectedCourse) {
+    alert("Please select a course first.");
+    return;
+  }
+
+  const title = afEl("learningTitleaf");
+  if (title) {
+    title.textContent = afSafe(afSelectedCourse.icon, "📘") + " " + afSafe(afSelectedCourse.title, "Course");
+  }
+
+  showStudentPanelaf("learningBoxaf");
+}
+
+function backToCourseDetailsaf() {
+  showStudentPanelaf("courseDetailsBoxaf");
+}
+
+async function openLearningModeaf(mode) {
+  afLearningMode = mode === "notes" ? "notes" : "lectures";
+
+  const title = afEl("chapterModeTitleaf");
+  if (title) {
+    title.textContent = afLearningMode === "lectures" ? "🎥 Lectures" : "📝 Notes";
+  }
+
+  await loadChaptersaf();
+  showStudentPanelaf("chapterBoxaf");
+}
+
+function backToLearningaf() {
+  showStudentPanelaf("learningBoxaf");
+}
+
+/* ==============================
+   CHAPTERS - EDGE
+================================ */
+
+async function loadChaptersaf() {
+  const list = afEl("chapterListaf");
+
+  if (!list) return;
+
+  if (!afSelectedCourse) {
+    list.innerHTML = '<p class="error-textaf">Course not selected.</p>';
+    return;
+  }
+
+  list.innerHTML = '<p class="loading-textaf">Loading chapters...</p>';
+
+  try {
+    const result = await afCourseEdgeCall("student-chapters-af", {
+      course_id: afSelectedCourse.id
+    });
+
+    if (!result || !result.ok) {
+      console.log("Chapters edge error:", result);
+      list.innerHTML = '<p class="error-textaf">' + afSafe(result?.message, "Unable to load chapters.") + '</p>';
+      return;
+    }
+
+    const chapters = Array.isArray(result.chapters) ? result.chapters : [];
+
+    if (!chapters.length) {
+      list.innerHTML = '<p class="empty-textaf">No chapters available yet.</p>';
+      return;
+    }
+
+    list.innerHTML = chapters.map(function (chapter) {
+      const locked = chapter.is_locked === true;
+      const icon = locked ? "🔒" : "🔓";
+      const status = locked ? "Locked" : "Unlocked";
+
+      return `
+        <button class="chapter-itemaf ${locked ? "lockedaf" : "unlockedaf"}"
+          type="button"
+          onclick="openChapterContentaf('${chapter.id}', ${locked})">
+          <div class="chapter-mainaf">
+            <strong>${icon} Chapter ${chapter.chapter_number}: ${chapter.title}</strong>
+            <small>${afSafe(chapter.description, "Chapter details will be available soon.")}</small>
+          </div>
+          <span class="chapter-statusaf">${status}</span>
+        </button>
+      `;
+    }).join("");
+
+  } catch (err) {
+    console.error("loadChaptersaf catch:", err);
+    list.innerHTML = '<p class="error-textaf">Unable to load chapters right now.</p>';
+  }
+}
+
+async function openChapterContentaf(chapterId, isLocked) {
+  afSelectedChapterId = chapterId;
+
+  if (isLocked === true) {
+    const list = afEl("contentListaf");
+    const title = afEl("contentTitleaf");
+    const sub = afEl("contentSubtitleaf");
+
+    if (title) title.textContent = "🔒 Chapter Locked";
+    if (sub) sub.textContent = "This chapter will unlock after content upload.";
+    if (list) {
+      list.innerHTML = '<p class="error-textaf">This chapter is currently locked.</p>';
+    }
+
+    showStudentPanelaf("contentBoxaf");
+    return;
+  }
+
+  if (afLearningMode === "notes") {
+    await loadNotesaf(chapterId);
+  } else {
+    await loadLecturesaf(chapterId);
+  }
+
+  showStudentPanelaf("contentBoxaf");
+}
+
+function backToChaptersaf() {
+  showStudentPanelaf("chapterBoxaf");
+}
+
+/* ==============================
+   LECTURES - EDGE
+================================ */
+
+async function loadLecturesaf(chapterId) {
+  const list = afEl("contentListaf");
+
+  if (!list) return;
+
+  const title = afEl("contentTitleaf");
+  const sub = afEl("contentSubtitleaf");
+
+  if (title) title.textContent = "🎥 Lectures";
+  if (sub) sub.textContent = "Watch lectures when they are unlocked.";
+
+  list.innerHTML = '<p class="loading-textaf">Loading lectures...</p>';
+
+  try {
+    const result = await afCourseEdgeCall("student-lectures-af", {
+      chapter_id: chapterId
+    });
+
+    if (!result || !result.ok) {
+      console.log("Lectures edge error:", result);
+      list.innerHTML = '<p class="error-textaf">' + afSafe(result?.message, "Unable to load lectures.") + '</p>';
+      return;
+    }
+
+    const lectures = Array.isArray(result.lectures) ? result.lectures : [];
+
+    if (!lectures.length) {
+      list.innerHTML = '<p class="empty-textaf">No lectures available yet.</p>';
+      return;
+    }
+
+    list.innerHTML = lectures.map(function (lecture) {
+      const locked = lecture.is_locked === true || !lecture.video_url;
+      const icon = locked ? "🔒" : "▶️";
+
+      return `
+        <div class="content-itemaf ${locked ? "lockedaf" : "unlockedaf"}">
+          <div class="content-mainaf">
+            <strong>${icon} Lecture ${lecture.lecture_number}: ${lecture.title}</strong>
+            <small>${afSafe(lecture.description, "Lecture details will be available soon.")}</small>
+            <span class="durationaf">⏱ ${afSafe(lecture.duration, "10-15 min")}</span>
+          </div>
+
+          ${
+            locked
+              ? '<button class="content-actionaf locked-btnaf" type="button" disabled>Locked</button>'
+              : `<button class="content-actionaf" type="button" onclick="openVideoaf('${lecture.video_url}')">Watch</button>`
+          }
+        </div>
+      `;
+    }).join("");
+
+  } catch (err) {
+    console.error("loadLecturesaf catch:", err);
+    list.innerHTML = '<p class="error-textaf">Unable to load lectures right now.</p>';
+  }
+}
+
+/* ==============================
+   NOTES - EDGE
+================================ */
+
+async function loadNotesaf(chapterId) {
+  const list = afEl("contentListaf");
+
+  if (!list) return;
+
+  const title = afEl("contentTitleaf");
+  const sub = afEl("contentSubtitleaf");
+
+  if (title) title.textContent = "📝 Notes";
+  if (sub) sub.textContent = "Open notes when they are unlocked.";
+
+  list.innerHTML = '<p class="loading-textaf">Loading notes...</p>';
+
+  try {
+    const result = await afCourseEdgeCall("student-notes-af", {
+      chapter_id: chapterId
+    });
+
+    if (!result || !result.ok) {
+      console.log("Notes edge error:", result);
+      list.innerHTML = '<p class="error-textaf">' + afSafe(result?.message, "Unable to load notes.") + '</p>';
+      return;
+    }
+
+    const notes = Array.isArray(result.notes) ? result.notes : [];
+
+    if (!notes.length) {
+      list.innerHTML = '<p class="empty-textaf">No notes available yet.</p>';
+      return;
+    }
+
+    list.innerHTML = notes.map(function (note) {
+      const locked = note.is_locked === true || !note.pdf_url;
+      const icon = locked ? "🔒" : "📄";
+
+      return `
+        <div class="content-itemaf ${locked ? "lockedaf" : "unlockedaf"}">
+          <div class="content-mainaf">
+            <strong>${icon} Lecture ${note.note_number} Notes</strong>
+            <small>${afSafe(note.title, "Notes will be available soon.")}</small>
+          </div>
+
+          ${
+            locked
+              ? '<button class="content-actionaf locked-btnaf" type="button" disabled>Locked</button>'
+              : `<button class="content-actionaf" type="button" onclick="openPdfaf('${note.pdf_url}')">Open PDF</button>`
+          }
+        </div>
+      `;
+    }).join("");
+
+  } catch (err) {
+    console.error("loadNotesaf catch:", err);
+    list.innerHTML = '<p class="error-textaf">Unable to load notes right now.</p>';
+  }
+}
+
+/* ==============================
+   OPEN FILES
+================================ */
+
+function openVideoaf(url) {
+  if (!url) {
+    alert("Video is not available yet.");
+    return;
+  }
+
+  window.open(url, "_blank");
+}
+
+function openPdfaf(url) {
+  if (!url) {
+    alert("PDF is not available yet.");
+    return;
+  }
+
+  window.open(url, "_blank");
+}
+
+/* ==============================
+   LOGOUT - AF
+================================ */
+
+function logoutStudentaf() {
+  localStorage.removeItem("af_student_logged_in");
+  localStorage.removeItem("af_student_uuid");
+  localStorage.removeItem("af_student_id");
+  localStorage.removeItem("af_student_mobile");
+  localStorage.removeItem("af_student_name");
+  localStorage.removeItem("af_student_email");
+
+  afEnrolledCourses = [];
+  afSelectedCourse = null;
+  afSelectedChapterId = null;
+  afLearningMode = "lectures";
+
+  showStudentPanelaf("studentAuthCardaf");
+
+  if (typeof switchStudentModeaf === "function") {
+    switchStudentModeaf("login");
+  }
+}
+
+/* Old onclick support */
+function logoutStudent() {
+  logoutStudentaf();
+}
+
+/* ==============================
+   AUTO LOGIN CHECK
+================================ */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loggedIn = localStorage.getItem("af_student_logged_in");
+
+  if (loggedIn === "true") {
+    const studentData = {
+      id: localStorage.getItem("af_student_uuid"),
+      student_id: localStorage.getItem("af_student_id"),
+      mobile: localStorage.getItem("af_student_mobile"),
+      name: localStorage.getItem("af_student_name"),
+      email: localStorage.getItem("af_student_email")
+    };
+
+    openCourseSectionAfterLoginaf(studentData);
+  }
+});
+  
   </script>
 
 </body>
