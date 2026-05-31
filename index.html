@@ -269,7 +269,8 @@ textarea {
   60% { transform: scale(1.06); opacity: 1; }
   100% { transform: scale(1); }
 }
-
+ animation: splashLoad 1.2s cubic-bezier(.22,.61,.36,1) forwards;
+}
 /* ---------- HOME HERO ---------- */
 
 .hero {
@@ -26215,9 +26216,9 @@ setTimeout(function () {
 
     setTimeout(function () {
       splash.style.display = "none";
-    }, 500);
+    }, 400);
   }
-}, 2000);
+}, 1200);
 
 /* ---------------- ZOOM / RIGHT CLICK PROTECTION ---------------- */
 
@@ -40240,7 +40241,7 @@ async function loadRequestStatusAf(forceRefresh) {
       return;
     }
 
-    window.setTimeout(markAFAppReady, 1800);
+    window.setTimeout(markAFAppReady, 1200);
   }
 
   if (document.readyState === "loading") {
