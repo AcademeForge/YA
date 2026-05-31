@@ -25317,7 +25317,20 @@ onclick="openNotesAF()"
         </div>
         <span class="settings-arrow" aria-hidden="true">›</span>
       </button>
-
+      
+<button
+  type="button"
+  class="settings-row settings-row-btn"
+  onclick="openBetaVersion()"
+  aria-label="Open BETA 2.0"
+>
+  <div class="settings-row-left">
+    <span class="settings-row-icon" aria-hidden="true">🛠️</span>
+    <span>BETA 2.0 Version</span>
+  </div>
+  <span class="settings-arrow" aria-hidden="true">›</span>
+</button>
+      
       <button
         type="button"
         class="settings-row settings-row-btn"
@@ -41456,6 +41469,10 @@ function openVerifyAF() {
   
   function openSM() {
   window.location.href = "/YA/SM/";
+}
+
+  function openBetaVersion() {
+  window.location.href = "/YA/BETA%202.0/";
 }
   /* =========================
    AUTO HIDE TEST REVIEW
