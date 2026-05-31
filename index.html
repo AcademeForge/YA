@@ -41671,6 +41671,13 @@ function closeAFReviewPageV1() {
   showSection("settings");
 }
 
+  localStorage.setItem(
+  "af_last_tab",
+  afCurrentView
+);
+
+location.reload();
+  
  /* =========================================
    AF PULL TO REFRESH
 ========================================= */
@@ -41738,9 +41745,16 @@ document.addEventListener(
       afPullLoader.classList.add("show");
       afPullLoader.classList.add("spin");
 
-      setTimeout(() => {
-        location.reload();
-      }, 500);
+     setTimeout(() => {
+
+  localStorage.setItem(
+    "af_last_tab",
+    afCurrentView
+  );
+
+  location.reload();
+
+}, 500);
 
     } else {
 
