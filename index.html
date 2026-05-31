@@ -26209,16 +26209,32 @@ function updateTicker() {
 
 /* ---------------- SPLASH SCREEN ---------------- */
 
-setTimeout(function () {
-  var splash = document.getElementById("splashScreen");
-  if (splash) {
-    splash.classList.add("hide");
+if (sessionStorage.getItem("afSplashShown")) {
 
-    setTimeout(function () {
-      splash.style.display = "none";
-    }, 400);
+  const splash = document.getElementById("splashScreen");
+
+  if (splash) {
+    splash.style.display = "none";
   }
-}, 1200);
+
+} else {
+
+  sessionStorage.setItem("afSplashShown", "true");
+
+  setTimeout(function () {
+    var splash = document.getElementById("splashScreen");
+
+    if (splash) {
+      splash.classList.add("hide");
+
+      setTimeout(function () {
+        splash.style.display = "none";
+      }, 400);
+    }
+
+  }, 1200);
+
+}
 
 /* ---------------- ZOOM / RIGHT CLICK PROTECTION ---------------- */
 
