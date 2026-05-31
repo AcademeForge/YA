@@ -1,4 +1,4 @@
-const AF_CACHE_NAME = "academeforge-ya-cache-v10";
+const AF_CACHE_NAME = "academeforge-ya-cache-v11";
 
 const AF_FILES_TO_CACHE = [
   "./",
@@ -8,6 +8,7 @@ const AF_FILES_TO_CACHE = [
  "./NotesAF",
    "./Official",
    "./verify",
+  "./YA/BETA%202.0/",
   
   "./AF%20LOGO%201.jpeg",
   "./Banner3.png",
