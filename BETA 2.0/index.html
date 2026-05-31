@@ -1,0 +1,2678 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>AcademeForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       COMPLETE CSS — AcademeForge Multi-Page Architecture
+       ============================================================ -->
+  <style>
+    /* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────── */
+    :root {
+      /* Brand */
+      --af-primary:        #4f46e5;
+      --af-primary-dark:   #3730a3;
+      --af-primary-light:  #818cf8;
+      --af-accent:         #06b6d4;
+      --af-accent2:        #f59e0b;
+      --af-danger:         #ef4444;
+      --af-success:        #22c55e;
+
+      /* Light theme surfaces */
+      --bg-base:           #f0f2ff;
+      --bg-shell:          #ffffff;
+      --bg-card:           rgba(255,255,255,0.72);
+      --bg-card-solid:     #ffffff;
+      --bg-nav:            rgba(255,255,255,0.88);
+      --bg-header:         rgba(255,255,255,0.92);
+      --bg-overlay:        rgba(0,0,0,0.45);
+      --bg-input:          #f4f5fb;
+      --bg-group:          rgba(79,70,229,0.06);
+      --bg-group-hover:    rgba(79,70,229,0.10);
+      --bg-accordion:      rgba(79,70,229,0.04);
+
+      /* Light theme text */
+      --text-primary:      #0f0e2a;
+      --text-secondary:    #4b5563;
+      --text-muted:        #9ca3af;
+      --text-on-primary:   #ffffff;
+      --text-link:         #4f46e5;
+
+      /* Borders */
+      --border-subtle:     rgba(79,70,229,0.12);
+      --border-card:       rgba(79,70,229,0.15);
+      --border-input:      #d1d5db;
+
+      /* Shadows */
+      --shadow-card:       0 4px 24px rgba(79,70,229,0.10), 0 1px 4px rgba(0,0,0,0.06);
+      --shadow-nav:        0 -4px 24px rgba(79,70,229,0.10);
+      --shadow-btn:        0 4px 16px rgba(79,70,229,0.28);
+      --shadow-elevated:   0 12px 40px rgba(79,70,229,0.18);
+
+      /* Glass */
+      --glass-blur:        16px;
+      --glass-sat:         180%;
+
+      /* Radius */
+      --r-sm:    8px;
+      --r-md:    14px;
+      --r-lg:    20px;
+      --r-xl:    28px;
+      --r-full:  9999px;
+
+      /* Spacing */
+      --gap-xs:  6px;
+      --gap-sm:  10px;
+      --gap-md:  16px;
+      --gap-lg:  24px;
+      --gap-xl:  32px;
+
+      /* Typography */
+      --font-display: 'Sora', sans-serif;
+      --font-body:    'Nunito', sans-serif;
+
+      /* Animation */
+      --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+      --ease-out:    cubic-bezier(0.22,1,0.36,1);
+      --dur-fast:    160ms;
+      --dur-med:     280ms;
+      --dur-slow:    440ms;
+
+      /* Nav */
+      --nav-h: 66px;
+      --header-h: 64px;
+
+      /* Shell */
+      --shell-max: 430px;
+    }
+
+    [data-theme="dark"] {
+      --bg-base:           #0c0b1d;
+      --bg-shell:          #120f2a;
+      --bg-card:           rgba(30,27,60,0.80);
+      --bg-card-solid:     #1e1b3c;
+      --bg-nav:            rgba(18,15,42,0.95);
+      --bg-header:         rgba(18,15,42,0.96);
+      --bg-overlay:        rgba(0,0,0,0.65);
+      --bg-input:          #1e1b3c;
+      --bg-group:          rgba(129,140,248,0.08);
+      --bg-group-hover:    rgba(129,140,248,0.14);
+      --bg-accordion:      rgba(129,140,248,0.05);
+
+      --text-primary:      #f0eeff;
+      --text-secondary:    #a5a3c2;
+      --text-muted:        #6b6a8a;
+      --text-on-primary:   #ffffff;
+      --text-link:         #818cf8;
+
+      --border-subtle:     rgba(129,140,248,0.12);
+      --border-card:       rgba(129,140,248,0.18);
+      --border-input:      rgba(129,140,248,0.20);
+
+      --shadow-card:       0 4px 24px rgba(0,0,0,0.32), 0 1px 4px rgba(0,0,0,0.20);
+      --shadow-nav:        0 -4px 24px rgba(0,0,0,0.40);
+      --shadow-btn:        0 4px 16px rgba(79,70,229,0.40);
+      --shadow-elevated:   0 12px 40px rgba(0,0,0,0.50);
+
+      --bg-group:          rgba(129,140,248,0.08);
+      --bg-group-hover:    rgba(129,140,248,0.14);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      transition: background var(--dur-med) var(--ease-out),
+                  color var(--dur-med) var(--ease-out);
+      overflow-x: hidden;
+    }
+
+    button {
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ─── APP SHELL ──────────────────────────────────────────────── */
+    .af-shell {
+      width: 100%;
+      max-width: var(--shell-max);
+      min-height: 100dvh;
+      background: var(--bg-shell);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px var(--border-subtle), var(--shadow-elevated);
+      transition: background var(--dur-med) var(--ease-out);
+    }
+
+    @media (min-width: 480px) {
+      body { background: var(--bg-base); padding: 0; align-items: center; }
+      .af-shell { min-height: 100dvh; border-radius: 0; }
+    }
+
+    @media (min-width: 860px) {
+      body { align-items: flex-start; padding: 0; }
+      .af-shell {
+        min-height: 100dvh;
+        border-radius: 0;
+        box-shadow: var(--shadow-elevated);
+      }
+    }
+
+    /* Desktop: centered phone shell */
+   @media (min-width: 700px) {
+  body {
+    padding: 32px 0 48px;
+    align-items: flex-start;
+  }
+
+  .af-shell {
+    border-radius: 40px;
+    min-height: calc(100dvh - 80px);
+    max-height: 900px;
+    overflow-y: auto;
+
+    box-shadow:
+      0 0 0 1px var(--border-card),
+      0 32px 80px rgba(0,0,0,0.22),
+      0 8px 24px rgba(79,70,229,0.15);
+  }
+
+  .af-bottom-nav {
+    max-width: var(--shell-max);
+  }
+}
+
+    /* ─── GLASS UTILITY ──────────────────────────────────────────── */
+    .glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+      border: 1px solid var(--border-card);
+    }
+
+/* =========================================================
+   PREMIUM AF SPLASH FINAL
+========================================================= */
+
+#afSplash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255,59,48,.28), transparent 30%),
+    radial-gradient(circle at 75% 70%, rgba(248,199,92,.20), transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(255,149,0,.10), transparent 42%),
+    linear-gradient(
+      135deg,
+      #12050a 0%,
+      #1a0f05 45%,
+      #08060f 100%
+    );
+
+  transition:
+    opacity .5s var(--ease-out),
+    visibility .5s;
+}
+
+#afSplash.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Logo */
+
+.splash-logo-ring {
+  width: 88px;
+  height: 88px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  background: transparent;
+
+  border: none;
+
+  box-shadow:
+    0 0 20px rgba(255,59,48,.65),
+    0 0 40px rgba(248,199,92,.45),
+    0 0 80px rgba(255,149,0,.20);
+}
+
+.splash-logo-ring {
+  width: 88px;
+  height: 88px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 0 20px rgba(255,59,48,.65),
+    0 0 40px rgba(248,199,92,.45),
+    0 0 80px rgba(255,149,0,.20);
+}
+
+.splash-logo-ring img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform: scale(1.2);
+
+  border-radius: 0;
+}
+/* Title */
+
+.splash-title {
+  margin: 4px 0 0;
+
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+
+  color: #fff3b3;
+
+  letter-spacing: -.02em;
+
+  text-shadow:
+    0 0 8px rgba(255,59,48,.55),
+    0 0 18px rgba(248,199,92,.35);
+}
+
+/* Subtitle */
+
+.splash-sub {
+  margin: -2px 0 0;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: .5px;
+  text-transform: uppercase;
+
+  color: rgba(255,247,214,.88);
+
+  text-shadow:
+    0 0 6px rgba(255,59,48,.25);
+}
+
+/* Loader */
+
+.splash-loader {
+  width: 90px;
+  height: 4px;
+
+  margin-top: 12px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.08);
+
+  overflow: hidden;
+}
+
+.splash-loader-bar {
+  height: 100%;
+  width: 0;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff3b30,
+      #ff8c00,
+      #f8c75c,
+      #fff1a8
+    );
+
+  box-shadow:
+    0 0 12px rgba(255,59,48,.8),
+    0 0 24px rgba(248,199,92,.5);
+
+ animation: splashLoad 1.2s cubic-bezier(.22,.61,.36,1) forwards;
+}
+    /* ─── HEADER / TOPBAR ────────────────────────────────────────── */
+    .af-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-h);
+      background: var(--bg-header);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--gap-md);
+      gap: var(--gap-sm);
+      transition: background var(--dur-med) var(--ease-out);
+    }
+
+    .af-topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .af-brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--af-primary), var(--af-accent));
+      flex-shrink: 0;
+    }
+
+    .af-brand-logo-fallback {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--af-primary), var(--af-accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .af-brand-text { min-width: 0; }
+
+    .af-brand-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .af-brand-tagline {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .af-topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Streak pill */
+    .af-streak-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px 6px 8px;
+      background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.10));
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: var(--r-full);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--af-accent2);
+      cursor: pointer;
+      transition: transform var(--dur-fast) var(--ease-spring),
+                  background var(--dur-fast);
+    }
+
+    .af-streak-pill:hover { transform: scale(1.05); background: rgba(245,158,11,0.22); }
+    .af-streak-pill:active { transform: scale(0.96); }
+    .af-streak-fire { font-size: 16px; }
+
+    /* Notif button */
+    .af-notif-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--r-md);
+      background: var(--bg-group);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      position: relative;
+      transition: transform var(--dur-fast) var(--ease-spring),
+                  background var(--dur-fast);
+    }
+
+    .af-notif-btn:hover { transform: scale(1.08); background: var(--bg-group-hover); }
+    .af-notif-btn:active { transform: scale(0.94); }
+
+    /* ─── PAGE CONTAINER ─────────────────────────────────────────── */
+  .af-page {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-bottom: calc(
+    var(--nav-h) + 40px + env(safe-area-inset-bottom, 0px)
+  );
+}
+
+    /* HOME PAGE */
+    .af-home { display: flex; flex-direction: column; gap: 0; }
+
+    /* Banner slider */
+    .af-banner-slider {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/7;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--af-primary) 0%, var(--af-accent) 100%);
+    }
+
+    .af-banner-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s var(--ease-out);
+    }
+
+    .af-banner-slide.active { opacity: 1; }
+
+    .af-banner-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Banner fallback if image fails */
+    .af-banner-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: white;
+      font-family: var(--font-display);
+    }
+
+    .af-banner-fallback h3 { font-size: 18px; font-weight: 800; }
+    .af-banner-fallback p { font-size: 13px; opacity: 0.8; }
+
+    .af-banner-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+
+    .af-banner-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.45);
+      border: none;
+      cursor: pointer;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .af-banner-dot.active {
+      width: 20px;
+      background: #ffffff;
+    }
+
+    /* Marquee / ticker */
+    .af-ticker {
+      background: linear-gradient(90deg, var(--af-primary), var(--af-primary-dark));
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 8px 0;
+    }
+
+    .af-ticker-track {
+  display: inline-block;
+  animation: ticker 20s linear infinite;
+}
+
+    .af-ticker-track span { padding: 0 40px; }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Home content */
+    .af-home-body {
+      padding: var(--gap-md) var(--gap-md) 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-md);
+    }
+
+    /* Section label */
+    .af-section-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    /* Quick action row */
+  /* Quick action row */
+.af-quick-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Card */
+.af-quick-card {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 112px;
+
+  border-radius: 24px;
+
+  padding: 14px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  background: var(--bg-card);
+
+  border: 1px solid var(--border-card);
+
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.05),
+    0 1px 3px rgba(0,0,0,.04);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.af-quick-card:hover {
+  transform: translateY(-2px);
+}
+
+.af-quick-card:active {
+  transform: scale(.98);
+}
+
+/* Decorative circles */
+.af-quick-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  right: -20px;
+  bottom: -20px;
+
+  border-radius: 50%;
+
+  background: rgba(79,70,229,.08);
+}
+
+.af-quick-card:nth-child(2)::before {
+  background: rgba(16,185,129,.10);
+}
+
+/* Icon */
+.af-quick-icon {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #6366f1
+    );
+
+  color: #fff;
+
+  flex-shrink: 0;
+}
+
+.af-quick-card:nth-child(2) .af-quick-icon {
+  background:
+    linear-gradient(
+      135deg,
+      #d1fae5,
+      #bbf7d0
+    );
+
+  color: #5b21b6;
+}
+
+/* Title */
+.af-quick-title {
+  font-family: var(--font-display);
+
+  font-size: 16px;
+  font-weight: 800;
+
+  line-height: 1.15;
+
+  color: var(--text-primary);
+
+  text-align: left;
+}
+
+/* Description */
+.af-quick-sub {
+  font-size: 13px;
+  font-weight: 600;
+
+  line-height: 1.45;
+
+  color: var(--text-secondary);
+
+  text-align: left;
+
+  max-width: 95%;
+}
+    /* Wide card */
+    .af-wide-card {
+      border-radius: var(--r-lg);
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: transform var(--dur-fast) var(--ease-spring),
+                  box-shadow var(--dur-fast);
+    }
+
+    .af-wide-card:hover  { transform: translateY(-2px); box-shadow: var(--shadow-elevated); }
+    .af-wide-card:active { transform: scale(0.98); }
+
+    .af-wide-icon {
+      font-size: 28px;
+      width: 52px;
+      height: 52px;
+      border-radius: var(--r-md);
+      background: linear-gradient(135deg, var(--af-primary), var(--af-accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .af-wide-text { flex: 1; min-width: 0; }
+
+    .af-wide-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .af-wide-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .af-wide-arrow {
+      font-size: 20px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    /* Feature grid */
+    .af-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap-sm);
+    }
+
+    .af-feature-tile {
+      border-radius: var(--r-md);
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: transform var(--dur-fast) var(--ease-spring);
+    }
+
+    .af-feature-tile:hover  { transform: translateY(-2px); }
+    .af-feature-tile:active { transform: scale(0.95); }
+
+    .af-feature-tile-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      background: var(--bg-group);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .af-feature-tile-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    /* Credit line */
+    .af-credit {
+      text-align: center;
+      padding: 20px var(--gap-md);
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .af-credit strong { color: var(--text-secondary); font-weight: 700; }
+
+    /* ─── BOTTOM NAVIGATION ──────────────────────────────────────── */
+  .af-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: var(--shell-max);
+
+  z-index: 999;
+
+  height: var(--nav-h);
+
+  background: var(--bg-nav);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  border-top: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-nav);
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 4px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+    .af-nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 100%;
+      border-radius: var(--r-md);
+      padding: 8px 4px;
+      transition: all var(--dur-fast) var(--ease-out);
+      position: relative;
+    }
+
+    .af-nav-btn::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: var(--af-primary);
+      border-radius: 99px;
+      transition: width var(--dur-med) var(--ease-spring);
+    }
+
+    .af-nav-btn.active::before { width: 28px; }
+
+    .af-nav-icon {
+      font-size: 22px;
+      transition: transform var(--dur-fast) var(--ease-spring);
+      line-height: 1;
+    }
+
+    .af-nav-btn.active .af-nav-icon { transform: scale(1.15); }
+    .af-nav-btn:active .af-nav-icon { transform: scale(0.9); }
+
+    .af-nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: color var(--dur-fast);
+    }
+
+    .af-nav-btn.active .af-nav-label { color: var(--af-primary); }
+
+    /* ─── PAGE TRANSITIONS ───────────────────────────────────────── */
+    .af-view {
+      display: none;
+      animation: pageIn 0.3s var(--ease-out) both;
+    }
+
+    .af-view.active { display: flex; flex-direction: column; }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SETTINGS PAGE ──────────────────────────────────────────── */
+    .af-settings-page {
+      padding: var(--gap-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-md);
+    }
+
+    /* Profile card */
+    .af-settings-profile {
+      border-radius: var(--r-xl);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: var(--gap-md);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform var(--dur-fast) var(--ease-spring);
+    }
+
+    .af-settings-profile:hover { transform: scale(1.01); }
+    .af-settings-profile:active { transform: scale(0.99); }
+
+    .af-settings-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--r-lg);
+      background: linear-gradient(135deg, var(--af-primary), var(--af-accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+
+    .af-settings-profile-text { flex: 1; min-width: 0; }
+
+    .af-settings-profile-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .af-settings-profile-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .af-settings-profile-arrow {
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+
+    /* Official website link */
+    .af-settings-site-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: var(--r-lg);
+      background: linear-gradient(135deg, rgba(79,70,229,0.12), rgba(6,182,212,0.08));
+      border: 1px solid var(--border-card);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: transform var(--dur-fast) var(--ease-spring);
+      text-decoration: none;
+    }
+
+    .af-settings-site-link:hover { transform: scale(1.01); }
+    .af-settings-site-link:active { transform: scale(0.99); }
+
+    /* Night mode row (not in accordion) */
+    .af-settings-night-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+    }
+
+    .af-settings-night-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .af-settings-night-icon {
+      font-size: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--r-sm);
+      background: var(--bg-group);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .af-settings-night-text { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+
+    /* Toggle switch */
+    .af-toggle {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .af-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .af-toggle-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 99px;
+      background: var(--border-input);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .af-toggle input:checked + .af-toggle-track { background: var(--af-primary); }
+
+    .af-toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .af-toggle input:checked + .af-toggle-track::after { transform: translateX(22px); }
+
+    /* ─── ACCORDION GROUPS ───────────────────────────────────────── */
+    .af-accordion-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .af-accordion-group {
+      border-radius: var(--r-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: box-shadow var(--dur-fast);
+    }
+
+    .af-accordion-group.open { box-shadow: var(--shadow-elevated); }
+
+    .af-accordion-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 16px;
+      background: transparent;
+      cursor: pointer;
+      border: none;
+      text-align: left;
+      transition: background var(--dur-fast);
+    }
+
+    .af-accordion-trigger:hover { background: var(--bg-group-hover); }
+    .af-accordion-trigger:active { background: var(--bg-group); }
+
+    .af-accordion-group-icon {
+      font-size: 19px;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--r-sm);
+      background: var(--bg-group);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background var(--dur-fast);
+    }
+
+    .af-accordion-group.open .af-accordion-group-icon {
+      background: linear-gradient(135deg, var(--af-primary), var(--af-accent));
+    }
+
+    .af-accordion-group-label {
+      flex: 1;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .af-accordion-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: var(--bg-group);
+      padding: 3px 8px;
+      border-radius: 99px;
+    }
+
+    .af-accordion-chevron {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: transform var(--dur-med) var(--ease-spring);
+      margin-left: 4px;
+    }
+
+    .af-accordion-group.open .af-accordion-chevron { transform: rotate(180deg); }
+
+    .af-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--dur-slow) var(--ease-out);
+    }
+
+    .af-accordion-group.open .af-accordion-body { max-height: 600px; }
+
+    .af-accordion-divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 0 16px;
+    }
+
+    /* Child item in accordion */
+    .af-accordion-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px 14px 20px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background var(--dur-fast);
+      border-bottom: 1px solid var(--border-subtle);
+      text-decoration: none;
+    }
+
+    .af-accordion-item:last-child { border-bottom: none; }
+    .af-accordion-item:hover { background: var(--bg-accordion); }
+    .af-accordion-item:active { background: var(--bg-group); }
+
+    .af-accordion-item-icon {
+      font-size: 17px;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--r-sm);
+      background: var(--bg-group);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .af-accordion-item-text { flex: 1; min-width: 0; }
+
+    .af-accordion-item-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .af-accordion-item-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .af-accordion-item-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, var(--af-primary), var(--af-accent));
+      color: white;
+      white-space: nowrap;
+    }
+
+    .af-accordion-item-arrow {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Logout button in settings */
+    .af-settings-logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px;
+      border-radius: var(--r-lg);
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.20);
+      color: var(--af-danger);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background var(--dur-fast), transform var(--dur-fast) var(--ease-spring);
+    }
+
+    .af-settings-logout-btn:hover { background: rgba(239,68,68,0.14); }
+    .af-settings-logout-btn:active { transform: scale(0.98); }
+
+    /* App version */
+    .af-settings-version {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    /* ─── COMING SOON MODAL ──────────────────────────────────────── */
+    .af-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: var(--bg-overlay);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--dur-med) var(--ease-out),
+                  visibility var(--dur-med);
+    }
+
+    .af-modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .af-modal-sheet {
+      width: 100%;
+      max-width: var(--shell-max);
+      background: var(--bg-card-solid);
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+      padding: 28px 24px calc(28px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      transform: translateY(100%);
+      transition: transform var(--dur-slow) var(--ease-spring);
+    }
+
+    .af-modal-overlay.open .af-modal-sheet { transform: translateY(0); }
+
+    .af-modal-drag {
+      width: 36px;
+      height: 4px;
+      background: var(--border-input);
+      border-radius: 99px;
+      margin-bottom: 6px;
+    }
+
+    .af-modal-icon { font-size: 44px; }
+    .af-modal-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .af-modal-message { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    .af-modal-ok {
+      width: 100%;
+      max-width: 280px;
+      padding: 14px;
+      border-radius: var(--r-lg);
+      background: linear-gradient(135deg, var(--af-primary), var(--af-primary-dark));
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: var(--shadow-btn);
+      transition: transform var(--dur-fast) var(--ease-spring), opacity var(--dur-fast);
+      margin-top: 4px;
+    }
+
+    .af-modal-ok:hover { opacity: 0.92; }
+    .af-modal-ok:active { transform: scale(0.97); }
+
+    /* ─── PLACEHOLDER SECTIONS (Student, Batches, Community) ────── */
+    .af-placeholder-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: var(--gap-xl) var(--gap-md);
+      flex: 1;
+      text-align: center;
+      min-height: 400px;
+    }
+
+    .af-placeholder-icon {
+      font-size: 56px;
+      animation: floatBob 3s ease-in-out infinite;
+    }
+
+    .af-placeholder-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .af-placeholder-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 280px;
+      line-height: 1.6;
+    }
+
+    .af-placeholder-btn {
+      padding: 12px 28px;
+      border-radius: var(--r-lg);
+      background: linear-gradient(135deg, var(--af-primary), var(--af-primary-dark));
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: var(--shadow-btn);
+      transition: transform var(--dur-fast) var(--ease-spring);
+    }
+
+    .af-placeholder-btn:hover { transform: scale(1.03); }
+    .af-placeholder-btn:active { transform: scale(0.97); }
+
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    /* ─── STAGGER ANIMATIONS ─────────────────────────────────────── */
+    .af-stagger > * {
+      animation: staggerIn 0.4s var(--ease-out) both;
+    }
+
+    .af-stagger > *:nth-child(1) { animation-delay: 0.04s; }
+    .af-stagger > *:nth-child(2) { animation-delay: 0.08s; }
+    .af-stagger > *:nth-child(3) { animation-delay: 0.12s; }
+    .af-stagger > *:nth-child(4) { animation-delay: 0.16s; }
+    .af-stagger > *:nth-child(5) { animation-delay: 0.20s; }
+    .af-stagger > *:nth-child(6) { animation-delay: 0.24s; }
+    .af-stagger > *:nth-child(7) { animation-delay: 0.28s; }
+    .af-stagger > *:nth-child(8) { animation-delay: 0.32s; }
+
+    @keyframes staggerIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SCROLLBAR ──────────────────────────────────────────────── */
+    .af-page::-webkit-scrollbar { width: 3px; }
+    .af-page::-webkit-scrollbar-thumb { background: var(--border-card); border-radius: 99px; }
+    .af-page::-webkit-scrollbar-track { background: transparent; }
+
+    /* ─── TOAST ──────────────────────────────────────────────────── */
+    #afToast {
+      position: fixed;
+      bottom: calc(var(--nav-h) + 16px);
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 9000;
+      background: var(--text-primary);
+      color: var(--bg-shell);
+      padding: 10px 20px;
+      border-radius: var(--r-full);
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90vw;
+      text-align: center;
+    }
+
+    #afToast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── RESPONSIVE TWEAKS ──────────────────────────────────────── */
+    @media (max-width: 360px) {
+      .af-feature-grid { grid-template-columns: repeat(3, 1fr); }
+      .af-quick-row { grid-template-columns: 1fr 1fr; }
+      .af-quick-title { font-size: 12px; }
+      .af-quick-sub { font-size: 10px; }
+    }
+
+  
+  </style>
+</head>
+
+<!-- ============================================================
+     COMPLETE HTML — AcademeForge Multi-Page Dashboard
+     ============================================================ -->
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="afSplash" role="status" aria-label="Loading AcademeForge">
+    <div class="splash-logo-ring">
+      <img src="AF LOGO 1.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <span class="splash-logo-letter" style="display:none;">AF</span>
+    </div>
+    <h1 class="splash-title">AcademeForge</h1>
+    <p class="splash-sub">Learning Beyond The Classroom</p>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div class="af-shell" id="afShell">
+
+    <!-- TOPBAR -->
+    <header class="af-topbar" role="banner">
+      <div class="af-topbar-brand">
+        <img
+          src="AF LOGO 1.jpeg"
+          alt="AcademeForge"
+          class="af-brand-logo"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div class="af-brand-logo-fallback" style="display:none;" aria-hidden="true">AF</div>
+        <div class="af-brand-text">
+          <div class="af-brand-name">AcademeForge</div>
+          <div class="af-brand-tagline">Learning Beyond the Classroom</div>
+        </div>
+      </div>
+
+      <div class="af-topbar-actions">
+        <!-- Streak pill navigates to learning-heatmap page -->
+        <button
+          class="af-streak-pill"
+          onclick="window.location.href='/learning-heatmap/'"
+          aria-label="Open learning streak"
+          type="button"
+        >
+          <span class="af-streak-fire" aria-hidden="true">🔥</span>
+          <span id="afHeaderStreakCount">0</span>
+        </button>
+
+        <!-- Notification navigates to notifications page -->
+        <button
+          class="af-notif-btn"
+          onclick="window.location.href='/notifications/'"
+          aria-label="Open notifications"
+          type="button"
+        >
+          🔔
+        </button>
+      </div>
+    </header>
+
+    <!-- SCROLLABLE PAGE AREA -->
+    <div class="af-page" id="afPage" role="main">
+
+      <!-- ══════════════════════════════════════════════════════
+           VIEW: HOME (LAUNCHER DASHBOARD)
+           ══════════════════════════════════════════════════════ -->
+      <div class="af-view af-home active" id="viewHome" aria-label="Home">
+
+        <!-- Image Banner Slider -->
+        <div class="af-banner-slider" role="region" aria-label="Featured banners">
+          <div class="af-banner-slide active" id="slide0">
+            <img src="banner1.png" alt="AcademeForge Banner 1"
+              onerror="this.parentElement.innerHTML=afBannerFallback(1,'🚀','Welcome to AcademeForge','Your learning journey starts here')" />
+          </div>
+          <div class="af-banner-slide" id="slide1">
+            <img src="banner2.png" alt="AcademeForge Banner 2"
+              onerror="this.parentElement.innerHTML=afBannerFallback(2,'📚','Explore Batches &amp; Courses','Practical learning for real skills')" />
+          </div>
+          <div class="af-banner-slide" id="slide2">
+            <img src="Banner3.png" alt="AcademeForge Banner 3"
+              onerror="this.parentElement.innerHTML=afBannerFallback(3,'🏆','AF Test Arena','Compete, rank and grow nationally')" />
+          </div>
+          <div class="af-banner-dots" aria-hidden="true">
+            <button class="af-banner-dot active" onclick="afGoToSlide(0)" aria-label="Banner 1" type="button"></button>
+            <button class="af-banner-dot" onclick="afGoToSlide(1)" aria-label="Banner 2" type="button"></button>
+            <button class="af-banner-dot" onclick="afGoToSlide(2)" aria-label="Banner 3" type="button"></button>
+          </div>
+        </div>
+
+        <!-- Marquee ticker -->
+        <div class="af-ticker" role="marquee" aria-live="off" aria-label="Announcement ticker">
+          <div class="af-ticker-track" id="afTickerTrack">
+            <span>🔔 This is Beta version — Contents of AF Nexus are being updated...</span>
+            <span>🔔 This is Beta version — Contents of AF Nexus are being updated...</span>
+            <span>🔔 This is Beta version — Contents of AF Nexus are being updated...</span>
+            <span>🔔 This is Beta version — Contents of AF Nexus are being updated...</span>
+          </div>
+        </div>
+
+        <!-- HOME BODY -->
+        <div class="af-home-body">
+
+          <!-- Quick Login Actions -->
+          <div>
+            <div class="af-section-label">Quick Access</div>
+            <div class="af-quick-row af-stagger">
+              <!-- Student Login → /account/ -->
+              <button
+                class="af-quick-card glass"
+                onclick="window.location.href='/Remake/account/'"
+                type="button"
+                aria-label="Student Login"
+              >
+                <div class="af-quick-icon">🎓</div>
+                <div class="af-quick-title">Student Login</div>
+                <div class="af-quick-sub">Access your course dashboard.</div>
+              </button>
+
+              <!-- Student Profile → /account/ -->
+              <button
+                class="af-quick-card glass"
+                onclick="window.location.href='/account/'"
+                type="button"
+                aria-label="My Profile"
+                id="homeProfileCard"
+              >
+                <div class="af-quick-icon">👤</div>
+                <div class="af-quick-title" id="homeProfileName">Hi, Student</div>
+                <div class="af-quick-sub" id="homeProfileSub">Login to view profile</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Primary CTA: AF Test Arena -->
+          <div>
+            <div class="af-section-label">Featured</div>
+            <button
+              class="af-wide-card glass"
+              onclick="window.location.href='/af-test-arena/'"
+              type="button"
+              aria-label="Open AF Test Arena"
+            >
+              <div class="af-wide-icon">🧪</div>
+              <div class="af-wide-text">
+                <div class="af-wide-title">AF Test Arena</div>
+                <div class="af-wide-sub">Attempt quizzes and see your national ranking.</div>
+              </div>
+              <div class="af-wide-arrow">›</div>
+            </button>
+          </div>
+
+          <!-- Feature Tiles Grid -->
+          <div>
+            <div class="af-section-label">Learning Tools</div>
+            <div class="af-feature-grid af-stagger">
+
+              <button
+                class="af-feature-tile glass"
+                onclick="window.location.href='/revision-notes/'"
+                type="button"
+                aria-label="Revision Notes"
+              >
+                <div class="af-feature-tile-icon">📝</div>
+                <div class="af-feature-tile-label">Notes 9-10</div>
+              </button>
+
+              <button
+                class="af-feature-tile glass"
+                onclick="window.location.href='/Remake/sudoku-master/'"
+                type="button"
+                aria-label="Sudoku Master"
+              >
+                <div class="af-feature-tile-icon">🧩</div>
+                <div class="af-feature-tile-label">Sudoku Master</div>
+              </button>
+
+              <button
+                class="af-feature-tile glass"
+                onclick="window.location.href='/latest-test-review/'"
+                type="button"
+                aria-label="Latest Test Review"
+              >
+                <div class="af-feature-tile-icon">📖</div>
+                <div class="af-feature-tile-label">Test Review</div>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Developer credit -->
+          <div class="af-credit">
+            <strong>Developed by Devraj Kumar</strong>
+            <span>Made with ❤️ in India</span>
+          </div>
+
+        </div><!-- /af-home-body -->
+      </div><!-- /viewHome -->
+
+      <!-- ══════════════════════════════════════════════════════
+           VIEW: STUDENT (placeholder — navigates to /account/)
+           ══════════════════════════════════════════════════════ -->
+      <div class="af-view" id="viewStudent" aria-label="Student">
+        <div class="af-placeholder-section">
+          <div class="af-placeholder-icon">🎓</div>
+          <div class="af-placeholder-title">Student Login</div>
+          <p class="af-placeholder-sub">
+            Access your courses, batches, and community. Login or create your Student ID.
+          </p>
+          <button
+            class="af-placeholder-btn"
+            onclick="window.location.href='/account/'"
+            type="button"
+          >
+            Go to Account
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           VIEW: BATCHES (placeholder — navigates to batches page)
+           ══════════════════════════════════════════════════════ -->
+      <div class="af-view" id="viewBatches" aria-label="Batches">
+        <div class="af-placeholder-section">
+          <div class="af-placeholder-icon">📚</div>
+          <div class="af-placeholder-title">All Batches</div>
+          <p class="af-placeholder-sub">
+            Browse and enroll in AcademeForge batches and courses designed for your growth.
+          </p>
+          <button
+            class="af-placeholder-btn"
+            onclick="window.location.href='/batches/'"
+            type="button"
+          >
+            Browse Batches
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           VIEW: COMMUNITY (placeholder — navigates to community page)
+           ══════════════════════════════════════════════════════ -->
+      <div class="af-view" id="viewCommunity" aria-label="Community">
+        <div class="af-placeholder-section">
+          <div class="af-placeholder-icon">💬</div>
+          <div class="af-placeholder-title">AF Nexus Community</div>
+          <p class="af-placeholder-sub">
+            Connect, discuss and grow with fellow learners in the AcademeForge community.
+          </p>
+          <button
+            class="af-placeholder-btn"
+            onclick="window.location.href='/community/'"
+            type="button"
+          >
+            Open Community
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           VIEW: SETTINGS — Fully reorganized accordion groups
+           ══════════════════════════════════════════════════════ -->
+      <div class="af-view" id="viewSettings" aria-label="Settings">
+        <div class="af-settings-page">
+
+          <!-- Profile card -->
+          <button
+            class="af-settings-profile glass"
+            onclick="window.location.href='/account/'"
+            type="button"
+            aria-label="View profile"
+          >
+            <div class="af-settings-avatar" aria-hidden="true">👨‍🎓</div>
+            <div class="af-settings-profile-text">
+              <div class="af-settings-profile-name" id="settingsProfileName">Hi, Student</div>
+              <div class="af-settings-profile-sub">Tap to view your profile →</div>
+            </div>
+            <div class="af-settings-profile-arrow" aria-hidden="true">›</div>
+          </button>
+
+          <!-- Official website -->
+          <a
+            href="https://academeforge.in"
+            class="af-settings-site-link glass"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open official website"
+          >
+            <span>🌐 Official Website ✨</span>
+            <span aria-hidden="true">›</span>
+          </a>
+
+          <!-- Night Mode (standalone row, not accordion) -->
+          <div class="af-settings-night-row glass">
+            <div class="af-settings-night-left">
+              <div class="af-settings-night-icon" aria-hidden="true">🌙</div>
+              <span class="af-settings-night-text">Night Mode</span>
+            </div>
+            <label class="af-toggle" aria-label="Toggle dark mode">
+              <input
+                type="checkbox"
+                id="nightModeToggle"
+                onchange="afToggleDarkMode(this.checked)"
+              />
+              <span class="af-toggle-track"></span>
+            </label>
+          </div>
+
+          <!-- ACCORDION GROUPS -->
+          <div class="af-accordion-groups" role="list">
+
+            <!-- GROUP: Tests -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">🧪</div>
+                <span class="af-accordion-group-label">Tests</span>
+                <span class="af-accordion-count">2</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/af-test-arena/"
+                  aria-label="Open AF Test Arena"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🧪</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">AF Test Arena</div>
+                    <div class="af-accordion-item-sub">Quizzes, ranks &amp; national leaderboard</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+                <a
+                  class="af-accordion-item"
+                  href="/latest-test-review/"
+                  aria-label="Open Latest Test Review"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">📖</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Latest Test Review</div>
+                    <div class="af-accordion-item-sub">Review your last test performance</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Account -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">👤</div>
+                <span class="af-accordion-group-label">Account</span>
+                <span class="af-accordion-count">1</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/Remake/account/"
+                  aria-label="Login or Create Student ID"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">📋</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Login / Create ID</div>
+                    <div class="af-accordion-item-sub">Access your student account</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Learning Tools -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">📚</div>
+                <span class="af-accordion-group-label">Learning Tools</span>
+                <span class="af-accordion-count">3</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/revision-notes/"
+                  aria-label="Open Revision Notes"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">📝</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Revision Notes</div>
+                    <div class="af-accordion-item-sub">Chapter-wise notes for class 9–10</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+                <a
+                  class="af-accordion-item"
+                  href="/Remake/sudoku-master/"
+                  aria-label="Open Sudoku Master"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🧩</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Sudoku Master</div>
+                    <div class="af-accordion-item-sub">Brain training puzzle game</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+                <a
+                  class="af-accordion-item"
+                  href="/learning-heatmap/"
+                  aria-label="Open Learning Heatmap"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🔥</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Learning Heatmap</div>
+                    <div class="af-accordion-item-sub">Track your daily learning streak</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Verification -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">🎖️</div>
+                <span class="af-accordion-group-label">Verification</span>
+                <span class="af-accordion-count">1</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/certificate-verification/"
+                  aria-label="Verify a Certificate"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🎖️</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Certificate Verification</div>
+                    <div class="af-accordion-item-sub">Verify official certificates issued by AF</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Notifications (single child, standalone feel) -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">🔔</div>
+                <span class="af-accordion-group-label">Notifications</span>
+                <span class="af-accordion-count new">New</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/notifications/"
+                  aria-label="View Notifications"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🔔</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Notifications</div>
+                    <div class="af-accordion-item-sub">Lectures, batches &amp; announcements</div>
+                  </div>
+                  <span class="af-accordion-item-badge">New</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Support -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">☎</div>
+                <span class="af-accordion-group-label">Support</span>
+                <span class="af-accordion-count">2</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/support/"
+                  aria-label="Contact Us"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">☎</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Contact Us</div>
+                    <div class="af-accordion-item-sub">Submit a support or call request</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+                <a
+                  class="af-accordion-item"
+                  href="/contact-status/"
+                  aria-label="Contact Request Status"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">📞</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Contact Request Status</div>
+                    <div class="af-accordion-item-sub">Track your contact requests</div>
+                  </div>
+                  <span class="af-accordion-item-badge">Track</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Bug Center -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">🐞</div>
+                <span class="af-accordion-group-label">Bug Center</span>
+                <span class="af-accordion-count">2</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/bug-report/"
+                  aria-label="Report a Bug"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🐞</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Report a Bug</div>
+                    <div class="af-accordion-item-sub">Tell us what went wrong</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+                <a
+                  class="af-accordion-item"
+                  href="/bug-status/"
+                  aria-label="Bug Report Status"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">📌</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Bug Report Status</div>
+                    <div class="af-accordion-item-sub">Track your reported bugs</div>
+                  </div>
+                  <span class="af-accordion-item-badge">Track</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: About Us -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">ℹ️</div>
+                <span class="af-accordion-group-label">About Us</span>
+                <span class="af-accordion-count">1</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/about/"
+                  aria-label="About AcademeForge"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">ℹ️</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">About AcademeForge</div>
+                    <div class="af-accordion-item-sub">Our mission, vision &amp; founder</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- GROUP: Language -->
+            <div class="af-accordion-group" role="listitem">
+              <button
+                class="af-accordion-trigger"
+                onclick="afToggleAccordion(this)"
+                aria-expanded="false"
+                type="button"
+              >
+                <div class="af-accordion-group-icon" aria-hidden="true">🌐</div>
+                <span class="af-accordion-group-label">Language</span>
+                <span class="af-accordion-count" id="currentLangBadge">English</span>
+                <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="af-accordion-body" role="region">
+                <div class="af-accordion-divider"></div>
+                <a
+                  class="af-accordion-item"
+                  href="/language/"
+                  aria-label="Change App Language"
+                >
+                  <div class="af-accordion-item-icon" aria-hidden="true">🌐</div>
+                  <div class="af-accordion-item-text">
+                    <div class="af-accordion-item-label">Change Language</div>
+                    <div class="af-accordion-item-sub">English, Hindi, Bhojpuri &amp; more</div>
+                  </div>
+                  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+                </a>
+              </div>
+            </div>
+
+          </div><!-- /af-accordion-groups -->
+
+          <!-- Logout -->
+          <button
+            class="af-settings-logout-btn"
+            onclick="afLogout()"
+            type="button"
+            aria-label="Logout"
+          >
+            <span aria-hidden="true">↩</span>
+            <span>Logout</span>
+          </button>
+
+          <!-- App version -->
+          <div class="af-settings-version">
+            <strong>App Version: 06.07.19</strong>
+            <span>Made with ❤️ in India</span>
+          </div>
+
+        </div><!-- /af-settings-page -->
+      </div><!-- /viewSettings -->
+
+    </div><!-- /af-page -->
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="af-bottom-nav" aria-label="Primary navigation">
+      <button
+        class="af-nav-btn active"
+        id="navHome"
+        onclick="afSwitchView('home')"
+        type="button"
+        aria-label="Home"
+      >
+        <span class="af-nav-icon" aria-hidden="true">🏠</span>
+        <span class="af-nav-label">Home</span>
+      </button>
+
+      <button
+        class="af-nav-btn"
+        id="navStudent"
+        onclick="afSwitchView('student')"
+        type="button"
+        aria-label="Student"
+      >
+        <span class="af-nav-icon" aria-hidden="true">🎓</span>
+        <span class="af-nav-label">Student</span>
+      </button>
+
+      <button
+        class="af-nav-btn"
+        id="navBatches"
+        onclick="afSwitchView('batches')"
+        type="button"
+        aria-label="Batches"
+      >
+        <span class="af-nav-icon" aria-hidden="true">📚</span>
+        <span class="af-nav-label">Batches</span>
+      </button>
+
+      <button
+        class="af-nav-btn"
+        id="navCommunity"
+        onclick="afSwitchView('community')"
+        type="button"
+        aria-label="Community"
+      >
+        <span class="af-nav-icon" aria-hidden="true">💬</span>
+        <span class="af-nav-label">Community</span>
+      </button>
+
+      <button
+        class="af-nav-btn"
+        id="navSettings"
+        onclick="afSwitchView('settings')"
+        type="button"
+        aria-label="Settings"
+      >
+        <span class="af-nav-icon" aria-hidden="true">⚙️</span>
+        <span class="af-nav-label">Settings</span>
+      </button>
+    </nav>
+
+  </div><!-- /af-shell -->
+
+  <!-- Toast notification -->
+  <div id="afToast" role="status" aria-live="polite"></div>
+
+  <!-- Coming Soon Modal -->
+  <div class="af-modal-overlay" id="comingSoonOverlay" onclick="afCloseModal()">
+    <div class="af-modal-sheet" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle">
+      <div class="af-modal-drag" aria-hidden="true"></div>
+      <div class="af-modal-icon" aria-hidden="true">🚧</div>
+      <h3 class="af-modal-title" id="comingSoonTitle">Coming Soon</h3>
+      <p class="af-modal-message" id="comingSoonMessage">This feature will be available soon. Stay tuned!</p>
+      <button class="af-modal-ok" onclick="afCloseModal()" type="button">Okay, Got It</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       COMPLETE JAVASCRIPT — AcademeForge Multi-Page Architecture
+       ============================================================ -->
+  <script>
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 1: THEME / DARK MODE
+       ─────────────────────────────────────────────────────────── */
+
+    function afApplyTheme(isDark) {
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      const toggle = document.getElementById('nightModeToggle');
+      if (toggle) toggle.checked = isDark;
+      // Persist
+      localStorage.setItem('af_dark_mode', isDark ? '1' : '0');
+    }
+
+    function afToggleDarkMode(checked) {
+      afApplyTheme(checked);
+      afShowToast(checked ? '🌙 Night mode on' : '☀️ Night mode off');
+    }
+
+    function afInitTheme() {
+      const saved = localStorage.getItem('af_dark_mode');
+      // Default to light; if user previously set dark, apply it
+      const isDark = saved === '1';
+      afApplyTheme(isDark);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 2: SPLASH SCREEN
+       ─────────────────────────────────────────────────────────── */
+
+   function afHideSplash() {
+  const splash = document.getElementById('afSplash');
+  if (!splash) return;
+
+  // Splash already shown in this tab?
+  if (sessionStorage.getItem('afSplashShown')) {
+    splash.remove();
+    return;
+  }
+
+  // Mark splash as shown
+  sessionStorage.setItem('afSplashShown', 'true');
+
+ setTimeout(() => {
+  splash.classList.add('hidden');
+
+  setTimeout(() => {
+    splash.remove();
+  }, 400);
+
+}, 1200);
+}
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 3: BOTTOM NAV VIEW SWITCHING
+       Navigation between main tabs happens in-page.
+       All sub-pages route to dedicated folders via window.location.href.
+       ─────────────────────────────────────────────────────────── */
+
+    const AF_VIEWS = {
+      home:      { view: 'viewHome',      nav: 'navHome'      },
+      student:   { view: 'viewStudent',   nav: 'navStudent'   },
+      batches:   { view: 'viewBatches',   nav: 'navBatches'   },
+      community: { view: 'viewCommunity', nav: 'navCommunity' },
+      settings:  { view: 'viewSettings',  nav: 'navSettings'  },
+    };
+
+    let afCurrentView = 'home';
+
+    function afSwitchView(viewKey) {
+      if (!AF_VIEWS[viewKey]) return;
+
+      // Deactivate current
+      const prevConf = AF_VIEWS[afCurrentView];
+      const prevView = document.getElementById(prevConf.view);
+      const prevNav  = document.getElementById(prevConf.nav);
+      if (prevView) prevView.classList.remove('active');
+      if (prevNav)  prevNav.classList.remove('active');
+
+      // Activate new
+      const conf = AF_VIEWS[viewKey];
+      const newView = document.getElementById(conf.view);
+      const newNav  = document.getElementById(conf.nav);
+      if (newView) newView.classList.add('active');
+      if (newNav)  newNav.classList.add('active');
+
+      afCurrentView = viewKey;
+
+      // Scroll page to top on view switch
+      const page = document.getElementById('afPage');
+      if (page) page.scrollTop = 0;
+
+      // Save last active tab
+      localStorage.setItem('af_last_tab', viewKey);
+    }
+
+    function afRestoreLastTab() {
+      const lastTab = localStorage.getItem('af_last_tab') || 'home';
+      if (AF_VIEWS[lastTab]) {
+        afSwitchView(lastTab);
+      }
+    }
+/* ─────────────────────────────────────────────────────────────
+   SWIPE NAVIGATION
+───────────────────────────────────────────────────────────── */
+
+const AF_VIEW_ORDER = [
+  "home",
+  "student",
+  "batches",
+  "community",
+  "settings"
+];
+
+let afTouchStartX = 0;
+let afTouchEndX = 0;
+
+const afPage = document.getElementById("afPage");
+
+if (afPage) {
+
+  afPage.addEventListener(
+    "touchstart",
+    (e) => {
+      afTouchStartX = e.changedTouches[0].clientX;
+    },
+    { passive: true }
+  );
+
+  afPage.addEventListener(
+    "touchend",
+    (e) => {
+      afTouchEndX = e.changedTouches[0].clientX;
+      afHandleSwipe(e);
+    },
+    { passive: true }
+  );
+
+}
+
+function afHandleSwipe(e) {
+  const diff = afTouchStartX - afTouchEndX;
+
+  if (Math.abs(diff) < 70) return;
+
+  // Banner ke andar swipe ignore
+  if (
+    e.target.closest(".af-banner-slider") ||
+    e.target.closest(".af-ticker")
+  ) {
+    return;
+  }
+
+  const currentIndex = AF_VIEW_ORDER.indexOf(afCurrentView);
+
+  if (currentIndex === -1) return;
+
+  // Left Swipe → Next Tab
+  if (
+    diff > 0 &&
+    currentIndex < AF_VIEW_ORDER.length - 1
+  ) {
+    afSwitchView(AF_VIEW_ORDER[currentIndex + 1]);
+  }
+
+  // Right Swipe → Previous Tab
+  if (
+    diff < 0 &&
+    currentIndex > 0
+  ) {
+    afSwitchView(AF_VIEW_ORDER[currentIndex - 1]);
+  }
+}
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 4: BANNER SLIDER
+       ─────────────────────────────────────────────────────────── */
+
+    let afBannerIndex   = 0;
+    let afBannerTimer   = null;
+    const AF_SLIDE_MS   = 4000;
+
+    function afGoToSlide(idx) {
+      const slides = document.querySelectorAll('.af-banner-slide');
+      const dots   = document.querySelectorAll('.af-banner-dot');
+      if (!slides.length) return;
+
+      slides[afBannerIndex].classList.remove('active');
+      if (dots[afBannerIndex]) dots[afBannerIndex].classList.remove('active');
+
+      afBannerIndex = (idx + slides.length) % slides.length;
+
+      slides[afBannerIndex].classList.add('active');
+      if (dots[afBannerIndex]) dots[afBannerIndex].classList.add('active');
+    }
+
+    function afStartBannerAuto() {
+      afBannerTimer = setInterval(() => {
+        afGoToSlide(afBannerIndex + 1);
+      }, AF_SLIDE_MS);
+    }
+
+    function afStopBannerAuto() {
+      if (afBannerTimer) clearInterval(afBannerTimer);
+    }
+
+    // Fallback banner HTML (when images fail to load)
+    function afBannerFallback(n, emoji, title, sub) {
+      const colours = [
+        'linear-gradient(135deg,#4f46e5,#06b6d4)',
+        'linear-gradient(135deg,#7c3aed,#4f46e5)',
+        'linear-gradient(135deg,#0f172a,#312e81)',
+      ];
+      const bg = colours[(n - 1) % colours.length];
+      return `<div class="af-banner-fallback" style="background:${bg}">
+        <span style="font-size:44px;">${emoji}</span>
+        <h3>${title}</h3>
+        <p>${sub}</p>
+      </div>`;
+    }
+
+    // Make it global (called from onerror attribute)
+    window.afBannerFallback = afBannerFallback;
+    window.afGoToSlide      = afGoToSlide;
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 5: ACCORDION GROUPS (Settings)
+       ─────────────────────────────────────────────────────────── */
+
+    function afToggleAccordion(triggerBtn) {
+      const group  = triggerBtn.closest('.af-accordion-group');
+      if (!group) return;
+
+      const isOpen = group.classList.contains('open');
+
+      // Close all other groups (one open at a time)
+      document.querySelectorAll('.af-accordion-group.open').forEach(g => {
+        if (g !== group) {
+          g.classList.remove('open');
+          const t = g.querySelector('.af-accordion-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Toggle this group
+      group.classList.toggle('open', !isOpen);
+      triggerBtn.setAttribute('aria-expanded', String(!isOpen));
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 6: STREAK DISPLAY
+       ─────────────────────────────────────────────────────────── */
+
+    function afLoadStreak() {
+      // Read streak from localStorage (set by learning-heatmap page)
+      const streak = parseInt(localStorage.getItem('af_streak') || '0', 10);
+      const el = document.getElementById('afHeaderStreakCount');
+      if (el) el.textContent = streak;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 7: STUDENT AUTH STATE (profile reflection)
+       ─────────────────────────────────────────────────────────── */
+
+    function afLoadStudentState() {
+      // Read student session from localStorage (set by /account/ page)
+      const name  = localStorage.getItem('af_student_name')  || '';
+      const phone = localStorage.getItem('af_student_phone') || '';
+      const isLoggedIn = !!(name && phone);
+
+      // Update home profile card
+      const homeName = document.getElementById('homeProfileName');
+      const homeSub  = document.getElementById('homeProfileSub');
+      if (homeName) homeName.textContent = isLoggedIn ? `Hi, ${name.split(' ')[0]}` : 'Hi, Student';
+      if (homeSub)  homeSub.textContent  = isLoggedIn ? phone : 'Login to view profile';
+
+      // Update settings profile name
+      const settingsName = document.getElementById('settingsProfileName');
+      if (settingsName) settingsName.textContent = isLoggedIn ? `Hi, ${name}` : 'Hi, Student';
+
+      // Update language badge
+      const lang = localStorage.getItem('af_language') || 'English';
+      const langBadge = document.getElementById('currentLangBadge');
+      if (langBadge) langBadge.textContent = lang;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 8: LOGOUT
+       ─────────────────────────────────────────────────────────── */
+
+    function afLogout() {
+      // Clear student session keys
+      const keysToRemove = [
+        'af_student_name',
+        'af_student_phone',
+        'af_student_email',
+        'af_student_id',
+        'af_student_token',
+        'af_logged_in',
+      ];
+      keysToRemove.forEach(k => localStorage.removeItem(k));
+
+      // Refresh display
+      afLoadStudentState();
+      afShowToast('👋 You have been logged out.');
+
+      // Navigate to home
+      afSwitchView('home');
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 9: TOAST NOTIFICATION
+       ─────────────────────────────────────────────────────────── */
+
+    let afToastTimer = null;
+
+    function afShowToast(msg, duration = 2800) {
+      const toast = document.getElementById('afToast');
+      if (!toast) return;
+
+      toast.textContent = msg;
+      toast.classList.add('show');
+
+      if (afToastTimer) clearTimeout(afToastTimer);
+      afToastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, duration);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 10: COMING SOON MODAL
+       ─────────────────────────────────────────────────────────── */
+
+    function afShowComingSoon(title = 'Coming Soon', msg = 'This feature will be available soon. Stay tuned!') {
+      document.getElementById('comingSoonTitle').textContent   = title;
+      document.getElementById('comingSoonMessage').textContent = msg;
+      document.getElementById('comingSoonOverlay').classList.add('open');
+    }
+
+    function afCloseModal() {
+      document.getElementById('comingSoonOverlay').classList.remove('open');
+    }
+
+    // Expose globally
+    window.afShowComingSoon = afShowComingSoon;
+    window.afCloseModal     = afCloseModal;
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 11: FOLDER-BASED NAVIGATION HELPERS
+       These are the ONLY navigation functions in index.html.
+       All sub-pages are dedicated HTML files in their folders.
+       ─────────────────────────────────────────────────────────── */
+
+    const AF_ROUTES = {
+      'af-test-arena':             '/af-test-arena/',
+      'latest-test-review':        '/latest-test-review/',
+      'account':                   '/Remake/account/',
+      'revision-notes':            '/revision-notes/',
+      'sudoku-master':             '/Remake/sudoku-master/',
+      'learning-heatmap':          '/learning-heatmap/',
+      'certificate-verification':  '/certificate-verification/',
+      'notifications':             '/notifications/',
+      'support':                   '/support/',
+      'contact-status':            '/contact-status/',
+      'bug-report':                '/bug-report/',
+      'bug-status':                '/bug-status/',
+      'about':                     '/about/',
+      'language':                  '/language/',
+      'batches':                   '/batches/',
+      'community':                 '/community/',
+    };
+
+    function afNavigate(routeKey) {
+      const path = AF_ROUTES[routeKey];
+      if (path) {
+        window.location.href = path;
+      } else {
+        afShowComingSoon('Coming Soon', `The "${routeKey}" page is being built. Check back soon!`);
+      }
+    }
+
+    window.afNavigate = afNavigate;
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 12: KEYBOARD & ACCESSIBILITY
+       ─────────────────────────────────────────────────────────── */
+
+    document.addEventListener('keydown', (e) => {
+      // Close modal on Escape
+      if (e.key === 'Escape') {
+        afCloseModal();
+      }
+    });
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 13: TICKER DUPLICATION (ensures seamless loop)
+       ─────────────────────────────────────────────────────────── */
+
+    function afInitTicker() {
+      // The ticker HTML already has repeated spans for looping.
+      // If viewport is wider, we dynamically ensure enough copies.
+      const track = document.getElementById('afTickerTrack');
+      if (!track) return;
+      // Animation is CSS-driven; no JS needed beyond this check.
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 14: LANGUAGE BADGE NAMES
+       ─────────────────────────────────────────────────────────── */
+
+    const AF_LANG_NAMES = {
+      en:  'English',
+      hi:  'हिन्दी',
+      bho: 'भोजपुरी',
+      bn:  'বাংলা',
+      mr:  'मराठी',
+      te:  'తెలుగు',
+      ta:  'தமிழ்',
+      gu:  'ગુજરાતી',
+      ur:  'اردو',
+      kn:  'ಕನ್ನಡ',
+    };
+
+    function afUpdateLangBadge() {
+      const code    = localStorage.getItem('af_lang_code') || 'en';
+      const name    = AF_LANG_NAMES[code] || 'English';
+      const badge   = document.getElementById('currentLangBadge');
+      if (badge) badge.textContent = name;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 15: INIT — runs on page load
+       ─────────────────────────────────────────────────────────── */
+
+    function afInit() {
+      // 1. Apply saved theme immediately (prevents flash)
+      afInitTheme();
+
+      // 2. Hide splash after load animation
+      afHideSplash();
+
+      // 3. Restore last visited tab
+      afRestoreLastTab();
+
+      // 4. Load student state (name, phone display)
+      afLoadStudentState();
+
+      // 5. Load streak count
+      afLoadStreak();
+
+      // 6. Update language badge
+      afUpdateLangBadge();
+
+      // 7. Start banner auto-slide
+      afStartBannerAuto();
+
+      // 8. Init ticker
+      afInitTicker();
+
+      // 9. Sync dark mode toggle with current theme
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const toggle = document.getElementById('nightModeToggle');
+      if (toggle) toggle.checked = isDark;
+    }
+
+    // Run on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', afInit);
+    } else {
+      afInit();
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTION 16: EXPOSE FUNCTIONS NEEDED BY HTML ATTRIBUTES
+       ─────────────────────────────────────────────────────────── */
+
+    window.afSwitchView       = afSwitchView;
+    window.afToggleAccordion  = afToggleAccordion;
+    window.afToggleDarkMode   = afToggleDarkMode;
+    window.afLogout           = afLogout;
+    window.afShowToast        = afShowToast;
+  </script>
+
+</body>
+</html>
