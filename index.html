@@ -23760,6 +23760,65 @@ body.dark-mode .af-test-result-card-v1 strong {
     .no-splash #splashScreen {
   display: none !important;
 }
+    /* =========================================
+   AF PULL TO REFRESH LOADER
+========================================= */
+
+#afPullLoader {
+  position: fixed;
+  top: -70px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.12);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,.15);
+
+  color: #fff;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  z-index: 99999;
+
+  transition:
+    top .25s ease,
+    opacity .25s ease;
+
+  opacity: 0;
+}
+
+#afPullLoader.show {
+  top: 20px;
+  opacity: 1;
+}
+
+#afPullLoader.spin {
+  animation: afPullSpin .8s linear infinite;
+}
+
+@keyframes afPullSpin {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
 </style>
 </head>
 
@@ -26008,6 +26067,10 @@ onclick="openNotesAF()"
   <div class="toast" id="toast">
   <strong>Notification</strong>
   <p>Message</p>
+</div>
+
+  <div id="afPullLoader">
+  ↻
 </div>
   
   <!-----------------------  JAVA SCRIPT STARTS --------------------------------------->
@@ -41588,12 +41651,15 @@ function closeAFReviewPageV1() {
   showSection("settings");
 }
 
-  /* =========================================
+ /* =========================================
    AF PULL TO REFRESH
 ========================================= */
 
 let afPullStartY = 0;
 let afPullDistance = 0;
+
+const afPullLoader =
+  document.getElementById("afPullLoader");
 
 document.addEventListener(
   "touchstart",
@@ -41612,6 +41678,12 @@ document.addEventListener(
 
     afPullDistance =
       e.touches[0].clientY - afPullStartY;
+
+    if (afPullDistance > 60) {
+      afPullLoader.classList.add("show");
+    } else {
+      afPullLoader.classList.remove("show");
+    }
   },
   { passive: true }
 );
@@ -41619,11 +41691,24 @@ document.addEventListener(
 document.addEventListener(
   "touchend",
   () => {
+
     if (
       window.scrollY === 0 &&
       afPullDistance > 120
     ) {
-      location.reload();
+
+      afPullLoader.classList.add("show");
+      afPullLoader.classList.add("spin");
+
+      setTimeout(() => {
+        location.reload();
+      }, 500);
+
+    } else {
+
+      afPullLoader.classList.remove("show");
+      afPullLoader.classList.remove("spin");
+
     }
 
     afPullDistance = 0;
