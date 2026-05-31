@@ -1,5 +1,11 @@
 <html lang="en">
 <head>
+  <script>
+if (sessionStorage.getItem("afSplashShown")) {
+  document.documentElement.classList.add("no-splash");
+}
+</script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <title>AcademeForge App</title>
@@ -23750,6 +23756,9 @@ body.dark-mode .af-test-result-card-v1 strong {
 #afTestMainContentV1 .af-test-dashboard-actions-v1,
 #afTestRankingPageV1 .af-test-dashboard-actions-v1{
   display:none !important;
+}
+    .no-splash #splashScreen {
+  display: none !important;
 }
 </style>
 </head>
