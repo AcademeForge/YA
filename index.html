@@ -41587,6 +41587,49 @@ async function openAFReviewPageV1() {
 function closeAFReviewPageV1() {
   showSection("settings");
 }
+
+  /* =========================================
+   AF PULL TO REFRESH
+========================================= */
+
+let afPullStartY = 0;
+let afPullDistance = 0;
+
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    if (window.scrollY > 0) return;
+
+    afPullStartY = e.touches[0].clientY;
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    if (window.scrollY > 0) return;
+
+    afPullDistance =
+      e.touches[0].clientY - afPullStartY;
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchend",
+  () => {
+    if (
+      window.scrollY === 0 &&
+      afPullDistance > 120
+    ) {
+      location.reload();
+    }
+
+    afPullDistance = 0;
+  },
+  { passive: true }
+);
 </script>
 </body>
 </html>
