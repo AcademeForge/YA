@@ -41770,73 +41770,7 @@ document.addEventListener(
   { passive: true }
 );
 
-  /* =========================================
-   SWIPE NAVIGATION
-========================================= */
-
-const AF_SECTIONS = [
-  "home",
-  "studentaf",
-  "batchaf",
-  "community",
-  "settings"
-];
-
-let afTouchStartX = 0;
-let afTouchEndX = 0;
-
-document.addEventListener(
-  "touchstart",
-  (e) => {
-    afTouchStartX = e.changedTouches[0].clientX;
-  },
-  { passive: true }
-);
-
-document.addEventListener(
-  "touchend",
-  (e) => {
-    afTouchEndX = e.changedTouches[0].clientX;
-
-    const diff = afTouchStartX - afTouchEndX;
-
-    if (Math.abs(diff) < 70) return;
-
-    const activeBtn =
-      document.querySelector(".bottom-nav .nav-btn.active");
-
-    if (!activeBtn) return;
-
-    const currentSection =
-      activeBtn.dataset.section;
-
-    const currentIndex =
-      AF_SECTIONS.indexOf(currentSection);
-
-    if (currentIndex === -1) return;
-
-    /* Left Swipe → Next */
-    if (
-      diff > 0 &&
-      currentIndex < AF_SECTIONS.length - 1
-    ) {
-      showSection(
-        AF_SECTIONS[currentIndex + 1]
-      );
-    }
-
-    /* Right Swipe → Previous */
-    if (
-      diff < 0 &&
-      currentIndex > 0
-    ) {
-      showSection(
-        AF_SECTIONS[currentIndex - 1]
-      );
-    }
-  },
-  { passive: true }
-);
+  
 </script>
 </body>
 </html>
