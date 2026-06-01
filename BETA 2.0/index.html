@@ -1440,7 +1440,92 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+.af-toast-wrap{
+  position:fixed;
+  left:50%;
+  bottom:calc(var(--nav-h) + 18px);
+  transform:translateX(-50%);
+  z-index:999999;
+  width:min(92vw,420px);
+  pointer-events:none;
+}
 
+.af-toast{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+
+  background:var(--bg-card-solid);
+  color:var(--text-primary);
+
+  border:1px solid var(--border-card);
+  border-radius:18px;
+
+  padding:14px 16px;
+
+  box-shadow:var(--shadow-elevated);
+
+  backdrop-filter:blur(18px);
+
+  animation:afToastIn .25s ease;
+
+  pointer-events:auto;
+}
+
+.af-toast-warning{
+  border-left:4px solid #f59e0b;
+}
+
+.af-toast-error{
+  border-left:4px solid #ef4444;
+}
+
+.af-toast-success{
+  border-left:4px solid #22c55e;
+}
+
+.af-toast-title{
+  font-size:14px;
+  font-weight:700;
+  margin:0 0 2px;
+}
+
+.af-toast-msg{
+  font-size:13px;
+  margin:0;
+  line-height:1.4;
+}
+
+.af-toast-close{
+  margin-left:auto;
+  background:none;
+  border:none;
+  color:inherit;
+  cursor:pointer;
+  font-size:18px;
+}
+
+@keyframes afToastIn{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes afToastOut{
+  from{
+    opacity:1;
+    transform:translateY(0);
+  }
+  to{
+    opacity:0;
+    transform:translateY(20px);
+  }
+}
     /* ─── RESPONSIVE TWEAKS ──────────────────────────────────────── */
     @media (max-width: 360px) {
       .af-feature-grid { grid-template-columns: repeat(3, 1fr); }
@@ -3540,76 +3625,7 @@
     </div>
   </section>
 </div>
-      <!-- ══════════════════════════════════════════════════════
-           VIEW: BATCHES (placeholder — navigates to batches page)
-           ══════════════════════════════════════════════════════ -->
-      <div class="af-view" id="viewBatches" aria-label="Batches">
-
-     <section id="batchaf" class="section">
-    <div class="batch-wrapaf">
-      <div class="batch-pageaf" id="batchListBoxaf">
-        <div class="batch-topbaraf">
-          <div>
-            <h2>All Batches</h2>
-            <p id="batchCountTextaf">5 batches available</p>
-          </div>
-        </div>
-
-        <div class="batch-search-boxaf">
-          <span>🔍</span>
-          <input id="batchSearchInputaf" type="text" placeholder="Search for batches" oninput="filterBatchesaf()">
-        </div>
-
-        <div class="batch-gridaf" id="batchCardsaf"></div>
-      </div>
-
-      <div class="batch-pageaf hidden-box" id="batchDetailsBoxaf">
-        <button class="batch-backaf" type="button" onclick="backToBatchListaf()">← Back to Batches</button>
-
-        <div class="batch-detail-cardaf">
-          <img id="batchDetailImageaf" src="" alt="Batch Image" class="batch-detail-imgaf">
-
-          <div class="batch-detail-bodyaf">
-            <div class="batch-detail-headrowaf">
-              <div>
-                <p class="batch-categoryaf" id="batchDetailCategoryaf">Target</p>
-                <h2 id="batchDetailTitleaf">Batch Name</h2>
-              </div>
-              <span class="batch-languageaf" id="batchDetailLanguageaf">HINGLISH</span>
-            </div>
-
-            <p class="batch-detail-descaf" id="batchDetailDescaf">Batch description will appear here.</p>
-
-            <div class="batch-price-rowaf">
-              <strong id="batchDetailPriceaf">₹49</strong>
-              <del id="batchDetailOldPriceaf">₹99</del>
-              <span id="batchDetailOffaf">51% OFF</span>
-            </div>
-
-            <button id="batchDetailBuyBtnaf" class="batch-buy-mainaf" type="button" onclick="buySelectedBatchaf()">Buy Now</button>
-          </div>
-        </div>
-
-        <div class="batch-info-boxaf">
-          <h3>📌 What you will learn</h3>
-          <ul id="batchLearnListaf"></ul>
-        </div>
-
-        <div class="batch-info-boxaf">
-          <h3>🏫 Batch Facilities</h3>
-          <ul id="batchFacilityListaf"></ul>
-        </div>
-
-        <div class="batch-info-boxaf">
-          <h3>🧾 Batch Details</h3>
-          <p id="batchFullDetailsaf"></p>
-        </div>
-      </div>
-      
-      <div id="afToastWrap" class="af-toast-wrap"></div>
-    </div>
-  </section>
-</div>
+     
       
       <!-- ══════════════════════════════════════════════════════
            VIEW: COMMUNITY (placeholder — navigates to community page)
@@ -4017,15 +4033,15 @@
           </div><!-- /af-accordion-groups -->
 
           <!-- Logout -->
-          <button
-            class="af-settings-logout-btn"
-            onclick="afLogout()"
-            type="button"
-            aria-label="Logout"
-          >
-            <span aria-hidden="true">↩</span>
-            <span>Logout</span>
-          </button>
+       <button
+  class="af-settings-logout-btn"
+  onclick="logoutStudentafWithMessage()"
+  type="button"
+  aria-label="Logout"
+>
+  <span aria-hidden="true">↩</span>
+  <span>Logout</span>
+</button>
 
           <!-- App version -->
           <div class="af-settings-version">
