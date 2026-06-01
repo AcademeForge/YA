@@ -2514,35 +2514,89 @@ body,
   user-select: none;
   -webkit-touch-callout: none;
 }
-   /* OTHER
+   /* PULL
  ─────────────────────────────────────────── */ 
-    .af-pull-loader{
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:99999;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
+  /* =========================================
+   AF PREMIUM PULL TO REFRESH
+========================================= */
+
+#afPullLoader {
+  position: fixed;
+  top: -90px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.85);
+
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  border: 1px solid rgba(255,255,255,.6);
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.12),
+    0 4px 12px rgba(15,23,42,.08);
+
+  z-index: 99999;
+
+  opacity: 0;
+
+  transition:
+    top .25s ease,
+    opacity .25s ease,
+    transform .25s ease;
 }
 
-.af-pull-loader.show{
-  opacity:1;
+[data-theme="dark"] #afPullLoader {
+  background: rgba(15,23,42,.85);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    0 0 20px rgba(99,102,241,.15);
 }
 
-.af-pull-spinner{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  border:3px solid rgba(79,70,229,.15);
-  border-top-color:var(--af-primary);
-  animation:afSpin .8s linear infinite;
+#afPullLoader.show {
+  top: 14px;
+  opacity: 1;
 }
 
-@keyframes afSpin{
-  to{
-    transform:rotate(360deg);
+#afPullLoader.ready {
+  transform: translateX(-50%) scale(1.08);
+}
+
+.af-pull-spinner {
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  border: 3px solid rgba(99,102,241,.18);
+  border-top-color: var(--af-primary);
+
+  transition: transform .2s ease;
+}
+
+#afPullLoader.spin .af-pull-spinner {
+  animation: afPremiumSpin .8s linear infinite;
+}
+
+@keyframes afPremiumSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
   </style>
@@ -3281,7 +3335,7 @@ body,
     </div>
   </div>
   
-<div id="afPullLoader" class="af-pull-loader">
+<div id="afPullLoader">
   <div class="af-pull-spinner"></div>
 </div>
   
@@ -3419,10 +3473,10 @@ function afHandleSwipe(e) {
   if (Math.abs(diffY) > Math.abs(diffX)) return;
 
   /* Ignore tiny accidental movement */
-  if (Math.abs(diffX) < 120) return;
+  if (Math.abs(diffX) < 90) return;
 
   /* Ignore slow drags */
-  if (elapsed > 500) return;
+  if (elapsed > 650) return;
 
   /* Ignore sliders and tickers */
   if (
@@ -4545,40 +4599,95 @@ document.addEventListener("dragstart", function (e) {
  SECTION 20 :  PULL TO REFRESH
 ───────────────────────────────────────────────────────────── */
 
+/* =========================================
+   AF PREMIUM PULL TO REFRESH
+   PART 1
+========================================= */
+
 let afPullStartY = 0;
-let afPulling = false;
+let afPullDistance = 0;
+let afPullReady = false;
 
-const afPageElement = document.getElementById("afPage");
+const AF_PULL_SHOW_DISTANCE = 80;
+const AF_PULL_REFRESH_DISTANCE = 170;
 
-if (afPageElement) {
-  afPageElement.addEventListener(
+function afEnsurePullLoader() {
+  let loader = document.getElementById("afPullLoader");
+
+  if (!loader) {
+    loader = document.createElement("div");
+    loader.id = "afPullLoader";
+
+    loader.innerHTML = `
+      <div class="af-pull-spinner"></div>
+    `;
+
+    document.body.appendChild(loader);
+  }
+
+  return loader;
+}
+
+const afPullLoader = afEnsurePullLoader();
+    /* =========================================
+   AF PREMIUM PULL TO REFRESH
+   PART 2
+========================================= */
+
+if (afPage) {
+
+  afPage.addEventListener(
     "touchstart",
     function (e) {
-      if (afPageElement.scrollTop <= 0) {
-        afPullStartY = e.touches[0].clientY;
-        afPulling = true;
+
+      if (afPage.scrollTop > 0) return;
+
+      afPullStartY = e.touches[0].clientY;
+      afPullDistance = 0;
+      afPullReady = false;
+    },
+    { passive: true }
+  );
+
+  afPage.addEventListener(
+    "touchmove",
+    function (e) {
+
+      if (afPage.scrollTop > 0) return;
+
+      afPullDistance =
+        e.touches[0].clientY - afPullStartY;
+
+      if (afPullDistance < AF_PULL_SHOW_DISTANCE) {
+        afPullLoader.classList.remove("show");
+        afPullLoader.classList.remove("ready");
+        return;
+      }
+
+      afPullLoader.classList.add("show");
+
+      if (afPullDistance >= AF_PULL_REFRESH_DISTANCE) {
+        afPullReady = true;
+        afPullLoader.classList.add("ready");
+      } else {
+        afPullReady = false;
+        afPullLoader.classList.remove("ready");
       }
     },
     { passive: true }
   );
 
-  afPageElement.addEventListener(
+  afPage.addEventListener(
     "touchend",
-    function (e) {
-      if (!afPulling) return;
+    function () {
 
-      const pullDistance =
-        e.changedTouches[0].clientY - afPullStartY;
+      if (!afPullReady) {
+        afPullLoader.classList.remove("show");
+        afPullLoader.classList.remove("ready");
+        return;
+      }
 
-      afPulling = false;
-
-      if (pullDistance < 120) return;
-
-      afShowToast(
-        "Refreshing...",
-        "info",
-        "AcademeForge"
-      );
+      afPullLoader.classList.add("spin");
 
       localStorage.setItem(
         "af_last_tab",
@@ -4587,11 +4696,12 @@ if (afPageElement) {
 
       setTimeout(function () {
         location.reload();
-      }, 300);
+      }, 500);
     },
     { passive: true }
   );
 }
+    
   </script>
 
 </body>
