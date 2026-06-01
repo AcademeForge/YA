@@ -6643,9 +6643,19 @@ function renderPosts(posts, targetId) {
   });
 
   /* Re-check login state when localStorage changes (e.g. after login in another tab) */
-  window.addEventListener('storage', function () {
-    window.refreshAfNexusLockStateV2();
-  });
+window.addEventListener('storage', function (e) {
+    if (
+        e.key === 'af_student_email' ||
+        e.key === 'af_student_mobile' ||
+        e.key === 'af_student_name'
+    ) {
+        if (isLoggedIn()) {
+            location.reload();
+        } else {
+            window.refreshAfNexusLockStateV2();
+        }
+    }
+});
 
 })();
   </script>
