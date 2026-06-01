@@ -3620,8 +3620,7 @@
           <p id="batchFullDetailsaf"></p>
         </div>
       </div>
-
-      <div id="afToastWrap" class="af-toast-wrap"></div>
+      
     </div>
   </section>
 </div>
@@ -4033,16 +4032,16 @@
           </div><!-- /af-accordion-groups -->
 
           <!-- Logout -->
-       <button
+     <button
   class="af-settings-logout-btn"
-  onclick="logoutStudentafWithMessage()"
+  onclick="afSettingsLogout()"
   type="button"
   aria-label="Logout"
 >
   <span aria-hidden="true">↩</span>
   <span>Logout</span>
 </button>
-
+          
           <!-- App version -->
           <div class="af-settings-version">
             <strong>App Version: 06.07.19</strong>
@@ -4113,9 +4112,6 @@
     </nav>
 
   </div><!-- /af-shell -->
-
-  <!-- Toast notification -->
-  <div id="afToast" role="status" aria-live="polite"></div>
 
   <!-- Coming Soon Modal -->
   <div class="af-modal-overlay" id="comingSoonOverlay" onclick="afCloseModal()">
@@ -4470,20 +4466,59 @@ function afHandleSwipe(e) {
        SECTION 9: TOAST NOTIFICATION
        ─────────────────────────────────────────────────────────── */
 
-    let afToastTimer = null;
+let afToastTimer = null;
 
-    function afShowToast(msg, duration = 2800) {
-      const toast = document.getElementById('afToast');
-      if (!toast) return;
+function afShowToast(message, type, title, duration) {
+  // Resolve defaults
+  type     = type     || "info";
+  duration = duration || 2800;
 
-      toast.textContent = msg;
-      toast.classList.add('show');
+  const icons  = { success: "✓", error: "!", warning: "!", info: "i" };
+  const titles = { success: "Success", error: "Something went wrong", warning: "Notice", info: "Info" };
 
-      if (afToastTimer) clearTimeout(afToastTimer);
-      afToastTimer = setTimeout(() => {
-        toast.classList.remove('show');
-      }, duration);
-    }
+  // Get or create the wrap element
+  let wrap = document.getElementById("afToastWrap");
+  if (!wrap) {
+    wrap = document.createElement("div");
+    wrap.id        = "afToastWrap";
+    wrap.className = "af-toast-wrap";
+    document.body.appendChild(wrap);
+  }
+
+  // Clear any previous toast
+  wrap.innerHTML = "";
+  if (afToastTimer) { clearTimeout(afToastTimer); afToastTimer = null; }
+
+  const displayTitle = title || titles[type] || "Info";
+
+  const toast = document.createElement("div");
+  toast.className = "af-toast af-toast-" + type;
+
+  toast.innerHTML =
+    '<div class="af-toast-icon">' + (icons[type] || icons.info) + '</div>' +
+    '<div class="af-toast-content">' +
+      '<p class="af-toast-title">' + displayTitle + '</p>' +
+      '<p class="af-toast-msg">'   + message      + '</p>' +
+    '</div>' +
+    '<button class="af-toast-close" type="button" aria-label="Close">\u00d7</button>';
+
+  wrap.appendChild(toast);
+
+  function closeToast() {
+    toast.style.animation = "afToastOut 0.22s ease forwards";
+    setTimeout(function () {
+      if (toast && toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 220);
+  }
+
+  const closeBtn = toast.querySelector(".af-toast-close");
+  if (closeBtn) closeBtn.addEventListener("click", closeToast);
+
+  afToastTimer = setTimeout(closeToast, duration);
+}
+
+// Expose globally
+window.afShowToast = afShowToast;
 
     /* ─────────────────────────────────────────────────────────────
        SECTION 10: COMING SOON MODAL
@@ -4862,57 +4897,6 @@ async function afBatchEdgeCall(functionName, payload) {
   }
 }
 
-function ensureAfToastWrap() {
-  let wrap = document.getElementById("afToastWrap");
-
-  if (!wrap) {
-    wrap = document.createElement("div");
-    wrap.id = "afToastWrap";
-    wrap.className = "af-toast-wrap";
-    document.body.appendChild(wrap);
-  }
-
-  return wrap;
-}
-
-function showAfToast(message, type = "info", title = "") {
-  const wrap = ensureAfToastWrap();
-  if (!wrap) return;
-
-  const icons = { success: "✓", error: "!", warning: "!", info: "i" };
-  const titles = { success: "Success", error: "Something went wrong", warning: "Notice", info: "Info" };
-
-  wrap.innerHTML = "";
-
-  const toast = document.createElement("div");
-  toast.className = `af-toast af-toast-${type}`;
-
-  toast.innerHTML = `
-    <div class="af-toast-icon">${icons[type] || icons.info}</div>
-    <div class="af-toast-content">
-      <p class="af-toast-title">${title || titles[type] || "Info"}</p>
-      <p class="af-toast-msg">${message}</p>
-    </div>
-    <button class="af-toast-close" type="button" aria-label="Close">×</button>
-  `;
-
-  wrap.appendChild(toast);
-
-  const closeToast = function () {
-    toast.style.animation = "afToastOut 0.22s ease forwards";
-    setTimeout(function () {
-      if (toast && toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-    }, 220);
-  };
-
-  const closeBtn = toast.querySelector(".af-toast-close");
-  if (closeBtn) closeBtn.addEventListener("click", closeToast);
-
-  setTimeout(closeToast, 2600);
-}
-
 /* ── Backend: Check Course ───────────────────────────────── */
 
 async function checkBatchCourseExistsaf(batch) {
@@ -5072,7 +5056,7 @@ function openBatchDetailsaf(batchId) {
   const batch = afBatches.find(function (item) { return item.id === batchId; });
 
   if (!batch) {
-    showAfToast("Batch not found.", "error", "Batch Error");
+    afShowToast("Batch not found.", "error", "Batch Error");
     return;
   }
 
@@ -5130,12 +5114,12 @@ function buyBatchDirectaf(batchId, btn) {
   const batch = afBatches.find(function (item) { return item.id === batchId; });
 
   if (!batch) {
-    showAfToast("Batch not found.", "error", "Batch Error");
+    afShowToast("Batch not found.", "error", "Batch Error");
     return;
   }
 
   if (isBatchEnrolledaf(batch.courseSlug)) {
-    showAfToast("You already have access to this batch.", "success", "Already Enrolled");
+    afShowToast("You already have access to this batch.", "success", "Already Enrolled");
     return;
   }
 
@@ -5145,12 +5129,12 @@ function buyBatchDirectaf(batchId, btn) {
 
 function buySelectedBatchaf() {
   if (!afSelectedBatch) {
-    showAfToast("Please select a batch first.", "warning", "Select Batch");
+    afShowToast("Please select a batch first.", "warning", "Select Batch");
     return;
   }
 
   if (isBatchEnrolledaf(afSelectedBatch.courseSlug)) {
-    showAfToast("You already have access to this batch.", "success", "Already Enrolled");
+    afShowToast("You already have access to this batch.", "success", "Already Enrolled");
     return;
   }
 
@@ -5162,22 +5146,22 @@ async function startBatchPaymentaf(batch, btn) {
   const student = getCurrentStudentaf();
 
   if (!student.id) {
-    showAfToast("Please login in AcademeForge app first, then open Batches.", "warning", "Login Required");
+    afShowToast("Please login in AcademeForge app first, then open Batches.", "warning", "Login Required");
     return;
   }
 
   if (!batch.courseId) {
-    showAfToast("Course ID missing for this batch.", "error", "Course Error");
+    afShowToast("Course ID missing for this batch.", "error", "Course Error");
     return;
   }
 
   if (typeof Razorpay === "undefined") {
-    showAfToast("Razorpay checkout script not loaded.", "error", "Payment Error");
+    afShowToast("Razorpay checkout script not loaded.", "error", "Payment Error");
     return;
   }
 
   if (!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "YOUR_RAZORPAY_KEY_ID") {
-    showAfToast("Razorpay Key ID is not added yet.", "error", "Payment Error");
+    afShowToast("Razorpay Key ID is not added yet.", "error", "Payment Error");
     return;
   }
 
@@ -5226,7 +5210,7 @@ async function startBatchPaymentaf(batch, btn) {
           await grantBatchAccessaf(batch, response);
           await loadEnrolledBatchSlugsaf();
 
-          showAfToast("Your batch access has been added successfully.", "success", "Payment Successful");
+          afShowToast("Your batch access has been added successfully.", "success", "Payment Successful");
 
           renderBatchesaf(afBatches);
 
@@ -5238,7 +5222,7 @@ async function startBatchPaymentaf(batch, btn) {
 
         } catch (err) {
           console.log("After payment error:", err);
-          showAfToast(err.message || "Payment done, but access update failed.", "error", "Access Error");
+          afShowToast(err.message || "Payment done, but access update failed.", "error", "Access Error");
 
           if (btn) {
             btn.disabled = false;
@@ -5252,7 +5236,7 @@ async function startBatchPaymentaf(batch, btn) {
             btn.disabled = false;
             btn.textContent = "Buy Now";
           }
-          showAfToast("Payment cancelled. You can try again anytime.", "warning", "Payment Cancelled");
+          afShowToast("Payment cancelled. You can try again anytime.", "warning", "Payment Cancelled");
         }
       }
     };
@@ -5267,7 +5251,7 @@ async function startBatchPaymentaf(batch, btn) {
         message = response.error.description;
       }
 
-      showAfToast(message, "error", "Payment Failed");
+      afShowToast(message, "error", "Payment Failed");
 
       if (btn) {
         btn.disabled = false;
@@ -5279,7 +5263,7 @@ async function startBatchPaymentaf(batch, btn) {
 
   } catch (err) {
     console.log("Start batch payment error:", err);
-    showAfToast(err.message || "Something went wrong.", "error", "Course Error");
+    afShowToast(err.message || "Something went wrong.", "error", "Course Error");
 
     if (btn) {
       btn.disabled = false;
