@@ -3325,26 +3325,87 @@
       if (AF_VIEWS[lastTab]) afSwitchView(lastTab);
     }
 
-    /* ─── SWIPE NAVIGATION ───────────────────────────────────────── */
-    const AF_VIEW_ORDER = ['home', 'student', 'batches', 'community', 'settings'];
-    let afTouchStartX = 0;
-    let afTouchEndX   = 0;
+ /* ─── SWIPE NAVIGATION ───────────────────────────────────────── */
 
-    const afPage = document.getElementById('afPage');
-    if (afPage) {
-      afPage.addEventListener('touchstart', function (e) { afTouchStartX = e.changedTouches[0].clientX; }, { passive: true });
-      afPage.addEventListener('touchend',   function (e) { afTouchEndX = e.changedTouches[0].clientX; afHandleSwipe(e); }, { passive: true });
-    }
+const AF_VIEW_ORDER = [
+  "home",
+  "student",
+  "batches",
+  "community",
+  "settings"
+];
 
-    function afHandleSwipe(e) {
-      const diff = afTouchStartX - afTouchEndX;
-      if (Math.abs(diff) < 70) return;
-      if (e.target.closest('.af-banner-slider') || e.target.closest('.af-ticker')) return;
-      const currentIndex = AF_VIEW_ORDER.indexOf(afCurrentView);
-      if (currentIndex === -1) return;
-      if (diff > 0 && currentIndex < AF_VIEW_ORDER.length - 1) afSwitchView(AF_VIEW_ORDER[currentIndex + 1]);
-      if (diff < 0 && currentIndex > 0)                        afSwitchView(AF_VIEW_ORDER[currentIndex - 1]);
-    }
+let afTouchStartX = 0;
+let afTouchStartY = 0;
+let afTouchStartTime = 0;
+
+const afPage = document.getElementById("afPage");
+
+if (afPage) {
+  afPage.addEventListener(
+    "touchstart",
+    function (e) {
+      afTouchStartX = e.changedTouches[0].clientX;
+      afTouchStartY = e.changedTouches[0].clientY;
+      afTouchStartTime = Date.now();
+    },
+    { passive: true }
+  );
+
+  afPage.addEventListener(
+    "touchend",
+    function (e) {
+      afHandleSwipe(e);
+    },
+    { passive: true }
+  );
+}
+
+function afHandleSwipe(e) {
+  const touch = e.changedTouches[0];
+
+  const diffX = touch.clientX - afTouchStartX;
+  const diffY = touch.clientY - afTouchStartY;
+
+  const elapsed = Date.now() - afTouchStartTime;
+
+  /* Ignore vertical scrolling */
+  if (Math.abs(diffY) > Math.abs(diffX)) return;
+
+  /* Ignore tiny accidental movement */
+  if (Math.abs(diffX) < 120) return;
+
+  /* Ignore slow drags */
+  if (elapsed > 500) return;
+
+  /* Ignore sliders and tickers */
+  if (
+    e.target.closest(".af-banner-slider") ||
+    e.target.closest(".af-ticker")
+  ) {
+    return;
+  }
+
+  const currentIndex = AF_VIEW_ORDER.indexOf(afCurrentView);
+
+  if (currentIndex === -1) return;
+
+  /* Swipe Left */
+  if (
+    diffX < 0 &&
+    currentIndex < AF_VIEW_ORDER.length - 1
+  ) {
+    afSwitchView(AF_VIEW_ORDER[currentIndex + 1]);
+  }
+
+  /* Swipe Right */
+  if (
+    diffX > 0 &&
+    currentIndex > 0
+  ) {
+    afSwitchView(AF_VIEW_ORDER[currentIndex - 1]);
+  }
+}
 
     /* ─────────────────────────────────────────────────────────────
        SECTION 4: BANNER SLIDER
@@ -3436,9 +3497,7 @@
 
     /* ─────────────────────────────────────────────────────────────
        SECTION 8: LOGOUT
-       FIX: afLogout() is the single logout function.
-            Settings button now calls afLogout() directly.
-            No separate afSettingsLogout() needed.
+     
     ─────────────────────────────────────────────────────────────── */
  function afLogout() {
   try {
@@ -3473,14 +3532,7 @@
     /* ─────────────────────────────────────────────────────────────
        SECTION 9: TOAST NOTIFICATION — SINGLE UNIFIED SYSTEM
        ─────────────────────────────────────────────────────────────
-       FIX: Removed dead #afToast HTML element and its CSS.
-       FIX: afShowToast() now auto-creates its container if missing,
-            guaranteeing document.getElementById('afToastWrap') never
-            returns null.
-       API: afShowToast(message)
-            afShowToast(message, type)               — 'success'|'error'|'warning'|'info'
-            afShowToast(message, type, title)
-            afShowToast(message, type, title, duration)
+    
     ─────────────────────────────────────────────────────────────── */
     var _afToastTimer = null;
 
