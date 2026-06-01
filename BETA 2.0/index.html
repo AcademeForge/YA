@@ -4761,16 +4761,27 @@ body,
     /* ─────────────────────────────────────────────────────────────
        SECTION 2: SPLASH SCREEN
     ─────────────────────────────────────────────────────────────── */
-    function afHideSplash() {
-      const splash = document.getElementById('afSplash');
-      if (!splash) return;
-      if (sessionStorage.getItem('afSplashShown')) { splash.remove(); return; }
-      sessionStorage.setItem('afSplashShown', 'true');
-      setTimeout(function () {
-        splash.classList.add('hidden');
-        setTimeout(function () { splash.remove(); }, 400);
-      }, 1200);
-    }
+ function afHideSplash() {
+  const splash = document.getElementById('afSplash');
+  if (!splash) return;
+
+  /* Show splash only once per browser/app session */
+  if (sessionStorage.getItem('af_splash_shown')) {
+    splash.remove();
+    return;
+  }
+
+  sessionStorage.setItem('af_splash_shown', '1');
+
+  setTimeout(function () {
+    splash.classList.add('hidden');
+
+    setTimeout(function () {
+      splash.remove();
+    }, 400);
+
+  }, 1200);
+}
 
     /* ─────────────────────────────────────────────────────────────
        SECTION 3: BOTTOM NAV VIEW SWITCHING
@@ -5720,16 +5731,28 @@ function afHandleSwipe(e) {
       } catch (err) { console.error("Reset password catch:", err); showStudentMessageaf("err", "Password reset failed: " + err.message); }
     }
 
-    function saveStudentSessionaf(student, sessionToken, deviceId) {
-      localStorage.setItem("af_student_logged_in", "true");
-      localStorage.setItem("af_session_token",     sessionToken || "");
-      localStorage.setItem("af_device_id",         deviceId     || getAFDeviceId());
-      localStorage.setItem("af_student_uuid",      student.id   || "");
-      localStorage.setItem("af_student_id",        student.student_id || student.mobile || student.phone || "");
-      localStorage.setItem("af_student_mobile",    student.mobile || student.phone || "");
-      localStorage.setItem("af_student_name",      student.name  || "Student");
-      localStorage.setItem("af_student_email",     student.email || "");
-    }
+   function saveStudentSessionaf(student, sessionToken, deviceId) {
+  localStorage.setItem("af_student_logged_in", "true");
+  localStorage.setItem("af_session_token",     sessionToken || "");
+  localStorage.setItem("af_device_id",         deviceId     || getAFDeviceId());
+  localStorage.setItem("af_student_uuid",      student.id   || "");
+  localStorage.setItem("af_student_id",        student.student_id || student.mobile || student.phone || "");
+  localStorage.setItem("af_student_mobile",    student.mobile || student.phone || "");
+  localStorage.setItem("af_student_name",      student.name  || "Student");
+  localStorage.setItem("af_student_email",     student.email || "");
+
+  // ← ADD THIS: instantly sync all tabs/views after login
+  afLoadStudentState();
+  if (typeof window.refreshAfNexusLockStateV2 === 'function') {
+    window.refreshAfNexusLockStateV2();
+  }
+  if (typeof window.initAfNexusV2 === 'function') {
+    window.initAfNexusV2();
+  }
+  if (typeof openBatchSectionaf === 'function') {
+    openBatchSectionaf();
+  }
+}
 
     function openCourseSectionAfterLoginaf(studentData) {
       var welcomeText = afEl("studentWelcomeTextaf");
