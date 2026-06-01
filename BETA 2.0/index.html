@@ -2503,6 +2503,48 @@
     [data-theme="dark"] .student-messageaf.err  { background: rgba(153, 27, 27, 0.18); color: #fca5a5; border-color: rgba(239, 68, 68, 0.20); }
     [data-theme="dark"] .student-messageaf.info { background: rgba(37, 99, 235, 0.14); color: #93c5fd; border-color: rgba(59, 130, 246, 0.20); }
     [data-theme="dark"] .locked-btnaf { background: rgba(239, 68, 68, 0.14); color: #fca5a5; }
+
+/* copy paste STOP
+ ─────────────────────────────────────────── */
+    html,
+body,
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+   /* OTHER
+ ─────────────────────────────────────────── */ 
+    .af-pull-loader{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:99999;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.af-pull-loader.show{
+  opacity:1;
+}
+
+.af-pull-spinner{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:3px solid rgba(79,70,229,.15);
+  border-top-color:var(--af-primary);
+  animation:afSpin .8s linear infinite;
+}
+
+@keyframes afSpin{
+  to{
+    transform:rotate(360deg);
+  }
+}
   </style>
 </head>
 
@@ -3238,7 +3280,11 @@
       <button class="af-modal-ok" onclick="afCloseModal()" type="button">Okay, Got It</button>
     </div>
   </div>
-
+  
+<div id="afPullLoader" class="af-pull-loader">
+  <div class="af-pull-spinner"></div>
+</div>
+  
   <!-- JAVASCRIPT -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -4463,7 +4509,89 @@ function afHandleSwipe(e) {
         switchStudentModeaf("login");
       }
     });
+ /* ─────────────────────────────────────────────────────────────
+       SECTION 19: COPY PASTE STOP
+    ─────────────────────────────────────────────────────────────── */
+    document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+});
 
+document.addEventListener("selectstart", function (e) {
+  e.preventDefault();
+});
+
+document.addEventListener("copy", function (e) {
+  e.preventDefault();
+});
+
+document.addEventListener("cut", function (e) {
+  e.preventDefault();
+});
+
+document.addEventListener("dragstart", function (e) {
+  e.preventDefault();
+});
+    document.addEventListener("keydown", function (e) {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) ||
+    (e.ctrlKey && e.key.toUpperCase() === "U")
+  ) {
+    e.preventDefault();
+  }
+});
+
+    /* ─────────────────────────────────────────────────────────────
+ SECTION 20 :  PULL TO REFRESH
+───────────────────────────────────────────────────────────── */
+
+let afPullStartY = 0;
+let afPulling = false;
+
+const afPageElement = document.getElementById("afPage");
+
+if (afPageElement) {
+  afPageElement.addEventListener(
+    "touchstart",
+    function (e) {
+      if (afPageElement.scrollTop <= 0) {
+        afPullStartY = e.touches[0].clientY;
+        afPulling = true;
+      }
+    },
+    { passive: true }
+  );
+
+  afPageElement.addEventListener(
+    "touchend",
+    function (e) {
+      if (!afPulling) return;
+
+      const pullDistance =
+        e.changedTouches[0].clientY - afPullStartY;
+
+      afPulling = false;
+
+      if (pullDistance < 120) return;
+
+      afShowToast(
+        "Refreshing...",
+        "info",
+        "AcademeForge"
+      );
+
+      localStorage.setItem(
+        "af_last_tab",
+        afCurrentView
+      );
+
+      setTimeout(function () {
+        location.reload();
+      }, 300);
+    },
+    { passive: true }
+  );
+}
   </script>
 
 </body>
