@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sudoku Master — AcademeForge</title>
+<title>Sudoku Master V5 — Nxdb</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;600&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -16,13 +16,14 @@
   --text:#1a150e;--text-soft:#7a6f5d;--text-muted:#b5a898;
   --border:rgba(0,0,0,.07);--border-medium:rgba(0,0,0,.12);
   --shadow-xs:0 1px 3px rgba(0,0,0,.06);--shadow-sm:0 2px 8px rgba(0,0,0,.07);
-  --shadow:0 6px 24px rgba(0,0,0,.09);--shadow-lg:0 16px 48px rgba(0,0,0,.13);--shadow-xl:0 28px 72px rgba(0,0,0,.17);
+  --shadow:0 6px 24px rgba(0,0,0,.09);--shadow-lg:0 16px 48px rgba(0,0,0,.13);
+  --shadow-xl:0 28px 72px rgba(0,0,0,.17);
   --radius:20px;--radius-sm:14px;--radius-xs:10px;--nav-height:76px;
   --font-display:'Sora',sans-serif;--font-body:'Nunito',sans-serif;--font-mono:'DM Mono',monospace;
   --quick:#22c55e;--quick-dark:#16a34a;--quick-light:rgba(34,197,94,.11);
   --classic:#f97316;--classic-dark:#d05f00;--classic-light:rgba(249,115,22,.11);
 }
-body.dark{
+body.dark {
   --bg:#0c0a08;--bg2:#141210;--surface:#1a1714;--surface-2:#1e1b18;--surface-3:#252220;
   --text:#f5f0e8;--text-soft:#a09278;--text-muted:#6b5c48;
   --border:rgba(255,255,255,.07);--border-medium:rgba(255,255,255,.12);
@@ -35,65 +36,43 @@ button{cursor:pointer;border:none;outline:none;font:inherit;background:none;}
 a{text-decoration:none;color:inherit;}
 input{font:inherit;outline:none;}
 
-/* ── SKELETON LOADER ── */
-.skel{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-2) 50%,var(--surface-3) 75%);
-  background-size:200% 100%;animation:skelShimmer 1.4s infinite;border-radius:8px;}
-@keyframes skelShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel-text{height:14px;margin:4px 0;}
-.skel-val{height:28px;width:60%;}
-.skel-bar{height:10px;border-radius:999px;}
-
-/* ── GLOBAL SAVING OVERLAY ── */
-#globalSavingOverlay{
-  position:fixed;bottom:calc(var(--nav-height)+10px);left:50%;transform:translateX(-50%);
-  display:none;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;
-  background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-lg);
-  z-index:800;font-size:.75rem;font-weight:800;color:var(--text-soft);
-  font-family:var(--font-display);animation:slideUpPop .3s cubic-bezier(.34,1.56,.64,1);
-}
-#globalSavingOverlay.show{display:flex;}
-#globalSavingOverlay .spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--primary-light);border-top-color:var(--primary);animation:spinNx .6s linear infinite;}
-@keyframes slideUpPop{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-@keyframes spinNx{to{transform:rotate(360deg)}}
-
 .app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(var(--nav-height)+8px);position:relative;}
-.app::before{content:'';position:fixed;inset:0;
-  background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,122,24,.05) 0%,transparent 60%),
-  radial-gradient(ellipse 50% 60% at 10% 80%,rgba(34,197,94,.04) 0%,transparent 60%);
-  pointer-events:none;z-index:0;}
+.app::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,122,24,.05) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(34,197,94,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
-/* HEADER */
-.header{position:sticky;top:0;z-index:200;backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);background:rgba(255,255,255,.85);border-bottom:1px solid var(--border);}
+/* OFFLINE BANNER */
+.offline-banner{display:none;align-items:center;gap:8px;padding:9px 14px;background:rgba(245,158,11,.12);border-bottom:1px solid rgba(245,158,11,.25);font-size:.75rem;font-weight:700;color:#b45309;position:sticky;top:64px;z-index:150;}
+.offline-banner.show{display:flex;}
+body.dark .offline-banner{background:rgba(245,158,11,.08);color:#fbbf24;}
+
+/* SYNC QUEUE BADGE */
+.sync-queue-badge{display:none;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:rgba(59,130,246,.1);color:var(--blue);font-size:.68rem;font-weight:700;border:1px solid rgba(59,130,246,.2);}
+.sync-queue-badge.show{display:inline-flex;}
+
+.header{position:sticky;top:0;z-index:200;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);background:rgba(255,255,255,.85);border-bottom:1px solid var(--border);}
 body.dark .header{background:rgba(26,23,20,.9);}
 .header-inner{height:64px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
 .logo-wrap{display:flex;align-items:center;gap:10px;}
 .logo{width:40px;height:40px;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px rgba(255,122,24,.3);flex-shrink:0;}
 .logo img{width:100%;height:100%;object-fit:cover;display:block;}
-.logo-fallback{width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;color:white;font-family:var(--font-display);}
+.logo-fallback{width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;color:white;font-family:var(--font-display);}
 .logo-title{font-family:var(--font-display);font-size:.92rem;font-weight:800;letter-spacing:-.02em;}
 .logo-sub{font-size:.68rem;color:var(--text-soft);font-weight:600;margin-top:1px;}
 .header-actions{display:flex;gap:8px;align-items:center;}
-.icon-btn{width:40px;height:40px;border-radius:11px;background:var(--surface);border:1px solid var(--border);
-  color:var(--text);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.icon-btn{width:40px;height:40px;border-radius:11px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .icon-btn:active{transform:scale(.92);}
 .icon-btn:hover{border-color:var(--primary);box-shadow:0 2px 8px var(--primary-light);}
 
-/* MAIN */
-.main{padding:14px;position:relative;z-index:1;}
-.screen{display:none;}
-.screen.active{display:block;animation:screenIn .22s ease;}
-@keyframes screenIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.refresh-indicator-Nx{position:fixed;top:70px;left:50%;transform:translateX(-50%);display:none;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-sm);z-index:500;font-size:.72rem;font-weight:700;color:var(--text-soft);animation:slideDownNx .25s ease;}
+.refresh-indicator-Nx.visible{display:flex;}
+.refresh-indicator-Nx .spin-Nx{width:13px;height:13px;border-radius:50%;border:2px solid var(--primary-light);border-top-color:var(--primary);animation:spinNx .6s linear infinite;}
+@keyframes spinNx{to{transform:rotate(360deg);}}
+@keyframes slideDownNx{from{opacity:0;transform:translateX(-50%) translateY(-6px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 
-/* ── AF SYNC BAR ── */
-.af-sync-bar{margin-bottom:14px;padding:13px 15px;border-radius:16px;border:1px solid var(--border);
-  background:var(--surface);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:11px;transition:all .3s;}
+/* AF SYNC BAR */
+.af-sync-bar{margin:12px 14px 0;padding:13px 15px;border-radius:16px;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:11px;transition:all .3s;}
 .af-sync-bar.synced{background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(59,130,246,.05));border-color:rgba(34,197,94,.22);}
 .af-sync-bar.unsynced{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.15);}
-.af-avatar{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#4f46e5,#06b6d4);
-  display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;font-weight:700;color:white;flex-shrink:0;}
+.af-avatar{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.85rem;font-weight:700;color:white;flex-shrink:0;}
 .af-info{flex:1;min-width:0;}
 .af-name{font-size:.87rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .af-sub{font-size:.7rem;color:var(--text-soft);margin-top:1px;}
@@ -101,7 +80,13 @@ body.dark .header{background:rgba(26,23,20,.9);}
 .af-badge.ok{background:rgba(34,197,94,.12);color:#16a34a;border:1px solid rgba(34,197,94,.2);}
 .af-badge.warn{background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.18);}
 
-/* HERO */
+.main{padding:14px;position:relative;z-index:1;}
+.screen{display:none;}
+.screen.active{display:block;animation:screenIn .22s ease;}
+@keyframes screenIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+
+/* HOME HERO */
 .hero-card{padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);position:relative;overflow:hidden;}
 .hero-card::after{content:'';position:absolute;right:-60px;top:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(255,122,24,.1) 0%,transparent 70%);pointer-events:none;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:.68rem;font-weight:800;letter-spacing:.05em;background:var(--primary-light);color:var(--primary);text-transform:uppercase;font-family:var(--font-display);}
@@ -115,11 +100,17 @@ body.dark .header{background:rgba(26,23,20,.9);}
 .xp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--primary-dark));transition:width .6s cubic-bezier(.4,0,.2,1);position:relative;}
 .xp-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3));border-radius:999px;}
 
+/* QUICK STATS (home) */
+.quick-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.qs-card{padding:12px 8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);text-align:center;}
+.qs-val{font-family:var(--font-mono);font-size:1.1rem;font-weight:600;}
+.qs-lbl{font-size:.6rem;color:var(--text-soft);font-weight:700;margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
+
 /* DAILY CARD */
-.daily-card{margin-top:14px;padding:18px 20px;border-radius:var(--radius);background:linear-gradient(135deg,#1a1714,#2d2420);
-  border:1px solid rgba(255,122,24,.2);box-shadow:0 8px 32px rgba(0,0,0,.2);position:relative;overflow:hidden;cursor:pointer;transition:transform .2s;}
+.daily-card{margin-top:14px;padding:18px 20px;border-radius:var(--radius);background:linear-gradient(135deg,#1a1714,#2d2420);border:1px solid rgba(255,122,24,.2);box-shadow:0 8px 32px rgba(0,0,0,.2);position:relative;overflow:hidden;cursor:pointer;transition:transform .2s;}
 body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .daily-card:hover{transform:translateY(-2px);}
+.daily-card:active{transform:scale(.98);}
 .daily-card::before{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(255,122,24,.2) 0%,transparent 70%);}
 .daily-tag{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;font-weight:800;letter-spacing:.06em;color:var(--primary);text-transform:uppercase;font-family:var(--font-display);margin-bottom:8px;}
 .daily-title{font-family:var(--font-display);font-size:1rem;font-weight:800;color:#f5f0e8;line-height:1.3;}
@@ -127,14 +118,18 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .daily-reward{display:inline-flex;align-items:center;gap:5px;margin-top:12px;padding:6px 12px;border-radius:999px;background:rgba(255,122,24,.2);color:#ffb36a;font-size:.75rem;font-weight:800;border:1px solid rgba(255,122,24,.3);}
 .daily-streak{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:2.2rem;opacity:.6;}
 
-/* SECTION TITLE */
 .section-title{font-family:var(--font-display);font-size:.82rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--text-soft);margin:20px 0 10px;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.stat-card{padding:14px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);text-align:center;}
+.stat-value{font-family:var(--font-mono);font-size:1.3rem;font-weight:600;}
+.stat-label{font-size:.68rem;color:var(--text-soft);font-weight:700;margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
 
 /* PLAY SETUP */
 .setup-hero{padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:hidden;}
 .setup-hero::after{content:'';position:absolute;right:-40px;top:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(255,122,24,.1) 0%,transparent 70%);pointer-events:none;}
 .setup-hero-title{font-family:var(--font-display);font-size:1.4rem;font-weight:900;letter-spacing:-.02em;margin-bottom:4px;}
 .setup-hero-sub{font-size:.82rem;color:var(--text-soft);}
+
 .steps{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:20px;}
 .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;font-family:var(--font-display);background:var(--surface-3);color:var(--text-muted);border:2px solid var(--border);transition:all .25s;position:relative;z-index:1;}
 .step-dot.active{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 0 0 4px var(--primary-light);}
@@ -143,9 +138,11 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .step-line.done{background:var(--green);}
 .step-panel{display:none;}
 .step-panel.active{display:block;animation:screenIn .2s ease;}
+
 .board-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .board-card{padding:22px 14px 20px;border-radius:var(--radius);border:2px solid var(--border);background:var(--surface);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;text-align:center;}
 .board-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.board-card:active{transform:scale(.98);}
 .board-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;transition:opacity .2s;opacity:.7;}
 .board-card.quick-card::before{background:linear-gradient(90deg,var(--quick),var(--quick-dark));}
 .board-card.classic-card::before{background:linear-gradient(90deg,var(--classic),var(--classic-dark));}
@@ -165,6 +162,7 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .bc-tag{font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:999px;}
 .board-card.quick-card .bc-tag{background:var(--green-light);color:var(--quick-dark);}
 .board-card.classic-card .bc-tag{background:var(--classic-light);color:var(--classic-dark);}
+
 .diff-list{display:flex;flex-direction:column;gap:10px;}
 .diff-card{padding:16px 17px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .18s;}
 .diff-card:hover{border-color:var(--primary);background:var(--primary-light);transform:translateX(4px);}
@@ -175,6 +173,7 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .diff-desc{font-size:.72rem;color:var(--text-soft);margin-top:3px;}
 .diff-xp-badge{font-family:var(--font-mono);font-size:.72rem;font-weight:600;padding:5px 11px;border-radius:999px;background:var(--surface-3);color:var(--text-soft);border:1px solid var(--border);flex-shrink:0;}
 .diff-card.selected .diff-xp-badge{background:var(--primary);color:white;border-color:transparent;}
+
 .step-actions{display:flex;gap:9px;margin-top:16px;}
 .btn-back{height:50px;padding:0 20px;border-radius:var(--radius-sm);font-weight:700;background:var(--surface);border:1.5px solid var(--border);color:var(--text-soft);transition:all .15s;flex-shrink:0;}
 .btn-back:hover{border-color:var(--primary);color:var(--primary);}
@@ -182,6 +181,7 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .btn-next:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--primary-glow);}
 .btn-next:active{transform:scale(.97);}
 .btn-next:disabled{opacity:.4;pointer-events:none;}
+
 .start-summary{padding:26px 20px;text-align:center;}
 .ss-icon{font-size:3.4rem;margin-bottom:14px;}
 .ss-title{font-family:var(--font-display);font-size:1.25rem;font-weight:900;letter-spacing:-.02em;}
@@ -196,7 +196,7 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .btn-start:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--primary-glow);}
 .btn-start:active{transform:scale(.97);}
 
-/* GAME */
+/* ACTIVE GAME */
 .game-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .game-title{font-family:var(--font-display);font-size:1.08rem;font-weight:900;letter-spacing:-.02em;}
 .game-meta{font-size:.72rem;color:var(--text-soft);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
@@ -205,12 +205,17 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .diff-badge-game.moderate{background:rgba(245,158,11,.12);color:#b45309;}
 .diff-badge-game.hard{background:rgba(239,68,68,.12);color:#b91c1c;}
 .reward-preview{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;background:var(--primary-light);color:var(--primary);font-size:.68rem;font-weight:800;font-family:var(--font-mono);border:1px solid rgba(255,122,24,.18);}
+.saving-badge-Nx{display:none;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(59,130,246,.1);color:var(--blue);font-size:.68rem;font-weight:700;border:1px solid rgba(59,130,246,.2);animation:pulseNx .8s ease-in-out infinite alternate;}
+.saving-badge-Nx.show{display:inline-flex;}
+@keyframes pulseNx{from{opacity:.6}to{opacity:1}}
+
 .game-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
 .gs-card{padding:11px 6px;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);}
 .gs-val{font-family:var(--font-mono);font-size:1rem;font-weight:600;}
 .gs-lbl{font-size:.58rem;color:var(--text-soft);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:3px;}
 .lives-display{font-size:.85rem;letter-spacing:1px;}
 .hints-display{font-size:.85rem;}
+
 .tools{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
 .tool-btn{height:46px;border-radius:var(--radius-sm);background:var(--surface);border:1.5px solid var(--border);color:var(--text);font-weight:700;font-size:.7rem;transition:all .15s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
 .tool-btn .t-icon{font-size:.95rem;}
@@ -218,6 +223,7 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .tool-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
 .tool-btn:active{transform:scale(.94);}
 .tool-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-color:transparent;box-shadow:0 3px 12px var(--primary-glow);}
+
 .sudoku-card{padding:9px;}
 .sudoku-board{display:grid;aspect-ratio:1;border:2.5px solid var(--primary);border-radius:12px;overflow:hidden;background:var(--surface-2);}
 .sudoku-board.g4{grid-template-columns:repeat(4,1fr);}
@@ -230,15 +236,18 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .cell.highlight{background:rgba(255,122,24,.06);}
 .cell.same-value{background:rgba(255,122,24,.12);}
 .cell.correct{color:var(--primary);}
-.cell.wrong{background:rgba(239,68,68,.18)!important;color:var(--red);}
+.cell.wrong{background:rgba(239,68,68,.18)!important;color:var(--red);animation:shakeCellNx .3s ease;}
+@keyframes shakeCellNx{0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
 .sudoku-board.g9 .cell[data-col="2"],.sudoku-board.g9 .cell[data-col="5"]{border-right:2px solid rgba(255,122,24,.35);}
 .sudoku-board.g9 .cell[data-row="2"],.sudoku-board.g9 .cell[data-row="5"]{border-bottom:2px solid rgba(255,122,24,.35);}
 .sudoku-board.g4 .cell[data-col="1"]{border-right:2px solid rgba(255,122,24,.35);}
 .sudoku-board.g4 .cell[data-row="1"]{border-bottom:2px solid rgba(255,122,24,.35);}
+
 .numpad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px;}
 .num-btn{height:52px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-weight:600;font-size:1.1rem;background:var(--surface);border:1.5px solid var(--border);color:var(--text);transition:all .1s;}
 .num-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);box-shadow:0 2px 8px var(--primary-light);}
 .num-btn:active{transform:scale(.9);}
+
 .play-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;}
 .btn{height:50px;border-radius:var(--radius-sm);font-weight:800;font-size:.85rem;transition:all .15s;}
 .btn:active{transform:scale(.97);}
@@ -277,7 +286,6 @@ body.dark .daily-card{background:linear-gradient(135deg,#0c0a08,#1e1710);}
 .ach-icon{font-size:1.6rem;margin-bottom:6px;}
 .ach-name{font-size:.65rem;font-weight:800;letter-spacing:.02em;line-height:1.3;}
 
-/* SETTINGS */
 .settings-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-xs);overflow:hidden;}
 .settings-row{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
 .settings-row:last-child{border-bottom:none;}
@@ -377,18 +385,16 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
 .empty-state{text-align:center;padding:40px 20px;color:var(--text-soft);}
 .empty-state .e-icon{font-size:2.5rem;margin-bottom:10px;}
 .empty-state p{font-size:.85rem;}
-
-/* ── SYNC STATUS PILL (student-friendly, no backend names) ── */
-.sync-pill{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--surface-3);border:1px solid var(--border);color:var(--text-muted);}
-.sync-pill.ok{color:#16a34a;background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.15);}
-.sync-pill.syncing{color:var(--blue);background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.15);}
-.sync-pill.err{color:var(--red);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15);}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.nxdb-status-Nx{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;font-weight:700;color:var(--text-muted);padding:3px 9px;border-radius:999px;background:var(--surface-3);border:1px solid var(--border);}
+.nxdb-status-Nx.ok{color:#16a34a;background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.15);}
+.nxdb-status-Nx.syncing{color:var(--blue);background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.15);}
+.nxdb-status-Nx.err{color:var(--red);background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.15);}
 
 @media(max-width:380px){
   .hero-title{font-size:1.5rem;}
   .cell{font-size:.7rem!important;}
   .num-btn{height:44px;font-size:.95rem;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
   .achievements-grid{grid-template-columns:repeat(3,1fr);}
   .lb-podium{grid-template-columns:1fr 1.1fr 1fr;}
 }
@@ -397,10 +403,17 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
 <body>
 <div class="app">
 
-<!-- GLOBAL SAVING OVERLAY -->
-<div id="globalSavingOverlay">
-  <div class="spin"></div>
-  <span id="globalSavingLabel">Saving…</span>
+<!-- Offline Banner -->
+<div id="offlineBannerNx" class="offline-banner">
+  <span>📡</span>
+  <span>You're offline — games will sync when connection returns</span>
+  <span id="queueCountNx" class="sync-queue-badge"></span>
+</div>
+
+<!-- Refresh Indicator -->
+<div id="refreshIndicatorNx" class="refresh-indicator-Nx">
+  <div class="spin-Nx"></div>
+  <span id="refreshLabelNx">Refreshing…</span>
 </div>
 
 <!-- TOAST -->
@@ -421,273 +434,276 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
     </div>
     <div class="header-actions">
       <button class="icon-btn" onclick="window.location.href='/Remake/'" title="Back">‹</button>
-      <button class="icon-btn" id="headerAvatarBtn" onclick="openScreen('profileScreen')">👤</button>
+      <button class="icon-btn" id="headerAvatarBtnNx" onclick="openScreenNx('profileScreen')">👤</button>
     </div>
   </div>
 </header>
 
 <main class="main">
 
-<!-- ══════ HOME ══════ -->
+<!-- ══ HOME ══ -->
 <section id="homeScreen" class="screen active">
-
-  <div id="afSyncBar" class="af-sync-bar unsynced">
-    <div id="afAvatar" class="af-avatar">?</div>
+  <div id="afSyncBarNx" class="af-sync-bar unsynced" style="margin-bottom:14px;margin-left:0;margin-right:0">
+    <div id="afAvatarNx" class="af-avatar">?</div>
     <div class="af-info">
-      <div id="afName" class="af-name">Not Signed In</div>
-      <div id="afSub" class="af-sub">Sign in to save your progress</div>
+      <div id="afNameNx" class="af-name">Not Synced</div>
+      <div id="afSubNx" class="af-sub">Open AcademeForge app to sync</div>
     </div>
-    <span id="afBadge" class="af-badge warn">Guest</span>
+    <span id="afBadgeNx" class="af-badge warn">Not Synced</span>
   </div>
 
   <div class="hero-card">
-    <div class="hero-eyebrow">⚡ Level <span id="heroLevel">1</span></div>
+    <div class="hero-eyebrow">⚡ Level <span id="heroLevelNx">1</span></div>
     <h2 class="hero-title">Challenge<br>Your Brain</h2>
     <p class="hero-sub">Play Sudoku, earn XP, climb the leaderboard.</p>
     <div class="xp-section">
       <div class="xp-row">
-        <span class="xp-level" id="heroLevelLabel">Level 1</span>
-        <span class="xp-nums" id="heroXpNums">0 / 500 XP</span>
+        <span class="xp-level" id="heroLevelLabelNx">Level 1</span>
+        <span class="xp-nums" id="heroXpNumsNx">0 / 500 XP</span>
       </div>
-      <div class="xp-bar"><div id="heroXpFill" class="xp-fill" style="width:0%"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:6px;align-items:center">
-        <span id="syncStatusPill" class="sync-pill"><span class="sync-dot"></span>Offline</span>
-        <span style="font-size:.68rem;color:var(--text-muted)" id="heroXpRemaining">500 XP to next level</span>
+      <div class="xp-bar"><div id="heroXpFillNx" class="xp-fill" style="width:0%"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;align-items:center">
+        <span id="nxdbStatusChipNx" class="nxdb-status-Nx">Nxdb</span>
+        <span style="font-size:.68rem;color:var(--text-muted)" id="heroXpRemainingNx">500 XP to next level</span>
       </div>
     </div>
   </div>
 
-  <div class="daily-card" onclick="startDailyChallenge()">
+  <!-- Quick Stats -->
+  <div class="quick-stats-row">
+    <div class="qs-card"><div id="qsLevelNx" class="qs-val">1</div><div class="qs-lbl">Level</div></div>
+    <div class="qs-card"><div id="qsWinsNx" class="qs-val">0</div><div class="qs-lbl">Wins</div></div>
+    <div class="qs-card"><div id="qsRankNx" class="qs-val">#--</div><div class="qs-lbl">Rank</div></div>
+  </div>
+
+  <div class="daily-card" onclick="startDailyChallengeNx()">
     <div class="daily-tag">🗓️ Daily Challenge</div>
     <div class="daily-title">Today's Sudoku Challenge</div>
-    <div class="daily-desc" id="dailyDesc">Complete today's puzzle for a bonus reward</div>
+    <div class="daily-desc" id="dailyChallengeDescNx">Complete today's puzzle for a bonus reward</div>
     <div class="daily-reward">🎁 +25 Bonus XP</div>
-    <div class="daily-streak" id="dailyStreakIcon">🔥</div>
+    <div class="daily-streak" id="dailyStreakIconNx">🔥</div>
   </div>
 
   <div style="margin-top:16px;padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center">
     <div style="font-size:2rem;margin-bottom:8px">🎮</div>
     <div style="font-family:var(--font-display);font-size:.95rem;font-weight:800;margin-bottom:6px">Ready to Play?</div>
     <div style="font-size:.78rem;color:var(--text-soft);margin-bottom:14px">Tap Play below to start a new game</div>
-    <button onclick="openScreen('playScreen')" style="width:100%;height:48px;border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:.88rem;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 4px 16px var(--primary-glow);transition:all .2s">🚀 Start Playing</button>
+    <button onclick="openScreenNx('playScreen')" style="width:100%;height:48px;border-radius:12px;font-family:var(--font-display);font-weight:800;font-size:.88rem;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 4px 16px var(--primary-glow);transition:all .2s;border:none;cursor:pointer">🚀 Start Playing</button>
   </div>
-
 </section>
 
-<!-- ══════ PLAY ══════ -->
+<!-- ══ PLAY ══ -->
 <section id="playScreen" class="screen">
-  <div id="setupView">
+  <div id="setupViewNx">
     <div class="setup-hero">
       <div class="setup-hero-title">🎮 New Game</div>
       <div class="setup-hero-sub">Configure your puzzle and start playing</div>
     </div>
     <div class="steps">
-      <div class="step-dot active" id="sd1">1</div>
-      <div class="step-line" id="sl1"></div>
-      <div class="step-dot" id="sd2">2</div>
-      <div class="step-line" id="sl2"></div>
-      <div class="step-dot" id="sd3">3</div>
+      <div class="step-dot active" id="sdNx1">1</div>
+      <div class="step-line" id="slNx1"></div>
+      <div class="step-dot" id="sdNx2">2</div>
+      <div class="step-line" id="slNx2"></div>
+      <div class="step-dot" id="sdNx3">3</div>
     </div>
-    <div class="step-panel active" id="step1">
+    <div class="step-panel active" id="stepNx1">
       <div class="board-grid">
-        <div class="board-card quick-card" data-board="4" onclick="selectBoard(4)">
-          <div class="bc-check">✓</div><div class="bc-icon">⚡</div>
-          <div class="bc-mode">Quick Play</div><div class="bc-title">4 × 4</div>
+        <div class="board-card quick-card" data-board="4" onclick="selectBoardNx(4)">
+          <div class="bc-check">✓</div>
+          <div class="bc-icon">⚡</div>
+          <div class="bc-mode">Quick Play</div>
+          <div class="bc-title">4 × 4</div>
           <div class="bc-desc">Fast games, beginner friendly, 2–3 min sessions</div>
           <div class="bc-tags"><span class="bc-tag">3 Hints</span><span class="bc-tag">Lower XP</span></div>
         </div>
-        <div class="board-card classic-card" data-board="9" onclick="selectBoard(9)">
-          <div class="bc-check">✓</div><div class="bc-icon">🧩</div>
-          <div class="bc-mode">Classic Sudoku</div><div class="bc-title">9 × 9</div>
+        <div class="board-card classic-card" data-board="9" onclick="selectBoardNx(9)">
+          <div class="bc-check">✓</div>
+          <div class="bc-icon">🧩</div>
+          <div class="bc-mode">Classic Sudoku</div>
+          <div class="bc-title">9 × 9</div>
           <div class="bc-desc">Competitive mode, longer sessions, full challenge</div>
           <div class="bc-tags"><span class="bc-tag">5 Hints</span><span class="bc-tag">Higher XP</span></div>
         </div>
       </div>
       <div class="step-actions">
-        <button class="btn-next" id="step1Next" onclick="goStep(2)" disabled>Choose Difficulty →</button>
+        <button class="btn-next" id="stepNx1Next" onclick="goStepNx(2)" disabled>Choose Difficulty →</button>
       </div>
     </div>
-    <div class="step-panel" id="step2">
-      <div class="diff-list" id="diffList"></div>
+    <div class="step-panel" id="stepNx2">
+      <div class="diff-list" id="diffListNx"></div>
       <div class="step-actions">
-        <button class="btn-back" onclick="goStep(1)">← Back</button>
-        <button class="btn-next" id="step2Next" onclick="goStep(3)" disabled>Preview →</button>
+        <button class="btn-back" onclick="goStepNx(1)">← Back</button>
+        <button class="btn-next" id="stepNx2Next" onclick="goStepNx(3)" disabled>Preview →</button>
       </div>
     </div>
-    <div class="step-panel" id="step3">
+    <div class="step-panel" id="stepNx3">
       <div class="card start-summary">
-        <div class="ss-icon" id="ssIcon">🧩</div>
-        <div class="ss-title" id="ssTitle">Ready to Play!</div>
-        <p class="ss-desc" id="ssDesc">Your puzzle is ready.</p>
+        <div class="ss-icon" id="ssIconNx">🧩</div>
+        <div class="ss-title" id="ssTitleNx">Ready to Play!</div>
+        <p class="ss-desc" id="ssDescNx">Your puzzle is ready.</p>
         <div class="ss-tags">
-          <span class="ss-tag accent" id="ssBoard">9×9</span>
-          <span class="ss-tag accent" id="ssDiff">Easy</span>
-          <span class="ss-tag" id="ssHints">5 Hints</span>
-          <span class="ss-tag" id="ssMistakes">5 Lives</span>
+          <span class="ss-tag accent" id="ssBoardNx">9×9</span>
+          <span class="ss-tag accent" id="ssDiffNx">Easy</span>
+          <span class="ss-tag" id="ssHintsNx">5 Hints</span>
+          <span class="ss-tag" id="ssMistakesNx">5 Lives</span>
         </div>
         <div class="ss-xp-preview">
           <div class="ss-xp-label">Reward on completion</div>
-          <div class="ss-xp-val" id="ssXp">+50 XP</div>
+          <div class="ss-xp-val" id="ssXpNx">+50 XP</div>
         </div>
-        <button class="btn-start" onclick="startGame()">🚀 Start Game</button>
+        <button class="btn-start" onclick="startGameNx()">🚀 Start Game</button>
       </div>
       <div class="step-actions">
-        <button class="btn-back" onclick="goStep(2)">← Change Settings</button>
+        <button class="btn-back" onclick="goStepNx(2)">← Change Settings</button>
       </div>
     </div>
   </div>
 
-  <div id="gameView" style="display:none">
+  <div id="gameViewNx" style="display:none">
     <div class="game-header">
       <div>
-        <div class="game-title" id="gameTitle">Sudoku Match</div>
+        <div class="game-title" id="gameTitleNx">Sudoku Match</div>
         <div class="game-meta">
-          <span id="gameDiffBadge" class="diff-badge-game easy">Easy</span>
-          <span id="gameSubtitle">9×9</span>
-          <span id="gameRewardPreview" class="reward-preview">+50 XP</span>
+          <span id="gameDiffBadgeNx" class="diff-badge-game easy">Easy</span>
+          <span id="gameSubtitleNx">9×9</span>
+          <span id="gameRewardPreviewNx" class="reward-preview">+50 XP</span>
+          <span id="savingBadgeNx" class="saving-badge-Nx">⏳ Saving…</span>
         </div>
       </div>
-      <button class="icon-btn" onclick="confirmNewGame()" title="New game">🔄</button>
+      <button class="icon-btn" onclick="confirmNewGameNx()" title="New game">🔄</button>
     </div>
     <div class="game-stats">
-      <div class="gs-card"><div id="timerDisplay" class="gs-val">00:00</div><div class="gs-lbl">Time</div></div>
-      <div class="gs-card"><div id="livesDisplay" class="gs-val lives-display">❤️❤️❤️❤️❤️</div><div class="gs-lbl">Lives</div></div>
-      <div class="gs-card"><div id="hintsDisplay" class="gs-val hints-display">💡 x5</div><div class="gs-lbl">Hints</div></div>
-      <div class="gs-card"><div id="diffDisplay" class="gs-val" style="font-size:.82rem">Easy</div><div class="gs-lbl">Mode</div></div>
+      <div class="gs-card"><div id="timerDisplayNx" class="gs-val">00:00</div><div class="gs-lbl">Time</div></div>
+      <div class="gs-card"><div id="livesDisplayNx" class="gs-val lives-display">❤️❤️❤️❤️❤️</div><div class="gs-lbl">Lives</div></div>
+      <div class="gs-card"><div id="hintsDisplayNx" class="gs-val hints-display">💡 x5</div><div class="gs-lbl">Hints</div></div>
+      <div class="gs-card"><div id="diffDisplayNx" class="gs-val" style="font-size:.82rem">Easy</div><div class="gs-lbl">Mode</div></div>
     </div>
     <div class="tools">
-      <button id="notesBtn" class="tool-btn" onclick="toggleNotes()"><span class="t-icon">📝</span><span class="t-lbl">Notes</span></button>
-      <button class="tool-btn" onclick="eraseCell()"><span class="t-icon">🧹</span><span class="t-lbl">Erase</span></button>
-      <button class="tool-btn" onclick="useHint()"><span class="t-icon">💡</span><span class="t-lbl">Hint</span></button>
-      <button class="tool-btn" onclick="solvePuzzle()"><span class="t-icon">🎯</span><span class="t-lbl">Solve</span></button>
+      <button id="notesBtnNx" class="tool-btn" onclick="toggleNotesNx()">
+        <span class="t-icon">📝</span><span class="t-lbl">Notes</span>
+      </button>
+      <button class="tool-btn" onclick="eraseCellNx()">
+        <span class="t-icon">🧹</span><span class="t-lbl">Erase</span>
+      </button>
+      <button class="tool-btn" onclick="useHintNx()">
+        <span class="t-icon">💡</span><span class="t-lbl">Hint</span>
+      </button>
+      <button class="tool-btn" onclick="solvePuzzleNx()">
+        <span class="t-icon">🎯</span><span class="t-lbl">Solve</span>
+      </button>
     </div>
     <div class="card sudoku-card">
-      <div id="sudokuBoard" class="sudoku-board g9"></div>
+      <div id="sudokuBoardNx" class="sudoku-board g9"></div>
     </div>
-    <div id="numpad" class="numpad"></div>
+    <div id="numpadNx" class="numpad"></div>
     <div class="play-actions">
-      <button class="btn btn-secondary" onclick="checkBoard()">✔ Check</button>
-      <button class="btn btn-primary" onclick="confirmNewGame()">🔄 New Game</button>
+      <button class="btn btn-secondary" onclick="checkBoardNx()">✔ Check</button>
+      <button class="btn btn-primary" onclick="confirmNewGameNx()">🔄 New Game</button>
     </div>
   </div>
 </section>
 
-<!-- ══════ PROFILE ══════ -->
+<!-- ══ PROFILE ══ -->
 <section id="profileScreen" class="screen">
   <div class="card profile-hero">
-    <div id="profileAvatar" class="avatar-ring">😀</div>
-    <div id="profileName" class="profile-name">Guest Player</div>
-    <div id="profileLevelBadge" class="profile-level-badge">⚡ Level 1</div>
-    <div id="profileTierBadge" class="tier-badge tier-bronze">🥉 Bronze</div>
-    <div id="profileEmail" class="profile-email"></div>
+    <div id="profileAvatarNx" class="avatar-ring">😀</div>
+    <div id="profileNameNx" class="profile-name">Guest Player</div>
+    <div id="profileLevelBadgeNx" class="profile-level-badge">⚡ Level 1</div>
+    <div id="profileTierBadgeNx" class="tier-badge tier-bronze">🥉 Bronze</div>
+    <div id="profileEmailNx" class="profile-email"></div>
+    <div id="syncStatusNx" style="margin-top:8px;font-size:.72rem;color:var(--text-muted)"></div>
   </div>
-
   <div class="profile-xp-section" style="margin-top:10px">
     <div class="pxp-row">
-      <span class="pxp-level" id="pxpLevel">Level 1</span>
-      <span class="pxp-nums" id="pxpNums">0 / 500 XP</span>
+      <span class="pxp-level" id="pxpLevelNx">Level 1</span>
+      <span class="pxp-nums" id="pxpNumsNx">0 / 500 XP</span>
     </div>
-    <div class="pxp-bar"><div id="pxpFill" class="pxp-fill" style="width:0%"></div></div>
-    <div class="pxp-remaining" id="pxpRemaining">500 XP to next level</div>
+    <div class="pxp-bar"><div id="pxpFillNx" class="pxp-fill" style="width:0%"></div></div>
+    <div class="pxp-remaining" id="pxpRemainingNx">500 XP to next level</div>
   </div>
-
   <div class="section-title">Statistics</div>
   <div class="profile-stats">
-    <div class="card pstat"><div class="pstat-value" id="pTotalXp">0</div><div class="pstat-label">Total XP</div></div>
-    <div class="card pstat"><div class="pstat-value" id="pWins">0</div><div class="pstat-label">Wins</div></div>
-    <div class="card pstat"><div class="pstat-value" id="pPlayed">0</div><div class="pstat-label">Played</div></div>
-    <div class="card pstat"><div class="pstat-value" id="pWinRate">0%</div><div class="pstat-label">Win Rate</div></div>
-    <div class="card pstat"><div class="pstat-value" id="pBestTime">--</div><div class="pstat-label">Best Time</div></div>
-    <div class="card pstat"><div class="pstat-value" id="pGlobalRank">#--</div><div class="pstat-label">Global Rank</div></div>
+    <div class="card pstat"><div class="pstat-value" id="pTotalXpNx">0</div><div class="pstat-label">Total XP</div></div>
+    <div class="card pstat"><div class="pstat-value" id="pWinsNx">0</div><div class="pstat-label">Wins</div></div>
+    <div class="card pstat"><div class="pstat-value" id="pPlayedNx">0</div><div class="pstat-label">Played</div></div>
+    <div class="card pstat"><div class="pstat-value" id="pWinRateNx">0%</div><div class="pstat-label">Win Rate</div></div>
+    <div class="card pstat"><div class="pstat-value" id="pBestTimeNx">--</div><div class="pstat-label">Best Time</div></div>
+    <div class="card pstat"><div class="pstat-value" id="pGlobalRankNx">#--</div><div class="pstat-label">Global Rank</div></div>
   </div>
-
   <div class="section-title">Achievements</div>
-  <div class="achievements-grid" id="achievementsGrid"></div>
-
-  <!-- AF Account info: only shown when logged in, uses friendly labels only -->
-  <div id="afProfileCard" style="display:none;margin-top:14px">
-    <div class="section-title">My Account</div>
+  <div class="achievements-grid" id="achievementsGridNx"></div>
+  <div id="afProfileCardNx" style="display:none;margin-top:14px">
+    <div class="section-title">AcademeForge Account</div>
     <div class="settings-list">
-      <div class="settings-row"><div><div class="settings-label">Name</div></div><div id="afpcName" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
-      <div class="settings-row"><div><div class="settings-label">Mobile</div></div><div id="afpcPhone" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
-      <div class="settings-row"><div><div class="settings-label">Email</div></div><div id="afpcEmail" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
-      <div class="settings-row"><div><div class="settings-label">Student ID</div></div><div id="afpcSid" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
+      <div class="settings-row"><div><div class="settings-label">Name</div></div><div id="afpcNameNx" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
+      <div class="settings-row"><div><div class="settings-label">Phone / ID</div></div><div id="afpcPhoneNx" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
+      <div class="settings-row"><div><div class="settings-label">Email</div></div><div id="afpcEmailNx" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
+      <div class="settings-row"><div><div class="settings-label">Student ID</div></div><div id="afpcSidNx" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
     </div>
   </div>
-
-  <!-- Cloud sync status: friendly language, no backend table names -->
-  <div class="section-title">Sync Status</div>
+  <div class="section-title">Nxdb Status</div>
   <div class="settings-list">
-    <div class="settings-row">
-      <div><div class="settings-label">Player Profile</div><div class="settings-sub">Your account data</div></div>
-      <span id="statusPlayer" class="sync-pill"><span class="sync-dot"></span>—</span>
-    </div>
-    <div class="settings-row">
-      <div><div class="settings-label">Game Statistics</div><div class="settings-sub">Wins, best times, streaks</div></div>
-      <span id="statusStats" class="sync-pill"><span class="sync-dot"></span>—</span>
-    </div>
-    <div class="settings-row">
-      <div><div class="settings-label">Rankings</div><div class="settings-sub">Global leaderboard</div></div>
-      <span id="statusLb" class="sync-pill"><span class="sync-dot"></span>—</span>
-    </div>
-    <div class="settings-row">
-      <div><div class="settings-label">Last Synced</div><div class="settings-sub">Updates after every game</div></div>
-      <span id="lastSyncTime" style="font-size:.72rem;color:var(--text-muted)">—</span>
-    </div>
+    <div class="settings-row"><div><div class="settings-label">Player Database</div><div class="settings-sub">sudoku_players_nxdb</div></div><span id="nxdbPlayerStatusNx" class="nxdb-status-Nx">—</span></div>
+    <div class="settings-row"><div><div class="settings-label">Stats Database</div><div class="settings-sub">sudoku_stats_nxdb</div></div><span id="nxdbStatsStatusNx" class="nxdb-status-Nx">—</span></div>
+    <div class="settings-row"><div><div class="settings-label">Leaderboard</div><div class="settings-sub">sudoku_leaderboard_nxdb</div></div><span id="nxdbLbStatusNx" class="nxdb-status-Nx">—</span></div>
+    <div class="settings-row"><div><div class="settings-label">Last Sync</div><div class="settings-sub">Auto-sync on every action</div></div><span id="nxdbLastSyncNx" style="font-size:.72rem;color:var(--text-muted)">—</span></div>
   </div>
 </section>
 
-<!-- ══════ LEADERBOARD ══════ -->
+<!-- ══ LEADERBOARD ══ -->
 <section id="leaderboardScreen" class="screen">
   <div class="lb-header-card">
     <div style="font-size:2rem;margin-bottom:8px">🏆</div>
-    <div class="lb-header-title">Global Rankings</div>
-    <div class="lb-header-sub">Top players worldwide</div>
+    <div class="lb-header-title">Global Leaderboard</div>
+    <div class="lb-header-sub">Powered by sudoku_leaderboard_nxdb</div>
   </div>
-  <div id="lbYouBanner" style="display:none" class="lb-you-banner">
+  <div id="lbYouBannerNx" style="display:none" class="lb-you-banner">
     <div class="lb-you-left">
-      <div class="lb-you-ava" id="lbYouAva">😀</div>
+      <div class="lb-you-ava" id="lbYouAvaNx">😀</div>
       <div>
-        <div class="lb-you-name" id="lbYouName">You</div>
-        <div class="lb-you-sub" id="lbYouSub">Your current ranking</div>
+        <div class="lb-you-name" id="lbYouNameNx">You</div>
+        <div class="lb-you-sub" id="lbYouSubNx">Your current ranking</div>
       </div>
     </div>
-    <div class="lb-you-rank-badge" id="lbYouRank">#--</div>
+    <div class="lb-you-rank-badge" id="lbYouRankNx">#--</div>
   </div>
-  <div id="lbPodium" class="lb-podium" style="display:none"></div>
+  <div id="lbPodiumNx" class="lb-podium" style="display:none"></div>
   <div class="lb-list-header"><span>Rank</span><span>Player</span><span>XP</span></div>
-  <div id="lbList" class="lb-list">
-    <div class="empty-state"><div class="e-icon">⏳</div><p>Loading rankings…</p></div>
+  <div id="lbListNx" class="lb-list">
+    <div class="empty-state"><div class="e-icon">⏳</div><p>Loading leaderboard…</p></div>
   </div>
 </section>
 
-<!-- ══════ MORE / SETTINGS ══════ -->
+<!-- ══ SETTINGS ══ -->
 <section id="settingsScreen" class="screen">
   <div class="section-title">Account &amp; Settings</div>
   <div class="settings-list">
     <div class="settings-row">
-      <div><div class="settings-label">Edit Profile</div><div class="settings-sub">Change your name or avatar</div></div>
-      <button class="icon-btn" onclick="openEditProfile()">✏️</button>
+      <div><div class="settings-label">Edit Profile</div><div class="settings-sub">Change username or avatar</div></div>
+      <button class="icon-btn" onclick="openEditProfileNx()">✏️</button>
     </div>
     <div class="settings-row">
       <div><div class="settings-label">Dark Mode</div></div>
-      <button id="darkToggle" class="toggle" onclick="toggleTheme()"></button>
+      <button id="darkToggleNx" class="toggle" onclick="toggleThemeNx()"></button>
     </div>
     <div class="settings-row">
       <div><div class="settings-label">Sound Effects</div></div>
-      <button id="soundToggle" class="toggle" onclick="toggleSound()"></button>
+      <button id="soundToggleNx" class="toggle" onclick="toggleSoundNx()"></button>
     </div>
     <div class="settings-row">
-      <div><div class="settings-label">Refresh Data</div><div class="settings-sub">Pull your latest stats</div></div>
-      <button class="icon-btn" onclick="fullRefresh()">🔄</button>
+      <div><div class="settings-label">Manual Refresh</div><div class="settings-sub">Pull latest data from Nxdb</div></div>
+      <button class="icon-btn" onclick="refreshSudokuNxdb()">🔄</button>
     </div>
     <div class="settings-row">
-      <div><div class="settings-label">Reset Local Data</div><div class="settings-sub">Clear data stored on this device</div></div>
-      <button class="icon-btn" onclick="confirmResetProgress()">🗑️</button>
+      <div><div class="settings-label">Sync Offline Games</div><div class="settings-sub" id="offlineSyncSubNx">No pending games</div></div>
+      <button class="icon-btn" onclick="flushOfflineQueueNx()">☁️</button>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Reset Progress</div><div class="settings-sub">Clear all local game data</div></div>
+      <button class="icon-btn" onclick="confirmResetProgressNx()">🗑️</button>
     </div>
   </div>
-
-  <div class="section-title">XP Rewards</div>
+  <h3 class="section-title">XP System</h3>
   <div class="settings-list">
     <div class="settings-row"><div class="settings-label">4×4 Easy</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--primary)">+25 XP</span></div>
     <div class="settings-row"><div class="settings-label">4×4 Moderate</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--primary)">+40 XP</span></div>
@@ -696,28 +712,35 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
     <div class="settings-row"><div class="settings-label">9×9 Moderate</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--primary)">+80 XP</span></div>
     <div class="settings-row"><div class="settings-label">9×9 Hard</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--primary)">+120 XP</span></div>
     <div class="settings-row"><div class="settings-label">Perfect Game Bonus</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--green)">+10 XP</span></div>
-    <div class="settings-row"><div class="settings-label">No Hints Bonus</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--green)">+10 XP</span></div>
+    <div class="settings-row"><div class="settings-label">No Hint Bonus</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--green)">+10 XP</span></div>
     <div class="settings-row"><div class="settings-label">Daily Challenge Bonus</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--yellow)">+25 XP</span></div>
+    <div class="settings-row"><div class="settings-label">Architecture</div><span style="color:var(--text-soft);font-size:.78rem;font-family:var(--font-mono)">Nxdb v5</span></div>
   </div>
 </section>
 
 </main>
 
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <button class="nav-btn active" data-screen="homeScreen" onclick="openScreen('homeScreen')">
-    <div class="nav-icon-wrap"><div class="nav-icon">🏠</div></div><div class="nav-text">Home</div>
+  <button class="nav-btn active" data-screen="homeScreen" onclick="openScreenNx('homeScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">🏠</div></div>
+    <div class="nav-text">Home</div>
   </button>
-  <button class="nav-btn" data-screen="playScreen" onclick="navToPlay()">
-    <div class="nav-icon-wrap"><div class="nav-icon">🎮</div></div><div class="nav-text">Play</div>
+  <button class="nav-btn" data-screen="playScreen" onclick="navToPlayNx()">
+    <div class="nav-icon-wrap"><div class="nav-icon">🎮</div></div>
+    <div class="nav-text">Play</div>
   </button>
-  <button class="nav-btn" data-screen="profileScreen" onclick="openScreen('profileScreen')">
-    <div class="nav-icon-wrap"><div class="nav-icon">👤</div></div><div class="nav-text">Profile</div>
+  <button class="nav-btn" data-screen="profileScreen" onclick="openScreenNx('profileScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">👤</div></div>
+    <div class="nav-text">Profile</div>
   </button>
-  <button class="nav-btn" data-screen="leaderboardScreen" onclick="openScreen('leaderboardScreen')">
-    <div class="nav-icon-wrap"><div class="nav-icon">🏆</div></div><div class="nav-text">Rank</div>
+  <button class="nav-btn" data-screen="leaderboardScreen" onclick="openScreenNx('leaderboardScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">🏆</div></div>
+    <div class="nav-text">Rank</div>
   </button>
-  <button class="nav-btn" data-screen="settingsScreen" onclick="openScreen('settingsScreen')">
-    <div class="nav-icon-wrap"><div class="nav-icon">⚙️</div></div><div class="nav-text">More</div>
+  <button class="nav-btn" data-screen="settingsScreen" onclick="openScreenNx('settingsScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">⚙️</div></div>
+    <div class="nav-text">More</div>
   </button>
 </nav>
 </div>
@@ -727,11 +750,11 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
   <div class="modal-card">
     <div class="modal-icon">🎉</div>
     <h2>Puzzle Solved!</h2>
-    <div class="win-breakdown" id="winBreakdown"></div>
-    <div id="levelUpBanner" class="level-up-banner" style="display:none"></div>
+    <div class="win-breakdown" id="winBreakdownNx"></div>
+    <div id="levelUpBannerNx" class="level-up-banner" style="display:none"></div>
     <div class="modal-actions">
-      <button class="btn btn-primary" onclick="closeModal('winModal');newGameAfterWin()">Play Again</button>
-      <button class="btn btn-secondary" onclick="closeModal('winModal');openScreen('homeScreen')">Home</button>
+      <button class="btn btn-primary" onclick="closeModalNx('winModal');newGameAfterWinNx()">Play Again</button>
+      <button class="btn btn-secondary" onclick="closeModalNx('winModal');openScreenNx('homeScreen')">Home</button>
     </div>
   </div>
 </div>
@@ -740,10 +763,10 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
   <div class="modal-card">
     <div class="modal-icon">💀</div>
     <h2>Game Over</h2>
-    <p id="gameOverMsg">You used all your lives. Try again!</p>
+    <p id="gameOverMsgNx">You used all your lives. Try again!</p>
     <div class="modal-actions">
-      <button class="btn btn-primary" onclick="closeModal('gameOverModal');newGameAfterWin()">Try Again</button>
-      <button class="btn btn-secondary" onclick="closeModal('gameOverModal');openScreen('homeScreen')">Home</button>
+      <button class="btn btn-primary" onclick="closeModalNx('gameOverModal');newGameAfterWinNx()">Try Again</button>
+      <button class="btn btn-secondary" onclick="closeModalNx('gameOverModal');openScreenNx('homeScreen')">Home</button>
     </div>
   </div>
 </div>
@@ -753,68 +776,59 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
     <h2 style="margin-bottom:18px;font-family:var(--font-display)">Edit Profile ✏️</h2>
     <div style="margin-bottom:14px">
       <label style="display:block;font-size:.72rem;font-weight:800;color:var(--text-soft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Username</label>
-      <input id="editUsername" type="text" maxlength="20" placeholder="Your username"
+      <input id="editUsernameNx" type="text" maxlength="20" placeholder="Your username"
         style="width:100%;height:46px;padding:0 13px;border-radius:11px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.9rem;font-family:var(--font-body)">
     </div>
     <div style="margin-bottom:14px">
-      <label style="display:block;font-size:.72rem;font-weight:800;color:var(--text-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Choose Avatar</label>
-      <div id="editAvatarGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:7px"></div>
+      <label style="display:block;font-size:.72rem;font-weight:800;color:var(--text-soft);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Avatar</label>
+      <div id="editAvatarGridNx" style="display:grid;grid-template-columns:repeat(6,1fr);gap:7px"></div>
     </div>
     <div style="display:flex;gap:9px;margin-top:4px">
-      <button class="btn btn-secondary" style="flex:1;height:48px" onclick="closeModal('editProfileModal')">Cancel</button>
-      <button class="btn btn-primary" style="flex:2;height:48px" onclick="saveProfileEdit()">Save Changes</button>
+      <button class="btn btn-secondary" style="flex:1;height:48px" onclick="closeModalNx('editProfileModal')">Cancel</button>
+      <button class="btn btn-primary" style="flex:2;height:48px" onclick="saveProfileEditNx()">Save</button>
     </div>
   </div>
 </div>
 
 <div id="confirmModal" class="modal">
   <div class="modal-card">
-    <div id="confirmIcon" class="modal-icon">⚠️</div>
-    <h2 id="confirmTitle">Are you sure?</h2>
-    <p id="confirmMsg">This action cannot be undone.</p>
+    <div id="confirmIconNx" class="modal-icon">⚠️</div>
+    <h2 id="confirmTitleNx">Are you sure?</h2>
+    <p id="confirmMsgNx">This action cannot be undone.</p>
     <div class="modal-actions">
-      <button class="btn btn-primary" id="confirmOkBtn">Confirm</button>
-      <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-primary" id="confirmOkBtnNx">Confirm</button>
+      <button class="btn btn-secondary" onclick="closeModalNx('confirmModal')">Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ══════════════════════════════════════════════════════════════
-   NXDB ENDPOINT CONFIG — internal only, never shown in UI
-══════════════════════════════════════════════════════════════ */
-const _EP = {
-  sync:        'https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-sync-player-nxdb',
-  progress:    'https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-save-progress-nxdb',
-  leaderboard: 'https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-leaderboard-nxdb',
-  achievement: 'https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-achievement-nxdb',
-  refresh:     'https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-refresh-player-nxdb',
-};
+/* ════════════════════════════════════════════
+   NXDB CONFIG
+════════════════════════════════════════════ */
+const NXDB_API_URL         = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-sync-player-nxdb";
+const NXDB_PROGRESS_URL    = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-save-progress-nxdb";
+const NXDB_LEADERBOARD_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-leaderboard-nxdb";
+const NXDB_ACHIEVEMENT_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-achievement-nxdb";
+const NXDB_REFRESH_URL     = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/sudoku-refresh-player-nxdb";
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    CONSTANTS
-══════════════════════════════════════════════════════════════ */
-const AVATARS = ['😀','😎','🤖','🔥','🚀','👑','🎯','⚡','🧠','🐱','🐼','🦁','🎓','🌟','🦊','🐯'];
-const XP_TABLE = {'4-easy':25,'4-moderate':40,'4-hard':60,'9-easy':50,'9-moderate':80,'9-hard':120,perfect:10,nohint:10,daily:25};
-const DIFF_CFG = {
-  easy:     {icon:'🌱',label:'Easy',     desc:'Relaxed pace, more given cells',       color:'#22c55e'},
-  moderate: {icon:'🔥',label:'Moderate', desc:'Balanced challenge for all levels',   color:'#f59e0b'},
-  hard:     {icon:'💀',label:'Hard',     desc:'Maximum brain workout',               color:'#ef4444'},
+════════════════════════════════════════════ */
+const AVATARS_Nx = ["😀","😎","🤖","🔥","🚀","👑","🎯","⚡","🧠","🐱","🐼","🦁","🎓","🌟","🦊","🐯"];
+const XP_TABLE_Nx = {
+  '4-easy':25,'4-moderate':40,'4-hard':60,
+  '9-easy':50,'9-moderate':80,'9-hard':120,
+  perfect:10, nohint:10, daily:25
 };
-const BOARD_LIMITS = {4:{hints:3,maxLives:3},9:{hints:5,maxLives:5}};
-const ACHIEVEMENTS = [
-  {id:'first_win', icon:'🏆',name:'First Victory',   check:s=>s.wins>=1},
-  {id:'streak7',   icon:'🔥',name:'7-Day Streak',    check:s=>s.streak>=7},
-  {id:'speed',     icon:'⚡',name:'Speed Solver',    check:s=>s.bestTime>0&&s.bestTime<=120},
-  {id:'expert',    icon:'🧠',name:'Sudoku Expert',   check:s=>s.wins>=50},
-  {id:'perfect',   icon:'🎯',name:'Perfectionist',   check:s=>s.perfectGames>=5},
-  {id:'top10',     icon:'👑',name:'Top Ranked',      check:s=>s.globalRank>0&&s.globalRank<=10},
-  {id:'level5',    icon:'⭐',name:'Rising Star',     check:s=>s.level>=5},
-  {id:'daily10',   icon:'📅',name:'Daily Devotion',  check:s=>s.dailyChallenges>=10},
-  {id:'nohints',   icon:'🕵️',name:'No Hints Needed', check:s=>s.noHintWins>=5},
-];
+const DIFF_CONFIG_Nx = {
+  easy:     {icon:'🌱',label:'Easy',    desc:'Relaxed pace, more given cells',        color:'#22c55e'},
+  moderate: {icon:'🔥',label:'Moderate',desc:'Balanced challenge for all levels',     color:'#f59e0b'},
+  hard:     {icon:'💀',label:'Hard',    desc:'Maximum brain workout',                 color:'#ef4444'}
+};
+const BOARD_LIMITS_Nx = {4:{hints:3,maxLives:3},9:{hints:5,maxLives:5}};
 
-function getTier(level) {
+function getTierNx(level){
   if(level>=20) return {name:'Diamond', css:'tier-diamond', icon:'💎'};
   if(level>=15) return {name:'Platinum',css:'tier-platinum',icon:'🔷'};
   if(level>=10) return {name:'Gold',    css:'tier-gold',    icon:'🥇'};
@@ -822,196 +836,405 @@ function getTier(level) {
   return {name:'Bronze',css:'tier-bronze',icon:'🥉'};
 }
 
-/* ══════════════════════════════════════════════════════════════
-   LIVE STATE — source of truth comes from server after every op
-══════════════════════════════════════════════════════════════ */
-let _player = null;        // from server (sudoku_players_nxdb row)
-let _stats  = null;        // from server (sudoku_stats_nxdb row)
-let _achievements = [];    // from server
-let _leaderboard  = [];    // from server
+const ACHIEVEMENTS_Nx = [
+  {id:'first_win', icon:'🏆',name:'First Victory',  condition:s=>s.wins>=1},
+  {id:'streak7',   icon:'🔥',name:'7-Day Streak',   condition:s=>s.streak>=7},
+  {id:'speed',     icon:'⚡',name:'Speed Solver',   condition:s=>s.bestTime>0&&s.bestTime<=120},
+  {id:'expert',    icon:'🧠',name:'Sudoku Expert',  condition:s=>s.wins>=50},
+  {id:'perfect',   icon:'🎯',name:'Perfectionist',  condition:s=>s.perfectGames>=5},
+  {id:'top10',     icon:'👑',name:'Top Ranked',     condition:s=>s.globalRank>0&&s.globalRank<=10},
+  {id:'level5',    icon:'⭐',name:'Rising Star',    condition:s=>s.level>=5},
+  {id:'daily10',   icon:'📅',name:'Daily Devotion', condition:s=>s.dailyChallenges>=10},
+  {id:'nohints',   icon:'🕵️',name:'No Hints Needed',condition:s=>s.noHintWins>=5},
+];
 
-/* local fallback — used only while offline or before first sync */
-let _local = {
+/* ════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════ */
+let nxdbPlayer = null;
+let nxdbStats  = null;
+let nxdbLeaderboard = [];
+let nxdbAchievements = [];
+let soundEnabledNx = false;
+let setupBoardNx = null, setupDiffNx = null;
+let puzzleNx = [], solutionNx = [];
+let selectedCellNx = null;
+let notesModeNx = false;
+let mistakesNx = 0, maxLivesNx = 5, hintsNx = 5;
+let timerSecsNx = 0, timerIntervalNx = null;
+let gameActiveNx = false;
+let currentBoardSizeNx = 9, currentDiffNx = 'easy';
+let usedHintsNx = 0, isDailyChallengeNx = false;
+let editSelectedAvatarNx = '😀';
+let confirmCallbackNx = null;
+let _isOnline = navigator.onLine;
+let _syncInProgress = false;
+
+/* ── Offline queue ── */
+let offlineQueueNx = [];
+
+/* ── Local fallback stats ── */
+let localFallbackNx = {
   xp:0,level:1,wins:0,played:0,bestTime:0,streak:0,
   lastPlayDate:null,perfectGames:0,dailyChallenges:0,noHintWins:0,
   dailyDone:null,globalRank:0
 };
 
-/* game state */
-let _setupBoard=null,_setupDiff=null;
-let _puzzle=[],_solution=[];
-let _selCell=null,_notesMode=false;
-let _mistakes=0,_maxLives=5,_hints=5;
-let _timerSecs=0,_timerInt=null;
-let _gameActive=false;
-let _boardSize=9,_diff='easy';
-let _usedHints=0,_isDaily=false;
-let _editAvatar='😀',_confirmCb=null;
-let _soundEnabled=false;
+/* ════════════════════════════════════════════
+   NXDB HELPERS
+════════════════════════════════════════════ */
+function getXpNx()      {return nxdbPlayer?(nxdbPlayer.xp||0)           :localFallbackNx.xp;}
+function getLevelNx()   {return nxdbPlayer?(nxdbPlayer.level||1)        :localFallbackNx.level;}
+function getWinsNx()    {return nxdbStats ?(nxdbStats.games_won||0)     :localFallbackNx.wins;}
+function getPlayedNx()  {return nxdbStats ?(nxdbStats.games_played||0)  :localFallbackNx.played;}
+function getBestTimeNx(){return nxdbStats ?(nxdbStats.best_time||0)     :localFallbackNx.bestTime;}
+function getStreakNx()  {return nxdbPlayer?(nxdbPlayer.streak||0)       :localFallbackNx.streak;}
+function getRankNx()    {return nxdbPlayer?(nxdbPlayer.rank||0)         :localFallbackNx.globalRank;}
 
-/* ── getters (server-first, local fallback) ── */
-const getXp    =()=>_player?(_player.xp||0):_local.xp;
-const getLevel =()=>_player?(_player.level||1):_local.level;
-const getWins  =()=>_stats ?(_stats.games_won||0):_local.wins;
-const getPlayed=()=>_stats ?(_stats.games_played||0):_local.played;
-const getBest  =()=>_stats ?(_stats.best_time||0):_local.bestTime;
-const getStreak=()=>_player?(_player.streak||0):_local.streak;
-const getRank  =()=>_player?(_player.rank||0):_local.globalRank;
+function computeLevelNx(xp){
+  let lv=1,total=0;
+  while(total+lv*500<=xp){total+=lv*500;lv++;}
+  return lv;
+}
+function xpForCurrentLevelNx(xp){
+  let lv=1,total=0;
+  while(total+lv*500<=xp){total+=lv*500;lv++;}
+  return {level:lv,progress:xp-total,needed:lv*500};
+}
 
-function computeLevel(xp){let lv=1,t=0;while(t+lv*500<=xp){t+=lv*500;lv++;}return lv;}
-function xpProgress(xp){let lv=1,t=0;while(t+lv*500<=xp){t+=lv*500;lv++;}return{level:lv,progress:xp-t,needed:lv*500};}
-
-/* ══════════════════════════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════════════════════════ */
-function loadLocal(){try{const s=localStorage.getItem('sm_local');if(s)_local={..._local,...JSON.parse(s)};}catch(e){}}
-function saveLocal(){localStorage.setItem('sm_local',JSON.stringify(_local));}
-function addLocalXp(n){_local.xp+=n;_local.level=computeLevel(_local.xp);saveLocal();}
-
-function getAF(){
-  return{
-    name:       localStorage.getItem('af_student_name')||'',
-    phone:      localStorage.getItem('af_student_mobile')||localStorage.getItem('af_student_phone')||'',
-    email:      localStorage.getItem('af_student_email')||'',
-    studentId:  localStorage.getItem('af_student_id')||'',
-    photo:      localStorage.getItem('af_student_photo')||'',
-    loggedIn:   localStorage.getItem('af_student_logged_in')==='true',
+/* ════════════════════════════════════════════
+   AF STUDENT — reads from localStorage set by main AcademeForge app
+════════════════════════════════════════════ */
+function getAFStudentNx(){
+  return {
+    name:       localStorage.getItem('af_student_name')      ||'',
+    phone:      localStorage.getItem('af_student_mobile')    ||localStorage.getItem('af_student_phone')||'',
+    email:      localStorage.getItem('af_student_email')     ||'',
+    studentId:  localStorage.getItem('af_student_id')        ||'',
+    uuid:       localStorage.getItem('af_student_uuid')      ||'',
+    profilePhoto:localStorage.getItem('af_student_photo')   ||'',
+    loggedIn:   localStorage.getItem('af_student_logged_in')==='true'
   };
 }
 
-function fmt(secs){const m=Math.floor(secs/60),s=secs%60;return m>0?`${m}m ${s}s`:`${s}s`;}
-
-async function api(url,body){
-  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const d=await r.json();
-  if(!r.ok) throw new Error(d.error||d.message||'Request failed');
-  return d;
+/* ════════════════════════════════════════════
+   LOCAL PERSISTENCE
+════════════════════════════════════════════ */
+function loadLocalFallbackNx(){
+  try{const s=localStorage.getItem('sm_nxdb_fallback');if(s)localFallbackNx={...localFallbackNx,...JSON.parse(s)};}catch(e){}
+}
+function saveLocalFallbackNx(){localStorage.setItem('sm_nxdb_fallback',JSON.stringify(localFallbackNx));}
+function addLocalXpNx(amount){
+  localFallbackNx.xp+=amount;
+  localFallbackNx.level=computeLevelNx(localFallbackNx.xp);
+  saveLocalFallbackNx();
+}
+function loadOfflineQueueNx(){
+  try{const s=localStorage.getItem('sm_offline_queue');if(s)offlineQueueNx=JSON.parse(s)||[];}catch(e){offlineQueueNx=[];}
+}
+function saveOfflineQueueNx(){localStorage.setItem('sm_offline_queue',JSON.stringify(offlineQueueNx));}
+function updateOfflineSyncSubNx(){
+  const el=document.getElementById('offlineSyncSubNx');
+  const badge=document.getElementById('queueCountNx');
+  if(!el)return;
+  const n=offlineQueueNx.length;
+  el.textContent=n>0?`${n} game${n>1?'s':''} waiting to sync`:'No pending games';
+  if(badge){
+    badge.textContent=`${n} pending`;
+    badge.classList.toggle('show',n>0);
+  }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   SAVING OVERLAY — global, student-friendly messages
-══════════════════════════════════════════════════════════════ */
-function showSaving(msg='Saving your progress…'){
-  const el=document.getElementById('globalSavingOverlay');
-  document.getElementById('globalSavingLabel').textContent=msg;
-  el.classList.add('show');
+/* ════════════════════════════════════════════
+   ONLINE / OFFLINE DETECTION
+════════════════════════════════════════════ */
+function setOnlineStateNx(online){
+  _isOnline=online;
+  const banner=document.getElementById('offlineBannerNx');
+  if(banner)banner.classList.toggle('show',!online);
+  if(online){
+    flushOfflineQueueNx(); // auto-flush when back online
+  }
 }
-function hideSaving(){document.getElementById('globalSavingOverlay').classList.remove('show');}
+window.addEventListener('online', ()=>setOnlineStateNx(true));
+window.addEventListener('offline',()=>setOnlineStateNx(false));
 
-/* ══════════════════════════════════════════════════════════════
-   SYNC STATUS PILLS — student-friendly labels only
-══════════════════════════════════════════════════════════════ */
-function setPill(id,state,label){
-  const el=document.getElementById(id);if(!el)return;
-  el.className=`sync-pill ${state}`;
-  el.innerHTML=`<span class="sync-dot"></span>${label}`;
+/* ════════════════════════════════════════════
+   OFFLINE QUEUE FLUSH
+════════════════════════════════════════════ */
+async function flushOfflineQueueNx(){
+  const af=getAFStudentNx();
+  if(!af.loggedIn||!af.studentId||!_isOnline||!offlineQueueNx.length)return;
+  if(_syncInProgress)return;
+  _syncInProgress=true;
+
+  const toFlush=[...offlineQueueNx];
+  let flushed=0;
+  for(const item of toFlush){
+    try{
+      await nxdbApi(NXDB_PROGRESS_URL,{...item,action:'save',student_id:af.studentId});
+      offlineQueueNx=offlineQueueNx.filter(q=>q._id!==item._id);
+      flushed++;
+    }catch(e){
+      console.warn('Flush failed for item:',e);
+      break; // stop on first failure, retry later
+    }
+  }
+  saveOfflineQueueNx();
+  updateOfflineSyncSubNx();
+  _syncInProgress=false;
+
+  if(flushed>0){
+    toastNx(`${flushed} offline game${flushed>1?'s':''} synced!`,'','success',3000);
+    await refreshSudokuNxdb();
+  }
 }
-function setAllSyncPills(ok){
-  const s=ok?'ok':'err',l=ok?'Synced':'Offline';
-  setPill('statusPlayer',s,l);
-  setPill('statusStats',s,l);
-  setPill('statusLb','ok','Synced');
-  setPill('syncStatusPill',ok?'ok':'err',ok?'✓ Saved':'Offline');
-  const ts=document.getElementById('lastSyncTime');
-  if(ts)ts.textContent=ok?new Date().toLocaleTimeString():'—';
+
+/* ════════════════════════════════════════════
+   NXDB API CALL
+════════════════════════════════════════════ */
+async function nxdbApi(url,payload){
+  const res=await fetch(url,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
+  });
+  const data=await res.json();
+  if(!res.ok)throw new Error(data.message||data.error||'Nxdb request failed');
+  return data;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   INSTANT UI REFRESH — called immediately after every state change
-══════════════════════════════════════════════════════════════ */
-function refreshUI(){
-  const af=getAF();
-  const xp=getXp(),level=getLevel(),wins=getWins(),played=getPlayed(),best=getBest();
-  const xpd=xpProgress(xp),tier=getTier(level),rank=getRank();
-  const pct=Math.round((xpd.progress/xpd.needed)*100);
+/* ════════════════════════════════════════════
+   REFRESH INDICATOR
+════════════════════════════════════════════ */
+let refreshTimerNx=null;
+function showRefreshNx(label='Refreshing…'){
+  const el=document.getElementById('refreshIndicatorNx');
+  document.getElementById('refreshLabelNx').textContent=label;
+  el.classList.add('visible');
+  clearTimeout(refreshTimerNx);
+}
+function hideRefreshNx(){
+  clearTimeout(refreshTimerNx);
+  refreshTimerNx=setTimeout(()=>{
+    document.getElementById('refreshIndicatorNx').classList.remove('visible');
+  },600);
+}
 
-  // Display name: AF name → server name → local username → Guest
-  const displayName=(af.loggedIn&&af.name)?af.name:(_player?.display_name||_player?.name||localStorage.getItem('sm_username')||'Guest Player');
-  const displayAvatar=localStorage.getItem('sm_avatar')||(af.loggedIn?'🎓':'😀');
+/* ════════════════════════════════════════════
+   NXDB STATUS CHIPS
+════════════════════════════════════════════ */
+function setNxdbStatusNx(el,state,label){if(!el)return;el.className=`nxdb-status-Nx ${state}`;el.textContent=label;}
+function updateNxdbStatusChipsNx(ok){
+  setNxdbStatusNx(document.getElementById('nxdbStatusChipNx'),ok?'ok':'err',ok?'✓ Nxdb':'✕ Nxdb');
+  setNxdbStatusNx(document.getElementById('nxdbPlayerStatusNx'),ok?'ok':'err',ok?'Connected':'Offline');
+  setNxdbStatusNx(document.getElementById('nxdbStatsStatusNx'),ok?'ok':'err',ok?'Connected':'Offline');
+  setNxdbStatusNx(document.getElementById('nxdbLbStatusNx'),'ok','Connected');
+  const ts=document.getElementById('nxdbLastSyncNx');
+  if(ts)ts.textContent=ok?new Date().toLocaleTimeString():'Failed';
+}
 
-  /* header */
-  document.getElementById('headerAvatarBtn').textContent=displayAvatar;
+/* ════════════════════════════════════════════
+   GLOBAL REFRESH MANAGER
+════════════════════════════════════════════ */
+async function refreshSudokuNxdb(){
+  const af=getAFStudentNx();
+  if(!af.loggedIn||!af.studentId){
+    refreshUIFromNxdbNx();
+    return;
+  }
+  if(!_isOnline){refreshUIFromNxdbNx();return;}
 
-  /* hero */
-  document.getElementById('heroLevel').textContent=level;
-  document.getElementById('heroLevelLabel').textContent=`Level ${level}`;
-  document.getElementById('heroXpNums').textContent=`${xpd.progress.toLocaleString()} / ${xpd.needed.toLocaleString()} XP`;
-  document.getElementById('heroXpFill').style.width=`${pct}%`;
-  document.getElementById('heroXpRemaining').textContent=`${(xpd.needed-xpd.progress).toLocaleString()} XP to next level`;
+  showRefreshNx('Refreshing Nxdb…');
+  setNxdbStatusNx(document.getElementById('nxdbStatusChipNx'),'syncing','⟳ Nxdb');
 
-  /* daily */
-  const today=new Date().toDateString();
-  document.getElementById('dailyDesc').textContent=
-    _local.dailyDone===today?'✅ Completed! Come back tomorrow.':'Complete today\'s puzzle for a bonus reward';
-  document.getElementById('dailyStreakIcon').textContent=getStreak()>=3?'🔥':'🗓️';
+  try{
+    const syncRes=await syncPlayerNx(af);
+    if(syncRes&&syncRes.player)  nxdbPlayer=syncRes.player;
+    if(syncRes&&syncRes.stats)   nxdbStats=syncRes.stats;
+    if(syncRes&&syncRes.achievements) nxdbAchievements=syncRes.achievements;
+    updateNxdbStatusChipsNx(true);
+    refreshUIFromNxdbNx();
+    refreshLeaderboardNx().catch(()=>{});
+    // flush any queued offline games
+    flushOfflineQueueNx().catch(()=>{});
+  }catch(e){
+    console.warn('Nxdb refresh failed:',e);
+    updateNxdbStatusChipsNx(false);
+    refreshUIFromNxdbNx();
+  }finally{
+    hideRefreshNx();
+  }
+}
 
-  /* AF sync bar */
-  const bar=document.getElementById('afSyncBar');
-  if(af.loggedIn&&af.name){
-    bar.className='af-sync-bar synced';
-    const initials=af.name.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join('');
-    document.getElementById('afAvatar').textContent=initials||'AF';
-    document.getElementById('afName').textContent=af.name;
-    document.getElementById('afSub').textContent=af.phone?`📱 ${af.phone}`:(af.email||'AcademeForge Student');
-    document.getElementById('afBadge').textContent='✓ Signed In';
-    document.getElementById('afBadge').className='af-badge ok';
-  } else {
-    bar.className='af-sync-bar unsynced';
-    document.getElementById('afAvatar').textContent='?';
-    document.getElementById('afName').textContent='Not Signed In';
-    document.getElementById('afSub').textContent='Sign in via the AcademeForge app to save progress';
-    document.getElementById('afBadge').textContent='Guest';
-    document.getElementById('afBadge').className='af-badge warn';
+/* ════════════════════════════════════════════
+   SYNC PLAYER
+════════════════════════════════════════════ */
+async function syncPlayerNx(af){
+  return await nxdbApi(NXDB_API_URL,{
+    action:'sync',
+    student_id:af.studentId,
+    name:af.name,
+    email:af.email,
+    phone:af.phone,
+    profile_photo:af.profilePhoto||''
+  });
+}
+
+/* ════════════════════════════════════════════
+   SAVE GAME PROGRESS (with offline fallback)
+════════════════════════════════════════════ */
+async function saveGameProgressNx({won,time,mistakes,hintsUsed,difficulty,boardSize,isDaily,xpEarned,perfect,noHints}){
+  const af=getAFStudentNx();
+  if(!af.loggedIn||!af.studentId)return null;
+
+  const payload={
+    action:'save',
+    student_id:af.studentId,
+    won, time_seconds:time||0, mistakes, hints_used:hintsUsed,
+    difficulty, board_size:boardSize, is_daily:isDaily||false,
+    xp_earned:xpEarned||0, perfect:perfect||false, no_hints:noHints||false
+  };
+
+  // If offline, queue it
+  if(!_isOnline){
+    payload._id=Date.now()+'_'+Math.random().toString(36).slice(2,7);
+    offlineQueueNx.push(payload);
+    saveOfflineQueueNx();
+    updateOfflineSyncSubNx();
+    toastNx('Saved offline','Will sync when connection returns.','info',3000);
+    return null;
   }
 
-  /* profile */
-  document.getElementById('profileAvatar').textContent=displayAvatar;
-  document.getElementById('profileName').textContent=displayName;
-  document.getElementById('profileLevelBadge').textContent=`⚡ Level ${level}`;
-  const tb=document.getElementById('profileTierBadge');
-  tb.textContent=`${tier.icon} ${tier.name}`;tb.className=`tier-badge ${tier.css}`;
-  document.getElementById('profileEmail').textContent=_player?.email||af.email||'';
+  const badge=document.getElementById('savingBadgeNx');
+  if(badge)badge.classList.add('show');
 
-  /* profile XP bar */
-  document.getElementById('pxpLevel').textContent=`Level ${level}`;
-  document.getElementById('pxpNums').textContent=`${xpd.progress.toLocaleString()} / ${xpd.needed.toLocaleString()} XP`;
-  document.getElementById('pxpFill').style.width=`${pct}%`;
-  document.getElementById('pxpRemaining').textContent=`${(xpd.needed-xpd.progress).toLocaleString()} XP to reach Level ${level+1}`;
-
-  /* profile stats */
-  document.getElementById('pTotalXp').textContent=xp.toLocaleString();
-  document.getElementById('pWins').textContent=wins;
-  document.getElementById('pPlayed').textContent=played;
-  document.getElementById('pWinRate').textContent=played>0?`${Math.round((wins/played)*100)}%`:'0%';
-  document.getElementById('pBestTime').textContent=best?fmt(best):'--';
-  if(rank>0)document.getElementById('pGlobalRank').textContent=`#${rank}`;
-
-  /* AF profile card */
-  const afCard=document.getElementById('afProfileCard');
-  if(af.loggedIn&&af.name){
-    afCard.style.display='block';
-    document.getElementById('afpcName').textContent=af.name||'-';
-    document.getElementById('afpcPhone').textContent=af.phone||'-';
-    document.getElementById('afpcEmail').textContent=af.email||'-';
-    document.getElementById('afpcSid').textContent=af.studentId||'-';
-  } else {
-    afCard.style.display='none';
+  try{
+    const res=await nxdbApi(NXDB_PROGRESS_URL,payload);
+    if(res.player)nxdbPlayer=res.player;
+    if(res.stats) nxdbStats=res.stats;
+    return res;
+  }catch(e){
+    // On network failure, queue it
+    payload._id=Date.now()+'_'+Math.random().toString(36).slice(2,7);
+    offlineQueueNx.push(payload);
+    saveOfflineQueueNx();
+    updateOfflineSyncSubNx();
+    console.warn('saveGameProgressNx queued:',e);
+    return null;
+  }finally{
+    if(badge)badge.classList.remove('show');
   }
-
-  buildAchievementsUI();
 }
 
-/* ══════════════════════════════════════════════════════════════
-   ACHIEVEMENTS UI
-══════════════════════════════════════════════════════════════ */
-function buildAchievementsUI(){
-  const grid=document.getElementById('achievementsGrid');if(!grid)return;
-  const stats={wins:getWins(),streak:getStreak(),bestTime:getBest(),
-    perfectGames:_local.perfectGames,dailyChallenges:_local.dailyChallenges,
-    noHintWins:_local.noHintWins,level:getLevel(),globalRank:getRank()};
-  const unlockedIds=_achievements.map(a=>a.achievement_id||a.id);
-  grid.innerHTML=ACHIEVEMENTS.map(a=>{
-    const unlocked=unlockedIds.includes(a.id)||a.check(stats);
+/* ════════════════════════════════════════════
+   LEADERBOARD
+════════════════════════════════════════════ */
+async function refreshLeaderboardNx(){
+  const podium=document.getElementById('lbPodiumNx');
+  const list=document.getElementById('lbListNx');
+  const youBanner=document.getElementById('lbYouBannerNx');
+  list.innerHTML='<div class="empty-state"><div class="e-icon">⏳</div><p>Loading rankings…</p></div>';
+  if(podium)podium.style.display='none';
+  if(youBanner)youBanner.style.display='none';
+  const af=getAFStudentNx();
+
+  if(!_isOnline){
+    list.innerHTML='<div class="empty-state"><div class="e-icon">📡</div><p>Connect to see live rankings</p></div>';
+    return;
+  }
+
+  try{
+    const res=await nxdbApi(NXDB_LEADERBOARD_URL,{action:'get'});
+    const lb=res.leaderboard||[];
+    nxdbLeaderboard=lb;
+    if(!lb.length){list.innerHTML='<div class="empty-state"><div class="e-icon">🏆</div><p>No players yet — be the first!</p></div>';return;}
+
+    // Podium
+    if(lb.length>=1&&podium){
+      podium.style.display='grid';
+      const podiumOrder=lb.length>=3?[lb[1],lb[0],lb[2]]:lb.length===2?[lb[1],lb[0],null]:[null,lb[0],null];
+      const podiumClasses=['rank2','rank1','rank3'],podiumMedals=['🥈','🥇','🥉'];
+      podium.innerHTML=podiumOrder.map((p,i)=>{
+        if(!p)return`<div></div>`;
+        return`<div class="lb-podium-card ${podiumClasses[i]}">
+          <div class="podium-medal">${podiumMedals[i]}</div>
+          <div class="podium-avatar">${p.avatar||p.name?.[0]||'😀'}</div>
+          <div class="podium-name">${p.name||p.username}</div>
+          <div class="podium-xp">${(p.xp||0).toLocaleString()} XP</div>
+          <div class="podium-level">Lv.${p.level||1}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // You banner
+    const myIdx=lb.findIndex(p=>(af.studentId&&p.student_id===af.studentId)||(af.email&&p.email===af.email));
+    if(myIdx>=0&&youBanner){
+      const myP=lb[myIdx],myRank=myIdx+1;
+      if(nxdbPlayer)nxdbPlayer.rank=myRank;
+      localFallbackNx.globalRank=myRank;saveLocalFallbackNx();
+      document.getElementById('lbYouAvaNx').textContent =myP.avatar||myP.name?.[0]||'😀';
+      document.getElementById('lbYouNameNx').textContent=myP.name||myP.username;
+      document.getElementById('lbYouSubNx').textContent =`${(myP.xp||0).toLocaleString()} XP · Lv.${myP.level||1} · ${myP.wins||0} wins`;
+      document.getElementById('lbYouRankNx').textContent=`#${myRank}`;
+      youBanner.style.display='flex';
+      updateRankNx(myRank);
+    }
+
+    list.innerHTML=lb.map((p,i)=>{
+      const rank=i+1,isMe=(af.studentId&&p.student_id===af.studentId)||(af.email&&p.email===af.email);
+      const rankDisplay=rank<=3?['🥇','🥈','🥉'][rank-1]:`#${rank}`;
+      return`<div class="lb-item${isMe?' is-me':''}">
+        <div class="lb-rank-col${rank<=3?' top3':''}">${rankDisplay}</div>
+        <div class="lb-player-col">
+          <div class="lb-avatar">${p.avatar||p.name?.[0]||'😀'}</div>
+          <div>
+            <div class="lb-player-name">${p.name||p.username||'Player'}${isMe?` <span style="font-size:.62rem;background:var(--primary);color:white;padding:1px 6px;border-radius:999px;margin-left:4px">You</span>`:''}</div>
+            <div class="lb-player-sub">Lv.${p.level||1} · ${p.wins||0} wins · ${p.games_played||0} games</div>
+          </div>
+        </div>
+        <div class="lb-xp-col">
+          <div class="lb-xp-val">${(p.xp||0).toLocaleString()}</div>
+          <div class="lb-xp-wins">XP</div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    list.innerHTML='<div class="empty-state"><div class="e-icon">⚠️</div><p>Could not load leaderboard.</p></div>';
+    console.error('Leaderboard error:',e);
+  }
+}
+
+function updateRankNx(rank){
+  const r=rank>0?`#${rank}`:'#--';
+  ['qsRankNx','pGlobalRankNx'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=r;});
+}
+
+/* ════════════════════════════════════════════
+   ACHIEVEMENTS
+════════════════════════════════════════════ */
+async function syncAchievementsNx(){
+  const af=getAFStudentNx();
+  if(!af.loggedIn||!af.studentId||!_isOnline)return;
+  const stats=buildAchievementStatsNx();
+  try{
+    const res=await nxdbApi(NXDB_ACHIEVEMENT_URL,{action:'sync',student_id:af.studentId,stats});
+    if(res.achievements)nxdbAchievements=res.achievements;
+    if(res.newly_unlocked&&res.newly_unlocked.length){
+      const unlocked=ACHIEVEMENTS_Nx.filter(a=>res.newly_unlocked.includes(a.id));
+      unlocked.forEach(a=>toastNx(`Achievement Unlocked! ${a.icon}`,a.name,'success',4000));
+    }
+    buildAchievementsUINx();
+  }catch(e){console.warn('Achievement sync failed:',e);}
+}
+function buildAchievementStatsNx(){
+  return{wins:getWinsNx(),streak:getStreakNx(),bestTime:getBestTimeNx(),perfectGames:localFallbackNx.perfectGames,dailyChallenges:localFallbackNx.dailyChallenges,noHintWins:localFallbackNx.noHintWins,level:getLevelNx(),globalRank:getRankNx()};
+}
+function buildAchievementsUINx(){
+  const grid=document.getElementById('achievementsGridNx');
+  if(!grid)return;
+  const stats=buildAchievementStatsNx();
+  const unlockedIds=nxdbAchievements.map(a=>a.achievement_id||a.id);
+  grid.innerHTML=ACHIEVEMENTS_Nx.map(a=>{
+    const unlocked=unlockedIds.includes(a.id)||a.condition(stats);
     return`<div class="ach-card ${unlocked?'unlocked':'locked'}">
       <div class="ach-icon">${a.icon}</div>
       <div class="ach-name">${a.name}</div>
@@ -1019,665 +1242,717 @@ function buildAchievementsUI(){
   }).join('');
 }
 
-/* ══════════════════════════════════════════════════════════════
-   FULL SERVER SYNC — called on load, after every game, on manual refresh
-   Steps run in parallel where safe; UI updates instantly on each step
-══════════════════════════════════════════════════════════════ */
-async function fullRefresh(){
-  const af=getAF();
-  if(!af.loggedIn||!af.studentId){
-    refreshUI();
-    return;
-  }
-
-  setPill('syncStatusPill','syncing','Syncing…');
-
-  try{
-    /* Step 1: sync player (parallel with leaderboard fetch) */
-    const [syncRes,lbRes]=await Promise.allSettled([
-      api(_EP.sync,{action:'sync',student_id:af.studentId,name:af.name,email:af.email,phone:af.phone,profile_photo:af.photo||''}),
-      api(_EP.leaderboard,{action:'get'}),
-    ]);
-
-    /* apply player+stats+achievements immediately */
-    if(syncRes.status==='fulfilled'){
-      const d=syncRes.value;
-      if(d.player)     _player=d.player;
-      if(d.stats)      _stats=d.stats;
-      if(d.achievements)_achievements=d.achievements;
-    }
-
-    /* apply leaderboard immediately */
-    if(lbRes.status==='fulfilled'&&lbRes.value.leaderboard){
-      _leaderboard=lbRes.value.leaderboard;
-      renderLeaderboard();
-      /* find my rank and update player object */
-      const myIdx=_leaderboard.findIndex(p=>(af.studentId&&p.student_id===af.studentId)||(af.email&&p.email===af.email));
-      if(myIdx>=0&&_player){
-        _player.rank=myIdx+1;
-        _local.globalRank=myIdx+1;
-        saveLocal();
-      }
-    }
-
-    setAllSyncPills(true);
-    refreshUI();/* instant UI after player data in */
-
-  }catch(e){
-    console.warn('fullRefresh error:',e);
-    setAllSyncPills(false);
-    refreshUI();
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════
-   SAVE GAME PROGRESS — instant local → instant UI → server save → re-render
-══════════════════════════════════════════════════════════════ */
-async function saveGame({won,xpEarned=0,time=0,perfect=false,noHints=false,daily=false}){
-  /* ── 1. LOCAL UPDATE (instant) ── */
-  _local.played++;
-  if(won){
-    _local.wins++;
-    addLocalXp(xpEarned);
-    if(perfect) _local.perfectGames++;
-    if(noHints) _local.noHintWins++;
-    if(!_local.bestTime||(time>0&&time<_local.bestTime))_local.bestTime=time;
-    const today=new Date().toDateString(),yesterday=new Date(Date.now()-86400000).toDateString();
-    if(_local.lastPlayDate===yesterday)_local.streak++;
-    else if(_local.lastPlayDate!==today)_local.streak=1;
-    _local.lastPlayDate=today;
-    if(daily){_local.dailyDone=today;_local.dailyChallenges++;}
-  }
-  saveLocal();
-  refreshUI();/* ← INSTANT screen update */
-
-  /* ── 2. SERVER SAVE ── */
-  const af=getAF();
-  if(!af.loggedIn||!af.studentId)return;
-
-  showSaving(won?'Saving your victory…':'Saving game…');
-  try{
-    /* save progress + achievements in parallel */
-    const[progRes,achRes]=await Promise.allSettled([
-      api(_EP.progress,{
-        action:'save',student_id:af.studentId,won,time_seconds:time,
-        mistakes:_mistakes,hints_used:_usedHints,difficulty:_diff,board_size:_boardSize,
-        is_daily:daily,xp_earned:xpEarned,perfect,no_hints:noHints
-      }),
-      api(_EP.achievement,{
-        action:'sync',student_id:af.studentId,
-        stats:{wins:won?_local.wins-1+1:_local.wins,streak:_local.streak,bestTime:_local.bestTime,
-          perfectGames:_local.perfectGames,dailyChallenges:_local.dailyChallenges,
-          noHintWins:_local.noHintWins,level:getLevel(),globalRank:_local.globalRank}
-      }),
-    ]);
-
-    /* apply server response instantly */
-    if(progRes.status==='fulfilled'){
-      const d=progRes.value;
-      if(d.player){_player=d.player;}
-      if(d.stats) {_stats=d.stats;}
-    }
-    if(achRes.status==='fulfilled'&&achRes.value.achievements){
-      _achievements=achRes.value.achievements;
-      /* new achievements toast */
-      const newlyUnlocked=achRes.value.newly_unlocked||[];
-      newlyUnlocked.forEach(id=>{
-        const a=ACHIEVEMENTS.find(x=>x.id===id);
-        if(a)toast(`Achievement Unlocked!`,`${a.icon} ${a.name}`,'success',4000);
-      });
-    }
-
-    refreshUI();/* ← RE-RENDER with server data */
-
-    /* leaderboard refresh in background */
-    api(_EP.leaderboard,{action:'get'}).then(res=>{
-      if(res.leaderboard){
-        _leaderboard=res.leaderboard;
-        renderLeaderboard();
-        const myIdx=_leaderboard.findIndex(p=>(af.studentId&&p.student_id===af.studentId)||(af.email&&p.email===af.email));
-        if(myIdx>=0&&_player){_player.rank=myIdx+1;_local.globalRank=myIdx+1;saveLocal();}
-        refreshUI();
-      }
-    }).catch(()=>{});
-
-    hideSaving();
-    setAllSyncPills(true);
-
-  }catch(e){
-    console.warn('saveGame server error:',e);
-    hideSaving();
-    setAllSyncPills(false);
-    toast('Saved locally','Could not reach the server. Your progress is stored on this device.','warning');
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════
-   SCREEN NAV
-══════════════════════════════════════════════════════════════ */
-function openScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const btn=document.querySelector(`.nav-btn[data-screen="${id}"]`);
-  if(btn)btn.classList.add('active');
-  if(id==='leaderboardScreen')renderLeaderboard();
-  if(id==='profileScreen'){buildAchievementsUI();}
-}
-function navToPlay(){
-  openScreen('playScreen');
-  if(_gameActive){
-    document.getElementById('setupView').style.display='none';
-    document.getElementById('gameView').style.display='block';
-  } else {
-    document.getElementById('setupView').style.display='block';
-    document.getElementById('gameView').style.display='none';
-  }
-}
-
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    TOAST
-══════════════════════════════════════════════════════════════ */
-function toast(title,msg='',type='info',dur=3500){
+════════════════════════════════════════════ */
+function toastNx(title,msg='',type='info',dur=3500){
   const icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
   const wrap=document.getElementById('toastWrap');
   const el=document.createElement('div');
   el.className=`toast ${type}`;
   el.innerHTML=`<div class="toast-icon">${icons[type]}</div>
-    <div class="toast-body"><div class="toast-title">${title}</div>${msg?`<div class="toast-msg">${msg}</div>`:''}</div>
+    <div class="toast-body">
+      <div class="toast-title">${title}</div>
+      ${msg?`<div class="toast-msg">${msg}</div>`:''}
+    </div>
     <button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
   wrap.appendChild(el);
   setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),220);},dur);
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    MODALS
-══════════════════════════════════════════════════════════════ */
-function openModal(id){document.getElementById(id).classList.add('show');}
-function closeModal(id){document.getElementById(id).classList.remove('show');}
+════════════════════════════════════════════ */
+function openModalNx(id) {document.getElementById(id).classList.add('show');}
+function closeModalNx(id){document.getElementById(id).classList.remove('show');}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');}));
-function confirm2({title,msg,icon='⚠️',onConfirm}){
-  document.getElementById('confirmTitle').textContent=title||'Are you sure?';
-  document.getElementById('confirmMsg').textContent=msg||'';
-  document.getElementById('confirmIcon').textContent=icon;
-  _confirmCb=onConfirm;openModal('confirmModal');
+function showConfirmNx({title,msg,icon='⚠️',onConfirm}){
+  document.getElementById('confirmTitleNx').textContent=title||'Are you sure?';
+  document.getElementById('confirmMsgNx').textContent=msg||'';
+  document.getElementById('confirmIconNx').textContent=icon;
+  confirmCallbackNx=onConfirm;
+  openModalNx('confirmModal');
 }
-document.getElementById('confirmOkBtn').addEventListener('click',()=>{closeModal('confirmModal');if(typeof _confirmCb==='function')_confirmCb();});
+document.getElementById('confirmOkBtnNx').addEventListener('click',()=>{
+  closeModalNx('confirmModal');if(typeof confirmCallbackNx==='function')confirmCallbackNx();
+});
 
-/* ══════════════════════════════════════════════════════════════
-   THEME & SOUND
-══════════════════════════════════════════════════════════════ */
-function loadTheme(){
-  const dark=localStorage.getItem('sm_theme')==='dark';
-  document.body.classList.toggle('dark',dark);
-  document.getElementById('darkToggle').classList.toggle('on',dark);
+/* ════════════════════════════════════════════
+   SCREEN NAV
+════════════════════════════════════════════ */
+function openScreenNx(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const btn=document.querySelector(`.nav-btn[data-screen="${id}"]`);
+  if(btn)btn.classList.add('active');
+  if(id==='leaderboardScreen')refreshLeaderboardNx();
+  if(id==='profileScreen')    refreshProfileScreenNx();
+  if(id==='homeScreen')       refreshUIFromNxdbNx();
 }
-function toggleTheme(){
+function navToPlayNx(){
+  openScreenNx('playScreen');
+  if(gameActiveNx){
+    document.getElementById('setupViewNx').style.display='none';
+    document.getElementById('gameViewNx').style.display='block';
+  }else{
+    document.getElementById('setupViewNx').style.display='block';
+    document.getElementById('gameViewNx').style.display='none';
+  }
+}
+
+/* ════════════════════════════════════════════
+   THEME & SOUND
+════════════════════════════════════════════ */
+function loadThemeNx(){
+  const dark=localStorage.getItem('sm_nxdb_theme')==='dark';
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('darkToggleNx').classList.toggle('on',dark);
+}
+function toggleThemeNx(){
   document.body.classList.toggle('dark');
   const dark=document.body.classList.contains('dark');
-  localStorage.setItem('sm_theme',dark?'dark':'light');
-  document.getElementById('darkToggle').classList.toggle('on',dark);
+  localStorage.setItem('sm_nxdb_theme',dark?'dark':'light');
+  document.getElementById('darkToggleNx').classList.toggle('on',dark);
 }
-const _audio=new Audio('game-musicc.mp3');_audio.loop=true;_audio.volume=.3;
-function loadSound(){_soundEnabled=localStorage.getItem('sm_sound')!=='off';document.getElementById('soundToggle').classList.toggle('on',_soundEnabled);}
-function toggleSound(){
-  _soundEnabled=!_soundEnabled;localStorage.setItem('sm_sound',_soundEnabled?'on':'off');
-  document.getElementById('soundToggle').classList.toggle('on',_soundEnabled);
-  _soundEnabled?_audio.play().catch(()={}):(_audio.pause(),_audio.currentTime=0);
-}
-document.addEventListener('click',()=>{if(_soundEnabled&&_audio.paused)_audio.play().catch(()=>{});},{once:true});
 
-/* ══════════════════════════════════════════════════════════════
-   SETUP FLOW
-══════════════════════════════════════════════════════════════ */
-function selectBoard(size){
-  _setupBoard=size;
-  document.querySelectorAll('.board-card').forEach(c=>c.classList.toggle('selected',Number(c.dataset.board)===size));
-  document.getElementById('step1Next').disabled=false;
+let bgAudioNx=null;
+function initSoundNx(){
+  soundEnabledNx=localStorage.getItem('sm_nxdb_sound')!=='off';
+  document.getElementById('soundToggleNx').classList.toggle('on',soundEnabledNx);
+  if(soundEnabledNx&&!bgAudioNx){
+    bgAudioNx=new Audio('game-musicc.mp3');
+    bgAudioNx.loop=true;bgAudioNx.volume=.3;
+  }
 }
-function buildDiffOptions(){
-  const list=document.getElementById('diffList');if(!list)return;
+function toggleSoundNx(){
+  soundEnabledNx=!soundEnabledNx;
+  localStorage.setItem('sm_nxdb_sound',soundEnabledNx?'on':'off');
+  document.getElementById('soundToggleNx').classList.toggle('on',soundEnabledNx);
+  if(soundEnabledNx){
+    if(!bgAudioNx){bgAudioNx=new Audio('game-musicc.mp3');bgAudioNx.loop=true;bgAudioNx.volume=.3;}
+    bgAudioNx.play().catch(()=>{});
+  }else{
+    if(bgAudioNx){bgAudioNx.pause();bgAudioNx.currentTime=0;}
+  }
+}
+document.addEventListener('click',()=>{
+  if(soundEnabledNx&&bgAudioNx&&bgAudioNx.paused)bgAudioNx.play().catch(()=>{});
+},{once:true});
+
+/* ════════════════════════════════════════════
+   SETUP FLOW
+════════════════════════════════════════════ */
+function selectBoardNx(size){
+  setupBoardNx=size;
+  document.querySelectorAll('.board-card').forEach(c=>c.classList.toggle('selected',Number(c.dataset.board)===size));
+  document.getElementById('stepNx1Next').disabled=false;
+}
+function buildDiffOptionsNx(){
+  const list=document.getElementById('diffListNx');
+  if(!list)return;
   list.innerHTML=['easy','moderate','hard'].map(d=>{
-    const c=DIFF_CFG[d],xp=XP_TABLE[`${_setupBoard||9}-${d}`]||50;
-    return`<div class="diff-card${_setupDiff===d?' selected':''}" data-diff="${d}" onclick="selectDiff('${d}')">
+    const c=DIFF_CONFIG_Nx[d];
+    const xp=XP_TABLE_Nx[`${setupBoardNx||9}-${d}`]||50;
+    return`<div class="diff-card${setupDiffNx===d?' selected':''}" data-diff="${d}" onclick="selectDiffNx('${d}')">
       <div class="diff-icon">${c.icon}</div>
       <div class="diff-info"><div class="diff-name">${c.label}</div><div class="diff-desc">${c.desc}</div></div>
       <div class="diff-xp-badge">+${xp} XP</div>
     </div>`;
   }).join('');
 }
-function selectDiff(d){
-  _setupDiff=d;
+function selectDiffNx(d){
+  setupDiffNx=d;
   document.querySelectorAll('.diff-card').forEach(c=>c.classList.toggle('selected',c.dataset.diff===d));
-  document.getElementById('step2Next').disabled=false;
+  document.getElementById('stepNx2Next').disabled=false;
 }
-function goStep(step){
-  if(step===2&&!_setupBoard){toast('Select a board','Choose 4×4 or 9×9 first.','warning');return;}
-  if(step===3&&!_setupDiff) {toast('Select difficulty','Choose a difficulty level.','warning');return;}
+function goStepNx(step){
+  if(step===2&&!setupBoardNx){toastNx('Select a board','Choose 4×4 or 9×9 first.','warning');return;}
+  if(step===3&&!setupDiffNx) {toastNx('Select difficulty','Choose a difficulty level.','warning');return;}
   [1,2,3].forEach(i=>{
-    document.getElementById(`sd${i}`).classList.toggle('active',i===step);
-    document.getElementById(`sd${i}`).classList.toggle('done',i<step);
+    document.getElementById(`sdNx${i}`).classList.toggle('active',i===step);
+    document.getElementById(`sdNx${i}`).classList.toggle('done',i<step);
   });
-  [1,2].forEach(i=>document.getElementById(`sl${i}`)?.classList.toggle('done',i<step));
+  [1,2].forEach(i=>document.getElementById(`slNx${i}`)?.classList.toggle('done',i<step));
   document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById(`step${step}`).classList.add('active');
-  if(step===2)buildDiffOptions();
-  if(step===3)updateSummary();
+  document.getElementById(`stepNx${step}`).classList.add('active');
+  if(step===2)buildDiffOptionsNx();
+  if(step===3)updateSummaryNx();
 }
-function updateSummary(){
-  const sz=_setupBoard,d=_setupDiff;
-  const xp=XP_TABLE[`${sz}-${d}`]||50,lim=BOARD_LIMITS[sz],cfg=DIFF_CFG[d];
-  document.getElementById('ssIcon').textContent=cfg.icon;
-  document.getElementById('ssTitle').textContent='Ready to Play!';
-  document.getElementById('ssDesc').textContent=`${sz}×${sz} ${cfg.label} · Level ${getLevel()}`;
-  document.getElementById('ssBoard').textContent=`${sz}×${sz}`;
-  document.getElementById('ssDiff').textContent=cfg.label;
-  document.getElementById('ssHints').textContent=`${lim.hints} Hints`;
-  document.getElementById('ssMistakes').textContent=`${lim.maxLives} Lives`;
-  document.getElementById('ssXp').textContent=`+${xp} XP`;
+function updateSummaryNx(){
+  const sz=setupBoardNx,d=setupDiffNx;
+  const xp=XP_TABLE_Nx[`${sz}-${d}`]||50,lim=BOARD_LIMITS_Nx[sz],cfg=DIFF_CONFIG_Nx[d];
+  document.getElementById('ssIconNx').textContent =cfg.icon;
+  document.getElementById('ssTitleNx').textContent='Ready to Play!';
+  document.getElementById('ssDescNx').textContent =`${sz}×${sz} ${cfg.label} · Level ${getLevelNx()}`;
+  document.getElementById('ssBoardNx').textContent=`${sz}×${sz}`;
+  document.getElementById('ssDiffNx').textContent =cfg.label;
+  document.getElementById('ssHintsNx').textContent=`${lim.hints} Hints`;
+  document.getElementById('ssMistakesNx').textContent=`${lim.maxLives} Lives`;
+  document.getElementById('ssXpNx').textContent=`+${xp} XP`;
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    DAILY CHALLENGE
-══════════════════════════════════════════════════════════════ */
-function startDailyChallenge(){
+════════════════════════════════════════════ */
+function startDailyChallengeNx(){
   const today=new Date().toDateString();
-  if(_local.dailyDone===today){toast('Already done!','Come back tomorrow for a new challenge.','info');return;}
-  _isDaily=true;_setupBoard=9;_setupDiff='moderate';
-  toast('Daily Challenge! 🗓️','+25 Bonus XP on completion','success');
-  startGame();
+  if(localFallbackNx.dailyDone===today){toastNx('Already done!','You\'ve completed today\'s challenge.','info');return;}
+  isDailyChallengeNx=true;
+  setupBoardNx=9;setupDiffNx='moderate';
+  toastNx('Daily Challenge! 🗓️','+25 Bonus XP on completion','success');
+  startGameNx();
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    GAME START
-══════════════════════════════════════════════════════════════ */
-function startGame(){
-  if(_setupBoard)_boardSize=_setupBoard;
-  if(_setupDiff) _diff=_setupDiff;
-  const lim=BOARD_LIMITS[_boardSize];
-  _hints=lim.hints;_maxLives=lim.maxLives;
-  _mistakes=0;_usedHints=0;_notesMode=false;_gameActive=true;_selCell=null;
-  document.getElementById('notesBtn').classList.remove('active');
-  document.getElementById('setupView').style.display='none';
-  document.getElementById('gameView').style.display='block';
-  _boardSize===4?create4Puzzle():create9Puzzle();
-  const cfg=DIFF_CFG[_diff],xp=XP_TABLE[`${_boardSize}-${_diff}`]||50;
-  document.getElementById('gameTitle').textContent=_boardSize===4?'⚡ Quick Play':'🧩 Classic Sudoku';
-  const db=document.getElementById('gameDiffBadge');db.textContent=cfg.label;db.className=`diff-badge-game ${_diff}`;
-  document.getElementById('gameSubtitle').textContent=`${_boardSize}×${_boardSize}`;
-  document.getElementById('gameRewardPreview').textContent=`+${xp} XP`;
-  document.getElementById('diffDisplay').textContent=cfg.label;
-  renderLives();renderHints();renderBoard();renderNumpad();startTimer();
-  openScreen('playScreen');
+════════════════════════════════════════════ */
+function startGameNx(){
+  if(setupBoardNx)currentBoardSizeNx=setupBoardNx;
+  if(setupDiffNx) currentDiffNx=setupDiffNx;
+  const lim=BOARD_LIMITS_Nx[currentBoardSizeNx];
+  hintsNx=lim.hints;maxLivesNx=lim.maxLives;
+  mistakesNx=0;usedHintsNx=0;notesModeNx=false;
+  gameActiveNx=true;selectedCellNx=null;
+  document.getElementById('notesBtnNx').classList.remove('active');
+  document.getElementById('setupViewNx').style.display='none';
+  document.getElementById('gameViewNx').style.display='block';
+  currentBoardSizeNx===4?create4x4PuzzleNx():create9x9PuzzleNx();
+  const cfg=DIFF_CONFIG_Nx[currentDiffNx],xp=XP_TABLE_Nx[`${currentBoardSizeNx}-${currentDiffNx}`]||50;
+  document.getElementById('gameTitleNx').textContent=currentBoardSizeNx===4?'⚡ Quick Play':'🧩 Classic Sudoku';
+  const db=document.getElementById('gameDiffBadgeNx');
+  db.textContent=cfg.label;db.className=`diff-badge-game ${currentDiffNx}`;
+  document.getElementById('gameSubtitleNx').textContent=`${currentBoardSizeNx}×${currentBoardSizeNx}`;
+  document.getElementById('gameRewardPreviewNx').textContent=`+${xp} XP`;
+  document.getElementById('diffDisplayNx').textContent=cfg.label;
+  renderLivesNx();renderHintsNx();renderBoardNx();renderNumpadNx();
+  startTimerNx();
+  openScreenNx('playScreen');
 }
-function newGameAfterWin(){
-  _setupBoard=null;_setupDiff=null;
-  document.getElementById('setupView').style.display='block';
-  document.getElementById('gameView').style.display='none';
-  goStep(1);
+function newGameAfterWinNx(){
+  setupBoardNx=null;setupDiffNx=null;
+  document.getElementById('setupViewNx').style.display='block';
+  document.getElementById('gameViewNx').style.display='none';
+  goStepNx(1);
   document.querySelectorAll('.board-card').forEach(c=>c.classList.remove('selected'));
-  document.getElementById('step1Next').disabled=true;
-  document.getElementById('step2Next').disabled=true;
-  openScreen('playScreen');
+  document.getElementById('stepNx1Next').disabled=true;
+  document.getElementById('stepNx2Next').disabled=true;
+  openScreenNx('playScreen');
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    PUZZLE GENERATORS
-══════════════════════════════════════════════════════════════ */
-function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function gen4Solution(){
-  const bases=[[[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]],[[1,2,3,4],[3,4,1,2],[4,3,2,1],[2,1,4,3]],[[2,1,4,3],[4,3,2,1],[1,2,3,4],[3,4,1,2]]];
+════════════════════════════════════════════ */
+function shuffleNx(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function generate4x4SolutionNx(){
+  const bases=[
+    [[1,2,3,4],[3,4,1,2],[2,1,4,3],[4,3,2,1]],
+    [[1,2,3,4],[3,4,1,2],[4,3,2,1],[2,1,4,3]],
+    [[2,1,4,3],[4,3,2,1],[1,2,3,4],[3,4,1,2]],
+  ];
   return bases[Math.floor(Math.random()*bases.length)];
 }
-function create4Puzzle(){
-  _solution=gen4Solution();_puzzle=_solution.map(r=>[...r]);
-  const rc={easy:4,moderate:7,hard:10};let rm=rc[_diff]||4,t=0;
-  while(rm>0&&t<200){const r=Math.floor(Math.random()*4),c=Math.floor(Math.random()*4);if(_puzzle[r][c]!==0){_puzzle[r][c]=0;rm--;}t++;}
+function create4x4PuzzleNx(){
+  solutionNx=generate4x4SolutionNx();puzzleNx=solutionNx.map(r=>[...r]);
+  const removeCounts={easy:4,moderate:7,hard:10};
+  let remove=removeCounts[currentDiffNx]||4,tries=0;
+  while(remove>0&&tries<200){const r=Math.floor(Math.random()*4),c=Math.floor(Math.random()*4);if(puzzleNx[r][c]!==0){puzzleNx[r][c]=0;remove--;}tries++;}
 }
-function gen9Solution(){
+function generate9x9SolutionNx(){
   const base=[[1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]];
-  const nums=shuffle([1,2,3,4,5,6,7,8,9]);return base.map(row=>row.map(n=>nums[n-1]));
+  const nums=shuffleNx([1,2,3,4,5,6,7,8,9]);
+  return base.map(row=>row.map(n=>nums[n-1]));
 }
-function create9Puzzle(){
-  _solution=gen9Solution();_puzzle=_solution.map(r=>[...r]);
-  const rc={easy:30,moderate:42,hard:54};let rm=rc[_diff]||30,t=0;
-  while(rm>0&&t<1000){const r=Math.floor(Math.random()*9),c=Math.floor(Math.random()*9);if(_puzzle[r][c]!==0){_puzzle[r][c]=0;rm--;}t++;}
+function create9x9PuzzleNx(){
+  solutionNx=generate9x9SolutionNx();puzzleNx=solutionNx.map(r=>[...r]);
+  const removeCounts={easy:30,moderate:42,hard:54};
+  let remove=removeCounts[currentDiffNx]||30,tries=0;
+  while(remove>0&&tries<1000){const r=Math.floor(Math.random()*9),c=Math.floor(Math.random()*9);if(puzzleNx[r][c]!==0){puzzleNx[r][c]=0;remove--;}tries++;}
 }
 
-/* ══════════════════════════════════════════════════════════════
-   BOARD RENDER & INTERACTION
-══════════════════════════════════════════════════════════════ */
-function renderBoard(){
-  const board=document.getElementById('sudokuBoard');
-  board.innerHTML='';board.className=`sudoku-board g${_boardSize}`;_selCell=null;
-  _puzzle.forEach((row,ri)=>row.forEach((val,ci)=>{
+/* ════════════════════════════════════════════
+   BOARD RENDER
+════════════════════════════════════════════ */
+function renderBoardNx(){
+  const board=document.getElementById('sudokuBoardNx');
+  board.innerHTML='';board.className=`sudoku-board g${currentBoardSizeNx}`;
+  selectedCellNx=null;
+  puzzleNx.forEach((row,ri)=>row.forEach((val,ci)=>{
     const cell=document.createElement('div');
     cell.className='cell';cell.dataset.row=ri;cell.dataset.col=ci;
     if(val!==0){cell.textContent=val;cell.classList.add('fixed');}
-    cell.addEventListener('click',()=>selectCell(ri,ci));
+    cell.addEventListener('click',()=>selectCellNx(ri,ci));
     board.appendChild(cell);
   }));
 }
-function selectCell(row,col){
+function selectCellNx(row,col){
   document.querySelectorAll('.cell').forEach(c=>c.classList.remove('selected','highlight','same-value'));
-  const el=getCell(row,col);if(!el)return;
-  _selCell={row,col,el};el.classList.add('selected');
-  const val=_puzzle[row][col],sz=_boardSize;
+  const el=getCellElNx(row,col);if(!el)return;
+  selectedCellNx={row,col,el};el.classList.add('selected');
+  const val=puzzleNx[row][col],sz=currentBoardSizeNx;
   document.querySelectorAll('.cell').forEach(c=>{
     if(c===el)return;
     const r=+c.dataset.row,co=+c.dataset.col;
     let hl=r===row||co===col;
     if(sz===9)hl|=(Math.floor(r/3)===Math.floor(row/3)&&Math.floor(co/3)===Math.floor(col/3));
-    else       hl|=(Math.floor(r/2)===Math.floor(row/2)&&Math.floor(co/2)===Math.floor(col/2));
+    else      hl|=(Math.floor(r/2)===Math.floor(row/2)&&Math.floor(co/2)===Math.floor(col/2));
     if(hl)c.classList.add('highlight');
-    else if(val!==0&&_puzzle[r][co]===val)c.classList.add('same-value');
+    else if(val!==0&&puzzleNx[r][co]===val)c.classList.add('same-value');
   });
 }
-function getCell(r,c){return document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);}
-function renderNumpad(){
-  const pad=document.getElementById('numpad');pad.innerHTML='';
-  for(let n=1;n<=_boardSize;n++){
-    const btn=document.createElement('button');btn.className='num-btn';btn.textContent=n;
-    btn.onclick=()=>placeNumber(n);pad.appendChild(btn);
+function getCellElNx(r,c){return document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);}
+
+/* ════════════════════════════════════════════
+   NUMPAD
+════════════════════════════════════════════ */
+function renderNumpadNx(){
+  const pad=document.getElementById('numpadNx');pad.innerHTML='';
+  for(let n=1;n<=currentBoardSizeNx;n++){
+    const btn=document.createElement('button');
+    btn.className='num-btn';btn.textContent=n;
+    btn.addEventListener('click',()=>placeNumberNx(n));
+    pad.appendChild(btn);
   }
 }
-function renderLives(){
-  const rem=_maxLives-_mistakes;
-  document.getElementById('livesDisplay').textContent='❤️'.repeat(rem)+'🤍'.repeat(_mistakes);
+function renderLivesNx(){
+  const rem=maxLivesNx-mistakesNx;
+  document.getElementById('livesDisplayNx').textContent='❤️'.repeat(Math.max(0,rem))+'🤍'.repeat(Math.min(mistakesNx,maxLivesNx));
 }
-function renderHints(){document.getElementById('hintsDisplay').textContent=`💡 x${_hints}`;}
+function renderHintsNx(){document.getElementById('hintsDisplayNx').textContent=`💡 x${hintsNx}`;}
 
-/* TIMER */
-function startTimer(){
-  clearInterval(_timerInt);_timerSecs=0;
-  document.getElementById('timerDisplay').textContent='00:00';
-  _timerInt=setInterval(()=>{
-    _timerSecs++;
-    const m=Math.floor(_timerSecs/60),s=_timerSecs%60;
-    document.getElementById('timerDisplay').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+/* ════════════════════════════════════════════
+   TIMER
+════════════════════════════════════════════ */
+function startTimerNx(){
+  clearInterval(timerIntervalNx);timerSecsNx=0;
+  document.getElementById('timerDisplayNx').textContent='00:00';
+  timerIntervalNx=setInterval(()=>{
+    timerSecsNx++;
+    const m=Math.floor(timerSecsNx/60),s=timerSecsNx%60;
+    document.getElementById('timerDisplayNx').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   },1000);
 }
 
-/* GAME ACTIONS */
-function placeNumber(num){
-  if(!_selCell||!_gameActive)return;
-  const{row,col,el}=_selCell;if(el.classList.contains('fixed'))return;
-  if(_notesMode){
-    const ex=el.dataset.notes?el.dataset.notes.split(','):[];
-    const ns=String(num),idx=ex.indexOf(ns);
-    if(idx>-1)ex.splice(idx,1);else ex.push(ns);
-    el.dataset.notes=ex.join(',');el.textContent=ex.sort().join(' ');
-    el.style.fontSize=_boardSize===4?'.55rem':'.48rem';el.style.color='var(--text-soft)';return;
+/* ════════════════════════════════════════════
+   GAME ACTIONS
+════════════════════════════════════════════ */
+function placeNumberNx(num){
+  if(!selectedCellNx||!gameActiveNx)return;
+  const{row,col,el}=selectedCellNx;
+  if(el.classList.contains('fixed'))return;
+  if(notesModeNx){
+    const existing=el.dataset.notes?el.dataset.notes.split(',').filter(Boolean):[];
+    const ns=String(num),idx=existing.indexOf(ns);
+    if(idx>-1)existing.splice(idx,1);else existing.push(ns);
+    el.dataset.notes=existing.join(',');
+    el.textContent=existing.sort().join(' ');
+    el.style.fontSize=currentBoardSizeNx===4?'.55rem':'.48rem';el.style.color='var(--text-soft)';
+    return;
   }
   el.dataset.notes='';el.style.fontSize='';el.style.color='';
-  if(_solution[row][col]===num){
-    _puzzle[row][col]=num;el.textContent=num;
+  if(solutionNx[row][col]===num){
+    puzzleNx[row][col]=num;el.textContent=num;
     el.classList.remove('wrong');el.classList.add('correct');
-    selectCell(row,col);checkWin();
+    selectCellNx(row,col);checkWinNx();
   }else{
-    _mistakes++;renderLives();el.classList.add('wrong');
+    mistakesNx++;renderLivesNx();
+    el.classList.add('wrong');
     setTimeout(()=>el.classList.remove('wrong'),700);
-    if(_mistakes>=_maxLives)triggerGameOver();
+    if(mistakesNx>=maxLivesNx)triggerGameOverNx();
   }
 }
-function toggleNotes(){_notesMode=!_notesMode;document.getElementById('notesBtn').classList.toggle('active',_notesMode);}
-function useHint(){
-  if(_hints<=0){toast('No hints left','','warning');return;}
-  if(!_selCell){toast('Select a cell','Tap an empty cell first.','info');return;}
-  const{row,col,el}=_selCell;if(el.classList.contains('fixed'))return;
-  if(_puzzle[row][col]===_solution[row][col]){toast('Already correct!','','info');return;}
-  _hints--;_usedHints++;renderHints();
-  _puzzle[row][col]=_solution[row][col];el.textContent=_solution[row][col];
-  el.dataset.notes='';el.style.fontSize='';el.style.color='';
-  el.classList.remove('wrong');el.classList.add('correct');checkWin();
+function toggleNotesNx(){
+  notesModeNx=!notesModeNx;
+  document.getElementById('notesBtnNx').classList.toggle('active',notesModeNx);
+  toastNx(notesModeNx?'Notes mode ON':'Notes mode OFF','','info',1500);
 }
-function eraseCell(){
-  if(!_selCell)return;
-  const{row,col,el}=_selCell;if(el.classList.contains('fixed'))return;
-  _puzzle[row][col]=0;el.textContent='';el.dataset.notes='';
+function useHintNx(){
+  if(hintsNx<=0){toastNx('No hints left','','warning');return;}
+  if(!selectedCellNx){toastNx('Select a cell','Tap an empty cell first.','info');return;}
+  const{row,col,el}=selectedCellNx;
+  if(el.classList.contains('fixed'))return;
+  if(puzzleNx[row][col]===solutionNx[row][col]){toastNx('Already correct!','','info');return;}
+  hintsNx--;usedHintsNx++;renderHintsNx();
+  puzzleNx[row][col]=solutionNx[row][col];
+  el.textContent=solutionNx[row][col];el.dataset.notes='';
+  el.style.fontSize='';el.style.color='';
+  el.classList.remove('wrong');el.classList.add('correct');
+  checkWinNx();
+}
+function eraseCellNx(){
+  if(!selectedCellNx)return;
+  const{row,col,el}=selectedCellNx;
+  if(el.classList.contains('fixed'))return;
+  puzzleNx[row][col]=0;el.textContent='';el.dataset.notes='';
   el.style.fontSize='';el.style.color='';el.classList.remove('correct','wrong');
 }
-function solvePuzzle(){
-  confirm2({title:'Reveal Solution',msg:'No XP will be awarded for this.',icon:'🎯',
+function solvePuzzleNx(){
+  showConfirmNx({
+    title:'Reveal Solution',msg:'No XP will be awarded.',icon:'🎯',
     onConfirm(){
-      clearInterval(_timerInt);_gameActive=false;
-      _puzzle=_solution.map(r=>[...r]);renderBoard();
+      clearInterval(timerIntervalNx);gameActiveNx=false;
+      puzzleNx=solutionNx.map(r=>[...r]);renderBoardNx();
       document.querySelectorAll('.cell').forEach(c=>c.classList.add('correct'));
-      toast('Solution revealed','Better luck next time!','info');
-      saveGame({won:false,time:_timerSecs});
+      toastNx('Solution revealed','Better luck next time!','info');
+      recordGameNx(false,0,timerSecsNx);
     }
   });
 }
-function checkBoard(){
+function checkBoardNx(){
   let empty=false,errors=false;
-  for(let r=0;r<_boardSize;r++)for(let c=0;c<_boardSize;c++){
-    if(_puzzle[r][c]===0){empty=true;continue;}
-    if(_puzzle[r][c]!==_solution[r][c]){
-      errors=true;const el=getCell(r,c);
+  for(let r=0;r<currentBoardSizeNx;r++)for(let c=0;c<currentBoardSizeNx;c++){
+    if(puzzleNx[r][c]===0){empty=true;continue;}
+    if(puzzleNx[r][c]!==solutionNx[r][c]){
+      errors=true;const el=getCellElNx(r,c);
       el?.classList.add('wrong');setTimeout(()=>el?.classList.remove('wrong'),1500);
     }
   }
-  if(empty)toast('Not done yet','Some cells are still empty.','info');
-  else if(errors)toast('Errors found','Incorrect cells are highlighted.','warning');
-  else checkWin();
+  if(empty)toastNx('Not done yet','Some cells are still empty.','info');
+  else if(errors)toastNx('Errors found','Incorrect cells highlighted.','warning');
+  else toastNx('Looking good!','No errors found so far.','success',2000);
 }
-function triggerGameOver(){
-  clearInterval(_timerInt);_gameActive=false;
-  document.getElementById('gameOverMsg').textContent=`You used all ${_maxLives} lives on ${DIFF_CFG[_diff].label} ${_boardSize}×${_boardSize}. Keep practising!`;
-  openModal('gameOverModal');
-  saveGame({won:false,time:_timerSecs});
+function triggerGameOverNx(){
+  clearInterval(timerIntervalNx);gameActiveNx=false;
+  document.getElementById('gameOverMsgNx').textContent=
+    `You used all ${maxLivesNx} lives on ${DIFF_CONFIG_Nx[currentDiffNx].label} ${currentBoardSizeNx}×${currentBoardSizeNx}.`;
+  openModalNx('gameOverModal');
+  recordGameNx(false,0,timerSecsNx);
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    CHECK WIN
-══════════════════════════════════════════════════════════════ */
-async function checkWin(){
-  for(let r=0;r<_puzzle.length;r++)
-    for(let c=0;c<_puzzle[r].length;c++)
-      if(_puzzle[r][c]!==_solution[r][c])return;
+════════════════════════════════════════════ */
+async function checkWinNx(){
+  for(let r=0;r<puzzleNx.length;r++)
+    for(let c=0;c<puzzleNx[r].length;c++)
+      if(puzzleNx[r][c]!==solutionNx[r][c])return;
 
-  clearInterval(_timerInt);_gameActive=false;
+  clearInterval(timerIntervalNx);gameActiveNx=false;
+  const baseXp=XP_TABLE_Nx[`${currentBoardSizeNx}-${currentDiffNx}`]||50;
+  const perfect=mistakesNx===0,noHints=usedHintsNx===0,daily=isDailyChallengeNx;
+  let bonusXp=0;
+  if(perfect)bonusXp+=XP_TABLE_Nx.perfect;
+  if(noHints)bonusXp+=XP_TABLE_Nx.nohint;
+  if(daily)  bonusXp+=XP_TABLE_Nx.daily;
+  const totalXp=baseXp+bonusXp;
+  const prevLevel=getLevelNx();
 
-  const baseXp=XP_TABLE[`${_boardSize}-${_diff}`]||50;
-  const perfect=_mistakes===0,noHints=_usedHints===0,daily=_isDaily;
-  let bonus=0;
-  if(perfect)bonus+=XP_TABLE.perfect;
-  if(noHints)bonus+=XP_TABLE.nohint;
-  if(daily)  bonus+=XP_TABLE.daily;
-  const totalXp=baseXp+bonus;
-  const prevLevel=getLevel();
-
-  /* build win breakdown */
   const rows=[
-    `<div class="win-row"><span class="win-lbl">Time</span><span class="win-val">${fmt(_timerSecs)}</span></div>`,
-    `<div class="win-row"><span class="win-lbl">Mistakes</span><span class="win-val">${_mistakes}</span></div>`,
+    `<div class="win-row"><span class="win-lbl">Time</span><span class="win-val">${formatTimeNx(timerSecsNx)}</span></div>`,
+    `<div class="win-row"><span class="win-lbl">Mistakes</span><span class="win-val">${mistakesNx}</span></div>`,
     `<div class="win-row"><span class="win-lbl">Base XP</span><span class="win-val xp">+${baseXp} XP</span></div>`,
-    perfect?`<div class="win-row"><span class="win-lbl">🎯 Perfect Game</span><span class="win-val xp">+${XP_TABLE.perfect} XP</span></div>`:'',
-    noHints?`<div class="win-row"><span class="win-lbl">🕵️ No Hints Used</span><span class="win-val xp">+${XP_TABLE.nohint} XP</span></div>`:'',
-    daily?`<div class="win-row"><span class="win-lbl">🗓️ Daily Bonus</span><span class="win-val xp">+${XP_TABLE.daily} XP</span></div>`:'',
+    perfect?`<div class="win-row"><span class="win-lbl">🎯 Perfect Game</span><span class="win-val xp">+${XP_TABLE_Nx.perfect} XP</span></div>`:'',
+    noHints?`<div class="win-row"><span class="win-lbl">🕵️ No Hints Used</span><span class="win-val xp">+${XP_TABLE_Nx.nohint} XP</span></div>`:'',
+    daily?  `<div class="win-row"><span class="win-lbl">🗓️ Daily Bonus</span><span class="win-val xp">+${XP_TABLE_Nx.daily} XP</span></div>`:'',
   ].join('');
-  document.getElementById('winBreakdown').innerHTML=rows+`<div class="win-total"><span class="win-total-lbl">Total Earned</span><span class="win-total-val">+${totalXp} XP</span></div>`;
-  document.getElementById('levelUpBanner').style.display='none';
-  openModal('winModal');
-  _isDaily=false;
+  const total=`<div class="win-total"><span class="win-total-lbl">Total Earned</span><span class="win-total-val">+${totalXp} XP</span></div>`;
+  document.getElementById('winBreakdownNx').innerHTML=rows+total;
+  document.getElementById('levelUpBannerNx').style.display='none';
+  openModalNx('winModal');
+  isDailyChallengeNx=false;
 
-  /* save (this does local update → instant UI → server → re-render) */
-  await saveGame({won:true,xpEarned:totalXp,time:_timerSecs,perfect,noHints,daily});
+  await recordGameNx(true,totalXp,timerSecsNx,perfect,noHints,daily);
 
-  /* level-up banner */
-  const newLevel=getLevel();
+  const newLevel=getLevelNx();
   if(newLevel>prevLevel){
-    const b=document.getElementById('levelUpBanner');
-    b.textContent=`🎉 Level Up! Welcome to Level ${newLevel}!`;
-    b.style.display='block';
+    const banner=document.getElementById('levelUpBannerNx');
+    banner.textContent=`🎉 Level Up! You reached Level ${newLevel}!`;
+    banner.style.display='block';
+    toastNx(`Level ${newLevel}! 🎉`,'You levelled up!','success',4000);
   }
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
+   RECORD GAME
+════════════════════════════════════════════ */
+async function recordGameNx(won,xpEarned=0,time=0,perfect=false,noHints=false,daily=false){
+  // 1. Update local immediately (instant UI)
+  localFallbackNx.played++;
+  if(won){
+    localFallbackNx.wins++;
+    addLocalXpNx(xpEarned);
+    if(perfect)localFallbackNx.perfectGames++;
+    if(noHints)localFallbackNx.noHintWins++;
+    if(!localFallbackNx.bestTime||(time>0&&time<localFallbackNx.bestTime))localFallbackNx.bestTime=time;
+    const today=new Date().toDateString(),yesterday=new Date(Date.now()-86400000).toDateString();
+    if(localFallbackNx.lastPlayDate===yesterday)localFallbackNx.streak++;
+    else if(localFallbackNx.lastPlayDate!==today)localFallbackNx.streak=1;
+    localFallbackNx.lastPlayDate=today;
+    if(daily){localFallbackNx.dailyDone=today;localFallbackNx.dailyChallenges++;}
+  }
+  saveLocalFallbackNx();
+  refreshUIFromNxdbNx(); // instant local render
+
+  // 2. Save to Nxdb (or queue if offline)
+  showRefreshNx('Saving to Nxdb…');
+  const res=await saveGameProgressNx({
+    won,time,mistakes:mistakesNx,hintsUsed:usedHintsNx,
+    difficulty:currentDiffNx,boardSize:currentBoardSizeNx,
+    isDaily:daily,xpEarned,perfect,noHints
+  });
+
+  if(res&&_isOnline){
+    // 3. Full Nxdb refresh after save
+    await refreshSudokuNxdb();
+    await syncAchievementsNx();
+    refreshLeaderboardNx().catch(()=>{});
+  }
+  hideRefreshNx();
+}
+
+/* ════════════════════════════════════════════
    CONFIRM NEW GAME
-══════════════════════════════════════════════════════════════ */
-function confirmNewGame(){
-  if(!_gameActive){newGameAfterWin();return;}
-  confirm2({title:'Start New Game',msg:'Your current progress will be lost.',icon:'🔄',
+════════════════════════════════════════════ */
+function confirmNewGameNx(){
+  if(!gameActiveNx){newGameAfterWinNx();return;}
+  showConfirmNx({
+    title:'Start New Game',msg:'Your current progress will be lost.',icon:'🔄',
     onConfirm(){
-      clearInterval(_timerInt);_gameActive=false;
-      saveGame({won:false,time:_timerSecs});
-      newGameAfterWin();
+      clearInterval(timerIntervalNx);gameActiveNx=false;
+      recordGameNx(false,0,timerSecsNx);
+      newGameAfterWinNx();
     }
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
-   LEADERBOARD RENDER
-══════════════════════════════════════════════════════════════ */
-function renderLeaderboard(){
-  const podium=document.getElementById('lbPodium');
-  const list  =document.getElementById('lbList');
-  const youBanner=document.getElementById('lbYouBanner');
-  const af=getAF();
-  const lb=_leaderboard;
-
-  if(!lb.length){
-    list.innerHTML='<div class="empty-state"><div class="e-icon">🏆</div><p>No players yet — be the first!</p></div>';
-    if(podium)podium.style.display='none';if(youBanner)youBanner.style.display='none';return;
+/* ════════════════════════════════════════════
+   AF SYNC BAR
+════════════════════════════════════════════ */
+function refreshAFSyncBarNx(){
+  const af=getAFStudentNx();
+  const bar=document.getElementById('afSyncBarNx'),
+        avatar=document.getElementById('afAvatarNx'),
+        name=document.getElementById('afNameNx'),
+        sub=document.getElementById('afSubNx'),
+        badge=document.getElementById('afBadgeNx');
+  if(af.loggedIn&&af.name){
+    bar.className='af-sync-bar synced';
+    const initials=af.name.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+    avatar.textContent=initials||'AF';
+    name.textContent=af.name;
+    sub.textContent=af.phone?`📱 ${af.phone}`:(af.email||'AcademeForge Student');
+    badge.textContent='✓ AF Synced';badge.className='af-badge ok';
+  }else{
+    bar.className='af-sync-bar unsynced';
+    avatar.textContent='?';name.textContent='Not Synced';
+    sub.textContent='Login in AcademeForge app first';
+    badge.textContent='Not Synced';badge.className='af-badge warn';
   }
-
-  /* podium */
-  if(lb.length>=1&&podium){
-    podium.style.display='grid';
-    const po=lb.length>=3?[lb[1],lb[0],lb[2]]:lb.length===2?[lb[1],lb[0],null]:[null,lb[0],null];
-    const pc=['rank2','rank1','rank3'],pm=['🥈','🥇','🥉'];
-    podium.innerHTML=po.map((p,i)=>{
-      if(!p)return'<div></div>';
-      return`<div class="lb-podium-card ${pc[i]}">
-        <div class="podium-medal">${pm[i]}</div>
-        <div class="podium-avatar">${p.avatar||p.name?.[0]||'😀'}</div>
-        <div class="podium-name">${p.name||p.username}</div>
-        <div class="podium-xp">${(p.xp||0).toLocaleString()} XP</div>
-        <div class="podium-level">Lv.${p.level||1}</div>
-      </div>`;
-    }).join('');
-  }
-
-  /* my row */
-  const myIdx=lb.findIndex(p=>(af.studentId&&p.student_id===af.studentId)||(af.email&&p.email===af.email));
-  if(myIdx>=0&&youBanner){
-    const myP=lb[myIdx],myRank=myIdx+1;
-    document.getElementById('lbYouAva').textContent=myP.avatar||myP.name?.[0]||'😀';
-    document.getElementById('lbYouName').textContent=myP.name||myP.username||'You';
-    document.getElementById('lbYouSub').textContent=`${(myP.xp||0).toLocaleString()} XP · Lv.${myP.level||1} · ${myP.wins||0} wins`;
-    document.getElementById('lbYouRank').textContent=`#${myRank}`;
-    youBanner.style.display='flex';
-  }else if(youBanner){youBanner.style.display='none';}
-
-  /* list */
-  list.innerHTML=lb.map((p,i)=>{
-    const rank=i+1;
-    const isMe=(af.studentId&&p.student_id===af.studentId)||(af.email&&p.email===af.email);
-    const rankDisplay=rank<=3?['🥇','🥈','🥉'][rank-1]:`#${rank}`;
-    return`<div class="lb-item${isMe?' is-me':''}">
-      <div class="lb-rank-col${rank<=3?' top3':''}">${rankDisplay}</div>
-      <div class="lb-player-col">
-        <div class="lb-avatar">${p.avatar||p.name?.[0]||'😀'}</div>
-        <div>
-          <div class="lb-player-name">${p.name||p.username||'Player'}${isMe?` <span style="font-size:.62rem;background:var(--primary);color:white;padding:1px 6px;border-radius:999px;margin-left:4px">You</span>`:''}</div>
-          <div class="lb-player-sub">Lv.${p.level||1} · ${p.wins||0} wins · ${p.games_played||0} games</div>
-        </div>
-      </div>
-      <div class="lb-xp-col">
-        <div class="lb-xp-val">${(p.xp||0).toLocaleString()}</div>
-        <div class="lb-xp-wins">XP</div>
-      </div>
-    </div>`;
-  }).join('');
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
+   GLOBAL UI REFRESH
+════════════════════════════════════════════ */
+function refreshUIFromNxdbNx(){
+  const af=getAFStudentNx();
+  const xp=getXpNx(),level=getLevelNx(),wins=getWinsNx(),played=getPlayedNx(),best=getBestTimeNx();
+  const xpData=xpForCurrentLevelNx(xp),tier=getTierNx(level),rank=getRankNx();
+
+  const displayName=(af.loggedIn&&af.name)?af.name:(nxdbPlayer?.name||localStorage.getItem('sm_nxdb_username')||'Guest Player');
+  const displayAvatar=localStorage.getItem('sm_nxdb_avatar')||(af.loggedIn?'🎓':'😀');
+
+  // Header
+  document.getElementById('headerAvatarBtnNx').textContent=displayAvatar;
+
+  // Hero XP
+  document.getElementById('heroLevelNx').textContent=level;
+  document.getElementById('heroLevelLabelNx').textContent=`Level ${level}`;
+  document.getElementById('heroXpNumsNx').textContent=`${xpData.progress.toLocaleString()} / ${xpData.needed.toLocaleString()} XP`;
+  document.getElementById('heroXpFillNx').style.width=`${Math.min(100,Math.round((xpData.progress/xpData.needed)*100))}%`;
+  document.getElementById('heroXpRemainingNx').textContent=`${(xpData.needed-xpData.progress).toLocaleString()} XP to next level`;
+
+  // Quick stats
+  document.getElementById('qsLevelNx').textContent=level;
+  document.getElementById('qsWinsNx').textContent=wins;
+  if(rank>0)updateRankNx(rank);
+
+  // Daily
+  const today=new Date().toDateString(),todayDone=localFallbackNx.dailyDone===today;
+  document.getElementById('dailyChallengeDescNx').textContent=todayDone?'✅ Completed! Come back tomorrow.':'Complete today\'s puzzle for a bonus reward';
+  document.getElementById('dailyStreakIconNx').textContent=getStreakNx()>=3?'🔥':'🗓️';
+
+  // Profile
+  document.getElementById('profileAvatarNx').textContent=displayAvatar;
+  document.getElementById('profileNameNx').textContent=displayName;
+  document.getElementById('profileLevelBadgeNx').textContent=`⚡ Level ${level}`;
+  const tierBadge=document.getElementById('profileTierBadgeNx');
+  tierBadge.textContent=`${tier.icon} ${tier.name}`;tierBadge.className=`tier-badge ${tier.css}`;
+  document.getElementById('profileEmailNx').textContent=nxdbPlayer?.email||af.email||'';
+
+  // Sync status label
+  const syncEl=document.getElementById('syncStatusNx');
+  if(syncEl){
+    if(!_isOnline){syncEl.textContent='📡 Offline — playing locally';syncEl.style.color='var(--yellow)';}
+    else if(nxdbPlayer){syncEl.textContent='☁️ Nxdb connected';syncEl.style.color='var(--green)';}
+    else if(af.loggedIn){syncEl.textContent='⏳ Syncing to Nxdb…';syncEl.style.color='var(--yellow)';}
+    else syncEl.textContent='';
+  }
+
+  // Profile XP bar
+  document.getElementById('pxpLevelNx').textContent=`Level ${level}`;
+  document.getElementById('pxpNumsNx').textContent=`${xpData.progress.toLocaleString()} / ${xpData.needed.toLocaleString()} XP`;
+  document.getElementById('pxpFillNx').style.width=`${Math.min(100,Math.round((xpData.progress/xpData.needed)*100))}%`;
+  document.getElementById('pxpRemainingNx').textContent=`${(xpData.needed-xpData.progress).toLocaleString()} XP to reach Level ${level+1}`;
+
+  // Profile stats
+  document.getElementById('pTotalXpNx').textContent=xp.toLocaleString();
+  document.getElementById('pWinsNx').textContent=wins;
+  document.getElementById('pPlayedNx').textContent=played;
+  document.getElementById('pWinRateNx').textContent=played>0?`${Math.round((wins/played)*100)}%`:'0%';
+  document.getElementById('pBestTimeNx').textContent=best?formatTimeNx(best):'--';
+  if(rank>0)document.getElementById('pGlobalRankNx').textContent=`#${rank}`;
+
+  refreshAFSyncBarNx();
+  buildAchievementsUINx();
+  updateOfflineSyncSubNx();
+}
+
+/* ════════════════════════════════════════════
+   PROFILE SCREEN REFRESH
+════════════════════════════════════════════ */
+function refreshProfileScreenNx(){
+  const af=getAFStudentNx();
+  const afCard=document.getElementById('afProfileCardNx');
+  if(af.loggedIn&&af.name){
+    afCard.style.display='block';
+    document.getElementById('afpcNameNx').textContent =af.name||'-';
+    document.getElementById('afpcPhoneNx').textContent=af.phone||'-';
+    document.getElementById('afpcEmailNx').textContent=af.email||'-';
+    document.getElementById('afpcSidNx').textContent  =af.studentId||'-';
+  }else{
+    afCard.style.display='none';
+  }
+  buildAchievementsUINx();
+  refreshUIFromNxdbNx();
+}
+
+/* ════════════════════════════════════════════
    EDIT PROFILE
-══════════════════════════════════════════════════════════════ */
-function openEditProfile(){
-  document.getElementById('editUsername').value=_player?.display_name||_player?.name||localStorage.getItem('sm_username')||'';
-  _editAvatar=localStorage.getItem('sm_avatar')||'😀';
-  const grid=document.getElementById('editAvatarGrid');grid.innerHTML='';
-  AVATARS.forEach(av=>{
+════════════════════════════════════════════ */
+function openEditProfileNx(){
+  const username=nxdbPlayer?.name||localStorage.getItem('sm_nxdb_username')||'';
+  document.getElementById('editUsernameNx').value=username;
+  editSelectedAvatarNx=localStorage.getItem('sm_nxdb_avatar')||'😀';
+  const grid=document.getElementById('editAvatarGridNx');grid.innerHTML='';
+  AVATARS_Nx.forEach(av=>{
     const btn=document.createElement('button');btn.type='button';
-    btn.style.cssText=`height:44px;font-size:1.4rem;border-radius:10px;background:var(--surface-3);border:2px solid ${av===_editAvatar?'var(--primary)':'transparent'};transition:all .15s;cursor:pointer`;
+    btn.style.cssText=`height:44px;font-size:1.4rem;border-radius:10px;background:var(--surface-3);border:2px solid ${av===editSelectedAvatarNx?'var(--primary)':'transparent'};transition:all .15s;cursor:pointer`;
     btn.textContent=av;
     btn.onclick=()=>{
       grid.querySelectorAll('button').forEach(b=>{b.style.borderColor='transparent';b.style.background='var(--surface-3)';});
       btn.style.borderColor='var(--primary)';btn.style.background='var(--primary-light)';
-      _editAvatar=av;
+      editSelectedAvatarNx=av;
     };
     grid.appendChild(btn);
   });
-  openModal('editProfileModal');
+  openModalNx('editProfileModal');
 }
-async function saveProfileEdit(){
-  const username=document.getElementById('editUsername').value.trim();
-  if(username.length<3){toast('Too short','Username needs at least 3 characters.','warning');return;}
-  localStorage.setItem('sm_username',username);
-  localStorage.setItem('sm_avatar',_editAvatar);
-  const af=getAF();
-  if(af.loggedIn&&af.studentId&&_player){
-    try{
-      const res=await api(_EP.sync,{action:'update-profile',student_id:af.studentId,display_name:username,avatar:_editAvatar});
-      if(res.player)_player=res.player;
-    }catch(e){/* silent — local save already done */}
+async function saveProfileEditNx(){
+  const username=document.getElementById('editUsernameNx').value.trim();
+  if(username.length<3){toastNx('Username too short','Min 3 characters.','warning');return;}
+  localStorage.setItem('sm_nxdb_username',username);
+  localStorage.setItem('sm_nxdb_avatar',editSelectedAvatarNx);
+  const af=getAFStudentNx();
+  if(af.loggedIn&&af.studentId&&nxdbPlayer&&_isOnline){
+    try{await nxdbApi(NXDB_API_URL,{action:'update-profile',student_id:af.studentId,display_name:username,avatar:editSelectedAvatarNx});}
+    catch(e){/* silent */}
   }
-  closeModal('editProfileModal');
-  toast('Profile updated!','Your changes have been saved.','success');
-  refreshUI();
+  closeModalNx('editProfileModal');
+  toastNx('Profile updated!','','success');
+  refreshUIFromNxdbNx();
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    SETTINGS
-══════════════════════════════════════════════════════════════ */
-function confirmResetProgress(){
-  confirm2({title:'Reset Device Data',msg:'This clears data stored on this device. Your cloud progress is kept safe.',icon:'🗑️',
+════════════════════════════════════════════ */
+function confirmResetProgressNx(){
+  showConfirmNx({
+    title:'Reset All Progress',msg:'Clears all local fallback data. Nxdb data persists.',icon:'🗑️',
     onConfirm(){
-      _local={xp:0,level:1,wins:0,played:0,bestTime:0,streak:0,
-        lastPlayDate:null,perfectGames:0,dailyChallenges:0,noHintWins:0,dailyDone:null,globalRank:0};
-      saveLocal();refreshUI();
-      toast('Device data cleared','Your cloud progress is still safe.','info');
+      localFallbackNx={xp:0,level:1,wins:0,played:0,bestTime:0,streak:0,lastPlayDate:null,perfectGames:0,dailyChallenges:0,noHintWins:0,dailyDone:null,globalRank:0};
+      offlineQueueNx=[];
+      saveLocalFallbackNx();saveOfflineQueueNx();
+      refreshUIFromNxdbNx();
+      toastNx('Local data cleared','Nxdb data is safe.','info');
     }
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════════ */
+function formatTimeNx(secs){
+  const m=Math.floor(secs/60),s=secs%60;
+  return m>0?`${m}m ${s}s`:`${s}s`;
+}
+
+/* ════════════════════════════════════════════
    KEYBOARD
-══════════════════════════════════════════════════════════════ */
+════════════════════════════════════════════ */
 document.addEventListener('keydown',e=>{
-  if(!_gameActive)return;
+  if(!gameActiveNx)return;
   const num=parseInt(e.key);
-  if(num>=1&&num<=_boardSize){placeNumber(num);return;}
-  if(e.key==='Backspace'||e.key==='Delete'){eraseCell();return;}
-  if(!_selCell)return;
-  let{row,col}=_selCell;const sz=_boardSize;
+  if(num>=1&&num<=currentBoardSizeNx){placeNumberNx(num);return;}
+  if(e.key==='Backspace'||e.key==='Delete'){eraseCellNx();return;}
+  if(!selectedCellNx)return;
+  let{row,col}=selectedCellNx;const sz=currentBoardSizeNx;
   if(e.key==='ArrowUp')   row=Math.max(0,row-1);
   if(e.key==='ArrowDown') row=Math.min(sz-1,row+1);
   if(e.key==='ArrowLeft') col=Math.max(0,col-1);
   if(e.key==='ArrowRight')col=Math.min(sz-1,col+1);
-  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();selectCell(row,col);}
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){
+    e.preventDefault();selectCellNx(row,col);
+  }
 });
 
-/* ══════════════════════════════════════════════════════════════
-   INIT — instant local render first, server sync in background
-══════════════════════════════════════════════════════════════ */
-async function init(){
-  loadTheme();loadSound();loadLocal();
-  refreshUI();/* instant render from local data */
+/* ════════════════════════════════════════════
+   STORAGE EVENT — syncs across tabs / main AF app
+   When AF app logs in, this fires and instantly updates the game
+════════════════════════════════════════════ */
+window.addEventListener('storage',e=>{
+  const afKeys=['af_student_name','af_student_mobile','af_student_email','af_student_logged_in','af_student_id','af_student_uuid'];
+  if(afKeys.includes(e.key)){
+    refreshAFSyncBarNx();
+    refreshUIFromNxdbNx();
+    const af=getAFStudentNx();
+    if(af.loggedIn&&af.studentId&&_isOnline){
+      // New login detected — sync immediately
+      refreshSudokuNxdb().catch(()=>{});
+    }
+  }
+});
 
-  const af=getAF();
+/* ════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
+async function initNx(){
+  loadThemeNx();
+  initSoundNx();
+  loadLocalFallbackNx();
+  loadOfflineQueueNx();
+
+  // Set initial online state
+  setOnlineStateNx(navigator.onLine);
+
+  // Immediate local render — no waiting for network
+  refreshUIFromNxdbNx();
+
+  const af=getAFStudentNx();
   if(af.loggedIn&&af.name){
-    setTimeout(()=>toast(`Welcome back, ${af.name.split(' ')[0]}! 👋`,'Fetching your latest data…','success',3000),400);
+    setTimeout(()=>toastNx(`Welcome back, ${af.name.split(' ')[0]}! 👋`,_isOnline?'Syncing to Nxdb…':'You\'re offline — playing locally',_isOnline?'success':'info',3000),400);
   }
 
-  /* fire full refresh — parallel player + leaderboard fetch */
-  await fullRefresh();
-  refreshUI();/* re-render with server data */
+  // Sync with Nxdb in background (only if online)
+  if(_isOnline){
+    await refreshSudokuNxdb();
+    refreshUIFromNxdbNx();
+  }
+
+  // Update offline queue sub-label
+  updateOfflineSyncSubNx();
 }
 
-init();
+initNx();
 </script>
 </body>
 </html>
