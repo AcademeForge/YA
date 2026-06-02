@@ -36,7 +36,7 @@ button{cursor:pointer;border:none;outline:none;font:inherit;background:none;}
 a{text-decoration:none;color:inherit;}
 input{font:inherit;outline:none;}
 
-.app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(var(--nav-height)+8px);position:relative;}
+.app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(var(--nav-height)+32px);position:relative;}
 .app::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,122,24,.05) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(34,197,94,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
 /* OFFLINE BANNER */
@@ -641,13 +641,39 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
       <div class="settings-row"><div><div class="settings-label">Student ID</div></div><div id="afpcSidNx" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">-</div></div>
     </div>
   </div>
-  <div class="section-title">Nxdb Status</div>
+  <div class="section-title">Synced Status</div>
   <div class="settings-list">
-    <div class="settings-row"><div><div class="settings-label">Player Database</div><div class="settings-sub">sudoku_players_nxdb</div></div><span id="nxdbPlayerStatusNx" class="nxdb-status-Nx">—</span></div>
-    <div class="settings-row"><div><div class="settings-label">Stats Database</div><div class="settings-sub">sudoku_stats_nxdb</div></div><span id="nxdbStatsStatusNx" class="nxdb-status-Nx">—</span></div>
-    <div class="settings-row"><div><div class="settings-label">Leaderboard</div><div class="settings-sub">sudoku_leaderboard_nxdb</div></div><span id="nxdbLbStatusNx" class="nxdb-status-Nx">—</span></div>
-    <div class="settings-row"><div><div class="settings-label">Last Sync</div><div class="settings-sub">Auto-sync on every action</div></div><span id="nxdbLastSyncNx" style="font-size:.72rem;color:var(--text-muted)">—</span></div>
+    <div class="settings-row">
+  <div>
+    <div class="settings-label">Profile Sync</div>
+    <div class="settings-sub">Account information synced</div>
   </div>
+  <span id="nxdbPlayerStatusNx" class="nxdb-status-Nx">—</span>
+</div>
+
+<div class="settings-row">
+  <div>
+    <div class="settings-label">Game Statistics</div>
+    <div class="settings-sub">Progress and achievements synced</div>
+  </div>
+  <span id="nxdbStatsStatusNx" class="nxdb-status-Nx">—</span>
+</div>
+
+<div class="settings-row">
+  <div>
+    <div class="settings-label">Leaderboard</div>
+    <div class="settings-sub">Rankings updated automatically</div>
+  </div>
+  <span id="nxdbLbStatusNx" class="nxdb-status-Nx">—</span>
+</div>
+
+<div class="settings-row">
+  <div>
+    <div class="settings-label">Last Sync</div>
+    <div class="settings-sub">Updated automatically during gameplay</div>
+  </div>
+  <span id="nxdbLastSyncNx" style="font-size:.72rem;color:var(--text-muted)">—</span>
+</div>
 </section>
 
 <!-- ══ LEADERBOARD ══ -->
@@ -655,7 +681,7 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
   <div class="lb-header-card">
     <div style="font-size:2rem;margin-bottom:8px">🏆</div>
     <div class="lb-header-title">Global Leaderboard</div>
-    <div class="lb-header-sub">Powered by sudoku_leaderboard_nxdb</div>
+    <div class="lb-header-sub">Powered by AF Nexus</div>
   </div>
   <div id="lbYouBannerNx" style="display:none" class="lb-you-banner">
     <div class="lb-you-left">
@@ -1783,8 +1809,8 @@ function refreshUIFromNxdbNx(){
   const syncEl=document.getElementById('syncStatusNx');
   if(syncEl){
     if(!_isOnline){syncEl.textContent='📡 Offline — playing locally';syncEl.style.color='var(--yellow)';}
-    else if(nxdbPlayer){syncEl.textContent='☁️ Nxdb connected';syncEl.style.color='var(--green)';}
-    else if(af.loggedIn){syncEl.textContent='⏳ Syncing to Nxdb…';syncEl.style.color='var(--yellow)';}
+    else if(nxdbPlayer){syncEl.textContent='☁️ connected';syncEl.style.color='var(--green)';}
+    else if(af.loggedIn){syncEl.textContent='⏳ Syncing…';syncEl.style.color='var(--yellow)';}
     else syncEl.textContent='';
   }
 
