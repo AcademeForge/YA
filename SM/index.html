@@ -96,12 +96,12 @@ body.dark .header { background: rgba(6,14,26,.82); }
 .logo {
   width: 44px; height: 44px;
   border-radius: 14px;
+  overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: .9rem;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
+  background: transparent;
   box-shadow: 0 4px 14px rgba(255,122,24,.35);
 }
+.logo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .logo-info h1 { font-size: .95rem; font-weight: 800; letter-spacing: -.01em; }
 .logo-info p { font-size: .72rem; color: var(--text-soft); margin-top: 1px; }
 .header-actions { display: flex; gap: 8px; align-items: center; }
@@ -116,6 +116,52 @@ body.dark .header { background: rgba(6,14,26,.82); }
   transition: transform .15s, box-shadow .15s;
 }
 .icon-btn:active { transform: scale(.94); }
+
+/* ===================================
+   AF STUDENT BANNER (auto-login bar)
+=================================== */
+.af-student-bar {
+  margin: 12px 14px 0;
+  padding: 13px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.af-student-bar.loggedin {
+  background: linear-gradient(135deg, rgba(34,197,94,.08), rgba(79,70,229,.06));
+  border-color: rgba(34,197,94,.25);
+}
+.af-student-bar.notloggedin {
+  background: rgba(239,68,68,.05);
+  border-color: rgba(239,68,68,.18);
+}
+.af-sb-avatar {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: .9rem; font-weight: 900;
+  color: white;
+  flex-shrink: 0;
+}
+.af-sb-text { flex: 1; min-width: 0; }
+.af-sb-name { font-size: .88rem; font-weight: 800; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.af-sb-sub  { font-size: .72rem; color: var(--text-soft); margin-top: 2px; }
+.af-sb-badge {
+  font-size: .7rem; font-weight: 800;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(34,197,94,.12);
+  color: #16a34a;
+  border: 1px solid rgba(34,197,94,.22);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.af-sb-badge.warn { background: rgba(239,68,68,.10); color: #dc2626; border-color: rgba(239,68,68,.20); }
 
 /* ===================================
    MAIN / SCREENS
@@ -189,11 +235,9 @@ body.dark .header { background: rgba(6,14,26,.82); }
 
 /* ===================================
    HOME — SETUP FLOW
-   3 steps: board → difficulty → start
 =================================== */
 .setup-flow { margin-top: 4px; }
 
-/* Step indicator */
 .step-indicator {
   display: flex;
   align-items: center;
@@ -214,31 +258,14 @@ body.dark .header { background: rgba(6,14,26,.82); }
   position: relative;
   z-index: 1;
 }
-.step-dot.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(255,122,24,.2);
-}
-.step-dot.done {
-  background: var(--success);
-  color: white;
-  border-color: var(--success);
-}
-.step-line {
-  flex: 1;
-  height: 2px;
-  background: var(--border);
-  max-width: 60px;
-  transition: background .25s;
-}
+.step-dot.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(255,122,24,.2); }
+.step-dot.done { background: var(--success); color: white; border-color: var(--success); }
+.step-line { flex: 1; height: 2px; background: var(--border); max-width: 60px; transition: background .25s; }
 .step-line.done { background: var(--success); }
 
-/* Step panels */
 .step-panel { display: none; }
 .step-panel.active { display: block; }
 
-/* Board cards */
 .board-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .board-card {
   padding: 20px 16px;
@@ -251,30 +278,16 @@ body.dark .header { background: rgba(6,14,26,.82); }
   position: relative;
   overflow: hidden;
 }
-.board-card::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  opacity: 0;
-  transition: opacity .2s;
-}
-.board-card.selected {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(255,122,24,.18);
-}
+.board-card.selected { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,122,24,.18); }
 .board-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .board-card-icon { font-size: 2rem; margin-bottom: 10px; }
 .board-card-title { font-size: .95rem; font-weight: 800; }
 .board-card-desc { font-size: .78rem; color: var(--text-soft); margin-top: 4px; line-height: 1.5; }
 .board-card-check {
-  position: absolute;
-  top: 10px; right: 10px;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: white;
-  font-size: .7rem;
-  display: none;
+  position: absolute; top: 10px; right: 10px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--primary); color: white;
+  font-size: .7rem; display: none;
   align-items: center; justify-content: center;
 }
 .board-card.selected .board-card-check { display: flex; }
@@ -291,11 +304,7 @@ body.dark .header { background: rgba(6,14,26,.82); }
   transition: all .2s;
 }
 .diff-card:hover { border-color: var(--primary); background: var(--primary-light); }
-.diff-card.selected {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(255,122,24,.15);
-}
+.diff-card.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 0 0 3px rgba(255,122,24,.15); }
 .diff-icon { font-size: 1.6rem; flex-shrink: 0; }
 .diff-info { flex: 1; }
 .diff-name { font-size: .92rem; font-weight: 800; }
@@ -310,64 +319,44 @@ body.dark .header { background: rgba(6,14,26,.82); }
 }
 .diff-card.selected .diff-xp { background: var(--primary); color: white; }
 
-/* Step nav buttons */
 .step-actions { display: flex; gap: 10px; margin-top: 18px; }
 .btn-step-back {
-  height: 52px;
-  padding: 0 20px;
-  border-radius: var(--radius-sm);
-  font-weight: 700;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  color: var(--text-soft);
-  flex-shrink: 0;
-  transition: all .15s;
+  height: 52px; padding: 0 20px;
+  border-radius: var(--radius-sm); font-weight: 700;
+  background: var(--surface); border: 1.5px solid var(--border);
+  color: var(--text-soft); flex-shrink: 0; transition: all .15s;
 }
 .btn-step-back:hover { border-color: var(--primary); color: var(--primary); }
 .btn-step-next {
-  flex: 1;
-  height: 52px;
-  border-radius: var(--radius-sm);
-  font-weight: 800;
-  color: white;
+  flex: 1; height: 52px; border-radius: var(--radius-sm);
+  font-weight: 800; color: white;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   box-shadow: 0 4px 16px rgba(255,122,24,.3);
-  transition: all .2s;
-  font-size: .95rem;
+  transition: all .2s; font-size: .95rem;
 }
 .btn-step-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,122,24,.4); }
 .btn-step-next:active { transform: scale(.97); }
 .btn-step-next:disabled { opacity: .45; pointer-events: none; }
 
 /* Start game card */
-.start-summary {
-  padding: 22px;
-  text-align: center;
-}
+.start-summary { padding: 22px; text-align: center; }
 .start-summary-icon { font-size: 3rem; margin-bottom: 12px; }
 .start-summary h3 { font-size: 1.15rem; font-weight: 900; }
 .start-summary p { color: var(--text-soft); font-size: .88rem; margin-top: 8px; line-height: 1.6; }
 .start-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
 .start-tag {
-  padding: 6px 14px;
-  border-radius: 999px;
+  padding: 6px 14px; border-radius: 999px;
   font-size: .78rem; font-weight: 700;
-  background: var(--surface-3);
-  color: var(--text-soft);
-  border: 1px solid var(--border);
+  background: var(--surface-3); color: var(--text-soft); border: 1px solid var(--border);
 }
 .start-tag.highlight { background: var(--primary-light); color: var(--primary); border-color: transparent; }
 .btn-start-game {
-  width: 100%;
-  height: 56px;
-  margin-top: 20px;
-  border-radius: var(--radius-sm);
-  font-size: 1.05rem; font-weight: 900;
+  width: 100%; height: 56px; margin-top: 20px;
+  border-radius: var(--radius-sm); font-size: 1.05rem; font-weight: 900;
   color: white;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   box-shadow: 0 6px 24px rgba(255,122,24,.35);
-  letter-spacing: .01em;
-  transition: all .2s;
+  letter-spacing: .01em; transition: all .2s;
 }
 .btn-start-game:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,122,24,.45); }
 .btn-start-game:active { transform: scale(.97); }
@@ -375,12 +364,7 @@ body.dark .header { background: rgba(6,14,26,.82); }
 /* ===================================
    PLAY SCREEN
 =================================== */
-.game-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
+.game-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .game-title { font-size: 1.1rem; font-weight: 900; }
 .game-meta { font-size: .78rem; color: var(--text-soft); margin-top: 2px; }
 
@@ -391,15 +375,10 @@ body.dark .header { background: rgba(6,14,26,.82); }
 
 .tools { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
 .tool-btn {
-  height: 46px;
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  color: var(--text);
-  font-weight: 700;
-  font-size: .78rem;
-  transition: all .15s;
-  display: flex; flex-direction: column;
+  height: 46px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1.5px solid var(--border);
+  color: var(--text); font-weight: 700; font-size: .78rem;
+  transition: all .15s; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 2px;
 }
 .tool-btn .t-icon { font-size: 1rem; }
@@ -414,11 +393,9 @@ body.dark .header { background: rgba(6,14,26,.82); }
 /* Board */
 .sudoku-card { padding: 10px; }
 .sudoku-board {
-  display: grid;
-  aspect-ratio: 1;
+  display: grid; aspect-ratio: 1;
   border: 3px solid var(--primary);
-  overflow: hidden;
-  border-radius: 12px;
+  overflow: hidden; border-radius: 12px;
   background: var(--surface-2);
 }
 .sudoku-board.grid-4 { grid-template-columns: repeat(4,1fr); }
@@ -440,7 +417,6 @@ body.dark .header { background: rgba(6,14,26,.82); }
 .cell.highlight { background: rgba(255,122,24,.06); }
 .cell.same-value { background: rgba(255,122,24,.1); }
 
-/* Box borders */
 .sudoku-board.grid-9 .cell[data-col="2"],
 .sudoku-board.grid-9 .cell[data-col="5"] { border-right: 2px solid rgba(255,122,24,.4); }
 .sudoku-board.grid-9 .cell[data-row="2"],
@@ -451,50 +427,59 @@ body.dark .header { background: rgba(6,14,26,.82); }
 /* Number pad */
 .number-pad { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-top: 14px; }
 .num-btn {
-  height: 52px;
-  border-radius: var(--radius-sm);
+  height: 52px; border-radius: var(--radius-sm);
   font-weight: 900; font-size: 1.1rem;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  color: var(--text);
-  transition: all .12s;
+  background: var(--surface); border: 1.5px solid var(--border);
+  color: var(--text); transition: all .12s;
 }
 .num-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
 .num-btn:active { transform: scale(.93); }
 
 .play-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-.btn {
-  height: 52px; border-radius: var(--radius-sm);
-  font-weight: 800; font-size: .9rem;
-  transition: all .15s;
-}
+.btn { height: 52px; border-radius: var(--radius-sm); font-weight: 800; font-size: .9rem; transition: all .15s; }
 .btn:active { transform: scale(.97); }
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  box-shadow: 0 4px 14px rgba(255,122,24,.3);
-}
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; box-shadow: 0 4px 14px rgba(255,122,24,.3); }
 .btn-secondary { background: var(--surface); border: 1.5px solid var(--border); color: var(--text); }
 
 /* ===================================
    PROFILE
 =================================== */
-.profile-hero {
-  padding: 28px 24px;
-  text-align: center;
-}
+.profile-hero { padding: 28px 24px; text-align: center; }
 .avatar-ring {
-  width: 86px; height: 86px;
-  margin: auto;
-  border-radius: 50%;
+  width: 86px; height: 86px; margin: auto; border-radius: 50%;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   display: flex; align-items: center; justify-content: center;
-  font-size: 2rem;
-  box-shadow: 0 6px 24px rgba(255,122,24,.3);
+  font-size: 2rem; box-shadow: 0 6px 24px rgba(255,122,24,.3);
 }
 .profile-name { margin-top: 14px; font-size: 1.2rem; font-weight: 900; }
 .profile-level { margin-top: 4px; font-size: .84rem; color: var(--text-soft); font-weight: 600; }
 .profile-email { margin-top: 4px; font-size: .78rem; color: var(--text-soft); }
+
+/* AF Student Info Card in Profile */
+.af-profile-card {
+  margin: 0 0 14px 0;
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(79,70,229,.18);
+  background: linear-gradient(135deg, rgba(79,70,229,.06), rgba(6,182,212,.05));
+  box-shadow: var(--shadow-sm);
+}
+.af-profile-card-head {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.af-profile-card-logo {
+  width: 40px; height: 40px; border-radius: 11px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; font-weight: 900; color: white;
+  flex-shrink: 0;
+}
+.af-profile-card-title { font-size: .88rem; font-weight: 800; }
+.af-profile-card-sub { font-size: .72rem; color: var(--text-soft); margin-top: 2px; }
+.af-profile-rows { display: flex; flex-direction: column; gap: 8px; }
+.af-profile-row { display: flex; justify-content: space-between; align-items: center; }
+.af-profile-row span { font-size: .75rem; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.af-profile-row strong { font-size: .84rem; font-weight: 700; color: var(--text); text-align: right; word-break: break-all; }
 
 /* ===================================
    LEADERBOARD
@@ -519,25 +504,17 @@ body.dark .header { background: rgba(6,14,26,.82); }
 .settings-label { font-weight: 600; font-size: .9rem; }
 .settings-sub { font-size: .75rem; color: var(--text-soft); margin-top: 2px; }
 
-/* Toggle switch */
 .toggle {
-  width: 48px; height: 26px;
-  border-radius: 999px;
-  background: var(--border);
-  position: relative;
-  cursor: pointer;
-  border: none;
-  transition: background .2s;
-  flex-shrink: 0;
+  width: 48px; height: 26px; border-radius: 999px;
+  background: var(--border); position: relative;
+  cursor: pointer; border: none; transition: background .2s; flex-shrink: 0;
 }
 .toggle.on { background: var(--primary); }
 .toggle::after {
   content: "";
   position: absolute;
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: white;
-  top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: white; top: 3px; left: 3px;
   transition: transform .2s;
   box-shadow: 0 1px 4px rgba(0,0,0,.2);
 }
@@ -547,33 +524,26 @@ body.dark .header { background: rgba(6,14,26,.82); }
    BOTTOM NAV
 =================================== */
 .bottom-nav {
-  position: fixed;
-  left: 50%; bottom: 0;
+  position: fixed; left: 50%; bottom: 0;
   transform: translateX(-50%);
   width: 100%; max-width: 540px;
   height: var(--nav-height);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: repeat(5,1fr);
-  z-index: 100;
-  backdrop-filter: blur(20px);
+  background: var(--surface); border-top: 1px solid var(--border);
+  display: grid; grid-template-columns: repeat(5,1fr);
+  z-index: 100; backdrop-filter: blur(20px);
 }
 body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 .nav-btn {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 4px; background: none;
-  color: var(--text-soft);
-  transition: color .2s;
-  position: relative;
+  gap: 4px; background: none; color: var(--text-soft);
+  transition: color .2s; position: relative;
 }
 .nav-btn.active { color: var(--primary); }
 .nav-btn.active::before {
   content: "";
   position: absolute; top: 0;
-  width: 32px; height: 2px;
-  border-radius: 0 0 4px 4px;
+  width: 32px; height: 2px; border-radius: 0 0 4px 4px;
   background: var(--primary);
 }
 .nav-icon { font-size: 1.15rem; }
@@ -583,34 +553,22 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
    TOAST NOTIFICATION SYSTEM
 =================================== */
 .toast-container {
-  position: fixed;
-  top: 80px; left: 50%;
+  position: fixed; top: 80px; left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 480px;
-  z-index: 9999;
-  display: flex; flex-direction: column; gap: 10px;
+  width: calc(100% - 32px); max-width: 480px;
+  z-index: 9999; display: flex; flex-direction: column; gap: 10px;
   pointer-events: none;
 }
 .toast {
   display: flex; align-items: flex-start; gap: 12px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  pointer-events: all;
+  padding: 14px 16px; border-radius: 16px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-lg); pointer-events: all;
   animation: toastIn .3s cubic-bezier(.34,1.56,.64,1) forwards;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .toast.leaving { animation: toastOut .25s ease forwards; }
-.toast::before {
-  content: "";
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 4px;
-  border-radius: 4px 0 0 4px;
-}
+.toast::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 4px 0 0 4px; }
 .toast.success::before { background: var(--success); }
 .toast.error::before { background: var(--danger); }
 .toast.warning::before { background: var(--warning); }
@@ -619,19 +577,9 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 .toast-body { flex: 1; }
 .toast-title { font-size: .88rem; font-weight: 800; line-height: 1.3; }
 .toast-msg { font-size: .8rem; color: var(--text-soft); margin-top: 3px; line-height: 1.4; }
-.toast-close {
-  background: none; border: none;
-  color: var(--text-soft); font-size: 1rem;
-  cursor: pointer; padding: 0; line-height: 1;
-  flex-shrink: 0; margin-top: 1px;
-}
-@keyframes toastIn {
-  from { opacity: 0; transform: translateY(-12px) scale(.96); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes toastOut {
-  to { opacity: 0; transform: translateY(-8px) scale(.95); }
-}
+.toast-close { background: none; border: none; color: var(--text-soft); font-size: 1rem; cursor: pointer; padding: 0; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(-12px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateY(-8px) scale(.95); } }
 
 /* ===================================
    MODAL SYSTEM
@@ -639,19 +587,14 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 .modal {
   position: fixed; inset: 0;
   display: none; align-items: center; justify-content: center;
-  padding: 20px;
-  background: rgba(0,0,0,.5);
-  backdrop-filter: blur(10px);
-  z-index: 5000;
+  padding: 20px; background: rgba(0,0,0,.5);
+  backdrop-filter: blur(10px); z-index: 5000;
 }
 .modal.show { display: flex; }
 .modal-card {
-  width: 100%; max-width: 400px;
-  padding: 28px 24px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  box-shadow: var(--shadow-lg);
+  width: 100%; max-width: 400px; padding: 28px 24px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 24px; box-shadow: var(--shadow-lg);
   animation: modalIn .25s cubic-bezier(.34,1.3,.64,1);
 }
 @keyframes modalIn { from { opacity: 0; transform: scale(.94) translateY(10px); } to { opacity: 1; transform: none; } }
@@ -660,84 +603,6 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 .modal-card p { margin-top: 10px; line-height: 1.6; color: var(--text-soft); text-align: center; font-size: .88rem; }
 .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
 .modal-actions.single { grid-template-columns: 1fr; }
-
-/* Auth modal */
-.auth-tabs { display: flex; gap: 0; margin-bottom: 20px; background: var(--surface-3); border-radius: 12px; padding: 3px; }
-.auth-tab {
-  flex: 1; height: 36px; border-radius: 10px;
-  font-weight: 700; font-size: .84rem;
-  background: none; color: var(--text-soft);
-  transition: all .2s;
-}
-.auth-tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
-
-.auth-field {
-  margin-bottom: 12px;
-}
-.auth-field label {
-  display: block; font-size: .78rem; font-weight: 700; color: var(--text-soft);
-  margin-bottom: 6px; letter-spacing: .02em;
-}
-.auth-input {
-  width: 100%; height: 48px;
-  padding: 0 14px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border);
-  background: var(--surface-2);
-  color: var(--text); font-size: .92rem;
-  transition: border .15s, box-shadow .15s;
-}
-.auth-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,122,24,.15); }
-
-.avatar-select { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 14px 0; }
-.av-btn {
-  height: 52px; font-size: 1.5rem;
-  border-radius: 12px;
-  background: var(--surface-3);
-  border: 2px solid transparent;
-  transition: all .15s;
-}
-.av-btn:hover { transform: scale(1.05); }
-.av-btn.selected { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 0 0 2px rgba(255,122,24,.2); }
-
-.btn-auth {
-  width: 100%; height: 50px;
-  border-radius: 12px; font-weight: 800; font-size: .95rem;
-  color: white;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  box-shadow: 0 4px 16px rgba(255,122,24,.3);
-  margin-top: 6px;
-  transition: all .2s;
-}
-.btn-auth:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,122,24,.4); }
-.btn-auth:active { transform: scale(.97); }
-.btn-auth:disabled { opacity: .5; pointer-events: none; }
-
-.auth-divider {
-  text-align: center;
-  font-size: .75rem; color: var(--text-soft); font-weight: 600;
-  margin: 12px 0;
-  position: relative;
-}
-.auth-divider::before, .auth-divider::after {
-  content: "";
-  position: absolute; top: 50%;
-  width: 38%; height: 1px; background: var(--border);
-}
-.auth-divider::before { left: 0; }
-.auth-divider::after { right: 0; }
-
-.btn-google {
-  width: 100%; height: 48px;
-  border-radius: 12px; font-weight: 700; font-size: .88rem;
-  background: var(--surface); border: 1.5px solid var(--border);
-  color: var(--text);
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  transition: all .15s;
-  margin-bottom: 6px;
-}
-.btn-google:hover { border-color: var(--primary); background: var(--primary-light); }
-.btn-google svg { width: 20px; height: 20px; }
 
 /* ===================================
    EMPTY STATE
@@ -756,23 +621,18 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
   .num-btn { height: 46px; }
   .game-stats { grid-template-columns: repeat(2,1fr); }
 }
-   .logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  box-shadow: 0 4px 14px rgba(255,122,24,.35);
-}
 
-.logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+/* Level indicator */
+.level-hard-notice {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.18);
+  font-size: .78rem;
+  font-weight: 700;
+  color: #dc2626;
+  text-align: center;
+  margin-top: 10px;
 }
 </style>
 </head>
@@ -787,34 +647,35 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
   <header class="header">
     <div class="header-inner">
       <div class="logo-wrap">
-<div class="logo">
-  <img src="AF LOGO 2.jpeg" alt="AcademeForge Logo" class="logo-img">
-</div>
+        <div class="logo">
+          <img src="AF LOGO 2.jpeg" alt="AcademeForge Logo" class="logo-img">
+        </div>
         <div class="logo-info">
           <h1>AcademeForge</h1>
           <p>Brain Training Game</p>
         </div>
       </div>
       <div class="header-actions">
-  <button
-  class="icon-btn"
-  aria-label="Back"
-  onclick="goBackToSettings()"
->
-  🔙 ‹
-</button>
+        <button class="icon-btn" aria-label="Back" onclick="goBackToSettings()">🔙 ‹</button>
         <button id="headerAuthBtn" class="icon-btn" aria-label="Account">👤</button>
       </div>
     </div>
   </header>
 
+  <!-- AF STUDENT LOGIN BAR (auto-login from main app) -->
+  <div id="afStudentBar" class="af-student-bar notloggedin">
+    <div id="afSbAvatar" class="af-sb-avatar">?</div>
+    <div class="af-sb-text">
+      <div id="afSbName" class="af-sb-name">Not logged in</div>
+      <div id="afSbSub" class="af-sb-sub">Login in AcademeForge app to sync your profile</div>
+    </div>
+    <span id="afSbBadge" class="af-sb-badge warn">Not Synced</span>
+  </div>
+
   <main class="main">
 
-    <!-- ========================
-         HOME SCREEN
-    ======================== -->
+    <!-- HOME SCREEN -->
     <section id="homeScreen" class="screen active">
-
       <div class="card hero">
         <div class="badge">⚡ LEVEL <span id="homeLevel">1</span></div>
         <h2>Challenge Your Brain</h2>
@@ -830,8 +691,6 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 
       <!-- 3-Step Setup Flow -->
       <div class="setup-flow">
-
-        <!-- Step Indicators -->
         <div class="step-indicator">
           <div class="step-dot active" id="sd1">1</div>
           <div class="step-line" id="sl1"></div>
@@ -848,13 +707,13 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
               <div class="board-card-check">✓</div>
               <div class="board-card-icon">🔢</div>
               <div class="board-card-title">4 × 4</div>
-              <div class="board-card-desc">Quick games,<br>perfect for beginners</div>
+              <div class="board-card-desc">Quick games,<br>perfect for beginners<br><small style="color:var(--warning);font-weight:700;">3 hints · 3 mistakes</small></div>
             </div>
             <div class="board-card" data-board="9" onclick="selectBoard(9)">
               <div class="board-card-check">✓</div>
               <div class="board-card-icon">🧩</div>
               <div class="board-card-title">9 × 9</div>
-              <div class="board-card-desc">Classic Sudoku,<br>full challenge</div>
+              <div class="board-card-desc">Classic Sudoku,<br>full challenge<br><small style="color:var(--warning);font-weight:700;">5 hints · 5 mistakes</small></div>
             </div>
           </div>
           <div class="step-actions">
@@ -867,32 +726,10 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
         <!-- Step 2: Choose Difficulty -->
         <div class="step-panel" id="step2">
           <h3 class="section-title" style="margin-top:0">Choose Difficulty</h3>
-          <div class="diff-grid">
-            <div class="diff-card" data-difficulty="easy" onclick="selectDifficulty('easy')">
-              <div class="diff-icon">🌱</div>
-              <div class="diff-info">
-                <div class="diff-name">Easy</div>
-                <div class="diff-desc">More hints, relaxed pace</div>
-              </div>
-              <div class="diff-xp">+100 XP</div>
-            </div>
-            <div class="diff-card" data-difficulty="moderate" onclick="selectDifficulty('moderate')">
-              <div class="diff-icon">🔥</div>
-              <div class="diff-info">
-                <div class="diff-name">Moderate</div>
-                <div class="diff-desc">Balanced challenge</div>
-              </div>
-              <div class="diff-xp">+250 XP</div>
-            </div>
-            <div class="diff-card" data-difficulty="hard" onclick="selectDifficulty('hard')">
-              <div class="diff-icon">💀</div>
-              <div class="diff-info">
-                <div class="diff-name">Hard</div>
-                <div class="diff-desc">Maximum brain workout</div>
-              </div>
-              <div class="diff-xp">+500 XP</div>
-            </div>
+          <div class="diff-grid" id="diffGrid">
+            <!-- Rendered dynamically based on level -->
           </div>
+          <div id="levelHardNotice" class="level-hard-notice" style="display:none"></div>
           <div class="step-actions">
             <button class="btn-step-back" onclick="goStep(1)">← Back</button>
             <button class="btn-step-next" id="step2Next" onclick="goStep(3)" disabled>
@@ -911,8 +748,8 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
               <span class="start-tag highlight" id="summaryBoard">9×9</span>
               <span class="start-tag highlight" id="summaryDiff">Easy</span>
               <span class="start-tag" id="summaryXP">+100 XP on win</span>
-              <span class="start-tag">10 Hints</span>
-              <span class="start-tag">20 Max mistakes</span>
+              <span class="start-tag" id="summaryHints">5 Hints</span>
+              <span class="start-tag" id="summaryMistakes">5 Max mistakes</span>
             </div>
             <button class="btn-start-game" onclick="startGame()">
               🚀 Start Game
@@ -922,15 +759,11 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
             <button class="btn-step-back" onclick="goStep(2)">← Change Settings</button>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- ========================
-         PLAY SCREEN
-    ======================== -->
+    <!-- PLAY SCREEN -->
     <section id="playScreen" class="screen">
-
       <div class="game-header">
         <div>
           <div class="game-title">Sudoku Match</div>
@@ -945,11 +778,11 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
           <div class="gs-label">Time</div>
         </div>
         <div class="card gs-card">
-          <div id="mistakeCount" class="gs-value">0/20</div>
+          <div id="mistakeCount" class="gs-value">0/5</div>
           <div class="gs-label">Mistakes</div>
         </div>
         <div class="card gs-card">
-          <div id="hintCount" class="gs-value">10</div>
+          <div id="hintCount" class="gs-value">5</div>
           <div class="gs-label">Hints</div>
         </div>
         <div class="card gs-card">
@@ -987,13 +820,26 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
         <button class="btn btn-secondary" onclick="checkBoard()">✔ Check</button>
         <button class="btn btn-primary" onclick="confirmNewGame()">🔄 New Game</button>
       </div>
-
     </section>
 
-    <!-- ========================
-         PROFILE SCREEN
-    ======================== -->
+    <!-- PROFILE SCREEN -->
     <section id="profileScreen" class="screen">
+      <!-- AF Student Info Card -->
+      <div id="afProfileCard" class="af-profile-card" style="display:none">
+        <div class="af-profile-card-head">
+          <div class="af-profile-card-logo">AF</div>
+          <div>
+            <div class="af-profile-card-title">AcademeForge Account</div>
+            <div class="af-profile-card-sub">Linked from main app</div>
+          </div>
+        </div>
+        <div class="af-profile-rows">
+          <div class="af-profile-row"><span>Name</span><strong id="afPcName">-</strong></div>
+          <div class="af-profile-row"><span>Phone / ID</span><strong id="afPcPhone">-</strong></div>
+          <div class="af-profile-row"><span>Email</span><strong id="afPcEmail">-</strong></div>
+          <div class="af-profile-row"><span>Student ID</span><strong id="afPcStudentId">-</strong></div>
+        </div>
+      </div>
 
       <div class="card profile-hero">
         <div id="profileAvatar" class="avatar-ring">😀</div>
@@ -1006,7 +852,7 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
       <div class="stats-grid">
         <div class="card stat-card">
           <div id="profileXP" class="stat-number">0</div>
-          <div class="stat-label">Total XP</div>
+          <div class="stat-label">Game XP</div>
         </div>
         <div class="card stat-card">
           <div id="profileWins" class="stat-number">0</div>
@@ -1026,7 +872,7 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
       <div class="card">
         <div class="settings-row">
           <div>
-            <div class="settings-label">Edit Profile</div>
+            <div class="settings-label">Edit Game Profile</div>
             <div class="settings-sub">Change username or avatar</div>
           </div>
           <button class="icon-btn" id="editProfileBtn">✏️</button>
@@ -1039,20 +885,15 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
           <button class="icon-btn" id="authRowBtn">→</button>
         </div>
       </div>
-
     </section>
 
-    <!-- ========================
-         LEADERBOARD
-    ======================== -->
+    <!-- LEADERBOARD -->
     <section id="leaderboardScreen" class="screen">
       <h3 class="section-title">🏆 Leaderboard</h3>
       <div id="leaderboardContainer"></div>
     </section>
 
-    <!-- ========================
-         SETTINGS
-    ======================== -->
+    <!-- SETTINGS -->
     <section id="settingsScreen" class="screen">
       <h3 class="section-title">Settings</h3>
       <div class="card">
@@ -1072,21 +913,19 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
         </div>
         <div class="settings-row">
           <div class="settings-label">Version</div>
-          <span style="color:var(--text-soft);font-size:.82rem;font-family:'DM Mono',monospace;">2.0.0</span>
+          <span style="color:var(--text-soft);font-size:.82rem;font-family:'DM Mono',monospace;">3.0.0</span>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ========================
-       GAME OVER MODAL
-  ======================== -->
+  <!-- GAME OVER MODAL -->
   <div id="gameOverModal" class="modal">
     <div class="modal-card">
       <div class="modal-icon">💀</div>
       <h2>Game Over</h2>
-      <p>You hit 20 mistakes. Don't give up — try again!</p>
+      <p id="gameOverMsg">You hit the mistake limit. Don't give up — try again!</p>
       <div class="modal-actions">
         <button class="btn btn-primary" onclick="closeModal('gameOverModal');startGame()">Play Again</button>
         <button class="btn btn-secondary" onclick="closeModal('gameOverModal');openScreen('homeScreen')">Home</button>
@@ -1094,9 +933,7 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
     </div>
   </div>
 
-  <!-- ========================
-       WIN MODAL
-  ======================== -->
+  <!-- WIN MODAL -->
   <div id="winModal" class="modal">
     <div class="modal-card">
       <div class="modal-icon">🎉</div>
@@ -1109,12 +946,13 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
     </div>
   </div>
 
-  <!-- ========================
-       AUTH MODAL (Sign up / Sign in)
-  ======================== -->
+  <!-- AUTH MODAL (Game account only — AF login is auto from main app) -->
   <div id="authModal" class="modal">
     <div class="modal-card">
-      <h2 style="margin-bottom:18px">Welcome Back 👋</h2>
+      <h2 style="margin-bottom:6px">Game Account 👋</h2>
+      <p style="font-size:.82rem;color:var(--text-soft);text-align:center;margin-bottom:16px">
+        Your AcademeForge login is auto-synced.<br>This creates a separate game leaderboard account.
+      </p>
 
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
@@ -1123,63 +961,68 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 
       <!-- Signup panel -->
       <div id="signupPanel">
-        <div class="auth-field">
-          <label>EMAIL</label>
-          <input class="auth-input" id="signupEmail" type="email" placeholder="you@example.com">
+        <div class="auth-field" style="margin-bottom:12px">
+          <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">EMAIL</label>
+          <input class="auth-input" id="signupEmail" type="email" placeholder="you@example.com" style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.92rem">
         </div>
-        <div class="auth-field">
-          <label>PASSWORD</label>
-          <input class="auth-input" id="signupPassword" type="password" placeholder="Min 6 characters">
+        <div class="auth-field" style="margin-bottom:12px">
+          <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">PASSWORD</label>
+          <input class="auth-input" id="signupPassword" type="password" placeholder="Min 6 characters" style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.92rem">
         </div>
-        <div class="auth-field">
-          <label>USERNAME</label>
-          <input class="auth-input" id="signupUsername" type="text" placeholder="Min 3 characters" maxlength="20">
+        <div class="auth-field" style="margin-bottom:12px">
+          <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">USERNAME</label>
+          <input class="auth-input" id="signupUsername" type="text" placeholder="Min 3 characters" maxlength="20" style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.92rem">
         </div>
-        <div class="auth-field">
-          <label>CHOOSE AVATAR</label>
-          <div class="avatar-select" id="signupAvatarGrid"></div>
-        </div>
-        <button class="btn-auth" id="signupBtn" onclick="handleSignup()">Create Account</button>
+        <button class="btn-auth" id="signupBtn" onclick="handleSignup()" style="width:100%;height:50px;border-radius:12px;font-weight:800;font-size:.95rem;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 4px 16px rgba(255,122,24,.3);margin-top:6px;transition:all .2s">Create Account</button>
       </div>
 
       <!-- Login panel -->
       <div id="loginPanel" style="display:none">
-        <div class="auth-field">
-          <label>EMAIL</label>
-          <input class="auth-input" id="loginEmail" type="email" placeholder="you@example.com">
+        <div class="auth-field" style="margin-bottom:12px">
+          <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">EMAIL</label>
+          <input class="auth-input" id="loginEmail" type="email" placeholder="you@example.com" style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.92rem">
         </div>
-        <div class="auth-field">
-          <label>PASSWORD</label>
-          <input class="auth-input" id="loginPassword" type="password" placeholder="Your password">
+        <div class="auth-field" style="margin-bottom:12px">
+          <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">PASSWORD</label>
+          <input class="auth-input" id="loginPassword" type="password" placeholder="Your password" style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.92rem">
         </div>
-        <button class="btn-auth" id="loginBtn" onclick="handleLogin()">Sign In</button>
+        <button class="btn-auth" id="loginBtn" onclick="handleLogin()" style="width:100%;height:50px;border-radius:12px;font-weight:800;font-size:.95rem;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 4px 16px rgba(255,122,24,.3);margin-top:6px;transition:all .2s">Sign In</button>
       </div>
 
       <div style="margin-top:14px;text-align:center">
-        <button style="background:none;border:none;color:var(--text-soft);font-size:.82rem;cursor:pointer" onclick="closeModal('authModal')">
-          Maybe later
-        </button>
+        <button style="background:none;border:none;color:var(--text-soft);font-size:.82rem;cursor:pointer" onclick="closeModal('authModal')">Maybe later</button>
       </div>
     </div>
   </div>
 
-  <!-- ========================
-       EDIT PROFILE MODAL
-  ======================== -->
+  <!-- EDIT PROFILE MODAL -->
   <div id="editProfileModal" class="modal">
     <div class="modal-card">
       <h2 style="margin-bottom:18px">Edit Profile ✏️</h2>
-      <div class="auth-field">
-        <label>USERNAME</label>
-        <input class="auth-input" id="editUsername" type="text" maxlength="20" placeholder="New username">
+      <div style="margin-bottom:12px">
+        <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">USERNAME</label>
+        <input style="width:100%;height:48px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-size:.92rem" id="editUsername" type="text" maxlength="20" placeholder="New username">
       </div>
-      <div class="auth-field">
-        <label>AVATAR</label>
-        <div class="avatar-select" id="editAvatarGrid"></div>
+      <div style="margin-bottom:12px">
+        <label style="display:block;font-size:.78rem;font-weight:700;color:var(--text-soft);margin-bottom:6px">AVATAR</label>
+        <div id="editAvatarGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0"></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:6px">
         <button class="btn btn-secondary" style="flex:1;height:50px" onclick="closeModal('editProfileModal')">Cancel</button>
         <button class="btn btn-primary" style="flex:2;height:50px" onclick="saveProfileEdit()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM MODAL -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-card">
+      <div id="confirmIcon" class="modal-icon">⚠️</div>
+      <h2 id="confirmTitle">Confirmation</h2>
+      <p id="confirmMessage">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="confirmOkBtn">Continue</button>
+        <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Cancel</button>
       </div>
     </div>
   </div>
@@ -1210,38 +1053,79 @@ body.dark .bottom-nav { background: rgba(13,27,46,.92); }
 
 </div>
 
-   <div id="confirmModal" class="modal">
-  <div class="modal-card">
-    <div id="confirmIcon" class="modal-icon">⚠️</div>
-
-    <h2 id="confirmTitle">Confirmation</h2>
-
-    <p id="confirmMessage">
-      Are you sure?
-    </p>
-
-    <div class="modal-actions">
-      <button
-        class="btn btn-primary"
-        id="confirmOkBtn"
-      >
-        Continue
-      </button>
-
-      <button
-        class="btn btn-secondary"
-        onclick="closeModal('confirmModal')"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-</div>
 <script>
 /* ===================================
    CONFIG
 =================================== */
 const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/player";
+
+/* ===================================
+   AF STUDENT AUTO-LOGIN
+   Reads from same localStorage keys used
+   by the main AcademeForge app.
+=================================== */
+function getAFStudent() {
+  const name      = localStorage.getItem('af_student_name')   || '';
+  const phone     = localStorage.getItem('af_student_mobile') ||
+                    localStorage.getItem('af_student_phone')  || '';
+  const email     = localStorage.getItem('af_student_email')  || '';
+  const studentId = localStorage.getItem('af_student_id')     || '';
+  const uuid      = localStorage.getItem('af_student_uuid')   || '';
+  const loggedIn  = localStorage.getItem('af_student_logged_in') === 'true';
+  return { name, phone, email, studentId, uuid, loggedIn };
+}
+
+// Returns game level derived from AF student data or game XP
+function getPlayerLevel() {
+  if (currentUser && currentUser.level) return currentUser.level;
+  // Fallback: local game XP storage
+  const localXP = parseInt(localStorage.getItem('sm_local_xp') || '0');
+  return Math.max(1, Math.floor(localXP / 500) + 1);
+}
+
+// Refreshes the AF student bar at top of page
+function refreshAFStudentBar() {
+  const af = getAFStudent();
+  const bar    = document.getElementById('afStudentBar');
+  const avatar = document.getElementById('afSbAvatar');
+  const name   = document.getElementById('afSbName');
+  const sub    = document.getElementById('afSbSub');
+  const badge  = document.getElementById('afSbBadge');
+
+  if (af.loggedIn && af.name) {
+    bar.className = 'af-student-bar loggedin';
+    const initials = af.name.trim().split(/\s+/).slice(0,2)
+      .map(w => w.charAt(0).toUpperCase()).join('');
+    avatar.textContent = initials || 'AF';
+    name.textContent   = af.name;
+    sub.textContent    = af.phone ? `ID: ${af.phone}` : (af.email || 'AcademeForge Student');
+    badge.textContent  = '✓ AF Synced';
+    badge.className    = 'af-sb-badge';
+  } else {
+    bar.className = 'af-student-bar notloggedin';
+    avatar.textContent = '?';
+    name.textContent   = 'Not logged in';
+    sub.textContent    = 'Login in AcademeForge app to sync your profile';
+    badge.textContent  = 'Not Synced';
+    badge.className    = 'af-sb-badge warn';
+  }
+}
+
+// Refresh profile screen AF card
+function refreshAFProfileCard() {
+  const af   = getAFStudent();
+  const card = document.getElementById('afProfileCard');
+  if (!card) return;
+  if (af.loggedIn && af.name) {
+    card.style.display = 'block';
+    document.getElementById('afPcName').textContent      = af.name      || '-';
+    document.getElementById('afPcPhone').textContent     = af.phone     || '-';
+    document.getElementById('afPcEmail').textContent     = af.email     || '-';
+    document.getElementById('afPcStudentId').textContent = af.studentId || '-';
+  } else {
+    card.style.display = 'none';
+  }
+}
 
 /* ===================================
    STATE
@@ -1250,26 +1134,73 @@ let selectedAvatar = "😀";
 let editSelectedAvatar = "😀";
 let currentBoardSize = 9;
 let currentDifficulty = "easy";
-let currentUser = null;  // { email, username, avatar, xp, level, ... }
+let currentUser = null;
 
 let puzzle = [], solution = [];
 let selectedCell = null;
 let notesMode = false;
-let mistakes = 0, hints = 10;
+let mistakes = 0;
+let maxMistakes = 5;   // set per board size
+let hints = 5;         // set per board size
 let timerSeconds = 0, timerInterval = null;
 let gameActive = false;
 let soundEnabled = false;
-const bgMusic = new Audio("game-musicc.mp3");
 
+const bgMusic = new Audio("game-musicc.mp3");
 bgMusic.loop = true;
 bgMusic.volume = 0.35;
+
 const AVATARS = ["😀","😎","🤖","🔥","🚀","👑","🎯","⚡","🧠","🐱","🐼","🦁"];
 
-const DIFFICULTY_CONFIG = {
-  easy:     { remove4: 4,  remove9: 30, xp: 100,  icon: "🌱" },
-  moderate: { remove4: 6,  remove9: 42, xp: 250,  icon: "🔥" },
-  hard:     { remove4: 8,  remove9: 55, xp: 500,  icon: "💀" }
-};
+/* ===================================
+   DIFFICULTY CONFIG
+   XP: 4x4 gets lower, 9x9 gets higher.
+   Difficulty scales with player level.
+=================================== */
+function getDifficultyConfig() {
+  const level = getPlayerLevel();
+
+  // Base XP multiplier increases with level
+  const xpMult = 1 + Math.floor((level - 1) / 3) * 0.5; // +50% every 3 levels
+
+  return {
+    easy: {
+      // 4x4 removes: increases with level (harder = more removed)
+      remove4: Math.min(7, 3 + Math.floor(level / 3)),
+      // 9x9 removes: increases with level
+      remove9: Math.min(52, 28 + Math.floor(level * 1.5)),
+      xp4: Math.round(80  * xpMult),
+      xp9: Math.round(200 * xpMult),
+      icon: "🌱",
+      desc4: "Relaxed pace, more given cells",
+      desc9: "Relaxed pace, more given cells"
+    },
+    moderate: {
+      remove4: Math.min(9, 5 + Math.floor(level / 3)),
+      remove9: Math.min(58, 38 + Math.floor(level * 1.5)),
+      xp4: Math.round(160  * xpMult),
+      xp9: Math.round(450  * xpMult),
+      icon: "🔥",
+      desc4: "Balanced challenge",
+      desc9: "Balanced challenge"
+    },
+    hard: {
+      remove4: Math.min(11, 7 + Math.floor(level / 3)),
+      remove9: Math.min(64, 50 + Math.floor(level * 1.2)),
+      xp4: Math.round(300  * xpMult),
+      xp9: Math.round(900  * xpMult),
+      icon: "💀",
+      desc4: "Maximum brain workout",
+      desc9: "Maximum brain workout"
+    }
+  };
+}
+
+/* Hints & mistakes fixed per board size */
+function getBoardLimits(size) {
+  if (size === 4) return { hints: 3, maxMistakes: 3 };
+  return { hints: 5, maxMistakes: 5 };
+}
 
 /* ===================================
    TOAST SYSTEM
@@ -1317,8 +1248,8 @@ async function handleSignup() {
   const username = document.getElementById("signupUsername").value.trim();
 
   if (!email || !password || !username) { toast("Missing fields", "Please fill in all fields.", "warning"); return; }
-  if (password.length < 6)             { toast("Weak password", "Password must be at least 6 characters.", "warning"); return; }
-  if (username.length < 3)             { toast("Short username", "Username must be at least 3 characters.", "warning"); return; }
+  if (password.length < 6) { toast("Weak password", "Password must be at least 6 characters.", "warning"); return; }
+  if (username.length < 3) { toast("Short username", "Username must be at least 3 characters.", "warning"); return; }
 
   setBtnLoading("signupBtn", true);
   try {
@@ -1358,7 +1289,7 @@ function handleSignOut() {
   currentUser = null;
   localStorage.removeItem("sudoku_email");
   refreshUI();
-  toast("Signed out", "Your session has ended.", "info");
+  toast("Signed out", "Your game session has ended.", "info");
 }
 
 function saveSession(email) {
@@ -1373,7 +1304,6 @@ async function restoreSession() {
     currentUser = result.profile;
     refreshUI();
   } catch (e) {
-    // session invalid, clear it
     localStorage.removeItem("sudoku_email");
   }
 }
@@ -1392,8 +1322,7 @@ function openEditProfile() {
   if (!currentUser) { openAuthModal(); return; }
   document.getElementById("editUsername").value = currentUser.username;
   editSelectedAvatar = currentUser.avatar;
-  buildAvatarGrid("editAvatarGrid", "editSelectedAvatar", (av) => { editSelectedAvatar = av; });
-  // Pre-select current avatar
+  buildAvatarGrid("editAvatarGrid", (av) => { editSelectedAvatar = av; });
   setTimeout(() => {
     document.querySelectorAll("#editAvatarGrid .av-btn").forEach(b => {
       if (b.textContent === currentUser.avatar) b.classList.add("selected");
@@ -1418,16 +1347,35 @@ async function saveProfileEdit() {
 }
 
 async function saveGame(won, time) {
-  if (!currentUser) return;
-  try {
-    const result = await api({ action: "save-game", email: currentUser.email, difficulty: currentDifficulty, won, time });
-    if (result.xpEarned > 0) toast(`+${result.xpEarned} XP`, `Now Level ${result.newLevel}`, "success", 4000);
-    // Refresh profile silently
-    const prof = await api({ action: "profile-by-email", email: currentUser.email });
-    currentUser = prof.profile;
-    refreshUI();
-  } catch (e) {
-    console.error(e);
+  // Save to game leaderboard API if logged in
+  if (currentUser) {
+    try {
+      const conf  = getDifficultyConfig()[currentDifficulty];
+      const xpKey = currentBoardSize === 4 ? 'xp4' : 'xp9';
+      const result = await api({
+        action: "save-game",
+        email: currentUser.email,
+        difficulty: currentDifficulty,
+        won,
+        time,
+        board_size: currentBoardSize
+      });
+      if (result.xpEarned > 0) toast(`+${result.xpEarned} XP`, `Now Level ${result.newLevel}`, "success", 4000);
+      const prof = await api({ action: "profile-by-email", email: currentUser.email });
+      currentUser = prof.profile;
+      refreshUI();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // Also save to local storage for guest XP tracking
+  if (won) {
+    const conf  = getDifficultyConfig()[currentDifficulty];
+    const xpKey = currentBoardSize === 4 ? 'xp4' : 'xp9';
+    const earned = conf[xpKey] || 100;
+    const prev = parseInt(localStorage.getItem('sm_local_xp') || '0');
+    localStorage.setItem('sm_local_xp', prev + earned);
   }
 }
 
@@ -1435,52 +1383,59 @@ async function saveGame(won, time) {
    UI REFRESH
 =================================== */
 function refreshUI() {
+  const af = getAFStudent();
+
+  // Determine display name: AF student takes priority
+  const displayName = (af.loggedIn && af.name) ? af.name :
+                      (currentUser ? currentUser.username : "Guest Player");
+  const displayAvatar = currentUser ? currentUser.avatar : (af.loggedIn ? "🎓" : "😀");
+  const level = currentUser ? currentUser.level : getPlayerLevel();
+
+  // Header
+  document.getElementById("headerAuthBtn").textContent = displayAvatar;
+
+  // Home hero
+  document.getElementById("homeLevel").textContent = level;
+  updateXPBar();
+
+  // Profile screen
+  document.getElementById("profileAvatar").textContent = displayAvatar;
+  document.getElementById("profileUsername").textContent = displayName;
+  document.getElementById("profileLevel").textContent = `Level ${level}`;
+  document.getElementById("profileEmail").textContent =
+    currentUser ? currentUser.email : (af.email || "Guest — no game account");
+  document.getElementById("profileXP").textContent    = currentUser ? currentUser.xp : (localStorage.getItem('sm_local_xp') || '0');
+  document.getElementById("profileWins").textContent  = currentUser ? currentUser.wins : '-';
+  document.getElementById("profileGames").textContent = currentUser ? currentUser.games_played : '-';
+  document.getElementById("profileBest").textContent  = currentUser && currentUser.best_time ? formatTime(currentUser.best_time) : "--";
+
+  // Auth row
   if (currentUser) {
-    // Header auth btn
-    document.getElementById("headerAuthBtn").textContent = currentUser.avatar;
-    // Home hero
-    document.getElementById("homeLevel").textContent = currentUser.level;
-    updateXPBar();
-    // Profile screen
-    document.getElementById("profileAvatar").textContent = currentUser.avatar;
-    document.getElementById("profileUsername").textContent = currentUser.username;
-    document.getElementById("profileLevel").textContent = `Level ${currentUser.level}`;
-    document.getElementById("profileEmail").textContent = currentUser.email;
-    document.getElementById("profileXP").textContent = currentUser.xp;
-    document.getElementById("profileWins").textContent = currentUser.wins;
-    document.getElementById("profileGames").textContent = currentUser.games_played;
-    document.getElementById("profileBest").textContent = currentUser.best_time ? formatTime(currentUser.best_time) : "--";
-    // Auth row in profile
-    document.getElementById("authRowLabel").textContent = "Sign Out";
-    document.getElementById("authRowSub").textContent = currentUser.email;
-    document.getElementById("authRowBtn").textContent = "→";
+    document.getElementById("authRowLabel").textContent = "Sign Out (Game Account)";
+    document.getElementById("authRowSub").textContent   = currentUser.email;
     document.getElementById("authRowBtn").onclick = handleSignOut;
   } else {
-    document.getElementById("headerAuthBtn").textContent = "👤";
-    document.getElementById("homeLevel").textContent = "1";
-    document.getElementById("xpFill").style.width = "0%";
-    document.getElementById("xpText").textContent = "0 XP";
-    document.getElementById("profileAvatar").textContent = "😀";
-    document.getElementById("profileUsername").textContent = "Guest Player";
-    document.getElementById("profileLevel").textContent = "Level 1";
-    document.getElementById("profileEmail").textContent = "Not signed in";
-    document.getElementById("profileXP").textContent = "0";
-    document.getElementById("profileWins").textContent = "0";
-    document.getElementById("profileGames").textContent = "0";
-    document.getElementById("profileBest").textContent = "--";
-    document.getElementById("authRowLabel").textContent = "Sign In / Sign Up";
-    document.getElementById("authRowSub").textContent = "Login to save your progress";
+    document.getElementById("authRowLabel").textContent = "Game Account Sign In";
+    document.getElementById("authRowSub").textContent   = "Create account for leaderboard";
     document.getElementById("authRowBtn").onclick = openAuthModal;
   }
+
+  // AF student bar + profile card
+  refreshAFStudentBar();
+  refreshAFProfileCard();
+
+  // Rebuild difficulty options with updated level
+  buildDifficultyOptions();
 }
 
 function updateXPBar() {
-  if (!currentUser) return;
-  const levelXP = currentUser.level * 100;
-  const progress = currentUser.xp % levelXP;
+  const xp = currentUser ? currentUser.xp : parseInt(localStorage.getItem('sm_local_xp') || '0');
+  const level = currentUser ? currentUser.level : getPlayerLevel();
+  const levelXP = level * 500;
+  const progress = xp % levelXP;
   const percent = Math.min(100, (progress / levelXP) * 100);
   document.getElementById("xpFill").style.width = `${percent}%`;
-  document.getElementById("xpText").textContent = `${currentUser.xp} XP`;
+  document.getElementById("xpText").textContent = `${xp} XP`;
 }
 
 function formatTime(secs) {
@@ -1529,22 +1484,57 @@ let setupDifficulty = null;
 
 function selectBoard(size) {
   setupBoard = size;
-  document.querySelectorAll(".board-card").forEach(c => c.classList.toggle("selected", Number(c.dataset.board) === size));
+  document.querySelectorAll(".board-card").forEach(c =>
+    c.classList.toggle("selected", Number(c.dataset.board) === size));
   document.getElementById("step1Next").disabled = false;
+}
+
+/* Build difficulty options dynamically based on player level */
+function buildDifficultyOptions() {
+  const conf  = getDifficultyConfig();
+  const level = getPlayerLevel();
+  const grid  = document.getElementById("diffGrid");
+  if (!grid) return;
+
+  const difficulties = ["easy", "moderate", "hard"];
+  grid.innerHTML = difficulties.map(diff => {
+    const c    = conf[diff];
+    const xp4  = c.xp4;
+    const xp9  = c.xp9;
+    const isSelected = setupDifficulty === diff;
+    return `
+      <div class="diff-card${isSelected ? ' selected' : ''}" data-difficulty="${diff}" onclick="selectDifficulty('${diff}')">
+        <div class="diff-icon">${c.icon}</div>
+        <div class="diff-info">
+          <div class="diff-name">${diff.charAt(0).toUpperCase() + diff.slice(1)}</div>
+          <div class="diff-desc">4×4: +${xp4} XP &nbsp;|&nbsp; 9×9: +${xp9} XP</div>
+        </div>
+        <div class="diff-xp">${diff === 'easy' ? 'Beginner' : diff === 'moderate' ? 'Normal' : 'Expert'}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Level-based notice
+  const notice = document.getElementById("levelHardNotice");
+  if (level >= 5) {
+    notice.style.display = 'block';
+    notice.textContent = `⚠️ Level ${level}: Puzzles are harder — fewer given cells, same hint/mistake limits.`;
+  } else {
+    notice.style.display = 'none';
+  }
 }
 
 function selectDifficulty(diff) {
   setupDifficulty = diff;
-  document.querySelectorAll(".diff-card").forEach(c => c.classList.toggle("selected", c.dataset.difficulty === diff));
+  document.querySelectorAll(".diff-card").forEach(c =>
+    c.classList.toggle("selected", c.dataset.difficulty === diff));
   document.getElementById("step2Next").disabled = false;
 }
 
 function goStep(step) {
-  // Validate
   if (step === 2 && !setupBoard) { toast("Select a board", "Please choose 4×4 or 9×9 first.", "warning"); return; }
   if (step === 3 && !setupDifficulty) { toast("Select difficulty", "Please choose a difficulty level.", "warning"); return; }
 
-  // Update indicators
   [1,2,3].forEach(i => {
     const dot = document.getElementById(`sd${i}`);
     dot.classList.toggle("active", i === step);
@@ -1554,45 +1544,54 @@ function goStep(step) {
     document.getElementById(`sl${i}`)?.classList.toggle("done", i < step);
   });
 
-  // Show panel
   document.querySelectorAll(".step-panel").forEach(p => p.classList.remove("active"));
   document.getElementById(`step${step}`).classList.add("active");
 
-  // Update summary
+  if (step === 2) buildDifficultyOptions();
   if (step === 3) updateSummary();
 }
 
 function updateSummary() {
-  const conf = DIFFICULTY_CONFIG[setupDifficulty];
-  document.getElementById("summaryIcon").textContent = conf.icon;
+  const conf   = getDifficultyConfig()[setupDifficulty];
+  const limits = getBoardLimits(setupBoard);
+  const xp     = setupBoard === 4 ? conf.xp4 : conf.xp9;
+
+  document.getElementById("summaryIcon").textContent  = conf.icon;
   document.getElementById("summaryTitle").textContent = `Ready to Play!`;
-  document.getElementById("summaryDesc").textContent = `A ${setupBoard}×${setupBoard} ${setupDifficulty} game awaits you. Good luck!`;
-  document.getElementById("summaryBoard").textContent = `${setupBoard}×${setupBoard}`;
-  document.getElementById("summaryDiff").textContent = setupDifficulty.charAt(0).toUpperCase() + setupDifficulty.slice(1);
-  document.getElementById("summaryXP").textContent = `+${conf.xp} XP on win`;
+  document.getElementById("summaryDesc").textContent  =
+    `A ${setupBoard}×${setupBoard} ${setupDifficulty} puzzle. Level ${getPlayerLevel()} difficulty. Good luck!`;
+  document.getElementById("summaryBoard").textContent    = `${setupBoard}×${setupBoard}`;
+  document.getElementById("summaryDiff").textContent     = setupDifficulty.charAt(0).toUpperCase() + setupDifficulty.slice(1);
+  document.getElementById("summaryXP").textContent       = `+${xp} XP on win`;
+  document.getElementById("summaryHints").textContent    = `${limits.hints} Hints`;
+  document.getElementById("summaryMistakes").textContent = `${limits.maxMistakes} Max mistakes`;
 }
 
 /* ===================================
    GAME START
 =================================== */
 function startGame() {
-  if (setupBoard)      currentBoardSize   = setupBoard;
-  if (setupDifficulty) currentDifficulty  = setupDifficulty;
+  if (setupBoard)      currentBoardSize  = setupBoard;
+  if (setupDifficulty) currentDifficulty = setupDifficulty;
+
+  const limits = getBoardLimits(currentBoardSize);
+  hints       = limits.hints;
+  maxMistakes = limits.maxMistakes;
 
   gameActive = true;
   selectedCell = null;
   notesMode = false;
+  mistakes = 0;
   document.getElementById("notesBtn").classList.remove("active");
 
   currentBoardSize === 4 ? create4x4Puzzle() : create9x9Puzzle();
 
-  mistakes = 0; hints = 10;
-  document.getElementById("mistakeCount").textContent = "0/20";
-  document.getElementById("hintCount").textContent = "10";
+  document.getElementById("mistakeCount").textContent = `0/${maxMistakes}`;
+  document.getElementById("hintCount").textContent    = hints;
   document.getElementById("difficultyText").textContent =
     currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1);
   document.getElementById("gameSubtitle").textContent =
-    `${currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)} · ${currentBoardSize}×${currentBoardSize}`;
+    `${currentDifficulty.charAt(0).toUpperCase() + currentDifficulty.slice(1)} · ${currentBoardSize}×${currentBoardSize} · Lv${getPlayerLevel()}`;
 
   renderBoard();
   renderNumberPad();
@@ -1601,7 +1600,6 @@ function startGame() {
 }
 
 function confirmNewGame() {
-
   if (!gameActive) {
     openScreen("homeScreen");
     goStep(1);
@@ -1612,33 +1610,18 @@ function confirmNewGame() {
     title: "Start New Game",
     message: "Your current progress will be lost.",
     icon: "🔄",
-
     onConfirm() {
-
       openScreen("homeScreen");
-
       setupBoard = null;
       setupDifficulty = null;
-
       goStep(1);
-
-      document
-        .querySelectorAll(".board-card")
-        .forEach(c => c.classList.remove("selected"));
-
-      document
-        .querySelectorAll(".diff-card")
-        .forEach(c => c.classList.remove("selected"));
-
+      document.querySelectorAll(".board-card").forEach(c => c.classList.remove("selected"));
       document.getElementById("step1Next").disabled = true;
       document.getElementById("step2Next").disabled = true;
-
       clearInterval(timerInterval);
-
       gameActive = false;
     }
   });
-
 }
 
 /* ===================================
@@ -1661,17 +1644,20 @@ function generate4x4Solution() {
   ];
   return bases[Math.floor(Math.random()*bases.length)];
 }
+
 function create4x4Puzzle() {
   solution = generate4x4Solution();
-  puzzle = solution.map(r => [...r]);
+  puzzle   = solution.map(r => [...r]);
+  const conf = getDifficultyConfig()[currentDifficulty];
   let removed = 0, attempts = 0;
-  const count = DIFFICULTY_CONFIG[currentDifficulty].remove4;
+  const count = conf.remove4;
   while (removed < count && attempts < 200) {
     const r = Math.floor(Math.random()*4), c = Math.floor(Math.random()*4);
     if (puzzle[r][c] !== 0) { puzzle[r][c] = 0; removed++; }
     attempts++;
   }
 }
+
 function generate9x9Solution() {
   const base = [
     [1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],
@@ -1681,11 +1667,13 @@ function generate9x9Solution() {
   const nums = shuffle([1,2,3,4,5,6,7,8,9]);
   return base.map(row => row.map(n => nums[n-1]));
 }
+
 function create9x9Puzzle() {
   solution = generate9x9Solution();
-  puzzle = solution.map(r => [...r]);
+  puzzle   = solution.map(r => [...r]);
+  const conf = getDifficultyConfig()[currentDifficulty];
   let removed = 0, attempts = 0;
-  const count = DIFFICULTY_CONFIG[currentDifficulty].remove9;
+  const count = conf.remove9;
   while (removed < count && attempts < 1000) {
     const r = Math.floor(Math.random()*9), c = Math.floor(Math.random()*9);
     if (puzzle[r][c] !== 0) { puzzle[r][c] = 0; removed++; }
@@ -1746,8 +1734,7 @@ function getCellEl(r, c) {
 function renderNumberPad() {
   const pad = document.getElementById("numberPad");
   pad.innerHTML = "";
-  const max = currentBoardSize;
-  for (let n = 1; n <= max; n++) {
+  for (let n = 1; n <= currentBoardSize; n++) {
     const btn = document.createElement("button");
     btn.className = "num-btn";
     btn.textContent = n;
@@ -1785,30 +1772,29 @@ function placeNumber(number) {
     const idx = existing.indexOf(ns);
     if (idx > -1) existing.splice(idx,1); else existing.push(ns);
     element.dataset.notes = existing.join(",");
-    element.textContent = existing.sort().join(" ");
+    element.textContent   = existing.sort().join(" ");
     element.style.fontSize = currentBoardSize===4 ? ".6rem" : ".5rem";
-    element.style.color = "var(--text-soft)";
+    element.style.color    = "var(--text-soft)";
     return;
   }
 
-  element.dataset.notes = "";
+  element.dataset.notes  = "";
   element.style.fontSize = "";
-  element.style.color = "";
+  element.style.color    = "";
 
   if (solution[row][col] === number) {
     puzzle[row][col] = number;
     element.textContent = number;
     element.classList.remove("wrong");
     element.classList.add("correct");
-    // Re-highlight same values
     selectCell(row, col);
     checkWin();
   } else {
     mistakes++;
-    document.getElementById("mistakeCount").textContent = `${mistakes}/20`;
+    document.getElementById("mistakeCount").textContent = `${mistakes}/${maxMistakes}`;
     element.classList.add("wrong");
     setTimeout(() => element.classList.remove("wrong"), 700);
-    if (mistakes >= 20) gameOver();
+    if (mistakes >= maxMistakes) gameOver();
   }
 }
 
@@ -1843,35 +1829,19 @@ function eraseCell() {
 }
 
 function solvePuzzle() {
-
   showConfirm({
     title: "Reveal Solution",
     message: "This will instantly complete the puzzle and end the current game.",
     icon: "🎯",
-
     onConfirm() {
-
       clearInterval(timerInterval);
-
       gameActive = false;
-
       puzzle = solution.map(r => [...r]);
-
       renderBoard();
-
-      document
-        .querySelectorAll(".cell")
-        .forEach(c => c.classList.add("correct"));
-
-      toast(
-        "Solution revealed",
-        "Better luck next time!",
-        "info"
-      );
-
+      document.querySelectorAll(".cell").forEach(c => c.classList.add("correct"));
+      toast("Solution revealed", "Better luck next time!", "info");
     }
   });
-
 }
 
 function checkBoard() {
@@ -1895,7 +1865,12 @@ function checkBoard() {
 function gameOver() {
   clearInterval(timerInterval);
   gameActive = false;
+  const conf    = getDifficultyConfig()[currentDifficulty];
+  const limits  = getBoardLimits(currentBoardSize);
+  document.getElementById("gameOverMsg").textContent =
+    `You hit ${limits.maxMistakes} mistakes on ${currentDifficulty} ${currentBoardSize}×${currentBoardSize}. Try again!`;
   openModal("gameOverModal");
+  saveGame(false, timerSeconds);
 }
 
 async function checkWin() {
@@ -1905,20 +1880,23 @@ async function checkWin() {
 
   clearInterval(timerInterval);
   gameActive = false;
+  const conf  = getDifficultyConfig()[currentDifficulty];
+  const xpKey = currentBoardSize === 4 ? 'xp4' : 'xp9';
+  const earned = conf[xpKey];
   await saveGame(true, timerSeconds);
   document.getElementById("winMessage").textContent =
-    `Completed in ${formatTime(timerSeconds)} on ${currentDifficulty} difficulty!`;
+    `Completed in ${formatTime(timerSeconds)} on ${currentDifficulty} ${currentBoardSize}×${currentBoardSize}! +${earned} XP 🎉`;
   openModal("winModal");
+  refreshUI();
 }
 
 /* ===================================
    MODAL HELPERS
 =================================== */
-function openModal(id) { document.getElementById(id).classList.add("show"); }
+function openModal(id)  { document.getElementById(id).classList.add("show"); }
 function closeModal(id) { document.getElementById(id).classList.remove("show"); }
 
 function openAuthModal() {
-  buildAvatarGrid("signupAvatarGrid", "selectedAvatar", (av) => { selectedAvatar = av; });
   switchAuthTab("signup");
   openModal("authModal");
 }
@@ -1930,7 +1908,6 @@ function switchAuthTab(tab) {
   document.getElementById("tabLogin").classList.toggle("active",  tab==="login");
 }
 
-// Close modal on backdrop click
 document.querySelectorAll(".modal").forEach(m => {
   m.addEventListener("click", e => { if (e.target === m) m.classList.remove("show"); });
 });
@@ -1938,18 +1915,22 @@ document.querySelectorAll(".modal").forEach(m => {
 /* ===================================
    AVATAR GRID BUILDER
 =================================== */
-function buildAvatarGrid(containerId, varName, onSelect) {
+function buildAvatarGrid(containerId, onSelect) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = "";
   AVATARS.forEach(av => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "av-btn";
+    btn.style.cssText = "height:52px;font-size:1.5rem;border-radius:12px;background:var(--surface-3);border:2px solid transparent;transition:all .15s;cursor:pointer";
     btn.textContent = av;
     btn.onclick = () => {
-      container.querySelectorAll(".av-btn").forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
+      container.querySelectorAll("button").forEach(b => {
+        b.style.borderColor = "transparent";
+        b.style.background = "var(--surface-3)";
+      });
+      btn.style.borderColor = "var(--primary)";
+      btn.style.background  = "var(--primary-light)";
       onSelect(av);
     };
     container.appendChild(btn);
@@ -1965,15 +1946,14 @@ function openScreen(screenId) {
   document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
   document.querySelector(`[data-screen="${screenId}"]`)?.classList.add("active");
   if (screenId === "leaderboardScreen") loadLeaderboard();
+  if (screenId === "profileScreen") { refreshAFProfileCard(); refreshAFStudentBar(); }
 }
 
-// Nav buttons
 document.querySelectorAll(".nav-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const screen = btn.dataset.screen;
     if (screen === "playScreen") {
       if (gameActive) {
-        // Just switch to play screen without restarting
         document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
         document.getElementById("playScreen").classList.add("active");
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
@@ -2003,22 +1983,16 @@ function toggleTheme() {
   document.getElementById("darkToggle").classList.toggle("on", isDark);
 }
 
-function toggleSound() {
-  soundEnabled = !soundEnabled;
-  document.getElementById("soundToggle").classList.toggle("on", soundEnabled);
-}
-   function loadSoundSetting() {
-  soundEnabled =
-    localStorage.getItem("sudoku_sound") !== "off";
-
-  document
-    .getElementById("soundToggle")
-    ?.classList.toggle("on", soundEnabled);
+/* ===================================
+   SOUND
+=================================== */
+function loadSoundSetting() {
+  soundEnabled = localStorage.getItem("sudoku_sound") !== "off";
+  document.getElementById("soundToggle")?.classList.toggle("on", soundEnabled);
 }
 
 function startMusic() {
   if (!soundEnabled) return;
-
   bgMusic.play().catch(() => {});
 }
 
@@ -2029,22 +2003,15 @@ function stopMusic() {
 
 function toggleSound() {
   soundEnabled = !soundEnabled;
-
-  localStorage.setItem(
-    "sudoku_sound",
-    soundEnabled ? "on" : "off"
-  );
-
-  document
-    .getElementById("soundToggle")
-    .classList.toggle("on", soundEnabled);
-
-  if (soundEnabled) {
-    startMusic();
-  } else {
-    stopMusic();
-  }
+  localStorage.setItem("sudoku_sound", soundEnabled ? "on" : "off");
+  document.getElementById("soundToggle").classList.toggle("on", soundEnabled);
+  if (soundEnabled) startMusic();
+  else stopMusic();
 }
+
+document.addEventListener("click", () => {
+  if (soundEnabled && bgMusic.paused) bgMusic.play().catch(() => {});
+}, { once: true });
 
 /* ===================================
    KEYBOARD SUPPORT
@@ -2073,68 +2040,69 @@ document.addEventListener("keydown", e => {
 document.getElementById("editProfileBtn").addEventListener("click", openEditProfile);
 document.getElementById("headerAuthBtn").addEventListener("click", () => {
   if (currentUser) openScreen("profileScreen");
-  else openAuthModal();
+  else openScreen("profileScreen"); // Show profile even for AF-only users
 });
 document.getElementById("authRowBtn").addEventListener("click", () => {
   if (currentUser) handleSignOut();
   else openAuthModal();
 });
 
-   document.addEventListener(
-  "click",
-  () => {
-    if (
-      soundEnabled &&
-      bgMusic.paused
-    ) {
-      bgMusic.play().catch(() => {});
-    }
-  },
-  { once: true }
-);
+/* ===================================
+   CONFIRM MODAL
+=================================== */
+let confirmCallback = null;
+
+function showConfirm({ title = "Confirmation", message = "Are you sure?", icon = "⚠️", onConfirm = null }) {
+  document.getElementById("confirmTitle").textContent   = title;
+  document.getElementById("confirmMessage").textContent = message;
+  document.getElementById("confirmIcon").textContent    = icon;
+  confirmCallback = onConfirm;
+  openModal("confirmModal");
+}
+
+document.getElementById("confirmOkBtn").addEventListener("click", () => {
+  closeModal("confirmModal");
+  if (typeof confirmCallback === "function") confirmCallback();
+});
+
+/* ===================================
+   NAVIGATION
+=================================== */
+function goBackToSettings() {
+  window.location.href = "/Remake/";
+}
+
 /* ===================================
    INIT
 =================================== */
 async function init() {
   loadTheme();
-   loadSoundSetting();
+  loadSoundSetting();
+
+  // Always refresh AF student bar first (reads localStorage, instant)
+  refreshAFStudentBar();
+
+  // Show AF student name on home hero if logged in
+  const af = getAFStudent();
+  if (af.loggedIn && af.name) {
+    const level = getPlayerLevel();
+    document.getElementById("homeLevel").textContent = level;
+    toast(
+      `Welcome back, ${af.name.split(' ')[0]}! 👋`,
+      "Your AcademeForge profile is synced.",
+      "success",
+      3000
+    );
+  }
+
   refreshUI();
+
+  // Try to restore game leaderboard session
   await restoreSession();
   refreshUI();
 }
 
 init();
-   
-   function goBackToSettings() {
-  window.location.href = "/YA/#settings";
-}
-   let confirmCallback = null;
-
-function showConfirm({
-  title = "Confirmation",
-  message = "Are you sure?",
-  icon = "⚠️",
-  onConfirm = null
-}) {
-  document.getElementById("confirmTitle").textContent = title;
-  document.getElementById("confirmMessage").textContent = message;
-  document.getElementById("confirmIcon").textContent = icon;
-
-  confirmCallback = onConfirm;
-
-  openModal("confirmModal");
-}
-
-document
-  .getElementById("confirmOkBtn")
-  .addEventListener("click", () => {
-    closeModal("confirmModal");
-
-    if (typeof confirmCallback === "function") {
-      confirmCallback();
-    }
-  });
-   
 </script>
 </body>
 </html>
