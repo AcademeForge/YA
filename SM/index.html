@@ -399,7 +399,7 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
   .lb-podium{grid-template-columns:1fr 1.1fr 1fr;}
 }
   .screen{
-  padding-bottom:180px !important;
+  padding-bottom:120px !important;
 }
 </style>
 </head>
@@ -1062,7 +1062,7 @@ function updateNxdbStatusChipsNx(ok) {
   setNxdbStatusNx(
     document.getElementById("nxdbStatusChipNx"),
     ok ? "ok" : "err",
-    ok ? "✓ Synced" : "✕ Offline"
+    ok ? "✓ Online" : "✕ Offline"
   );
 
   setNxdbStatusNx(
@@ -1107,7 +1107,7 @@ async function refreshSudokuNxdb(){
   if(!_isOnline){refreshUIFromNxdbNx();return;}
 
   showRefreshNx('Refreshing Nxdb…');
-  setNxdbStatusNx(document.getElementById('nxdbStatusChipNx'),'syncing','⟳ Nxdb');
+  setNxdbStatusNx(document.getElementById('nxdbStatusChipNx'),'syncing','⟳ Offline');
 
   try{
     const syncRes=await syncPlayerNx(af);
