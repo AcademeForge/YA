@@ -36103,45 +36103,7 @@ function getAFDeviceName() {
   return "Unknown Device";
 }
 
-  /* =========================
-   ONE DEVICE SESSION WATCHER
-========================= */
-
-async function checkStudentActiveSessionAF() {
-  var studentId = localStorage.getItem("af_student_id");
-  var sessionToken = localStorage.getItem("af_session_token");
-  var deviceId = localStorage.getItem("af_device_id");
-
-  if (!studentId || !sessionToken || !deviceId) return;
-
-  try {
-    var res = await fetch("https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-session-check-af", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        student_id: studentId,
-        session_token: sessionToken,
-        device_id: deviceId
-      })
-    });
-
-    var data = await res.json().catch(function () {
-      return {};
-    });
-
-    console.log("SESSION CHECK:", data);
-
-    if (data.logout === true || data.valid === false) {
-      forceStudentLogoutAF(data.message || "Your account was logged in on another device.");
-      return;
-    }
-
-  } catch (e) {
-    console.log("Session check failed:", e);
-  }
-}
+ 
 
 
  /* =========================
