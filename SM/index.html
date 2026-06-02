@@ -1044,18 +1044,52 @@ function hideRefreshNx(){
     document.getElementById('refreshIndicatorNx').classList.remove('visible');
   },600);
 }
-
 /* ════════════════════════════════════════════
-   NXDB STATUS CHIPS
+   SYNC STATUS CHIPS
 ════════════════════════════════════════════ */
-function setNxdbStatusNx(el,state,label){if(!el)return;el.className=`nxdb-status-Nx ${state}`;el.textContent=label;}
-function updateNxdbStatusChipsNx(ok){
-  setNxdbStatusNx(document.getElementById('nxdbStatusChipNx'),ok?'ok':'err',ok?'✓ Nxdb':'✕ Nxdb');
-  setNxdbStatusNx(document.getElementById('nxdbPlayerStatusNx'),ok?'ok':'err',ok?'Connected':'Offline');
-  setNxdbStatusNx(document.getElementById('nxdbStatsStatusNx'),ok?'ok':'err',ok?'Connected':'Offline');
-  setNxdbStatusNx(document.getElementById('nxdbLbStatusNx'),'ok','Connected');
-  const ts=document.getElementById('nxdbLastSyncNx');
-  if(ts)ts.textContent=ok?new Date().toLocaleTimeString():'Failed';
+
+function setNxdbStatusNx(el, state, label) {
+  if (!el) return;
+
+  el.className = `nxdb-status-Nx ${state}`;
+  el.textContent = label;
+}
+
+function updateNxdbStatusChipsNx(ok) {
+  setNxdbStatusNx(
+    document.getElementById("nxdbStatusChipNx"),
+    ok ? "ok" : "err",
+    ok ? "✓ Synced" : "✕ Offline"
+  );
+
+  setNxdbStatusNx(
+    document.getElementById("nxdbPlayerStatusNx"),
+    ok ? "ok" : "err",
+    ok ? "Connected" : "Offline"
+  );
+
+  setNxdbStatusNx(
+    document.getElementById("nxdbStatsStatusNx"),
+    ok ? "ok" : "err",
+    ok ? "Updated" : "Offline"
+  );
+
+  setNxdbStatusNx(
+    document.getElementById("nxdbLbStatusNx"),
+    ok ? "ok" : "err",
+    ok ? "Live" : "Offline"
+  );
+
+  const ts = document.getElementById("nxdbLastSyncNx");
+
+  if (ts) {
+    ts.textContent = ok
+      ? new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit"
+        })
+      : "Sync Failed";
+  }
 }
 
 /* ════════════════════════════════════════════
@@ -1951,31 +1985,60 @@ window.addEventListener('storage',e=>{
 /* ════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════ */
-async function initNx(){
-  loadThemeNx();
-  initSoundNx();
-  loadLocalFallbackNx();
-  loadOfflineQueueNx();
 
-  // Set initial online state
-  setOnlineStateNx(navigator.onLine);
+async function initNx() {
+  try {
+    loadThemeNx();
+    initSoundNx();
+    loadLocalFallbackNx();
+    loadOfflineQueueNx();
 
-  // Immediate local render — no waiting for network
-  refreshUIFromNxdbNx();
+    /* Online status */
+    setOnlineStateNx(navigator.onLine);
 
-  const af=getAFStudentNx();
-  if(af.loggedIn&&af.name){
-    setTimeout(()=>toastNx(`Welcome back, ${af.name.split(' ')[0]}! 👋`,_isOnline?'Syncing to Nxdb…':'You\'re offline — playing locally',_isOnline?'success':'info',3000),400);
-  }
-
-  // Sync with Nxdb in background (only if online)
-  if(_isOnline){
-    await refreshSudokuNxdb();
+    /* Instant render */
     refreshUIFromNxdbNx();
-  }
 
-  // Update offline queue sub-label
-  updateOfflineSyncSubNx();
+    const af = getAFStudentNx();
+
+    if (af.loggedIn && af.name) {
+      setTimeout(() => {
+        toastNx(
+          `Welcome back, ${af.name.split(" ")[0]}! 👋`,
+          _isOnline
+            ? "Syncing your progress..."
+            : "You're offline — playing locally",
+          _isOnline ? "success" : "info",
+          3000
+        );
+      }, 400);
+    }
+
+    /* Background sync - do NOT block UI */
+    if (_isOnline) {
+      refreshSudokuNxdb()
+        .then(() => {
+          refreshUIFromNxdbNx();
+
+          const lastSync = document.getElementById("nxdbLastSyncNx");
+          if (lastSync) {
+            lastSync.textContent = new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            });
+          }
+        })
+        .catch(err => {
+          console.error("Background sync failed:", err);
+        });
+    }
+
+    /* Queue label */
+    updateOfflineSyncSubNx();
+
+  } catch (err) {
+    console.error("Init failed:", err);
+  }
 }
 
 initNx();
