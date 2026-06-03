@@ -593,42 +593,138 @@ body{
   .hero-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
- .af-topbar-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.af-topbar{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+
+  margin:16px 12px 0 !important;
+  padding:10px 12px !important;
+
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid #d8d4ff !important;
+
+  border-radius:28px 28px 0 0 !important;
+
+  backdrop-filter:blur(12px) !important;
+  -webkit-backdrop-filter:blur(12px) !important;
+
+  box-shadow:
+    0 4px 20px rgba(99,102,241,.08) !important,
+    inset 0 1px 0 rgba(255,255,255,.7) !important;
+}
+
+.af-topbar-brand{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+}
+
+.af-brand-logo{
+  width:34px !important;
+  height:34px !important;
+  object-fit:contain !important;
+}
+
+.af-brand-logo-fallback{
+  width:34px !important;
+  height:34px !important;
+  border-radius:10px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  background:linear-gradient(135deg,#4f46e5,#7c3aed) !important;
+  color:#fff !important;
+
+  font-size:13px !important;
+  font-weight:800 !important;
+}
+
+.af-brand-name{
+  font-size:15px !important;
+  font-weight:800 !important;
+  color:#1e1b4b !important;
+  line-height:1 !important;
+}
+
+.af-brand-tagline{
+  margin-top:2px !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  color:#8b90a7 !important;
+}
+
+.af-topbar-actions{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
 }
 
 .af-back-btn,
 .af-theme-btn{
-  width:42px;
-  height:42px;
-  border:none;
-  border-radius:14px;
-  cursor:pointer;
+  width:42px !important;
+  height:42px !important;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  border:none !important;
+  outline:none !important;
+  cursor:pointer !important;
 
-  background:var(--surface);
-  color:var(--ink);
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 
-  border:1px solid var(--border2);
-  box-shadow:var(--shadow);
+  border-radius:18px !important;
 
-  font-size:18px;
-  font-weight:700;
+  background:#f7f4ff !important;
+  border:1px solid #e2dcff !important;
 
-  transition:all .25s ease;
+  color:#f59e0b !important;
+
+  font-size:20px !important;
+  font-weight:700 !important;
+
+  transition:.25s ease !important;
 }
 
 .af-back-btn:hover,
 .af-theme-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow-lg);
+  transform:translateY(-2px) !important;
 }
-  
+
+.af-back-btn{
+  width:62px !important;
+  gap:6px !important;
+  color:#f59e0b !important;
+  font-size:17px !important;
+  font-weight:800 !important;
+}
+
+.af-back-btn::after{
+  content:"Back" !important;
+  font-size:13px !important;
+  font-weight:700 !important;
+}
+
+[data-theme="dark"] .af-topbar{
+  background:rgba(13,13,30,.92) !important;
+  border-color:rgba(120,100,255,.25) !important;
+}
+
+[data-theme="dark"] .af-brand-name{
+  color:#ffffff !important;
+}
+
+[data-theme="dark"] .af-brand-tagline{
+  color:#9ca3af !important;
+}
+
+[data-theme="dark"] .af-back-btn,
+[data-theme="dark"] .af-theme-btn{
+  background:rgba(255,255,255,.06) !important;
+  border-color:rgba(255,255,255,.08) !important;
+}
 </style>
 </head>
 <body>
@@ -654,23 +750,23 @@ body{
 
   <div class="af-topbar-actions">
 
-    <button
-      class="af-back-btn"
-      onclick="history.back()"
-      aria-label="Back"
-      type="button"
-    >
-      ←
-    </button>
+   <button
+  class="af-back-btn"
+  onclick="history.back()"
+  type="button"
+  aria-label="Back"
+>
+  ←
+</button>
 
-    <button
-      class="af-theme-btn"
-      id="themeBtn"
-      aria-label="Theme"
-      type="button"
-    >
-      <span id="themeIcon">☀</span>
-    </button>
+<button
+  class="af-theme-btn"
+  id="themeBtn"
+  type="button"
+  aria-label="Theme"
+>
+  <span id="themeIcon">☀</span>
+</button>
 
   </div>
 
