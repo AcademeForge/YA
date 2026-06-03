@@ -1,0 +1,50 @@
+{
+  "name": "AcademeForge",
+  "short_name": "AF",
+  "description": "Learning Beyond The Classroom",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#09090f",
+  "theme_color": "#4f46e5",
+  "lang": "en",
+
+  "icons": [
+    {
+      "src": "./AF%20logo%203.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./AF%20logo%203.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "NotesAF",
+      "short_name": "Notes",
+      "url": "./NotesAF/"
+    },
+    {
+      "name": "Sudoku Master",
+      "short_name": "Sudoku",
+      "url": "./SM/"
+    },
+    {
+      "name": "AF Beta",
+      "short_name": "Beta",
+      "url": "./BETA%202.0/"
+    },
+    {
+      "name": "Verification",
+      "short_name": "Verify",
+      "url": "./verify/"
+    }
+  ]
+}
