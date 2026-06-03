@@ -42,13 +42,16 @@ input{font:inherit;outline:none;}
 .app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(var(--nav-height)+32px);position:relative;}
 .app::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,122,24,.05) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(34,197,94,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
-/* OFFLINE BANNER */
+/* ════════════════════════════════════════════
+   OFFLINE BANNER
+════════════════════════════════════════════ */
 
 .offline-banner{
   display:none;
+  align-items:center;
 
   position:fixed;
-  top:64px; /* header ke exactly neeche */
+  top:64px;
   left:50%;
   transform:translateX(-50%);
 
@@ -66,11 +69,13 @@ input{font:inherit;outline:none;}
   font-weight:700;
 
   z-index:190;
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
 }
 
 .offline-banner.show{
   display:flex;
-  align-items:center;
 }
 
 body.dark .offline-banner{
@@ -79,25 +84,34 @@ body.dark .offline-banner{
 }
 
 .offline-banner .offline-marquee{
+  display:inline-block;
   white-space:nowrap;
+  min-width:100%;
   padding-left:100%;
   animation:offlineTickerNx 14s linear infinite;
 }
 
 @keyframes offlineTickerNx{
-  from{
+  0%{
     transform:translateX(0);
   }
-  to{
+  100%{
     transform:translateX(-100%);
   }
 }
-  #homeScreen{
-  padding-top:0;
+
+/* ════════════════════════════════════════════
+   MAIN CONTENT SPACING
+════════════════════════════════════════════ */
+
+.main{
+  padding:14px;
+  padding-top:14px;
 }
 
-.offline-banner.show + .main{
-  padding-top:42px;
+/* When offline */
+body.offline-mode .main{
+  padding-top:52px;
 }
 /* SYNC QUEUE BADGE */
 .sync-queue-badge{display:none;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:rgba(59,130,246,.1);color:var(--blue);font-size:.68rem;font-weight:700;border:1px solid rgba(59,130,246,.2);}
@@ -1093,16 +1107,28 @@ function updateOfflineSyncSubNx(){
 /* ════════════════════════════════════════════
    ONLINE / OFFLINE DETECTION
 ════════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   ONLINE / OFFLINE DETECTION
+════════════════════════════════════════════ */
 function setOnlineStateNx(online){
-  _isOnline=online;
-  const banner=document.getElementById('offlineBannerNx');
-  if(banner)banner.classList.toggle('show',!online);
-  if(online){
-    flushOfflineQueueNx(); // auto-flush when back online
+  _isOnline = online;
+
+  const banner = document.getElementById("offlineBannerNx");
+
+  if (banner) {
+    banner.classList.toggle("show", !online);
+  }
+
+  if (online) {
+    document.body.classList.remove("offline-mode");
+    flushOfflineQueueNx();
+  } else {
+    document.body.classList.add("offline-mode");
   }
 }
-window.addEventListener('online', ()=>setOnlineStateNx(true));
-window.addEventListener('offline',()=>setOnlineStateNx(false));
+
+window.addEventListener("online", () => setOnlineStateNx(true));
+window.addEventListener("offline", () => setOnlineStateNx(false));
 
 /* ════════════════════════════════════════════
    OFFLINE QUEUE FLUSH
