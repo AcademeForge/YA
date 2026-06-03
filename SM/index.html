@@ -742,7 +742,7 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
       <button id="soundToggleNx" class="toggle" onclick="toggleSoundNx()"></button>
     </div>
     <div class="settings-row">
-      <div><div class="settings-label">Manual Refresh</div><div class="settings-sub">Pull latest data from Nxdb</div></div>
+      <div><div class="settings-label">Manual Refresh</div><div class="settings-sub">Pull latest data</div></div>
       <button class="icon-btn" onclick="refreshSudokuNxdb()">🔄</button>
     </div>
     <div class="settings-row">
@@ -1143,7 +1143,7 @@ async function refreshSudokuNxdb(){
   }
   if(!_isOnline){refreshUIFromNxdbNx();return;}
 
-  showRefreshNx('Refreshing Nxdb…');
+  showRefreshNx('Refreshing…');
   setNxdbStatusNx(document.getElementById('nxdbStatusChipNx'),'syncing','⟳ Offline');
 
   try{
