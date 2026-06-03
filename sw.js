@@ -1,4 +1,4 @@
-const CACHE_NAME = "ya-v2";
+const CACHE_NAME = "ya-v3";
 
 const PRECACHE = [
   "./",
