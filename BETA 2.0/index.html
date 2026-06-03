@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
- <script>
+
+<script>
 if (sessionStorage.getItem("af_splash_shown")) {
   document.documentElement.classList.add("no-splash");
 }
 </script>
-  <meta charset="UTF-8" />
+
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#4f46e5" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -212,99 +214,114 @@ if (sessionStorage.getItem("af_splash_shown")) {
       border: 1px solid var(--border-card);
     }
 
-    /* ───  SCREEN ──────────────────────────────────────────── */
-    #af {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background:
-        radial-gradient(circle at 28% 18%, rgba(255,59,48,.28), transparent 30%),
-        radial-gradient(circle at 75% 70%, rgba(248,199,92,.20), transparent 35%),
-        radial-gradient(circle at 50% 50%, rgba(255,149,0,.10), transparent 42%),
-        linear-gradient(135deg, #12050a 0%, #1a0f05 45%, #08060f 100%);
-      transition: opacity .5s var(--ease-out), visibility .5s;
-    }
+    /* ─── SPLASH SCREEN ─────────────────────────────────────────── */
 
-    #afSplash.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .splash-logo-ring {
-      width: 88px;
-      height: 88px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 24px;
-      box-shadow:
-        0 0 20px rgba(255,59,48,.65),
-        0 0 40px rgba(248,199,92,.45),
-        0 0 80px rgba(255,149,0,.20);
-    }
-
-    .splash-logo-ring img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transform: scale(1.2);
-      border-radius: 0;
-    }
-
-    .splash-title {
-      margin: 4px 0 0;
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 900;
-      color: #fff3b3;
-      letter-spacing: -.02em;
-      text-shadow: 0 0 8px rgba(255,59,48,.55), 0 0 18px rgba(248,199,92,.35);
-    }
-
-    .splash-sub {
-      margin: -2px 0 0;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: rgba(255,247,214,.88);
-      text-shadow: 0 0 6px rgba(255,59,48,.25);
-    }
-
-    .splash-loader {
-      width: 90px;
-      height: 4px;
-      margin-top: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      overflow: hidden;
-    }
-
-    .splash-loader-bar {
-      height: 100%;
-      width: 0;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #ff3b30, #ff8c00, #f8c75c, #fff1a8);
-      box-shadow: 0 0 12px rgba(255,59,48,.8), 0 0 24px rgba(248,199,92,.5);
-      animation: splashLoad 1.2s cubic-bezier(.22,.61,.36,1) forwards;
-    }
-
-    /* FIX: splashLoad keyframe was missing — added here */
-    @keyframes splashLoad {
-      0%   { width: 0; }
-      100% { width: 100%; }
-      
-      .no-splash #afSplash{
+html.no-splash #afSplash{
   display:none !important;
 }
-    }
+
+#afSplash{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255,59,48,.28), transparent 30%),
+    radial-gradient(circle at 75% 70%, rgba(248,199,92,.20), transparent 35%),
+    radial-gradient(circle at 50% 50%, rgba(255,149,0,.10), transparent 42%),
+    linear-gradient(135deg, #12050a 0%, #1a0f05 45%, #08060f 100%);
+  transition:
+    opacity .5s ease,
+    visibility .5s ease;
+}
+
+#afSplash.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.splash-logo-ring{
+  width:88px;
+  height:88px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:24px;
+  box-shadow:
+    0 0 20px rgba(255,59,48,.65),
+    0 0 40px rgba(248,199,92,.45),
+    0 0 80px rgba(255,149,0,.20);
+}
+
+.splash-logo-ring img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scale(1.2);
+}
+
+.splash-title{
+  margin:4px 0 0;
+  font-family:var(--font-display);
+  font-size:22px;
+  font-weight:900;
+  color:#fff3b3;
+  letter-spacing:-.02em;
+  text-shadow:
+    0 0 8px rgba(255,59,48,.55),
+    0 0 18px rgba(248,199,92,.35);
+}
+
+.splash-sub{
+  margin:-2px 0 0;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:rgba(255,247,214,.88);
+  text-shadow:0 0 6px rgba(255,59,48,.25);
+}
+
+.splash-loader{
+  width:90px;
+  height:4px;
+  margin-top:12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.splash-loader-bar{
+  height:100%;
+  width:0;
+  border-radius:999px;
+  background:linear-gradient(
+    90deg,
+    #ff3b30,
+    #ff8c00,
+    #f8c75c,
+    #fff1a8
+  );
+  box-shadow:
+    0 0 12px rgba(255,59,48,.8),
+    0 0 24px rgba(248,199,92,.5);
+  animation:splashLoad 1.2s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+@keyframes splashLoad{
+  from{
+    width:0;
+  }
+  to{
+    width:100%;
+  }
+}
 
     /* ─── HEADER / TOPBAR ────────────────────────────────────────── */
     .af-topbar {
@@ -4545,17 +4562,24 @@ body,
 
 <body>
 
-  <!-- SPLASH SCREEN -->
-  <div id="afSplash" role="status" aria-label="Loading AcademeForge">
-    <div class="splash-logo-ring">
-      <img src="AF LOGO 1.jpeg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-      <span class="splash-logo-letter" style="display:none;">AF</span>
-    </div>
-    <h1 class="splash-title">AcademeForge</h1>
-    <p class="splash-sub">Learning Beyond The Classroom</p>
-    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+ <!-- SPLASH SCREEN -->
+<div id="afSplash" role="status" aria-label="Loading AcademeForge">
+  <div class="splash-logo-ring">
+    <img
+      src="AF LOGO 1.jpeg"
+      alt=""
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+    />
+    <span class="splash-logo-letter" style="display:none;">AF</span>
   </div>
 
+  <h1 class="splash-title">AcademeForge</h1>
+  <p class="splash-sub">Learning Beyond The Classroom</p>
+
+  <div class="splash-loader">
+    <div class="splash-loader-bar"></div>
+  </div>
+</div>
   <!-- APP SHELL -->
   <div class="af-shell" id="afShell">
 
@@ -5776,28 +5800,30 @@ body,
     }
 
     /* ─────────────────────────────────────────────────────────────
-       SECTION 2: SPLASH SCREEN
-    ─────────────────────────────────────────────────────────────── */
+   SECTION 2: SPLASH SCREEN
+────────────────────────────────────────────────────────────── */
+
 function afHideSplash() {
-  const splash = document.getElementById('afSplash');
+  const splash = document.getElementById("afSplash");
+
   if (!splash) return;
 
-  if (sessionStorage.getItem('af_splash_shown')) {
+  if (sessionStorage.getItem("af_splash_shown")) {
     splash.remove();
     return;
   }
 
-  sessionStorage.setItem('af_splash_shown', '1');
+  sessionStorage.setItem("af_splash_shown", "1");
 
   setTimeout(() => {
-    splash.classList.add('hidden');
+    splash.classList.add("hidden");
 
     setTimeout(() => {
       splash.remove();
-    }, 400);
+    }, 500);
+
   }, 1200);
 }
-
     /* ─────────────────────────────────────────────────────────────
        SECTION 3: BOTTOM NAV VIEW SWITCHING
     ─────────────────────────────────────────────────────────────── */
