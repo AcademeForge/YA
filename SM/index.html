@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/>
 <title>Sudoku Master V5 — Nxdb</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -878,7 +881,35 @@ const AVATARS_Nx = [
 
   "💻","⌨️","🖥️","📱","🎧","🎤","📡","🔋","⚙️","🧪",
 
-  "👽","🐅","🦄","👻"
+  "👽","🐅","🦄","👻",
+
+  /* Sigma / Elite */
+  "🐺","🦅","🦁","🐉","🦈","🦍","🗡️","⚔️","🛡️","🏹",
+  "👑","💎","🏆","🎩","🕶️","⌚","💰","📈","⚜️","🔱",
+
+  /* Dark Mindset */
+  "🌑","🌒","🌘","🌚","🌙","☄️","🌌","🖤","🕳️","☠️",
+  "💀","👁️","👁️‍🗨️","🌪️","🌋","⚫","🌫️","🌊","🦂","🐍",
+
+  /* Pro / Tech */
+  "💻","🖥️","⌨️","🖱️","📱","📡","⚙️","🔋","🛰️","🤖",
+  "🧪","🔬","📊","📈","🧬","🛸","🚀","🎮","🕹️","🎧",
+
+  /* Legendary */
+  "🐲","🦄","🔥","⚡","🌟","⭐","💫","☄️","🏅","🥇",
+  "🥈","🥉","🎖️","🏵️","💠","🔶","🔷","🔰","🎯","🚩",
+
+  /* Royal */
+  "👑","🤴","🫅","🏰","🏛️","💎","💍","👔","🎩","🪙",
+
+  /* Warrior */
+  "🦁","🐯","🦅","🐺","🦈","🦖","🦍","🐲","🐉","🦂",
+
+  /* Cosmic */
+  "🪐","🌌","🌠","☀️","🌙","⭐","🌍","🌎","🌏","🚁",
+
+  /* Hustle */
+  "💰","💸","💼","📈","📊","🏦","🪙","💵","💳","🏅"
 ];
 const XP_TABLE_Nx = {
   '4-easy':25,'4-moderate':40,'4-hard':60,
@@ -2019,6 +2050,101 @@ window.addEventListener('storage',e=>{
     }
   }
 });
+
+ 
+/* ==========================================
+   BASIC CLIENT PROTECTION
+========================================== */
+
+/* Disable right click */
+document.addEventListener("contextmenu", e => {
+  e.preventDefault();
+});
+
+/* Disable common devtools shortcuts */
+document.addEventListener("keydown", e => {
+  const key = e.key.toLowerCase();
+
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["i","j","c"].includes(key)) ||
+    (e.ctrlKey && key === "u") ||
+    (e.ctrlKey && key === "s")
+  ) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+/* Disable text selection */
+document.addEventListener("selectstart", e => {
+  e.preventDefault();
+});
+
+/* Disable copy */
+document.addEventListener("copy", e => {
+  e.preventDefault();
+});
+
+/* Disable cut */
+document.addEventListener("cut", e => {
+  e.preventDefault();
+});
+
+/* Disable drag */
+document.addEventListener("dragstart", e => {
+  e.preventDefault();
+});
+
+/* Disable zoom via keyboard */
+window.addEventListener(
+  "keydown",
+  e => {
+    if (
+      e.ctrlKey &&
+      ["+","-","=","_","0"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
+/* Disable zoom via mouse wheel */
+window.addEventListener(
+  "wheel",
+  e => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
+/* Disable pinch zoom */
+document.addEventListener(
+  "touchmove",
+  e => {
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
+/* Double tap zoom disable */
+let lastTouchEnd = 0;
+document.addEventListener(
+  "touchend",
+  e => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  },
+  false
+);
 
 /* ════════════════════════════════════════════
    INIT
