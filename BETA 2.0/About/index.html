@@ -597,37 +597,37 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:14px 18px;
-}
-
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.back-btn{
-  width:42px;
-  height:42px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-size:20px;
-  font-weight:700;
-  background:rgba(255,255,255,.08);
-  color:var(--text-color,#fff);
-  transition:.2s;
-}
-
-.back-btn:hover{
-  transform:translateY(-1px);
+  padding:14px 16px;
 }
 
 .nav-logo-img{
   height:40px;
   width:auto;
-  object-fit:contain;
   display:block;
+}
+
+.back-btn{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition:.25s;
+}
+
+.back-btn:hover{
+  transform:translateX(-2px);
+}
+
+.back-btn i{
+  font-size:14px;
 }
   
 </style>
@@ -638,20 +638,18 @@ body{
 <!-- NAV -->
 <div class="nav">
 
-  <!-- Left Side -->
-  <div class="nav-left">
-  <button class="back-btn" type="button" onclick="history.back()">
-  <i class="fas fa-chevron-left"></i>
-</button>
+ <div class="nav">
 
-    <img
-      src="/YA/BETA%202.0/AF LOGO 2.jpeg/"
-      alt="AcademeForge"
-      class="nav-logo-img"
-    />
-  </div>
+  <img
+    src="AF LOGO 2.jpeg"
+    alt="AcademeForge"
+    class="nav-logo-img"
+  />
 
-  <!-- Right Side -->
+  <button class="back-btn" type="button" onclick="goBack()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
   <button class="theme-pill" id="themeBtn" type="button">
     <span class="theme-icon" id="themeIcon">☀</span>
     <span id="themeLabel">Light</span>
