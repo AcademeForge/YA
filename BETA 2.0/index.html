@@ -4,6 +4,9 @@
   
   <script>
 (function () {
+
+  document.documentElement.classList.add("af-preload");
+  
   if (localStorage.getItem("af_dark_mode") === "1") {
     document.documentElement.setAttribute("data-theme", "dark");
   } else {
@@ -4610,15 +4613,7 @@ body,
     border-color .16s linear !important;
 }
 
-/* Kill expensive transition-all */
-*{
-  transition-property:
-    background-color,
-    color,
-    border-color,
-    opacity,
-    transform !important;
-}
+
 
 /* Reduce GPU load */
 .glass,
@@ -4693,13 +4688,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* GPU acceleration */
-.af-view,
-.af-page,
-.af-shell{
-  transform: translateZ(0);
-  will-change: transform;
-}
+
 
 /* Faster dark mode paint */
 [data-theme="dark"]{
@@ -4709,6 +4698,11 @@ body{
 [data-theme="light"]{
   color-scheme: light;
 }
+
+    html.af-preload .af-view{
+  display:none !important;
+}
+    
   </style>
 </head>
 
@@ -4777,7 +4771,7 @@ body{
     <div class="af-page" id="afPage" role="main">
 
       <!-- VIEW: HOME -->
-      <div class="af-view af-home active" id="viewHome" aria-label="Home">
+      <div class="af-view af-home" id="viewHome" aria-label="Home">
 
         <div class="af-banner-slider" role="region" aria-label="Featured banners">
           <div class="af-banner-slide active" id="slide0">
@@ -5891,7 +5885,7 @@ body{
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="af-bottom-nav" aria-label="Primary navigation">
-      <button class="af-nav-btn active" id="navHome"      onclick="afSwitchView('home')"      type="button" aria-label="Home">      <span class="af-nav-icon" aria-hidden="true">🏠</span><span class="af-nav-label">Home</span></button>
+      <button class="af-nav-btn"        id="navHome"      onclick="afSwitchView('home')"      type="button" aria-label="Home">      <span class="af-nav-icon" aria-hidden="true">🏠</span><span class="af-nav-label">Home</span></button>
       <button class="af-nav-btn"        id="navStudent"   onclick="afSwitchView('student')"   type="button" aria-label="Student">   <span class="af-nav-icon" aria-hidden="true">🎓</span><span class="af-nav-label">Student</span></button>
       <button class="af-nav-btn"        id="navBatches"   onclick="afSwitchView('batches')"   type="button" aria-label="Batches">   <span class="af-nav-icon" aria-hidden="true">📚</span><span class="af-nav-label">Batches</span></button>
       <button class="af-nav-btn"        id="navCommunity" onclick="afSwitchView('community')" type="button" aria-label="Community"><span class="af-nav-icon" aria-hidden="true">💬</span><span class="af-nav-label">Community</span></button>
@@ -6356,26 +6350,40 @@ function afHandleSwipe(e) {
     /* ─────────────────────────────────────────────────────────────
        SECTION 15: INIT
     ─────────────────────────────────────────────────────────────── */
-    function afInit() {
-      afInitTheme();
-      afHideSplash();
-      afRestoreLastTab();
-      afLoadStudentState();
-      afLoadStreak();
-      afUpdateLangBadge();
-      afStartBannerAuto();
-      afInitTicker();
-      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      var toggle = document.getElementById('nightModeToggle');
-      if (toggle) toggle.checked = isDark;
-    }
+  function afInit() {
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', afInit);
-    } else {
-      afInit();
-    }
+  afInitTheme();
 
+  /* restore tab BEFORE page becomes visible */
+  afRestoreLastTab();
+
+  /* remove preload lock */
+  document.documentElement.classList.remove("af-preload");
+
+  afHideSplash();
+
+  afLoadStudentState();
+  afLoadStreak();
+  afUpdateLangBadge();
+  afStartBannerAuto();
+  afInitTicker();
+
+  var isDark =
+    document.documentElement.getAttribute('data-theme') === 'dark';
+
+  var toggle =
+    document.getElementById('nightModeToggle');
+
+  if (toggle) {
+    toggle.checked = isDark;
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', afInit);
+} else {
+  afInit();
+}
     /* ─────────────────────────────────────────────────────────────
        SECTION 16: GLOBAL EXPORTS
     ─────────────────────────────────────────────────────────────── */
@@ -8361,6 +8369,16 @@ window.afLogout = function() {
     if (typeof afSwitchView === 'function') afSwitchView('home');
   }
 };
+
+    <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("SW Registered"))
+      .catch(err => console.error("SW Error:", err));
+  });
+}
+</script>
   </script>
 
 </body>
