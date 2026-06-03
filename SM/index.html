@@ -43,10 +43,52 @@ input{font:inherit;outline:none;}
 .app::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(255,122,24,.05) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(34,197,94,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
 /* OFFLINE BANNER */
-.offline-banner{display:none;align-items:center;gap:8px;padding:9px 14px;background:rgba(245,158,11,.12);border-bottom:1px solid rgba(245,158,11,.25);font-size:.75rem;font-weight:700;color:#b45309;position:sticky;top:64px;z-index:150;}
-.offline-banner.show{display:flex;}
-body.dark .offline-banner{background:rgba(245,158,11,.08);color:#fbbf24;}
+.offline-banner{
+  display:none;
+  align-items:center;
+  overflow:hidden;
 
+  width:100%;
+  height:38px;
+
+  padding:0 12px;
+
+  background:rgba(245,158,11,.12);
+  border-bottom:1px solid rgba(245,158,11,.25);
+
+  color:#b45309;
+  font-size:.75rem;
+  font-weight:700;
+
+  position:sticky;
+  top:64px;
+  z-index:150;
+}
+
+.offline-banner.show{
+  display:flex;
+}
+
+body.dark .offline-banner{
+  background:rgba(245,158,11,.08);
+  color:#fbbf24;
+}
+
+.offline-banner .offline-marquee{
+  display:inline-block;
+  white-space:nowrap;
+  padding-left:100%;
+  animation:offlineTickerNx 14s linear infinite;
+}
+
+@keyframes offlineTickerNx{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-100%);
+  }
+}
 /* SYNC QUEUE BADGE */
 .sync-queue-badge{display:none;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:rgba(59,130,246,.1);color:var(--blue);font-size:.68rem;font-weight:700;border:1px solid rgba(59,130,246,.2);}
 .sync-queue-badge.show{display:inline-flex;}
@@ -431,9 +473,10 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
 
 <!-- Offline Banner -->
 <div id="offlineBannerNx" class="offline-banner">
-  <span>📡</span>
-  <span>You're offline — games will sync when connection returns</span>
-  <span id="queueCountNx" class="sync-queue-badge"></span>
+  <div class="offline-marquee">
+    📡 Offline Mode • Games continue normally • Progress will sync automatically when connection returns • Pending Sync:
+    <span id="queueCountNx">0</span>
+  </div>
 </div>
 
 <!-- Refresh Indicator -->
