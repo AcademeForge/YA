@@ -1,41 +1,26 @@
-const CACHE_NAME = "academeforge-v4";
-
-const CACHE_NAME = "academeforge-v4";
+const CACHE_NAME = "af-beta20-v2";
 
 const PRECACHE = [
   "./",
   "./index.html",
-  "./Y.html",
-  "./manifest.json",
 
-  "./account/index.html",
-  "./backup%201/index.html",
-  "./core/index.html",
-  "./flo/index.html",
-
-  "./YA/SM/",
-  "./YA/SM/index.html",
-
-  "./YA/BETA%202.0/About/",
-  "./YA/BETA%202.0/About/index.html",
-
-  "./YA/NotesAF/",
-  "./YA/NotesAF/index.html",
-
-  "./sudoku-master/index.html",
-
-  "./AF%20LOGO%201.jpeg",
-  "./AF%20LOGO%202.jpeg",
+  "./AF LOGO 1.jpeg",
+  "./AF LOGO 2.jpeg",
 
   "./banner1.png",
   "./banner2.png",
   "./Banner3.png",
 
-  "./Course%201.jpeg",
-  "./Course%202.jpeg",
-  "./Course%203.jpeg",
-  "./Course%204.jpeg",
-  "./Course%205.jpeg"
+  "./Course 1.jpeg",
+  "./Course 2.jpeg",
+  "./Course 3.jpeg",
+  "./Course 4.jpeg",
+  "./Course 5.jpeg",
+
+  "./founder-profile.jpeg",
+
+  "./About/",
+  "./About/index.html"
 ];
 /* =========================
    INSTALL
