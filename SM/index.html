@@ -429,55 +429,66 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
 <body>
 <div class="app">
 
-<!-- Offline Banner -->
-<div id="offlineBannerNx" class="offline-banner">
+  <!-- Refresh Indicator -->
+  <div id="refreshIndicatorNx" class="refresh-indicator-Nx">
+    <div class="spin-Nx"></div>
+    <span id="refreshLabelNx">Refreshing…</span>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+
+      <div class="logo-wrap">
+        <div class="logo">
+          <img
+            src="AF LOGO 2.jpeg"
+            alt="AF"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          >
+          <div class="logo-fallback" style="display:none">AF</div>
+        </div>
+
+        <div>
+          <div class="logo-title">AcademeForge</div>
+          <div class="logo-sub">Sudoku Master</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button
+          class="icon-btn"
+          onclick="window.location.href='/Remake/'"
+          title="Back"
+        >
+          ‹
+        </button>
+
+        <button
+          class="icon-btn"
+          id="headerAvatarBtnNx"
+          onclick="openScreenNx('profileScreen')"
+        >
+          👤
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+<!-- ══ HOME ══ -->
+<section id="homeScreen" class="screen active">
+  <div id="offlineBannerNx" class="offline-banner">
   <span>📡</span>
   <span>You're offline — games will sync when connection returns</span>
   <span id="queueCountNx" class="sync-queue-badge"></span>
 </div>
-
-<!-- Refresh Indicator -->
-<div id="refreshIndicatorNx" class="refresh-indicator-Nx">
-  <div class="spin-Nx"></div>
-  <span id="refreshLabelNx">Refreshing…</span>
-</div>
-
-<!-- TOAST -->
-<div class="toast-wrap" id="toastWrap"></div>
-
-<!-- HEADER -->
-<header class="header">
-  <div class="header-inner">
-    <div class="logo-wrap">
-      <div class="logo">
-        <img src="AF LOGO 2.jpeg" alt="AF" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="logo-fallback" style="display:none">AF</div>
-      </div>
-      <div>
-        <div class="logo-title">AcademeForge</div>
-        <div class="logo-sub">Sudoku Master</div>
-      </div>
-    </div>
-    <div class="header-actions">
-      <button class="icon-btn" onclick="window.location.href='/Remake/'" title="Back">‹</button>
-      <button class="icon-btn" id="headerAvatarBtnNx" onclick="openScreenNx('profileScreen')">👤</button>
-    </div>
-  </div>
-</header>
-
-<main class="main">
-
-<!-- ══ HOME ══ -->
-<section id="homeScreen" class="screen active">
-  <div id="afSyncBarNx" class="af-sync-bar unsynced" style="margin-bottom:14px;margin-left:0;margin-right:0">
-    <div id="afAvatarNx" class="af-avatar">?</div>
-    <div class="af-info">
-      <div id="afNameNx" class="af-name">Not Synced</div>
-      <div id="afSubNx" class="af-sub">Open AcademeForge app to sync</div>
-    </div>
-    <span id="afBadgeNx" class="af-badge warn">Not Synced</span>
-  </div>
-
+  
   <div class="hero-card">
     <div class="hero-eyebrow">⚡ Level <span id="heroLevelNx">1</span></div>
     <h2 class="hero-title">Challenge<br>Your Brain</h2>
@@ -495,13 +506,6 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
     </div>
   </div>
 
-  <!-- Quick Stats -->
-  <div class="quick-stats-row">
-    <div class="qs-card"><div id="qsLevelNx" class="qs-val">1</div><div class="qs-lbl">Level</div></div>
-    <div class="qs-card"><div id="qsWinsNx" class="qs-val">0</div><div class="qs-lbl">Wins</div></div>
-    <div class="qs-card"><div id="qsRankNx" class="qs-val">#--</div><div class="qs-lbl">Rank</div></div>
-  </div>
-
   <div class="daily-card" onclick="startDailyChallengeNx()">
     <div class="daily-tag">🗓️ Daily Challenge</div>
     <div class="daily-title">Today's Sudoku Challenge</div>
@@ -509,7 +513,14 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
     <div class="daily-reward">🎁 +25 Bonus XP</div>
     <div class="daily-streak" id="dailyStreakIconNx">🔥</div>
   </div>
-
+  
+  <!-- Quick Stats -->
+  <div class="quick-stats-row">
+    <div class="qs-card"><div id="qsLevelNx" class="qs-val">1</div><div class="qs-lbl">Level</div></div>
+    <div class="qs-card"><div id="qsWinsNx" class="qs-val">0</div><div class="qs-lbl">Wins</div></div>
+    <div class="qs-card"><div id="qsRankNx" class="qs-val">#--</div><div class="qs-lbl">Rank</div></div>
+  </div>
+  
   <div style="margin-top:16px;padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center">
     <div style="font-size:2rem;margin-bottom:8px">🎮</div>
     <div style="font-family:var(--font-display);font-size:.95rem;font-weight:800;margin-bottom:6px">Ready to Play?</div>
