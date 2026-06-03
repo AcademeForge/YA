@@ -2243,6 +2243,115 @@ document.addEventListener(
   },
   { passive: true }
 );
+
+  /* ─────────────────────────────────────────
+   SWIPE NAVIGATION NX
+───────────────────────────────────────── */
+
+const NX_SCREEN_ORDER = [
+  "homeScreen",
+  "playScreen",
+  "profileScreen",
+  "leaderboardScreen",
+  "settingsScreen"
+];
+
+let nxTouchStartX = 0;
+let nxTouchStartY = 0;
+let nxTouchStartTime = 0;
+
+const nxApp = document.querySelector(".app");
+
+if (nxApp) {
+  nxApp.addEventListener(
+    "touchstart",
+    function (e) {
+      nxTouchStartX = e.changedTouches[0].clientX;
+      nxTouchStartY = e.changedTouches[0].clientY;
+      nxTouchStartTime = Date.now();
+    },
+    { passive: true }
+  );
+
+  nxApp.addEventListener(
+    "touchend",
+    function (e) {
+      handleSwipeNx(e);
+    },
+    { passive: true }
+  );
+}
+
+function handleSwipeNx(e) {
+  const touch = e.changedTouches[0];
+
+  const diffX = touch.clientX - nxTouchStartX;
+  const diffY = touch.clientY - nxTouchStartY;
+
+  const elapsed = Date.now() - nxTouchStartTime;
+
+  /* Ignore vertical scrolling */
+  if (Math.abs(diffY) > Math.abs(diffX)) return;
+
+  /* Ignore tiny accidental swipes */
+  if (Math.abs(diffX) < 90) return;
+
+  /* Ignore slow drags */
+  if (elapsed > 650) return;
+
+  /* Ignore modal interactions */
+  if (
+    e.target.closest(".modal") ||
+    e.target.closest(".modal-card") ||
+    e.target.closest("#editAvatarGridNx")
+  ) {
+    return;
+  }
+
+  const activeBtn = document.querySelector(
+    ".bottom-nav .nav-btn.active"
+  );
+
+  if (!activeBtn) return;
+
+  const currentScreen =
+    activeBtn.dataset.screen;
+
+  const currentIndex =
+    NX_SCREEN_ORDER.indexOf(currentScreen);
+
+  if (currentIndex === -1) return;
+
+  /* Swipe Left */
+  if (
+    diffX < 0 &&
+    currentIndex < NX_SCREEN_ORDER.length - 1
+  ) {
+    const nextScreen =
+      NX_SCREEN_ORDER[currentIndex + 1];
+
+    if (nextScreen === "playScreen") {
+      navToPlayNx();
+    } else {
+      openScreenNx(nextScreen);
+    }
+  }
+
+  /* Swipe Right */
+  if (
+    diffX > 0 &&
+    currentIndex > 0
+  ) {
+    const prevScreen =
+      NX_SCREEN_ORDER[currentIndex - 1];
+
+    if (prevScreen === "playScreen") {
+      navToPlayNx();
+    } else {
+      openScreenNx(prevScreen);
+    }
+  }
+}
 /* ════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════ */
