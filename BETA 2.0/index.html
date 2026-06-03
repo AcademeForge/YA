@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
+ <script>
+if (sessionStorage.getItem("af_splash_shown")) {
+  document.documentElement.classList.add("no-splash");
+}
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#4f46e5" />
@@ -207,8 +212,8 @@
       border: 1px solid var(--border-card);
     }
 
-    /* ─── SPLASH SCREEN ──────────────────────────────────────────── */
-    #afSplash {
+    /* ───  SCREEN ──────────────────────────────────────────── */
+    #af {
       position: fixed;
       inset: 0;
       z-index: 9999;
@@ -295,6 +300,10 @@
     @keyframes splashLoad {
       0%   { width: 0; }
       100% { width: 100%; }
+      
+      .no-splash #afSplash{
+  display:none !important;
+}
     }
 
     /* ─── HEADER / TOPBAR ────────────────────────────────────────── */
@@ -5769,11 +5778,10 @@ body,
     /* ─────────────────────────────────────────────────────────────
        SECTION 2: SPLASH SCREEN
     ─────────────────────────────────────────────────────────────── */
- function afHideSplash() {
+function afHideSplash() {
   const splash = document.getElementById('afSplash');
   if (!splash) return;
 
-  /* Show splash only once per browser/app session */
   if (sessionStorage.getItem('af_splash_shown')) {
     splash.remove();
     return;
@@ -5781,13 +5789,12 @@ body,
 
   sessionStorage.setItem('af_splash_shown', '1');
 
-  setTimeout(function () {
+  setTimeout(() => {
     splash.classList.add('hidden');
 
-    setTimeout(function () {
+    setTimeout(() => {
       splash.remove();
     }, 400);
-
   }, 1200);
 }
 
