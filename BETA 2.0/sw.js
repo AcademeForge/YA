@@ -9,7 +9,6 @@ const PRECACHE = [
   "./account/index.html",
   "./backup%201/index.html",
   "./core/index.html",
-  "./flo/index.html",
   "./sudoku-master/index.html",
 
   "./AF%20LOGO%201.jpeg",
