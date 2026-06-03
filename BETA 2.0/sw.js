@@ -1,4 +1,4 @@
-const CACHE_NAME = "academeforge-v3";
+const CACHE_NAME = "academeforge-v4";
 
 const PRECACHE = [
   "./",
@@ -26,57 +26,108 @@ const PRECACHE = [
   "./Course%205.jpeg"
 ];
 
+/* =========================
+   INSTALL
+========================= */
+
 self.addEventListener("install", event => {
   self.skipWaiting();
 
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE))
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+
+      for (const url of PRECACHE) {
+        try {
+          await cache.add(url);
+          console.log("[AF CACHE]", url);
+        } catch (err) {
+          console.warn("[AF CACHE FAILED]", url, err);
+        }
+      }
+    })()
   );
 });
 
+/* =========================
+   ACTIVATE
+========================= */
+
 self.addEventListener("activate", event => {
   event.waitUntil(
-    Promise.all([
-      caches.keys().then(keys =>
-        Promise.all(
-          keys.map(key => {
-            if (key !== CACHE_NAME) {
-              return caches.delete(key);
-            }
-          })
-        )
-      ),
-      self.clients.claim()
-    ])
+    (async () => {
+      const keys = await caches.keys();
+
+      await Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+
+      await self.clients.claim();
+    })()
   );
 });
+
+/* =========================
+   FETCH
+========================= */
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
+    (async () => {
 
-      const networkFetch = fetch(event.request)
-        .then(response => {
+      const cachedResponse =
+        await caches.match(event.request);
 
-          if (
-            response &&
-            response.status === 200 &&
-            response.type === "basic"
-          ) {
-            const clone = response.clone();
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(event.request, clone));
-          }
+      try {
+        const networkResponse =
+          await fetch(event.request);
 
-          return response;
-        })
-        .catch(() => cached);
+        if (
+          networkResponse &&
+          networkResponse.status === 200
+        ) {
+          const cache =
+            await caches.open(CACHE_NAME);
 
-      return cached || networkFetch;
-    })
+          cache.put(
+            event.request,
+            networkResponse.clone()
+          );
+        }
+
+        return networkResponse;
+
+      } catch (err) {
+
+        const fallback =
+          await caches.match("./index.html");
+
+        if (fallback) {
+          return fallback;
+        }
+
+        throw err;
+      }
+    })()
   );
+});
+
+/* =========================
+   MESSAGE
+========================= */
+
+self.addEventListener("message", event => {
+  if (event.data === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
