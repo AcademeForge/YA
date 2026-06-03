@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
+  
+  <script>
+(function () {
+  if (localStorage.getItem("af_dark_mode") === "1") {
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
 
-<script>
-if (sessionStorage.getItem("af_splash_shown")) {
-  document.documentElement.classList.add("no-splash");
-}
+  if (sessionStorage.getItem("af_splash_shown")) {
+    document.documentElement.classList.add("no-splash");
+  }
+})();
 </script>
 
 <meta charset="UTF-8" />
@@ -4557,6 +4565,150 @@ body,
   opacity: .7;
   cursor: not-allowed;
 }
+    /* =========================================================
+   AF PERFORMANCE + DARK MODE FIX PACK
+   PASTE AT VERY END OF CSS
+========================================================= */
+
+/* Faster global transitions */
+:root{
+  --dur-fast: 120ms !important;
+  --dur-med: 160ms !important;
+  --dur-slow: 240ms !important;
+
+  --glass-blur: 8px !important;
+}
+
+/* Prevent white flash */
+html,
+body{
+  background: var(--bg-base) !important;
+}
+
+/* Faster theme switching */
+html,
+body,
+.af-shell,
+.af-topbar,
+.af-bottom-nav,
+.af-page,
+.af-view,
+.af-settings-page,
+.af-settings-profile,
+.af-accordion-group,
+.af-wide-card,
+.af-feature-tile,
+.af-quick-card,
+.af-settings-night-row,
+.af-modal-sheet,
+.af-card,
+.af-glass,
+.glass{
+  transition:
+    background-color .16s linear,
+    color .16s linear,
+    border-color .16s linear !important;
+}
+
+/* Kill expensive transition-all */
+*{
+  transition-property:
+    background-color,
+    color,
+    border-color,
+    opacity,
+    transform !important;
+}
+
+/* Reduce GPU load */
+.glass,
+.af-topbar,
+.af-bottom-nav,
+.af-settings-profile,
+.af-accordion-group,
+.af-wide-card,
+.af-feature-tile,
+.af-quick-card,
+.af-modal-sheet{
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+}
+
+/* Faster page animations */
+.af-view{
+  animation-duration: .18s !important;
+}
+
+/* Faster stagger animations */
+.af-stagger > *{
+  animation-duration: .22s !important;
+}
+
+/* Faster accordion */
+.af-accordion-body{
+  transition: max-height .18s ease !important;
+}
+
+/* Faster splash hide */
+#afSplash{
+  transition:
+    opacity .25s ease,
+    visibility .25s ease !important;
+}
+
+/* Faster buttons */
+.af-nav-btn,
+.af-notif-btn,
+.af-streak-pill,
+.af-feature-tile,
+.af-wide-card,
+.af-quick-card,
+.af-settings-profile,
+.af-settings-site-link,
+.af-settings-logout-btn{
+  transition:
+    transform .12s ease,
+    background-color .12s ease !important;
+}
+
+/* Reduce shadow rendering cost */
+.af-shell,
+.af-quick-card,
+.af-wide-card,
+.af-feature-tile,
+.af-settings-profile,
+.af-accordion-group{
+  box-shadow:
+    0 2px 10px rgba(0,0,0,.08) !important;
+}
+
+/* Smooth scrolling performance */
+html{
+  scroll-behavior:auto !important;
+}
+
+/* Mobile rendering optimization */
+body{
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU acceleration */
+.af-view,
+.af-page,
+.af-shell{
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Faster dark mode paint */
+[data-theme="dark"]{
+  color-scheme: dark;
+}
+
+[data-theme="light"]{
+  color-scheme: light;
+}
   </style>
 </head>
 
@@ -5852,11 +6004,11 @@ function afHideSplash() {
       afCurrentView = viewKey;
       const page = document.getElementById('afPage');
       if (page) page.scrollTop = 0;
-      localStorage.setItem('af_last_tab', viewKey);
+     sessionStorage.setItem('af_last_tab', viewKey);
     }
 
     function afRestoreLastTab() {
-      const lastTab = localStorage.getItem('af_last_tab') || 'home';
+      const lastTab = sessionStorage.getItem('af_last_tab') || 'home';
       if (AF_VIEWS[lastTab]) afSwitchView(lastTab);
     }
 
