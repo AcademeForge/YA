@@ -2140,6 +2140,109 @@ document.addEventListener(
   false
 );
 
+  /* ==========================================
+   PULL TO REFRESH
+========================================== */
+
+let pullStartYNx = 0;
+let pullingNx = false;
+const refreshThresholdNx = 90;
+
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    if (window.scrollY <= 0) {
+      pullStartYNx = e.touches[0].clientY;
+      pullingNx = true;
+    }
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    if (!pullingNx) return;
+
+    const pullDistance =
+      e.touches[0].clientY - pullStartYNx;
+
+    if (pullDistance > 40) {
+      const indicator =
+        document.getElementById("refreshIndicatorNx");
+
+      if (indicator) {
+        indicator.classList.add("show");
+      }
+
+      const label =
+        document.getElementById("refreshLabelNx");
+
+      if (label) {
+        label.textContent =
+          pullDistance >= refreshThresholdNx
+            ? "Release to refresh"
+            : "Pull to refresh";
+      }
+    }
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchend",
+  async () => {
+    if (!pullingNx) return;
+
+    pullingNx = false;
+
+    const indicator =
+      document.getElementById("refreshIndicatorNx");
+
+    const label =
+      document.getElementById("refreshLabelNx");
+
+    const pullDistance =
+      window.scrollY <= 0
+        ? Math.max(
+            0,
+            event?.changedTouches?.[0]?.clientY -
+              pullStartYNx
+          )
+        : 0;
+
+    if (pullDistance >= refreshThresholdNx) {
+      try {
+        if (label) {
+          label.textContent = "Refreshing...";
+        }
+
+        if (typeof refreshSudokuNxdb === "function") {
+          await refreshSudokuNxdb();
+        }
+
+        if (
+          typeof refreshUIFromNxdbNx === "function"
+        ) {
+          refreshUIFromNxdbNx();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    setTimeout(() => {
+      if (indicator) {
+        indicator.classList.remove("show");
+      }
+
+      if (label) {
+        label.textContent = "Refreshing...";
+      }
+    }, 500);
+  },
+  { passive: true }
+);
 /* ════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════ */
