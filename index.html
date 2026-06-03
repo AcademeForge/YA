@@ -36063,15 +36063,27 @@ window.addEventListener("focus", function() {
    AF OFFLINE PAGE SERVICE WORKER REGISTER
 ========================================================= */
 
+
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("./sw.js")
-      .then(function() {
-        console.log("AF offline page ready");
-      })
-      .catch(function(error) {
-        console.log("AF offline page failed:", error);
-      });
+  window.addEventListener("load", async () => {
+    try {
+
+      const registration =
+        await navigator.serviceWorker.register("./sw.js");
+
+      console.log(
+        "YA Service Worker Registered",
+        registration
+      );
+
+    } catch (err) {
+
+      console.error(
+        "YA Service Worker Error",
+        err
+      );
+
+    }
   });
 }
 
