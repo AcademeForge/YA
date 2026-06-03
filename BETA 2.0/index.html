@@ -8393,7 +8393,22 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+ /* ════════════════════════════════════
+ OFFLINE PAGE 
+════════════════════════════════════ */
+    function openExternal(url) {
 
+  if (!navigator.onLine) {
+    window.location.href = "./offline.html";
+    return;
+  }
+
+  try {
+    window.location.href = url;
+  } catch (err) {
+    window.location.href = "./offline.html";
+  }
+}
   </script>
 
 </body>
