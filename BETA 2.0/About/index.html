@@ -593,19 +593,71 @@ body{
   .hero-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  .nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+}
+
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.back-btn{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:20px;
+  font-weight:700;
+  background:rgba(255,255,255,.08);
+  color:var(--text-color,#fff);
+  transition:.2s;
+}
+
+.back-btn:hover{
+  transform:translateY(-1px);
+}
+
+.nav-logo-img{
+  height:40px;
+  width:auto;
+  object-fit:contain;
+  display:block;
+}
+  
 </style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- NAV -->
-  <div class="nav">
-    <div class="nav-logo">Academe<span>Forge</span></div>
-    <button class="theme-pill" id="themeBtn" type="button">
-      <span class="theme-icon" id="themeIcon">☀</span>
-      <span id="themeLabel">Light</span>
-    </button>
+<!-- NAV -->
+<div class="nav">
+
+  <!-- Left Side -->
+  <div class="nav-left">
+  <button class="back-btn" type="button" onclick="history.back()">
+  <i class="fas fa-chevron-left"></i>
+</button>
+
+    <img
+      src="assets/AF LOGO 2.jpeg"
+      alt="AcademeForge"
+      class="nav-logo-img"
+    />
   </div>
+
+  <!-- Right Side -->
+  <button class="theme-pill" id="themeBtn" type="button">
+    <span class="theme-icon" id="themeIcon">☀</span>
+    <span id="themeLabel">Light</span>
+  </button>
+
+</div>
 
   <!-- HERO -->
   <div class="sec" style="margin-top:4px">
@@ -728,7 +780,7 @@ body{
           <div class="skill-name">Video &amp; Media Editing</div>
           <div class="skill-desc">Reels, shorts, YouTube, storytelling &amp; professional cuts</div>
         </div>
-        <span class="skill-pill">Live</span>
+        <span class="skill-pill">Soon</span>
       </div>
       <div class="skill">
         <div class="skill-icon">🎨</div>
@@ -736,7 +788,7 @@ body{
           <div class="skill-name">Creative &amp; Graphic Design</div>
           <div class="skill-desc">Posters, thumbnails, brand kits &amp; visual identity</div>
         </div>
-        <span class="skill-pill">Live</span>
+        <span class="skill-pill">Soon</span>
       </div>
       <div class="skill">
         <div class="skill-icon">🧠</div>
@@ -744,7 +796,7 @@ body{
           <div class="skill-name">Coding &amp; Logic Building</div>
           <div class="skill-desc">Programming thinking, AI-assisted coding &amp; real projects</div>
         </div>
-        <span class="skill-pill">Live</span>
+        <span class="skill-pill">Soon</span>
       </div>
       <div class="skill">
         <div class="skill-icon">💰</div>
@@ -752,7 +804,7 @@ body{
           <div class="skill-name">Freelancing &amp; Monetization</div>
           <div class="skill-desc">Client work, pricing, portfolio &amp; online income</div>
         </div>
-        <span class="skill-pill">Live</span>
+        <span class="skill-pill">Soon</span>
       </div>
       <div class="skill">
         <div class="skill-icon">🤖</div>
@@ -760,7 +812,7 @@ body{
           <div class="skill-name">AI Prompt Engineering</div>
           <div class="skill-desc">Smart prompting, AI tools &amp; productivity workflows</div>
         </div>
-        <span class="skill-pill">Live</span>
+        <span class="skill-pill">Soon</span>
       </div>
     </div>
   </div>
@@ -788,8 +840,8 @@ body{
       <div class="incl-title">Built for <em>every</em> student — especially the overlooked ones.</div>
       <p class="incl-p">The most motivated, creative learners don't always come from the biggest cities or the richest families. A Class 10 student from Patna, Bihar with curiosity and drive deserves the same shot at a digital future as anyone else. AcademeForge was literally founded by one such student — and that changes everything about how we build.</p>
       <div class="incl-stats">
-        <div class="is"><span class="is-v">100K+</span><span class="is-l">10-year goal</span></div>
-        <div class="is"><span class="is-v">₹49</span><span class="is-l">Course access</span></div>
+        <div class="is"><span class="is-v">100K+ Students</span><span class="is-l">10-year goal</span></div>
+        <div class="is"><span class="is-v">Soon</span><span class="is-l">Course access</span></div>
       </div>
     </div>
   </div>
@@ -812,43 +864,6 @@ body{
         <span class="ftag">Founder</span>
         <span class="ftag">Product Direction</span>
         <span class="ftag">App Development</span>
-        <span class="ftag">Started at 17</span>
-        <span class="ftag">Patna, Bihar</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- TEAM -->
-  <div class="sec reveal" style="transition-delay:.05s;margin-top:22px">
-    <div class="sh">
-      <div class="sh-num">05</div>
-      <div class="sh-text"><h2>Our Team</h2><p>Small, passionate, student-driven.</p></div>
-    </div>
-    <div class="team-grid">
-      <div class="team-card">
-        <div class="team-cover"></div>
-        <div class="team-avatar" style="background:linear-gradient(135deg,#4338ca,#7c3aed)">MH</div>
-        <div class="team-role">Co-Founder</div>
-        <div class="team-name">Mandeep Harsh</div>
-      </div>
-      <div class="team-card">
-        <div class="team-cover" style="background:linear-gradient(135deg,#7c3aed,#ec4899);background-size:180%;"></div>
-        <div class="team-avatar" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">PK</div>
-        <div class="team-role">Moderator</div>
-        <div class="team-name">Palak Kumari Jha</div>
-      </div>
-      <div class="team-card">
-        <div class="team-cover" style="background:linear-gradient(135deg,#0ea5e9,#4338ca);background-size:180%;"></div>
-        <div class="team-avatar" style="background:linear-gradient(135deg,#0ea5e9,#4338ca)">AR</div>
-        <div class="team-role">Moderator</div>
-        <div class="team-name">Ayush Raj</div>
-      </div>
-      <div class="team-card" style="display:grid;place-items:center;min-height:130px">
-        <div style="text-align:center;padding:14px">
-          <div style="font-size:26px;margin-bottom:7px;animation:float 3s ease-in-out infinite">🌱</div>
-          <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:11.5px;font-weight:900;color:var(--ink3)">Growing team</div>
-          <div style="font-size:10.5px;color:var(--ink3);margin-top:2px">More coming soon</div>
-        </div>
       </div>
     </div>
   </div>
