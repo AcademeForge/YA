@@ -401,6 +401,28 @@ body.dark .bottom-nav{background:rgba(26,23,20,.95);}
   .screen{
   padding-bottom:120px !important;
 }
+  /* ==========================================
+   UNIVERSAL MODAL SCROLL FIX
+========================================== */
+
+.modal,
+.popup,
+.overlay,
+.modal-content,
+.popup-content{
+  max-height:90vh !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Hide ugly scrollbar but keep scrolling */
+.modal::-webkit-scrollbar,
+.popup::-webkit-scrollbar,
+.modal-content::-webkit-scrollbar,
+.popup-content::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
 </style>
 </head>
 <body>
@@ -855,6 +877,8 @@ const AVATARS_Nx = [
   "💰","💸","💼","🎩","🕶️","⌚","📈","🏛️","🏰","🛸",
 
   "🌌","🌠","☄️","🪐","🌙","☀️","⭐","🌍","🛰️","🚁",
+
+  "💻","⌨️","🖥️","📱","🎧","🎤","📡","🔋","⚙️","🧪",
 
   "👽","🐅","🦄","👻"
 ];
