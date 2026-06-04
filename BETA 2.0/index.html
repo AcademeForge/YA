@@ -83,7 +83,7 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
 <script src="https://www.youtube.com/iframe_api"></script>
-  
+
 <!-- Performance -->
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="preconnect" href="https://i.ytimg.com">
@@ -4976,10 +4976,15 @@ body{
   }
 
 }
-/* ═══════════════════════════════════════════════════════════════
-   AF VIDEO PLAYER — COMPLETE PRODUCTION CSS
-   Light/Dark theme, Portrait/Landscape, Mobile/Desktop
-═══════════════════════════════════════════════════════════════ */
+    /* ╔══════════════════════════════════════════════════════════════╗
+   ║  AF VIDEO PLAYER SYSTEM — af-video-player.css               ║
+   ║  Paste into your <head> or existing CSS file                ║
+   ╚══════════════════════════════════════════════════════════════╝ */
+
+/* ════════════════════════════════════════════════════════
+   AF VIDEO PLAYER — COMPLETE STANDALONE
+   Mobile-first. Portrait default. Landscape on fullscreen.
+════════════════════════════════════════════════════════ */
  
 *, *::before, *::after {
   box-sizing: border-box;
@@ -4989,187 +4994,218 @@ body{
 }
  
 :root {
-  --afvp-green:       #22c55e;
-  --afvp-green-dark:  #16a34a;
-  --afvp-green-glow:  rgba(34,197,94,0.35);
-  --afvp-green-lite:  rgba(34,197,94,0.15);
-  --afvp-accent:      #6366f1;
-  --afvp-accent-glow: rgba(99,102,241,0.3);
- 
-  /* Dark theme (default) */
-  --afvp-bg:          #0a0c14;
-  --afvp-surface:     rgba(14,18,30,0.98);
-  --afvp-surface2:    rgba(20,25,42,0.99);
-  --afvp-surface3:    rgba(30,35,55,0.96);
-  --afvp-border:      rgba(255,255,255,0.09);
-  --afvp-border2:     rgba(255,255,255,0.14);
-  --afvp-text:        #f1f5f9;
-  --afvp-text2:       #cbd5e1;
-  --afvp-muted:       #7d8fa3;
-  --afvp-ctrl-bg:     rgba(0,0,0,0.55);
-  --afvp-ctrl-btn:    rgba(255,255,255,0.10);
-  --afvp-ctrl-hover:  rgba(255,255,255,0.18);
-  --afvp-prog-track:  rgba(255,255,255,0.18);
-  --afvp-prog-buf:    rgba(255,255,255,0.30);
-  --afvp-shadow:      0 24px 64px rgba(0,0,0,0.55);
-  --afvp-meta-bg:     #111827;
-  --afvp-meta-border: rgba(255,255,255,0.07);
-  --afvp-tab-bg:      rgba(255,255,255,0.05);
-  --afvp-tab-active:  rgba(99,102,241,0.18);
-  --afvp-comment-bg:  rgba(255,255,255,0.04);
-  --afvp-input-bg:    rgba(255,255,255,0.07);
-  --afvp-input-border:rgba(255,255,255,0.12);
-  --afvp-pinned-bg:   rgba(99,102,241,0.12);
-  --afvp-pinned-border:rgba(99,102,241,0.25);
-  --afvp-panel-bg:    rgba(12,15,26,0.97);
- 
-  --afvp-r-sm: 8px;
-  --afvp-r-md: 12px;
-  --afvp-r-lg: 16px;
-  --afvp-r-xl: 20px;
-  --afvp-ease: cubic-bezier(0.4,0,0.2,1);
-  --afvp-spring: cubic-bezier(0.34,1.56,0.64,1);
+  --green:      #16a34a;
+  --green-glow: rgba(22,163,74,0.35);
+  --green-lite: rgba(22,163,74,0.15);
+  --surface:    rgba(8,10,18,0.98);
+  --surface2:   rgba(14,18,30,0.99);
+  --border:     rgba(255,255,255,0.09);
+  --text:       #f1f5f9;
+  --muted:      #7d8fa3;
+  --r:          14px;
+  --ctrl-h:     54px;
+  --topbar-h:   56px;
+  --progress-h: 4px;
+  --ease:       cubic-bezier(0.4,0,0.2,1);
+  --spring:     cubic-bezier(0.34,1.56,0.64,1);
 }
  
-[data-theme="light"] {
-  --afvp-bg:          #f0f2ff;
-  --afvp-surface:     rgba(255,255,255,0.98);
-  --afvp-surface2:    rgba(248,250,252,0.99);
-  --afvp-surface3:    rgba(241,245,249,0.97);
-  --afvp-border:      rgba(0,0,0,0.08);
-  --afvp-border2:     rgba(0,0,0,0.12);
-  --afvp-text:        #0f172a;
-  --afvp-text2:       #334155;
-  --afvp-muted:       #64748b;
-  --afvp-ctrl-bg:     rgba(0,0,0,0.62);
-  --afvp-ctrl-btn:    rgba(255,255,255,0.15);
-  --afvp-ctrl-hover:  rgba(255,255,255,0.25);
-  --afvp-prog-track:  rgba(255,255,255,0.25);
-  --afvp-prog-buf:    rgba(255,255,255,0.40);
-  --afvp-shadow:      0 24px 64px rgba(0,0,0,0.14);
-  --afvp-meta-bg:     #ffffff;
-  --afvp-meta-border: rgba(0,0,0,0.08);
-  --afvp-tab-bg:      rgba(0,0,0,0.04);
-  --afvp-tab-active:  rgba(99,102,241,0.10);
-  --afvp-comment-bg:  rgba(0,0,0,0.03);
-  --afvp-input-bg:    rgba(0,0,0,0.04);
-  --afvp-input-border:rgba(0,0,0,0.12);
-  --afvp-pinned-bg:   rgba(99,102,241,0.07);
-  --afvp-pinned-border:rgba(99,102,241,0.20);
-  --afvp-panel-bg:    rgba(255,255,255,0.98);
-}
- 
-/* ── ROOT LAYOUT ── */
-html, body {
-  width: 100%; height: 100%;
-  background: var(--afvp-bg);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  color: var(--afvp-text);
-  overflow-x: hidden;
-  transition: background 0.2s ease, color 0.2s ease;
-}
- 
-/* Demo page centering */
-.afvp-demo-wrap {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 100dvh;
-  padding: 20px 0 60px;
-}
- 
-/* ── PLAYER CONTAINER ── */
-/* Portrait: mobile shell centered, max 430px */
-/* Landscape: handled by JS adding .afvp-landscape to #afvpRoot */
-#afvpRoot {
-  width: 100%;
-  max-width: 430px;
-  background: var(--afvp-surface);
-  border-radius: 0;
-  overflow: hidden;
-  box-shadow: var(--afvp-shadow);
+/* ── DEMO PAGE (remove in production) ── */
+body {
+  background: #0a0c14;
   display: flex;
   flex-direction: column;
-  position: relative;
-  transition: max-width 0.22s ease, border-radius 0.22s ease;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 20px 16px 40px;
+  gap: 20px;
 }
  
-@media (min-width: 500px) {
-  #afvpRoot { border-radius: 24px; overflow: hidden; }
+.demo-title {
+  color: #f1f5f9;
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0.6;
 }
  
-/* Fullscreen / landscape immersive mode */
-#afvpRoot.afvp-immersive {
-  position: fixed !important;
-  inset: 0 !important;
-  max-width: 100vw !important;
-  width: 100vw !important;
-  height: 100dvh !important;
-  border-radius: 0 !important;
-  z-index: 99999 !important;
-  background: #000 !important;
+.demo-btn {
+  padding: 13px 28px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(22,163,74,0.3);
+  transition: transform 0.15s var(--spring);
+}
+.demo-btn:active { transform: scale(0.97); }
+ 
+/* ════════════════════════════════════════════════════════
+   OVERLAY — fixed, full-screen, dark backdrop
+════════════════════════════════════════════════════════ */
+#afvp {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+ 
+  /* DEFAULT: portrait — fixed max width, centered */
+  --player-w: min(100vw, 430px);
+  width: var(--player-w);
+  height: 100dvh;
+  left: 50%;
+  transform: translateX(-50%);
+ 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
 }
  
-#afvpRoot.afvp-immersive .afvp-meta-section { display: none !important; }
-#afvpRoot.afvp-immersive .afvp-video-wrap { flex: 1; height: 100dvh !important; }
+#afvp.hidden { display: none !important; }
  
-/* ═══════════════════════════════════════
-   VIDEO AREA
-═══════════════════════════════════════ */
-.afvp-video-wrap {
+/* Landscape (real device) */
+@media (orientation: landscape) {
+  #afvp {
+    width: 100vw;
+    height: 100dvh;
+    left: 0;
+    transform: none;
+  }
+}
+ 
+/* ── SHELL ── */
+.afvp-shell {
   position: relative;
   width: 100%;
-  aspect-ratio: 16/9;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+ 
+/* ════════════════════════════════════════════════════════
+   TOP BAR
+════════════════════════════════════════════════════════ */
+.afvp-topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  min-height: var(--topbar-h);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.88) 0%, transparent 100%);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+}
+ 
+.afvp-topbar.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+}
+ 
+.afvp-back {
+  width: 40px; height: 40px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.10);
+  color: var(--text);
+  display: grid; place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  backdrop-filter: blur(8px);
+  transition: background 0.15s, transform 0.15s var(--spring);
+}
+.afvp-back:active { transform: scale(0.9); }
+.afvp-back svg { width: 20px; height: 20px; }
+ 
+.afvp-meta {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 1px;
+}
+.afvp-meta-course {
+  font-size: 10px; font-weight: 800;
+  color: var(--green);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.afvp-meta-title {
+  font-size: 14px; font-weight: 900;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+.afvp-meta-chapter {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+ 
+.afvp-actions {
+  display: flex; align-items: center; gap: 3px; flex-shrink: 0;
+}
+ 
+.afvp-btn {
+  width: 38px; height: 38px;
+  border: none; border-radius: 11px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  display: grid; place-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.15s, transform 0.15s var(--spring);
+}
+.afvp-btn:active { transform: scale(0.88); }
+.afvp-btn svg { width: 18px; height: 18px; display: block; }
+.afvp-btn.bookmarked svg { fill: #facc15; stroke: #facc15; }
+ 
+/* ════════════════════════════════════════════════════════
+   VIDEO AREA
+════════════════════════════════════════════════════════ */
+.afvp-video-area {
+  flex: 1;
+  position: relative;
   background: #000;
   overflow: hidden;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
 }
  
-.afvp-immersive .afvp-video-wrap {
-  aspect-ratio: unset;
-  height: 100%;
-}
- 
-/* ── SKELETON ── */
+/* ── Skeleton ── */
 .afvp-skeleton {
   position: absolute; inset: 0; z-index: 5;
   background: #07090f;
   display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 16px;
+  align-items: center; justify-content: center; gap: 18px;
 }
 .afvp-shimmer {
   position: absolute; inset: 0;
   background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
-  background-size: 220% 100%;
-  animation: afvpShimmer 1.8s infinite;
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
 }
-@keyframes afvpShimmer { 0%{background-position:-220% 0} 100%{background-position:220% 0} }
-.afvp-skel-ring {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: rgba(255,255,255,0.06);
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.afvp-skeleton-ring {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
   border: 2px solid rgba(255,255,255,0.08);
-  animation: afvpPulse 1.6s ease infinite;
-  display: flex; align-items: center; justify-content: center;
+  animation: pulse 1.6s ease infinite;
 }
-.afvp-skel-ring::after {
-  content: '';
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 2.5px solid transparent;
-  border-top-color: var(--afvp-green);
-  animation: afvpSpin 0.9s linear infinite;
-}
-@keyframes afvpPulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.9;transform:scale(1.06)} }
-@keyframes afvpSpin  { to{transform:rotate(360deg)} }
-.afvp-skel-bars { display:flex;flex-direction:column;gap:9px;align-items:center; }
-.afvp-skel-bar {
-  height: 8px; border-radius: 4px;
+@keyframes pulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.9;transform:scale(1.07)} }
+.afvp-skeleton-bars { display:flex;flex-direction:column;gap:10px;align-items:center; }
+.afvp-skeleton-bar {
+  height: 9px; border-radius: 5px;
   background: rgba(255,255,255,0.06);
-  animation: afvpPulse 1.6s ease infinite;
+  animation: pulse 1.6s ease infinite;
 }
-.afvp-skel-w60{width:180px}
-.afvp-skel-w40{width:110px;animation-delay:.3s}
+.w60{width:190px} .w40{width:120px;animation-delay:.3s}
  
-/* ── POSTER ── */
+/* ── Poster ── */
 .afvp-poster {
   position: absolute; inset: 0; z-index: 4;
   display: flex; align-items: center; justify-content: center;
@@ -5177,47 +5213,48 @@ html, body {
 .afvp-poster img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(0.45);
+  filter: brightness(0.5);
 }
 .afvp-poster-overlay {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
 }
 .afvp-poster-play {
   position: relative; z-index: 2;
-  width: 68px; height: 68px;
+  width: 72px; height: 72px;
   border: none; border-radius: 50%;
-  background: linear-gradient(135deg, var(--afvp-green-dark), var(--afvp-green));
-  color: #fff; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff;
+  display: grid; place-items: center;
   cursor: pointer;
-  box-shadow: 0 0 0 0 var(--afvp-green-glow), 0 16px 40px rgba(0,0,0,0.5);
-  animation: afvpRingPulse 2s ease infinite;
-  transition: transform 0.15s var(--afvp-spring);
+  box-shadow: 0 0 0 0 var(--green-glow), 0 18px 50px rgba(0,0,0,0.5);
+  animation: ring-pulse 2s ease infinite;
+  transition: transform 0.15s var(--spring);
 }
 .afvp-poster-play:active { transform: scale(0.92); }
-.afvp-poster-play svg { width: 24px; height: 24px; margin-left: 3px; fill: #fff; }
-@keyframes afvpRingPulse {
-  0%,100%{box-shadow:0 0 0 0 var(--afvp-green-glow),0 16px 40px rgba(0,0,0,0.5)}
-  50%{box-shadow:0 0 0 14px rgba(34,197,94,0),0 16px 40px rgba(0,0,0,0.5)}
+.afvp-poster-play svg { width: 26px; height: 26px; margin-left: 3px; }
+@keyframes ring-pulse {
+  0%,100%{box-shadow:0 0 0 0 var(--green-glow),0 18px 50px rgba(0,0,0,0.5)}
+  50%{box-shadow:0 0 0 14px rgba(22,163,74,0),0 18px 50px rgba(0,0,0,0.5)}
 }
  
-/* ── YouTube container ── */
+/* ── YouTube ── */
 .afvp-yt-wrap {
   position: absolute; inset: 0; z-index: 2;
 }
-#afvpYTPlayer, #afvpYTPlayer iframe {
+#afvp-yt-player, #afvp-yt-player iframe {
   width: 100% !important; height: 100% !important; border: none;
 }
  
 /* ── Native video ── */
-#afvpVid {
+#afvp-vid {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: contain;
   z-index: 2; background: #000;
 }
  
-/* ── Gesture layer ── */
+/* ── Gesture Layer ── */
 .afvp-gesture {
   position: absolute; inset: 0; z-index: 10;
   display: grid; grid-template-columns: 1fr 2fr 1fr;
@@ -5225,7 +5262,7 @@ html, body {
 }
 .afvp-gz { display:flex;align-items:center;justify-content:center; }
  
-.afvp-seek-flash {
+.afvp-gfb {
   display: flex; flex-direction: column;
   align-items: center; gap: 5px;
   color: #fff; opacity: 0;
@@ -5233,47 +5270,49 @@ html, body {
   pointer-events: none;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
 }
-.afvp-seek-flash svg { width: 32px; height: 32px; fill: #fff; }
-.afvp-seek-flash span {
-  font-size: 11px; font-weight: 900;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 9px; border-radius: 999px;
+.afvp-gfb svg { width: 34px; height: 34px; }
+.afvp-gfb span {
+  font-size: 12px; font-weight: 900;
+  background: rgba(0,0,0,0.55);
+  padding: 3px 10px; border-radius: 999px;
 }
-.afvp-seek-flash.afvp-show {
-  animation: afvpSeekFlash 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+.afvp-gfb.show {
+  animation: gfb 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
 }
-@keyframes afvpSeekFlash {
+@keyframes gfb {
   0%{opacity:0;transform:scale(0.6)}
   30%{opacity:1;transform:scale(1.1)}
   65%{opacity:1;transform:scale(1)}
-  100%{opacity:0;transform:scale(0.9)}
+  100%{opacity:0;transform:scale(0.88)}
 }
  
-/* ── Center play/pause flash ── */
+/* ── Center Play/Pause ── */
 .afvp-center {
   position: absolute; inset: 0; z-index: 14;
   display: flex; align-items: center; justify-content: center;
   pointer-events: none;
 }
-.afvp-center-btn {
-  width: 72px; height: 72px;
+.afvp-cplay {
+  width: 76px; height: 76px;
   border: none; border-radius: 50%;
   background: rgba(0,0,0,0.52);
   backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(255,255,255,0.18);
-  color: #fff; display: grid; place-items: center;
-  pointer-events: all; cursor: pointer;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: #fff;
+  display: grid; place-items: center;
+  cursor: pointer;
+  pointer-events: all;
   opacity: 0; transform: scale(0.8);
-  transition: opacity 0.16s, transform 0.18s var(--afvp-spring);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+  transition: opacity 0.18s, transform 0.2s var(--spring);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
-.afvp-center-btn.afvp-show { opacity: 1; transform: scale(1); }
-.afvp-center-btn svg { width: 28px; height: 28px; fill: #fff; }
-.afvp-center-btn .afvp-ic-play { margin-left: 3px; }
+.afvp-cplay.show { opacity: 1; transform: scale(1); }
+.afvp-cplay svg { width: 30px; height: 30px; }
+.afvp-cplay .pi { margin-left: 3px; }
  
 /* ── Speed indicator (long press) ── */
 .afvp-speed-ind {
-  position: absolute; top: 60px; left: 50%;
+  position: absolute; top: 66px; left: 50%;
   transform: translateX(-50%);
   z-index: 20;
   display: flex; align-items: center; gap: 6px;
@@ -5281,11 +5320,11 @@ html, body {
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 999px;
-  padding: 7px 15px;
-  color: #fff; font-size: 12.5px; font-weight: 900;
-  animation: afvpSlideDown 0.22s ease;
+  padding: 8px 16px;
+  color: #fff; font-size: 13px; font-weight: 900;
+  animation: slideD 0.22s ease;
 }
-@keyframes afvpSlideDown {
+@keyframes slideD {
   from{opacity:0;transform:translateX(-50%) translateY(-8px)}
   to{opacity:1;transform:translateX(-50%) translateY(0)}
 }
@@ -5297,746 +5336,467 @@ html, body {
   pointer-events: none;
 }
 .afvp-spin-ring {
-  width: 42px; height: 42px; border-radius: 50%;
+  width: 44px; height: 44px;
+  border-radius: 50%;
   border: 3px solid rgba(255,255,255,0.10);
-  border-top-color: var(--afvp-green);
-  animation: afvpSpin 0.8s linear infinite;
+  border-top-color: var(--green);
+  animation: spin 0.8s linear infinite;
 }
+@keyframes spin { to{transform:rotate(360deg)} }
  
-/* ── Error / Offline states ── */
+/* ── Error / Offline ── */
 .afvp-state {
   position: absolute; inset: 0; z-index: 20;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 11px; text-align: center; padding: 24px;
+  gap: 12px; text-align: center; padding: 24px;
   background: rgba(8,10,18,0.94);
 }
-.afvp-state-icon { font-size: 44px; }
+.afvp-state-icon { font-size: 46px; }
 .afvp-state h3 {
-  font-size: 18px; font-weight: 900;
+  font-size: 20px; font-weight: 900;
   color: #f8fafc; letter-spacing: -0.02em;
 }
-.afvp-state p { font-size: 13px; color: var(--afvp-muted); font-weight: 600; max-width: 280px; line-height: 1.6; }
-.afvp-state-btn {
-  padding: 11px 24px; border: none; border-radius: 12px;
-  background: linear-gradient(135deg, var(--afvp-green-dark), var(--afvp-green));
-  color: #fff; font-size: 13.5px; font-weight: 900;
-  cursor: pointer; box-shadow: 0 8px 24px var(--afvp-green-glow);
-  transition: transform 0.15s var(--afvp-spring);
-  margin-top: 4px;
+.afvp-state p {
+  font-size: 14px; color: var(--muted);
+  font-weight: 600; max-width: 300px; line-height: 1.6;
 }
-.afvp-state-btn:active { transform: scale(0.96); }
-.afvp-state-btn-secondary {
-  background: rgba(255,255,255,0.10);
-  box-shadow: none; border: 1px solid rgba(255,255,255,0.15);
-  margin-top: 0;
+.afvp-retry {
+  padding: 12px 26px; border: none; border-radius: 14px;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff; font-size: 14px; font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 28px var(--green-glow);
+  transition: transform 0.15s var(--spring);
 }
+.afvp-retry:active { transform: scale(0.96); }
  
-/* ── Completion overlay ── */
+/* ── Completion ── */
 .afvp-completion {
   position: absolute; inset: 0; z-index: 22;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
-  animation: afvpFadeIn 0.35s ease;
+  background: rgba(0,0,0,0.80);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.4s ease;
 }
-@keyframes afvpFadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+@keyframes fadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
 .afvp-complete-inner {
   display: flex; flex-direction: column;
-  align-items: center; gap: 13px;
+  align-items: center; gap: 14px;
   text-align: center; padding: 0 24px;
 }
 .afvp-check {
-  width: 78px; height: 78px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--afvp-green-dark), var(--afvp-green));
+  width: 84px; height: 84px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), #22c55e);
   display: grid; place-items: center;
-  font-size: 34px; color: #fff;
-  box-shadow: 0 0 0 0 var(--afvp-green-glow);
-  animation: afvpCheckPop 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both, afvpRingPulse 2s ease 0.8s infinite;
+  font-size: 38px; color: #fff; font-weight: 900;
+  box-shadow: 0 0 0 0 var(--green-glow);
+  animation: check-pop 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both, ring-pulse 2s ease 0.8s infinite;
 }
-@keyframes afvpCheckPop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes check-pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
 .afvp-complete-inner h3 {
-  font-size: 22px; font-weight: 950; color: #f8fafc; letter-spacing: -0.03em;
+  font-size: 24px; font-weight: 950; color: #f8fafc; letter-spacing: -0.03em;
 }
-.afvp-complete-inner p { font-size: 12.5px; color: var(--afvp-muted); font-weight: 600; }
+.afvp-complete-inner p { font-size: 13px; color: var(--muted); font-weight: 600; }
 .afvp-complete-btns {
-  display: flex; gap: 9px; flex-wrap: wrap; justify-content: center; margin-top: 5px;
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 6px;
 }
 .afvp-cbtn {
-  display: flex; align-items: center; gap: 5px;
-  padding: 10px 18px; border: none; border-radius: 12px;
-  font-size: 12.5px; font-weight: 900; cursor: pointer;
-  transition: transform 0.15s var(--afvp-spring);
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 20px; border: none; border-radius: 13px;
+  font-size: 13px; font-weight: 900; cursor: pointer;
+  transition: transform 0.15s var(--spring);
 }
 .afvp-cbtn:active { transform: scale(0.96); }
 .afvp-cbtn.primary {
-  background: linear-gradient(135deg, var(--afvp-green-dark), var(--afvp-green));
-  color: #fff; box-shadow: 0 8px 24px var(--afvp-green-glow);
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff; box-shadow: 0 10px 28px var(--green-glow);
 }
 .afvp-cbtn.secondary {
   background: rgba(255,255,255,0.10); color: #fff;
-  border: 1px solid rgba(255,255,255,0.15);
-}
-.afvp-cbtn svg { width: 14px; height: 14px; fill: currentColor; }
- 
-/* ── PiP badge ── */
-.afvp-pip-badge {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 20;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 8px;
-  background: rgba(0,0,0,0.72); backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 16px; padding: 18px 24px;
-  color: #fff; text-align: center; font-weight: 700; font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.16);
 }
  
 /* ── Swipe indicator ── */
 .afvp-swipe {
   position: absolute; left: 50%; top: 50%;
   transform: translate(-50%,-50%);
-  z-index: 20; pointer-events: none;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 9px;
-  background: rgba(0,0,0,0.72); backdrop-filter: blur(14px);
+  z-index: 20;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(14px);
   border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 18px; padding: 14px 18px; min-width: 80px;
+  border-radius: 20px; padding: 16px 20px;
+  min-width: 90px; pointer-events: none;
 }
 .afvp-swipe-bar {
-  width: 5px; height: 80px; border-radius: 3px;
+  width: 6px; height: 90px; border-radius: 3px;
   background: rgba(255,255,255,0.14); overflow: hidden;
   display: flex; align-items: flex-end;
 }
 .afvp-swipe-fill {
-  width: 100%; border-radius: 3px;
-  background: linear-gradient(to top, var(--afvp-green-dark), var(--afvp-green));
+  width: 100%;
+  background: linear-gradient(to top, var(--green), #22c55e);
+  border-radius: 3px;
   transition: height 0.06s linear;
 }
-.afvp-swipe-label { font-size: 11.5px; font-weight: 900; color: #fff; white-space: nowrap; }
+.afvp-swipe-label {
+  font-size: 12px; font-weight: 900; color: #fff; white-space: nowrap;
+}
  
-/* ═══════════════════════════════════════
-   TOPBAR
-═══════════════════════════════════════ */
-.afvp-topbar {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 30;
-  display: flex; align-items: center; gap: 9px;
-  padding: 12px 13px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.88) 0%, transparent 100%);
-  transition: opacity 0.2s var(--afvp-ease), transform 0.2s var(--afvp-ease);
-  min-height: 54px;
-}
-.afvp-topbar.afvp-hide {
-  opacity: 0; pointer-events: none; transform: translateY(-6px);
-}
-.afvp-back-btn {
-  width: 38px; height: 38px; flex-shrink: 0;
-  border: none; border-radius: 11px;
-  background: rgba(255,255,255,0.10); backdrop-filter: blur(8px);
-  color: #fff; display: grid; place-items: center; cursor: pointer;
-  transition: background 0.15s, transform 0.15s var(--afvp-spring);
-}
-.afvp-back-btn:active { transform: scale(0.9); }
-.afvp-back-btn svg { width: 19px; height: 19px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-.afvp-meta-text { flex: 1; min-width: 0; }
-.afvp-meta-course {
-  font-size: 9.5px; font-weight: 800; color: var(--afvp-green);
-  text-transform: uppercase; letter-spacing: 0.06em;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.afvp-meta-title {
-  font-size: 13.5px; font-weight: 900; color: #fff;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  letter-spacing: -0.01em;
-}
-.afvp-meta-chapter {
-  font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.6);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.afvp-topbar-actions { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
-.afvp-icon-btn {
-  width: 36px; height: 36px; border: none; border-radius: 10px;
-  background: rgba(255,255,255,0.08); backdrop-filter: blur(6px);
-  color: #fff; display: grid; place-items: center; cursor: pointer;
-  transition: background 0.15s, transform 0.15s var(--afvp-spring);
-}
-.afvp-icon-btn:hover { background: rgba(255,255,255,0.16); }
-.afvp-icon-btn:active { transform: scale(0.88); }
-.afvp-icon-btn svg { width: 17px; height: 17px; display: block; }
-.afvp-icon-btn.afvp-bookmarked svg { fill: #facc15; stroke: #facc15 !important; }
- 
-/* ═══════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    BOTTOM CONTROLS
-═══════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 .afvp-bottom {
-  position: absolute; bottom: 0; left: 0; right: 0; z-index: 30;
-  padding: 0 13px max(13px, env(safe-area-inset-bottom, 13px));
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 30;
+  padding: 0 14px max(14px, env(safe-area-inset-bottom, 14px));
   background: linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-  transition: opacity 0.2s var(--afvp-ease), transform 0.2s var(--afvp-ease);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
 }
-.afvp-bottom.afvp-hide {
+.afvp-bottom.hide {
   opacity: 0; pointer-events: none; transform: translateY(6px);
 }
  
-/* Progress bar */
+/* ── Progress ── */
 .afvp-prog-wrap {
-  position: relative; height: 20px;
+  position: relative; height: 22px;
   display: flex; align-items: center;
-  cursor: pointer; margin-bottom: 3px;
+  cursor: pointer; margin-bottom: 4px;
   touch-action: none;
 }
-.afvp-prog-track {
-  position: absolute; left: 0; right: 0; height: 3px;
-  border-radius: 2px; background: var(--afvp-prog-track);
-  transition: height 0.14s var(--afvp-ease);
-  pointer-events: none;
+.afvp-prog-wrap::before {
+  content: '';
+  position: absolute; left: 0; right: 0;
+  height: var(--progress-h);
+  border-radius: 2px;
+  background: rgba(255,255,255,0.16);
+  transition: height 0.15s var(--ease);
 }
-.afvp-prog-wrap:hover .afvp-prog-track,
-.afvp-prog-wrap.afvp-dragging .afvp-prog-track { height: 5px; }
-.afvp-prog-buf, .afvp-prog-played {
-  position: absolute; left: 0; height: 3px;
+.afvp-prog-wrap:hover::before, .afvp-prog-wrap.dragging::before { height: 6px; }
+.afvp-buffered, .afvp-played {
+  position: absolute; left: 0; height: var(--progress-h);
   border-radius: 2px; pointer-events: none;
-  transition: height 0.14s var(--afvp-ease);
+  transition: height 0.15s var(--ease);
 }
-.afvp-prog-wrap:hover .afvp-prog-buf,
-.afvp-prog-wrap:hover .afvp-prog-played,
-.afvp-prog-wrap.afvp-dragging .afvp-prog-buf,
-.afvp-prog-wrap.afvp-dragging .afvp-prog-played { height: 5px; }
-.afvp-prog-buf { background: var(--afvp-prog-buf); }
-.afvp-prog-played { background: linear-gradient(90deg, var(--afvp-green-dark), var(--afvp-green)); }
-.afvp-prog-thumb {
-  position: absolute; top: 50%;
-  width: 13px; height: 13px; border-radius: 50%;
-  background: #fff; transform: translateX(-50%) translateY(-50%) scale(0);
-  box-shadow: 0 2px 7px rgba(0,0,0,0.4); pointer-events: none;
-  transition: transform 0.18s var(--afvp-spring);
+.afvp-prog-wrap:hover .afvp-buffered,
+.afvp-prog-wrap:hover .afvp-played,
+.afvp-prog-wrap.dragging .afvp-buffered,
+.afvp-prog-wrap.dragging .afvp-played { height: 6px; }
+.afvp-buffered { background: rgba(255,255,255,0.28); }
+.afvp-played { background: linear-gradient(90deg, var(--green), #22c55e); }
+.afvp-thumb {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(-50%) scale(0);
+  margin-top: -1px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  pointer-events: none;
+  transition: transform 0.2s var(--spring);
+  top: 50%;
 }
-.afvp-prog-wrap:hover .afvp-prog-thumb,
-.afvp-prog-wrap.afvp-dragging .afvp-prog-thumb { transform: translateX(-50%) translateY(-50%) scale(1); }
+.afvp-prog-wrap:hover .afvp-thumb,
+.afvp-prog-wrap.dragging .afvp-thumb { transform: translateX(-50%) scale(1); }
 .afvp-prog-input {
   position: absolute; inset: 0;
   opacity: 0; cursor: pointer;
   width: 100%; height: 100%; margin: 0;
 }
  
-/* Time tooltip */
-.afvp-prog-tooltip {
-  position: absolute; bottom: 22px;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #fff; font-size: 11px; font-weight: 900;
-  padding: 3px 8px; border-radius: 6px; white-space: nowrap;
-  pointer-events: none;
-  opacity: 0; transition: opacity 0.14s;
-}
-.afvp-prog-wrap:hover .afvp-prog-tooltip,
-.afvp-prog-wrap.afvp-dragging .afvp-prog-tooltip { opacity: 1; }
- 
-/* Controls row */
+/* ── Controls Row ── */
 .afvp-ctrl-row {
   display: flex; align-items: center;
   justify-content: space-between; gap: 4px;
-  height: 50px;
+  height: var(--ctrl-h);
 }
 .afvp-ctrl-left, .afvp-ctrl-right {
-  display: flex; align-items: center; gap: 1px;
-}
-.afvp-ctrl-btn {
-  width: 36px; height: 36px; border: none; border-radius: 9px;
-  background: transparent; color: #fff;
-  display: grid; place-items: center; cursor: pointer;
-  transition: background 0.14s, transform 0.14s var(--afvp-spring);
-  flex-shrink: 0;
-}
-.afvp-ctrl-btn:hover { background: rgba(255,255,255,0.10); }
-.afvp-ctrl-btn:active { transform: scale(0.88); }
-.afvp-ctrl-btn svg { width: 18px; height: 18px; display: block; fill: #fff; }
-.afvp-ctrl-btn.afvp-stroke-icon svg { fill: none; stroke: #fff; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
-.afvp-time {
   display: flex; align-items: center; gap: 2px;
-  padding: 0 3px; font-size: 11.5px; font-weight: 900;
-  color: #fff; white-space: nowrap;
-  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
-.afvp-time-sep { color: rgba(255,255,255,0.45); margin: 0 1px; }
-.afvp-time-dur { color: rgba(255,255,255,0.65); }
-.afvp-speed-lbl {
-  font-size: 11.5px; font-weight: 900;
-  color: #fff; white-space: nowrap; cursor: pointer;
+.afvp-ibtn {
+  width: 38px; height: 38px;
+  border: none; border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s var(--spring);
+}
+.afvp-ibtn:hover { background: rgba(255,255,255,0.08); }
+.afvp-ibtn:active { transform: scale(0.88); }
+.afvp-ibtn svg { width: 19px; height: 19px; display: block; }
+ 
+.afvp-time {
+  display: flex; align-items: center; gap: 3px;
   padding: 0 4px;
+  font-size: 12px; font-weight: 900;
+  color: #fff; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.afvp-time-sep { color: var(--muted); }
+#afvp-dur { color: var(--muted); }
+ 
+.afvp-speed-label {
+  font-size: 12px; font-weight: 900;
+  color: #fff; white-space: nowrap;
 }
  
-/* Volume slider */
+/* volume slider */
 .afvp-vol-wrap {
-  display: flex; align-items: center; gap: 2px;
-  overflow: hidden; max-width: 34px;
+  display: flex; align-items: center; gap: 3px;
+  overflow: hidden; max-width: 36px;
   transition: max-width 0.22s ease;
 }
-.afvp-vol-wrap:hover, .afvp-vol-wrap:focus-within { max-width: 110px; }
+.afvp-vol-wrap:hover, .afvp-vol-wrap:focus-within { max-width: 120px; }
 .afvp-vol-slider {
   -webkit-appearance: none; appearance: none;
-  height: 3px; background: rgba(255,255,255,0.22);
+  height: 4px; background: rgba(255,255,255,0.2);
   border-radius: 2px; outline: none;
-  cursor: pointer; width: 66px;
+  cursor: pointer; width: 72px;
   opacity: 0; transition: opacity 0.2s;
 }
 .afvp-vol-wrap:hover .afvp-vol-slider,
 .afvp-vol-wrap:focus-within .afvp-vol-slider { opacity: 1; }
 .afvp-vol-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 12px; height: 12px; border-radius: 50%;
+  width: 13px; height: 13px; border-radius: 50%;
   background: #fff; cursor: pointer;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.3);
-}
-.afvp-vol-slider::-moz-range-thumb {
-  width: 12px; height: 12px; border-radius: 50%;
-  background: #fff; cursor: pointer; border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
  
-/* ── Toast ── */
-.afvp-toast {
-  position: absolute; bottom: 72px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 999; background: rgba(0,0,0,0.78);
-  color: #fff; padding: 7px 15px; border-radius: 999px;
-  font-size: 12.5px; font-weight: 900;
-  white-space: nowrap; pointer-events: none;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.10);
-  animation: afvpFadeIn 0.18s ease;
-}
- 
-/* ── Hidden utility ── */
-.afvp-hidden { display: none !important; }
- 
-/* ═══════════════════════════════════════
-   SETTINGS PANEL (right drawer / bottom sheet)
-═══════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════
+   SETTINGS PANEL (right drawer)
+════════════════════════════════════════════════════════ */
 .afvp-panel {
-  position: absolute; top: 0; bottom: 0; right: 0; z-index: 50;
-  width: min(300px, 86vw);
-  background: var(--afvp-panel-bg);
-  border-left: 1px solid var(--afvp-border);
-  display: flex; flex-direction: column; overflow: hidden;
-  animation: afvpSlideR 0.26s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: -16px 0 48px rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  z-index: 50;
+  width: min(310px, 88vw);
+  background: var(--surface2);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  animation: slideR 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: -18px 0 50px rgba(0,0,0,0.5);
 }
-@keyframes afvpSlideR { from{transform:translateX(100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
+@keyframes slideR { from{transform:translateX(100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
  
-.afvp-panel.afvp-panel-left {
+/* Notes panel (left) */
+.afvp-panel.left {
   right: auto; left: 0;
-  border-left: none; border-right: 1px solid var(--afvp-border);
-  animation: afvpSlideL 0.26s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: 16px 0 48px rgba(0,0,0,0.5);
+  border-left: none; border-right: 1px solid var(--border);
+  animation: slideL 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 18px 0 50px rgba(0,0,0,0.5);
 }
-@keyframes afvpSlideL { from{transform:translateX(-100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
+@keyframes slideL { from{transform:translateX(-100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
  
-@media (max-width: 500px) {
+/* Mobile — bottom sheet */
+@media (max-width: 520px) {
   .afvp-panel {
-    right: 0; left: 0; top: auto;
-    width: 100%; max-height: 74dvh;
-    border-radius: 18px 18px 0 0;
-    border: none; animation: afvpSlideUp 0.26s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 -16px 48px rgba(0,0,0,0.5);
+    right: 0; left: 0;
+    top: auto; bottom: 0;
+    width: 100%;
+    max-height: 76dvh;
+    border-radius: 20px 20px 0 0;
+    border: none;
+    animation: slideUp 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 -18px 50px rgba(0,0,0,0.5);
   }
-  .afvp-panel.afvp-panel-left { top: auto; border-radius: 18px 18px 0 0; }
-  @keyframes afvpSlideUp { from{transform:translateY(100%);opacity:0.5} to{transform:translateY(0);opacity:1} }
+  .afvp-panel.left { top: auto; bottom: 0; }
+  @keyframes slideUp { from{transform:translateY(100%);opacity:0.5} to{transform:translateY(0);opacity:1} }
 }
  
 .afvp-panel-head {
   display: flex; align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--afvp-border);
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 .afvp-panel-head h3 {
-  font-size: 15px; font-weight: 900;
-  color: var(--afvp-text); letter-spacing: -0.02em;
+  font-size: 16px; font-weight: 900; color: var(--text);
+  letter-spacing: -0.02em;
 }
 .afvp-panel-close {
-  width: 28px; height: 28px; border: none; border-radius: 8px;
-  background: var(--afvp-ctrl-btn); color: var(--afvp-muted);
-  font-size: 17px; line-height: 1; display: grid; place-items: center;
-  cursor: pointer; transition: background 0.14s, color 0.14s;
+  width: 30px; height: 30px;
+  border: none; border-radius: 9px;
+  background: rgba(255,255,255,0.08);
+  color: var(--muted); font-size: 18px; line-height: 1;
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
-.afvp-panel-close:hover { background: var(--afvp-ctrl-hover); color: var(--afvp-text); }
+.afvp-panel-close:hover { background: rgba(255,255,255,0.14); color: var(--text); }
+ 
 .afvp-panel-body {
-  flex: 1; overflow-y: auto; padding: 14px 16px;
-  display: flex; flex-direction: column; gap: 16px;
-  scrollbar-width: thin; scrollbar-color: var(--afvp-border) transparent;
+  flex: 1; overflow-y: auto; padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 18px;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent;
 }
+ 
 .afvp-sg-label {
-  font-size: 10.5px; font-weight: 900;
-  color: var(--afvp-muted); text-transform: uppercase; letter-spacing: 0.07em;
-  margin-bottom: 7px;
+  font-size: 11px; font-weight: 900;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 8px;
 }
-.afvp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.afvp-chips { display: flex; flex-wrap: wrap; gap: 7px; }
 .afvp-chip {
-  padding: 7px 12px; border: 1px solid var(--afvp-border2);
-  border-radius: 10px; background: var(--afvp-ctrl-btn);
-  color: var(--afvp-muted); font-size: 12px; font-weight: 900;
-  cursor: pointer; transition: all 0.14s var(--afvp-ease);
+  padding: 8px 13px;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.06);
+  color: var(--muted);
+  font-size: 12.5px; font-weight: 900;
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
   font-family: inherit;
 }
-.afvp-chip:hover { background: var(--afvp-ctrl-hover); color: var(--afvp-text); }
-.afvp-chip.afvp-active {
-  background: var(--afvp-green-lite);
-  border-color: rgba(34,197,94,0.35); color: #4ade80;
-  box-shadow: 0 3px 12px rgba(34,197,94,0.14);
+.afvp-chip:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.afvp-chip.active {
+  background: var(--green-lite);
+  border-color: rgba(22,163,74,0.35);
+  color: #4ade80;
+  box-shadow: 0 4px 14px rgba(22,163,74,0.15);
 }
 .afvp-toggle-row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 9px 0; border-bottom: 1px solid var(--afvp-border);
+  padding: 10px 0; border-bottom: 1px solid var(--border);
 }
 .afvp-toggle-row:last-child { border-bottom: none; }
 .afvp-toggle-row span {
-  font-size: 12px; font-weight: 700; color: var(--afvp-muted);
-  text-transform: uppercase; letter-spacing: 0.05em;
+  font-size: 12px; font-weight: 900;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
 }
 .afvp-tog {
-  position: relative; width: 42px; height: 22px; flex-shrink: 0;
+  position: relative; width: 44px; height: 24px; flex-shrink: 0;
 }
 .afvp-tog input { opacity: 0; width: 0; height: 0; position: absolute; }
 .afvp-tog-track {
-  position: absolute; inset: 0; border-radius: 11px;
-  background: rgba(255,255,255,0.14); cursor: pointer; transition: background 0.2s;
+  position: absolute; inset: 0;
+  border-radius: 12px; background: rgba(255,255,255,0.14);
+  cursor: pointer; transition: background 0.2s;
 }
 .afvp-tog input:checked + .afvp-tog-track {
-  background: linear-gradient(135deg, var(--afvp-green-dark), var(--afvp-green));
+  background: linear-gradient(135deg, var(--green), #22c55e);
 }
 .afvp-tog-track::after {
-  content: ''; position: absolute; top: 2px; left: 2px;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  transition: transform 0.2s var(--afvp-spring);
+  content: '';
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
 }
 .afvp-tog input:checked + .afvp-tog-track::after { transform: translateX(20px); }
  
-/* ── Notes panel ── */
+/* Notes panel */
 .afvp-note-ts {
-  font-size: 11.5px; font-weight: 900; color: var(--afvp-green);
-  padding: 3px 9px; background: var(--afvp-green-lite);
-  border-radius: 7px; display: inline-block; width: fit-content;
+  font-size: 12px; font-weight: 900; color: var(--green);
+  padding: 4px 10px; background: var(--green-lite);
+  border-radius: 8px; display: inline-block; width: fit-content;
 }
 .afvp-note-textarea {
   width: 100%; resize: none; outline: none;
-  border-radius: 11px; padding: 10px 12px;
-  font-size: 13px; font-weight: 600; line-height: 1.6;
-  color: var(--afvp-text); background: var(--afvp-input-bg);
-  border: 1.5px solid var(--afvp-input-border);
-  font-family: inherit; transition: border-color 0.14s, box-shadow 0.14s;
+  border-radius: 12px; padding: 11px 13px;
+  font-size: 13.5px; font-weight: 600; line-height: 1.6;
+  color: var(--text);
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.11);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 .afvp-note-textarea:focus {
-  border-color: rgba(34,197,94,0.4);
-  box-shadow: 0 0 0 3px rgba(34,197,94,0.10);
+  border-color: rgba(22,163,74,0.4);
+  box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
 }
 .afvp-note-save {
-  padding: 9px 16px; border: none; border-radius: 11px;
-  background: linear-gradient(135deg, var(--afvp-green-dark), var(--afvp-green));
-  color: #fff; font-size: 13px; font-weight: 900; cursor: pointer;
-  box-shadow: 0 7px 18px var(--afvp-green-glow);
-  transition: transform 0.14s var(--afvp-spring); font-family: inherit;
+  padding: 10px 18px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff; font-size: 13.5px; font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 20px var(--green-glow);
+  transition: transform 0.15s var(--spring);
+  font-family: inherit;
 }
 .afvp-note-save:active { transform: scale(0.97); }
-.afvp-notes-list { display: flex; flex-direction: column; gap: 8px; }
-.afvp-notes-empty { font-size: 12.5px; color: var(--afvp-muted); font-weight: 600; text-align: center; padding: 14px 0; }
+.afvp-notes-list { display: flex; flex-direction: column; gap: 9px; }
+.afvp-notes-empty { font-size: 13px; color: var(--muted); font-weight: 600; text-align: center; padding: 18px 0; }
 .afvp-note-item {
-  background: var(--afvp-input-bg); border: 1px solid var(--afvp-border);
-  border-radius: 12px; padding: 10px 12px;
-  display: flex; flex-direction: column; gap: 5px;
-  animation: afvpFadeIn 0.2s ease;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 13px; padding: 11px 13px;
+  display: flex; flex-direction: column; gap: 6px;
+  animation: fadeIn 0.22s ease;
 }
 .afvp-note-item-ts {
-  font-size: 10.5px; font-weight: 900; color: var(--afvp-green);
-  cursor: pointer; display: inline-block;
+  font-size: 11px; font-weight: 900; color: var(--green);
+  cursor: pointer;
 }
 .afvp-note-item-ts:hover { text-decoration: underline; }
-.afvp-note-item-text { font-size: 12.5px; font-weight: 600; color: var(--afvp-text2); line-height: 1.6; }
+.afvp-note-item-text { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.6; }
 .afvp-note-del {
   align-self: flex-end; background: none; border: none;
-  color: rgba(239,68,68,0.65); font-size: 11px; font-weight: 900;
-  cursor: pointer; transition: color 0.14s; font-family: inherit;
+  color: rgba(239,68,68,0.6); font-size: 11.5px; font-weight: 900;
+  cursor: pointer; transition: color 0.15s; font-family: inherit;
 }
 .afvp-note-del:hover { color: #ef4444; }
 .afvp-export-btn {
-  padding: 9px; border: 1px dashed var(--afvp-border2);
-  border-radius: 11px; background: transparent;
-  color: var(--afvp-muted); font-size: 12px; font-weight: 900;
-  cursor: pointer; transition: all 0.14s; font-family: inherit;
+  padding: 10px; border: 1px dashed rgba(255,255,255,0.14);
+  border-radius: 12px; background: transparent;
+  color: var(--muted); font-size: 12.5px; font-weight: 900;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
 }
-.afvp-export-btn:hover { border-color: rgba(34,197,94,0.4); color: #4ade80; }
+.afvp-export-btn:hover { border-color: rgba(22,163,74,0.4); color: #4ade80; }
  
 /* Panel backdrop */
 .afvp-backdrop {
   position: absolute; inset: 0; z-index: 45;
-  background: rgba(0,0,0,0.46);
+  background: rgba(0,0,0,0.48);
   backdrop-filter: blur(2px);
-  animation: afvpFadeIn 0.18s ease;
+  animation: fadeIn 0.2s ease;
 }
  
-/* ═══════════════════════════════════════
-   META SECTION (below video)
-═══════════════════════════════════════ */
-.afvp-meta-section {
-  background: var(--afvp-meta-bg);
-  border-top: 1px solid var(--afvp-meta-border);
-  display: flex; flex-direction: column;
-  transition: background 0.2s ease;
+/* ── Toast ── */
+.afvp-toast {
+  position: absolute; bottom: 74px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: rgba(0,0,0,0.78);
+  color: #fff;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 900;
+  white-space: nowrap; pointer-events: none;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.11);
+  animation: fadeIn 0.2s ease;
 }
  
-/* Title block */
-.afvp-meta-title-block {
-  padding: 14px 16px 10px;
-  border-bottom: 1px solid var(--afvp-meta-border);
-}
-.afvp-meta-title-block h2 {
-  font-size: 15px; font-weight: 900;
-  color: var(--afvp-text); line-height: 1.35; letter-spacing: -0.02em;
-}
-.afvp-meta-title-block .afvp-meta-sub {
-  margin-top: 4px; font-size: 11.5px;
-  color: var(--afvp-muted); font-weight: 600;
-}
+/* ── Utility ── */
+.hidden { display: none !important; }
  
-/* Tabs */
-.afvp-tabs {
-  display: flex; align-items: center; gap: 0;
-  border-bottom: 1px solid var(--afvp-meta-border);
-  padding: 0 4px;
-  overflow-x: auto; scrollbar-width: none;
-}
-.afvp-tabs::-webkit-scrollbar { display: none; }
-.afvp-tab {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 10px 14px 8px;
-  border: none; background: transparent; cursor: pointer;
-  color: var(--afvp-muted); font-size: 10.5px; font-weight: 800;
-  letter-spacing: 0.01em; white-space: nowrap;
-  border-bottom: 2.5px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-  font-family: inherit;
-}
-.afvp-tab svg { width: 17px; height: 17px; }
-.afvp-tab.afvp-tab-active {
-  color: var(--afvp-accent);
-  border-bottom-color: var(--afvp-accent);
-}
-.afvp-tab svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
- 
-/* Tab panels */
-.afvp-tab-panel { padding: 14px 16px; display: none; }
-.afvp-tab-panel.afvp-tab-panel-active { display: block; }
- 
-/* Comments tab */
-.afvp-comment-input-row {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-}
-.afvp-comment-avatar {
-  width: 34px; height: 34px; min-width: 34px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--afvp-accent), #4f46e5);
-  display: grid; place-items: center;
-  font-size: 13px; font-weight: 900; color: #fff; flex-shrink: 0;
-}
-.afvp-comment-input {
-  flex: 1; height: 36px; outline: none;
-  border-radius: 18px; padding: 0 14px;
-  font-size: 13px; font-weight: 600;
-  color: var(--afvp-text); background: var(--afvp-input-bg);
-  border: 1px solid var(--afvp-input-border);
-  font-family: inherit; transition: border-color 0.14s;
-}
-.afvp-comment-input:focus { border-color: var(--afvp-accent); }
-.afvp-comment-input::placeholder { color: var(--afvp-muted); }
-.afvp-submit-btn {
-  padding: 7px 14px; border: none; border-radius: 18px;
-  background: linear-gradient(135deg, var(--afvp-accent), #4f46e5);
-  color: #fff; font-size: 12.5px; font-weight: 900; cursor: pointer;
-  font-family: inherit; white-space: nowrap;
-  transition: transform 0.14s var(--afvp-spring), opacity 0.14s;
-}
-.afvp-submit-btn:active { transform: scale(0.96); }
- 
-/* Poll */
-.afvp-poll-section {
-  margin-bottom: 14px;
-  padding: 12px 14px;
-  border-radius: 13px;
-  border: 1px solid var(--afvp-meta-border);
-  background: var(--afvp-tab-bg);
-}
-.afvp-poll-title {
-  font-size: 12.5px; font-weight: 900;
-  color: var(--afvp-text); margin-bottom: 9px; text-align: center;
-}
-.afvp-poll-options {
-  display: flex; flex-wrap: wrap; gap: 7px; justify-content: center;
-}
-.afvp-poll-opt {
-  padding: 6px 14px; border: 1px solid var(--afvp-input-border);
-  border-radius: 999px; background: var(--afvp-input-bg);
-  font-size: 12px; font-weight: 700; color: var(--afvp-text2);
-  cursor: pointer; font-family: inherit;
-  transition: all 0.14s var(--afvp-ease);
-  display: flex; align-items: center; gap: 5px;
-}
-.afvp-poll-opt:hover { border-color: var(--afvp-accent); color: var(--afvp-text); }
-.afvp-poll-opt.afvp-poll-selected {
-  border-color: var(--afvp-accent); background: var(--afvp-tab-active); color: var(--afvp-accent);
-}
- 
-/* Pinned comment */
-.afvp-pinned {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 11px 12px; border-radius: 13px;
-  background: var(--afvp-pinned-bg);
-  border: 1px solid var(--afvp-pinned-border);
-  margin-bottom: 13px;
-}
-.afvp-pinned-avatar {
-  width: 32px; height: 32px; min-width: 32px; border-radius: 50%; object-fit: cover;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  display: grid; place-items: center; font-size: 13px; font-weight: 900; color: #fff;
-  flex-shrink: 0;
-}
-.afvp-pinned-body { flex: 1; min-width: 0; }
-.afvp-pinned-name {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11.5px; font-weight: 900; color: var(--afvp-text);
-  margin-bottom: 3px;
-}
-.afvp-pin-label {
-  font-size: 10px; font-weight: 800; color: var(--afvp-accent);
-  display: flex; align-items: center; gap: 3px;
-}
-.afvp-verified {
-  width: 14px; height: 14px; background: var(--afvp-accent); border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 8px; font-weight: 900;
-}
-.afvp-pinned-text {
-  font-size: 12.5px; font-weight: 600; color: var(--afvp-text2); line-height: 1.6;
-}
- 
-/* Comment items */
-.afvp-comments-list { display: flex; flex-direction: column; gap: 12px; }
-.afvp-comment-item {
-  display: flex; align-items: flex-start; gap: 10px;
-}
-.afvp-comment-av {
-  width: 30px; height: 30px; min-width: 30px; border-radius: 50%;
-  background: var(--afvp-input-bg); border: 1px solid var(--afvp-border);
-  display: grid; place-items: center;
-  font-size: 11px; font-weight: 900; color: var(--afvp-text2);
-  flex-shrink: 0;
-}
-.afvp-comment-body { flex: 1; min-width: 0; }
-.afvp-comment-head {
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  margin-bottom: 2px;
-}
-.afvp-comment-author { font-size: 12px; font-weight: 800; color: var(--afvp-text); }
-.afvp-comment-time   { font-size: 10.5px; color: var(--afvp-muted); font-weight: 600; }
-.afvp-comment-report {
-  margin-left: auto; font-size: 10.5px; font-weight: 700;
-  color: var(--afvp-muted); cursor: pointer; background: none; border: none;
-  font-family: inherit; display: flex; align-items: center; gap: 3px;
-}
-.afvp-comment-text { font-size: 12.5px; color: var(--afvp-text2); line-height: 1.6; font-weight: 500; }
-.afvp-comment-likes {
-  margin-top: 5px; font-size: 11px; font-weight: 700;
-  color: var(--afvp-accent); cursor: pointer; background: none; border: none;
-  font-family: inherit; display: inline-flex; align-items: center; gap: 3px;
-}
- 
-/* Timeline tab */
-.afvp-timeline-list { display: flex; flex-direction: column; gap: 0; }
-.afvp-timeline-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 9px 0; border-bottom: 1px solid var(--afvp-meta-border);
-  cursor: pointer; transition: background 0.14s;
-}
-.afvp-timeline-item:last-child { border-bottom: none; }
-.afvp-timeline-item:hover { opacity: 0.8; }
-.afvp-timeline-ts {
-  font-size: 11px; font-weight: 900; color: var(--afvp-accent);
-  min-width: 42px; flex-shrink: 0;
-}
-.afvp-timeline-text {
-  font-size: 12.5px; color: var(--afvp-text2); font-weight: 600; line-height: 1.5;
-}
- 
-/* Rating tab */
-.afvp-rating-section {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  padding: 10px 0;
-}
-.afvp-rating-score {
-  font-size: 48px; font-weight: 900; color: var(--afvp-text); letter-spacing: -0.04em;
-}
-.afvp-rating-stars { display: flex; gap: 4px; }
-.afvp-star {
-  font-size: 22px; cursor: pointer;
-  transition: transform 0.14s var(--afvp-spring);
-}
-.afvp-star:hover { transform: scale(1.2); }
-.afvp-rating-label { font-size: 12.5px; color: var(--afvp-muted); font-weight: 600; }
- 
-/* ═══════════════════════════════════════
-   LANDSCAPE / FULLSCREEN OVERRIDES
-═══════════════════════════════════════ */
-@media (orientation: landscape) and (max-width: 900px) {
-  /* On mobile landscape, immersive mode is auto-triggered by JS */
-  .afvp-demo-wrap { padding: 0; }
-}
- 
-/* Desktop fullscreen */
-#afvpRoot:-webkit-full-screen,
-#afvpRoot:-moz-full-screen,
-#afvpRoot:fullscreen {
-  width: 100vw !important; height: 100dvh !important;
-  max-width: 100vw !important; border-radius: 0 !important;
-}
-#afvpRoot:fullscreen .afvp-meta-section,
-#afvpRoot:-webkit-full-screen .afvp-meta-section { display: none !important; }
-#afvpRoot:fullscreen .afvp-video-wrap,
-#afvpRoot:-webkit-full-screen .afvp-video-wrap {
-  aspect-ratio: unset !important; height: 100dvh !important;
+/* ════════════════════════════════════════════════════════
+   FULLSCREEN — real landscape
+════════════════════════════════════════════════════════ */
+#afvp:-webkit-full-screen,
+#afvp:-moz-full-screen,
+#afvp:fullscreen {
+  width: 100vw !important;
+  height: 100dvh !important;
+  left: 0 !important;
+  transform: none !important;
+  border-radius: 0 !important;
 }
  
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  #afvp * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
- 
-/* ── scrollbar ── */
-.afvp-panel-body::-webkit-scrollbar { width: 3px; }
-.afvp-panel-body::-webkit-scrollbar-thumb { background: var(--afvp-border); border-radius: 99px; }
- 
-/* theme toggle button (demo) */
-.afvp-theme-toggle {
-  position: fixed; top: 14px; right: 14px; z-index: 1000;
-  padding: 8px 14px; border-radius: 20px;
-  background: var(--afvp-surface); border: 1px solid var(--afvp-border);
-  color: var(--afvp-text); font-size: 12.5px; font-weight: 900;
-  cursor: pointer; font-family: inherit;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-  transition: background 0.2s, color 0.2s;
-}
- 
-/* ── orientation lock overlay ── */
-.afvp-orient-overlay {
-  position: fixed; inset: 0; z-index: 999999;
-  background: #000; display: none;
-  flex-direction: column; align-items: center; justify-content: center;
-  gap: 14px; color: #fff; text-align: center; padding: 24px;
-}
-.afvp-orient-overlay.afvp-show { display: flex; }
-.afvp-orient-overlay svg { width: 56px; height: 56px; fill: none; stroke: var(--afvp-green); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; animation: afvpRotate 1.8s ease infinite; }
-@keyframes afvpRotate { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(90deg)} }
-.afvp-orient-overlay h3 { font-size: 18px; font-weight: 900; }
-.afvp-orient-overlay p { font-size: 13px; color: rgba(255,255,255,0.6); }
-  
   </style>
 </head>
 
@@ -6391,464 +6151,334 @@ html, body {
         </section>
       </div><!-- /viewStudent -->
 
-      <!-- Theme toggle (demo helper) -->
-<button class="afvp-theme-toggle" onclick="AFVPTheme.toggle()" id="themeToggleBtn">☀️ Light</button>
-      
-<div class="afvp-demo-wrap">
-<!-- ═══════════════════════════════════════════════════════
-     AF VIDEO PLAYER ROOT
-═══════════════════════════════════════════════════════ -->
-<div id="afvpRoot" role="main" aria-label="Video Player">
+<!-- ════════════════════════════════════════════════════════
+     AF VIDEO PLAYER OVERLAY
+════════════════════════════════════════════════════════ -->
+<div id="afvp" class="hidden" role="dialog" aria-modal="true" aria-label="Video Player">
+  <div class="afvp-shell">
  
-  <!-- ══════════ VIDEO WRAP ══════════ -->
-  <div class="afvp-video-wrap" id="afvpVideoWrap">
- 
-    <!-- Skeleton loader -->
-    <div class="afvp-skeleton" id="afvpSkeleton">
-      <div class="afvp-shimmer"></div>
-      <div class="afvp-skel-ring"></div>
-      <div class="afvp-skel-bars">
-        <div class="afvp-skel-bar afvp-skel-w60"></div>
-        <div class="afvp-skel-bar afvp-skel-w40"></div>
+    <!-- TOP BAR -->
+    <div class="afvp-topbar" id="afvpTopbar">
+      <button class="afvp-back" onclick="AFPlayer.close()" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="afvp-meta">
+        <span class="afvp-meta-course" id="afvpCourse"></span>
+        <span class="afvp-meta-title"  id="afvpTitle">Lecture</span>
+        <span class="afvp-meta-chapter" id="afvpChapter"></span>
+      </div>
+      <div class="afvp-actions">
+        <button class="afvp-btn" id="afvpBtnBookmark" onclick="AFPlayer.toggleBookmark()" aria-label="Bookmark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
+        <button class="afvp-btn" onclick="AFPlayer.openNotes()" aria-label="Notes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </button>
+        <button class="afvp-btn" onclick="AFPlayer.openSettings()" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+        <button class="afvp-btn" id="afvpBtnFS" onclick="AFPlayer.toggleFullscreen()" aria-label="Fullscreen">
+          <svg id="afvpFSExpand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+          <svg id="afvpFSCompress" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
+            <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
+          </svg>
+        </button>
       </div>
     </div>
  
-    <!-- Poster -->
-    <div class="afvp-poster afvp-hidden" id="afvpPoster">
-      <img id="afvpPosterImg" src="" alt="Thumbnail" />
-      <div class="afvp-poster-overlay"></div>
-      <button class="afvp-poster-play" onclick="AFVP.play()" aria-label="Play video">
-        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      </button>
-    </div>
+    <!-- VIDEO AREA -->
+    <div class="afvp-video-area" id="afvpVideoArea">
  
-    <!-- YouTube container -->
-    <div class="afvp-yt-wrap afvp-hidden" id="afvpYTWrap">
-      <div id="afvpYTPlayer"></div>
-    </div>
- 
-    <!-- Fallback YouTube iframe (level 2) -->
-    <div class="afvp-yt-wrap afvp-hidden" id="afvpYTFallbackWrap">
-      <iframe id="afvpYTFallback" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
-    </div>
- 
-    <!-- Native video -->
-    <video class="afvp-hidden" id="afvpVid"
-      playsinline webkit-playsinline
-      preload="metadata"
-      aria-label="Video content">
-    </video>
- 
-    <!-- Gesture layer -->
-    <div class="afvp-gesture" id="afvpGesture" role="presentation">
-      <div class="afvp-gz" id="afvpGzL">
-        <div class="afvp-seek-flash" id="afvpFlashL">
-          <svg viewBox="0 0 24 24"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-          <span id="afvpFlashLTxt">-10s</span>
+      <!-- Skeleton -->
+      <div class="afvp-skeleton" id="afvpSkeleton">
+        <div class="afvp-shimmer"></div>
+        <div class="afvp-skeleton-ring"></div>
+        <div class="afvp-skeleton-bars">
+          <div class="afvp-skeleton-bar w60"></div>
+          <div class="afvp-skeleton-bar w40"></div>
         </div>
       </div>
-      <div class="afvp-gz" id="afvpGzC"></div>
-      <div class="afvp-gz" id="afvpGzR">
-        <div class="afvp-seek-flash" id="afvpFlashR">
-          <svg viewBox="0 0 24 24"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-          <span id="afvpFlashRTxt">+10s</span>
+ 
+      <!-- Poster -->
+      <div class="afvp-poster hidden" id="afvpPoster">
+        <img id="afvpPosterImg" src="" alt="Thumbnail" />
+        <div class="afvp-poster-overlay"></div>
+        <button class="afvp-poster-play" onclick="AFPlayer.play()" aria-label="Play">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+ 
+      <!-- YouTube container -->
+      <div class="afvp-yt-wrap hidden" id="afvpYTWrap">
+        <div id="afvp-yt-player"></div>
+      </div>
+ 
+      <!-- Native video -->
+      <video class="hidden" id="afvp-vid" playsinline webkit-playsinline preload="metadata"></video>
+ 
+      <!-- Gesture layer -->
+      <div class="afvp-gesture" id="afvpGesture">
+        <div class="afvp-gz" id="afvpGzL">
+          <div class="afvp-gfb" id="afvpGfbL">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+            <span id="afvpGfbLTxt">-10s</span>
+          </div>
+        </div>
+        <div class="afvp-gz" id="afvpGzC"></div>
+        <div class="afvp-gz" id="afvpGzR">
+          <div class="afvp-gfb" id="afvpGfbR">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+            <span id="afvpGfbRTxt">+10s</span>
+          </div>
         </div>
       </div>
-    </div>
  
-    <!-- Center play/pause -->
-    <div class="afvp-center">
-      <button class="afvp-center-btn" id="afvpCenterBtn" onclick="AFVP.togglePlay()" aria-label="Play or Pause">
-        <svg id="afvpCenterPlay" viewBox="0 0 24 24" class="afvp-ic-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        <svg id="afvpCenterPause" class="afvp-hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-        <svg id="afvpCenterReplay" class="afvp-hidden" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-      </button>
-    </div>
+      <!-- Center play/pause -->
+      <div class="afvp-center">
+        <button class="afvp-cplay" id="afvpCplay" onclick="AFPlayer.togglePlay()" aria-label="Play/Pause">
+          <svg class="pi" id="afvpIconPlay" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg class="hidden" id="afvpIconPause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <svg class="hidden" id="afvpIconReplay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        </button>
+      </div>
  
-    <!-- Speed indicator -->
-    <div class="afvp-speed-ind afvp-hidden" id="afvpSpeedInd">
-      <svg viewBox="0 0 24 24" fill="#fff" width="14" height="14"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-      <span id="afvpSpeedIndTxt">2× Speed</span>
-    </div>
+      <!-- Speed indicator -->
+      <div class="afvp-speed-ind hidden" id="afvpSpeedInd">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+        <span id="afvpSpeedTxt">2× Speed</span>
+      </div>
  
-    <!-- Buffering spinner -->
-    <div class="afvp-spinner afvp-hidden" id="afvpSpinner" aria-live="polite" aria-label="Loading">
-      <div class="afvp-spin-ring"></div>
-    </div>
+      <!-- Spinner -->
+      <div class="afvp-spinner hidden" id="afvpSpinner">
+        <div class="afvp-spin-ring"></div>
+      </div>
  
-    <!-- Error state -->
-    <div class="afvp-state afvp-hidden" id="afvpError" role="alert">
-      <div class="afvp-state-icon">⚠️</div>
-      <h3>Video Unavailable</h3>
-      <p id="afvpErrorMsg">Unable to load this video. Please check your connection.</p>
-      <button class="afvp-state-btn" onclick="AFVP.retry()">Try Again</button>
-      <button class="afvp-state-btn afvp-state-btn-secondary" onclick="AFVP.openFallback()" id="afvpOpenFallbackBtn" style="margin-top:6px">Open in YouTube</button>
-    </div>
+      <!-- Error state -->
+      <div class="afvp-state hidden" id="afvpError">
+        <div class="afvp-state-icon">⚠️</div>
+        <h3>Video Unavailable</h3>
+        <p id="afvpErrorMsg">Unable to load video. Please check connection.</p>
+        <button class="afvp-retry" onclick="AFPlayer.retry()">Try Again</button>
+      </div>
  
-    <!-- Offline state -->
-    <div class="afvp-state afvp-hidden" id="afvpOffline" role="alert">
-      <div class="afvp-state-icon">📵</div>
-      <h3>You're Offline</h3>
-      <p>Please connect to the internet to watch this video.</p>
-      <button class="afvp-state-btn" onclick="AFVP.checkOnline()">Check Connection</button>
-    </div>
+      <!-- Offline state -->
+      <div class="afvp-state hidden" id="afvpOffline">
+        <div class="afvp-state-icon">📵</div>
+        <h3>You're Offline</h3>
+        <p>Connect to the internet to watch this video.</p>
+        <button class="afvp-retry" onclick="AFPlayer.checkOnline()">Check Connection</button>
+      </div>
  
-    <!-- Completion overlay -->
-    <div class="afvp-completion afvp-hidden" id="afvpCompletion" role="dialog" aria-label="Lecture Complete">
-      <div class="afvp-complete-inner">
-        <div class="afvp-check" aria-hidden="true">✓</div>
-        <h3>Lecture Complete!</h3>
-        <p id="afvpComplSub">Great work. Keep the momentum going!</p>
-        <div class="afvp-complete-btns">
-          <button class="afvp-cbtn secondary" onclick="AFVP.replay()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-            Replay
-          </button>
-          <button class="afvp-cbtn primary" id="afvpNextBtn" onclick="AFVP.playNext()">
-            Next Lecture
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+      <!-- Completion -->
+      <div class="afvp-completion hidden" id="afvpCompletion">
+        <div class="afvp-complete-inner">
+          <div class="afvp-check">✓</div>
+          <h3>Lecture Complete!</h3>
+          <p id="afvpCompleteSub">Great job. Keep it up!</p>
+          <div class="afvp-complete-btns">
+            <button class="afvp-cbtn secondary" onclick="AFPlayer.replay()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+              Replay
+            </button>
+            <button class="afvp-cbtn primary" id="afvpNextBtn" onclick="AFPlayer.playNext()">
+              Next Lecture
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
  
-    <!-- Swipe indicator -->
-    <div class="afvp-swipe afvp-hidden" id="afvpSwipe" aria-hidden="true">
-      <div class="afvp-swipe-bar"><div class="afvp-swipe-fill" id="afvpSwipeFill" style="height:50%"></div></div>
-      <span class="afvp-swipe-label" id="afvpSwipeLbl">🔊 80%</span>
-    </div>
+      <!-- Swipe indicator -->
+      <div class="afvp-swipe hidden" id="afvpSwipe">
+        <div class="afvp-swipe-bar"><div class="afvp-swipe-fill" id="afvpSwipeFill"></div></div>
+        <span class="afvp-swipe-label" id="afvpSwipeLabel">🔊 80%</span>
+      </div>
  
-    <!-- TOPBAR -->
-    <div class="afvp-topbar" id="afvpTopbar" role="banner">
-      <button class="afvp-back-btn" onclick="AFVP.close()" aria-label="Go back">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="afvp-meta-text">
-        <span class="afvp-meta-course" id="afvpMetaCourse"></span>
-        <span class="afvp-meta-title" id="afvpMetaTitle">Lecture</span>
-        <span class="afvp-meta-chapter" id="afvpMetaChapter"></span>
-      </div>
-      <div class="afvp-topbar-actions">
-        <!-- Bookmark -->
-        <button class="afvp-icon-btn" id="afvpBtnBM" onclick="AFVP.toggleBookmark()" aria-label="Bookmark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-        </button>
-        <!-- Notes -->
-        <button class="afvp-icon-btn" onclick="AFVP.toggleNotes()" aria-label="Notes">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        </button>
-        <!-- PiP -->
-        <button class="afvp-icon-btn" id="afvpBtnPiP" onclick="AFVP.togglePiP()" aria-label="Picture in Picture" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><rect x="12" y="11" width="10" height="7" rx="1"/></svg>
-        </button>
-        <!-- Settings -->
-        <button class="afvp-icon-btn" onclick="AFVP.toggleSettings()" aria-label="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        </button>
-        <!-- Fullscreen -->
-        <button class="afvp-icon-btn" onclick="AFVP.toggleFullscreen()" aria-label="Fullscreen">
-          <svg id="afvpFSExpand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-          <svg id="afvpFSCompress" class="afvp-hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg>
-        </button>
-      </div>
-    </div>
+    </div><!-- /video-area -->
  
     <!-- BOTTOM CONTROLS -->
     <div class="afvp-bottom" id="afvpBottom">
+ 
       <!-- Progress -->
-      <div class="afvp-prog-wrap" id="afvpProgWrap" role="slider" aria-label="Video progress" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0">
-        <div class="afvp-prog-track"></div>
-        <div class="afvp-prog-buf"    id="afvpProgBuf"></div>
-        <div class="afvp-prog-played" id="afvpProgPlayed"></div>
-        <div class="afvp-prog-thumb"  id="afvpProgThumb"></div>
-        <div class="afvp-prog-tooltip" id="afvpProgTooltip">0:00</div>
+      <div class="afvp-prog-wrap" id="afvpProgWrap">
+        <div class="afvp-buffered" id="afvpBuffered"></div>
+        <div class="afvp-played"   id="afvpPlayed"></div>
+        <div class="afvp-thumb"    id="afvpThumb"></div>
         <input type="range" class="afvp-prog-input" id="afvpProgInput"
-          min="0" max="1000" value="0" step="1" aria-label="Seek video" />
+               min="0" max="1000" value="0" step="1" aria-label="Seek" />
       </div>
+ 
       <!-- Controls row -->
       <div class="afvp-ctrl-row">
         <div class="afvp-ctrl-left">
-          <!-- Play/Pause -->
-          <button class="afvp-ctrl-btn" onclick="AFVP.togglePlay()" aria-label="Play or Pause">
-            <svg id="afvpCtrlPlay"  viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <svg id="afvpCtrlPause" class="afvp-hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <!-- Play/pause -->
+          <button class="afvp-ibtn" onclick="AFPlayer.togglePlay()" aria-label="Play/Pause">
+            <svg id="afvpPlaySm"  viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg id="afvpPauseSm" class="hidden" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
           </button>
           <!-- -10s -->
-          <button class="afvp-ctrl-btn" onclick="AFVP.skip(-10)" aria-label="Skip back 10 seconds">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
-              <text x="9" y="14.5" font-size="5" fill="#fff" stroke="none" font-weight="bold">10</text>
+          <button class="afvp-ibtn" onclick="AFPlayer.skip(-10)" aria-label="-10s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"/>
+              <path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
+              <text x="8.5" y="14.5" font-size="5.5" fill="currentColor" stroke="none" font-weight="bold">10</text>
             </svg>
           </button>
           <!-- +10s -->
-          <button class="afvp-ctrl-btn" onclick="AFVP.skip(10)" aria-label="Skip forward 10 seconds">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-4.5"/>
-              <text x="9" y="14.5" font-size="5" fill="#fff" stroke="none" font-weight="bold">10</text>
+          <button class="afvp-ibtn" onclick="AFPlayer.skip(10)" aria-label="+10s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-.49-4.5"/>
+              <text x="8.5" y="14.5" font-size="5.5" fill="currentColor" stroke="none" font-weight="bold">10</text>
             </svg>
           </button>
           <!-- Volume -->
           <div class="afvp-vol-wrap">
-            <button class="afvp-ctrl-btn afvp-stroke-icon" onclick="AFVP.toggleMute()" aria-label="Mute or unmute" style="width:32px;height:32px">
-              <svg id="afvpVolIcon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <button class="afvp-ibtn" onclick="AFPlayer.toggleMute()" aria-label="Mute">
+              <svg id="afvpVolIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
                 <path id="afvpWave1" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
                 <path id="afvpWave2" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
               </svg>
             </button>
             <input type="range" class="afvp-vol-slider" id="afvpVolSlider"
-              min="0" max="100" value="100" aria-label="Volume" />
+                   min="0" max="100" value="100" aria-label="Volume" />
           </div>
           <!-- Time -->
           <div class="afvp-time">
-            <span id="afvpCurTime">0:00</span>
+            <span id="afvpCur">0:00</span>
             <span class="afvp-time-sep">/</span>
-            <span class="afvp-time-dur" id="afvpDurTime">0:00</span>
+            <span id="afvp-dur">0:00</span>
           </div>
         </div>
+ 
         <div class="afvp-ctrl-right">
           <!-- Speed -->
-          <button class="afvp-ctrl-btn" onclick="AFVP.cycleSpeed()" aria-label="Playback speed" style="width:auto;padding:0 5px">
-            <span class="afvp-speed-lbl" id="afvpSpeedLbl">1×</span>
+          <button class="afvp-ibtn" onclick="AFPlayer.cycleSpeed()" aria-label="Speed" style="width:auto;padding:0 6px">
+            <span class="afvp-speed-label" id="afvpSpeedLbl">1×</span>
           </button>
           <!-- Fullscreen -->
-          <button class="afvp-ctrl-btn afvp-stroke-icon" onclick="AFVP.toggleFullscreen()" aria-label="Fullscreen" style="width:32px;height:32px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <button class="afvp-ibtn" onclick="AFPlayer.toggleFullscreen()" aria-label="Fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
               <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
             </svg>
           </button>
         </div>
       </div>
-    </div>
+    </div><!-- /bottom -->
  
-    <!-- SETTINGS PANEL -->
-    <div class="afvp-panel afvp-hidden" id="afvpSettingsPanel" role="dialog" aria-label="Player Settings">
-      <div class="afvp-panel-head">
-        <h3>⚙️ Settings</h3>
-        <button class="afvp-panel-close" onclick="AFVP.closeSettings()" aria-label="Close settings">✕</button>
-      </div>
-      <div class="afvp-panel-body">
-        <div>
-          <div class="afvp-sg-label">Playback Speed</div>
-          <div class="afvp-chips" id="afvpSpeedChips">
-            <button class="afvp-chip" data-speed="0.25" onclick="AFVP.setSpeed(0.25)" type="button">0.25×</button>
-            <button class="afvp-chip" data-speed="0.5"  onclick="AFVP.setSpeed(0.5)"  type="button">0.5×</button>
-            <button class="afvp-chip" data-speed="0.75" onclick="AFVP.setSpeed(0.75)" type="button">0.75×</button>
-            <button class="afvp-chip afvp-active" data-speed="1" onclick="AFVP.setSpeed(1)" type="button">Normal</button>
-            <button class="afvp-chip" data-speed="1.25" onclick="AFVP.setSpeed(1.25)" type="button">1.25×</button>
-            <button class="afvp-chip" data-speed="1.5"  onclick="AFVP.setSpeed(1.5)"  type="button">1.5×</button>
-            <button class="afvp-chip" data-speed="1.75" onclick="AFVP.setSpeed(1.75)" type="button">1.75×</button>
-            <button class="afvp-chip" data-speed="2"    onclick="AFVP.setSpeed(2)"    type="button">2×</button>
-          </div>
-        </div>
-        <div>
-          <div class="afvp-sg-label">Video Quality</div>
-          <div class="afvp-chips" id="afvpQualChips">
-            <button class="afvp-chip afvp-active" data-q="auto" onclick="AFVP.setQuality('auto')" type="button">Auto</button>
-            <button class="afvp-chip" data-q="1080" onclick="AFVP.setQuality('1080')" type="button">1080p</button>
-            <button class="afvp-chip" data-q="720"  onclick="AFVP.setQuality('720')"  type="button">720p</button>
-            <button class="afvp-chip" data-q="480"  onclick="AFVP.setQuality('480')"  type="button">480p</button>
-            <button class="afvp-chip" data-q="360"  onclick="AFVP.setQuality('360')"  type="button">360p</button>
-            <button class="afvp-chip" data-q="240"  onclick="AFVP.setQuality('240')"  type="button">240p</button>
-          </div>
-        </div>
-        <div>
-          <div class="afvp-toggle-row">
-            <span>Loop Video</span>
-            <label class="afvp-tog">
-              <input type="checkbox" id="afvpTogLoop" onchange="AFVP.setLoop(this.checked)" />
-              <span class="afvp-tog-track"></span>
-            </label>
-          </div>
-          <div class="afvp-toggle-row">
-            <span>Autoplay Next</span>
-            <label class="afvp-tog">
-              <input type="checkbox" id="afvpTogAutoplay" checked onchange="AFVP.setAutoplay(this.checked)" />
-              <span class="afvp-tog-track"></span>
-            </label>
-          </div>
-          <div class="afvp-toggle-row">
-            <span>Data Saver</span>
-            <label class="afvp-tog">
-              <input type="checkbox" id="afvpTogData" onchange="AFVP.setDataSaver(this.checked)" />
-              <span class="afvp-tog-track"></span>
-            </label>
-          </div>
-        </div>
-        <div>
-          <div class="afvp-sg-label">Sleep Timer</div>
-          <div class="afvp-chips">
-            <button class="afvp-chip afvp-active" id="afvpSleepOff" onclick="AFVP.setSleep(0)" type="button">Off</button>
-            <button class="afvp-chip" onclick="AFVP.setSleep(10)" type="button">10m</button>
-            <button class="afvp-chip" onclick="AFVP.setSleep(15)" type="button">15m</button>
-            <button class="afvp-chip" onclick="AFVP.setSleep(30)" type="button">30m</button>
-            <button class="afvp-chip" onclick="AFVP.setSleep(60)" type="button">1h</button>
-          </div>
-        </div>
-        <div>
-          <div class="afvp-sg-label">Keyboard Shortcuts</div>
-          <div style="font-size:11.5px;color:var(--afvp-muted);line-height:1.9;font-weight:600">
-            <div>Space / K — Play / Pause</div>
-            <div>← → — Skip 10s</div>
-            <div>↑ ↓ — Volume</div>
-            <div>F — Fullscreen</div>
-            <div>M — Mute</div>
-            <div>, . — Speed −/+</div>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div><!-- /shell -->
  
-    <!-- NOTES PANEL -->
-    <div class="afvp-panel afvp-panel-left afvp-hidden" id="afvpNotesPanel" role="dialog" aria-label="Lecture Notes">
-      <div class="afvp-panel-head">
-        <h3>📝 Notes</h3>
-        <button class="afvp-panel-close" onclick="AFVP.closeNotes()" aria-label="Close notes">✕</button>
+  <!-- SETTINGS PANEL -->
+  <div class="afvp-panel hidden" id="afvpSettings" role="dialog" aria-label="Settings">
+    <div class="afvp-panel-head">
+      <h3>⚙️ Settings</h3>
+      <button class="afvp-panel-close" onclick="AFPlayer.closeSettings()">✕</button>
+    </div>
+    <div class="afvp-panel-body">
+ 
+      <div>
+        <div class="afvp-sg-label">Playback Speed</div>
+        <div class="afvp-chips" id="afvpSpeedChips">
+          <button class="afvp-chip" data-speed="0.5"  onclick="AFPlayer.setSpeed(0.5)">0.5×</button>
+          <button class="afvp-chip" data-speed="0.75" onclick="AFPlayer.setSpeed(0.75)">0.75×</button>
+          <button class="afvp-chip active" data-speed="1" onclick="AFPlayer.setSpeed(1)">1×</button>
+          <button class="afvp-chip" data-speed="1.25" onclick="AFPlayer.setSpeed(1.25)">1.25×</button>
+          <button class="afvp-chip" data-speed="1.5"  onclick="AFPlayer.setSpeed(1.5)">1.5×</button>
+          <button class="afvp-chip" data-speed="2"    onclick="AFPlayer.setSpeed(2)">2×</button>
+        </div>
       </div>
-      <div class="afvp-panel-body">
-        <div>
-          <span class="afvp-note-ts" id="afvpNoteTS">@ 0:00</span>
-          <textarea class="afvp-note-textarea" id="afvpNoteInput"
-            rows="3" placeholder="Write a note at this timestamp…" style="margin-top:8px"></textarea>
-          <button class="afvp-note-save" onclick="AFVP.saveNote()" style="margin-top:8px;width:100%" type="button">Save Note</button>
+ 
+      <div>
+        <div class="afvp-sg-label">Video Quality</div>
+        <div class="afvp-chips" id="afvpQualChips">
+          <button class="afvp-chip active" data-q="auto" onclick="AFPlayer.setQuality('auto')">Auto</button>
+          <button class="afvp-chip" data-q="1080" onclick="AFPlayer.setQuality('1080')">1080p</button>
+          <button class="afvp-chip" data-q="720"  onclick="AFPlayer.setQuality('720')">720p</button>
+          <button class="afvp-chip" data-q="480"  onclick="AFPlayer.setQuality('480')">480p</button>
+          <button class="afvp-chip" data-q="360"  onclick="AFPlayer.setQuality('360')">360p</button>
         </div>
-        <div>
-          <div class="afvp-sg-label">Your Notes</div>
-          <div class="afvp-notes-list" id="afvpNotesList">
-            <p class="afvp-notes-empty">No notes yet. Add one above!</p>
-          </div>
-          <button class="afvp-export-btn" onclick="AFVP.exportNotes()" style="margin-top:10px;width:100%" type="button">⬇ Export Notes as Text</button>
+      </div>
+ 
+      <div>
+        <div class="afvp-toggle-row">
+          <span>Loop Video</span>
+          <label class="afvp-tog">
+            <input type="checkbox" id="afvpTogLoop" onchange="AFPlayer.toggleLoop(this.checked)" />
+            <span class="afvp-tog-track"></span>
+          </label>
         </div>
+        <div class="afvp-toggle-row">
+          <span>Autoplay Next</span>
+          <label class="afvp-tog">
+            <input type="checkbox" id="afvpTogAutoplay" checked onchange="AFPlayer.toggleAutoplay(this.checked)" />
+            <span class="afvp-tog-track"></span>
+          </label>
+        </div>
+        <div class="afvp-toggle-row">
+          <span>Data Saver</span>
+          <label class="afvp-tog">
+            <input type="checkbox" id="afvpTogData" onchange="AFPlayer.toggleDataSaver(this.checked)" />
+            <span class="afvp-tog-track"></span>
+          </label>
+        </div>
+      </div>
+ 
+      <div>
+        <div class="afvp-sg-label">Sleep Timer</div>
+        <div class="afvp-chips">
+          <button class="afvp-chip active" onclick="AFPlayer.setSleep(0)">Off</button>
+          <button class="afvp-chip" onclick="AFPlayer.setSleep(15)">15m</button>
+          <button class="afvp-chip" onclick="AFPlayer.setSleep(30)">30m</button>
+          <button class="afvp-chip" onclick="AFPlayer.setSleep(60)">1h</button>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+ 
+  <!-- NOTES PANEL -->
+  <div class="afvp-panel left hidden" id="afvpNotes" role="dialog" aria-label="Notes">
+    <div class="afvp-panel-head">
+      <h3>📝 Notes</h3>
+      <button class="afvp-panel-close" onclick="AFPlayer.closeNotes()">✕</button>
+    </div>
+    <div class="afvp-panel-body">
+      <div>
+        <div class="afvp-note-ts" id="afvpNoteTs">@ 0:00</div>
+        <textarea class="afvp-note-textarea" id="afvpNoteInput"
+          rows="3" placeholder="Write a note at this timestamp…"></textarea>
+        <button class="afvp-note-save" onclick="AFPlayer.saveNote()" style="margin-top:8px">Save Note</button>
+      </div>
+      <div>
+        <div class="afvp-sg-label">Your Notes</div>
+        <div class="afvp-notes-list" id="afvpNotesList">
+          <p class="afvp-notes-empty">No notes yet. Add one above!</p>
+        </div>
+        <button class="afvp-export-btn" onclick="AFPlayer.exportNotes()" style="margin-top:10px">Export Notes as Text</button>
       </div>
     </div>
+  </div>
  
-    <!-- Panel backdrop -->
-    <div class="afvp-backdrop afvp-hidden" id="afvpBackdrop" onclick="AFVP.closePanels()"></div>
+  <!-- Backdrop -->
+  <div class="afvp-backdrop hidden" id="afvpBackdrop" onclick="AFPlayer.closePanels()"></div>
  
-  </div><!-- /video-wrap -->
- 
-  <!-- ══════════ META SECTION ══════════ -->
-  <div class="afvp-meta-section" id="afvpMetaSection">
- 
-    <!-- Title -->
-    <div class="afvp-meta-title-block">
-      <h2 id="afvpMetaTitleBelow">Polynomials – All Concepts, Tricks &amp; PYQs Covered Class 12 – JEE</h2>
-      <div class="afvp-meta-sub" id="afvpMetaSubBelow">Mathematics · Chapter 2 · JEE Preparation</div>
-    </div>
- 
-    <!-- Tabs -->
-    <div class="afvp-tabs" role="tablist" aria-label="Video information tabs">
-      <button class="afvp-tab afvp-tab-active" id="afvpTab0"
-        onclick="AFVP.switchTab(0)" role="tab" aria-selected="true" aria-controls="afvpPanel0" type="button">
-        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Comments
-      </button>
-      <button class="afvp-tab" id="afvpTab1"
-        onclick="AFVP.switchTab(1)" role="tab" aria-selected="false" aria-controls="afvpPanel1" type="button">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Timeline
-      </button>
-      <button class="afvp-tab" id="afvpTab2"
-        onclick="AFVP.switchTab(2)" role="tab" aria-selected="false" aria-controls="afvpPanel2" type="button">
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        4.5 Rating
-      </button>
-      <button class="afvp-tab" id="afvpTab3"
-        onclick="AFVP.switchTab(3)" role="tab" aria-selected="false" aria-controls="afvpPanel3" type="button">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Report
-      </button>
-    </div>
- 
-    <!-- Tab Panel: Comments -->
-    <div class="afvp-tab-panel afvp-tab-panel-active" id="afvpPanel0" role="tabpanel" aria-labelledby="afvpTab0">
-      <!-- Comment input -->
-      <div class="afvp-comment-input-row">
-        <div class="afvp-comment-avatar" aria-hidden="true">AF</div>
-        <input class="afvp-comment-input" type="text" id="afvpCommentInput"
-          placeholder="Chat Reply" aria-label="Write a comment" />
-        <button class="afvp-submit-btn" onclick="AFVP.submitComment()" type="button" aria-label="Submit comment">Submit</button>
-      </div>
-      <!-- Poll -->
-      <div class="afvp-poll-section">
-        <div class="afvp-poll-title">Poll Started</div>
-        <div class="afvp-poll-options">
-          <button class="afvp-poll-opt" onclick="AFVP.votePoll(this,'heavy')" type="button">🕶️ Heavy Driver</button>
-          <button class="afvp-poll-opt" onclick="AFVP.votePoll(this,'fast')"  type="button">🤟 Teach Fast</button>
-          <button class="afvp-poll-opt" onclick="AFVP.votePoll(this,'slow')"  type="button">🐢 Teach Slow</button>
-        </div>
-      </div>
-      <!-- Pinned comment -->
-      <div class="afvp-pinned">
-        <div class="afvp-pinned-avatar" aria-hidden="true">P</div>
-        <div class="afvp-pinned-body">
-          <div class="afvp-pinned-name">
-            📌 Pinned by Pankaj Sir
-            <span class="afvp-verified" aria-label="Verified">✓</span>
-          </div>
-          <div class="afvp-pinned-text">Padhai Karte rahe, Notes bnate rahe Tab tak ke liye Okay Bye.</div>
-        </div>
-      </div>
-      <!-- Comments list -->
-      <div class="afvp-comments-list" id="afvpCommentsList">
-        <!-- populated by JS -->
-      </div>
-    </div>
- 
-    <!-- Tab Panel: Timeline -->
-    <div class="afvp-tab-panel" id="afvpPanel1" role="tabpanel" aria-labelledby="afvpTab1">
-      <div class="afvp-timeline-list" id="afvpTimelineList">
-        <!-- populated by JS -->
-      </div>
-    </div>
- 
-    <!-- Tab Panel: Rating -->
-    <div class="afvp-tab-panel" id="afvpPanel2" role="tabpanel" aria-labelledby="afvpTab2">
-      <div class="afvp-rating-section">
-        <div class="afvp-rating-score" id="afvpRatingScore">4.5</div>
-        <div class="afvp-rating-stars" id="afvpRatingStars" role="group" aria-label="Rate this video">
-          <!-- populated by JS -->
-        </div>
-        <div class="afvp-rating-label" id="afvpRatingLabel">Based on 2,184 ratings</div>
-      </div>
-    </div>
- 
-    <!-- Tab Panel: Report -->
-    <div class="afvp-tab-panel" id="afvpPanel3" role="tabpanel" aria-labelledby="afvpTab3">
-      <div style="display:flex;flex-direction:column;gap:8px;padding:4px 0">
-        <p style="font-size:13px;color:var(--afvp-text2);font-weight:600;line-height:1.6">
-          If you find any issue with this video — technical problem, wrong content, or inappropriate material — please report it.
-        </p>
-        <select style="padding:10px 12px;border-radius:11px;background:var(--afvp-input-bg);border:1px solid var(--afvp-input-border);color:var(--afvp-text);font-size:13px;font-family:inherit;outline:none" aria-label="Report reason">
-          <option value="">Select a reason</option>
-          <option>Audio not working</option>
-          <option>Video not loading</option>
-          <option>Wrong content</option>
-          <option>Poor quality</option>
-          <option>Other</option>
-        </select>
-        <button style="padding:11px;border-radius:11px;border:none;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit" type="button" onclick="AFVP.toast('Report submitted. Thank you!')" aria-label="Submit report">Submit Report</button>
-      </div>
-    </div>
- 
-  </div><!-- /meta-section -->
- 
-</div><!-- /afvpRoot -->
-</div><!-- /demo-wrap -->
- 
-<!-- Orientation overlay (mobile rotate hint) -->
-<div class="afvp-orient-overlay" id="afvpOrientOverlay" aria-live="polite">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <rect x="5" y="2" width="14" height="20" rx="2"/>
-    <line x1="12" y1="18" x2="12" y2="18"/>
-  </svg>
-  <h3>Rotate to Landscape</h3>
-  <p>Rotate your device for fullscreen experience</p>
-</div>
-      
+</div><!-- /afvp -->
+
       <!-- VIEW: BATCHES -->
       <div class="af-view" id="viewBatches" aria-label="Batches">
         <section id="batchaf" class="section">
@@ -10391,1456 +10021,776 @@ window.addEventListener(
   }
 );
 
-/* ═══════════════════════════════════════════════════════════════════
-   AF VIDEO PLAYER — COMPLETE PRODUCTION JAVASCRIPT
-   
-   Architecture:
-   - AFVP     : Main player controller
-   - AFVPYT   : YouTube engine
-   - AFVPNative: HLS/DASH/MP4 engine
-   - AFVPGesture: Touch & keyboard
-   - AFVPTheme : Theme management
-   - AFVPOrient: Orientation management
-═══════════════════════════════════════════════════════════════════ */
+    /* ╔══════════════════════════════════════════════════════════════╗
+   ║  AF VIDEO PLAYER SYSTEM — af-video-player.js               ║
+   ║  Paste before </body>. Works with YouTube IFrame API,       ║
+   ║  HLS.js (optional), DASH.js (optional), native HTML5 video ║ 
+   ╚══════════════════════════════════════════════════════════════╝  */
  
-'use strict';
- 
-/* ─── UTILS ─────────────────────────────────────────────────────── */
-function $id(id) { return document.getElementById(id); }
- 
-function fmt(sec) {
-  if (!sec || isNaN(sec) || sec < 0) return '0:00';
-  sec = Math.floor(sec);
-  var h = Math.floor(sec / 3600);
-  var m = Math.floor((sec % 3600) / 60);
-  var s = sec % 60;
-  if (h > 0) return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-  return m + ':' + String(s).padStart(2,'0');
+/* ── UTILS ── */
+function $id(id){ return document.getElementById(id); }
+function fmt(sec){
+  if(!sec||isNaN(sec)) return "0:00";
+  sec=Math.floor(sec);
+  var h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  if(h>0) return h+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  return m+":"+String(s).padStart(2,"0");
+}
+function clamp(v,a,b){ return Math.min(b,Math.max(a,v)); }
+function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function detectType(url){
+  if(!url) return "mp4";
+  var u=url.toLowerCase();
+  if(u.includes("youtube.com")||u.includes("youtu.be")) return "youtube";
+  if(u.includes(".m3u8")) return "hls";
+  if(u.includes(".mpd"))  return "dash";
+  if(u.includes(".webm")) return "webm";
+  return "mp4";
+}
+function ytId(url){
+  var m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m?m[1]:null;
+}
+function vidKey(url){
+  var h=0; for(var i=0;i<url.length;i++){h=((h<<5)-h)+url.charCodeAt(i);h|=0;}
+  return "afvp_"+Math.abs(h).toString(36);
+}
+function saveProg(key,t,d){
+  try{ localStorage.setItem(key,JSON.stringify({t:Math.floor(t),d:Math.floor(d),pct:d>0?Math.round(t/d*100):0,ts:Date.now()})); }catch(_){}
+}
+function loadProg(key){
+  try{ return JSON.parse(localStorage.getItem(key)||"null"); }catch(_){return null;}
 }
  
-function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+/* ── PLAYER ── */
+var P = window.AFPlayer = {
+  _cfg: null, _type: null, _key: null,
+  _yt: null, _ytOK: false,
+  _hls: null, _dash: null,
+  _playing: false, _muted: false, _vol: 1, _speed: 1,
+  _dur: 0, _cur: 0,
+  _fs: false, _autoplay: true, _loop: false, _datasaver: false,
+  _sleep: null, _qual: "auto",
+  _settOpen: false, _noteOpen: false,
+  _ctrlVis: true, _ctrlT: null, _cflashT: null,
+  _raf: null, _bookmarks: [], _notes: [],
+  _lpTimer: null,
+  _tStartX:0,_tStartY:0,_tStartT:0,_tStartVol:1,_tMode:null,
+  _progDragging: false,
  
-function detectVideoType(url) {
-  if (!url) return 'mp4';
-  var u = url.toLowerCase().split('?')[0];
-  if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
-  if (u.endsWith('.m3u8') || u.includes('.m3u8')) return 'hls';
-  if (u.endsWith('.mpd') || u.includes('.mpd')) return 'dash';
-  if (u.endsWith('.webm')) return 'webm';
-  if (u.endsWith('.ogg') || u.endsWith('.ogv')) return 'ogg';
-  return 'mp4';
-}
- 
-function extractYTId(url) {
-  if (!url) return null;
-  var patterns = [
-    /youtu\.be\/([A-Za-z0-9_-]{11})/,
-    /youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/)([A-Za-z0-9_-]{11})/,
-    /youtube\.com\/watch.*[?&]v=([A-Za-z0-9_-]{11})/
-  ];
-  for (var i = 0; i < patterns.length; i++) {
-    var m = url.match(patterns[i]);
-    if (m) return m[1];
-  }
-  return null;
-}
- 
-function makeVidKey(url) {
-  if (!url) return 'afvp_def';
-  var h = 0;
-  for (var i = 0; i < url.length; i++) { h = ((h << 5) - h) + url.charCodeAt(i); h |= 0; }
-  return 'afvp_' + Math.abs(h).toString(36);
-}
- 
-function saveProg(key, t, d) {
-  try { localStorage.setItem(key, JSON.stringify({ t: Math.floor(t), d: Math.floor(d), pct: d > 0 ? Math.round(t / d * 100) : 0, ts: Date.now() })); } catch(_) {}
-}
- 
-function loadProg(key) {
-  try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch(_) { return null; }
-}
- 
-function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
- 
-/* ─── THEME MANAGER ─────────────────────────────────────────────── */
-var AFVPTheme = {
-  _dark: true,
-  init: function() {
-    var saved = localStorage.getItem('afvp_theme');
-    this._dark = saved !== 'light';
-    this._apply();
-  },
-  toggle: function() {
-    this._dark = !this._dark;
-    localStorage.setItem('afvp_theme', this._dark ? 'dark' : 'light');
-    this._apply();
-  },
-  _apply: function() {
-    document.documentElement.setAttribute('data-theme', this._dark ? 'dark' : 'light');
-    var btn = $id('themeToggleBtn');
-    if (btn) btn.textContent = this._dark ? '☀️ Light' : '🌙 Dark';
-  }
-};
- 
-/* ─── ORIENTATION MANAGER ───────────────────────────────────────── */
-var AFVPOrient = {
-  _isMobile: false,
-  _isLandscape: false,
-  _immersive: false,
-  _lockRequested: false,
- 
-  init: function() {
-    this._isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    this._bind();
-    this._check();
+  /* ── OPEN ── */
+  open: function(cfg){
+    this._cfg      = cfg||{};
+    this._type     = cfg.type&&cfg.type!=="auto"?cfg.type:detectType(cfg.url);
+    this._key      = vidKey(cfg.url||"");
+    this._notes    = this._loadNotes();
+    this._bookmarks= [];
+    this._playing  = false; this._speed = 1; this._qual = "auto";
+    this._settOpen = false; this._noteOpen = false;
+    this._applyMeta();
+    $id("afvp").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    this._skeleton(true);
+    this._resetUI();
+    this._destroyEngine();
+    this._loadEngine();
+    this._bindProgress();
+    this._bindGestures();
+    this._bindKeyboard();
+    this._renderNotes();
   },
  
-  _bind: function() {
-    var self = this;
-    window.addEventListener('resize', function() { self._check(); });
-    window.addEventListener('orientationchange', function() { setTimeout(function() { self._check(); }, 200); });
-    if (screen.orientation) {
-      screen.orientation.addEventListener('change', function() { setTimeout(function() { self._check(); }, 200); });
-    }
-    document.addEventListener('fullscreenchange', function() { self._onFullscreenChange(); });
-    document.addEventListener('webkitfullscreenchange', function() { self._onFullscreenChange(); });
-    document.addEventListener('mozfullscreenchange', function() { self._onFullscreenChange(); });
+  close: function(){
+    this._destroyEngine();
+    this._stopRaf();
+    if(this._sleep) clearTimeout(this._sleep);
+    if(this._ctrlT) clearTimeout(this._ctrlT);
+    $id("afvp").classList.add("hidden");
+    document.body.style.overflow = "";
+    this.closePanels();
   },
  
-  _check: function() {
-    var w = window.innerWidth, h = window.innerHeight;
-    var isLandscape = w > h;
-    var isMobileLandscape = this._isMobile && isLandscape && w < 1100;
- 
-    this._isLandscape = isLandscape;
- 
-    if (isMobileLandscape && !this._immersive) {
-      this._enterImmersive();
-    } else if (!isLandscape && this._immersive && !document.fullscreenElement) {
-      this._exitImmersive();
-    }
+  /* ── META ── */
+  _applyMeta: function(){
+    var c=this._cfg;
+    $id("afvpCourse").textContent   = c.courseTitle||"";
+    $id("afvpTitle").textContent    = c.title||"Lecture";
+    $id("afvpChapter").textContent  = c.chapter||"";
+    $id("afvpCompleteSub").textContent = c.nextVideo
+      ? "Up next: "+(c.nextVideo.title||"Next Lecture")
+      : "You've completed this lecture!";
+    var pi = $id("afvpPosterImg"), po = $id("afvpPoster");
+    if(pi && c.poster){ pi.src=c.poster; po&&po.classList.remove("hidden"); }
+    else if(po){ po.classList.add("hidden"); }
+    var nb=$id("afvpNextBtn"); if(nb) nb.classList.toggle("hidden",!c.nextVideo);
   },
  
-  _enterImmersive: function() {
-    this._immersive = true;
-    var root = $id('afvpRoot');
-    if (root) root.classList.add('afvp-immersive');
-    document.body.style.overflow = 'hidden';
-    // Try to lock orientation
-    if (screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock('landscape').catch(function() {});
-    }
-    var overlay = $id('afvpOrientOverlay');
-    if (overlay) overlay.classList.remove('afvp-show');
+  /* ── RESET UI ── */
+  _resetUI: function(){
+    this._setPlay(false);
+    ["afvpSpinner","afvpError","afvpOffline","afvpCompletion","afvpSwipe","afvpSpeedInd"].forEach(function(id){
+      var e=$id(id); if(e) e.classList.add("hidden");
+    });
+    $id("afvpPlayed")  && ($id("afvpPlayed").style.width="0%");
+    $id("afvpBuffered") && ($id("afvpBuffered").style.width="0%");
+    $id("afvpThumb")   && ($id("afvpThumb").style.left="0%");
+    $id("afvpCur")     && ($id("afvpCur").textContent="0:00");
+    $id("afvp-dur")    && ($id("afvp-dur").textContent="0:00");
+    $id("afvpSpeedLbl") && ($id("afvpSpeedLbl").textContent="1×");
+    // reset speed chips
+    document.querySelectorAll("#afvpSpeedChips .afvp-chip").forEach(function(c){
+      c.classList.toggle("active", parseFloat(c.dataset.speed)===1);
+    });
+    // show controls
+    this._showCtrl();
+    this._sched();
   },
  
-  _exitImmersive: function() {
-    this._immersive = false;
-    var root = $id('afvpRoot');
-    if (root) root.classList.remove('afvp-immersive');
-    if (!document.fullscreenElement) {
-      document.body.style.overflow = '';
-    }
-    if (screen.orientation && screen.orientation.unlock) {
-      try { screen.orientation.unlock(); } catch(_) {}
-    }
+  _skeleton: function(on){
+    var s=$id("afvpSkeleton"); if(s) s.classList.toggle("hidden",!on);
   },
  
-  _onFullscreenChange: function() {
-    var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
-    var ex = $id('afvpFSExpand'), cm = $id('afvpFSCompress');
-    if (ex) ex.classList.toggle('afvp-hidden', isFS);
-    if (cm) cm.classList.toggle('afvp-hidden', !isFS);
-    if (isFS) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      if (!this._immersive) document.body.style.overflow = '';
-    }
+  /* ══════════════════════════════════════
+     ENGINES
+  ══════════════════════════════════════ */
+  _loadEngine: function(){
+    var t=this._type, url=this._cfg.url;
+    if(t==="youtube") this._loadYT(url);
+    else if(t==="hls") this._loadHLS(url);
+    else if(t==="dash") this._loadDASH(url);
+    else this._loadNative(url);
   },
  
-  requestFullscreen: function(el) {
-    if (el.requestFullscreen) return el.requestFullscreen();
-    if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
-    if (el.mozRequestFullScreen) return el.mozRequestFullScreen();
-    if (el.msRequestFullscreen) return el.msRequestFullscreen();
-    return Promise.reject(new Error('Fullscreen not supported'));
+  _destroyEngine: function(){
+    if(this._yt){ try{this._yt.destroy();}catch(_){} this._yt=null; this._ytOK=false;
+      var wrap=$id("afvp-yt-player"); if(wrap) wrap.innerHTML="";
+      $id("afvpYTWrap")&&$id("afvpYTWrap").classList.add("hidden");
+    }
+    if(this._hls){ try{this._hls.destroy();}catch(_){} this._hls=null; }
+    if(this._dash){ try{this._dash.reset();}catch(_){} this._dash=null; }
+    var vid=$id("afvp-vid");
+    if(vid){ vid.pause(); vid.src=""; vid.classList.add("hidden"); this._removeVidEvents(vid); }
   },
  
-  exitFullscreen: function() {
-    if (document.exitFullscreen) return document.exitFullscreen();
-    if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
-    if (document.mozCancelFullScreen) return document.mozCancelFullScreen();
-    if (document.msExitFullscreen) return document.msExitFullscreen();
-    return Promise.reject(new Error('Exit fullscreen not supported'));
-  }
-};
- 
-/* ─── MAIN PLAYER ───────────────────────────────────────────────── */
-var AFVP = (function() {
- 
-  /* internal state */
-  var _cfg = null;
-  var _type = null;
-  var _key = null;
- 
-  /* YT */
-  var _yt = null;
-  var _ytOK = false;
-  var _ytFallbackTried = false;
-  var _ytLevel = 1; /* 1=API, 2=iframe embed, 3=redirect */
- 
-  /* native */
-  var _hls = null;
-  var _dash = null;
-  var _vidHandlers = {};
- 
-  /* playback */
-  var _playing = false;
-  var _muted = false;
-  var _vol = 1;
-  var _speed = 1;
-  var _dur = 0;
-  var _cur = 0;
-  var _loop = false;
-  var _autoplay = true;
-  var _dataSaver = false;
-  var _qual = 'auto';
-  var _sleepTimer = null;
- 
-  /* UI */
-  var _ctrlVisible = true;
-  var _ctrlTimer = null;
-  var _cflashTimer = null;
-  var _settOpen = false;
-  var _notesOpen = false;
- 
-  /* progress */
-  var _progDragging = false;
-  var _raf = null;
- 
-  /* bookmarks / notes */
-  var _bookmarks = [];
-  var _notes = [];
- 
-  /* touch state */
-  var _tX = 0, _tY = 0, _tT = 0, _tMode = null, _tVolStart = 1;
-  var _lpTimer = null;
-  var _lastTap = 0;
- 
-  /* sample data */
-  var _sampleComments = [
-    { author: 'Anurag Kumar', time: '2 Mins Ago', text: 'Because the people who are crazy enough to think they can change the World are the ones who do.', likes: 230, initials: 'AK' },
-    { author: 'Anurag Kumar', time: '2 Mins Ago', text: 'Yes!', likes: 230, initials: 'AK' },
-    { author: 'Priya Singh', time: '5 Mins Ago', text: 'This explanation is crystal clear, sir! Thank you so much for covering all the PYQs.', likes: 145, initials: 'PS' },
-    { author: 'Rahul Dev', time: '8 Mins Ago', text: 'Best channel for JEE prep. Never missing a lecture! 🔥', likes: 98, initials: 'RD' }
-  ];
- 
-  var _sampleTimeline = [
-    { t: 0,    label: 'Introduction' },
-    { t: 180,  label: 'Basic Definitions & Types' },
-    { t: 600,  label: 'Degree of Polynomial' },
-    { t: 1080, label: 'Remainder Theorem' },
-    { t: 1500, label: 'Factor Theorem' },
-    { t: 2100, label: 'PYQ Practice Session' },
-    { t: 3200, label: 'Important Tricks' },
-    { t: 3900, label: 'Summary & Conclusion' }
-  ];
- 
-  /* ── helpers ── */
-  function $v(id) { return $id(id); }
- 
-  function _skeleton(on) {
-    var s = $v('afvpSkeleton'); if (s) s.classList.toggle('afvp-hidden', !on);
-  }
- 
-  function _hideAll() {
-    ['afvpYTWrap','afvpYTFallbackWrap','afvpVid','afvpPoster','afvpSkeleton',
-     'afvpError','afvpOffline','afvpCompletion','afvpSpinner','afvpSpeedInd',
-     'afvpSwipe'].forEach(function(id) {
-       var e = $v(id); if (e) e.classList.add('afvp-hidden');
-     });
-    var vid = $v('afvpVid'); if (vid) vid.classList.add('afvp-hidden');
-  }
- 
-  function _showState(which, msg) {
-    _skeleton(false);
-    var e = $v(which); if (e) e.classList.remove('afvp-hidden');
-    if (which === 'afvpError' && msg) {
-      var m = $v('afvpErrorMsg'); if (m) m.textContent = msg;
+  /* ─── YouTube ─── */
+  _loadYT: function(url){
+    var self=this, id=ytId(url);
+    if(!id){ this._showErr("Invalid YouTube URL."); return; }
+    $id("afvpYTWrap").classList.remove("hidden");
+    $id("afvp-vid").classList.add("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    // set YT poster if no custom poster
+    if(!this._cfg.poster){
+      var pi=$id("afvpPosterImg"), po=$id("afvpPoster");
+      if(pi){ pi.src="https://img.youtube.com/vi/"+id+"/maxresdefault.jpg"; }
+      if(po) po.classList.remove("hidden");
     }
-  }
- 
-  function _setPlayUI(playing) {
-    _playing = playing;
-    var cp = $v('afvpCenterPlay'), cpp = $v('afvpCenterPause'), cpr = $v('afvpCenterReplay');
-    if (cp) cp.classList.toggle('afvp-hidden', playing);
-    if (cpp) cpp.classList.toggle('afvp-hidden', !playing);
-    if (cpr) cpr.classList.add('afvp-hidden');
-    var bp = $v('afvpCtrlPlay'), bpp = $v('afvpCtrlPause');
-    if (bp) bp.classList.toggle('afvp-hidden', playing);
-    if (bpp) bpp.classList.toggle('afvp-hidden', !playing);
-  }
- 
-  function _showSpinner(on) {
-    var s = $v('afvpSpinner'); if (s) s.classList.toggle('afvp-hidden', !on);
-  }
- 
-  function _updateTimeUI(t, d) {
-    $v('afvpCurTime').textContent = fmt(t);
-    $v('afvpDurTime').textContent = fmt(d);
-    if (!_progDragging && d > 0) {
-      var pct = clamp(t / d * 100, 0, 100);
-      $v('afvpProgPlayed').style.width = pct + '%';
-      $v('afvpProgThumb').style.left = pct + '%';
-      $v('afvpProgInput').value = Math.round(pct * 10);
-      $v('afvpProgInput').setAttribute('aria-valuenow', Math.round(pct * 10));
-    }
-  }
- 
-  function _updateBuf(pct) {
-    var b = $v('afvpProgBuf'); if (b) b.style.width = clamp(pct, 0, 100) + '%';
-  }
- 
-  function _showCtrl() {
-    _ctrlVisible = true;
-    var t = $v('afvpTopbar'), b = $v('afvpBottom');
-    if (t) t.classList.remove('afvp-hide');
-    if (b) b.classList.remove('afvp-hide');
-  }
- 
-  function _hideCtrl() {
-    if (!_playing) return;
-    _ctrlVisible = false;
-    var t = $v('afvpTopbar'), b = $v('afvpBottom');
-    if (t) t.classList.add('afvp-hide');
-    if (b) b.classList.add('afvp-hide');
-  }
- 
-  function _toggleCtrl() {
-    if (_ctrlVisible) _hideCtrl(); else { _showCtrl(); _schedHide(); }
-  }
- 
-  function _schedHide() {
-    if (_ctrlTimer) clearTimeout(_ctrlTimer);
-    _ctrlTimer = setTimeout(function() { _hideCtrl(); }, 3500);
-  }
- 
-  function _flashCenter() {
-    var btn = $v('afvpCenterBtn'); if (!btn) return;
-    btn.classList.add('afvp-show');
-    clearTimeout(_cflashTimer);
-    _cflashTimer = setTimeout(function() { btn.classList.remove('afvp-show'); }, 680);
-  }
- 
-  function _flashSeek(side, secs) {
-    var el = $v('afvpFlash' + side);
-    var txt = $v('afvpFlash' + side + 'Txt');
-    if (!el) return;
-    if (txt) txt.textContent = (secs > 0 ? '+' : '') + secs + 's';
-    el.classList.remove('afvp-show'); void el.offsetWidth;
-    el.classList.add('afvp-show');
-    setTimeout(function() { el.classList.remove('afvp-show'); }, 680);
-  }
- 
-  function _onEnd() {
-    _setPlayUI(false);
-    var cp = $v('afvpCenterPlay'), cpr = $v('afvpCenterReplay');
-    if (cp) cp.classList.add('afvp-hidden');
-    if (cpr) cpr.classList.remove('afvp-hidden');
-    if (_loop) { pub.replay(); return; }
-    var compl = $v('afvpCompletion'); if (compl) compl.classList.remove('afvp-hidden');
-    var nb = $v('afvpNextBtn');
-    if (nb) nb.classList.toggle('afvp-hidden', !(_cfg && _cfg.nextVideo));
-    if (_autoplay && _cfg && _cfg.nextVideo) {
-      setTimeout(function() { pub.playNext(); }, 5500);
-    }
-    if (_cfg && typeof _cfg.onComplete === 'function') _cfg.onComplete();
-  }
- 
-  function _checkResume() {
-    if (!_key) return;
-    var prog = loadProg(_key);
-    if (prog && prog.t > 5 && prog.pct < 95 && prog.d > 0) {
-      setTimeout(function() {
-        pub.toast('Resuming from ' + fmt(prog.t));
-        pub.seek(prog.t);
-      }, 1400);
-    }
-  }
- 
-  /* ── RAF tick ── */
-  function _startRaf() {
-    _stopRaf();
-    var tick = function() {
-      var t = 0, d = _dur;
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { t = _yt.getCurrentTime() || 0; d = _yt.getDuration() || 0; } catch(_) {}
-      } else {
-        var vid = $v('afvpVid');
-        if (vid) { t = vid.currentTime || 0; d = vid.duration || 0; }
-      }
-      if (isNaN(d)) d = 0;
-      _cur = t; _dur = d;
-      _updateTimeUI(t, d);
-      if (d > 0) saveProg(_key, t, d);
-      _raf = requestAnimationFrame(tick);
-    };
-    _raf = requestAnimationFrame(tick);
-  }
- 
-  function _stopRaf() {
-    if (_raf) { cancelAnimationFrame(_raf); _raf = null; }
-  }
- 
-  /* ── Engine destroy ── */
-  function _destroyEngines() {
-    if (_yt) {
-      try { _yt.destroy(); } catch(_) {}
-      _yt = null; _ytOK = false;
-      var ytw = $v('afvpYTPlayer'); if (ytw) ytw.innerHTML = '';
-    }
-    if (_hls) { try { _hls.destroy(); } catch(_) {} _hls = null; }
-    if (_dash) { try { _dash.reset(); } catch(_) {} _dash = null; }
-    var vid = $v('afvpVid');
-    if (vid) {
-      vid.pause();
-      vid.src = '';
-      vid.removeAttribute('src');
-      try { vid.load(); } catch(_) {}
-      _removeVidHandlers(vid);
-      vid.classList.add('afvp-hidden');
-    }
-    $v('afvpYTWrap') && $v('afvpYTWrap').classList.add('afvp-hidden');
-    $v('afvpYTFallbackWrap') && $v('afvpYTFallbackWrap').classList.add('afvp-hidden');
-  }
- 
-  /* ── YouTube engine ── */
-  function _loadYT(url) {
-    var ytId = extractYTId(url);
-    if (!ytId) { _loadYTFallback(url); return; }
- 
-    $v('afvpYTWrap').classList.remove('afvp-hidden');
-    $v('afvpVid').classList.add('afvp-hidden');
- 
-    // Show YouTube thumbnail as poster
-    if (!(_cfg && _cfg.poster)) {
-      var pi = $v('afvpPosterImg'), po = $v('afvpPoster');
-      if (pi) pi.src = 'https://img.youtube.com/vi/' + ytId + '/maxresdefault.jpg';
-      if (po) po.classList.remove('afvp-hidden');
-    }
- 
-    var _makePlayer = function() {
-      var container = $v('afvpYTPlayer');
-      if (!container) return;
-      container.innerHTML = '';
-      try {
-        _yt = new YT.Player('afvpYTPlayer', {
-          videoId: ytId,
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            rel: 0,
-            modestbranding: 1,
-            iv_load_policy: 3,
-            disablekb: 1,
-            playsinline: 1,
-            fs: 0,
-            start: (_cfg && _cfg.startTime) ? Math.floor(_cfg.startTime) : 0,
-            enablejsapi: 1,
-            origin: window.location.origin || '*'
+    var make=function(){
+      var w=$id("afvp-yt-player"); if(w) w.innerHTML="";
+      self._yt = new YT.Player("afvp-yt-player",{
+        videoId: id,
+        playerVars:{autoplay:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,disablekb:1,playsinline:1,start:self._cfg.startTime||0},
+        events:{
+          onReady: function(e){
+            self._ytOK=true;
+            self._dur=e.target.getDuration()||0;
+            $id("afvp-dur").textContent=fmt(self._dur);
+            self._skeleton(false);
+            $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+            e.target.setVolume(self._vol*100);
+            e.target.setPlaybackRate(self._speed);
+            self._startRaf();
+            self._checkResume();
           },
-          events: {
-            onReady: function(e) {
-              _ytOK = true;
-              _dur = e.target.getDuration() || 0;
-              $v('afvpDurTime').textContent = fmt(_dur);
-              _skeleton(false);
-              var po = $v('afvpPoster'); if (po) po.classList.add('afvp-hidden');
-              try { e.target.setVolume(_vol * 100); } catch(_) {}
-              try { e.target.setPlaybackRate(_speed); } catch(_) {}
-              _startRaf();
-              _checkResume();
-              _showCtrl(); _schedHide();
-            },
-            onStateChange: function(e) {
-              var S = YT.PlayerState;
-              if (e.data === S.PLAYING) {
-                _setPlayUI(true);
-                _showSpinner(false);
-              } else if (e.data === S.PAUSED) {
-                _setPlayUI(false);
-              } else if (e.data === S.BUFFERING) {
-                _showSpinner(true);
-              } else if (e.data === S.ENDED) {
-                _setPlayUI(false);
-                _showSpinner(false);
-                _onEnd();
-              } else if (e.data === S.CUED) {
-                _showSpinner(false);
-              }
-            },
-            onError: function(e) {
-              // Error codes: 2=invalid id, 5=HTML5 error, 100=removed, 101/150=embed disabled
-              console.warn('YT error code:', e.data);
-              if (_ytLevel < 2) {
-                _ytLevel = 2;
-                _loadYTFallback(url);
-              } else {
-                _showState('afvpError', 'This video cannot be played here. Try opening in YouTube.');
-              }
-            }
-          }
-        });
-      } catch(err) {
-        console.warn('YT API init failed:', err);
-        _loadYTFallback(url);
-      }
-    };
- 
-    if (window.YT && window.YT.Player) {
-      _makePlayer();
-    } else {
-      // Queue for API ready
-      var prev = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = function() {
-        if (prev) prev();
-        _makePlayer();
-      };
-      // Load API if not already loading
-      if (!$id('afvpYTApiScript')) {
-        var s = document.createElement('script');
-        s.id = 'afvpYTApiScript';
-        s.src = 'https://www.youtube.com/iframe_api';
-        document.head.appendChild(s);
-      }
-    }
-  }
- 
-  /* Level 2 fallback: plain iframe embed */
-  function _loadYTFallback(url) {
-    var ytId = extractYTId(url);
-    if (!ytId) { _showState('afvpError', 'Invalid YouTube URL.'); return; }
- 
-    _ytLevel = 2;
-    _destroyEngines();
- 
-    var fw = $v('afvpYTFallbackWrap');
-    var fi = $v('afvpYTFallback');
-    if (!fw || !fi) { _showState('afvpError', 'Player unavailable.'); return; }
- 
-    var embedUrl = 'https://www.youtube.com/embed/' + ytId +
-      '?autoplay=1&rel=0&modestbranding=1&playsinline=1' +
-      ((_cfg && _cfg.startTime) ? '&start=' + Math.floor(_cfg.startTime) : '');
- 
-    fi.src = embedUrl;
-    fw.classList.remove('afvp-hidden');
-    _skeleton(false);
- 
-    var po = $v('afvpPoster'); if (po) po.classList.add('afvp-hidden');
- 
-    // We cannot control native YT iframe well, so show limited UI
-    $v('afvpTopbar').classList.remove('afvp-hide');
-    $v('afvpBottom').classList.add('afvp-hide');
- 
-    pub.toast('Playing via embedded player');
-  }
- 
-  /* Level 3: open in YouTube */
-  function _openYTRedirect(url) {
-    window.open(url, '_blank');
-  }
- 
-  /* ── HLS engine ── */
-  function _loadHLS(url) {
-    var vid = $v('afvpVid');
-    vid.classList.remove('afvp-hidden');
-    $v('afvpYTWrap').classList.add('afvp-hidden');
-    $v('afvpYTFallbackWrap').classList.add('afvp-hidden');
- 
-    if (window.Hls && Hls.isSupported()) {
-      _hls = new Hls({
-        capLevelToPlayerSize: true,
-        startLevel: -1,
-        maxBufferLength: 30,
-        maxMaxBufferLength: 60
-      });
-      _hls.loadSource(url);
-      _hls.attachMedia(vid);
-      _hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        _skeleton(false);
-        vid.play().catch(function() {
-          var po = $v('afvpPoster'); if (po) po.classList.remove('afvp-hidden');
-        });
-      });
-      _hls.on(Hls.Events.ERROR, function(event, data) {
-        if (data.fatal) {
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-            _hls.startLoad();
-          } else {
-            _showState('afvpError', 'HLS stream error. Please try again.');
-          }
+          onStateChange: function(e){
+            var S=YT.PlayerState;
+            if(e.data===S.PLAYING){ self._playing=true; self._setPlay(true); $id("afvpSpinner")&&$id("afvpSpinner").classList.add("hidden"); }
+            else if(e.data===S.PAUSED){ self._playing=false; self._setPlay(false); }
+            else if(e.data===S.BUFFERING){ $id("afvpSpinner")&&$id("afvpSpinner").classList.remove("hidden"); }
+            else if(e.data===S.ENDED){ self._playing=false; self._setPlay(false); self._onEnd(); }
+          },
+          onError: function(e){ self._showErr("YouTube error ("+e.data+"). Try another video."); }
         }
       });
-    } else if (vid.canPlayType('application/vnd.apple.mpegurl')) {
-      // Safari native HLS
-      vid.src = url;
-      vid.play().catch(function() {});
-      _skeleton(false);
-    } else {
-      _showState('afvpError', 'HLS is not supported in this browser.');
-      return;
+    };
+    if(window.YT&&window.YT.Player){ make(); }
+    else{
+      var t=document.createElement("script"); t.src="https://www.youtube.com/iframe_api";
+      document.head.appendChild(t);
+      window.onYouTubeIframeAPIReady = make;
     }
-    _attachVidHandlers(vid);
-  }
+  },
  
-  /* ── DASH engine ── */
-  function _loadDASH(url) {
-    var vid = $v('afvpVid');
-    vid.classList.remove('afvp-hidden');
+  /* ─── HLS ─── */
+  _loadHLS: function(url){
+    var self=this, vid=$id("afvp-vid");
+    vid.classList.remove("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    if(window.Hls&&Hls.isSupported()){
+      this._hls=new Hls({capLevelToPlayerSize:true,startLevel:-1});
+      this._hls.loadSource(url);
+      this._hls.attachMedia(vid);
+      this._hls.on(Hls.Events.MANIFEST_PARSED,function(){ self._skeleton(false); vid.play().catch(function(){}); });
+      this._hls.on(Hls.Events.ERROR,function(e,d){ if(d.fatal) self._showErr("HLS stream error."); });
+    } else if(vid.canPlayType("application/vnd.apple.mpegurl")){
+      vid.src=url; vid.play().catch(function(){}); self._skeleton(false);
+    } else { this._showErr("HLS not supported."); return; }
+    this._attachVidEvents(vid);
+  },
  
-    if (window.dashjs) {
-      _dash = dashjs.MediaPlayer().create();
-      _dash.initialize(vid, url, true);
-      _dash.on('streamInitialized', function() { _skeleton(false); });
-      _dash.on('error', function() { _showState('afvpError', 'DASH stream error.'); });
-    } else {
-      // Fall back to native
-      _loadNative(url);
-      return;
-    }
-    _attachVidHandlers(vid);
-  }
+  /* ─── DASH ─── */
+  _loadDASH: function(url){
+    var vid=$id("afvp-vid");
+    vid.classList.remove("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    if(window.dashjs){
+      this._dash=dashjs.MediaPlayer().create();
+      this._dash.initialize(vid,url,true);
+      var self=this;
+      this._dash.on("streamInitialized",function(){ self._skeleton(false); });
+    } else { this._loadNative(url); return; }
+    this._attachVidEvents(vid);
+  },
  
-  /* ── Native video engine ── */
-  function _loadNative(url) {
-    var vid = $v('afvpVid');
-    vid.classList.remove('afvp-hidden');
-    $v('afvpYTWrap').classList.add('afvp-hidden');
- 
-    vid.src = url;
-    vid.playbackRate = _speed;
-    vid.volume = _vol;
-    if (_cfg && _cfg.startTime) vid.currentTime = _cfg.startTime;
+  /* ─── Native ─── */
+  _loadNative: function(url){
+    var self=this, vid=$id("afvp-vid");
+    vid.classList.remove("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    vid.src=url;
+    vid.playbackRate=this._speed;
+    vid.volume=this._vol;
+    vid.currentTime=this._cfg.startTime||0;
     vid.load();
-    vid.play().catch(function() {
-      var po = $v('afvpPoster'); if (po) po.classList.remove('afvp-hidden');
-      _skeleton(false);
+    vid.play().catch(function(){
+      var po=$id("afvpPoster"); if(po) po.classList.remove("hidden");
+      self._skeleton(false);
     });
-    _attachVidHandlers(vid);
-  }
+    this._attachVidEvents(vid);
+  },
  
-  /* ── Video element event handlers ── */
-  function _attachVidHandlers(vid) {
-    _vidHandlers = {
-      loadedmetadata: function() {
-        _dur = vid.duration || 0;
-        $v('afvpDurTime').textContent = fmt(_dur);
-        _skeleton(false);
-        var po = $v('afvpPoster'); if (po) po.classList.add('afvp-hidden');
-        if (_cfg && _cfg.startTime) vid.currentTime = _cfg.startTime;
-        _startRaf();
-        _checkResume();
-        _showCtrl(); _schedHide();
-        // Show PiP button if supported
-        if (document.pictureInPictureEnabled) {
-          var pipBtn = $v('afvpBtnPiP'); if (pipBtn) pipBtn.style.display = '';
+  /* ─── Native events ─── */
+  _vh: {},
+  _attachVidEvents: function(vid){
+    var self=this;
+    this._vh = {
+      loadedmetadata: function(){ self._dur=vid.duration||0; $id("afvp-dur").textContent=fmt(self._dur); self._skeleton(false); if(self._cfg.startTime) vid.currentTime=self._cfg.startTime; self._startRaf(); self._checkResume(); },
+      play:     function(){ self._playing=true; self._setPlay(true); $id("afvpSpinner")&&$id("afvpSpinner").classList.add("hidden"); },
+      pause:    function(){ self._playing=false; self._setPlay(false); },
+      waiting:  function(){ $id("afvpSpinner")&&$id("afvpSpinner").classList.remove("hidden"); },
+      canplay:  function(){ $id("afvpSpinner")&&$id("afvpSpinner").classList.add("hidden"); },
+      ended:    function(){ self._playing=false; self._setPlay(false); self._onEnd(); },
+      error:    function(){ self._showErr("Video could not be loaded."); },
+      progress: function(){
+        if(vid.buffered.length&&self._dur>0){
+          var pct=(vid.buffered.end(vid.buffered.length-1)/self._dur)*100;
+          $id("afvpBuffered").style.width=clamp(pct,0,100)+"%";
         }
-      },
-      play: function() { _setPlayUI(true); _showSpinner(false); },
-      pause: function() { _setPlayUI(false); },
-      waiting: function() { _showSpinner(true); },
-      canplay: function() { _showSpinner(false); },
-      ended: function() { _setPlayUI(false); _showSpinner(false); _onEnd(); },
-      error: function() {
-        var code = vid.error ? vid.error.code : 0;
-        var msgs = { 1:'Aborted', 2:'Network error', 3:'Decode error', 4:'Format not supported' };
-        _showState('afvpError', 'Video error: ' + (msgs[code] || 'Unknown error') + '. Please try again.');
-      },
-      progress: function() {
-        if (vid.buffered && vid.buffered.length && _dur > 0) {
-          var pct = (vid.buffered.end(vid.buffered.length - 1) / _dur) * 100;
-          _updateBuf(pct);
-        }
-      },
-      volumechange: function() {
-        _vol = vid.volume; _muted = vid.muted;
-        var vs = $v('afvpVolSlider'); if (vs) vs.value = Math.round(_vol * 100);
-        _updateVolIcon();
-      },
-      ratechange: function() {
-        _speed = vid.playbackRate;
-        var lbl = $v('afvpSpeedLbl'); if (lbl) lbl.textContent = _speed + '×';
-        _syncSpeedChips();
       }
     };
-    for (var ev in _vidHandlers) vid.addEventListener(ev, _vidHandlers[ev]);
-  }
+    for(var ev in this._vh) vid.addEventListener(ev, this._vh[ev]);
+  },
+  _removeVidEvents: function(vid){
+    for(var ev in this._vh) vid.removeEventListener(ev, this._vh[ev]);
+    this._vh={};
+  },
  
-  function _removeVidHandlers(vid) {
-    for (var ev in _vidHandlers) vid.removeEventListener(ev, _vidHandlers[ev]);
-    _vidHandlers = {};
-  }
+  /* ══════════════════════════════════════
+     PLAYBACK
+  ══════════════════════════════════════ */
+  play: function(){
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.playVideo();
+    else { var v=$id("afvp-vid"); if(v) v.play().catch(function(){}); }
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+  },
+  pause: function(){
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.pauseVideo();
+    else { var v=$id("afvp-vid"); if(v) v.pause(); }
+  },
+  togglePlay: function(){
+    if(this._playing) this.pause(); else this.play();
+    this._flashCenter(); this._showCtrl(); this._sched();
+  },
+  seek: function(s){
+    s=clamp(s,0,this._dur||999999);
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.seekTo(s,true);
+    else { var v=$id("afvp-vid"); if(v) v.currentTime=s; }
+    this._cur=s; this._updateUI(s,this._dur);
+  },
+  skip: function(s){ this.seek((this._cur||0)+s); },
+  replay: function(){
+    this.seek(0);
+    $id("afvpCompletion")&&$id("afvpCompletion").classList.add("hidden");
+    this.play();
+  },
+  playNext: function(){
+    var next=this._cfg&&this._cfg.nextVideo;
+    $id("afvpCompletion")&&$id("afvpCompletion").classList.add("hidden");
+    if(next){ this.close(); this.open(next); } else { this.close(); }
+  },
+  retry: function(){
+    $id("afvpError")&&$id("afvpError").classList.add("hidden");
+    $id("afvpOffline")&&$id("afvpOffline").classList.add("hidden");
+    this._destroyEngine(); this._skeleton(true); this._loadEngine();
+  },
+  checkOnline: function(){
+    if(navigator.onLine) this.retry();
+    else this._showErr("Still offline.",true);
+  },
  
-  function _updateVolIcon() {
-    var w1 = $v('afvpWave1'), w2 = $v('afvpWave2');
-    if (w1) w1.style.opacity = _muted ? '0.2' : '1';
-    if (w2) w2.style.opacity = (_muted || _vol < 0.4) ? '0.2' : '1';
-  }
- 
-  function _syncSpeedChips() {
-    document.querySelectorAll('#afvpSpeedChips .afvp-chip').forEach(function(c) {
-      c.classList.toggle('afvp-active', parseFloat(c.dataset.speed) === _speed);
+  /* ── Speed / Quality / Volume ── */
+  setSpeed: function(sp){
+    this._speed=sp;
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.setPlaybackRate(sp);
+    else { var v=$id("afvp-vid"); if(v) v.playbackRate=sp; }
+    $id("afvpSpeedLbl").textContent=sp+"×";
+    document.querySelectorAll("#afvpSpeedChips .afvp-chip").forEach(function(c){
+      c.classList.toggle("active",parseFloat(c.dataset.speed)===sp);
     });
-    var lbl = $v('afvpSpeedLbl');
-    if (lbl) lbl.textContent = (_speed === 1 ? 'Normal' : _speed + '×');
-  }
- 
-  /* ── Progress bar ── */
-  function _bindProgress() {
-    var inp = $v('afvpProgInput');
-    var wrap = $v('afvpProgWrap');
-    var tooltip = $v('afvpProgTooltip');
- 
-    if (!inp) return;
- 
-    inp.addEventListener('input', function() {
-      _progDragging = true;
-      if (wrap) wrap.classList.add('afvp-dragging');
-      var pct = parseInt(this.value) / 1000;
-      var t = pct * _dur;
-      $v('afvpProgPlayed').style.width = (pct * 100) + '%';
-      $v('afvpProgThumb').style.left = (pct * 100) + '%';
-      $v('afvpCurTime').textContent = fmt(t);
-      if (tooltip) { tooltip.textContent = fmt(t); tooltip.style.left = (pct * 100) + '%'; }
+  },
+  cycleSpeed: function(){
+    var speeds=[0.5,0.75,1,1.25,1.5,2];
+    var i=speeds.indexOf(this._speed);
+    this.setSpeed(speeds[(i+1)%speeds.length]);
+  },
+  setQuality: function(q){
+    this._qual=q;
+    document.querySelectorAll("#afvpQualChips .afvp-chip").forEach(function(c){
+      c.classList.toggle("active",c.dataset.q===q);
     });
+    if(this._hls){
+      if(q==="auto"){ this._hls.currentLevel=-1; return; }
+      var lvls=this._hls.levels, best=-1, bd=Infinity;
+      if(lvls) lvls.forEach(function(l,i){ var d=Math.abs(l.height-parseInt(q)); if(d<bd){bd=d;best=i;} });
+      if(best>=0) this._hls.currentLevel=best;
+    }
+  },
+  toggleMute: function(){
+    this._muted=!this._muted;
+    if(this._type==="youtube"&&this._yt&&this._ytOK){ this._muted?this._yt.mute():this._yt.unMute(); }
+    else { var v=$id("afvp-vid"); if(v) v.muted=this._muted; }
+    var w1=$id("afvpWave1"), w2=$id("afvpWave2");
+    if(w1) w1.style.opacity=this._muted?"0.2":"1";
+    if(w2) w2.style.opacity=this._muted?"0.2":"1";
+  },
+  setVolume: function(v){
+    this._vol=clamp(v,0,1);
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.setVolume(this._vol*100);
+    else { var vid=$id("afvp-vid"); if(vid) vid.volume=this._vol; }
+    var vs=$id("afvpVolSlider"); if(vs) vs.value=Math.round(this._vol*100);
+  },
  
-    inp.addEventListener('change', function() {
-      _progDragging = false;
-      if (wrap) wrap.classList.remove('afvp-dragging');
-      var pct = parseInt(this.value) / 1000;
-      pub.seek(pct * _dur);
-    });
+  /* ── Fullscreen ── */
+  toggleFullscreen: function(){
+    var el=$id("afvp");
+    if(!document.fullscreenElement){
+      if(el.requestFullscreen) el.requestFullscreen();
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      this._fs=true;
+    } else {
+      if(document.exitFullscreen) document.exitFullscreen();
+      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+      this._fs=false;
+    }
+    var ex=$id("afvpFSExpand"), cm=$id("afvpFSCompress");
+    if(ex) ex.classList.toggle("hidden",this._fs);
+    if(cm) cm.classList.toggle("hidden",!this._fs);
+  },
  
-    // Tooltip on hover
-    inp.addEventListener('mousemove', function(e) {
-      if (!tooltip || !_dur) return;
-      var rect = inp.getBoundingClientRect();
-      var pct = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-      tooltip.textContent = fmt(pct * _dur);
-      tooltip.style.left = (pct * 100) + '%';
-    });
+  /* ── Settings / Notes panels ── */
+  openSettings: function(){
+    this.closeNotes();
+    $id("afvpSettings").classList.toggle("hidden");
+    this._settOpen=!$id("afvpSettings").classList.contains("hidden");
+    $id("afvpBackdrop").classList.toggle("hidden",!this._settOpen);
+  },
+  closeSettings: function(){
+    $id("afvpSettings").classList.add("hidden");
+    this._settOpen=false;
+    if(!this._noteOpen) $id("afvpBackdrop").classList.add("hidden");
+  },
+  openNotes: function(){
+    this.closeSettings();
+    $id("afvpNotes").classList.toggle("hidden");
+    this._noteOpen=!$id("afvpNotes").classList.contains("hidden");
+    $id("afvpBackdrop").classList.toggle("hidden",!this._noteOpen);
+    if(this._noteOpen){
+      var ts=$id("afvpNoteTs"); if(ts) ts.textContent="@ "+fmt(this._cur||0);
+    }
+  },
+  closeNotes: function(){
+    $id("afvpNotes").classList.add("hidden");
+    this._noteOpen=false;
+    if(!this._settOpen) $id("afvpBackdrop").classList.add("hidden");
+  },
+  closePanels: function(){ this.closeSettings(); this.closeNotes(); },
  
-    // Volume slider
-    var vs = $v('afvpVolSlider');
-    if (vs) {
-      vs.addEventListener('input', function() {
-        pub.setVolume(parseInt(this.value) / 100);
+  /* ── Toggles ── */
+  toggleLoop:     function(on){ this._loop=on; var v=$id("afvp-vid"); if(v) v.loop=on; },
+  toggleAutoplay: function(on){ this._autoplay=on; },
+  toggleDataSaver:function(on){ this._datasaver=on; this.setQuality(on?"360":"auto"); },
+  setSleep: function(min){
+    if(this._sleep) clearTimeout(this._sleep);
+    if(min>0){ var self=this; this._sleep=setTimeout(function(){ self.pause(); self._toast("Sleep timer: paused."); },min*60000); this._toast("Sleep timer: "+min+"m"); }
+    else this._toast("Sleep timer off");
+  },
+ 
+  /* ── Bookmark ── */
+  toggleBookmark: function(){
+    var t=this._cur||0, btn=$id("afvpBtnBookmark");
+    var ex=this._bookmarks.some(function(b){ return Math.abs(b.t-t)<2; });
+    if(ex){ this._bookmarks=this._bookmarks.filter(function(b){ return Math.abs(b.t-t)>=2; }); if(btn) btn.classList.remove("bookmarked"); this._toast("Bookmark removed"); }
+    else{ this._bookmarks.push({t:t}); if(btn) btn.classList.add("bookmarked"); this._toast("Bookmarked at "+fmt(t)); }
+  },
+ 
+  /* ── Notes ── */
+  _loadNotes: function(){
+    try{ return JSON.parse(localStorage.getItem("afvp_n_"+(this._key||""))||"[]"); }catch(_){ return []; }
+  },
+  _saveNotes: function(){
+    try{ localStorage.setItem("afvp_n_"+(this._key||""),JSON.stringify(this._notes)); }catch(_){}
+  },
+  saveNote: function(){
+    var inp=$id("afvpNoteInput"), txt=inp?inp.value.trim():"";
+    if(!txt) return;
+    this._notes.push({id:Date.now(),t:this._cur||0,txt:txt});
+    this._notes.sort(function(a,b){return a.t-b.t;});
+    this._saveNotes(); this._renderNotes();
+    if(inp) inp.value="";
+    var ts=$id("afvpNoteTs"); if(ts) ts.textContent="@ "+fmt(this._cur||0);
+  },
+  deleteNote: function(id){
+    this._notes=this._notes.filter(function(n){return n.id!==id;});
+    this._saveNotes(); this._renderNotes();
+  },
+  _renderNotes: function(){
+    var list=$id("afvpNotesList"); if(!list) return;
+    if(!this._notes.length){ list.innerHTML='<p class="afvp-notes-empty">No notes yet. Add one above!</p>'; return; }
+    var self=this;
+    list.innerHTML=this._notes.map(function(n){
+      return '<div class="afvp-note-item">'
+        +'<span class="afvp-note-item-ts" onclick="AFPlayer.seek('+n.t+')">▶ '+fmt(n.t)+'</span>'
+        +'<p class="afvp-note-item-text">'+esc(n.txt)+'</p>'
+        +'<button class="afvp-note-del" onclick="AFPlayer.deleteNote('+n.id+')">Delete</button>'
+        +'</div>';
+    }).join("");
+  },
+  exportNotes: function(){
+    var lines=["=== VIDEO NOTES ===","Video: "+(this._cfg&&this._cfg.title||""),""]; 
+    this._notes.forEach(function(n){ lines.push("["+fmt(n.t)+"] "+n.txt); });
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/plain"}));
+    a.download="notes-"+((this._cfg&&this._cfg.title||"video").replace(/\s+/g,"-"))+".txt";
+    a.click();
+  },
+ 
+  /* ══════════════════════════════════════
+     PROGRESS RAF LOOP
+  ══════════════════════════════════════ */
+  _startRaf: function(){
+    var self=this; this._stopRaf();
+    var loop=function(){ self._tick(); self._raf=requestAnimationFrame(loop); };
+    this._raf=requestAnimationFrame(loop);
+  },
+  _stopRaf: function(){
+    if(this._raf){ cancelAnimationFrame(this._raf); this._raf=null; }
+  },
+  _tick: function(){
+    var t=0, d=this._dur;
+    if(this._type==="youtube"&&this._yt&&this._ytOK){
+      t=this._yt.getCurrentTime()||0;
+      d=this._yt.getDuration()||0;
+    } else {
+      var v=$id("afvp-vid"); if(v){ t=v.currentTime; d=v.duration||0; }
+    }
+    this._cur=t; this._dur=d;
+    this._updateUI(t,d);
+    if(d>0) saveProg(this._key,t,d);
+  },
+  _updateUI: function(t,d){
+    var pct=d>0?clamp(t/d*100,0,100):0;
+    $id("afvpCur").textContent=fmt(t);
+    $id("afvp-dur").textContent=fmt(d);
+    if(!this._progDragging){
+      $id("afvpPlayed").style.width=pct+"%";
+      $id("afvpThumb").style.left=pct+"%";
+      $id("afvpProgInput").value=Math.round(pct*10);
+    }
+  },
+ 
+  /* ══════════════════════════════════════
+     PROGRESS BAR BINDING
+  ══════════════════════════════════════ */
+  _bindProgress: function(){
+    var self=this;
+    var inp=$id("afvpProgInput"), wrap=$id("afvpProgWrap");
+    var vs=$id("afvpVolSlider");
+ 
+    if(inp){
+      inp.addEventListener("input",function(){
+        self._progDragging=true;
+        wrap&&wrap.classList.add("dragging");
+        var pct=parseInt(this.value)/1000;
+        var t=pct*self._dur;
+        $id("afvpPlayed").style.width=(pct*100)+"%";
+        $id("afvpThumb").style.left=(pct*100)+"%";
+        $id("afvpCur").textContent=fmt(t);
+      });
+      inp.addEventListener("change",function(){
+        self._progDragging=false;
+        wrap&&wrap.classList.remove("dragging");
+        var pct=parseInt(this.value)/1000;
+        self.seek(pct*self._dur);
       });
     }
-  }
+    if(vs){
+      vs.addEventListener("input",function(){
+        self.setVolume(parseInt(this.value)/100);
+      });
+    }
+  },
  
-  /* ── Gestures ── */
-  function _bindGestures() {
-    var g = $v('afvpGesture');
-    if (!g) return;
+  /* ══════════════════════════════════════
+     GESTURES (touch)
+  ══════════════════════════════════════ */
+  _bindGestures: function(){
+    var self=this;
+    var g=$id("afvpGesture"), va=$id("afvpVideoArea");
+    if(!g||!va) return;
  
-    // Double-click (desktop)
-    g.addEventListener('dblclick', function(e) {
-      if (e.target.closest('button')) return;
-      var rect = g.getBoundingClientRect();
-      var x = e.clientX - rect.left, w = g.offsetWidth;
-      if (x < w / 3) { pub.skip(-10); _flashSeek('L', -10); }
-      else if (x > 2 * w / 3) { pub.skip(10); _flashSeek('R', +10); }
-      else pub.togglePlay();
+    /* Double-tap (desktop dblclick) */
+    g.addEventListener("dblclick", function(e){
+      var rect=g.getBoundingClientRect();
+      var x=e.clientX-rect.left, w=g.offsetWidth;
+      if(x<w/3){ self.skip(-10); self._gfb("L"); }
+      else if(x>2*w/3){ self.skip(10); self._gfb("R"); }
+      else self.togglePlay();
     });
  
-    // Single click
-    g.addEventListener('click', function(e) {
-      if (e.target.closest('button')) return;
-      var now = Date.now();
-      if (now - _lastTap < 300) return; // suppress after double-tap
-      _lastTap = now;
-      _toggleCtrl();
+    /* Single tap = toggle controls */
+    g.addEventListener("click", function(e){
+      if(e.target.closest("button")) return;
+      self._toggleCtrl();
     });
  
-    // Touch start
-    g.addEventListener('touchstart', function(e) {
-      var t = e.touches[0];
-      _tX = t.clientX; _tY = t.clientY; _tT = Date.now();
-      _tMode = null; _tVolStart = _vol;
+    /* Touch start */
+    g.addEventListener("touchstart", function(e){
+      var t=e.touches[0];
+      self._tStartX=t.clientX; self._tStartY=t.clientY;
+      self._tStartT=Date.now(); self._tStartVol=self._vol;
+      self._tMode=null;
+      /* Long press → 2× speed */
+      self._lpTimer=setTimeout(function(){
+        self.setSpeed(2);
+        var ind=$id("afvpSpeedInd");
+        if(ind){ ind.classList.remove("hidden"); $id("afvpSpeedTxt").textContent="2× Speed"; }
+      },500);
+    },{passive:true});
  
-      // Long press → 2× speed
-      _lpTimer = setTimeout(function() {
-        pub.setSpeed(2);
-        var ind = $v('afvpSpeedInd');
-        if (ind) { ind.classList.remove('afvp-hidden'); $v('afvpSpeedIndTxt').textContent = '2× Speed'; }
-      }, 500);
-    }, { passive: true });
+    /* Touch move */
+    g.addEventListener("touchmove", function(e){
+      if(self._lpTimer){ clearTimeout(self._lpTimer); self._lpTimer=null; }
+      var t=e.touches[0];
+      var dx=t.clientX-self._tStartX, dy=t.clientY-self._tStartY;
+      var rect=g.getBoundingClientRect();
  
-    // Touch move
-    g.addEventListener('touchmove', function(e) {
-      if (_lpTimer) { clearTimeout(_lpTimer); _lpTimer = null; }
-      var t = e.touches[0];
-      var dx = t.clientX - _tX, dy = t.clientY - _tY;
-      var rect = g.getBoundingClientRect();
- 
-      if (!_tMode) {
-        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 14) _tMode = 'seek';
-        else if (Math.abs(dy) > 14) {
-          _tMode = (t.clientX > rect.width / 2) ? 'brightness' : 'volume';
-        }
+      if(!self._tMode){
+        if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>12) self._tMode="seek";
+        else if(Math.abs(dy)>12) self._tMode=t.clientX>rect.width/2?"brightness":"volume";
       }
- 
-      if (_tMode === 'volume') {
-        var nv = clamp(_tVolStart - (dy / rect.height), 0, 1);
-        pub.setVolume(nv); _showSwipe('🔊', nv);
-      } else if (_tMode === 'brightness') {
-        // Simulate brightness overlay
-        var bv = clamp(0.4 - (dy / rect.height), 0.1, 1);
-        var vw = $v('afvpVideoWrap'); if (vw) vw.style.filter = 'brightness(' + bv + ')';
-        _showSwipe('☀️', bv);
+      if(self._tMode==="volume"){
+        var nv=clamp(self._tStartVol-(dy/rect.height),0,1);
+        self.setVolume(nv); self._swipe("🔊",nv);
+      } else if(self._tMode==="brightness"){
+        var bv=clamp(0.35-(dy/rect.height),0.1,1);
+        var va2=$id("afvpVideoArea"); if(va2) va2.style.filter="brightness("+bv+")";
+        self._swipe("☀️",bv);
       }
-    }, { passive: true });
+    },{passive:true});
  
-    // Touch end
-    g.addEventListener('touchend', function(e) {
-      if (_lpTimer) { clearTimeout(_lpTimer); _lpTimer = null; }
- 
-      // Release long press speed
-      var elapsed = Date.now() - _tT;
-      if (_speed === 2 && elapsed > 480) {
-        pub.setSpeed(1);
-        var ind = $v('afvpSpeedInd'); if (ind) ind.classList.add('afvp-hidden');
+    /* Touch end */
+    g.addEventListener("touchend", function(e){
+      if(self._lpTimer){ clearTimeout(self._lpTimer); self._lpTimer=null; }
+      /* End 2× long press */
+      if(self._speed===2&&(Date.now()-self._tStartT)>480){
+        self.setSpeed(1);
+        var ind=$id("afvpSpeedInd"); if(ind) ind.classList.add("hidden");
       }
- 
-      if (_tMode === 'seek') {
-        var t2 = e.changedTouches[0];
-        var dx2 = t2.clientX - _tX;
-        var g2 = $v('afvpGesture');
-        var w2 = g2 ? g2.offsetWidth : window.innerWidth;
-        var sdt = (dx2 / w2) * _dur * 0.45;
-        pub.seek(clamp(_cur + sdt, 0, _dur || 999));
-        if (dx2 > 0) _flashSeek('R', Math.round(sdt));
-        else _flashSeek('L', Math.round(sdt));
-      } else if (_tMode === 'brightness') {
-        // Restore brightness
-        var vw2 = $v('afvpVideoWrap'); if (vw2) vw2.style.filter = '';
+      /* Seek on swipe */
+      if(self._tMode==="seek"){
+        var t2=e.changedTouches[0], rect=g.getBoundingClientRect();
+        var dx2=t2.clientX-self._tStartX;
+        var sdt=(dx2/rect.width)*self._dur*0.45;
+        self.seek(clamp((self._cur||0)+sdt,0,self._dur||999));
       }
- 
-      // Double tap seek
-      if (!_tMode && elapsed < 300) {
-        var now = Date.now();
-        if (now - _lastTap < 300) {
-          // double tap
-          var gt = e.changedTouches[0];
-          var gr = $v('afvpGesture'); if (!gr) return;
-          var gRect = gr.getBoundingClientRect();
-          var gx = gt.clientX - gRect.left, gw = gRect.width;
-          if (gx < gw / 3) { pub.skip(-10); _flashSeek('L', -10); }
-          else if (gx > 2 * gw / 3) { pub.skip(10); _flashSeek('R', +10); }
-          _lastTap = 0;
-          return;
-        }
-        _lastTap = now;
-      } else if (!_tMode) {
-        _toggleCtrl();
+      /* Quick tap */
+      if(!self._tMode&&(Date.now()-self._tStartT)<300){
+        self._toggleCtrl();
       }
+      self._tMode=null;
+      var sw=$id("afvpSwipe"); if(sw) sw.classList.add("hidden");
+    },{passive:true});
+  },
  
-      _tMode = null;
-      var sw = $v('afvpSwipe'); if (sw) sw.classList.add('afvp-hidden');
-    }, { passive: true });
-  }
+  _swipe: function(emoji, val){
+    var sw=$id("afvpSwipe"), fill=$id("afvpSwipeFill"), lbl=$id("afvpSwipeLabel");
+    if(!sw) return;
+    sw.classList.remove("hidden");
+    if(fill) fill.style.height=(val*100)+"%";
+    if(lbl)  lbl.textContent=emoji+" "+Math.round(val*100)+"%";
+  },
  
-  function _showSwipe(emoji, val) {
-    var sw = $v('afvpSwipe'), fill = $v('afvpSwipeFill'), lbl = $v('afvpSwipeLbl');
-    if (!sw) return;
-    sw.classList.remove('afvp-hidden');
-    if (fill) fill.style.height = (val * 100) + '%';
-    if (lbl) lbl.textContent = emoji + ' ' + Math.round(val * 100) + '%';
-  }
+  _gfb: function(side){
+    var el=$id("afvpGfb"+side);
+    if(!el) return;
+    el.classList.remove("show"); void el.offsetWidth;
+    el.classList.add("show");
+    setTimeout(function(){ el.classList.remove("show"); },700);
+  },
+ 
+  /* ── Controls visibility ── */
+  _showCtrl: function(){
+    this._ctrlVis=true;
+    $id("afvpTopbar")&&$id("afvpTopbar").classList.remove("hide");
+    $id("afvpBottom")&&$id("afvpBottom").classList.remove("hide");
+  },
+  _hideCtrl: function(){
+    if(!this._playing) return;
+    this._ctrlVis=false;
+    $id("afvpTopbar")&&$id("afvpTopbar").classList.add("hide");
+    $id("afvpBottom")&&$id("afvpBottom").classList.add("hide");
+  },
+  _toggleCtrl: function(){
+    if(this._ctrlVis) this._hideCtrl(); else { this._showCtrl(); this._sched(); }
+  },
+  _sched: function(){
+    var self=this;
+    if(this._ctrlT) clearTimeout(this._ctrlT);
+    this._ctrlT=setTimeout(function(){ self._hideCtrl(); },3200);
+  },
+ 
+  /* ── Center control flash ── */
+  _flashCenter: function(){
+    var btn=$id("afvpCplay"); if(!btn) return;
+    btn.classList.add("show");
+    clearTimeout(this._cflashT);
+    var self=this;
+    this._cflashT=setTimeout(function(){ btn.classList.remove("show"); },700);
+  },
+ 
+  /* ── Play state UI ── */
+  _setPlay: function(playing){
+    this._playing=playing;
+    $id("afvpIconPlay")  &&$id("afvpIconPlay").classList.toggle("hidden", playing);
+    $id("afvpIconPause") &&$id("afvpIconPause").classList.toggle("hidden",!playing);
+    $id("afvpIconReplay")&&$id("afvpIconReplay").classList.add("hidden");
+    $id("afvpPlaySm")    &&$id("afvpPlaySm").classList.toggle("hidden", playing);
+    $id("afvpPauseSm")   &&$id("afvpPauseSm").classList.toggle("hidden",!playing);
+  },
+ 
+  /* ── On end ── */
+  _onEnd: function(){
+    this._setPlay(false);
+    $id("afvpIconReplay")&&$id("afvpIconReplay").classList.remove("hidden");
+    $id("afvpIconPlay")  &&$id("afvpIconPlay").classList.add("hidden");
+    if(this._loop){ this.replay(); return; }
+    $id("afvpCompletion")&&$id("afvpCompletion").classList.remove("hidden");
+    if(this._autoplay&&this._cfg&&this._cfg.nextVideo){
+      var self=this; setTimeout(function(){ self.playNext(); },5000);
+    }
+    if(this._cfg&&this._cfg.onComplete) this._cfg.onComplete();
+  },
+ 
+  /* ── Resume ── */
+  _checkResume: function(){
+    var prog=loadProg(this._key);
+    if(prog&&prog.t>5&&prog.pct<95){
+      var self=this;
+      setTimeout(function(){ self._toast("Resuming from "+fmt(prog.t)); self.seek(prog.t); },1200);
+    }
+  },
+ 
+  /* ── Error display ── */
+  _showErr: function(msg, offline){
+    this._skeleton(false);
+    if(offline){ $id("afvpOffline")&&$id("afvpOffline").classList.remove("hidden"); }
+    else{ $id("afvpError")&&$id("afvpError").classList.remove("hidden"); var m=$id("afvpErrorMsg"); if(m) m.textContent=msg||"Error."; }
+  },
+ 
+  /* ── Toast ── */
+  _toast: function(msg){
+    var old=document.querySelector(".afvp-toast"); if(old) old.remove();
+    var t=document.createElement("div"); t.className="afvp-toast"; t.textContent=msg;
+    var overlay=$id("afvp"); if(overlay) overlay.appendChild(t);
+    setTimeout(function(){ if(t.parentNode) t.remove(); },2000);
+  },
  
   /* ── Keyboard ── */
-  function _bindKeyboard() {
-    document.addEventListener('keydown', function(e) {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
-      switch (e.key) {
-        case ' ': case 'k': case 'K': e.preventDefault(); pub.togglePlay(); break;
-        case 'ArrowRight': e.preventDefault(); pub.skip(10); _flashSeek('R', 10); _showCtrl(); _schedHide(); break;
-        case 'ArrowLeft':  e.preventDefault(); pub.skip(-10); _flashSeek('L', -10); _showCtrl(); _schedHide(); break;
-        case 'ArrowUp':    e.preventDefault(); pub.setVolume(_vol + 0.1); break;
-        case 'ArrowDown':  e.preventDefault(); pub.setVolume(_vol - 0.1); break;
-        case 'f': case 'F': pub.toggleFullscreen(); break;
-        case 'm': case 'M': pub.toggleMute(); break;
-        case ',': pub.setSpeed(Math.max(0.25, Math.round((_speed - 0.25) * 100) / 100)); break;
-        case '.': pub.setSpeed(Math.min(3, Math.round((_speed + 0.25) * 100) / 100)); break;
-        case 'Escape': pub.closePanels(); break;
+  _kbBound: false,
+  _bindKeyboard: function(){
+    if(this._kbBound) return;
+    this._kbBound=true;
+    var self=this;
+    document.addEventListener("keydown",function(e){
+      if(!$id("afvp")||$id("afvp").classList.contains("hidden")) return;
+      if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA") return;
+      switch(e.key){
+        case " ": case "k": e.preventDefault(); self.togglePlay(); break;
+        case "ArrowRight": e.preventDefault(); self.skip(10); break;
+        case "ArrowLeft":  e.preventDefault(); self.skip(-10); break;
+        case "ArrowUp":    e.preventDefault(); self.setVolume(self._vol+0.1); break;
+        case "ArrowDown":  e.preventDefault(); self.setVolume(self._vol-0.1); break;
+        case "f": case "F": self.toggleFullscreen(); break;
+        case "m": case "M": self.toggleMute(); break;
+        case "Escape": self.closePanels(); if(!self._settOpen&&!self._noteOpen) self.close(); break;
+        case ",": self.setSpeed(Math.max(0.25,self._speed-0.25)); break;
+        case ".": self.setSpeed(Math.min(3,self._speed+0.25)); break;
       }
     });
   }
+};
  
-  /* ── Network ── */
-  function _bindNetwork() {
-    window.addEventListener('offline', function() {
-      pub.pause();
-      _showState('afvpOffline');
-    });
-    window.addEventListener('online', function() {
-      var of = $v('afvpOffline'); if (of) of.classList.add('afvp-hidden');
-      pub.toast('Back online!');
-    });
-  }
- 
-  /* ── Meta UI population ── */
-  function _applyMeta(cfg) {
-    $v('afvpMetaCourse').textContent   = cfg.courseTitle  || '';
-    $v('afvpMetaTitle').textContent    = cfg.title        || 'Lecture';
-    $v('afvpMetaChapter').textContent  = cfg.chapter      || '';
-    $v('afvpMetaTitleBelow').textContent = cfg.title      || 'Lecture';
-    if (cfg.subtitle) $v('afvpMetaSubBelow').textContent  = cfg.subtitle;
- 
-    var nb = $v('afvpNextBtn');
-    if (nb) nb.classList.toggle('afvp-hidden', !(cfg.nextVideo));
- 
-    var complSub = $v('afvpComplSub');
-    if (complSub) complSub.textContent = cfg.nextVideo
-      ? 'Up next: ' + (cfg.nextVideo.title || 'Next Lecture')
-      : 'You\'ve completed this lecture!';
- 
-    if (cfg.poster) {
-      var pi = $v('afvpPosterImg'), po = $v('afvpPoster');
-      if (pi) pi.src = cfg.poster;
-      if (po) po.classList.remove('afvp-hidden');
-    }
-  }
- 
-  /* ── Populate sample data ── */
-  function _populateComments() {
-    var box = $v('afvpCommentsList'); if (!box) return;
-    box.innerHTML = _sampleComments.map(function(c) {
-      return '<div class="afvp-comment-item">'
-        + '<div class="afvp-comment-av" aria-hidden="true">' + esc(c.initials) + '</div>'
-        + '<div class="afvp-comment-body">'
-        + '<div class="afvp-comment-head">'
-        + '<span class="afvp-comment-author">' + esc(c.author) + '</span>'
-        + '<span class="afvp-comment-time">' + esc(c.time) + '</span>'
-        + '<button class="afvp-comment-report" type="button" aria-label="Report comment">⚠ Report</button>'
-        + '</div>'
-        + '<div class="afvp-comment-text">' + esc(c.text) + '</div>'
-        + '<button class="afvp-comment-likes" type="button" aria-label="Like comment">👍 ' + c.likes + ' Likes</button>'
-        + '</div></div>';
-    }).join('');
-  }
- 
-  function _populateTimeline() {
-    var box = $v('afvpTimelineList'); if (!box) return;
-    box.innerHTML = _sampleTimeline.map(function(item) {
-      return '<div class="afvp-timeline-item" onclick="AFVP.seek(' + item.t + ');AFVP.play()" tabindex="0" role="button" aria-label="Jump to ' + esc(item.label) + ' at ' + fmt(item.t) + '">'
-        + '<span class="afvp-timeline-ts">' + fmt(item.t) + '</span>'
-        + '<span class="afvp-timeline-text">' + esc(item.label) + '</span>'
-        + '</div>';
-    }).join('');
-  }
- 
-  function _populateRating() {
-    var box = $v('afvpRatingStars'); if (!box) return;
-    var rating = 4.5;
-    var html = '';
-    for (var i = 1; i <= 5; i++) {
-      var filled = i <= Math.floor(rating) ? '⭐' : (i - 0.5 <= rating ? '⭐' : '☆');
-      html += '<span class="afvp-star" onclick="AFVP.rateVideo(' + i + ')" role="radio" aria-label="' + i + ' star' + (i > 1 ? 's' : '') + '" tabindex="0">' + (i <= 4 ? '⭐' : '✨') + '</span>';
-    }
-    box.innerHTML = html;
-  }
- 
-  /* ── NOTES ── */
-  function _loadNotes() {
-    try { return JSON.parse(localStorage.getItem('afvp_n_' + (_key || '')) || '[]'); } catch(_) { return []; }
-  }
- 
-  function _saveNotes() {
-    try { localStorage.setItem('afvp_n_' + (_key || ''), JSON.stringify(_notes)); } catch(_) {}
-  }
- 
-  function _renderNotes() {
-    var list = $v('afvpNotesList'); if (!list) return;
-    if (!_notes.length) {
-      list.innerHTML = '<p class="afvp-notes-empty">No notes yet. Add one above!</p>';
-      return;
-    }
-    list.innerHTML = _notes.map(function(n) {
-      return '<div class="afvp-note-item">'
-        + '<span class="afvp-note-item-ts" onclick="AFVP.seek(' + n.t + ')" tabindex="0" role="button" aria-label="Jump to ' + fmt(n.t) + '">▶ ' + fmt(n.t) + '</span>'
-        + '<p class="afvp-note-item-text">' + esc(n.txt) + '</p>'
-        + '<button class="afvp-note-del" onclick="AFVP.deleteNote(' + n.id + ')" type="button" aria-label="Delete note">Delete</button>'
-        + '</div>';
-    }).join('');
-  }
- 
-  /* ── PUBLIC API ── */
-  var pub = {
- 
-    /* ── init ── */
-    init: function(cfg) {
-      _cfg = cfg || {};
-      _type = cfg.type && cfg.type !== 'auto' ? cfg.type : detectVideoType(cfg.url || '');
-      _key = makeVidKey(cfg.url || '');
-      _notes = _loadNotes();
-      _bookmarks = [];
-      _playing = false;
-      _speed = 1; _vol = 1; _muted = false;
-      _qual = 'auto'; _ytLevel = 1; _ytFallbackTried = false;
- 
-      // Reset UI
-      _hideAll();
-      _skeleton(true);
-      _setPlayUI(false);
-      _showSpinner(false);
-      _showCtrl();
- 
-      $v('afvpCurTime').textContent = '0:00';
-      $v('afvpDurTime').textContent = '0:00';
-      $v('afvpSpeedLbl').textContent = '1×';
-      $v('afvpProgPlayed').style.width = '0%';
-      $v('afvpProgBuf').style.width = '0%';
-      $v('afvpProgThumb').style.left = '0%';
-      $v('afvpProgInput').value = '0';
- 
-      // Sync toggles
-      var tl = $v('afvpTogLoop'), ta = $v('afvpTogAutoplay');
-      if (tl) tl.checked = _loop;
-      if (ta) ta.checked = _autoplay;
- 
-      _applyMeta(_cfg);
-      _destroyEngines();
-      _loadEngine();
-      _bindProgress();
-      _bindGestures();
-      _bindKeyboard();
-      _bindNetwork();
-      _renderNotes();
-      _populateComments();
-      _populateTimeline();
-      _populateRating();
- 
-      _schedHide();
- 
-      // Show PiP button if supported
-      var pipBtn = $v('afvpBtnPiP');
-      if (pipBtn) pipBtn.style.display = document.pictureInPictureEnabled ? '' : 'none';
-    },
- 
-    _loadEngine: function() {
-      var url = _cfg.url || '';
-      if (!url) { _showState('afvpError', 'No video URL provided.'); return; }
-      if (!navigator.onLine) { _showState('afvpOffline'); return; }
-      switch (_type) {
-        case 'youtube': _loadYT(url); break;
-        case 'hls': _loadHLS(url); break;
-        case 'dash': _loadDASH(url); break;
-        default: _loadNative(url); break;
-      }
-    },
- 
-    /* ── playback ── */
-    play: function() {
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { _yt.playVideo(); } catch(_) {}
-      } else {
-        var v = $v('afvpVid'); if (v) v.play().catch(function() {});
-      }
-      var po = $v('afvpPoster'); if (po) po.classList.add('afvp-hidden');
-    },
- 
-    pause: function() {
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { _yt.pauseVideo(); } catch(_) {}
-      } else {
-        var v = $v('afvpVid'); if (v) v.pause();
-      }
-    },
- 
-    togglePlay: function() {
-      if (_playing) this.pause(); else this.play();
-      _flashCenter(); _showCtrl(); _schedHide();
-    },
- 
-    seek: function(sec) {
-      sec = clamp(sec, 0, _dur || 999999);
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { _yt.seekTo(sec, true); } catch(_) {}
-      } else {
-        var v = $v('afvpVid'); if (v) v.currentTime = sec;
-      }
-      _cur = sec;
-      _updateTimeUI(sec, _dur);
-    },
- 
-    skip: function(secs) { this.seek(_cur + secs); },
- 
-    replay: function() {
-      var compl = $v('afvpCompletion'); if (compl) compl.classList.add('afvp-hidden');
-      this.seek(0);
-      this.play();
-    },
- 
-    playNext: function() {
-      var next = _cfg && _cfg.nextVideo;
-      var compl = $v('afvpCompletion'); if (compl) compl.classList.add('afvp-hidden');
-      if (next) {
-        _stopRaf(); _destroyEngines();
-        this.init(next);
-      }
-    },
- 
-    retry: function() {
-      var e = $v('afvpError'), o = $v('afvpOffline');
-      if (e) e.classList.add('afvp-hidden');
-      if (o) o.classList.add('afvp-hidden');
-      _ytLevel = 1;
-      _destroyEngines();
-      _skeleton(true);
-      this._loadEngine();
-    },
- 
-    checkOnline: function() {
-      if (navigator.onLine) this.retry();
-      else this.toast('Still offline. Please check your internet connection.');
-    },
- 
-    openFallback: function() {
-      var url = _cfg && _cfg.url;
-      if (!url) return;
-      if (_type === 'youtube') {
-        var ytId = extractYTId(url);
-        if (ytId) window.open('https://www.youtube.com/watch?v=' + ytId, '_blank');
-        else window.open(url, '_blank');
-      } else {
-        window.open(url, '_blank');
-      }
-    },
- 
-    /* ── speed / quality / volume ── */
-    setSpeed: function(sp) {
-      _speed = sp;
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { _yt.setPlaybackRate(sp); } catch(_) {}
-      } else {
-        var v = $v('afvpVid'); if (v) v.playbackRate = sp;
-      }
-      var lbl = $v('afvpSpeedLbl');
-      if (lbl) lbl.textContent = sp === 1 ? 'Normal' : sp + '×';
-      _syncSpeedChips();
-      // Speed indicator
-      var ind = $v('afvpSpeedInd'), txt = $v('afvpSpeedIndTxt');
-      if (ind && txt) {
-        txt.textContent = (sp === 1 ? 'Normal' : sp + '×') + ' Speed';
-        ind.classList.remove('afvp-hidden');
-        setTimeout(function() { ind.classList.add('afvp-hidden'); }, 1500);
-      }
-    },
- 
-    cycleSpeed: function() {
-      var speeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
-      var i = speeds.indexOf(_speed);
-      this.setSpeed(speeds[(i + 1) % speeds.length]);
-    },
- 
-    setQuality: function(q) {
-      _qual = q;
-      document.querySelectorAll('#afvpQualChips .afvp-chip').forEach(function(c) {
-        c.classList.toggle('afvp-active', c.dataset.q === q);
-      });
-      if (_hls) {
-        if (q === 'auto') { _hls.currentLevel = -1; return; }
-        var lvls = _hls.levels, best = -1, bd = Infinity;
-        if (lvls) lvls.forEach(function(l, idx) {
-          var d = Math.abs(l.height - parseInt(q));
-          if (d < bd) { bd = d; best = idx; }
-        });
-        if (best >= 0) _hls.currentLevel = best;
-      }
-    },
- 
-    setVolume: function(v) {
-      _vol = clamp(v, 0, 1);
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { _yt.setVolume(_vol * 100); if (_vol > 0 && _muted) _yt.unMute(); } catch(_) {}
-      } else {
-        var vid = $v('afvpVid'); if (vid) vid.volume = _vol;
-      }
-      var vs = $v('afvpVolSlider'); if (vs) vs.value = Math.round(_vol * 100);
-      _updateVolIcon();
-    },
- 
-    toggleMute: function() {
-      _muted = !_muted;
-      if (_type === 'youtube' && _yt && _ytOK) {
-        try { _muted ? _yt.mute() : _yt.unMute(); } catch(_) {}
-      } else {
-        var vid = $v('afvpVid'); if (vid) vid.muted = _muted;
-      }
-      _updateVolIcon();
-    },
- 
-    /* ── fullscreen ── */
-    toggleFullscreen: function() {
-      var el = $id('afvpRoot');
-      var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
-      if (!isFS) {
-        AFVPOrient.requestFullscreen(el).catch(function() {
-          // WebView fallback: enter immersive mode manually
-          AFVPOrient._enterImmersive();
-        });
-      } else {
-        AFVPOrient.exitFullscreen().catch(function() {});
-        if (AFVPOrient._immersive) AFVPOrient._exitImmersive();
-      }
-    },
- 
-    /* ── PiP ── */
-    togglePiP: function() {
-      var vid = $v('afvpVid');
-      if (!vid || _type === 'youtube') { this.toast('PiP not available for this video'); return; }
-      if (document.pictureInPictureElement) {
-        document.exitPictureInPicture().catch(function() {});
-      } else if (vid.requestPictureInPicture) {
-        vid.requestPictureInPicture().catch(function(e) {
-          this.toast('PiP not available: ' + e.message);
-        }.bind(this));
-      }
-    },
- 
-    /* ── panels ── */
-    toggleSettings: function() {
-      var p = $v('afvpSettingsPanel');
-      if (!p) return;
-      if (p.classList.contains('afvp-hidden')) {
-        this.closeNotes();
-        p.classList.remove('afvp-hidden');
-        $v('afvpBackdrop').classList.remove('afvp-hidden');
-        _settOpen = true;
-      } else {
-        this.closeSettings();
-      }
-    },
- 
-    closeSettings: function() {
-      var p = $v('afvpSettingsPanel'); if (p) p.classList.add('afvp-hidden');
-      _settOpen = false;
-      if (!_notesOpen) { var bd = $v('afvpBackdrop'); if (bd) bd.classList.add('afvp-hidden'); }
-    },
- 
-    toggleNotes: function() {
-      var p = $v('afvpNotesPanel');
-      if (!p) return;
-      if (p.classList.contains('afvp-hidden')) {
-        this.closeSettings();
-        p.classList.remove('afvp-hidden');
-        $v('afvpBackdrop').classList.remove('afvp-hidden');
-        _notesOpen = true;
-        var ts = $v('afvpNoteTS'); if (ts) ts.textContent = '@ ' + fmt(_cur || 0);
-      } else {
-        this.closeNotes();
-      }
-    },
- 
-    closeNotes: function() {
-      var p = $v('afvpNotesPanel'); if (p) p.classList.add('afvp-hidden');
-      _notesOpen = false;
-      if (!_settOpen) { var bd = $v('afvpBackdrop'); if (bd) bd.classList.add('afvp-hidden'); }
-    },
- 
-    closePanels: function() { this.closeSettings(); this.closeNotes(); },
- 
-    /* ── toggles ── */
-    setLoop: function(on) { _loop = on; var v = $v('afvpVid'); if (v) v.loop = on; },
-    setAutoplay: function(on) { _autoplay = on; },
-    setDataSaver: function(on) { _dataSaver = on; this.setQuality(on ? '360' : 'auto'); },
- 
-    setSleep: function(min) {
-      if (_sleepTimer) clearTimeout(_sleepTimer);
-      // Reset sleep chips
-      document.querySelectorAll('#afvpSettingsPanel .afvp-chips .afvp-chip').forEach(function(c) {
-        if (c.id === 'afvpSleepOff' || c.textContent.includes('m') || c.textContent.includes('h')) {
-          // skip speed/quality chips
-        }
-      });
-      var so = $v('afvpSleepOff');
-      if (min > 0) {
-        if (so) so.classList.remove('afvp-active');
-        var self = this;
-        _sleepTimer = setTimeout(function() { self.pause(); self.toast('Sleep timer: paused ⏸'); }, min * 60000);
-        this.toast('Sleep timer set: ' + min + 'm');
-      } else {
-        if (so) so.classList.add('afvp-active');
-        this.toast('Sleep timer off');
-      }
-    },
- 
-    /* ── bookmark ── */
-    toggleBookmark: function() {
-      var t = _cur || 0;
-      var btn = $v('afvpBtnBM');
-      var ex = _bookmarks.some(function(b) { return Math.abs(b.t - t) < 2; });
-      if (ex) {
-        _bookmarks = _bookmarks.filter(function(b) { return Math.abs(b.t - t) >= 2; });
-        if (btn) btn.classList.remove('afvp-bookmarked');
-        this.toast('Bookmark removed');
-      } else {
-        _bookmarks.push({ t: t, label: fmt(t) });
-        if (btn) btn.classList.add('afvp-bookmarked');
-        this.toast('Bookmarked at ' + fmt(t) + ' ⭐');
-      }
-    },
- 
-    /* ── notes ── */
-    saveNote: function() {
-      var inp = $v('afvpNoteInput');
-      var txt = inp ? inp.value.trim() : '';
-      if (!txt) return;
-      _notes.push({ id: Date.now(), t: _cur || 0, txt: txt });
-      _notes.sort(function(a, b) { return a.t - b.t; });
-      _saveNotes(); _renderNotes();
-      if (inp) inp.value = '';
-      var ts = $v('afvpNoteTS'); if (ts) ts.textContent = '@ ' + fmt(_cur || 0);
-      this.toast('Note saved ✓');
-    },
- 
-    deleteNote: function(id) {
-      _notes = _notes.filter(function(n) { return n.id !== id; });
-      _saveNotes(); _renderNotes();
-    },
- 
-    exportNotes: function() {
-      if (!_notes.length) { this.toast('No notes to export'); return; }
-      var lines = ['=== AF VIDEO NOTES ===', 'Video: ' + ((_cfg && _cfg.title) || ''), ''];
-      _notes.forEach(function(n) { lines.push('[' + fmt(n.t) + '] ' + n.txt); });
-      var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'notes-' + ((_cfg && _cfg.title) || 'video').replace(/\s+/g, '-') + '.txt';
-      a.click();
-    },
- 
-    /* ── tabs ── */
-    switchTab: function(idx) {
-      for (var i = 0; i < 4; i++) {
-        var tab = $v('afvpTab' + i), panel = $v('afvpPanel' + i);
-        if (tab) {
-          tab.classList.toggle('afvp-tab-active', i === idx);
-          tab.setAttribute('aria-selected', i === idx ? 'true' : 'false');
-        }
-        if (panel) panel.classList.toggle('afvp-tab-panel-active', i === idx);
-      }
-    },
- 
-    /* ── comment ── */
-    submitComment: function() {
-      var inp = $v('afvpCommentInput');
-      var txt = inp ? inp.value.trim() : '';
-      if (!txt) return;
-      var box = $v('afvpCommentsList');
-      if (box) {
-        var item = document.createElement('div');
-        item.className = 'afvp-comment-item';
-        item.innerHTML = '<div class="afvp-comment-av" aria-hidden="true">ME</div>'
-          + '<div class="afvp-comment-body">'
-          + '<div class="afvp-comment-head"><span class="afvp-comment-author">You</span><span class="afvp-comment-time">Just now</span></div>'
-          + '<div class="afvp-comment-text">' + esc(txt) + '</div>'
-          + '<button class="afvp-comment-likes" type="button">👍 0 Likes</button>'
-          + '</div>';
-        box.insertBefore(item, box.firstChild);
-      }
-      if (inp) inp.value = '';
-      this.toast('Comment posted ✓');
-    },
- 
-    /* ── poll ── */
-    votePoll: function(btn, option) {
-      document.querySelectorAll('.afvp-poll-opt').forEach(function(b) {
-        b.classList.remove('afvp-poll-selected');
-      });
-      btn.classList.add('afvp-poll-selected');
-      this.toast('Voted: ' + option);
-    },
- 
-    /* ── rating ── */
-    rateVideo: function(stars) {
-      var score = $v('afvpRatingScore');
-      if (score) score.textContent = stars + '.0';
-      var lbl = $v('afvpRatingLabel');
-      if (lbl) lbl.textContent = 'You rated ' + stars + ' star' + (stars > 1 ? 's' : '');
-      this.toast('Rated ' + '⭐'.repeat(stars));
-    },
- 
-    /* ── toast ── */
-    toast: function(msg, dur) {
-      dur = dur || 2200;
-      var old = $id('afvpRoot') ? $id('afvpRoot').querySelector('.afvp-toast') : null;
-      if (old) old.remove();
-      var t = document.createElement('div');
-      t.className = 'afvp-toast';
-      t.textContent = msg;
-      t.setAttribute('role', 'status');
-      t.setAttribute('aria-live', 'polite');
-      var root = $id('afvpRoot'); if (!root) { console.log(msg); return; }
-      root.appendChild(t);
-      setTimeout(function() { if (t.parentNode) t.remove(); }, dur);
-    },
- 
-    /* ── destroy / close ── */
-    close: function() {
-      _stopRaf();
-      _destroyEngines();
-      if (_sleepTimer) clearTimeout(_sleepTimer);
-      if (_ctrlTimer) clearTimeout(_ctrlTimer);
-      document.body.style.overflow = '';
-      if (AFVPOrient._immersive) AFVPOrient._exitImmersive();
-    }
-  };
- 
-  return pub;
-})();
- 
-/* ─── Demo: Load a sample video on page load ─────────────────────── */
-document.addEventListener('DOMContentLoaded', function() {
-  AFVPTheme.init();
-  AFVPOrient.init();
- 
-  // Demo: load a YouTube video — replace with any URL
-  AFVP.init({
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    title: 'Polynomials – All Concepts, Tricks & PYQs | Class 12 – JEE',
-    courseTitle: 'Mathematics',
-    chapter: 'Chapter 2 · Polynomials',
-    subtitle: 'Mathematics · Chapter 2 · JEE Preparation',
-    startTime: 0,
-    nextVideo: {
-      url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      title: 'Binomial Theorem – Complete Class 12',
-      courseTitle: 'Mathematics',
-      chapter: 'Chapter 3 · Binomial Theorem',
-      subtitle: 'Mathematics · Chapter 3 · JEE Preparation'
-    }
-  });
- 
-  // Expose openVideoaf for integration
-  window.openVideoaf = function(url, opts) {
-    AFVP.init(Object.assign({ url: url, title: 'Lecture' }, opts || {}));
-    var root = $id('afvpRoot');
-    if (root) root.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+/* ── Fullscreen change sync ── */
+document.addEventListener("fullscreenchange", function(){
+  var fs=!!document.fullscreenElement;
+  P._fs=fs;
+  var ex=$id("afvpFSExpand"), cm=$id("afvpFSCompress");
+  if(ex) ex.classList.toggle("hidden", fs);
+  if(cm) cm.classList.toggle("hidden", !fs);
+});
+document.addEventListener("webkitfullscreenchange", function(){
+  var fs=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  P._fs=fs;
+  var ex=$id("afvpFSExpand"), cm=$id("afvpFSCompress");
+  if(ex) ex.classList.toggle("hidden", fs);
+  if(cm) cm.classList.toggle("hidden", !fs);
 });
  
-// YouTube IFrame API hook
-window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || function() {};
+/* ── Network ── */
+window.addEventListener("offline", function(){
+  if($id("afvp")&&!$id("afvp").classList.contains("hidden")){
+    P.pause(); P._showErr("",true);
+  }
+});
+window.addEventListener("online", function(){
+  var of=$id("afvpOffline"); if(of) of.classList.add("hidden");
+  if(P._cfg) P._toast("Back online!");
+});
  
-// Fullscreen sync
-document.addEventListener('fullscreenchange',        function() { AFVPOrient._onFullscreenChange(); });
-document.addEventListener('webkitfullscreenchange',  function() { AFVPOrient._onFullscreenChange(); });
-document.addEventListener('mozfullscreenchange',     function() { AFVPOrient._onFullscreenChange(); });
+/* ── Integration helper ── */
+window.openVideoaf = function(url, opts){
+  AFPlayer.open(Object.assign({ url: url, title: "Lecture" }, opts||{}));
+};
+ 
+/* ── Mouse move = show controls ── */
+var _va = document.getElementById("afvpVideoArea");
+if(_va){
+  _va.addEventListener("mousemove", function(){
+    P._showCtrl(); P._sched();
+  });
+}
+ 
+
   </script>
 
 </body>
