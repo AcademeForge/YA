@@ -4983,24 +4983,23 @@ body{
 ════════════════════════════════════════════════════════ */
  
 /* ── Variables ── */
+  
 #afvp {
-  --vp-green:      #16a34a;
-  --vp-green-glow: rgba(22,163,74,0.35);
-  --vp-green-lite: rgba(22,163,74,0.15);
-  --vp-surface:    rgba(8,10,18,0.98);
-  --vp-surface2:   rgba(14,18,30,0.99);
-  --vp-border:     rgba(255,255,255,0.09);
-  --vp-text:       #f1f5f9;
-  --vp-muted:      #7d8fa3;
-  --vp-r:          14px;
-  --vp-ctrl-h:     54px;
-  --vp-topbar-h:   56px;
-  --vp-prog-h:     4px;
-  --vp-ease:       cubic-bezier(0.4,0,0.2,1);
-  --vp-spring:     cubic-bezier(0.34,1.56,0.64,1);
+  --g: #16a34a;
+  --gd: rgba(22,163,74,.35);
+  --gl: rgba(22,163,74,.15);
+  --s1: rgba(8,10,18,.98);
+  --s2: rgba(14,18,30,.99);
+  --bd: rgba(255,255,255,.09);
+  --tx: #f1f5f9;
+  --mu: #7d8fa3;
+  --r: 14px;
+  --ch: 54px;
+  --th: 56px;
+  --ez: cubic-bezier(.4,0,.2,1);
+  --sp: cubic-bezier(.34,1.56,.64,1);
 }
- 
-/* ── Overlay — fixed, full-screen ── */
+
 #afvp {
   position: fixed;
   inset: 0;
@@ -5009,816 +5008,540 @@ body{
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  color: var(--vp-text);
-  /* Default portrait centred — overridden in landscape/fullscreen */
-  --vp-w: min(100vw, 430px);
-  width:  var(--vp-w);
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  color: var(--tx);
+  width: min(100vw,430px);
   height: 100dvh;
   left: 50%;
   transform: translateX(-50%);
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
-}
- 
-#afvp.hidden { display: none !important; }
- 
-/* Landscape on real device */
-@media (orientation: landscape) {
-  #afvp {
-    width: 100vw !important;
-    height: 100dvh !important;
-    left: 0 !important;
-    transform: none !important;
-  }
-}
- 
-/* ── Shell ── */
-.afvp-shell {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: #000;
-}
- 
-/* ── TOP BAR ── */
-.afvp-topbar {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  min-height: var(--vp-topbar-h);
-  background: linear-gradient(to bottom, rgba(0,0,0,0.92) 0%, transparent 100%);
-  transition: opacity 0.22s var(--vp-ease), transform 0.22s var(--vp-ease);
-}
-.afvp-topbar.hide {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-}
-.afvp-back {
-  width: 40px; height: 40px;
-  border: none; border-radius: 12px;
-  background: rgba(255,255,255,0.12);
-  color: var(--vp-text);
-  display: grid; place-items: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  transition: background 0.15s, transform 0.15s var(--vp-spring);
-}
-.afvp-back:active { transform: scale(0.90); }
-.afvp-back svg { width: 20px; height: 20px; }
-.afvp-meta {
-  flex: 1; min-width: 0;
-  display: flex; flex-direction: column; gap: 1px;
-}
-.afvp-meta-course {
-  font-size: 10px; font-weight: 800;
-  color: var(--vp-green);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.afvp-meta-title {
-  font-size: 14px; font-weight: 900;
-  color: var(--vp-text);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  letter-spacing: -0.01em;
-}
-.afvp-meta-chapter {
-  font-size: 11px; font-weight: 600; color: var(--vp-muted);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.afvp-actions {
-  display: flex; align-items: center; gap: 3px; flex-shrink: 0;
-}
-.afvp-btn {
-  width: 38px; height: 38px;
-  border: none; border-radius: 11px;
-  background: rgba(255,255,255,0.08);
-  color: var(--vp-text);
-  display: grid; place-items: center;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition: background 0.15s, transform 0.15s var(--vp-spring);
-}
-.afvp-btn:active { transform: scale(0.88); }
-.afvp-btn svg { width: 18px; height: 18px; display: block; }
-.afvp-btn.bookmarked svg { fill: #facc15; stroke: #facc15; }
- 
-/* ── VIDEO AREA ── */
-.afvp-video-area {
-  flex: 1;
-  position: relative;
-  background: #000;
-  overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
- 
-/* ── CRITICAL: YouTube logo/UI blocker overlay ──
-   Covers the entire iframe so YT branding never shows.
-   Pointer-events none so clicks pass through to gesture layer. */
-.afvp-yt-blocker {
-  position: absolute;
-  inset: 0;
-  z-index: 8;               /* above iframe (z:2), below controls (z:10+) */
-  background: transparent;
-  pointer-events: none;
-}
-/* Black bars at top and bottom where YT logo appears */
-.afvp-yt-blocker::before,
-.afvp-yt-blocker::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  background: #000;
-}
-.afvp-yt-blocker::before {
-  top: 0;
-  height: 56px;             /* covers top YT bar */
-}
-.afvp-yt-blocker::after {
-  bottom: 0;
-  height: 68px;             /* covers bottom YT controls + logo */
-}
- 
-/* ── Skeleton ── */
-.afvp-skeleton {
-  position: absolute; inset: 0; z-index: 5;
-  background: #07090f;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 18px;
-}
-.afvp-shimmer {
-  position: absolute; inset: 0;
-  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
-  background-size: 200% 100%;
-  animation: afvp-shimmer 1.8s infinite;
-}
-@keyframes afvp-shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-.afvp-skeleton-ring {
-  width: 68px; height: 68px; border-radius: 50%;
-  background: rgba(255,255,255,0.05);
-  border: 2px solid rgba(255,255,255,0.08);
-  animation: afvp-pulse 1.6s ease infinite;
-}
-@keyframes afvp-pulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.9;transform:scale(1.07)} }
-.afvp-skeleton-bars { display:flex;flex-direction:column;gap:10px;align-items:center; }
-.afvp-skeleton-bar {
-  height: 9px; border-radius: 5px;
-  background: rgba(255,255,255,0.06);
-  animation: afvp-pulse 1.6s ease infinite;
-}
-.afvp-sbar-w60{width:190px}
-.afvp-sbar-w40{width:120px;animation-delay:.3s}
- 
-/* ── Poster ── */
-.afvp-poster {
-  position: absolute; inset: 0; z-index: 4;
-  display: flex; align-items: center; justify-content: center;
-}
-.afvp-poster img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(0.5);
-}
-.afvp-poster-overlay {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
-}
-.afvp-poster-play {
-  position: relative; z-index: 2;
-  width: 72px; height: 72px;
-  border: none; border-radius: 50%;
-  background: linear-gradient(135deg, var(--vp-green), #22c55e);
-  color: #fff;
-  display: grid; place-items: center;
-  cursor: pointer;
-  box-shadow: 0 0 0 0 var(--vp-green-glow), 0 18px 50px rgba(0,0,0,0.5);
-  animation: afvp-ring-pulse 2s ease infinite;
-  transition: transform 0.15s var(--vp-spring);
-}
-.afvp-poster-play:active { transform: scale(0.92); }
-.afvp-poster-play svg { width: 26px; height: 26px; margin-left: 3px; }
-@keyframes afvp-ring-pulse {
-  0%,100%{box-shadow:0 0 0 0 var(--vp-green-glow),0 18px 50px rgba(0,0,0,0.5)}
-  50%{box-shadow:0 0 0 14px rgba(22,163,74,0),0 18px 50px rgba(0,0,0,0.5)}
-}
- 
-/* ── YouTube container ── */
-.afvp-yt-wrap {
-  position: absolute; inset: 0; z-index: 2;
-  background: #000;
-  /* Extra negative margin to push YT chrome out of view */
-  overflow: hidden;
-}
-/* The iframe itself is scaled up slightly and shifted to hide YT UI bars */
-#afvp-yt-player {
-  position: absolute;
-  /* Push top so YT topbar goes above visible area */
-  top: -56px;
-  left: -2px;
-  width: calc(100% + 4px);
-  /* Extra height: 56px top + 68px bottom bars hidden */
-  height: calc(100% + 124px);
-  background: #000;
-  border: none;
-  pointer-events: none; /* gesture layer handles touch */
-}
-#afvp-yt-player iframe {
-  width: 100% !important;
-  height: 100% !important;
-  border: none !important;
-  background: #000 !important;
-  pointer-events: none !important;
-}
- 
-/* ── Native video ── */
-#afvp-vid {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: contain;
-  z-index: 2; background: #000;
-}
- 
-/* ── Gesture Layer ── */
-.afvp-gesture {
-  position: absolute; inset: 0; z-index: 10;
-  display: grid; grid-template-columns: 1fr 2fr 1fr;
-  cursor: pointer;
-  /* Must be active (not passive) to allow preventDefault on touchmove */
   touch-action: none;
 }
-.afvp-gz { display:flex;align-items:center;justify-content:center; }
-.afvp-gfb {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 5px;
-  color: #fff; opacity: 0;
-  transform: scale(0.7);
-  pointer-events: none;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-}
-.afvp-gfb svg { width: 34px; height: 34px; }
-.afvp-gfb span {
-  font-size: 12px; font-weight: 900;
-  background: rgba(0,0,0,0.55);
-  padding: 3px 10px; border-radius: 999px;
-}
-.afvp-gfb.show {
-  animation: afvp-gfb 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-@keyframes afvp-gfb {
-  0%{opacity:0;transform:scale(0.6)}
-  30%{opacity:1;transform:scale(1.1)}
-  65%{opacity:1;transform:scale(1)}
-  100%{opacity:0;transform:scale(0.88)}
-}
- 
-/* ── Center Play/Pause ── */
-.afvp-center {
-  position: absolute; inset: 0; z-index: 14;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-.afvp-cplay {
-  width: 76px; height: 76px;
-  border: none; border-radius: 50%;
-  background: rgba(0,0,0,0.52);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(255,255,255,0.2);
-  color: #fff;
-  display: grid; place-items: center;
-  cursor: pointer;
-  pointer-events: all;
-  opacity: 0; transform: scale(0.8);
-  transition: opacity 0.18s, transform 0.2s var(--vp-spring);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-}
-.afvp-cplay.show { opacity: 1; transform: scale(1); }
-.afvp-cplay svg { width: 30px; height: 30px; }
-.afvp-cplay .pi { margin-left: 3px; }
- 
-/* ── Speed Indicator ── */
-.afvp-speed-ind {
-  position: absolute; top: 66px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(0,0,0,0.72);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 999px;
-  padding: 8px 16px;
-  color: #fff; font-size: 13px; font-weight: 900;
-  animation: afvp-slideD 0.22s ease;
-}
-@keyframes afvp-slideD {
-  from{opacity:0;transform:translateX(-50%) translateY(-8px)}
-  to{opacity:1;transform:translateX(-50%) translateY(0)}
-}
- 
-/* ── Buffering spinner ── */
-.afvp-spinner {
-  position: absolute; inset: 0; z-index: 18;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-.afvp-spin-ring {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.10);
-  border-top-color: var(--vp-green);
-  animation: afvp-spin 0.8s linear infinite;
-}
-@keyframes afvp-spin { to{transform:rotate(360deg)} }
- 
-/* ── Error / Offline states ── */
-.afvp-state {
-  position: absolute; inset: 0; z-index: 20;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 12px; text-align: center; padding: 24px;
-  background: rgba(8,10,18,0.94);
-}
-.afvp-state-icon { font-size: 46px; }
-.afvp-state h3 {
-  font-size: 20px; font-weight: 900;
-  color: #f8fafc; letter-spacing: -0.02em;
-}
-.afvp-state p {
-  font-size: 14px; color: var(--vp-muted);
-  font-weight: 600; max-width: 300px; line-height: 1.6;
-}
-.afvp-retry {
-  padding: 12px 26px; border: none; border-radius: 14px;
-  background: linear-gradient(135deg, var(--vp-green), #22c55e);
-  color: #fff; font-size: 14px; font-weight: 900;
-  cursor: pointer;
-  box-shadow: 0 10px 28px var(--vp-green-glow);
-  transition: transform 0.15s var(--vp-spring);
-}
-.afvp-retry:active { transform: scale(0.96); }
- 
-/* ── YT Fallback Buttons (APK / blocked) ── */
-.afvp-yt-fallback-btns {
-  display: flex; flex-direction: column; gap: 10px;
-  width: 100%; max-width: 280px;
-}
-.afvp-yt-fb-btn {
-  padding: 13px 20px; border: none; border-radius: 13px;
-  font-size: 13.5px; font-weight: 900; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: transform 0.15s var(--vp-spring);
-}
-.afvp-yt-fb-btn:active { transform: scale(0.96); }
-.afvp-yt-fb-btn.primary {
-  background: linear-gradient(135deg, var(--vp-green), #22c55e);
-  color: #fff; box-shadow: 0 10px 28px var(--vp-green-glow);
-}
-.afvp-yt-fb-btn.secondary {
-  background: rgba(255,255,255,0.10); color: #fff;
-  border: 1px solid rgba(255,255,255,0.18);
-}
-.afvp-yt-fb-btn.danger {
-  background: rgba(239,68,68,0.15); color: #fca5a5;
-  border: 1px solid rgba(239,68,68,0.25);
-}
- 
-/* ── Completion ── */
-.afvp-completion {
-  position: absolute; inset: 0; z-index: 22;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.80);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  animation: afvp-fadeIn 0.4s ease;
-}
-@keyframes afvp-fadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
-.afvp-complete-inner {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 14px;
-  text-align: center; padding: 0 24px;
-}
-.afvp-check {
-  width: 84px; height: 84px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--vp-green), #22c55e);
-  display: grid; place-items: center;
-  font-size: 38px; color: #fff; font-weight: 900;
-  animation: afvp-check-pop 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both, afvp-ring-pulse 2s ease 0.8s infinite;
-}
-@keyframes afvp-check-pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-@keyframes afvp-ring-pulse {
-  0%,100%{box-shadow:0 0 0 0 var(--vp-green-glow),0 18px 50px rgba(0,0,0,0.5)}
-  50%{box-shadow:0 0 0 14px rgba(22,163,74,0),0 18px 50px rgba(0,0,0,0.5)}
-}
-.afvp-complete-inner h3 {
-  font-size: 24px; font-weight: 950; color: #f8fafc; letter-spacing: -0.03em;
-}
-.afvp-complete-inner p { font-size: 13px; color: var(--vp-muted); font-weight: 600; }
-.afvp-complete-btns {
-  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 6px;
-}
-.afvp-cbtn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 11px 20px; border: none; border-radius: 13px;
-  font-size: 13px; font-weight: 900; cursor: pointer;
-  transition: transform 0.15s var(--vp-spring);
-}
-.afvp-cbtn:active { transform: scale(0.96); }
-.afvp-cbtn.primary { background: linear-gradient(135deg, var(--vp-green), #22c55e); color: #fff; box-shadow: 0 10px 28px var(--vp-green-glow); }
-.afvp-cbtn.secondary { background: rgba(255,255,255,0.10); color: #fff; border: 1px solid rgba(255,255,255,0.16); }
- 
-/* ── Swipe indicator ── */
-.afvp-swipe {
-  position: absolute; left: 50%; top: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 20;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  background: rgba(0,0,0,0.72);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 20px; padding: 16px 20px;
-  min-width: 90px; pointer-events: none;
-}
-.afvp-swipe-bar {
-  width: 6px; height: 90px; border-radius: 3px;
-  background: rgba(255,255,255,0.14); overflow: hidden;
-  display: flex; align-items: flex-end;
-}
-.afvp-swipe-fill {
-  width: 100%;
-  background: linear-gradient(to top, var(--vp-green), #22c55e);
-  border-radius: 3px;
-  transition: height 0.06s linear;
-}
-.afvp-swipe-label {
-  font-size: 12px; font-weight: 900; color: #fff; white-space: nowrap;
-}
- 
-/* ── BOTTOM CONTROLS ── */
-.afvp-bottom {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  z-index: 30;
-  padding: 0 14px max(14px, env(safe-area-inset-bottom, 14px));
-  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-  transition: opacity 0.22s var(--vp-ease), transform 0.22s var(--vp-ease);
-}
-.afvp-bottom.hide {
-  opacity: 0; pointer-events: none; transform: translateY(6px);
-}
- 
-/* Progress bar */
-.afvp-prog-wrap {
-  position: relative; height: 22px;
-  display: flex; align-items: center;
-  cursor: pointer; margin-bottom: 4px;
-  touch-action: none;
-}
-.afvp-prog-wrap::before {
-  content: '';
-  position: absolute; left: 0; right: 0;
-  height: var(--vp-prog-h);
-  border-radius: 2px;
-  background: rgba(255,255,255,0.16);
-  transition: height 0.15s var(--vp-ease);
-}
-.afvp-prog-wrap:hover::before, .afvp-prog-wrap.dragging::before { height: 6px; }
-.afvp-buffered, .afvp-played {
-  position: absolute; left: 0; height: var(--vp-prog-h);
-  border-radius: 2px; pointer-events: none;
-  transition: height 0.15s var(--vp-ease);
-}
-.afvp-prog-wrap:hover .afvp-buffered,
-.afvp-prog-wrap:hover .afvp-played,
-.afvp-prog-wrap.dragging .afvp-buffered,
-.afvp-prog-wrap.dragging .afvp-played { height: 6px; }
-.afvp-buffered { background: rgba(255,255,255,0.28); }
-.afvp-played { background: linear-gradient(90deg, var(--vp-green), #22c55e); }
-.afvp-thumb {
-  position: absolute;
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: #fff;
-  transform: translateX(-50%) scale(0);
-  margin-top: -1px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  pointer-events: none;
-  transition: transform 0.2s var(--vp-spring);
-  top: 50%;
-}
-.afvp-prog-wrap:hover .afvp-thumb,
-.afvp-prog-wrap.dragging .afvp-thumb { transform: translateX(-50%) scale(1); }
-.afvp-prog-input {
-  position: absolute; inset: 0;
-  opacity: 0; cursor: pointer;
-  width: 100%; height: 100%; margin: 0;
-  -webkit-appearance: none;
-}
- 
-/* Controls row */
-.afvp-ctrl-row {
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 4px;
-  height: var(--vp-ctrl-h);
-}
-.afvp-ctrl-left, .afvp-ctrl-right {
-  display: flex; align-items: center; gap: 2px;
-}
-.afvp-ibtn {
-  width: 38px; height: 38px;
-  border: none; border-radius: 10px;
-  background: transparent;
-  color: var(--vp-text);
-  display: grid; place-items: center;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.15s var(--vp-spring);
-}
-.afvp-ibtn:hover { background: rgba(255,255,255,0.08); }
-.afvp-ibtn:active { transform: scale(0.88); }
-.afvp-ibtn svg { width: 19px; height: 19px; display: block; }
-.afvp-time {
-  display: flex; align-items: center; gap: 3px;
-  padding: 0 4px;
-  font-size: 12px; font-weight: 900;
-  color: #fff; white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-.afvp-time-sep { color: var(--vp-muted); }
-#afvp-dur { color: var(--vp-muted); }
-.afvp-speed-label {
-  font-size: 12px; font-weight: 900;
-  color: #fff; white-space: nowrap;
-}
- 
-/* Volume slider */
-.afvp-vol-wrap {
-  display: flex; align-items: center; gap: 3px;
-  overflow: hidden; max-width: 36px;
-  transition: max-width 0.22s ease;
-}
-.afvp-vol-wrap:hover, .afvp-vol-wrap:focus-within { max-width: 120px; }
-.afvp-vol-slider {
-  -webkit-appearance: none; appearance: none;
-  height: 4px; background: rgba(255,255,255,0.2);
-  border-radius: 2px; outline: none;
-  cursor: pointer; width: 72px;
-  opacity: 0; transition: opacity 0.2s;
-}
-.afvp-vol-wrap:hover .afvp-vol-slider,
-.afvp-vol-wrap:focus-within .afvp-vol-slider { opacity: 1; }
-.afvp-vol-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 13px; height: 13px; border-radius: 50%;
-  background: #fff; cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
- 
-/* ── SETTINGS PANEL (right drawer / bottom sheet) ── */
-.afvp-panel {
-  position: absolute;
-  top: 0; bottom: 0; right: 0;
-  z-index: 50;
-  width: min(310px, 88vw);
-  background: var(--vp-surface2);
-  border-left: 1px solid var(--vp-border);
-  display: flex; flex-direction: column;
-  overflow: hidden;
-  animation: afvp-slideR 0.28s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: -18px 0 50px rgba(0,0,0,0.5);
-}
-@keyframes afvp-slideR { from{transform:translateX(100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
-.afvp-panel.left {
-  right: auto; left: 0;
-  border-left: none; border-right: 1px solid var(--vp-border);
-  animation: afvp-slideL 0.28s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: 18px 0 50px rgba(0,0,0,0.5);
-}
-@keyframes afvp-slideL { from{transform:translateX(-100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
- 
-@media (max-width: 520px) {
-  .afvp-panel {
-    right: 0; left: 0;
-    top: auto; bottom: 0;
-    width: 100%;
-    max-height: 76dvh;
-    border-radius: 20px 20px 0 0;
-    border: none;
-    animation: afvp-slideUp 0.28s cubic-bezier(0.34,1.56,0.64,1);
-    box-shadow: 0 -18px 50px rgba(0,0,0,0.5);
-  }
-  .afvp-panel.left { top: auto; bottom: 0; }
-  @keyframes afvp-slideUp { from{transform:translateY(100%);opacity:0.5} to{transform:translateY(0);opacity:1} }
-}
- 
-.afvp-panel-head {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--vp-border);
-  flex-shrink: 0;
-}
-.afvp-panel-head h3 {
-  font-size: 16px; font-weight: 900; color: var(--vp-text);
-  letter-spacing: -0.02em;
-}
-.afvp-panel-close {
-  width: 30px; height: 30px;
-  border: none; border-radius: 9px;
-  background: rgba(255,255,255,0.08);
-  color: var(--vp-muted); font-size: 18px; line-height: 1;
-  display: grid; place-items: center;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.afvp-panel-close:hover { background: rgba(255,255,255,0.14); color: var(--vp-text); }
-.afvp-panel-body {
-  flex: 1; overflow-y: auto; padding: 16px 18px;
-  display: flex; flex-direction: column; gap: 18px;
-  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent;
-}
- 
-/* Chips */
-.afvp-sg-label {
-  font-size: 11px; font-weight: 900;
-  color: var(--vp-muted); text-transform: uppercase; letter-spacing: 0.06em;
-  margin-bottom: 8px;
-}
-.afvp-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-.afvp-chip {
-  padding: 8px 13px;
-  border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 11px;
-  background: rgba(255,255,255,0.06);
-  color: var(--vp-muted);
-  font-size: 12.5px; font-weight: 900;
-  cursor: pointer;
-  transition: all 0.15s var(--vp-ease);
-  font-family: inherit;
-}
-.afvp-chip:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.afvp-chip.active {
-  background: var(--vp-green-lite);
-  border-color: rgba(22,163,74,0.35);
-  color: #4ade80;
-  box-shadow: 0 4px 14px rgba(22,163,74,0.15);
-}
- 
-/* Toggle rows */
-.afvp-toggle-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0; border-bottom: 1px solid var(--vp-border);
-}
-.afvp-toggle-row:last-child { border-bottom: none; }
-.afvp-toggle-row span {
-  font-size: 12px; font-weight: 900;
-  color: var(--vp-muted); text-transform: uppercase; letter-spacing: 0.05em;
-}
-.afvp-tog {
-  position: relative; width: 44px; height: 24px; flex-shrink: 0;
-}
-.afvp-tog input { opacity: 0; width: 0; height: 0; position: absolute; }
-.afvp-tog-track {
-  position: absolute; inset: 0;
-  border-radius: 12px; background: rgba(255,255,255,0.14);
-  cursor: pointer; transition: background 0.2s;
-}
-.afvp-tog input:checked + .afvp-tog-track {
-  background: linear-gradient(135deg, var(--vp-green), #22c55e);
-}
-.afvp-tog-track::after {
-  content: '';
-  position: absolute; top: 2px; left: 2px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
-}
-.afvp-tog input:checked + .afvp-tog-track::after { transform: translateX(20px); }
- 
-/* Notes */
-.afvp-note-ts {
-  font-size: 12px; font-weight: 900; color: var(--vp-green);
-  padding: 4px 10px; background: var(--vp-green-lite);
-  border-radius: 8px; display: inline-block; width: fit-content;
-}
-.afvp-note-textarea {
-  width: 100%; resize: none; outline: none;
-  border-radius: 12px; padding: 11px 13px;
-  font-size: 13.5px; font-weight: 600; line-height: 1.6;
-  color: var(--vp-text);
-  background: rgba(255,255,255,0.06);
-  border: 1.5px solid rgba(255,255,255,0.11);
-  font-family: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.afvp-note-textarea:focus {
-  border-color: rgba(22,163,74,0.4);
-  box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
-}
-.afvp-note-save {
-  padding: 10px 18px; border: none; border-radius: 12px;
-  background: linear-gradient(135deg, var(--vp-green), #22c55e);
-  color: #fff; font-size: 13.5px; font-weight: 900;
-  cursor: pointer;
-  box-shadow: 0 8px 20px var(--vp-green-glow);
-  transition: transform 0.15s var(--vp-spring);
-  font-family: inherit;
-}
-.afvp-note-save:active { transform: scale(0.97); }
-.afvp-notes-list { display: flex; flex-direction: column; gap: 9px; }
-.afvp-notes-empty { font-size: 13px; color: var(--vp-muted); font-weight: 600; text-align: center; padding: 18px 0; }
-.afvp-note-item {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 13px; padding: 11px 13px;
-  display: flex; flex-direction: column; gap: 6px;
-  animation: afvp-fadeIn 0.22s ease;
-}
-.afvp-note-item-ts { font-size: 11px; font-weight: 900; color: var(--vp-green); cursor: pointer; }
-.afvp-note-item-ts:hover { text-decoration: underline; }
-.afvp-note-item-text { font-size: 13px; font-weight: 600; color: var(--vp-text); line-height: 1.6; }
-.afvp-note-del {
-  align-self: flex-end; background: none; border: none;
-  color: rgba(239,68,68,0.6); font-size: 11.5px; font-weight: 900;
-  cursor: pointer; transition: color 0.15s; font-family: inherit;
-}
-.afvp-note-del:hover { color: #ef4444; }
-.afvp-export-btn {
-  padding: 10px; border: 1px dashed rgba(255,255,255,0.14);
-  border-radius: 12px; background: transparent;
-  color: var(--vp-muted); font-size: 12.5px; font-weight: 900;
-  cursor: pointer; transition: all 0.15s; font-family: inherit;
-}
-.afvp-export-btn:hover { border-color: rgba(22,163,74,0.4); color: #4ade80; }
- 
-/* Backdrop */
-.afvp-backdrop {
-  position: absolute; inset: 0; z-index: 45;
-  background: rgba(0,0,0,0.48);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  animation: afvp-fadeIn 0.2s ease;
-}
- 
-/* Toast */
-.afvp-toast {
-  position: absolute; bottom: 74px; left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
-  background: rgba(0,0,0,0.78);
-  color: #fff;
-  padding: 8px 16px; border-radius: 999px;
-  font-size: 13px; font-weight: 900;
-  white-space: nowrap; pointer-events: none;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.11);
-  animation: afvp-fadeIn 0.2s ease;
-}
- 
-/* Env badge (dev indicator — hidden in prod) */
-.afvp-env-badge {
-  display: none; /* set display:block to debug env detection */
-  position: absolute; top: 4px; right: 4px;
-  z-index: 100;
-  font-size: 9px; font-weight: 900;
-  padding: 3px 7px; border-radius: 99px;
-  background: rgba(239,68,68,0.8); color: #fff;
-}
- 
-/* Utility */
-.afvp-hidden, .hidden { display: none !important; }
- 
-/* Fullscreen vendor states */
+
+#afvp.afvp-hidden { display: none !important; }
+
+@media (orientation:landscape) {
+  #afvp { width:100vw !important; left:0 !important; transform:none !important; }
+}
+
 #afvp:-webkit-full-screen,
 #afvp:-moz-full-screen,
 #afvp:fullscreen {
-  width: 100vw !important;
-  height: 100dvh !important;
-  left: 0 !important;
-  transform: none !important;
-  border-radius: 0 !important;
+  width:100vw !important; height:100dvh !important;
+  left:0 !important; transform:none !important; border-radius:0 !important;
 }
- 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  #afvp * {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+
+/* Shell */
+.vp-shell {
+  position:relative; width:100%; height:100%;
+  display:flex; flex-direction:column; overflow:hidden; background:#000;
+}
+
+/* ── TOP BAR ── */
+.vp-top {
+  position:absolute; top:0; left:0; right:0; z-index:30;
+  display:flex; align-items:center; gap:10px; padding:12px 14px;
+  min-height:var(--th);
+  background:linear-gradient(to bottom,rgba(0,0,0,.9) 0%,transparent 100%);
+  transition:opacity .22s var(--ez),transform .22s var(--ez);
+  will-change:opacity,transform;
+}
+.vp-top.vp-hide { opacity:0; pointer-events:none; transform:translateY(-6px); }
+.vp-back {
+  width:40px; height:40px; border:none; border-radius:12px;
+  background:rgba(255,255,255,.12); color:var(--tx);
+  display:grid; place-items:center; cursor:pointer; flex-shrink:0;
+  transition:transform .15s var(--sp);
+}
+.vp-back:active { transform:scale(.88); }
+.vp-meta { flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; }
+.vp-meta-course {
+  font-size:10px; font-weight:800; color:var(--g);
+  text-transform:uppercase; letter-spacing:.05em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.vp-meta-title {
+  font-size:14px; font-weight:900; color:var(--tx);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  letter-spacing:-.01em;
+}
+.vp-meta-ch {
+  font-size:11px; font-weight:600; color:var(--mu);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.vp-acts { display:flex; align-items:center; gap:3px; flex-shrink:0; }
+.vp-btn {
+  width:38px; height:38px; border:none; border-radius:11px;
+  background:rgba(255,255,255,.08); color:var(--tx);
+  display:grid; place-items:center; cursor:pointer;
+  transition:transform .15s var(--sp);
+}
+.vp-btn:active { transform:scale(.88); }
+.vp-btn svg { width:18px; height:18px; display:block; }
+.vp-btn.vp-bookmarked svg { fill:#facc15; stroke:#facc15; }
+
+/* ── VIDEO AREA ── */
+.vp-area {
+  flex:1; position:relative; background:#000;
+  overflow:hidden; display:flex; align-items:center; justify-content:center;
+}
+
+/* Skeleton */
+.vp-skeleton {
+  position:absolute; inset:0; z-index:5; background:#07090f;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
+}
+.vp-shimmer {
+  position:absolute; inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.04) 50%,transparent 70%);
+  background-size:200% 100%; animation:vp-shimmer 1.8s infinite;
+}
+@keyframes vp-shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.vp-sk-ring {
+  width:68px; height:68px; border-radius:50%;
+  background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.08);
+  animation:vp-pulse 1.6s ease infinite;
+}
+@keyframes vp-pulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.9;transform:scale(1.07)} }
+.vp-sk-bars { display:flex; flex-direction:column; gap:10px; align-items:center; }
+.vp-sk-bar {
+  height:9px; border-radius:5px;
+  background:rgba(255,255,255,.06); animation:vp-pulse 1.6s ease infinite;
+}
+.vp-sk-bar:first-child { width:190px; }
+.vp-sk-bar:last-child  { width:120px; animation-delay:.3s; }
+
+/* Poster */
+.vp-poster {
+  position:absolute; inset:0; z-index:4;
+  display:flex; align-items:center; justify-content:center;
+}
+.vp-poster img {
+  position:absolute; inset:0;
+  width:100%; height:100%; object-fit:cover; filter:brightness(.5);
+}
+.vp-poster-ov {
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 100%);
+}
+.vp-poster-play {
+  position:relative; z-index:2; width:72px; height:72px;
+  border:none; border-radius:50%;
+  background:linear-gradient(135deg,var(--g),#22c55e);
+  color:#fff; display:grid; place-items:center; cursor:pointer;
+  animation:vp-ring 2s ease infinite;
+  transition:transform .15s var(--sp);
+}
+.vp-poster-play:active { transform:scale(.92); }
+.vp-poster-play svg { width:26px; height:26px; margin-left:3px; }
+@keyframes vp-ring {
+  0%,100%{box-shadow:0 0 0 0 var(--gd),0 18px 50px rgba(0,0,0,.5)}
+  50%{box-shadow:0 0 0 14px rgba(22,163,74,0),0 18px 50px rgba(0,0,0,.5)}
+}
+
+/* YouTube wrapper — iframe offset hides YT chrome */
+.vp-yt-wrap {
+  position:absolute; inset:0; z-index:2; background:#000; overflow:hidden;
+}
+/* Offset trick: push YT top-bar up, extend bottom so logo is clipped */
+#vp-yt-target {
+  position:absolute;
+  top:-56px; left:-2px;
+  width:calc(100% + 4px);
+  height:calc(100% + 124px);
+  border:none; background:#000;
+  /* pointer-events ON so YT iframe can handle buffering internally,
+     but our gesture layer sits above at z:10 and captures all input */
+}
+/* Black paint-over bars for any YT chrome bleed-through */
+.vp-yt-mask {
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+}
+.vp-yt-mask::before, .vp-yt-mask::after {
+  content:''; position:absolute; left:0; right:0; background:#000;
+}
+.vp-yt-mask::before { top:0; height:56px; }
+.vp-yt-mask::after  { bottom:0; height:68px; }
+
+/* Native video */
+#vp-vid {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:contain; z-index:2; background:#000;
+}
+
+/* Gesture layer — ALWAYS on top of video, below UI chrome */
+.vp-gesture {
+  position:absolute; inset:0; z-index:10;
+  display:grid; grid-template-columns:1fr 2fr 1fr;
+  cursor:pointer;
+  /* touch-action:none set here lets us call preventDefault freely in touchmove */
+  touch-action:none;
+  user-select:none; -webkit-user-select:none;
+}
+.vp-gz { display:flex; align-items:center; justify-content:center; }
+.vp-gfb {
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  color:#fff; opacity:0; transform:scale(.7); pointer-events:none;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));
+}
+.vp-gfb svg { width:34px; height:34px; }
+.vp-gfb span {
+  font-size:12px; font-weight:900;
+  background:rgba(0,0,0,.55); padding:3px 10px; border-radius:999px;
+}
+.vp-gfb.vp-show {
+  animation:vp-gfb .65s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes vp-gfb {
+  0%{opacity:0;transform:scale(.6)} 30%{opacity:1;transform:scale(1.1)}
+  65%{opacity:1;transform:scale(1)} 100%{opacity:0;transform:scale(.88)}
+}
+
+/* Center flash button */
+.vp-cflash {
+  position:absolute; inset:0; z-index:14;
+  display:flex; align-items:center; justify-content:center; pointer-events:none;
+}
+.vp-cplay {
+  width:76px; height:76px; border:none; border-radius:50%;
+  background:rgba(0,0,0,.52); border:1.5px solid rgba(255,255,255,.2);
+  color:#fff; display:grid; place-items:center; cursor:pointer;
+  pointer-events:all; opacity:0; transform:scale(.8);
+  transition:opacity .18s,transform .2s var(--sp);
+}
+.vp-cplay.vp-show { opacity:1; transform:scale(1); }
+.vp-cplay svg { width:30px; height:30px; }
+
+/* Speed indicator (long-press) */
+.vp-speed-ind {
+  position:absolute; top:68px; left:50%; transform:translateX(-50%);
+  z-index:20; display:flex; align-items:center; gap:6px;
+  background:rgba(0,0,0,.72); border:1px solid rgba(255,255,255,.14);
+  border-radius:999px; padding:8px 16px;
+  color:#fff; font-size:13px; font-weight:900;
+  animation:vp-slideD .22s ease;
+  white-space:nowrap;
+}
+@keyframes vp-slideD {
+  from{opacity:0;transform:translateX(-50%) translateY(-8px)}
+  to{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+
+/* Buffering spinner */
+.vp-spinner {
+  position:absolute; inset:0; z-index:18;
+  display:flex; align-items:center; justify-content:center; pointer-events:none;
+}
+.vp-spin-ring {
+  width:44px; height:44px; border-radius:50%;
+  border:3px solid rgba(255,255,255,.1); border-top-color:var(--g);
+  animation:vp-spin .8s linear infinite;
+}
+@keyframes vp-spin { to{transform:rotate(360deg)} }
+
+/* State screens (error / offline / yt-fallback) */
+.vp-state {
+  position:absolute; inset:0; z-index:20;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:12px; text-align:center; padding:24px;
+  background:rgba(8,10,18,.94);
+}
+.vp-state-ico { font-size:46px; }
+.vp-state h3 { font-size:20px; font-weight:900; color:#f8fafc; letter-spacing:-.02em; }
+.vp-state p  { font-size:14px; color:var(--mu); font-weight:600; max-width:300px; line-height:1.6; }
+.vp-retry {
+  padding:12px 26px; border:none; border-radius:14px;
+  background:linear-gradient(135deg,var(--g),#22c55e); color:#fff;
+  font-size:14px; font-weight:900; cursor:pointer;
+  box-shadow:0 10px 28px var(--gd);
+  transition:transform .15s var(--sp);
+}
+.vp-retry:active { transform:scale(.96); }
+.vp-fb-btns { display:flex; flex-direction:column; gap:10px; width:100%; max-width:280px; }
+.vp-fb-btn {
+  padding:13px 20px; border:none; border-radius:13px;
+  font-size:13.5px; font-weight:900; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:transform .15s var(--sp);
+}
+.vp-fb-btn:active { transform:scale(.96); }
+.vp-fb-btn.pri { background:linear-gradient(135deg,var(--g),#22c55e); color:#fff; }
+.vp-fb-btn.sec { background:rgba(255,255,255,.1); color:#fff; border:1px solid rgba(255,255,255,.18); }
+.vp-fb-btn.dan { background:rgba(239,68,68,.15); color:#fca5a5; border:1px solid rgba(239,68,68,.25); }
+
+/* Completion */
+.vp-done {
+  position:absolute; inset:0; z-index:22;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,.8);
+  animation:vp-fadein .4s ease;
+}
+@keyframes vp-fadein { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
+.vp-done-inner {
+  display:flex; flex-direction:column; align-items:center;
+  gap:14px; text-align:center; padding:0 24px;
+}
+.vp-check {
+  width:84px; height:84px; border-radius:50%;
+  background:linear-gradient(135deg,var(--g),#22c55e);
+  display:grid; place-items:center;
+  font-size:38px; color:#fff; font-weight:900;
+  animation:vp-pop .5s cubic-bezier(.22,1,.36,1) .1s both, vp-ring 2s ease .8s infinite;
+}
+@keyframes vp-pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.vp-done-inner h3 { font-size:24px; font-weight:950; color:#f8fafc; letter-spacing:-.03em; }
+.vp-done-inner p  { font-size:13px; color:var(--mu); font-weight:600; }
+.vp-done-btns { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:6px; }
+.vp-cbtn {
+  display:flex; align-items:center; gap:6px;
+  padding:11px 20px; border:none; border-radius:13px;
+  font-size:13px; font-weight:900; cursor:pointer;
+  transition:transform .15s var(--sp);
+}
+.vp-cbtn:active { transform:scale(.96); }
+.vp-cbtn.pri { background:linear-gradient(135deg,var(--g),#22c55e); color:#fff; box-shadow:0 10px 28px var(--gd); }
+.vp-cbtn.sec { background:rgba(255,255,255,.1); color:#fff; border:1px solid rgba(255,255,255,.16); }
+
+/* Swipe indicator */
+.vp-swipe {
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%); z-index:20;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  background:rgba(0,0,0,.72); border:1px solid rgba(255,255,255,.14);
+  border-radius:20px; padding:16px 20px; min-width:90px; pointer-events:none;
+}
+.vp-swipe-bar {
+  width:6px; height:90px; border-radius:3px;
+  background:rgba(255,255,255,.14); overflow:hidden; display:flex; align-items:flex-end;
+}
+.vp-swipe-fill {
+  width:100%; background:linear-gradient(to top,var(--g),#22c55e);
+  border-radius:3px; transition:height .06s linear;
+}
+.vp-swipe-label { font-size:12px; font-weight:900; color:#fff; white-space:nowrap; }
+
+/* ── BOTTOM CONTROLS ── */
+.vp-bottom {
+  position:absolute; bottom:0; left:0; right:0; z-index:30;
+  padding:0 14px max(14px,env(safe-area-inset-bottom,14px));
+  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.5) 60%,transparent 100%);
+  transition:opacity .22s var(--ez),transform .22s var(--ez);
+  will-change:opacity,transform;
+}
+.vp-bottom.vp-hide { opacity:0; pointer-events:none; transform:translateY(6px); }
+
+/* Progress bar */
+.vp-prog {
+  position:relative; height:22px; display:flex; align-items:center;
+  cursor:pointer; margin-bottom:4px; touch-action:none;
+}
+.vp-prog::before {
+  content:''; position:absolute; left:0; right:0; height:4px; border-radius:2px;
+  background:rgba(255,255,255,.16); transition:height .15s var(--ez);
+}
+.vp-prog:hover::before, .vp-prog.vp-drag::before { height:6px; }
+.vp-buffered, .vp-played {
+  position:absolute; left:0; height:4px; border-radius:2px; pointer-events:none;
+  transition:height .15s var(--ez);
+}
+.vp-prog:hover .vp-buffered, .vp-prog.vp-drag .vp-buffered,
+.vp-prog:hover .vp-played,   .vp-prog.vp-drag .vp-played { height:6px; }
+.vp-buffered { background:rgba(255,255,255,.28); }
+.vp-played   { background:linear-gradient(90deg,var(--g),#22c55e); }
+.vp-thumb {
+  position:absolute; width:14px; height:14px; border-radius:50%;
+  background:#fff; transform:translateX(-50%) scale(0);
+  box-shadow:0 2px 8px rgba(0,0,0,.4); pointer-events:none;
+  transition:transform .2s var(--sp); top:50%;
+}
+.vp-prog:hover .vp-thumb, .vp-prog.vp-drag .vp-thumb { transform:translateX(-50%) scale(1); }
+
+/* Controls row */
+.vp-ctrl {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:4px; height:var(--ch);
+}
+.vp-ctrl-l, .vp-ctrl-r { display:flex; align-items:center; gap:2px; }
+.vp-ibtn {
+  width:38px; height:38px; border:none; border-radius:10px;
+  background:transparent; color:var(--tx);
+  display:grid; place-items:center; cursor:pointer;
+  transition:background .15s,transform .15s var(--sp); flex-shrink:0;
+}
+.vp-ibtn:hover  { background:rgba(255,255,255,.08); }
+.vp-ibtn:active { transform:scale(.88); }
+.vp-ibtn svg { width:19px; height:19px; display:block; }
+.vp-time {
+  display:flex; align-items:center; gap:3px; padding:0 4px;
+  font-size:12px; font-weight:900; color:#fff; white-space:nowrap;
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em;
+}
+.vp-time-sep { color:var(--mu); }
+.vp-dur { color:var(--mu); }
+.vp-spd-lbl { font-size:12px; font-weight:900; color:#fff; white-space:nowrap; }
+.vp-vol-wrap {
+  display:flex; align-items:center; gap:3px; overflow:hidden; max-width:36px;
+  transition:max-width .22s ease;
+}
+.vp-vol-wrap:hover, .vp-vol-wrap:focus-within { max-width:120px; }
+.vp-vol-slider {
+  -webkit-appearance:none; appearance:none; height:4px;
+  background:rgba(255,255,255,.2); border-radius:2px; outline:none;
+  cursor:pointer; width:72px; opacity:0; transition:opacity .2s;
+}
+.vp-vol-wrap:hover .vp-vol-slider,
+.vp-vol-wrap:focus-within .vp-vol-slider { opacity:1; }
+.vp-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:13px; height:13px; border-radius:50%;
+  background:#fff; cursor:pointer;
+}
+
+/* ── PANELS ── */
+.vp-panel {
+  position:absolute; top:0; bottom:0; right:0; z-index:50;
+  width:min(310px,88vw); background:var(--s2);
+  border-left:1px solid var(--bd);
+  display:flex; flex-direction:column; overflow:hidden;
+  animation:vp-slideR .28s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:-18px 0 50px rgba(0,0,0,.5);
+}
+@keyframes vp-slideR { from{transform:translateX(100%);opacity:.5} to{transform:translateX(0);opacity:1} }
+.vp-panel.vp-left {
+  right:auto; left:0; border-left:none; border-right:1px solid var(--bd);
+  animation:vp-slideL .28s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:18px 0 50px rgba(0,0,0,.5);
+}
+@keyframes vp-slideL { from{transform:translateX(-100%);opacity:.5} to{transform:translateX(0);opacity:1} }
+@media (max-width:520px) {
+  .vp-panel {
+    right:0; left:0; top:auto; bottom:0;
+    width:100%; max-height:76dvh; border-radius:20px 20px 0 0;
+    border:none; animation:vp-slideUp .28s cubic-bezier(.34,1.56,.64,1);
+    box-shadow:0 -18px 50px rgba(0,0,0,.5);
   }
+  .vp-panel.vp-left { top:auto; bottom:0; }
+  @keyframes vp-slideUp { from{transform:translateY(100%);opacity:.5} to{transform:translateY(0);opacity:1} }
+}
+.vp-panel-hd {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 18px; border-bottom:1px solid var(--bd); flex-shrink:0;
+}
+.vp-panel-hd h3 { font-size:16px; font-weight:900; color:var(--tx); letter-spacing:-.02em; }
+.vp-panel-x {
+  width:30px; height:30px; border:none; border-radius:9px;
+  background:rgba(255,255,255,.08); color:var(--mu);
+  font-size:18px; display:grid; place-items:center; cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.vp-panel-x:hover { background:rgba(255,255,255,.14); color:var(--tx); }
+.vp-panel-body {
+  flex:1; overflow-y:auto; padding:16px 18px;
+  display:flex; flex-direction:column; gap:18px;
+  scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.1) transparent;
+}
+.vp-sg-lbl {
+  font-size:11px; font-weight:900; color:var(--mu);
+  text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;
+}
+.vp-chips { display:flex; flex-wrap:wrap; gap:7px; }
+.vp-chip {
+  padding:8px 13px; border:1px solid rgba(255,255,255,.11);
+  border-radius:11px; background:rgba(255,255,255,.06); color:var(--mu);
+  font-size:12.5px; font-weight:900; cursor:pointer; font-family:inherit;
+  transition:all .15s var(--ez);
+}
+.vp-chip:hover { background:rgba(255,255,255,.12); color:#fff; }
+.vp-chip.vp-on {
+  background:var(--gl); border-color:rgba(22,163,74,.35);
+  color:#4ade80; box-shadow:0 4px 14px rgba(22,163,74,.15);
+}
+.vp-tog-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 0; border-bottom:1px solid var(--bd);
+}
+.vp-tog-row:last-child { border-bottom:none; }
+.vp-tog-row span { font-size:12px; font-weight:900; color:var(--mu); text-transform:uppercase; letter-spacing:.05em; }
+.vp-tog { position:relative; width:44px; height:24px; flex-shrink:0; }
+.vp-tog input { opacity:0; width:0; height:0; position:absolute; }
+.vp-tog-t {
+  position:absolute; inset:0; border-radius:12px;
+  background:rgba(255,255,255,.14); cursor:pointer; transition:background .2s;
+}
+.vp-tog input:checked + .vp-tog-t { background:linear-gradient(135deg,var(--g),#22c55e); }
+.vp-tog-t::after {
+  content:''; position:absolute; top:2px; left:2px;
+  width:20px; height:20px; border-radius:50%; background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1);
+}
+.vp-tog input:checked + .vp-tog-t::after { transform:translateX(20px); }
+
+/* Notes */
+.vp-note-ts {
+  font-size:12px; font-weight:900; color:var(--g);
+  padding:4px 10px; background:var(--gl); border-radius:8px;
+  display:inline-block; width:fit-content;
+}
+.vp-note-ta {
+  width:100%; resize:none; outline:none; border-radius:12px; padding:11px 13px;
+  font-size:13.5px; font-weight:600; line-height:1.6; color:var(--tx);
+  background:rgba(255,255,255,.06); border:1.5px solid rgba(255,255,255,.11);
+  font-family:inherit; transition:border-color .15s,box-shadow .15s;
+  box-sizing:border-box;
+}
+.vp-note-ta:focus { border-color:rgba(22,163,74,.4); box-shadow:0 0 0 3px rgba(22,163,74,.12); }
+.vp-note-save {
+  padding:10px 18px; border:none; border-radius:12px;
+  background:linear-gradient(135deg,var(--g),#22c55e); color:#fff;
+  font-size:13.5px; font-weight:900; cursor:pointer;
+  box-shadow:0 8px 20px var(--gd); transition:transform .15s var(--sp); font-family:inherit;
+}
+.vp-note-save:active { transform:scale(.97); }
+.vp-notes-list { display:flex; flex-direction:column; gap:9px; }
+.vp-notes-empty { font-size:13px; color:var(--mu); font-weight:600; text-align:center; padding:18px 0; }
+.vp-note-item {
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+  border-radius:13px; padding:11px 13px; display:flex; flex-direction:column; gap:6px;
+  animation:vp-fadein .22s ease;
+}
+.vp-note-item-ts { font-size:11px; font-weight:900; color:var(--g); cursor:pointer; }
+.vp-note-item-ts:hover { text-decoration:underline; }
+.vp-note-item-txt { font-size:13px; font-weight:600; color:var(--tx); line-height:1.6; }
+.vp-note-del {
+  align-self:flex-end; background:none; border:none;
+  color:rgba(239,68,68,.6); font-size:11.5px; font-weight:900;
+  cursor:pointer; transition:color .15s; font-family:inherit;
+}
+.vp-note-del:hover { color:#ef4444; }
+.vp-export {
+  padding:10px; border:1px dashed rgba(255,255,255,.14); border-radius:12px;
+  background:transparent; color:var(--mu); font-size:12.5px; font-weight:900;
+  cursor:pointer; transition:all .15s; font-family:inherit;
+}
+.vp-export:hover { border-color:rgba(22,163,74,.4); color:#4ade80; }
+
+/* Backdrop */
+.vp-backdrop {
+  position:absolute; inset:0; z-index:45; background:rgba(0,0,0,.48);
+  animation:vp-fadein .2s ease;
+}
+
+/* Toast */
+.vp-toast {
+  position:absolute; bottom:74px; left:50%; transform:translateX(-50%);
+  z-index:999; background:rgba(0,0,0,.78); color:#fff;
+  padding:8px 16px; border-radius:999px; font-size:13px; font-weight:900;
+  white-space:nowrap; pointer-events:none; border:1px solid rgba(255,255,255,.11);
+  animation:vp-fadein .2s ease;
+}
+
+/* Utilities */
+.vp-h { display:none !important; }
+
+@media (prefers-reduced-motion:reduce) {
+  #afvp * { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
   </style>
 </head>
@@ -6174,333 +5897,300 @@ body{
         </section>
       </div><!-- /viewStudent -->
 
-<!-- ═══════════════════════════════════════════════════════════════════
-     SECTION B — HTML  (replaces the #afvp block in your body)
-     ═══════════════════════════════════════════════════════════════════ -->
- 
-<div id="afvp" class="hidden" role="dialog" aria-modal="true" aria-label="Video Player">
-  <div class="afvp-shell">
- 
+<!-- ═══════════════════════════ SECTION B: HTML ══════════════════════════ -->
+<div id="afvp" class="afvp-hidden" role="dialog" aria-modal="true" aria-label="Video Player">
+  <div class="vp-shell">
+
     <!-- TOP BAR -->
-    <div class="afvp-topbar" id="afvpTopbar">
-      <button class="afvp-back" id="afvpBackBtn" type="button" aria-label="Back">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
+    <div class="vp-top" id="vpTop">
+      <button class="vp-back" id="vpBack" type="button" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <div class="afvp-meta">
-        <span class="afvp-meta-course" id="afvpCourse"></span>
-        <span class="afvp-meta-title"  id="afvpTitle">Lecture</span>
-        <span class="afvp-meta-chapter" id="afvpChapter"></span>
+      <div class="vp-meta">
+        <span class="vp-meta-course" id="vpCourse"></span>
+        <span class="vp-meta-title"  id="vpTitle">Lecture</span>
+        <span class="vp-meta-ch"     id="vpChapter"></span>
       </div>
-      <div class="afvp-actions">
-        <button class="afvp-btn" id="afvpBtnBookmark" type="button" aria-label="Bookmark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-          </svg>
+      <div class="vp-acts">
+        <button class="vp-btn" id="vpBmark" type="button" aria-label="Bookmark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
         </button>
-        <button class="afvp-btn" id="afvpBtnNotes" type="button" aria-label="Notes">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-          </svg>
+        <button class="vp-btn" id="vpNoteBtn" type="button" aria-label="Notes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </button>
-        <button class="afvp-btn" id="afvpBtnSettings" type="button" aria-label="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-          </svg>
+        <button class="vp-btn" id="vpSetBtn" type="button" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
-        <button class="afvp-btn" id="afvpBtnFS" type="button" aria-label="Fullscreen">
-          <svg id="afvpFSExpand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
-            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
-          </svg>
-          <svg id="afvpFSCompress" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
-            <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
-          </svg>
+        <button class="vp-btn" id="vpFSBtn" type="button" aria-label="Fullscreen">
+          <svg id="vpFSExp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          <svg id="vpFSCmp" class="vp-h" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/></svg>
         </button>
       </div>
     </div>
- 
+
     <!-- VIDEO AREA -->
-    <div class="afvp-video-area" id="afvpVideoArea">
- 
-      <!-- Skeleton loader -->
-      <div class="afvp-skeleton" id="afvpSkeleton">
-        <div class="afvp-shimmer"></div>
-        <div class="afvp-skeleton-ring"></div>
-        <div class="afvp-skeleton-bars">
-          <div class="afvp-skeleton-bar afvp-sbar-w60"></div>
-          <div class="afvp-skeleton-bar afvp-sbar-w40"></div>
+    <div class="vp-area" id="vpArea">
+
+      <!-- Skeleton -->
+      <div class="vp-skeleton" id="vpSkel">
+        <div class="vp-shimmer"></div>
+        <div class="vp-sk-ring"></div>
+        <div class="vp-sk-bars">
+          <div class="vp-sk-bar"></div>
+          <div class="vp-sk-bar"></div>
         </div>
       </div>
- 
-      <!-- Poster / thumbnail -->
-      <div class="afvp-poster hidden" id="afvpPoster">
-        <img id="afvpPosterImg" src="" alt="Thumbnail" />
-        <div class="afvp-poster-overlay"></div>
-        <button class="afvp-poster-play" id="afvpPosterPlayBtn" type="button" aria-label="Play">
+
+      <!-- Poster -->
+      <div class="vp-poster vp-h" id="vpPoster">
+        <img id="vpPosterImg" src="" alt="Thumbnail" />
+        <div class="vp-poster-ov"></div>
+        <button class="vp-poster-play" id="vpPosterPlay" type="button" aria-label="Play">
           <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </button>
       </div>
- 
+
       <!-- YouTube container -->
-      <div class="afvp-yt-wrap hidden" id="afvpYTWrap">
-        <!-- YT blocker: hides YT logo/controls via black bars + iframe offset -->
-        <div class="afvp-yt-blocker" aria-hidden="true"></div>
-        <div id="afvp-yt-player"></div>
+      <div class="vp-yt-wrap vp-h" id="vpYTWrap">
+        <div class="vp-yt-mask" aria-hidden="true"></div>
+        <!-- YT player renders here — element recreated on each load -->
+        <div id="vp-yt-target"></div>
       </div>
- 
+
       <!-- Native video (HLS / DASH / MP4 / WebM) -->
-      <video class="hidden" id="afvp-vid"
-        playsinline
-        webkit-playsinline
-        x5-playsinline
-        x5-video-player-type="h5"
-        x5-video-orientation="portraint"
+      <video id="vp-vid" class="vp-h"
+        playsinline webkit-playsinline
+        x5-playsinline x5-video-player-type="h5"
         preload="metadata">
       </video>
- 
-      <!-- Gesture layer (touch / click / double-tap) -->
-      <div class="afvp-gesture" id="afvpGesture">
-        <div class="afvp-gz" id="afvpGzL">
-          <div class="afvp-gfb" id="afvpGfbL">
+
+      <!-- Gesture layer — handles all touch/click events over the video -->
+      <div class="vp-gesture" id="vpGesture" role="presentation">
+        <div class="vp-gz">
+          <div class="vp-gfb" id="vpGfbL">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-            <span id="afvpGfbLTxt">-10s</span>
+            <span id="vpGfbLTxt">-10s</span>
           </div>
         </div>
-        <div class="afvp-gz" id="afvpGzC"></div>
-        <div class="afvp-gz" id="afvpGzR">
-          <div class="afvp-gfb" id="afvpGfbR">
+        <div class="vp-gz" id="vpGzC"></div>
+        <div class="vp-gz">
+          <div class="vp-gfb" id="vpGfbR">
             <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-            <span id="afvpGfbRTxt">+10s</span>
+            <span id="vpGfbRTxt">+10s</span>
           </div>
         </div>
       </div>
- 
+
       <!-- Center play/pause flash -->
-      <div class="afvp-center">
-        <button class="afvp-cplay" id="afvpCplay" type="button" aria-label="Play/Pause">
-          <svg class="pi" id="afvpIconPlay" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          <svg class="hidden" id="afvpIconPause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-          <svg class="hidden" id="afvpIconReplay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+      <div class="vp-cflash">
+        <button class="vp-cplay" id="vpCplay" type="button" aria-label="Play/Pause">
+          <svg id="vpIconPlay"   viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="vpIconPause"  class="vp-h" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <svg id="vpIconReplay" class="vp-h" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
         </button>
       </div>
- 
+
       <!-- Long-press speed indicator -->
-      <div class="afvp-speed-ind hidden" id="afvpSpeedInd">
+      <div class="vp-speed-ind vp-h" id="vpSpdInd">
         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-        <span id="afvpSpeedTxt">2× Speed</span>
+        <span id="vpSpdTxt">2× Speed</span>
       </div>
- 
-      <!-- Buffering spinner -->
-      <div class="afvp-spinner hidden" id="afvpSpinner">
-        <div class="afvp-spin-ring"></div>
-      </div>
- 
+
+      <!-- Spinner -->
+      <div class="vp-spinner vp-h" id="vpSpinner"><div class="vp-spin-ring"></div></div>
+
       <!-- Error state -->
-      <div class="afvp-state hidden" id="afvpError">
-        <div class="afvp-state-icon">⚠️</div>
+      <div class="vp-state vp-h" id="vpError">
+        <div class="vp-state-ico">⚠️</div>
         <h3>Video Unavailable</h3>
-        <p id="afvpErrorMsg">Unable to load video. Please check your connection.</p>
-        <button class="afvp-retry" id="afvpRetryBtn" type="button">Try Again</button>
+        <p id="vpErrMsg">Unable to load video. Please check your connection.</p>
+        <button class="vp-retry" id="vpRetry" type="button">Try Again</button>
       </div>
- 
-      <!-- YouTube fallback state (APK / blocked) -->
-      <div class="afvp-state hidden" id="afvpYTFallback">
-        <div class="afvp-state-icon">📺</div>
+
+      <!-- YouTube fallback state -->
+      <div class="vp-state vp-h" id="vpYTFall">
+        <div class="vp-state-ico">📺</div>
         <h3>Open in YouTube</h3>
-        <p id="afvpYTFallbackMsg">The video could not play here. Open it directly in YouTube.</p>
-        <div class="afvp-yt-fallback-btns">
-          <button class="afvp-yt-fb-btn primary" id="afvpOpenYTApp" type="button">Open YouTube App</button>
-          <button class="afvp-yt-fb-btn secondary" id="afvpOpenYTWeb" type="button">Open in Browser</button>
-          <button class="afvp-yt-fb-btn danger"   id="afvpRetryYT"  type="button">Retry Embedded</button>
+        <p id="vpYTFallMsg">This video cannot play here.</p>
+        <div class="vp-fb-btns">
+          <button class="vp-fb-btn pri" id="vpYTApp" type="button">Open YouTube App</button>
+          <button class="vp-fb-btn sec" id="vpYTWeb" type="button">Open in Browser</button>
+          <button class="vp-fb-btn dan" id="vpYTRet" type="button">Retry Embedded</button>
         </div>
       </div>
- 
+
       <!-- Offline state -->
-      <div class="afvp-state hidden" id="afvpOffline">
-        <div class="afvp-state-icon">📵</div>
+      <div class="vp-state vp-h" id="vpOffline">
+        <div class="vp-state-ico">📵</div>
         <h3>You're Offline</h3>
         <p>Connect to the internet to watch this video.</p>
-        <button class="afvp-retry" id="afvpCheckOnlineBtn" type="button">Check Connection</button>
+        <button class="vp-retry" id="vpCheckNet" type="button">Check Connection</button>
       </div>
- 
-      <!-- Completion screen -->
-      <div class="afvp-completion hidden" id="afvpCompletion">
-        <div class="afvp-complete-inner">
-          <div class="afvp-check">✓</div>
+
+      <!-- Completion -->
+      <div class="vp-done vp-h" id="vpDone">
+        <div class="vp-done-inner">
+          <div class="vp-check">✓</div>
           <h3>Lecture Complete!</h3>
-          <p id="afvpCompleteSub">Great job. Keep it up!</p>
-          <div class="afvp-complete-btns">
-            <button class="afvp-cbtn secondary" id="afvpReplayBtn" type="button">
+          <p id="vpDoneSub">Great job. Keep it up!</p>
+          <div class="vp-done-btns">
+            <button class="vp-cbtn sec" id="vpReplay" type="button">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
               Replay
             </button>
-            <button class="afvp-cbtn primary hidden" id="afvpNextBtn" type="button">
+            <button class="vp-cbtn pri vp-h" id="vpNext" type="button">
               Next Lecture
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
           </div>
         </div>
       </div>
- 
-      <!-- Swipe indicator (volume / brightness) -->
-      <div class="afvp-swipe hidden" id="afvpSwipe">
-        <div class="afvp-swipe-bar"><div class="afvp-swipe-fill" id="afvpSwipeFill"></div></div>
-        <span class="afvp-swipe-label" id="afvpSwipeLabel">🔊 80%</span>
+
+      <!-- Swipe volume/brightness indicator -->
+      <div class="vp-swipe vp-h" id="vpSwipe">
+        <div class="vp-swipe-bar"><div class="vp-swipe-fill" id="vpSwipeFill"></div></div>
+        <span class="vp-swipe-label" id="vpSwipeLbl">🔊 80%</span>
       </div>
- 
-      <!-- Env debug badge -->
-      <div class="afvp-env-badge" id="afvpEnvBadge"></div>
- 
-    </div><!-- /video-area -->
- 
+
+    </div><!-- /vp-area -->
+
     <!-- BOTTOM CONTROLS -->
-    <div class="afvp-bottom" id="afvpBottom">
-      <!-- Progress bar -->
-      <div class="afvp-prog-wrap" id="afvpProgWrap">
-        <div class="afvp-buffered" id="afvpBuffered"></div>
-        <div class="afvp-played"   id="afvpPlayed"></div>
-        <div class="afvp-thumb"    id="afvpThumb"></div>
-        <input type="range" class="afvp-prog-input" id="afvpProgInput"
-               min="0" max="1000" value="0" step="1" aria-label="Seek" />
+    <div class="vp-bottom" id="vpBottom">
+      <!-- Progress bar — pointer events handled in JS, no hidden range input needed -->
+      <div class="vp-prog" id="vpProg" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="vp-buffered" id="vpBuf"></div>
+        <div class="vp-played"   id="vpPlayed"></div>
+        <div class="vp-thumb"    id="vpThumb"></div>
       </div>
-      <!-- Controls row -->
-      <div class="afvp-ctrl-row">
-        <div class="afvp-ctrl-left">
-          <button class="afvp-ibtn" id="afvpPlayPauseSmBtn" type="button" aria-label="Play/Pause">
-            <svg id="afvpPlaySm"  viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <svg id="afvpPauseSm" class="hidden" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <!-- Controls -->
+      <div class="vp-ctrl">
+        <div class="vp-ctrl-l">
+          <button class="vp-ibtn" id="vpPPBtn" type="button" aria-label="Play/Pause">
+            <svg id="vpPlaySm"  viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg id="vpPauseSm" class="vp-h" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
           </button>
-          <button class="afvp-ibtn" id="afvpSkipBackBtn" type="button" aria-label="-10s">
+          <button class="vp-ibtn" id="vpSkipB" type="button" aria-label="Rewind 10 seconds">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="1 4 1 10 7 10"/>
               <path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
               <text x="8.5" y="14.5" font-size="5.5" fill="currentColor" stroke="none" font-weight="bold">10</text>
             </svg>
           </button>
-          <button class="afvp-ibtn" id="afvpSkipFwdBtn" type="button" aria-label="+10s">
+          <button class="vp-ibtn" id="vpSkipF" type="button" aria-label="Forward 10 seconds">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="23 4 23 10 17 10"/>
               <path d="M20.49 15a9 9 0 1 1-.49-4.5"/>
               <text x="8.5" y="14.5" font-size="5.5" fill="currentColor" stroke="none" font-weight="bold">10</text>
             </svg>
           </button>
-          <div class="afvp-vol-wrap">
-            <button class="afvp-ibtn" id="afvpMuteBtn" type="button" aria-label="Mute">
-              <svg id="afvpVolIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <div class="vp-vol-wrap">
+            <button class="vp-ibtn" id="vpMute" type="button" aria-label="Mute">
+              <svg id="vpVolIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                <path id="afvpWave1" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                <path id="afvpWave2" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <path id="vpW1" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                <path id="vpW2" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
               </svg>
             </button>
-            <input type="range" class="afvp-vol-slider" id="afvpVolSlider"
-                   min="0" max="100" value="100" aria-label="Volume" />
+            <input type="range" class="vp-vol-slider" id="vpVol" min="0" max="100" value="100" aria-label="Volume" />
           </div>
-          <div class="afvp-time">
-            <span id="afvpCur">0:00</span>
-            <span class="afvp-time-sep">/</span>
-            <span id="afvp-dur">0:00</span>
+          <div class="vp-time">
+            <span id="vpCur">0:00</span>
+            <span class="vp-time-sep">/</span>
+            <span class="vp-dur" id="vpDur">0:00</span>
           </div>
         </div>
-        <div class="afvp-ctrl-right">
-          <button class="afvp-ibtn" id="afvpSpeedCycleBtn" type="button" aria-label="Speed" style="width:auto;padding:0 6px">
-            <span class="afvp-speed-label" id="afvpSpeedLbl">1×</span>
+        <div class="vp-ctrl-r">
+          <button class="vp-ibtn" id="vpSpdBtn" type="button" aria-label="Playback speed" style="width:auto;padding:0 6px">
+            <span class="vp-spd-lbl" id="vpSpdLbl">1×</span>
           </button>
-          <button class="afvp-ibtn" id="afvpFSSmBtn" type="button" aria-label="Fullscreen">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
-              <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
-            </svg>
+          <button class="vp-ibtn" id="vpFSSm" type="button" aria-label="Fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
           </button>
         </div>
       </div>
     </div>
- 
-  </div><!-- /shell -->
- 
+
+  </div><!-- /vp-shell -->
+
   <!-- SETTINGS PANEL -->
-  <div class="afvp-panel hidden" id="afvpSettings" role="dialog" aria-label="Settings">
-    <div class="afvp-panel-head">
+  <div class="vp-panel vp-h" id="vpSettings" role="dialog" aria-label="Settings">
+    <div class="vp-panel-hd">
       <h3>⚙️ Settings</h3>
-      <button class="afvp-panel-close" id="afvpSettingsCloseBtn" type="button">✕</button>
+      <button class="vp-panel-x" id="vpSetClose" type="button" aria-label="Close">✕</button>
     </div>
-    <div class="afvp-panel-body">
+    <div class="vp-panel-body">
       <div>
-        <div class="afvp-sg-label">Playback Speed</div>
-        <div class="afvp-chips" id="afvpSpeedChips">
-          <button class="afvp-chip" data-speed="0.5"  type="button">0.5×</button>
-          <button class="afvp-chip" data-speed="0.75" type="button">0.75×</button>
-          <button class="afvp-chip active" data-speed="1" type="button">1×</button>
-          <button class="afvp-chip" data-speed="1.25" type="button">1.25×</button>
-          <button class="afvp-chip" data-speed="1.5"  type="button">1.5×</button>
-          <button class="afvp-chip" data-speed="2"    type="button">2×</button>
+        <div class="vp-sg-lbl">Playback Speed</div>
+        <div class="vp-chips" id="vpSpdChips">
+          <button class="vp-chip" data-speed="0.5"  type="button">0.5×</button>
+          <button class="vp-chip" data-speed="0.75" type="button">0.75×</button>
+          <button class="vp-chip vp-on" data-speed="1" type="button">1×</button>
+          <button class="vp-chip" data-speed="1.25" type="button">1.25×</button>
+          <button class="vp-chip" data-speed="1.5"  type="button">1.5×</button>
+          <button class="vp-chip" data-speed="2"    type="button">2×</button>
         </div>
       </div>
       <div>
-        <div class="afvp-sg-label">Video Quality</div>
-        <div class="afvp-chips" id="afvpQualChips">
-          <button class="afvp-chip active" data-q="auto" type="button">Auto</button>
-          <button class="afvp-chip" data-q="1080" type="button">1080p</button>
-          <button class="afvp-chip" data-q="720"  type="button">720p</button>
-          <button class="afvp-chip" data-q="480"  type="button">480p</button>
-          <button class="afvp-chip" data-q="360"  type="button">360p</button>
+        <div class="vp-sg-lbl">Video Quality</div>
+        <div class="vp-chips" id="vpQualChips">
+          <button class="vp-chip vp-on" data-q="auto" type="button">Auto</button>
+          <button class="vp-chip" data-q="1080" type="button">1080p</button>
+          <button class="vp-chip" data-q="720"  type="button">720p</button>
+          <button class="vp-chip" data-q="480"  type="button">480p</button>
+          <button class="vp-chip" data-q="360"  type="button">360p</button>
         </div>
       </div>
       <div>
-        <div class="afvp-toggle-row">
+        <div class="vp-tog-row">
           <span>Loop Video</span>
-          <label class="afvp-tog"><input type="checkbox" id="afvpTogLoop"/><span class="afvp-tog-track"></span></label>
+          <label class="vp-tog"><input type="checkbox" id="vpTogLoop"/><span class="vp-tog-t"></span></label>
         </div>
-        <div class="afvp-toggle-row">
+        <div class="vp-tog-row">
           <span>Autoplay Next</span>
-          <label class="afvp-tog"><input type="checkbox" id="afvpTogAutoplay" checked/><span class="afvp-tog-track"></span></label>
+          <label class="vp-tog"><input type="checkbox" id="vpTogAP" checked/><span class="vp-tog-t"></span></label>
         </div>
-        <div class="afvp-toggle-row">
+        <div class="vp-tog-row">
           <span>Data Saver</span>
-          <label class="afvp-tog"><input type="checkbox" id="afvpTogData"/><span class="afvp-tog-track"></span></label>
+          <label class="vp-tog"><input type="checkbox" id="vpTogDS"/><span class="vp-tog-t"></span></label>
         </div>
       </div>
       <div>
-        <div class="afvp-sg-label">Sleep Timer</div>
-        <div class="afvp-chips" id="afvpSleepChips">
-          <button class="afvp-chip active" data-min="0"  type="button">Off</button>
-          <button class="afvp-chip"        data-min="15" type="button">15m</button>
-          <button class="afvp-chip"        data-min="30" type="button">30m</button>
-          <button class="afvp-chip"        data-min="60" type="button">1h</button>
+        <div class="vp-sg-lbl">Sleep Timer</div>
+        <div class="vp-chips" id="vpSleepChips">
+          <button class="vp-chip vp-on" data-min="0"  type="button">Off</button>
+          <button class="vp-chip"       data-min="15" type="button">15m</button>
+          <button class="vp-chip"       data-min="30" type="button">30m</button>
+          <button class="vp-chip"       data-min="60" type="button">1h</button>
         </div>
       </div>
     </div>
   </div>
- 
+
   <!-- NOTES PANEL -->
-  <div class="afvp-panel left hidden" id="afvpNotes" role="dialog" aria-label="Notes">
-    <div class="afvp-panel-head">
+  <div class="vp-panel vp-left vp-h" id="vpNotes" role="dialog" aria-label="Notes">
+    <div class="vp-panel-hd">
       <h3>📝 Notes</h3>
-      <button class="afvp-panel-close" id="afvpNotesCloseBtn" type="button">✕</button>
+      <button class="vp-panel-x" id="vpNoteClose" type="button" aria-label="Close">✕</button>
     </div>
-    <div class="afvp-panel-body">
+    <div class="vp-panel-body">
       <div>
-        <div class="afvp-note-ts" id="afvpNoteTs">@ 0:00</div>
-        <textarea class="afvp-note-textarea" id="afvpNoteInput"
-          rows="3" placeholder="Write a note at this timestamp…"></textarea>
-        <button class="afvp-note-save" id="afvpNoteSaveBtn" type="button" style="margin-top:8px">Save Note</button>
+        <div class="vp-note-ts" id="vpNoteTs">@ 0:00</div>
+        <textarea class="vp-note-ta" id="vpNoteInput" rows="3" placeholder="Write a note at this timestamp…"></textarea>
+        <button class="vp-note-save" id="vpNoteSave" type="button" style="margin-top:8px">Save Note</button>
       </div>
       <div>
-        <div class="afvp-sg-label">Your Notes</div>
-        <div class="afvp-notes-list" id="afvpNotesList">
-          <p class="afvp-notes-empty">No notes yet. Add one above!</p>
+        <div class="vp-sg-lbl">Your Notes</div>
+        <div class="vp-notes-list" id="vpNoteList">
+          <p class="vp-notes-empty">No notes yet. Add one above!</p>
         </div>
-        <button class="afvp-export-btn" id="afvpExportBtn" type="button" style="margin-top:10px">Export Notes as Text</button>
+        <button class="vp-export" id="vpExport" type="button" style="margin-top:10px">Export Notes as Text</button>
       </div>
     </div>
   </div>
- 
-  <!-- Backdrop (closes panels) -->
-  <div class="afvp-backdrop hidden" id="afvpBackdrop"></div>
- 
+
+  <!-- Backdrop -->
+  <div class="vp-backdrop vp-h" id="vpBackdrop"></div>
+
 </div><!-- /#afvp -->
 
       <!-- VIEW: BATCHES -->
@@ -10045,1540 +9735,1600 @@ window.addEventListener(
   }
 );
 
-/* ╔══════════════════════════════════════════════════════════════════════╗
-   ║  AF VIDEO PLAYER — COMPLETE APK-SAFE PRODUCTION SCRIPT             ║
-   ╚══════════════════════════════════════════════════════════════════════╝ */
-(function (global) {
-  'use strict';
- 
-  /* ══════════════════════════════════════════════════════════════════
-     0. ENVIRONMENT DETECTION
-  ══════════════════════════════════════════════════════════════════ */
-  var ENV = (function () {
-    var ua  = navigator.userAgent || '';
-    var isAndroidWV = /wv/.test(ua) && /Android/.test(ua);
-    var isTWA = (function () {
-      try { return document.referrer.indexOf('android-app://') === 0; } catch (e) { return false; }
-    }());
-    var isPWA = (function () {
-      try { return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch (e) { return false; }
-    }());
-    var isIOS = /iPad|iPhone|iPod/.test(ua);
-    var isAndroid = /Android/.test(ua);
-    var isSamsung = /SamsungBrowser/.test(ua);
-    var isFirefox = /Firefox/.test(ua);
-    var isEdge    = /Edg\//.test(ua);
-    var isChrome  = /Chrome/.test(ua) && !isEdge && !isSamsung;
-    var isSafari  = /Safari/.test(ua) && !isChrome && !isSamsung && !isFirefox;
-    var isDesktop = !isAndroid && !isIOS;
-    var type = isAndroidWV ? 'WebView' : isTWA ? 'TWA' : isPWA ? 'PWA' : 'Browser';
-    return {
-      ua: ua,
-      isAndroidWV: isAndroidWV,
-      isTWA: isTWA,
-      isPWA: isPWA,
-      isIOS: isIOS,
-      isAndroid: isAndroid,
-      isSamsung: isSamsung,
-      isFirefox: isFirefox,
-      isEdge: isEdge,
-      isChrome: isChrome,
-      isSafari: isSafari,
-      isDesktop: isDesktop,
-      type: type,
-      /* YouTube embedded works reliably except in strict WebViews */
-      canEmbedYT: !isAndroidWV && !isTWA
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ARCHITECTURE OVERVIEW
+   ─────────────────────────────────────────────────────────────────────
+   
+<script id="afvp-js">
+(function (W) {
+'use strict';
+═══════════════════════════════════════════════════════════════════════ */
+  
+(function (W) {
+'use strict';
+  
+/* ─── SAFE STORAGE ─── */
+var Store = (function () {
+  var mem = {};
+  function wrap(fn, fb) {
+    try { return fn(); } catch (e) { return fb; }
+  }
+  return {
+    get:    function (k)    { return wrap(function () { return localStorage.getItem(k); }, mem[k] || null); },
+    set:    function (k, v) { wrap(function () { localStorage.setItem(k, v); }, null); mem[k] = v; },
+    getJ:   function (k)    { try { return JSON.parse(this.get(k)); } catch (e) { return null; } },
+    setJ:   function (k, v) { this.set(k, JSON.stringify(v)); }
+  };
+}());
+
+/* ─── ENVIRONMENT ─── */
+var Env = (function () {
+  var ua = navigator.userAgent || '';
+  var isWV  = /wv/.test(ua) && /Android/.test(ua);
+  var isTWA = (function () { try { return document.referrer.indexOf('android-app://') === 0; } catch (e) { return false; } }());
+  var isIOS = /iPad|iPhone|iPod/.test(ua);
+  var isAnd = /Android/.test(ua);
+  return {
+    isWebView: isWV,
+    isTWA:     isTWA,
+    isIOS:     isIOS,
+    isAndroid: isAnd,
+    /* YT can be embedded via IFrame API unless we're in a strict WebView/TWA */
+    canEmbedYT: !isWV && !isTWA
+  };
+}());
+
+/* ─── UTILS ─── */
+function $$(id) { return document.getElementById(id); }
+function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+function fmt(s) {
+  if (!s || !isFinite(s) || isNaN(s)) return '0:00';
+  s = Math.floor(Math.abs(s));
+  var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), ss = s % 60;
+  return h ? h + ':' + p2(m) + ':' + p2(ss) : m + ':' + p2(ss);
+}
+function p2(n) { return n < 10 ? '0' + n : '' + n; }
+function esc(t) { return String(t || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function vidKey(url) {
+  var h = 0; for (var i = 0; i < url.length; i++) { h = ((h << 5) - h) + url.charCodeAt(i); h |= 0; }
+  return 'vpn_' + Math.abs(h).toString(36);
+}
+function ytId(url) {
+  var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+function guessType(url) {
+  if (!url) return 'mp4';
+  var u = url.toLowerCase();
+  if (u.indexOf('youtube.com') !== -1 || u.indexOf('youtu.be') !== -1) return 'youtube';
+  if (u.indexOf('.m3u8') !== -1) return 'hls';
+  if (u.indexOf('.mpd')  !== -1) return 'dash';
+  if (u.indexOf('.webm') !== -1) return 'webm';
+  return 'mp4';
+}
+
+/* Fullscreen helpers — full vendor compat */
+function reqFS(el) {
+  var fn = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+  if (fn) { try { fn.call(el); } catch (e) {} }
+}
+function exitFS() {
+  var fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+  if (fn) { try { fn.call(document); } catch (e) {} }
+}
+function isFS() {
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+}
+function lockLandscape() {
+  try {
+    if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(function(){});
+    else if (screen.lockOrientation) screen.lockOrientation('landscape');
+  } catch (e) {}
+}
+function unlockOri() {
+  try {
+    if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+    else if (screen.unlockOrientation) screen.unlockOrientation();
+  } catch (e) {}
+}
+
+/* Safe play — handles both Promise and void returns (older WebViews) */
+function safePlay(vid, onBlocked) {
+  try {
+    var p = vid.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(function (err) {
+        /* NotAllowedError = autoplay blocked → show poster */
+        if (err && err.name === 'NotAllowedError' && typeof onBlocked === 'function') onBlocked();
+      });
+    }
+  } catch (e) {}
+}
+
+/* ─── YOUTUBE API SINGLETON LOADER ─── */
+var YTApi = (function () {
+  var state = 'idle'; /* idle | loading | ready | failed */
+  var queue = [];
+  var timer = null;
+
+  function flush(ok) {
+    var q = queue.slice(); queue = [];
+    q.forEach(function (cb) { try { cb(ok); } catch (e) {} });
+  }
+  function load() {
+    state = 'loading';
+    timer = setTimeout(function () { state = 'failed'; flush(false); }, 10000);
+
+    /* Patch global callback — safe against overwrite */
+    var prev = W.onYouTubeIframeAPIReady;
+    W.onYouTubeIframeAPIReady = function () {
+      if (typeof prev === 'function') try { prev(); } catch (e) {}
+      clearTimeout(timer); timer = null;
+      state = 'ready'; flush(true);
     };
-  }());
- 
-  /* ══════════════════════════════════════════════════════════════════
-     1. SAFE STORAGE — won't crash when localStorage unavailable
-  ══════════════════════════════════════════════════════════════════ */
-  var Store = {
-    _mem: {},
-    get: function (k) {
-      try { return localStorage.getItem(k); } catch (e) { return this._mem[k] || null; }
-    },
-    set: function (k, v) {
-      try { localStorage.setItem(k, v); } catch (e) { this._mem[k] = v; }
-    },
-    del: function (k) {
-      try { localStorage.removeItem(k); } catch (e) { delete this._mem[k]; }
-    },
-    getJSON: function (k) {
-      try { return JSON.parse(this.get(k) || 'null'); } catch (e) { return null; }
-    },
-    setJSON: function (k, v) {
-      try { this.set(k, JSON.stringify(v)); } catch (e) {}
+
+    if (!$$('vp-yt-api-script')) {
+      var s = document.createElement('script');
+      s.id  = 'vp-yt-api-script';
+      s.src = 'https://www.youtube.com/iframe_api';
+      s.onerror = function () { clearTimeout(timer); timer = null; state = 'failed'; flush(false); };
+      document.head.appendChild(s);
+    } else if (W.YT && W.YT.Player) {
+      /* Script already loaded */
+      clearTimeout(timer); timer = null; state = 'ready'; flush(true);
     }
-  };
- 
-  /* ══════════════════════════════════════════════════════════════════
-     2. UTILS
-  ══════════════════════════════════════════════════════════════════ */
-  function $id(id) { return document.getElementById(id); }
- 
-  function fmt(sec) {
-    if (!sec || isNaN(sec) || !isFinite(sec)) return '0:00';
-    sec = Math.floor(Math.abs(sec));
-    var h = Math.floor(sec / 3600);
-    var m = Math.floor((sec % 3600) / 60);
-    var s = sec % 60;
-    if (h > 0) return h + ':' + pad(m) + ':' + pad(s);
-    return m + ':' + pad(s);
   }
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
-  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
-  function escHtml(t) {
-    return String(t || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
- 
-  function detectType(url) {
-    if (!url) return 'mp4';
-    var u = url.toLowerCase();
-    if (u.indexOf('youtube.com') !== -1 || u.indexOf('youtu.be') !== -1) return 'youtube';
-    if (u.indexOf('.m3u8') !== -1) return 'hls';
-    if (u.indexOf('.mpd')  !== -1) return 'dash';
-    if (u.indexOf('.webm') !== -1) return 'webm';
-    return 'mp4';
-  }
- 
-  function ytId(url) {
-    if (!url) return null;
-    var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([A-Za-z0-9_-]{11})/);
-    return m ? m[1] : null;
-  }
- 
-  function vidKey(url) {
-    var h = 0;
-    for (var i = 0; i < url.length; i++) { h = ((h << 5) - h) + url.charCodeAt(i); h |= 0; }
-    return 'afvp_' + Math.abs(h).toString(36);
-  }
- 
-  /* Safe play() — handles old WebViews returning undefined instead of Promise */
-  function safePlay(vid) {
-    try {
-      var p = vid.play();
-      if (p && typeof p.catch === 'function') {
-        p.catch(function () { /* autoplay blocked — poster will stay visible */ });
-      }
-    } catch (e) { /* older WebView */ }
-  }
- 
-  /* Safe fullscreen request with all vendor prefixes */
-  function requestFS(el) {
-    try {
-      if (el.requestFullscreen)            return el.requestFullscreen();
-      if (el.webkitRequestFullscreen)      return el.webkitRequestFullscreen();
-      if (el.mozRequestFullScreen)         return el.mozRequestFullScreen();
-      if (el.msRequestFullscreen)          return el.msRequestFullscreen();
-    } catch (e) { P._toast('Fullscreen not supported'); }
-  }
-  function exitFS() {
-    try {
-      if (document.exitFullscreen)            return document.exitFullscreen();
-      if (document.webkitExitFullscreen)      return document.webkitExitFullscreen();
-      if (document.mozCancelFullScreen)       return document.mozCancelFullScreen();
-      if (document.msExitFullscreen)          return document.msExitFullscreen();
-    } catch (e) {}
-  }
-  function isFullscreen() {
-    return !!(document.fullscreenElement || document.webkitFullscreenElement ||
-              document.mozFullScreenElement || document.msFullscreenElement);
-  }
- 
-  /* Safe orientation lock */
-  function lockLandscape() {
-    try {
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(function () {});
-      } else if (screen.lockOrientation) {
-        screen.lockOrientation('landscape');
-      } else if (screen.mozLockOrientation) {
-        screen.mozLockOrientation('landscape');
-      }
-    } catch (e) {}
-  }
-  function unlockOrientation() {
-    try {
-      if (screen.orientation && screen.orientation.unlock) {
-        screen.orientation.unlock();
-      } else if (screen.unlockOrientation) {
-        screen.unlockOrientation();
-      }
-    } catch (e) {}
-  }
- 
-  /* Progress persistence */
-  function saveProg(key, t, d) {
-    if (!key || d < 1) return;
-    Store.setJSON(key, { t: Math.floor(t), d: Math.floor(d), pct: d > 0 ? Math.round(t / d * 100) : 0, ts: Date.now() });
-  }
-  function loadProg(key) { return key ? Store.getJSON(key) : null; }
- 
-  /* ══════════════════════════════════════════════════════════════════
-     3. YOUTUBE API LOADER — singleton, queued, timeout-aware
-  ══════════════════════════════════════════════════════════════════ */
-  var YTLoader = {
-    _state: 'idle', /* idle | loading | ready | failed */
-    _queue: [],
-    _tag: null,
-    _timer: null,
- 
+  return {
     ready: function (cb) {
-      if (this._state === 'ready')   { cb(true);  return; }
-      if (this._state === 'failed')  { cb(false); return; }
-      this._queue.push(cb);
-      if (this._state === 'idle') this._load();
+      if (state === 'ready')  { cb(true);  return; }
+      if (state === 'failed') { cb(false); return; }
+      queue.push(cb);
+      if (state === 'idle') load();
     },
- 
-    _load: function () {
-      var self = this;
-      this._state = 'loading';
- 
-      /* Timeout: if YT API doesn't load within 8s → failed */
-      this._timer = setTimeout(function () {
-        self._state = 'failed';
-        self._flush(false);
-      }, 8000);
- 
-      /* Patch global callback — queue-safe (don't overwrite if already set) */
-      var prev = global.onYouTubeIframeAPIReady;
-      global.onYouTubeIframeAPIReady = function () {
-        if (typeof prev === 'function') prev();
-        if (self._timer) { clearTimeout(self._timer); self._timer = null; }
-        self._state = 'ready';
-        self._flush(true);
-      };
- 
-      /* Avoid double-loading the script */
-      if (!$id('yt-iframe-api')) {
-        var s = document.createElement('script');
-        s.id  = 'yt-iframe-api';
-        s.src = 'https://www.youtube.com/iframe_api';
-        s.onerror = function () {
-          if (self._timer) { clearTimeout(self._timer); self._timer = null; }
-          self._state = 'failed';
-          self._flush(false);
-        };
-        document.head.appendChild(s);
-      } else if (global.YT && global.YT.Player) {
-        /* Script already present and API ready */
-        if (this._timer) { clearTimeout(this._timer); this._timer = null; }
-        this._state = 'ready';
-        this._flush(true);
-      }
-    },
- 
-    _flush: function (ok) {
-      var q = this._queue.slice();
-      this._queue = [];
-      q.forEach(function (cb) { try { cb(ok); } catch (e) {} });
-    },
- 
-    reset: function () {
-      /* Allow retry after failure */
-      if (this._state === 'failed') this._state = 'idle';
-    }
+    reset: function () { if (state === 'failed') state = 'idle'; }
   };
- 
-  /* ══════════════════════════════════════════════════════════════════
-     4. PLAYER OBJECT
-  ══════════════════════════════════════════════════════════════════ */
-  var P = {
-    /* Config */
-    _cfg: null,
-    _type: null,
-    _key: null,
-    _ytVideoId: null,
- 
-    /* Engine refs */
-    _yt: null,
-    _ytOK: false,
-    _ytFallbackStage: 0, /* 0=iframe, 1=nocookie, 2=app/web */
-    _hls: null,
-    _dash: null,
- 
-    /* State */
-    _playing: false,
-    _muted: false,
-    _vol: 1,
-    _speed: 1,
-    _dur: 0,
-    _cur: 0,
-    _fs: false,
-    _autoplay: true,
-    _loop: false,
-    _datasaver: false,
-    _sleep: null,
-    _qual: 'auto',
-    _settOpen: false,
-    _noteOpen: false,
-    _ctrlVis: true,
-    _ctrlT: null,
-    _cflashT: null,
-    _raf: null,
-    _rafLastTS: 0,
-    _bookmarks: [],
-    _notes: [],
-    _lpTimer: null,
-    _progDragging: false,
-    _objURL: null, /* track createObjectURL for revoke */
- 
-    /* Touch gesture state */
-    _tStartX: 0, _tStartY: 0, _tStartT: 0,
-    _tStartVol: 1, _tMode: null,
- 
-    /* Listener refs for clean removal */
-    _kbHandler: null,
-    _backHandler: null,
-    _fsChangeHandler: null,
-    _onlineHandler: null,
-    _offlineHandler: null,
-    _vidEvents: {},
- 
-    /* ── OPEN ── */
-    open: function (cfg) {
-      if (!cfg || !cfg.url) return;
-      this._cfg  = cfg;
-      this._type = cfg.type && cfg.type !== 'auto' ? cfg.type : detectType(cfg.url);
-      this._key  = vidKey(cfg.url);
-      this._ytVideoId = this._type === 'youtube' ? ytId(cfg.url) : null;
-      this._ytFallbackStage = 0;
-      this._notes    = this._loadNotes();
-      this._bookmarks = [];
-      this._playing  = false;
-      this._speed    = 1;
-      this._qual     = 'auto';
-      this._settOpen = false;
-      this._noteOpen = false;
-      this._progDragging = false;
- 
-      /* Show overlay without touching body overflow (APK fix) */
-      var overlay = $id('afvp');
-      if (overlay) overlay.classList.remove('hidden');
- 
-      /* Show env badge (debug) */
-      var badge = $id('afvpEnvBadge');
-      if (badge) badge.textContent = ENV.type;
- 
-      this._applyMeta();
-      this._skeleton(true);
-      this._resetUI();
-      this._destroyEngine();
-      this._bindStaticUI();   /* idempotent — only attaches once */
-      this._bindProgress();
-      this._bindGestures();
-      this._bindKeyboard();
-      this._bindBack();
-      this._bindNetworkEvents();
-      this._renderNotes();
- 
-      /* Load engine after micro-task so DOM is fully ready */
-      var self = this;
-      setTimeout(function () { self._loadEngine(); }, 0);
- 
-      /* Push history state for Android back-button handling */
-      try { history.pushState({ afvp: true }, ''); } catch (e) {}
-    },
- 
-    close: function () {
-      this._destroyEngine();
-      this._stopRaf();
-      this._clearSleep();
-      if (this._ctrlT) { clearTimeout(this._ctrlT); this._ctrlT = null; }
-      if (this._lpTimer) { clearTimeout(this._lpTimer); this._lpTimer = null; }
-      unlockOrientation();
-      var overlay = $id('afvp');
-      if (overlay) overlay.classList.add('hidden');
-      this.closePanels();
-      /* Pop history state (Android back) */
-      try { if (history.state && history.state.afvp) history.back(); } catch (e) {}
-    },
- 
-    /* ── META ── */
-    _applyMeta: function () {
-      var c = this._cfg;
-      var set = function (id, v) { var el = $id(id); if (el) el.textContent = v || ''; };
-      set('afvpCourse',  c.courseTitle || '');
-      set('afvpTitle',   c.title || 'Lecture');
-      set('afvpChapter', c.chapter || '');
-      set('afvpCompleteSub', c.nextVideo
-        ? 'Up next: ' + (c.nextVideo.title || 'Next Lecture')
-        : "You've completed this lecture!");
-      var nb = $id('afvpNextBtn');
-      if (nb) nb.classList.toggle('hidden', !c.nextVideo);
-      this._applyThumbnail();
-    },
- 
-    /* Thumbnail with 4-level fallback chain */
-    _applyThumbnail: function () {
-      var c = this._cfg;
-      var po = $id('afvpPoster'), pi = $id('afvpPosterImg');
-      if (!pi || !po) return;
-      var poster = c.poster || null;
-      var ytId_  = this._ytVideoId;
-      var thumbs = poster ? [poster] : ytId_ ? [
-        'https://img.youtube.com/vi/' + ytId_ + '/maxresdefault.jpg',
-        'https://img.youtube.com/vi/' + ytId_ + '/sddefault.jpg',
-        'https://img.youtube.com/vi/' + ytId_ + '/hqdefault.jpg',
-        'https://img.youtube.com/vi/' + ytId_ + '/mqdefault.jpg'
-      ] : [];
-      if (!thumbs.length) { po.classList.add('hidden'); return; }
-      var idx = 0;
-      function tryNext() {
-        if (idx >= thumbs.length) { po.classList.add('hidden'); return; }
-        pi.onerror = function () { idx++; tryNext(); };
-        pi.onload  = function () { po.classList.remove('hidden'); };
-        pi.src = thumbs[idx++];
-      }
-      tryNext();
-    },
- 
-    /* ── RESET UI ── */
-    _resetUI: function () {
-      this._setPlay(false);
-      ['afvpSpinner','afvpError','afvpOffline','afvpCompletion',
-       'afvpSwipe','afvpSpeedInd','afvpYTFallback'].forEach(function (id) {
-        var e = $id(id); if (e) e.classList.add('hidden');
-      });
-      var elems = [
-        ['afvpPlayed',   'width', '0%'],
-        ['afvpBuffered', 'width', '0%'],
-        ['afvpThumb',    'left',  '0%'],
-        ['afvpProgInput','value', 0]
-      ];
-      elems.forEach(function (arr) {
-        var e = $id(arr[0]);
-        if (!e) return;
-        if (arr[1] === 'value') e.value = arr[2];
-        else e.style[arr[1]] = arr[2];
-      });
-      var set = function (id, v) { var el = $id(id); if (el) el.textContent = v; };
-      set('afvpCur', '0:00');
-      set('afvp-dur', '0:00');
-      set('afvpSpeedLbl', '1×');
-      /* Reset speed chips */
-      var chips = document.querySelectorAll('#afvpSpeedChips .afvp-chip');
-      chips.forEach(function (c) {
-        c.classList.toggle('active', parseFloat(c.dataset.speed) === 1);
-      });
-      this._showCtrl();
-      this._sched();
-    },
- 
-    _skeleton: function (on) {
-      var s = $id('afvpSkeleton'); if (s) s.classList.toggle('hidden', !on);
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       5. ENGINE LOADERS
-    ══════════════════════════════════════════════════════════════ */
-    _loadEngine: function () {
-      if (!navigator.onLine) { this._showOffline(); return; }
-      var t = this._type;
-      if (t === 'youtube') this._loadYT();
-      else if (t === 'hls')  this._loadHLS(this._cfg.url);
-      else if (t === 'dash') this._loadDASH(this._cfg.url);
-      else this._loadNative(this._cfg.url);
-    },
- 
-    _destroyEngine: function () {
-      /* YouTube */
-      if (this._yt) {
-        try { this._yt.stopVideo(); } catch (e) {}
-        try { this._yt.destroy(); } catch (e) {}
-        this._yt = null;
-        this._ytOK = false;
-      }
-      var ytWrap = $id('afvpYTWrap');
-      if (ytWrap) {
-        var ytDiv = $id('afvp-yt-player');
-        if (ytDiv) ytDiv.innerHTML = '';
-        ytWrap.classList.add('hidden');
-      }
-      /* HLS */
-      if (this._hls) {
-        try { this._hls.stopLoad(); this._hls.detachMedia(); this._hls.destroy(); } catch (e) {}
-        this._hls = null;
-      }
-      /* DASH */
-      if (this._dash) {
-        try { this._dash.reset(); } catch (e) {}
-        this._dash = null;
-      }
-      /* Native video */
-      var vid = $id('afvp-vid');
-      if (vid) {
-        this._removeVidEvents(vid);
-        try { vid.pause(); } catch (e) {}
-        vid.removeAttribute('src');
-        try { vid.load(); } catch (e) {}
-        vid.classList.add('hidden');
-      }
-      /* Revoke any object URL */
-      if (this._objURL) {
-        try { URL.revokeObjectURL(this._objURL); } catch (e) {}
-        this._objURL = null;
-      }
-    },
- 
-    /* ── YouTube engine ── */
-    _loadYT: function () {
-      var self = this;
-      var stage = this._ytFallbackStage;
- 
-      /* Stage 2+: skip iframe entirely, show fallback UI */
-      if (stage >= 2 || !ENV.canEmbedYT) {
-        this._skeleton(false);
-        this._showYTFallback();
-        return;
-      }
- 
-      $id('afvpYTWrap').classList.remove('hidden');
-      $id('afvp-vid').classList.add('hidden');
-      $id('afvpPoster') && $id('afvpPoster').classList.add('hidden');
- 
-      /* Determine embed URL based on fallback stage */
-      var id = this._ytVideoId;
-      if (!id) { this._skeleton(false); this._showErr('Invalid YouTube URL.'); return; }
- 
-      if (stage === 0) {
-        /* Stage 0: YouTube IFrame API */
-        YTLoader.ready(function (apiOK) {
-          if (!apiOK || !global.YT || !global.YT.Player) {
-            /* Stage 1: nocookie iframe */
-            self._ytFallbackStage = 1;
-            self._loadYT();
-            return;
-          }
-          self._createYTPlayer(id);
-        });
-      } else {
-        /* Stage 1: youtube-nocookie direct iframe */
-        self._createNocookieIframe(id);
-      }
-    },
- 
-    _createYTPlayer: function (id) {
-      var self = this;
-      /* Ensure container exists and is empty */
-      var wrap = $id('afvp-yt-player');
-      if (!wrap) return;
-      wrap.innerHTML = '';
- 
-      /* Timeout: if player doesn't call onReady within 10s → nocookie */
-      var readyTimer = setTimeout(function () {
-        if (!self._ytOK) {
-          self._ytFallbackStage = 1;
-          self._destroyEngine();
-          self._loadYT();
+}());
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EVENT BUS — engines fire events, player listens
+═══════════════════════════════════════════════════════════════════════ */
+function EventBus() {
+  this._h = {};
+}
+EventBus.prototype.on  = function (e, fn) { (this._h[e] = this._h[e] || []).push(fn); };
+EventBus.prototype.off = function (e, fn) { if (this._h[e]) this._h[e] = this._h[e].filter(function (h) { return h !== fn; }); };
+EventBus.prototype.emit = function (e, data) {
+  var handlers = (this._h[e] || []).slice(); /* copy so handlers can safely call off */
+  handlers.forEach(function (h) { try { h(data); } catch (er) {} });
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ENGINE BASE  (shared interface)
+═══════════════════════════════════════════════════════════════════════ */
+function Engine(bus) { this.bus = bus; this._destroyed = false; }
+Engine.prototype.play      = function () {};
+Engine.prototype.pause     = function () {};
+Engine.prototype.seek      = function () {};
+Engine.prototype.setSpeed  = function () {};
+Engine.prototype.setVolume = function () {};
+Engine.prototype.mute      = function () {};
+Engine.prototype.getTime   = function () { return 0; };
+Engine.prototype.getDur    = function () { return 0; };
+Engine.prototype.destroy   = function () { this._destroyed = true; };
+
+/* ═══════════════════════════════════════════════════════════════════════
+   YOUTUBE ENGINE
+═══════════════════════════════════════════════════════════════════════ */
+function YTEngine(cfg, bus) {
+  Engine.call(this, bus);
+  this.cfg       = cfg;
+  this.id        = ytId(cfg.url) || '';
+  this._player   = null;
+  this._ready    = false;
+  this._stage    = 0; /* 0=IFrame API, 1=nocookie+postMessage, 2=fallback UI */
+  this._readyT   = null;
+  this._pmCh     = null; /* postMessage channel for stage-1 */
+  this._dur      = 0;
+  this._t        = 0;
+  this._playing  = false;
+
+  if (!this.id) { this.bus.emit('error', { msg: 'Invalid YouTube URL.' }); return; }
+  if (!Env.canEmbedYT) { this._stage = 2; this._showFallback(); return; }
+  this._load();
+}
+YTEngine.prototype = Object.create(Engine.prototype);
+
+YTEngine.prototype._load = function () {
+  if (this._destroyed) return;
+  if (this._stage === 0) this._loadAPI();
+  else if (this._stage === 1) this._loadNocookie();
+  else this._showFallback();
+};
+
+YTEngine.prototype._loadAPI = function () {
+  var self = this;
+  YTApi.ready(function (ok) {
+    if (self._destroyed) return;
+    if (!ok || !W.YT || !W.YT.Player) { self._stage = 1; self._load(); return; }
+
+    /* Ensure container exists and is clean */
+    var wrap = $$('vp-yt-target');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+
+    /* Timeout: if onReady doesn't fire in 10s, drop to stage-1 */
+    self._readyT = setTimeout(function () {
+      if (!self._ready && !self._destroyed) { self._stage = 1; self.destroy(); self.bus.emit('yt-retry-stage'); }
+    }, 10000);
+
+    try {
+      self._player = new W.YT.Player('vp-yt-target', {
+        videoId: self.id,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,        /* we render our own controls */
+          rel: 0,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          disablekb: 1,
+          playsinline: 1,
+          fs: 0,              /* we handle fullscreen ourselves */
+          origin: (W.location && W.location.origin) ? W.location.origin : '',
+          start: Math.floor(cfg.startTime || 0)
+        },
+        events: {
+          onReady:       function (e) { self._onReady(e); },
+          onStateChange: function (e) { self._onState(e); },
+          onError:       function (e) { self._onErr(e); }
         }
-      }, 10000);
- 
+      });
+    } catch (err) {
+      clearTimeout(self._readyT); self._readyT = null;
+      self._stage = 1; self.bus.emit('yt-retry-stage');
+    }
+  });
+};
+
+YTEngine.prototype._onReady = function (e) {
+  if (this._destroyed) return;
+  clearTimeout(this._readyT); this._readyT = null;
+  this._ready = true;
+  this._dur = e.target.getDuration() || 0;
+  try { e.target.setVolume(this.cfg._vol * 100); } catch (er) {}
+  try { e.target.setPlaybackRate(this.cfg._speed); } catch (er) {}
+  this.bus.emit('ready', { dur: this._dur });
+};
+
+YTEngine.prototype._onState = function (e) {
+  if (this._destroyed) return;
+  var S = (W.YT && W.YT.PlayerState) || { PLAYING:1, PAUSED:2, BUFFERING:3, ENDED:0, CUED:5 };
+  if      (e.data === S.PLAYING)   { this._playing = true;  this.bus.emit('play'); }
+  else if (e.data === S.PAUSED)    { this._playing = false; this.bus.emit('pause'); }
+  else if (e.data === S.BUFFERING) { this.bus.emit('buffering'); }
+  else if (e.data === S.ENDED)     { this._playing = false; this.bus.emit('ended'); }
+};
+
+YTEngine.prototype._onErr = function (e) {
+  if (this._destroyed) return;
+  clearTimeout(this._readyT); this._readyT = null;
+  /* 100/101/150 = video not embeddable → hard fallback */
+  if ([100, 101, 150].indexOf(e.data) !== -1) { this._stage = 2; this._showFallback(); }
+  else { this._stage = 1; this.bus.emit('yt-retry-stage'); }
+};
+
+/* Stage 1: youtube-nocookie iframe with enablejsapi=1 + postMessage */
+YTEngine.prototype._loadNocookie = function () {
+  if (this._destroyed) return;
+  var self = this;
+  var wrap = $$('vp-yt-target');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+
+  var src = 'https://www.youtube-nocookie.com/embed/' + this.id
+    + '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3'
+    + '&playsinline=1&enablejsapi=1&origin=' + encodeURIComponent((W.location && W.location.origin) || '')
+    + (this.cfg.startTime ? '&start=' + Math.floor(this.cfg.startTime) : '');
+
+  var iframe = document.createElement('iframe');
+  iframe.src = src;
+  iframe.setAttribute('allow', 'autoplay;fullscreen;accelerometer;gyroscope;picture-in-picture');
+  iframe.setAttribute('allowfullscreen', '');
+  iframe.setAttribute('webkitallowfullscreen', '');
+  iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;background:#000;';
+
+  var loadTimer = setTimeout(function () { self.bus.emit('ready', { dur: 0 }); }, 3000);
+
+  iframe.onload = function () {
+    clearTimeout(loadTimer);
+    self._iframeEl = iframe;
+    self.bus.emit('ready', { dur: 0 });
+    self._playing = true;
+    self.bus.emit('play');
+    /* Set up postMessage channel */
+    self._pmCh = function (ev) {
+      if (!iframe.contentWindow || ev.source !== iframe.contentWindow) return;
+      var d;
+      try { d = JSON.parse(ev.data); } catch (er) { return; }
+      if (!d || !d.event) return;
+      if (d.event === 'onStateChange') {
+        if (d.info === 1) { self._playing = true;  self.bus.emit('play'); }
+        if (d.info === 2) { self._playing = false; self.bus.emit('pause'); }
+        if (d.info === 0) { self._playing = false; self.bus.emit('ended'); }
+        if (d.info === 3) { self.bus.emit('buffering'); }
+      }
+      if (d.event === 'infoDelivery' && d.info) {
+        if (d.info.currentTime !== undefined) self._t = d.info.currentTime;
+        if (d.info.duration !== undefined && d.info.duration > 0) {
+          self._dur = d.info.duration;
+          self.bus.emit('duration', { dur: self._dur });
+        }
+      }
+    };
+    W.addEventListener('message', self._pmCh);
+    /* Request info updates every second via postMessage */
+    self._pmTick = setInterval(function () {
+      if (self._destroyed || !iframe.contentWindow) return;
       try {
-        self._yt = new global.YT.Player('afvp-yt-player', {
-          videoId: id,
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            rel: 0,
-            modestbranding: 1,
-            iv_load_policy: 3,
-            disablekb: 1,
-            playsinline: 1,
-            fs: 0,
-            /* origin required for postMessage in WebView */
-            origin: global.location.origin || '',
-            start: self._cfg.startTime || 0
-          },
-          events: {
-            onReady: function (e) {
-              clearTimeout(readyTimer);
-              self._ytOK = true;
-              var dur = e.target.getDuration() || 0;
-              self._dur = dur;
-              var durEl = $id('afvp-dur'); if (durEl) durEl.textContent = fmt(dur);
-              self._skeleton(false);
-              var po = $id('afvpPoster'); if (po) po.classList.add('hidden');
-              try { e.target.setVolume(self._vol * 100); } catch (er) {}
-              try { e.target.setPlaybackRate(self._speed); } catch (er) {}
-              self._startRaf();
-              self._checkResume();
-            },
-            onStateChange: function (e) {
-              var S = global.YT ? global.YT.PlayerState : {};
-              if (e.data === (S.PLAYING || 1)) {
-                self._playing = true; self._setPlay(true);
-                var sp = $id('afvpSpinner'); if (sp) sp.classList.add('hidden');
-              } else if (e.data === (S.PAUSED || 2)) {
-                self._playing = false; self._setPlay(false);
-              } else if (e.data === (S.BUFFERING || 3)) {
-                var sp2 = $id('afvpSpinner'); if (sp2) sp2.classList.remove('hidden');
-              } else if (e.data === (S.ENDED || 0)) {
-                self._playing = false; self._setPlay(false); self._onEnd();
-              }
-            },
-            onError: function (e) {
-              clearTimeout(readyTimer);
-              /* Error codes 2,5 = wrong params; 100,101,150 = not embeddable */
-              var notEmbeddable = [100, 101, 150].indexOf(e.data) !== -1;
-              if (notEmbeddable) {
-                self._ytFallbackStage = 2;
-                self._destroyEngine();
-                self._showYTFallback();
-              } else {
-                self._ytFallbackStage = 1;
-                self._destroyEngine();
-                self._loadYT();
-              }
-            }
-          }
-        });
-      } catch (err) {
-        clearTimeout(readyTimer);
-        self._ytFallbackStage = 1;
-        self._destroyEngine();
-        self._loadYT();
-      }
-    },
- 
-    _createNocookieIframe: function (id) {
-      var self = this;
-      var wrap = $id('afvp-yt-player');
-      if (!wrap) return;
-      wrap.innerHTML = '';
- 
-      var src = 'https://www.youtube-nocookie.com/embed/' + id +
-        '?autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3' +
-        '&playsinline=1&enablejsapi=0&disablekb=1' +
-        (self._cfg.startTime ? '&start=' + Math.floor(self._cfg.startTime) : '');
- 
-      var iframe = document.createElement('iframe');
-      iframe.src = src;
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('webkitallowfullscreen', '');
-      iframe.setAttribute('mozallowfullscreen', '');
-      iframe.setAttribute('allow', 'autoplay; fullscreen; accelerometer; gyroscope; picture-in-picture');
-      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;background:#000;';
-      iframe.setAttribute('frameborder', '0');
- 
-      var loadTimer = setTimeout(function () {
-        self._skeleton(false);
-      }, 3000);
- 
-      iframe.onload = function () {
-        clearTimeout(loadTimer);
-        self._skeleton(false);
-        self._playing = true;
-        self._setPlay(true);
-      };
-      iframe.onerror = function () {
-        clearTimeout(loadTimer);
-        self._ytFallbackStage = 2;
-        self._destroyEngine();
-        self._showYTFallback();
-      };
- 
-      wrap.appendChild(iframe);
-      self._skeleton(false);
- 
-      /* For nocookie iframe we can't read time — show indeterminate progress */
-      var dur2 = $id('afvp-dur'); if (dur2) dur2.textContent = '--:--';
-    },
- 
-    _showYTFallback: function () {
-      var id = this._ytVideoId;
-      ['afvpError','afvpOffline'].forEach(function (s) { var e=$id(s); if(e) e.classList.add('hidden'); });
-      var fb = $id('afvpYTFallback');
-      if (fb) fb.classList.remove('hidden');
-      var msg = $id('afvpYTFallbackMsg');
-      if (msg) msg.textContent = ENV.isAndroidWV
-        ? 'Your device restricts embedded YouTube. Open in the YouTube app below.'
-        : 'This video cannot be embedded. Open it on YouTube.';
-      /* Wire buttons */
-      var self = this;
-      var appBtn = $id('afvpOpenYTApp');
-      var webBtn = $id('afvpOpenYTWeb');
-      var retBtn = $id('afvpRetryYT');
-      if (appBtn) appBtn.onclick = function () {
-        global.location.href = 'intent://www.youtube.com/watch?v=' + id + '#Intent;package=com.google.android.youtube;scheme=https;end';
-        /* Fallback to web after 1.5s if app didn't open */
-        setTimeout(function () {
-          global.open('https://www.youtube.com/watch?v=' + id, '_blank');
-        }, 1500);
-      };
-      if (webBtn) webBtn.onclick = function () {
-        global.open('https://www.youtube.com/watch?v=' + id, '_blank');
-      };
-      if (retBtn) retBtn.onclick = function () {
-        self._ytFallbackStage = 0;
-        YTLoader.reset();
-        var fb2 = $id('afvpYTFallback'); if (fb2) fb2.classList.add('hidden');
-        self._skeleton(true);
-        self._destroyEngine();
-        self._loadEngine();
-      };
-    },
- 
-    /* ── HLS engine ── */
-    _loadHLS: function (url) {
-      var self = this;
-      var vid  = $id('afvp-vid');
-      vid.classList.remove('hidden');
-      $id('afvpPoster') && $id('afvpPoster').classList.add('hidden');
- 
-      if (global.Hls && global.Hls.isSupported()) {
-        this._hls = new global.Hls({ capLevelToPlayerSize: true, startLevel: -1 });
-        this._hls.loadSource(url);
-        this._hls.attachMedia(vid);
-        this._hls.on(global.Hls.Events.MANIFEST_PARSED, function () {
-          self._skeleton(false);
-          safePlay(vid);
-        });
-        this._hls.on(global.Hls.Events.ERROR, function (e, d) {
-          if (d.fatal) self._showErr('HLS stream error. Check your connection.');
-        });
-      } else if (vid.canPlayType('application/vnd.apple.mpegurl')) {
-        /* iOS native HLS */
-        vid.src = url;
-        self._skeleton(false);
-        safePlay(vid);
-      } else {
-        this._showErr('HLS playback is not supported on this device.');
-        return;
-      }
-      this._attachVidEvents(vid);
-    },
- 
-    /* ── DASH engine ── */
-    _loadDASH: function (url) {
-      var self = this;
-      var vid  = $id('afvp-vid');
-      vid.classList.remove('hidden');
-      $id('afvpPoster') && $id('afvpPoster').classList.add('hidden');
- 
-      if (global.dashjs) {
-        this._dash = global.dashjs.MediaPlayer().create();
-        this._dash.initialize(vid, url, true);
-        this._dash.on('streamInitialized', function () { self._skeleton(false); });
-      } else {
-        /* Fallback to treating as native */
-        this._loadNative(url);
-        return;
-      }
-      this._attachVidEvents(vid);
-    },
- 
-    /* ── Native engine ── */
-    _loadNative: function (url) {
-      var self = this;
-      var vid  = $id('afvp-vid');
-      vid.classList.remove('hidden');
-      $id('afvpPoster') && $id('afvpPoster').classList.add('hidden');
-      vid.playbackRate = this._speed;
-      vid.volume       = this._vol;
-      if (this._cfg.startTime) vid.currentTime = this._cfg.startTime;
-      vid.src = url;
-      try { vid.load(); } catch (e) {}
-      this._attachVidEvents(vid);
-      safePlay(vid);
-    },
- 
-    /* ── Native video events — named refs so they can be removed ── */
-    _attachVidEvents: function (vid) {
-      var self = this;
-      this._vidEvents = {
-        loadedmetadata: function () {
-          self._dur = vid.duration || 0;
-          var durEl = $id('afvp-dur'); if (durEl) durEl.textContent = fmt(self._dur);
-          self._skeleton(false);
-          if (self._cfg.startTime && !isNaN(vid.duration)) {
-            vid.currentTime = clamp(self._cfg.startTime, 0, vid.duration);
-          }
-          self._startRaf();
-          self._checkResume();
-        },
-        play: function () {
-          self._playing = true; self._setPlay(true);
-          var sp = $id('afvpSpinner'); if (sp) sp.classList.add('hidden');
-        },
-        pause: function () { self._playing = false; self._setPlay(false); },
-        waiting: function () {
-          var sp = $id('afvpSpinner'); if (sp) sp.classList.remove('hidden');
-        },
-        canplay: function () {
-          var sp = $id('afvpSpinner'); if (sp) sp.classList.add('hidden');
-          self._skeleton(false);
-        },
-        ended: function () { self._playing = false; self._setPlay(false); self._onEnd(); },
-        error: function () { self._showErr('Video could not be loaded. Please try again.'); },
-        progress: function () {
-          try {
-            if (vid.buffered.length && self._dur > 0) {
-              var end = vid.buffered.end(vid.buffered.length - 1);
-              var pct = (end / self._dur) * 100;
-              var buf = $id('afvpBuffered'); if (buf) buf.style.width = clamp(pct, 0, 100) + '%';
-            }
-          } catch (e) {}
-        }
-      };
-      for (var ev in this._vidEvents) {
-        vid.addEventListener(ev, this._vidEvents[ev]);
-      }
-    },
- 
-    _removeVidEvents: function (vid) {
-      for (var ev in this._vidEvents) {
-        try { vid.removeEventListener(ev, this._vidEvents[ev]); } catch (e) {}
-      }
-      this._vidEvents = {};
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       6. PLAYBACK CONTROLS
-    ══════════════════════════════════════════════════════════════ */
-    play: function () {
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { this._yt.playVideo(); } catch (e) {}
-      } else {
-        var v = $id('afvp-vid'); if (v) safePlay(v);
-      }
-      var po = $id('afvpPoster'); if (po) po.classList.add('hidden');
-    },
- 
-    pause: function () {
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { this._yt.pauseVideo(); } catch (e) {}
-      } else {
-        var v = $id('afvp-vid');
-        if (v) { try { v.pause(); } catch (e) {} }
-      }
-    },
- 
-    togglePlay: function () {
-      if (this._playing) this.pause(); else this.play();
-      this._flashCenter();
-      this._showCtrl();
-      this._sched();
-    },
- 
-    seek: function (s) {
-      if (this._dur > 0) s = clamp(s, 0, this._dur);
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { this._yt.seekTo(s, true); } catch (e) {}
-      } else {
-        var v = $id('afvp-vid');
-        if (v && isFinite(s)) { try { v.currentTime = s; } catch (e) {} }
-      }
-      this._cur = s;
-      this._updateUI(s, this._dur);
-    },
- 
-    skip: function (s) { this.seek((this._cur || 0) + s); },
- 
-    replay: function () {
-      var comp = $id('afvpCompletion'); if (comp) comp.classList.add('hidden');
-      this.seek(0);
-      this.play();
-    },
- 
-    playNext: function () {
-      var next = this._cfg && this._cfg.nextVideo;
-      var comp = $id('afvpCompletion'); if (comp) comp.classList.add('hidden');
-      if (next) { this.close(); this.open(next); }
-      else this.close();
-    },
- 
-    retry: function () {
-      var e  = $id('afvpError');   if (e)  e.classList.add('hidden');
-      var of = $id('afvpOffline'); if (of) of.classList.add('hidden');
-      this._destroyEngine();
-      this._skeleton(true);
-      var self = this;
-      setTimeout(function () { self._loadEngine(); }, 300);
-    },
- 
-    checkOnline: function () {
-      if (navigator.onLine) this.retry();
-      else this._toast('Still offline. Check your connection.');
-    },
- 
-    /* ── Speed ── */
-    setSpeed: function (sp) {
-      this._speed = sp;
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { this._yt.setPlaybackRate(sp); } catch (e) {}
-      } else {
-        var v = $id('afvp-vid');
-        if (v) { try { v.playbackRate = sp; } catch (e) {} }
-      }
-      var lbl = $id('afvpSpeedLbl'); if (lbl) lbl.textContent = sp + '×';
-      document.querySelectorAll('#afvpSpeedChips .afvp-chip').forEach(function (c) {
-        c.classList.toggle('active', parseFloat(c.dataset.speed) === sp);
-      });
-    },
- 
-    cycleSpeed: function () {
-      var speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
-      var i = speeds.indexOf(this._speed);
-      this.setSpeed(speeds[(i + 1) % speeds.length]);
-    },
- 
-    /* ── Quality ── */
-    setQuality: function (q) {
-      this._qual = q;
-      document.querySelectorAll('#afvpQualChips .afvp-chip').forEach(function (c) {
-        c.classList.toggle('active', c.dataset.q === q);
-      });
-      if (this._hls) {
-        if (q === 'auto') { this._hls.currentLevel = -1; return; }
-        var lvls = this._hls.levels, best = -1, bd = Infinity;
-        if (lvls) lvls.forEach(function (l, idx) {
-          var d = Math.abs(l.height - parseInt(q));
-          if (d < bd) { bd = d; best = idx; }
-        });
-        if (best >= 0) this._hls.currentLevel = best;
-      }
-    },
- 
-    /* ── Volume / Mute ── */
-    toggleMute: function () {
-      this._muted = !this._muted;
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { this._muted ? this._yt.mute() : this._yt.unMute(); } catch (e) {}
-      } else {
-        var v = $id('afvp-vid'); if (v) v.muted = this._muted;
-      }
-      var w1 = $id('afvpWave1'), w2 = $id('afvpWave2');
-      if (w1) w1.style.opacity = this._muted ? '0.2' : '1';
-      if (w2) w2.style.opacity = this._muted ? '0.2' : '1';
-    },
- 
-    setVolume: function (v) {
-      this._vol = clamp(v, 0, 1);
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { this._yt.setVolume(this._vol * 100); } catch (e) {}
-      } else {
-        var vid = $id('afvp-vid'); if (vid) vid.volume = this._vol;
-      }
-      var vs = $id('afvpVolSlider'); if (vs) vs.value = Math.round(this._vol * 100);
-    },
- 
-    /* ── Fullscreen — full vendor-prefix compat ── */
-    toggleFullscreen: function () {
-      var el = $id('afvp');
-      if (!el) return;
-      if (!isFullscreen()) {
-        requestFS(el);
-        if (ENV.isAndroid) lockLandscape();
-        this._fs = true;
-      } else {
-        exitFS();
-        if (ENV.isAndroid) unlockOrientation();
-        this._fs = false;
-      }
-      this._syncFSIcons();
-    },
- 
-    _syncFSIcons: function () {
-      var fs = isFullscreen();
-      var ex = $id('afvpFSExpand'), cm = $id('afvpFSCompress');
-      if (ex) ex.classList.toggle('hidden', fs);
-      if (cm) cm.classList.toggle('hidden', !fs);
-    },
- 
-    /* ── Panels ── */
-    openSettings: function () {
-      this.closeNotes();
-      var p = $id('afvpSettings'); if (!p) return;
-      p.classList.toggle('hidden');
-      this._settOpen = !p.classList.contains('hidden');
-      var bd = $id('afvpBackdrop'); if (bd) bd.classList.toggle('hidden', !this._settOpen);
-    },
-    closeSettings: function () {
-      var p = $id('afvpSettings'); if (p) p.classList.add('hidden');
-      this._settOpen = false;
-      if (!this._noteOpen) { var bd = $id('afvpBackdrop'); if (bd) bd.classList.add('hidden'); }
-    },
-    openNotes: function () {
-      this.closeSettings();
-      var p = $id('afvpNotes'); if (!p) return;
-      p.classList.toggle('hidden');
-      this._noteOpen = !p.classList.contains('hidden');
-      var bd = $id('afvpBackdrop'); if (bd) bd.classList.toggle('hidden', !this._noteOpen);
-      if (this._noteOpen) {
-        var ts = $id('afvpNoteTs'); if (ts) ts.textContent = '@ ' + fmt(this._cur || 0);
-      }
-    },
-    closeNotes: function () {
-      var p = $id('afvpNotes'); if (p) p.classList.add('hidden');
-      this._noteOpen = false;
-      if (!this._settOpen) { var bd = $id('afvpBackdrop'); if (bd) bd.classList.add('hidden'); }
-    },
-    closePanels: function () { this.closeSettings(); this.closeNotes(); },
- 
-    /* ── Toggles ── */
-    toggleLoop: function (on) {
-      this._loop = on;
-      var v = $id('afvp-vid'); if (v) v.loop = on;
-    },
-    toggleAutoplay: function (on) { this._autoplay = on; },
-    toggleDataSaver: function (on) { this._datasaver = on; this.setQuality(on ? '360' : 'auto'); },
- 
-    setSleep: function (min) {
-      this._clearSleep();
-      if (min > 0) {
-        var self = this;
-        this._sleep = setTimeout(function () { self.pause(); self._toast('Sleep timer: paused.'); }, min * 60000);
-        this._toast('Sleep timer: ' + min + 'm');
-      } else {
-        this._toast('Sleep timer off');
-      }
-      /* Update sleep chips */
-      document.querySelectorAll('#afvpSleepChips .afvp-chip').forEach(function (c) {
-        c.classList.toggle('active', parseInt(c.dataset.min) === min);
-      });
-    },
-    _clearSleep: function () {
-      if (this._sleep) { clearTimeout(this._sleep); this._sleep = null; }
-    },
- 
-    /* ── Bookmark ── */
-    toggleBookmark: function () {
-      var t = this._cur || 0;
-      var btn = $id('afvpBtnBookmark');
-      var ex  = this._bookmarks.some(function (b) { return Math.abs(b.t - t) < 2; });
-      if (ex) {
-        this._bookmarks = this._bookmarks.filter(function (b) { return Math.abs(b.t - t) >= 2; });
-        if (btn) btn.classList.remove('bookmarked');
-        this._toast('Bookmark removed');
-      } else {
-        this._bookmarks.push({ t: t });
-        if (btn) btn.classList.add('bookmarked');
-        this._toast('Bookmarked at ' + fmt(t));
-      }
-    },
- 
-    /* ── Notes ── */
-    _loadNotes: function () {
-      return Store.getJSON('afvp_n_' + (this._key || '')) || [];
-    },
-    _saveNotes: function () {
-      Store.setJSON('afvp_n_' + (this._key || ''), this._notes);
-    },
-    saveNote: function () {
-      var inp = $id('afvpNoteInput');
-      var txt = inp ? inp.value.trim() : '';
-      if (!txt) return;
-      this._notes.push({ id: Date.now(), t: this._cur || 0, txt: txt });
-      this._notes.sort(function (a, b) { return a.t - b.t; });
-      this._saveNotes();
-      this._renderNotes();
-      if (inp) inp.value = '';
-      var ts = $id('afvpNoteTs'); if (ts) ts.textContent = '@ ' + fmt(this._cur || 0);
-    },
-    deleteNote: function (id) {
-      this._notes = this._notes.filter(function (n) { return n.id !== id; });
-      this._saveNotes();
-      this._renderNotes();
-    },
-    _renderNotes: function () {
-      var list = $id('afvpNotesList'); if (!list) return;
-      if (!this._notes.length) {
-        list.innerHTML = '<p class="afvp-notes-empty">No notes yet. Add one above!</p>';
-        return;
-      }
-      var self = this;
-      list.innerHTML = this._notes.map(function (n) {
-        return '<div class="afvp-note-item">'
-          + '<span class="afvp-note-item-ts" data-t="' + n.t + '">▶ ' + fmt(n.t) + '</span>'
-          + '<p class="afvp-note-item-text">' + escHtml(n.txt) + '</p>'
-          + '<button class="afvp-note-del" data-id="' + n.id + '" type="button">Delete</button>'
-          + '</div>';
-      }).join('');
-      /* Wire note item clicks via delegation */
-      list.onclick = function (e) {
-        var tsEl  = e.target.closest('.afvp-note-item-ts');
-        var delEl = e.target.closest('.afvp-note-del');
-        if (tsEl)  self.seek(parseFloat(tsEl.dataset.t));
-        if (delEl) self.deleteNote(parseInt(delEl.dataset.id));
-      };
-    },
-    exportNotes: function () {
-      var lines = ['=== VIDEO NOTES ===', 'Video: ' + ((this._cfg && this._cfg.title) || ''), ''];
-      this._notes.forEach(function (n) { lines.push('[' + fmt(n.t) + '] ' + n.txt); });
-      var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-      var url  = null;
-      try { url = URL.createObjectURL(blob); } catch (e) { this._toast('Export not supported'); return; }
-      this._objURL = url;
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'notes-' + ((this._cfg && this._cfg.title || 'video').replace(/\s+/g, '-')) + '.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      var self = this;
-      setTimeout(function () {
-        try { URL.revokeObjectURL(url); } catch (e) {}
-        self._objURL = null;
-      }, 5000);
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       7. RAF TICK — throttled to 250ms for low-end devices
-    ══════════════════════════════════════════════════════════════ */
-    _startRaf: function () {
-      this._stopRaf();
-      var self = this;
-      var loop = function (ts) {
-        /* Throttle: ~4fps is enough for time display */
-        if (ts - self._rafLastTS >= 250) {
-          self._rafLastTS = ts;
-          self._tick();
-        }
-        self._raf = requestAnimationFrame(loop);
-      };
-      this._raf = requestAnimationFrame(loop);
-    },
- 
-    _stopRaf: function () {
-      if (this._raf !== null) {
-        try { cancelAnimationFrame(this._raf); } catch (e) {}
-        this._raf = null;
-      }
-    },
- 
-    _tick: function () {
-      var t = 0, d = this._dur;
-      if (this._type === 'youtube' && this._ytOK && this._yt) {
-        try { t = this._yt.getCurrentTime() || 0; } catch (e) {}
-        try { d = this._yt.getDuration()    || 0; } catch (e) {}
-      } else {
-        var v = $id('afvp-vid');
-        if (v) { t = v.currentTime || 0; d = v.duration || 0; }
-      }
-      this._cur = t; this._dur = d;
-      this._updateUI(t, d);
-      if (d > 5) saveProg(this._key, t, d);
-    },
- 
-    _updateUI: function (t, d) {
-      var pct = d > 0 ? clamp(t / d * 100, 0, 100) : 0;
-      var curEl = $id('afvpCur'); if (curEl) curEl.textContent = fmt(t);
-      var durEl = $id('afvp-dur'); if (durEl) durEl.textContent = fmt(d);
-      if (!this._progDragging) {
-        var pl  = $id('afvpPlayed');  if (pl)  pl.style.width  = pct + '%';
-        var th  = $id('afvpThumb');   if (th)  th.style.left   = pct + '%';
-        var inp = $id('afvpProgInput'); if (inp) inp.value = Math.round(pct * 10);
-      }
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       8. PROGRESS BAR BINDING — idempotent
-    ══════════════════════════════════════════════════════════════ */
-    _progressBound: false,
-    _bindProgress: function () {
-      if (this._progressBound) return;
-      this._progressBound = true;
-      var self = this;
-      var inp  = $id('afvpProgInput');
-      var wrap = $id('afvpProgWrap');
-      var vs   = $id('afvpVolSlider');
- 
-      if (inp) {
-        inp.addEventListener('input', function () {
-          self._progDragging = true;
-          if (wrap) wrap.classList.add('dragging');
-          var pct = parseInt(this.value, 10) / 1000;
-          var t   = pct * self._dur;
-          var pl  = $id('afvpPlayed'); if (pl)  pl.style.width = (pct * 100) + '%';
-          var th  = $id('afvpThumb');  if (th)  th.style.left  = (pct * 100) + '%';
-          var cur = $id('afvpCur');    if (cur) cur.textContent = fmt(t);
-        });
-        inp.addEventListener('change', function () {
-          self._progDragging = false;
-          if (wrap) wrap.classList.remove('dragging');
-          var pct = parseInt(this.value, 10) / 1000;
-          self.seek(pct * self._dur);
-        });
-      }
-      if (vs) {
-        vs.addEventListener('input', function () {
-          self.setVolume(parseInt(this.value, 10) / 100);
-        });
-      }
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       9. STATIC UI BINDINGS — fires ONCE per page load
-    ══════════════════════════════════════════════════════════════ */
-    _staticBound: false,
-    _bindStaticUI: function () {
-      if (this._staticBound) return;
-      this._staticBound = true;
-      var self = this;
- 
-      function on(id, ev, fn) {
-        var el = $id(id); if (el) el.addEventListener(ev, fn);
-      }
- 
-      on('afvpBackBtn',       'click', function () { self.close(); });
-      on('afvpCplay',         'click', function () { self.togglePlay(); });
-      on('afvpPlayPauseSmBtn','click', function () { self.togglePlay(); });
-      on('afvpSkipBackBtn',   'click', function () { self.skip(-10); });
-      on('afvpSkipFwdBtn',    'click', function () { self.skip(10); });
-      on('afvpMuteBtn',       'click', function () { self.toggleMute(); });
-      on('afvpSpeedCycleBtn', 'click', function () { self.cycleSpeed(); });
-      on('afvpBtnFS',         'click', function () { self.toggleFullscreen(); });
-      on('afvpFSSmBtn',       'click', function () { self.toggleFullscreen(); });
-      on('afvpBtnBookmark',   'click', function () { self.toggleBookmark(); });
-      on('afvpBtnNotes',      'click', function () { self.openNotes(); });
-      on('afvpBtnSettings',   'click', function () { self.openSettings(); });
-      on('afvpSettingsCloseBtn','click',function () { self.closeSettings(); });
-      on('afvpNotesCloseBtn', 'click', function () { self.closeNotes(); });
-      on('afvpBackdrop',      'click', function () { self.closePanels(); });
-      on('afvpPosterPlayBtn', 'click', function () { self.play(); });
-      on('afvpRetryBtn',      'click', function () { self.retry(); });
-      on('afvpCheckOnlineBtn','click', function () { self.checkOnline(); });
-      on('afvpReplayBtn',     'click', function () { self.replay(); });
-      on('afvpNextBtn',       'click', function () { self.playNext(); });
-      on('afvpNoteSaveBtn',   'click', function () { self.saveNote(); });
-      on('afvpExportBtn',     'click', function () { self.exportNotes(); });
- 
-      on('afvpTogLoop',     'change', function () { self.toggleLoop(this.checked); });
-      on('afvpTogAutoplay', 'change', function () { self.toggleAutoplay(this.checked); });
-      on('afvpTogData',     'change', function () { self.toggleDataSaver(this.checked); });
- 
-      /* Speed chips */
-      var sc = $id('afvpSpeedChips');
-      if (sc) sc.addEventListener('click', function (e) {
-        var chip = e.target.closest('.afvp-chip');
-        if (!chip) return;
-        self.setSpeed(parseFloat(chip.dataset.speed));
-      });
- 
-      /* Quality chips */
-      var qc = $id('afvpQualChips');
-      if (qc) qc.addEventListener('click', function (e) {
-        var chip = e.target.closest('.afvp-chip');
-        if (!chip) return;
-        self.setQuality(chip.dataset.q);
-      });
- 
-      /* Sleep chips */
-      var slc = $id('afvpSleepChips');
-      if (slc) slc.addEventListener('click', function (e) {
-        var chip = e.target.closest('.afvp-chip');
-        if (!chip) return;
-        self.setSleep(parseInt(chip.dataset.min, 10));
-      });
- 
-      /* Mouse move → show controls (desktop) */
-      var va = $id('afvpVideoArea');
-      if (va) va.addEventListener('mousemove', function () { self._showCtrl(); self._sched(); });
- 
-      /* Fullscreen change events — all vendors */
-      this._fsChangeHandler = function () { self._syncFSIcons(); };
-      document.addEventListener('fullscreenchange',       this._fsChangeHandler);
-      document.addEventListener('webkitfullscreenchange', this._fsChangeHandler);
-      document.addEventListener('mozfullscreenchange',    this._fsChangeHandler);
-      document.addEventListener('MSFullscreenChange',     this._fsChangeHandler);
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       10. GESTURE BINDING — replaces on every open() so touch
-           state is reset correctly
-    ══════════════════════════════════════════════════════════════ */
-    _gestureBound: false,
-    _bindGestures: function () {
-      if (this._gestureBound) return;
-      this._gestureBound = true;
-      var self = this;
-      var g    = $id('afvpGesture');
-      if (!g) return;
- 
-      /* Desktop double-click */
-      g.addEventListener('dblclick', function (e) {
-        var rect = g.getBoundingClientRect();
-        var x    = e.clientX - rect.left, w = g.offsetWidth;
-        if (x < w / 3)    { self.skip(-10); self._gfb('L'); }
-        else if (x > w * 2 / 3) { self.skip(10);  self._gfb('R'); }
-        else self.togglePlay();
-      });
- 
-      /* Single desktop click */
-      g.addEventListener('click', function (e) {
-        if (e.target.closest('button')) return;
-        self._toggleCtrl();
-      });
- 
-      /* Touch — use {passive:false} so we can preventDefault on move */
-      g.addEventListener('touchstart', function (e) {
-        var t = e.touches[0];
-        self._tStartX   = t.clientX;
-        self._tStartY   = t.clientY;
-        self._tStartT   = Date.now();
-        self._tStartVol = self._vol;
-        self._tMode     = null;
-        /* Long-press → 2× speed */
-        if (self._lpTimer) clearTimeout(self._lpTimer);
-        self._lpTimer = setTimeout(function () {
-          self.setSpeed(2);
-          var ind = $id('afvpSpeedInd');
-          if (ind) { ind.classList.remove('hidden'); }
-          var st = $id('afvpSpeedTxt'); if (st) st.textContent = '2× Speed';
-        }, 500);
-      }, { passive: true });
- 
-      g.addEventListener('touchmove', function (e) {
-        if (self._lpTimer) { clearTimeout(self._lpTimer); self._lpTimer = null; }
-        var t  = e.touches[0];
-        var dx = t.clientX - self._tStartX;
-        var dy = t.clientY - self._tStartY;
-        var rect = g.getBoundingClientRect();
- 
-        if (!self._tMode) {
-          if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12)
-            self._tMode = 'seek';
-          else if (Math.abs(dy) > 12)
-            self._tMode = t.clientX > rect.width / 2 ? 'brightness' : 'volume';
-        }
- 
-        if (self._tMode === 'volume') {
-          var nv = clamp(self._tStartVol - (dy / rect.height), 0, 1);
-          self.setVolume(nv);
-          self._swipe('🔊', nv);
-          /* Prevent page scroll only when clearly swiping volume */
-          try { e.preventDefault(); } catch (er) {}
-        } else if (self._tMode === 'brightness') {
-          var bv = clamp(0.35 - (dy / rect.height), 0.1, 1);
-          var va2 = $id('afvpVideoArea');
-          if (va2) va2.style.filter = 'brightness(' + bv + ')';
-          self._swipe('☀️', bv);
-          try { e.preventDefault(); } catch (er) {}
-        }
-      }, { passive: false });
- 
-      g.addEventListener('touchend', function (e) {
-        if (self._lpTimer) { clearTimeout(self._lpTimer); self._lpTimer = null; }
- 
-        /* End long-press speed */
-        var ind = $id('afvpSpeedInd');
-        if (self._speed === 2 && (Date.now() - self._tStartT) > 480) {
-          self.setSpeed(1);
-          if (ind) ind.classList.add('hidden');
-        }
-        /* Always hide speed indicator on touch end */
-        if (ind && !self._lpTimer) {
-          setTimeout(function () { if (ind) ind.classList.add('hidden'); }, 200);
-        }
- 
-        /* Seek swipe */
-        if (self._tMode === 'seek') {
-          var ch  = e.changedTouches[0];
-          var rec = g.getBoundingClientRect();
-          var dx2 = ch.clientX - self._tStartX;
-          var sdt = (dx2 / rec.width) * self._dur * 0.45;
-          self.seek(clamp((self._cur || 0) + sdt, 0, self._dur || 99999));
-        }
- 
-        /* Quick tap = toggle controls */
-        if (!self._tMode && (Date.now() - self._tStartT) < 300) {
-          self._toggleCtrl();
-        }
- 
-        self._tMode = null;
-        var sw = $id('afvpSwipe'); if (sw) sw.classList.add('hidden');
-      }, { passive: true });
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       11. KEYBOARD — bound once, removed on destroy
-    ══════════════════════════════════════════════════════════════ */
-    _kbBound: false,
-    _bindKeyboard: function () {
-      if (this._kbBound) return;
-      this._kbBound = true;
-      var self = this;
-      this._kbHandler = function (e) {
-        var ov = $id('afvp');
-        if (!ov || ov.classList.contains('hidden')) return;
-        var tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
-        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-        switch (e.key) {
-          case ' ': case 'k': e.preventDefault(); self.togglePlay(); break;
-          case 'ArrowRight':  e.preventDefault(); self.skip(10);  break;
-          case 'ArrowLeft':   e.preventDefault(); self.skip(-10); break;
-          case 'ArrowUp':     e.preventDefault(); self.setVolume(self._vol + 0.1); break;
-          case 'ArrowDown':   e.preventDefault(); self.setVolume(self._vol - 0.1); break;
-          case 'f': case 'F': self.toggleFullscreen(); break;
-          case 'm': case 'M': self.toggleMute(); break;
-          case 'Escape': self.closePanels();
-            if (!self._settOpen && !self._noteOpen) self.close(); break;
-          case ',': self.setSpeed(Math.max(0.25, self._speed - 0.25)); break;
-          case '.': self.setSpeed(Math.min(3, self._speed + 0.25));    break;
-        }
-      };
-      document.addEventListener('keydown', this._kbHandler);
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       12. ANDROID BACK BUTTON — popstate
-    ══════════════════════════════════════════════════════════════ */
-    _backBound: false,
-    _bindBack: function () {
-      if (this._backBound) return;
-      this._backBound = true;
-      var self = this;
-      this._backHandler = function (e) {
-        var ov = $id('afvp');
-        if (!ov || ov.classList.contains('hidden')) return;
-        /* If panels open, close them first */
-        if (self._settOpen || self._noteOpen) {
-          self.closePanels();
-          /* Re-push so next back press closes player */
-          try { history.pushState({ afvp: true }, ''); } catch (er) {}
-        } else {
-          self.close();
-        }
-      };
-      global.addEventListener('popstate', this._backHandler);
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       13. NETWORK EVENTS — bound once
-    ══════════════════════════════════════════════════════════════ */
-    _netBound: false,
-    _bindNetworkEvents: function () {
-      if (this._netBound) return;
-      this._netBound = true;
-      var self = this;
-      this._offlineHandler = function () {
-        var ov = $id('afvp'); if (!ov || ov.classList.contains('hidden')) return;
-        self.pause();
-        self._showOffline();
-      };
-      this._onlineHandler = function () {
-        var of = $id('afvpOffline'); if (of) of.classList.add('hidden');
-        self._toast('Back online!');
-      };
-      global.addEventListener('offline', this._offlineHandler);
-      global.addEventListener('online',  this._onlineHandler);
-    },
- 
-    /* ══════════════════════════════════════════════════════════════
-       14. HELPERS — controls visibility, flash, swipe, etc.
-    ══════════════════════════════════════════════════════════════ */
-    _showCtrl: function () {
-      this._ctrlVis = true;
-      var tb = $id('afvpTopbar'), bt = $id('afvpBottom');
-      if (tb) tb.classList.remove('hide');
-      if (bt) bt.classList.remove('hide');
-    },
-    _hideCtrl: function () {
-      if (!this._playing) return;
-      this._ctrlVis = false;
-      var tb = $id('afvpTopbar'), bt = $id('afvpBottom');
-      if (tb) tb.classList.add('hide');
-      if (bt) bt.classList.add('hide');
-    },
-    _toggleCtrl: function () {
-      if (this._ctrlVis) this._hideCtrl(); else { this._showCtrl(); this._sched(); }
-    },
-    _sched: function () {
-      var self = this;
-      if (this._ctrlT) clearTimeout(this._ctrlT);
-      this._ctrlT = setTimeout(function () { self._hideCtrl(); }, 3200);
-    },
-    _flashCenter: function () {
-      var btn = $id('afvpCplay'); if (!btn) return;
-      btn.classList.add('show');
-      if (this._cflashT) clearTimeout(this._cflashT);
-      var self = this;
-      this._cflashT = setTimeout(function () {
-        var b = $id('afvpCplay'); if (b) b.classList.remove('show');
-      }, 700);
-    },
-    _setPlay: function (playing) {
-      this._playing = playing;
-      var show = function (id, v) { var e = $id(id); if (e) e.classList.toggle('hidden', !v); };
-      show('afvpIconPlay',   !playing);
-      show('afvpIconPause',   playing);
-      if (playing) { var ir = $id('afvpIconReplay'); if (ir) ir.classList.add('hidden'); }
-      show('afvpPlaySm',  !playing);
-      show('afvpPauseSm',  playing);
-    },
-    _onEnd: function () {
-      this._setPlay(false);
-      var ir = $id('afvpIconReplay'); if (ir) ir.classList.remove('hidden');
-      var ip = $id('afvpIconPlay');   if (ip) ip.classList.add('hidden');
-      if (this._loop) { this.replay(); return; }
-      var comp = $id('afvpCompletion'); if (comp) comp.classList.remove('hidden');
-      if (this._autoplay && this._cfg && this._cfg.nextVideo) {
-        var self = this;
-        setTimeout(function () { self.playNext(); }, 5000);
-      }
-      if (this._cfg && typeof this._cfg.onComplete === 'function') this._cfg.onComplete();
-    },
-    _checkResume: function () {
-      var prog = loadProg(this._key);
-      if (prog && prog.t > 5 && prog.pct < 95) {
-        var self = this;
-        setTimeout(function () {
-          self._toast('Resuming from ' + fmt(prog.t));
-          self.seek(prog.t);
-        }, 1200);
-      }
-    },
-    _showErr: function (msg, offline) {
-      this._skeleton(false);
-      if (offline) {
-        var of = $id('afvpOffline'); if (of) of.classList.remove('hidden');
-      } else {
-        var er = $id('afvpError'); if (er) er.classList.remove('hidden');
-        var em = $id('afvpErrorMsg'); if (em) em.textContent = msg || 'Error.';
-      }
-    },
-    _showOffline: function () { this._showErr('', true); },
-    _swipe: function (emoji, val) {
-      var sw   = $id('afvpSwipe');
-      var fill = $id('afvpSwipeFill');
-      var lbl  = $id('afvpSwipeLabel');
-      if (!sw) return;
-      sw.classList.remove('hidden');
-      if (fill) fill.style.height = (clamp(val, 0, 1) * 100) + '%';
-      if (lbl)  lbl.textContent = emoji + ' ' + Math.round(val * 100) + '%';
-    },
-    _gfb: function (side) {
-      var el = $id('afvpGfb' + side); if (!el) return;
-      el.classList.remove('show');
-      void el.offsetWidth; /* force reflow */
-      el.classList.add('show');
-      setTimeout(function () { var e=$id('afvpGfb'+side); if(e) e.classList.remove('show'); }, 700);
-    },
-    _toast: function (msg) {
-      var old = $id('afvp') && $id('afvp').querySelector('.afvp-toast');
-      if (old) old.remove();
-      var t = document.createElement('div');
-      t.className = 'afvp-toast';
-      t.textContent = msg;
-      var ov = $id('afvp');
-      if (ov) ov.appendChild(t);
-      setTimeout(function () { if (t.parentNode) t.remove(); }, 2200);
+        iframe.contentWindow.postMessage(JSON.stringify({ event:'listening', func:'addEventListener', args:['onStateChange'] }), '*');
+        iframe.contentWindow.postMessage(JSON.stringify({ event:'command', func:'getVideoData', args:[] }), '*');
+      } catch (er) {}
+    }, 1000);
+  };
+  iframe.onerror = function () {
+    clearTimeout(loadTimer);
+    self._stage = 2; self._showFallback();
+  };
+  wrap.appendChild(iframe);
+};
+
+YTEngine.prototype._showFallback = function () {
+  if (this._destroyed) return;
+  this.bus.emit('yt-fallback', { id: this.id, isWV: Env.isWebView });
+};
+
+YTEngine.prototype._pm = function (fn, args) {
+  /* Send postMessage command to nocookie iframe */
+  var wrap = $$('vp-yt-target');
+  var iframe = wrap && wrap.querySelector('iframe');
+  if (!iframe || !iframe.contentWindow) return;
+  try {
+    iframe.contentWindow.postMessage(JSON.stringify({ event:'command', func:fn, args:args || [] }), '*');
+  } catch (e) {}
+};
+
+YTEngine.prototype.play = function () {
+  if (this._destroyed) return;
+  if (this._player && this._ready) { try { this._player.playVideo(); } catch (e) {} }
+  else this._pm('playVideo');
+};
+YTEngine.prototype.pause = function () {
+  if (this._destroyed) return;
+  if (this._player && this._ready) { try { this._player.pauseVideo(); } catch (e) {} }
+  else this._pm('pauseVideo');
+};
+YTEngine.prototype.seek = function (t) {
+  if (this._destroyed) return;
+  if (this._player && this._ready) { try { this._player.seekTo(t, true); } catch (e) {} }
+  else this._pm('seekTo', [t, true]);
+  this._t = t;
+};
+YTEngine.prototype.setSpeed = function (r) {
+  if (this._player && this._ready) { try { this._player.setPlaybackRate(r); } catch (e) {} }
+};
+YTEngine.prototype.setVolume = function (v) {
+  if (this._player && this._ready) { try { this._player.setVolume(v * 100); } catch (e) {} }
+  else this._pm('setVolume', [Math.round(v * 100)]);
+};
+YTEngine.prototype.mute = function (on) {
+  if (this._player && this._ready) {
+    try { on ? this._player.mute() : this._player.unMute(); } catch (e) {}
+  } else {
+    this._pm(on ? 'mute' : 'unMute');
+  }
+};
+YTEngine.prototype.getTime = function () {
+  if (this._player && this._ready) { try { return this._player.getCurrentTime() || this._t; } catch (e) {} }
+  return this._t;
+};
+YTEngine.prototype.getDur = function () {
+  if (this._player && this._ready) { try { var d = this._player.getDuration(); if (d > 0) return d; } catch (e) {} }
+  return this._dur;
+};
+YTEngine.prototype.destroy = function () {
+  Engine.prototype.destroy.call(this);
+  clearTimeout(this._readyT); this._readyT = null;
+  if (this._pmTick) { clearInterval(this._pmTick); this._pmTick = null; }
+  if (this._pmCh)   { W.removeEventListener('message', this._pmCh); this._pmCh = null; }
+  if (this._player) { try { this._player.stopVideo(); } catch (e) {} try { this._player.destroy(); } catch (e) {} this._player = null; }
+  var wrap = $$('vp-yt-target'); if (wrap) wrap.innerHTML = '';
+  this._ready = false;
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NATIVE ENGINE  (MP4 / WebM / HLS / DASH)
+═══════════════════════════════════════════════════════════════════════ */
+function NativeEngine(cfg, bus) {
+  Engine.call(this, bus);
+  this.cfg  = cfg;
+  this._vid = $$('vp-vid');
+  this._hls = null;
+  this._dash = null;
+  this._evs = {}; /* named listener refs for clean removal */
+  this._objURL = null;
+  this._load();
+}
+NativeEngine.prototype = Object.create(Engine.prototype);
+
+NativeEngine.prototype._load = function () {
+  if (this._destroyed) return;
+  var vid = this._vid;
+  var cfg = this.cfg;
+  var bus = this.bus;
+  var self = this;
+
+  vid.playbackRate = cfg._speed || 1;
+  vid.volume       = cfg._vol   || 1;
+
+  /* Wire events — store refs so we can remove them */
+  function on(ev, fn) { self._evs[ev] = fn; vid.addEventListener(ev, fn); }
+
+  on('loadedmetadata', function () {
+    var d = vid.duration || 0;
+    bus.emit('ready', { dur: d });
+    if (cfg.startTime && isFinite(vid.duration)) {
+      vid.currentTime = clamp(cfg.startTime, 0, vid.duration);
     }
+  });
+  on('play',     function () { bus.emit('play'); });
+  on('pause',    function () { bus.emit('pause'); });
+  on('waiting',  function () { bus.emit('buffering'); });
+  on('canplay',  function () { bus.emit('canplay'); });
+  on('ended',    function () { bus.emit('ended'); });
+  on('error',    function () { bus.emit('error', { msg: 'Video could not be loaded.' }); });
+  on('progress', function () {
+    try {
+      if (vid.buffered.length && vid.duration > 0) {
+        var end = vid.buffered.end(vid.buffered.length - 1);
+        bus.emit('buffer', { pct: clamp(end / vid.duration * 100, 0, 100) });
+      }
+    } catch (e) {}
+  });
+
+  var type = cfg.type;
+
+  if (type === 'hls') {
+    if (W.Hls && W.Hls.isSupported()) {
+      self._hls = new W.Hls({ capLevelToPlayerSize: true, startLevel: -1 });
+      self._hls.loadSource(cfg.url);
+      self._hls.attachMedia(vid);
+      self._hls.on(W.Hls.Events.MANIFEST_PARSED, function () {
+        safePlay(vid, function () { bus.emit('autoplay-blocked'); });
+      });
+      self._hls.on(W.Hls.Events.ERROR, function (ev, d) {
+        if (d.fatal) bus.emit('error', { msg: 'HLS stream error.' });
+      });
+      return;
+    } else if (vid.canPlayType('application/vnd.apple.mpegurl')) {
+      vid.src = cfg.url;
+      safePlay(vid, function () { bus.emit('autoplay-blocked'); });
+      return;
+    } else {
+      bus.emit('error', { msg: 'HLS is not supported on this device.' }); return;
+    }
+  }
+
+  if (type === 'dash') {
+    if (W.dashjs) {
+      self._dash = W.dashjs.MediaPlayer().create();
+      self._dash.initialize(vid, cfg.url, true);
+      return;
+    }
+    /* dashjs not loaded — fall through to native */
+  }
+
+  /* MP4 / WebM / fallback */
+  vid.src = cfg.url;
+  try { vid.load(); } catch (e) {}
+  safePlay(vid, function () { bus.emit('autoplay-blocked'); });
+};
+
+NativeEngine.prototype.play      = function () { if (this._vid) safePlay(this._vid); };
+NativeEngine.prototype.pause     = function () { if (this._vid) try { this._vid.pause(); } catch (e) {} };
+NativeEngine.prototype.seek      = function (t) { if (this._vid && isFinite(t)) try { this._vid.currentTime = t; } catch (e) {} };
+NativeEngine.prototype.setSpeed  = function (r) { if (this._vid) try { this._vid.playbackRate = r; } catch (e) {} };
+NativeEngine.prototype.setVolume = function (v) { if (this._vid) this._vid.volume = clamp(v, 0, 1); };
+NativeEngine.prototype.mute      = function (on) { if (this._vid) this._vid.muted = on; };
+NativeEngine.prototype.getTime   = function () { return (this._vid && !isNaN(this._vid.currentTime)) ? this._vid.currentTime : 0; };
+NativeEngine.prototype.getDur    = function () { return (this._vid && isFinite(this._vid.duration)) ? this._vid.duration : 0; };
+NativeEngine.prototype.setQuality = function (q) {
+  if (!this._hls) return;
+  if (q === 'auto') { this._hls.currentLevel = -1; return; }
+  var lvls = this._hls.levels, best = -1, bd = Infinity;
+  if (lvls) lvls.forEach(function (l, i) { var d = Math.abs(l.height - parseInt(q)); if (d < bd) { bd = d; best = i; } });
+  if (best >= 0) this._hls.currentLevel = best;
+};
+NativeEngine.prototype.destroy = function () {
+  Engine.prototype.destroy.call(this);
+  var vid = this._vid;
+  if (vid) {
+    /* Remove all named listeners */
+    for (var ev in this._evs) { try { vid.removeEventListener(ev, this._evs[ev]); } catch (e) {} }
+    this._evs = {};
+    try { vid.pause(); } catch (e) {}
+    vid.removeAttribute('src');
+    try { vid.load(); } catch (e) {}
+  }
+  if (this._hls)  { try { this._hls.stopLoad(); this._hls.detachMedia(); this._hls.destroy(); } catch (e) {} this._hls = null; }
+  if (this._dash) { try { this._dash.reset(); } catch (e) {} this._dash = null; }
+  if (this._objURL) { try { URL.revokeObjectURL(this._objURL); } catch (e) {} this._objURL = null; }
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   AF PLAYER — singleton
+═══════════════════════════════════════════════════════════════════════ */
+var P = (function () {
+
+  /* ── State — reset on every open() ── */
+  var S = {};
+  function resetState(cfg) {
+    return {
+      cfg:         cfg,
+      type:        cfg.type && cfg.type !== 'auto' ? cfg.type : guessType(cfg.url),
+      key:         vidKey(cfg.url),
+      playing:     false,
+      muted:       false,
+      vol:         1,
+      speed:       1,
+      dur:         0,
+      cur:         0,
+      qual:        'auto',
+      loop:        false,
+      autoplay:    true,
+      datasaver:   false,
+      sleepMin:    0,
+      sleepTimer:  null,
+      bookmarks:   [],
+      notes:       [],
+      ctrlVis:     true,
+      ctrlTimer:   null,
+      flashTimer:  null,
+      lpTimer:     null,      /* long-press timer */
+      rafId:       null,
+      rafLast:     0,
+      progDrag:    false,
+      tStart:      null,      /* touch start data */
+      tMode:       null,      /* 'seek'|'volume'|'brightness'|null */
+      tStartVol:   1,
+      tLastTap:    0,         /* for double-tap detection */
+      tTapTimer:   null,
+      engine:      null,
+      destroyed:   false,
+      bus:         null,
+      busHandlers: {},        /* event→handler for cleanup */
+      objURL:      null       /* for notes export */
+    };
+  }
+
+  var state = null;
+
+  /* WeakMap tracks which DOM elements already have listeners attached.
+     Prevents duplicate listener accumulation across open() calls. */
+  var _wired = new WeakMap();
+
+  function $get(id) { return $$(id); }
+  function $show(id) { var e = $get(id); if (e) e.classList.remove('vp-h'); }
+  function $hide(id) { var e = $get(id); if (e) e.classList.add('vp-h'); }
+  function $tog(id, show) { if (show) $show(id); else $hide(id); }
+
+  /* ── OPEN ── */
+  function open(cfg) {
+    if (!cfg || !cfg.url) return;
+
+    /* Destroy previous session completely */
+    destroy();
+
+    var s = resetState(cfg);
+    s.bus = new EventBus();
+    s.notes = Store.getJ('vpn_' + vidKey(cfg.url)) || [];
+    state = s;
+
+    /* Show overlay */
+    var ov = $get('afvp');
+    if (ov) ov.classList.remove('afvp-hidden');
+
+    applyMeta();
+    resetUI();
+    bindBusEvents();
+    loadEngine();
+    bindUI();          /* idempotent via WeakMap */
+    bindKeyboard();
+    bindBack();
+    bindNetEvents();
+    renderNotes();
+
+    /* Push history for Android back button */
+    try { history.pushState({ afvp: 1 }, ''); } catch (e) {}
+  }
+
+  function destroy() {
+    if (!state) return;
+    var s = state;
+    s.destroyed = true;
+
+    /* Stop engine */
+    if (s.engine) { s.engine.destroy(); s.engine = null; }
+
+    /* Clear all timers */
+    if (s.ctrlTimer)  { clearTimeout(s.ctrlTimer);  s.ctrlTimer = null; }
+    if (s.flashTimer) { clearTimeout(s.flashTimer); s.flashTimer = null; }
+    if (s.lpTimer)    { clearTimeout(s.lpTimer);    s.lpTimer = null; }
+    if (s.sleepTimer) { clearTimeout(s.sleepTimer); s.sleepTimer = null; }
+    if (s.tTapTimer)  { clearTimeout(s.tTapTimer);  s.tTapTimer = null; }
+    stopRaf();
+
+    /* Remove bus handlers */
+    for (var ev in s.busHandlers) { s.bus.off(ev, s.busHandlers[ev]); }
+    s.busHandlers = {};
+
+    /* Revoke any object URL from notes export */
+    if (s.objURL) { try { URL.revokeObjectURL(s.objURL); } catch (e) {} s.objURL = null; }
+
+    state = null;
+  }
+
+  function close() {
+    destroy();
+    unlockOri();
+    var ov = $get('afvp');
+    if (ov) ov.classList.add('afvp-hidden');
+    closePanels();
+    try { if (history.state && history.state.afvp) history.back(); } catch (e) {}
+  }
+
+  /* ── META ── */
+  function applyMeta() {
+    var c = state.cfg;
+    function set(id, v) { var e = $get(id); if (e) e.textContent = v || ''; }
+    set('vpCourse',  c.courseTitle || '');
+    set('vpTitle',   c.title || 'Lecture');
+    set('vpChapter', c.chapter || '');
+    set('vpDoneSub', c.nextVideo
+      ? 'Up next: ' + (c.nextVideo.title || 'Next Lecture')
+      : "You've completed this lecture!");
+    $tog('vpNext', !!c.nextVideo);
+    loadPoster();
+  }
+
+  function loadPoster() {
+    var c = state.cfg;
+    var pi = $get('vpPosterImg');
+    var po = $get('vpPoster');
+    if (!pi || !po) return;
+    var id = state.type === 'youtube' ? ytId(c.url) : null;
+    var thumbs = c.poster ? [c.poster] : id ? [
+      'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg',
+      'https://img.youtube.com/vi/' + id + '/sddefault.jpg',
+      'https://img.youtube.com/vi/' + id + '/hqdefault.jpg',
+      'https://img.youtube.com/vi/' + id + '/mqdefault.jpg'
+    ] : [];
+    if (!thumbs.length) { $hide('vpPoster'); return; }
+    var idx = 0;
+    function next() {
+      if (idx >= thumbs.length) { $hide('vpPoster'); return; }
+      pi.onerror = function () { idx++; next(); };
+      pi.onload  = function () { $show('vpPoster'); };
+      pi.src = thumbs[idx++];
+    }
+    next();
+  }
+
+  /* ── RESET UI ── */
+  function resetUI() {
+    setPlayIcon(false, false);
+    ['vpSpinner','vpError','vpOffline','vpDone','vpSwipe','vpSpdInd','vpYTFall'].forEach($hide);
+    setPct(0);
+    var e;
+    e = $get('vpBuf');    if (e) e.style.width = '0%';
+    e = $get('vpCur');    if (e) e.textContent = '0:00';
+    e = $get('vpDur');    if (e) e.textContent = '0:00';
+    e = $get('vpSpdLbl'); if (e) e.textContent = '1×';
+    /* Reset speed chips */
+    document.querySelectorAll('#vpSpdChips .vp-chip').forEach(function (c) {
+      c.classList.toggle('vp-on', parseFloat(c.dataset.speed) === 1);
+    });
+    /* Reset sleep chips */
+    document.querySelectorAll('#vpSleepChips .vp-chip').forEach(function (c) {
+      c.classList.toggle('vp-on', parseInt(c.dataset.min) === 0);
+    });
+    showCtrl();
+    schedHide();
+    /* Show skeleton, hide video elements */
+    $show('vpSkel');
+    $hide('vpYTWrap');
+    $hide('vp-vid');
+  }
+
+  /* ── ENGINE LOADER ── */
+  function loadEngine() {
+    if (!state) return;
+    if (!navigator.onLine) { showOffline(); return; }
+
+    var s = state;
+    var engCfg = {
+      url:       s.cfg.url,
+      type:      s.type,
+      startTime: s.cfg.startTime || 0,
+      _vol:      s.vol,
+      _speed:    s.speed
+    };
+
+    if (s.type === 'youtube') {
+      s.engine = new YTEngine(engCfg, s.bus);
+      $show('vpYTWrap');
+      $hide('vp-vid');
+    } else {
+      s.engine = new NativeEngine(engCfg, s.bus);
+      $hide('vpYTWrap');
+      $show('vp-vid');
+    }
+  }
+
+  /* ── BUS EVENT BINDINGS ── */
+  function busOn(ev, fn) {
+    if (!state) return;
+    state.bus.on(ev, fn);
+    state.busHandlers[ev] = fn; /* track for cleanup */
+  }
+
+  function bindBusEvents() {
+    var s = state;
+
+    busOn('ready', function (d) {
+      if (!state) return;
+      $hide('vpSkel');
+      $hide('vpPoster');
+      if (d && d.dur > 0) {
+        s.dur = d.dur;
+        var e = $get('vpDur'); if (e) e.textContent = fmt(d.dur);
+      }
+      startRaf();
+      checkResume();
+    });
+
+    busOn('play', function () {
+      if (!state) return;
+      s.playing = true;
+      setPlayIcon(true, false);
+      $hide('vpSpinner');
+      $hide('vpPoster');
+      showCtrl(); schedHide();
+    });
+
+    busOn('pause', function () {
+      if (!state) return;
+      s.playing = false;
+      setPlayIcon(false, false);
+      showCtrl();
+    });
+
+    busOn('buffering', function () {
+      if (!state) return;
+      $show('vpSpinner');
+    });
+
+    busOn('canplay', function () {
+      $hide('vpSpinner');
+      $hide('vpSkel');
+    });
+
+    busOn('ended', function () {
+      if (!state) return;
+      s.playing = false;
+      setPlayIcon(false, true); /* show replay icon */
+      stopRaf();
+      onEnd();
+    });
+
+    busOn('buffer', function (d) {
+      var e = $get('vpBuf'); if (e && d) e.style.width = d.pct + '%';
+    });
+
+    busOn('duration', function (d) {
+      if (!state || !d) return;
+      if (d.dur > 0) { s.dur = d.dur; var e = $get('vpDur'); if (e) e.textContent = fmt(d.dur); }
+    });
+
+    busOn('error', function (d) {
+      if (!state) return;
+      $hide('vpSkel');
+      var e = $get('vpErrMsg'); if (e) e.textContent = (d && d.msg) || 'Error loading video.';
+      $show('vpError');
+    });
+
+    busOn('autoplay-blocked', function () {
+      if (!state) return;
+      $hide('vpSkel');
+      $show('vpPoster');
+    });
+
+    busOn('yt-fallback', function (d) {
+      if (!state) return;
+      $hide('vpSkel');
+      wireYTFallback(d && d.id, d && d.isWV);
+      $show('vpYTFall');
+    });
+
+    busOn('yt-retry-stage', function () {
+      if (!state) return;
+      /* Engine destroyed itself, create a new one at the next stage */
+      if (state.engine) { state.engine.destroy(); state.engine = null; }
+      loadEngine();
+    });
+  }
+
+  /* ── PLAYBACK CONTROLS ── */
+  function play() {
+    if (!state || !state.engine) return;
+    state.engine.play();
+    $hide('vpPoster');
+  }
+  function pause() {
+    if (!state || !state.engine) return;
+    state.engine.pause();
+  }
+  function togglePlay() {
+    if (!state) return;
+    if (state.playing) pause(); else play();
+    flashCenter();
+    showCtrl(); schedHide();
+  }
+  function seek(t) {
+    if (!state || !state.engine) return;
+    t = clamp(t, 0, state.dur || 99999);
+    state.engine.seek(t);
+    state.cur = t;
+    updateUI(t, state.dur);
+  }
+  function skip(s) { if (state) seek(state.cur + s); }
+  function replay() {
+    $hide('vpDone');
+    seek(0);
+    play();
+  }
+  function playNext() {
+    var next = state && state.cfg && state.cfg.nextVideo;
+    $hide('vpDone');
+    if (next) { close(); open(next); }
+    else close();
+  }
+
+  function setSpeed(r) {
+    if (!state) return;
+    state.speed = r;
+    if (state.engine) state.engine.setSpeed(r);
+    var e = $get('vpSpdLbl'); if (e) e.textContent = r + '×';
+    document.querySelectorAll('#vpSpdChips .vp-chip').forEach(function (c) {
+      c.classList.toggle('vp-on', parseFloat(c.dataset.speed) === r);
+    });
+  }
+  function cycleSpeed() {
+    var speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+    var i = speeds.indexOf(state ? state.speed : 1);
+    setSpeed(speeds[(i + 1) % speeds.length]);
+  }
+  function setQuality(q) {
+    if (!state) return;
+    state.qual = q;
+    if (state.engine && state.engine.setQuality) state.engine.setQuality(q);
+    document.querySelectorAll('#vpQualChips .vp-chip').forEach(function (c) {
+      c.classList.toggle('vp-on', c.dataset.q === q);
+    });
+  }
+  function toggleMute() {
+    if (!state || !state.engine) return;
+    state.muted = !state.muted;
+    state.engine.mute(state.muted);
+    var w1 = $get('vpW1'), w2 = $get('vpW2');
+    if (w1) w1.style.opacity = state.muted ? '0.2' : '1';
+    if (w2) w2.style.opacity = state.muted ? '0.2' : '1';
+  }
+  function setVolume(v) {
+    if (!state || !state.engine) return;
+    state.vol = clamp(v, 0, 1);
+    state.engine.setVolume(state.vol);
+    var vs = $get('vpVol'); if (vs) vs.value = Math.round(state.vol * 100);
+  }
+  function toggleFS() {
+    var el = $get('afvp'); if (!el) return;
+    if (!isFS()) { reqFS(el); if (Env.isAndroid) lockLandscape(); }
+    else { exitFS(); if (Env.isAndroid) unlockOri(); }
+    syncFSIcons();
+  }
+  function syncFSIcons() {
+    var fs = isFS();
+    $tog('vpFSExp', !fs); $tog('vpFSCmp', fs);
+  }
+  function toggleLoop(on) {
+    if (!state) return;
+    state.loop = on;
+    var v = $get('vp-vid'); if (v) v.loop = on;
+  }
+  function toggleAutoplay(on) { if (state) state.autoplay = on; }
+  function toggleDataSaver(on) {
+    if (!state) return;
+    state.datasaver = on;
+    setQuality(on ? '360' : 'auto');
+  }
+  function setSleep(min) {
+    if (!state) return;
+    if (state.sleepTimer) { clearTimeout(state.sleepTimer); state.sleepTimer = null; }
+    state.sleepMin = min;
+    if (min > 0) {
+      state.sleepTimer = setTimeout(function () { pause(); toast('Sleep timer: paused.'); }, min * 60000);
+      toast('Sleep timer: ' + min + 'm');
+    } else {
+      toast('Sleep timer off');
+    }
+    document.querySelectorAll('#vpSleepChips .vp-chip').forEach(function (c) {
+      c.classList.toggle('vp-on', parseInt(c.dataset.min) === min);
+    });
+  }
+  function toggleBookmark() {
+    if (!state) return;
+    var t   = state.cur;
+    var btn = $get('vpBmark');
+    var ex  = state.bookmarks.some(function (b) { return Math.abs(b.t - t) < 2; });
+    if (ex) {
+      state.bookmarks = state.bookmarks.filter(function (b) { return Math.abs(b.t - t) >= 2; });
+      if (btn) btn.classList.remove('vp-bookmarked');
+      toast('Bookmark removed');
+    } else {
+      state.bookmarks.push({ t: t });
+      if (btn) btn.classList.add('vp-bookmarked');
+      toast('Bookmarked at ' + fmt(t));
+    }
+  }
+
+  /* ── PANELS ── */
+  function openSettings() {
+    closeNotes();
+    $tog('vpSettings', true);
+    $show('vpBackdrop');
+  }
+  function closeSettings() {
+    $hide('vpSettings');
+    if (!$$('vpNotes') || $$('vpNotes').classList.contains('vp-h')) $hide('vpBackdrop');
+  }
+  function openNotes() {
+    closeSettings();
+    $show('vpNotes');
+    $show('vpBackdrop');
+    var ts = $get('vpNoteTs');
+    if (ts && state) ts.textContent = '@ ' + fmt(state.cur);
+  }
+  function closeNotes() {
+    $hide('vpNotes');
+    if (!$$('vpSettings') || $$('vpSettings').classList.contains('vp-h')) $hide('vpBackdrop');
+  }
+  function closePanels() { closeSettings(); closeNotes(); }
+  function isPanelOpen() {
+    var s = $get('vpSettings'), n = $get('vpNotes');
+    return (s && !s.classList.contains('vp-h')) || (n && !n.classList.contains('vp-h'));
+  }
+
+  /* ── NOTES ── */
+  function saveNote() {
+    if (!state) return;
+    var inp = $get('vpNoteInput');
+    var txt = inp ? inp.value.trim() : '';
+    if (!txt) return;
+    state.notes.push({ id: Date.now(), t: state.cur, txt: txt });
+    state.notes.sort(function (a, b) { return a.t - b.t; });
+    Store.setJ('vpn_' + state.key, state.notes);
+    renderNotes();
+    if (inp) inp.value = '';
+    var ts = $get('vpNoteTs'); if (ts) ts.textContent = '@ ' + fmt(state.cur);
+  }
+  function deleteNote(id) {
+    if (!state) return;
+    state.notes = state.notes.filter(function (n) { return n.id !== id; });
+    Store.setJ('vpn_' + state.key, state.notes);
+    renderNotes();
+  }
+  function renderNotes() {
+    var list = $get('vpNoteList'); if (!list) return;
+    if (!state || !state.notes.length) {
+      list.innerHTML = '<p class="vp-notes-empty">No notes yet. Add one above!</p>';
+      return;
+    }
+    list.innerHTML = state.notes.map(function (n) {
+      return '<div class="vp-note-item">'
+        + '<span class="vp-note-item-ts" data-t="' + n.t + '">▶ ' + fmt(n.t) + '</span>'
+        + '<p class="vp-note-item-txt">' + esc(n.txt) + '</p>'
+        + '<button class="vp-note-del" data-id="' + n.id + '" type="button">Delete</button>'
+        + '</div>';
+    }).join('');
+    list.onclick = function (e) {
+      var ts  = e.target.closest('.vp-note-item-ts');
+      var del = e.target.closest('.vp-note-del');
+      if (ts)  seek(parseFloat(ts.dataset.t));
+      if (del) deleteNote(parseInt(del.dataset.id));
+    };
+  }
+  function exportNotes() {
+    if (!state) return;
+    var lines = ['=== VIDEO NOTES ===', 'Video: ' + (state.cfg.title || ''), ''];
+    state.notes.forEach(function (n) { lines.push('[' + fmt(n.t) + '] ' + n.txt); });
+    var blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    var url;
+    try { url = URL.createObjectURL(blob); } catch (e) { toast('Export not supported'); return; }
+    state.objURL = url;
+    var a = document.createElement('a');
+    a.href = url; a.download = 'notes-' + (state.cfg.title || 'video').replace(/\s+/g, '-') + '.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () {
+      try { URL.revokeObjectURL(url); } catch (e) {}
+      if (state) state.objURL = null;
+    }, 5000);
+  }
+
+  /* ── RAF TICK ── */
+  function startRaf() {
+    stopRaf();
+    if (!state) return;
+    function loop(ts) {
+      if (!state || state.destroyed) return;
+      if (ts - state.rafLast >= 250) {
+        state.rafLast = ts;
+        tick();
+      }
+      state.rafId = requestAnimationFrame(loop);
+    }
+    state.rafId = requestAnimationFrame(loop);
+  }
+  function stopRaf() {
+    if (state && state.rafId !== null) {
+      try { cancelAnimationFrame(state.rafId); } catch (e) {}
+      state.rafId = null;
+    }
+  }
+  function tick() {
+    if (!state || !state.engine) return;
+    var t = state.engine.getTime();
+    var d = state.engine.getDur();
+    if (d > 0 && state.dur !== d) {
+      state.dur = d;
+      var de = $get('vpDur'); if (de) de.textContent = fmt(d);
+    }
+    state.cur = t;
+    if (!state.progDrag) updateUI(t, d || state.dur);
+    /* Persist progress */
+    if (d > 1) {
+      Store.setJ('vpp_' + state.key, { t: Math.floor(t), d: Math.floor(d), ts: Date.now() });
+    }
+  }
+
+  function updateUI(t, d) {
+    var pct = d > 0 ? clamp(t / d * 100, 0, 100) : 0;
+    var ce = $get('vpCur'); if (ce) ce.textContent = fmt(t);
+    var pl = $get('vpPlayed'); if (pl) pl.style.width = pct + '%';
+    var th = $get('vpThumb');  if (th) th.style.left  = pct + '%';
+    var pr = $get('vpProg');   if (pr) pr.setAttribute('aria-valuenow', Math.round(pct));
+  }
+  function setPct(pct) {
+    var pl = $get('vpPlayed'); if (pl) pl.style.width = pct + '%';
+    var th = $get('vpThumb');  if (th) th.style.left  = pct + '%';
+  }
+
+  /* ── ON END ── */
+  function onEnd() {
+    if (!state) return;
+    if (state.loop) { replay(); return; }
+    $show('vpDone');
+    if (state.autoplay && state.cfg && state.cfg.nextVideo) {
+      var t = setTimeout(function () { if (state) playNext(); }, 5000);
+      /* Store timeout so it can be cancelled if user hits replay */
+      state._autoNextTimer = t;
+    }
+    if (state.cfg && typeof state.cfg.onComplete === 'function') state.cfg.onComplete();
+  }
+
+  /* ── RESUME ── */
+  function checkResume() {
+    if (!state) return;
+    var prog = Store.getJ('vpp_' + state.key);
+    if (prog && prog.t > 5 && state.dur > 0 && (prog.t / state.dur) < 0.95) {
+      setTimeout(function () {
+        if (!state) return;
+        toast('Resuming from ' + fmt(prog.t));
+        seek(prog.t);
+      }, 1200);
+    }
+  }
+
+  /* ── YOUTUBE FALLBACK UI ── */
+  function wireYTFallback(id, isWV) {
+    var msg = $get('vpYTFallMsg');
+    if (msg) msg.textContent = isWV
+      ? 'Your device restricts embedded YouTube. Open in the YouTube app.'
+      : 'This video cannot be embedded here. Open it on YouTube.';
+
+    function wire(btnId, fn) {
+      var btn = $get(btnId); if (!btn) return;
+      if (_wired.get(btn)) return; /* already wired */
+      btn.addEventListener('click', fn);
+      _wired.set(btn, true);
+    }
+
+    wire('vpYTApp', function () {
+      W.location.href = 'intent://www.youtube.com/watch?v=' + id + '#Intent;package=com.google.android.youtube;scheme=https;end';
+      setTimeout(function () { W.open('https://www.youtube.com/watch?v=' + id, '_blank'); }, 1500);
+    });
+    wire('vpYTWeb', function () { W.open('https://www.youtube.com/watch?v=' + id, '_blank'); });
+    wire('vpYTRet', function () {
+      YTApi.reset();
+      $hide('vpYTFall');
+      $show('vpSkel');
+      if (state && state.engine) { state.engine.destroy(); state.engine = null; }
+      loadEngine();
+    });
+  }
+
+  /* ── CONTROLS VISIBILITY ── */
+  function showCtrl() {
+    if (!state) return;
+    state.ctrlVis = true;
+    var top = $get('vpTop'), bot = $get('vpBottom');
+    if (top) top.classList.remove('vp-hide');
+    if (bot) bot.classList.remove('vp-hide');
+  }
+  function hideCtrl() {
+    if (!state || !state.playing) return;
+    state.ctrlVis = false;
+    var top = $get('vpTop'), bot = $get('vpBottom');
+    if (top) top.classList.add('vp-hide');
+    if (bot) bot.classList.add('vp-hide');
+  }
+  function toggleCtrl() {
+    if (!state) return;
+    if (state.ctrlVis) hideCtrl(); else { showCtrl(); schedHide(); }
+  }
+  function schedHide() {
+    if (!state) return;
+    if (state.ctrlTimer) clearTimeout(state.ctrlTimer);
+    state.ctrlTimer = setTimeout(function () { if (state) hideCtrl(); }, 3200);
+  }
+
+  /* ── CENTER FLASH ── */
+  function flashCenter() {
+    var btn = $get('vpCplay'); if (!btn) return;
+    btn.classList.add('vp-show');
+    if (state && state.flashTimer) clearTimeout(state.flashTimer);
+    state.flashTimer = setTimeout(function () {
+      var b = $get('vpCplay'); if (b) b.classList.remove('vp-show');
+    }, 700);
+  }
+
+  /* ── PLAY ICONS ── */
+  function setPlayIcon(playing, ended) {
+    $tog('vpIconPlay',   !playing && !ended);
+    $tog('vpIconPause',   playing);
+    $tog('vpIconReplay',  ended);
+    $tog('vpPlaySm',     !playing);
+    $tog('vpPauseSm',     playing);
+  }
+
+  /* ── TOAST ── */
+  function toast(msg) {
+    var ov = $get('afvp'); if (!ov) return;
+    var old = ov.querySelector('.vp-toast'); if (old) old.remove();
+    var el = document.createElement('div');
+    el.className = 'vp-toast';
+    el.textContent = msg;
+    ov.appendChild(el);
+    setTimeout(function () { if (el.parentNode) el.remove(); }, 2400);
+  }
+
+  /* ── GFB ANIMATION ── */
+  function gfb(side, label) {
+    var id  = 'vpGfb' + side;
+    var tid = 'vpGfb' + side + 'Txt';
+    var el  = $get(id); if (!el) return;
+    var tl  = $get(tid); if (tl) tl.textContent = label;
+    el.classList.remove('vp-show');
+    void el.offsetWidth;
+    el.classList.add('vp-show');
+    setTimeout(function () { var e = $get(id); if (e) e.classList.remove('vp-show'); }, 700);
+  }
+
+  /* ── SWIPE INDICATOR ── */
+  function showSwipe(emoji, val) {
+    var sw = $get('vpSwipe'); if (!sw) return;
+    sw.classList.remove('vp-h');
+    var fill = $get('vpSwipeFill'); if (fill) fill.style.height = (clamp(val, 0, 1) * 100) + '%';
+    var lbl  = $get('vpSwipeLbl');  if (lbl)  lbl.textContent = emoji + ' ' + Math.round(val * 100) + '%';
+  }
+
+  /* ── ERRORS ── */
+  function showOffline() {
+    $hide('vpSkel'); $hide('vpError'); $hide('vpYTFall');
+    $show('vpOffline');
+  }
+  function retryLoad() {
+    $hide('vpError'); $hide('vpOffline'); $hide('vpYTFall');
+    $show('vpSkel');
+    if (state && state.engine) { state.engine.destroy(); state.engine = null; }
+    setTimeout(loadEngine, 300);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     PROGRESS BAR — pointer-driven (works on touch + mouse + keyboard)
+     No hidden range input. Pointer events on the bar div itself.
+  ═══════════════════════════════════════════════════════════════════ */
+  var _progBound = false;
+  function bindProgress() {
+    if (_progBound) return;
+    _progBound = true;
+    var bar = $get('vpProg'); if (!bar) return;
+
+    function pctFromEvent(e) {
+      var rect = bar.getBoundingClientRect();
+      var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      return clamp(x / rect.width, 0, 1);
+    }
+
+    function startDrag(e) {
+      if (!state) return;
+      e.stopPropagation();
+      state.progDrag = true;
+      bar.classList.add('vp-drag');
+      var pct = pctFromEvent(e);
+      setPct(pct * 100);
+      var cur = $get('vpCur'); if (cur) cur.textContent = fmt(pct * (state.dur || 0));
+    }
+    function moveDrag(e) {
+      if (!state || !state.progDrag) return;
+      e.stopPropagation();
+      try { e.preventDefault(); } catch (er) {}
+      var pct = pctFromEvent(e);
+      setPct(pct * 100);
+      var cur = $get('vpCur'); if (cur) cur.textContent = fmt(pct * (state.dur || 0));
+    }
+    function endDrag(e) {
+      if (!state || !state.progDrag) return;
+      state.progDrag = false;
+      bar.classList.remove('vp-drag');
+      var pct = pctFromEvent(e.changedTouches ? { clientX: e.changedTouches[0].clientX } : e);
+      seek(pct * (state.dur || 0));
+    }
+
+    /* Mouse */
+    bar.addEventListener('mousedown', function (e) {
+      startDrag(e);
+      document.addEventListener('mousemove', moveDrag);
+      document.addEventListener('mouseup', function up(ev) {
+        endDrag(ev);
+        document.removeEventListener('mousemove', moveDrag);
+        document.removeEventListener('mouseup', up);
+      });
+    });
+
+    /* Touch */
+    bar.addEventListener('touchstart', startDrag, { passive: false });
+    bar.addEventListener('touchmove',  moveDrag,  { passive: false });
+    bar.addEventListener('touchend',   endDrag,   { passive: true });
+
+    /* Keyboard — focus the bar and use arrow keys */
+    bar.addEventListener('keydown', function (e) {
+      if (!state) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); skip(5); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); skip(-5); }
+    });
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     GESTURE LAYER — touch + double-tap + long-press
+  ═══════════════════════════════════════════════════════════════════ */
+  var _gestureBound = false;
+  function bindGestures() {
+    if (_gestureBound) return;
+    _gestureBound = true;
+    var g = $get('vpGesture'); if (!g) return;
+
+    /* Desktop double-click */
+    g.addEventListener('dblclick', function (e) {
+      var rect = g.getBoundingClientRect();
+      var x = e.clientX - rect.left, w = rect.width;
+      if (x < w / 3)       { skip(-10); gfb('L', '-10s'); }
+      else if (x > w*2/3)  { skip(10);  gfb('R', '+10s'); }
+      else togglePlay();
+    });
+
+    /* Desktop single click — just toggle controls on single-click unless double */
+    var deskClickTimer = null;
+    g.addEventListener('click', function (e) {
+      if (e.target.closest('button')) return;
+      /* Ignore clicks that immediately follow a dblclick */
+      if (deskClickTimer) return;
+      deskClickTimer = setTimeout(function () { deskClickTimer = null; toggleCtrl(); }, 200);
+    });
+
+    /* Volume slider */
+    var vs = $get('vpVol');
+    if (vs) vs.addEventListener('input', function () { setVolume(parseInt(this.value) / 100); });
+
+    /* ── TOUCH ── */
+    g.addEventListener('touchstart', function (e) {
+      if (!state) return;
+      var t = e.touches[0];
+      state.tStart = { x: t.clientX, y: t.clientY, time: Date.now(), vol: state.vol };
+      state.tMode  = null;
+
+      /* Long-press → 2× speed */
+      if (state.lpTimer) clearTimeout(state.lpTimer);
+      state.lpTimer = setTimeout(function () {
+        if (!state) return;
+        setSpeed(2);
+        var ind = $get('vpSpdInd');
+        if (ind) { ind.classList.remove('vp-h'); var t2 = $get('vpSpdTxt'); if (t2) t2.textContent = '2× Speed'; }
+        state.lpTimer = null;
+      }, 500);
+    }, { passive: true });
+
+    g.addEventListener('touchmove', function (e) {
+      if (!state || !state.tStart) return;
+      /* Cancel long-press on any move */
+      if (state.lpTimer) { clearTimeout(state.lpTimer); state.lpTimer = null; }
+
+      var touch = e.touches[0];
+      var dx = touch.clientX - state.tStart.x;
+      var dy = touch.clientY - state.tStart.y;
+      var rect = g.getBoundingClientRect();
+
+      /* Determine swipe mode on first significant movement */
+      if (!state.tMode) {
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12) {
+          state.tMode = 'seek';
+        } else if (Math.abs(dy) > 12) {
+          state.tMode = touch.clientX > rect.width / 2 ? 'brightness' : 'volume';
+        }
+      }
+
+      if (state.tMode === 'volume') {
+        try { e.preventDefault(); } catch (er) {}
+        var nv = clamp(state.tStart.vol - dy / rect.height, 0, 1);
+        setVolume(nv);
+        showSwipe('🔊', nv);
+      } else if (state.tMode === 'brightness') {
+        try { e.preventDefault(); } catch (er) {}
+        var bv = clamp(0.5 - dy / rect.height, 0.1, 1);
+        var area = $get('vpArea'); if (area) area.style.filter = 'brightness(' + bv + ')';
+        showSwipe('☀️', bv);
+      }
+    }, { passive: false });
+
+    g.addEventListener('touchend', function (e) {
+      if (!state || !state.tStart) return;
+
+      /* Cancel long-press if still pending */
+      if (state.lpTimer) { clearTimeout(state.lpTimer); state.lpTimer = null; }
+
+      /* Hide speed indicator if we activated long-press speed */
+      if (state.speed === 2) {
+        setSpeed(1);
+        var ind = $get('vpSpdInd'); if (ind) ind.classList.add('vp-h');
+      }
+
+      var ch = e.changedTouches[0];
+      var dx = ch.clientX - state.tStart.x;
+      var dy = ch.clientY - state.tStart.y;
+      var dt = Date.now() - state.tStart.time;
+
+      /* Hide swipe indicator */
+      $hide('vpSwipe');
+
+      if (state.tMode === 'seek') {
+        /* Swipe-to-seek: 45% of duration across full width */
+        var rect = $get('vpGesture').getBoundingClientRect();
+        var sdt  = (dx / rect.width) * (state.dur || 0) * 0.45;
+        seek(clamp(state.cur + sdt, 0, state.dur || 99999));
+
+      } else if (!state.tMode && dt < 300 && Math.abs(dx) < 12 && Math.abs(dy) < 12) {
+        /* Tap — double-tap detection */
+        var now  = Date.now();
+        var diff = now - state.tLastTap;
+
+        if (diff < 320 && state.tTapTimer) {
+          /* Double tap */
+          clearTimeout(state.tTapTimer); state.tTapTimer = null;
+          var rect2 = $get('vpGesture').getBoundingClientRect();
+          var x = ch.clientX - rect2.left, w = rect2.width;
+          if (x < w / 3)       { skip(-10); gfb('L', '-10s'); }
+          else if (x > w*2/3)  { skip(10);  gfb('R', '+10s'); }
+          else togglePlay();
+          state.tLastTap = 0;
+        } else {
+          /* Single tap — wait to see if double-tap follows */
+          state.tLastTap = now;
+          if (state.tTapTimer) clearTimeout(state.tTapTimer);
+          state.tTapTimer = setTimeout(function () {
+            state.tTapTimer = null;
+            /* Only single tap confirmed */
+            toggleCtrl();
+          }, 320);
+        }
+      }
+
+      state.tStart = null;
+      state.tMode  = null;
+    }, { passive: true });
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     STATIC UI BINDINGS — WeakMap prevents duplicate attachment
+  ═══════════════════════════════════════════════════════════════════ */
+  function wire(id, ev, fn) {
+    var el = $get(id); if (!el) return;
+    if (_wired.get(el) && _wired.get(el)[ev]) return; /* already has this event */
+    el.addEventListener(ev, fn);
+    var map = _wired.get(el) || {};
+    map[ev] = true; _wired.set(el, map);
+  }
+
+  /* Keyboard — attached to document once */
+  var _kbBound = false;
+  var _kbHandler = null;
+  function bindKeyboard() {
+    if (_kbBound) return;
+    _kbBound = true;
+    _kbHandler = function (e) {
+      if (!state) return;
+      var ov = $get('afvp'); if (!ov || ov.classList.contains('afvp-hidden')) return;
+      var tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      switch (e.key) {
+        case ' ': case 'k': e.preventDefault(); togglePlay(); break;
+        case 'ArrowRight':  e.preventDefault(); skip(10);  break;
+        case 'ArrowLeft':   e.preventDefault(); skip(-10); break;
+        case 'ArrowUp':     e.preventDefault(); setVolume((state.vol || 0) + 0.1); break;
+        case 'ArrowDown':   e.preventDefault(); setVolume((state.vol || 1) - 0.1); break;
+        case 'f': case 'F': toggleFS(); break;
+        case 'm': case 'M': toggleMute(); break;
+        case 'Escape': closePanels(); if (!isPanelOpen()) close(); break;
+        case ',': setSpeed(Math.max(0.25, (state.speed || 1) - 0.25)); break;
+        case '.': setSpeed(Math.min(3,    (state.speed || 1) + 0.25)); break;
+      }
+    };
+    document.addEventListener('keydown', _kbHandler);
+  }
+
+  /* Android back — popstate */
+  var _backBound = false;
+  function bindBack() {
+    if (_backBound) return;
+    _backBound = true;
+    W.addEventListener('popstate', function (e) {
+      var ov = $get('afvp'); if (!ov || ov.classList.contains('afvp-hidden')) return;
+      if (isPanelOpen()) {
+        closePanels();
+        try { history.pushState({ afvp: 1 }, ''); } catch (er) {}
+      } else {
+        close();
+      }
+    });
+  }
+
+  /* Network events — attached once */
+  var _netBound = false;
+  function bindNetEvents() {
+    if (_netBound) return;
+    _netBound = true;
+    W.addEventListener('offline', function () {
+      var ov = $get('afvp'); if (!ov || ov.classList.contains('afvp-hidden')) return;
+      if (state) pause();
+      showOffline();
+    });
+    W.addEventListener('online', function () {
+      var of = $get('vpOffline'); if (of) of.classList.add('vp-h');
+      toast('Back online!');
+    });
+  }
+
+  /* Fullscreen change — attached once */
+  var _fsBound = false;
+  function bindFSChange() {
+    if (_fsBound) return;
+    _fsBound = true;
+    var fn = function () { syncFSIcons(); };
+    document.addEventListener('fullscreenchange',       fn);
+    document.addEventListener('webkitfullscreenchange', fn);
+    document.addEventListener('mozfullscreenchange',    fn);
+    document.addEventListener('MSFullscreenChange',     fn);
+  }
+
+  function bindUI() {
+    bindProgress();
+    bindGestures();
+    bindFSChange();
+
+    wire('vpBack',      'click', close);
+    wire('vpCplay',     'click', togglePlay);
+    wire('vpPPBtn',     'click', togglePlay);
+    wire('vpSkipB',     'click', function () { skip(-10); });
+    wire('vpSkipF',     'click', function () { skip(10); });
+    wire('vpMute',      'click', toggleMute);
+    wire('vpSpdBtn',    'click', cycleSpeed);
+    wire('vpFSBtn',     'click', toggleFS);
+    wire('vpFSSm',      'click', toggleFS);
+    wire('vpBmark',     'click', toggleBookmark);
+    wire('vpNoteBtn',   'click', openNotes);
+    wire('vpSetBtn',    'click', openSettings);
+    wire('vpSetClose',  'click', closeSettings);
+    wire('vpNoteClose', 'click', closeNotes);
+    wire('vpBackdrop',  'click', closePanels);
+    wire('vpPosterPlay','click', play);
+    wire('vpRetry',     'click', retryLoad);
+    wire('vpCheckNet',  'click', function () { if (navigator.onLine) retryLoad(); else toast('Still offline.'); });
+    wire('vpReplay',    'click', function () {
+      if (state && state._autoNextTimer) { clearTimeout(state._autoNextTimer); state._autoNextTimer = null; }
+      replay();
+    });
+    wire('vpNext',      'click', playNext);
+    wire('vpNoteSave',  'click', saveNote);
+    wire('vpExport',    'click', exportNotes);
+    wire('vpTogLoop',   'change', function () { toggleLoop(this.checked); });
+    wire('vpTogAP',     'change', function () { toggleAutoplay(this.checked); });
+    wire('vpTogDS',     'change', function () { toggleDataSaver(this.checked); });
+
+    /* Chip groups — event delegation */
+    function chipGroup(id, fn) {
+      var el = $get(id); if (!el || _wired.get(el) && _wired.get(el)['click']) return;
+      el.addEventListener('click', function (e) {
+        var chip = e.target.closest('.vp-chip'); if (!chip) return; fn(chip);
+      });
+      var map = _wired.get(el) || {}; map['click'] = true; _wired.set(el, map);
+    }
+    chipGroup('vpSpdChips',   function (c) { setSpeed(parseFloat(c.dataset.speed)); });
+    chipGroup('vpQualChips',  function (c) { setQuality(c.dataset.q); });
+    chipGroup('vpSleepChips', function (c) { setSleep(parseInt(c.dataset.min)); });
+
+    /* Mousemove on video area to show controls on desktop */
+    var area = $get('vpArea');
+    if (area && !(_wired.get(area) && _wired.get(area)['mousemove'])) {
+      area.addEventListener('mousemove', function () { showCtrl(); schedHide(); });
+      var map = _wired.get(area) || {}; map['mousemove'] = true; _wired.set(area, map);
+    }
+  }
+
+  /* ── PUBLIC API ── */
+  return {
+    open:  open,
+    close: close,
+    /* Direct API for external callers */
+    play:          function () { play(); },
+    pause:         function () { pause(); },
+    seek:          function (t) { seek(t); },
+    setSpeed:      function (r) { setSpeed(r); },
+    setVolume:     function (v) { setVolume(v); },
+    toggleMute:    function () { toggleMute(); },
+    toggleFS:      function () { toggleFS(); },
+    getState:      function () { return state ? { cur: state.cur, dur: state.dur, playing: state.playing } : null; }
   };
- 
-  /* ══════════════════════════════════════════════════════════════
-     15. EXPOSE GLOBALS
-  ══════════════════════════════════════════════════════════════ */
-  global.AFPlayer = P;
- 
-  /* Convenience wrapper used by openVideoaf() calls in your existing code */
-  global.openVideoaf = function (url, opts) {
-    AFPlayer.open(Object.assign({ url: url, title: 'Lecture' }, opts || {}));
-  };
- 
+
+}()); /* end IIFE */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GLOBAL EXPORTS
+═══════════════════════════════════════════════════════════════════════ */
+W.AFPlayer = P;
+
+/* Convenience wrapper compatible with original openVideoaf() calls */
+W.openVideoaf = function (url, opts) {
+  P.open(Object.assign({ url: url, title: 'Lecture' }, opts || {}));
+};
+
 }(window));
 
   </script>
