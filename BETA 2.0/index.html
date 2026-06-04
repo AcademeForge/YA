@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
-  <script>
+
+<script>
 (function () {
 
   document.documentElement.classList.add("af-preload");
-  
+
   if (localStorage.getItem("af_dark_mode") === "1") {
     document.documentElement.setAttribute("data-theme", "dark");
   } else {
@@ -16,27 +16,87 @@
   if (sessionStorage.getItem("af_splash_shown")) {
     document.documentElement.classList.add("no-splash");
   }
+
 })();
 </script>
 
-<meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#4f46e5" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>AcademeForge</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
 
-  <style>
-    /* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────── */
-    :root {
-      --af-primary:        #4f46e5;
-      --af-primary-dark:   #3730a3;
-      --af-primary-light:  #818cf8;
-      --af-accent:         #06b6d4;
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>AcademeForge</title>
+
+<meta
+  name="description"
+  content="AcademeForge - Learning Beyond The Classroom">
+
+<meta
+  name="theme-color"
+  content="#4f46e5">
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes">
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes">
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent">
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="AcademeForge">
+
+<link
+  rel="manifest"
+  href="./manifest.json">
+
+<link
+  rel="icon"
+  type="image/png"
+  href="./AF%20LOGO%203.png">
+
+<link
+  rel="apple-touch-icon"
+  href="./AF%20LOGO%203.png">
+
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com">
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap"
+  rel="stylesheet">
+
+
+<!-- HLS + DASH + YouTube API -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<!-- Performance -->
+<link rel="preconnect" href="https://www.youtube.com">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+<style>
+/* ─── CSS CUSTOM PROPERTIES ─────────────────────────────────── */
+
+:root{
+  --af-primary:#4f46e5;
+  --af-primary-dark:#3730a3;
+  --af-primary-light:#818cf8;
+  --af-accent:#06b6d4;
       --af-accent2:        #f59e0b;
       --af-danger:         #ef4444;
       --af-success:        #22c55e;
@@ -4702,7 +4762,1041 @@ body{
     html.af-preload .af-view{
   display:none !important;
 }
-    
+
+ /* =========================================
+   AF INSTALL MODAL
+   DESKTOP ONLY
+========================================= */
+
+#afInstallOverlay{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+
+  display:none;
+
+  align-items:flex-end;
+  justify-content:center;
+
+  background:rgba(0,0,0,.45);
+
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:
+    opacity .25s ease,
+    visibility .25s ease;
+}
+
+/* SHOW */
+
+#afInstallOverlay.open{
+  opacity:1;
+  visibility:visible;
+}
+
+/* SHEET */
+
+.af-install-sheet{
+
+  width:100%;
+  max-width:430px;
+
+  background:var(--bg-card-solid);
+
+  border-top-left-radius:32px;
+  border-top-right-radius:32px;
+
+  border-top:1px solid var(--border-card);
+
+  box-shadow:
+    0 -10px 40px rgba(0,0,0,.35);
+
+  padding:22px;
+  padding-bottom:
+    calc(
+      22px +
+      env(safe-area-inset-bottom)
+    );
+
+  transform:translateY(100%);
+
+  transition:
+    transform .35s
+    cubic-bezier(
+      .22,
+      1,
+      .36,
+      1
+    );
+}
+
+#afInstallOverlay.open
+.af-install-sheet{
+  transform:translateY(0);
+}
+
+/* HEADER */
+
+.af-install-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* LOGO */
+
+.af-install-logo{
+  width:56px;
+  height:56px;
+
+  object-fit:cover;
+
+  border-radius:16px;
+
+  flex-shrink:0;
+
+  box-shadow:
+    0 6px 18px
+    rgba(0,0,0,.18);
+}
+
+/* TEXT */
+
+.af-install-title{
+  font-family:var(--font-display);
+
+  font-size:18px;
+  font-weight:900;
+
+  color:var(--text-primary);
+
+  line-height:1.2;
+}
+
+.af-install-sub{
+  margin-top:4px;
+
+  font-size:13px;
+  font-weight:700;
+
+  color:var(--text-muted);
+}
+
+/* ACTIONS */
+
+.af-install-actions{
+  display:flex;
+  gap:10px;
+
+  margin-top:22px;
+}
+
+/* BUTTONS */
+
+.af-install-actions button{
+  flex:1;
+
+  height:48px;
+
+  border:none;
+  outline:none;
+
+  cursor:pointer;
+
+  border-radius:16px;
+
+  font-size:14px;
+  font-weight:900;
+
+  transition:
+    transform .15s ease,
+    opacity .15s ease;
+}
+
+.af-install-actions button:hover{
+  opacity:.95;
+}
+
+.af-install-actions button:active{
+  transform:scale(.97);
+}
+
+/* LATER */
+
+.af-install-later-btn{
+  background:var(--bg-group);
+
+  color:var(--text-primary);
+
+  border:1px solid
+    var(--border-card);
+}
+
+/* INSTALL */
+
+.af-install-now-btn{
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--af-primary),
+      var(--af-primary-dark)
+    );
+
+  box-shadow:
+    0 10px 24px
+    rgba(79,70,229,.30);
+}
+
+/* =========================================
+   MOBILE HIDE
+========================================= */
+
+@media (max-width:699px){
+
+  #afInstallOverlay{
+    display:none !important;
+  }
+
+}
+
+/* =========================================
+   DESKTOP SHOW
+========================================= */
+
+@media (min-width:700px){
+
+  #afInstallOverlay{
+    display:flex;
+  }
+
+}
+    /* ╔══════════════════════════════════════════════════════════════╗
+   ║  AF VIDEO PLAYER SYSTEM — af-video-player.css               ║
+   ║  Paste into your <head> or existing CSS file                ║
+   ╚══════════════════════════════════════════════════════════════╝ */
+
+/* ════════════════════════════════════════════════════════
+   AF VIDEO PLAYER — COMPLETE STANDALONE
+   Mobile-first. Portrait default. Landscape on fullscreen.
+════════════════════════════════════════════════════════ */
+ 
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+ 
+:root {
+  --green:      #16a34a;
+  --green-glow: rgba(22,163,74,0.35);
+  --green-lite: rgba(22,163,74,0.15);
+  --surface:    rgba(8,10,18,0.98);
+  --surface2:   rgba(14,18,30,0.99);
+  --border:     rgba(255,255,255,0.09);
+  --text:       #f1f5f9;
+  --muted:      #7d8fa3;
+  --r:          14px;
+  --ctrl-h:     54px;
+  --topbar-h:   56px;
+  --progress-h: 4px;
+  --ease:       cubic-bezier(0.4,0,0.2,1);
+  --spring:     cubic-bezier(0.34,1.56,0.64,1);
+}
+ 
+/* ── DEMO PAGE (remove in production) ── */
+body {
+  background: #0a0c14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 20px 16px 40px;
+  gap: 20px;
+}
+ 
+.demo-title {
+  color: #f1f5f9;
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+ 
+.demo-btn {
+  padding: 13px 28px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(22,163,74,0.3);
+  transition: transform 0.15s var(--spring);
+}
+.demo-btn:active { transform: scale(0.97); }
+ 
+/* ════════════════════════════════════════════════════════
+   OVERLAY — fixed, full-screen, dark backdrop
+════════════════════════════════════════════════════════ */
+#afvp {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+ 
+  /* DEFAULT: portrait — fixed max width, centered */
+  --player-w: min(100vw, 430px);
+  width: var(--player-w);
+  height: 100dvh;
+  left: 50%;
+  transform: translateX(-50%);
+ 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+}
+ 
+#afvp.hidden { display: none !important; }
+ 
+/* Landscape (real device) */
+@media (orientation: landscape) {
+  #afvp {
+    width: 100vw;
+    height: 100dvh;
+    left: 0;
+    transform: none;
+  }
+}
+ 
+/* ── SHELL ── */
+.afvp-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+ 
+/* ════════════════════════════════════════════════════════
+   TOP BAR
+════════════════════════════════════════════════════════ */
+.afvp-topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  min-height: var(--topbar-h);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.88) 0%, transparent 100%);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+}
+ 
+.afvp-topbar.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+}
+ 
+.afvp-back {
+  width: 40px; height: 40px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.10);
+  color: var(--text);
+  display: grid; place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  backdrop-filter: blur(8px);
+  transition: background 0.15s, transform 0.15s var(--spring);
+}
+.afvp-back:active { transform: scale(0.9); }
+.afvp-back svg { width: 20px; height: 20px; }
+ 
+.afvp-meta {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 1px;
+}
+.afvp-meta-course {
+  font-size: 10px; font-weight: 800;
+  color: var(--green);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.afvp-meta-title {
+  font-size: 14px; font-weight: 900;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+.afvp-meta-chapter {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+ 
+.afvp-actions {
+  display: flex; align-items: center; gap: 3px; flex-shrink: 0;
+}
+ 
+.afvp-btn {
+  width: 38px; height: 38px;
+  border: none; border-radius: 11px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  display: grid; place-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.15s, transform 0.15s var(--spring);
+}
+.afvp-btn:active { transform: scale(0.88); }
+.afvp-btn svg { width: 18px; height: 18px; display: block; }
+.afvp-btn.bookmarked svg { fill: #facc15; stroke: #facc15; }
+ 
+/* ════════════════════════════════════════════════════════
+   VIDEO AREA
+════════════════════════════════════════════════════════ */
+.afvp-video-area {
+  flex: 1;
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+ 
+/* ── Skeleton ── */
+.afvp-skeleton {
+  position: absolute; inset: 0; z-index: 5;
+  background: #07090f;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 18px;
+}
+.afvp-shimmer {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.afvp-skeleton-ring {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.08);
+  animation: pulse 1.6s ease infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.9;transform:scale(1.07)} }
+.afvp-skeleton-bars { display:flex;flex-direction:column;gap:10px;align-items:center; }
+.afvp-skeleton-bar {
+  height: 9px; border-radius: 5px;
+  background: rgba(255,255,255,0.06);
+  animation: pulse 1.6s ease infinite;
+}
+.w60{width:190px} .w40{width:120px;animation-delay:.3s}
+ 
+/* ── Poster ── */
+.afvp-poster {
+  position: absolute; inset: 0; z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+}
+.afvp-poster img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.5);
+}
+.afvp-poster-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+}
+.afvp-poster-play {
+  position: relative; z-index: 2;
+  width: 72px; height: 72px;
+  border: none; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff;
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 var(--green-glow), 0 18px 50px rgba(0,0,0,0.5);
+  animation: ring-pulse 2s ease infinite;
+  transition: transform 0.15s var(--spring);
+}
+.afvp-poster-play:active { transform: scale(0.92); }
+.afvp-poster-play svg { width: 26px; height: 26px; margin-left: 3px; }
+@keyframes ring-pulse {
+  0%,100%{box-shadow:0 0 0 0 var(--green-glow),0 18px 50px rgba(0,0,0,0.5)}
+  50%{box-shadow:0 0 0 14px rgba(22,163,74,0),0 18px 50px rgba(0,0,0,0.5)}
+}
+ 
+/* ── YouTube ── */
+.afvp-yt-wrap {
+  position: absolute; inset: 0; z-index: 2;
+}
+#afvp-yt-player, #afvp-yt-player iframe {
+  width: 100% !important; height: 100% !important; border: none;
+}
+ 
+/* ── Native video ── */
+#afvp-vid {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  z-index: 2; background: #000;
+}
+ 
+/* ── Gesture Layer ── */
+.afvp-gesture {
+  position: absolute; inset: 0; z-index: 10;
+  display: grid; grid-template-columns: 1fr 2fr 1fr;
+  cursor: pointer;
+}
+.afvp-gz { display:flex;align-items:center;justify-content:center; }
+ 
+.afvp-gfb {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 5px;
+  color: #fff; opacity: 0;
+  transform: scale(0.7);
+  pointer-events: none;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+.afvp-gfb svg { width: 34px; height: 34px; }
+.afvp-gfb span {
+  font-size: 12px; font-weight: 900;
+  background: rgba(0,0,0,0.55);
+  padding: 3px 10px; border-radius: 999px;
+}
+.afvp-gfb.show {
+  animation: gfb 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+@keyframes gfb {
+  0%{opacity:0;transform:scale(0.6)}
+  30%{opacity:1;transform:scale(1.1)}
+  65%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(0.88)}
+}
+ 
+/* ── Center Play/Pause ── */
+.afvp-center {
+  position: absolute; inset: 0; z-index: 14;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.afvp-cplay {
+  width: 76px; height: 76px;
+  border: none; border-radius: 50%;
+  background: rgba(0,0,0,0.52);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: #fff;
+  display: grid; place-items: center;
+  cursor: pointer;
+  pointer-events: all;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity 0.18s, transform 0.2s var(--spring);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.afvp-cplay.show { opacity: 1; transform: scale(1); }
+.afvp-cplay svg { width: 30px; height: 30px; }
+.afvp-cplay .pi { margin-left: 3px; }
+ 
+/* ── Speed indicator (long press) ── */
+.afvp-speed-ind {
+  position: absolute; top: 66px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  padding: 8px 16px;
+  color: #fff; font-size: 13px; font-weight: 900;
+  animation: slideD 0.22s ease;
+}
+@keyframes slideD {
+  from{opacity:0;transform:translateX(-50%) translateY(-8px)}
+  to{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+ 
+/* ── Buffering spinner ── */
+.afvp-spinner {
+  position: absolute; inset: 0; z-index: 18;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.afvp-spin-ring {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.10);
+  border-top-color: var(--green);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+ 
+/* ── Error / Offline ── */
+.afvp-state {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; text-align: center; padding: 24px;
+  background: rgba(8,10,18,0.94);
+}
+.afvp-state-icon { font-size: 46px; }
+.afvp-state h3 {
+  font-size: 20px; font-weight: 900;
+  color: #f8fafc; letter-spacing: -0.02em;
+}
+.afvp-state p {
+  font-size: 14px; color: var(--muted);
+  font-weight: 600; max-width: 300px; line-height: 1.6;
+}
+.afvp-retry {
+  padding: 12px 26px; border: none; border-radius: 14px;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff; font-size: 14px; font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 28px var(--green-glow);
+  transition: transform 0.15s var(--spring);
+}
+.afvp-retry:active { transform: scale(0.96); }
+ 
+/* ── Completion ── */
+.afvp-completion {
+  position: absolute; inset: 0; z-index: 22;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.80);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
+.afvp-complete-inner {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+  text-align: center; padding: 0 24px;
+}
+.afvp-check {
+  width: 84px; height: 84px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  display: grid; place-items: center;
+  font-size: 38px; color: #fff; font-weight: 900;
+  box-shadow: 0 0 0 0 var(--green-glow);
+  animation: check-pop 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both, ring-pulse 2s ease 0.8s infinite;
+}
+@keyframes check-pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.afvp-complete-inner h3 {
+  font-size: 24px; font-weight: 950; color: #f8fafc; letter-spacing: -0.03em;
+}
+.afvp-complete-inner p { font-size: 13px; color: var(--muted); font-weight: 600; }
+.afvp-complete-btns {
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 6px;
+}
+.afvp-cbtn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 20px; border: none; border-radius: 13px;
+  font-size: 13px; font-weight: 900; cursor: pointer;
+  transition: transform 0.15s var(--spring);
+}
+.afvp-cbtn:active { transform: scale(0.96); }
+.afvp-cbtn.primary {
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff; box-shadow: 0 10px 28px var(--green-glow);
+}
+.afvp-cbtn.secondary {
+  background: rgba(255,255,255,0.10); color: #fff;
+  border: 1px solid rgba(255,255,255,0.16);
+}
+ 
+/* ── Swipe indicator ── */
+.afvp-swipe {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 20;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 20px; padding: 16px 20px;
+  min-width: 90px; pointer-events: none;
+}
+.afvp-swipe-bar {
+  width: 6px; height: 90px; border-radius: 3px;
+  background: rgba(255,255,255,0.14); overflow: hidden;
+  display: flex; align-items: flex-end;
+}
+.afvp-swipe-fill {
+  width: 100%;
+  background: linear-gradient(to top, var(--green), #22c55e);
+  border-radius: 3px;
+  transition: height 0.06s linear;
+}
+.afvp-swipe-label {
+  font-size: 12px; font-weight: 900; color: #fff; white-space: nowrap;
+}
+ 
+/* ════════════════════════════════════════════════════════
+   BOTTOM CONTROLS
+════════════════════════════════════════════════════════ */
+.afvp-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 30;
+  padding: 0 14px max(14px, env(safe-area-inset-bottom, 14px));
+  background: linear-gradient(to top, rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+}
+.afvp-bottom.hide {
+  opacity: 0; pointer-events: none; transform: translateY(6px);
+}
+ 
+/* ── Progress ── */
+.afvp-prog-wrap {
+  position: relative; height: 22px;
+  display: flex; align-items: center;
+  cursor: pointer; margin-bottom: 4px;
+  touch-action: none;
+}
+.afvp-prog-wrap::before {
+  content: '';
+  position: absolute; left: 0; right: 0;
+  height: var(--progress-h);
+  border-radius: 2px;
+  background: rgba(255,255,255,0.16);
+  transition: height 0.15s var(--ease);
+}
+.afvp-prog-wrap:hover::before, .afvp-prog-wrap.dragging::before { height: 6px; }
+.afvp-buffered, .afvp-played {
+  position: absolute; left: 0; height: var(--progress-h);
+  border-radius: 2px; pointer-events: none;
+  transition: height 0.15s var(--ease);
+}
+.afvp-prog-wrap:hover .afvp-buffered,
+.afvp-prog-wrap:hover .afvp-played,
+.afvp-prog-wrap.dragging .afvp-buffered,
+.afvp-prog-wrap.dragging .afvp-played { height: 6px; }
+.afvp-buffered { background: rgba(255,255,255,0.28); }
+.afvp-played { background: linear-gradient(90deg, var(--green), #22c55e); }
+.afvp-thumb {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(-50%) scale(0);
+  margin-top: -1px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  pointer-events: none;
+  transition: transform 0.2s var(--spring);
+  top: 50%;
+}
+.afvp-prog-wrap:hover .afvp-thumb,
+.afvp-prog-wrap.dragging .afvp-thumb { transform: translateX(-50%) scale(1); }
+.afvp-prog-input {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer;
+  width: 100%; height: 100%; margin: 0;
+}
+ 
+/* ── Controls Row ── */
+.afvp-ctrl-row {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 4px;
+  height: var(--ctrl-h);
+}
+.afvp-ctrl-left, .afvp-ctrl-right {
+  display: flex; align-items: center; gap: 2px;
+}
+.afvp-ibtn {
+  width: 38px; height: 38px;
+  border: none; border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s var(--spring);
+}
+.afvp-ibtn:hover { background: rgba(255,255,255,0.08); }
+.afvp-ibtn:active { transform: scale(0.88); }
+.afvp-ibtn svg { width: 19px; height: 19px; display: block; }
+ 
+.afvp-time {
+  display: flex; align-items: center; gap: 3px;
+  padding: 0 4px;
+  font-size: 12px; font-weight: 900;
+  color: #fff; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.afvp-time-sep { color: var(--muted); }
+#afvp-dur { color: var(--muted); }
+ 
+.afvp-speed-label {
+  font-size: 12px; font-weight: 900;
+  color: #fff; white-space: nowrap;
+}
+ 
+/* volume slider */
+.afvp-vol-wrap {
+  display: flex; align-items: center; gap: 3px;
+  overflow: hidden; max-width: 36px;
+  transition: max-width 0.22s ease;
+}
+.afvp-vol-wrap:hover, .afvp-vol-wrap:focus-within { max-width: 120px; }
+.afvp-vol-slider {
+  -webkit-appearance: none; appearance: none;
+  height: 4px; background: rgba(255,255,255,0.2);
+  border-radius: 2px; outline: none;
+  cursor: pointer; width: 72px;
+  opacity: 0; transition: opacity 0.2s;
+}
+.afvp-vol-wrap:hover .afvp-vol-slider,
+.afvp-vol-wrap:focus-within .afvp-vol-slider { opacity: 1; }
+.afvp-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: #fff; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+ 
+/* ════════════════════════════════════════════════════════
+   SETTINGS PANEL (right drawer)
+════════════════════════════════════════════════════════ */
+.afvp-panel {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  z-index: 50;
+  width: min(310px, 88vw);
+  background: var(--surface2);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  animation: slideR 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: -18px 0 50px rgba(0,0,0,0.5);
+}
+@keyframes slideR { from{transform:translateX(100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
+ 
+/* Notes panel (left) */
+.afvp-panel.left {
+  right: auto; left: 0;
+  border-left: none; border-right: 1px solid var(--border);
+  animation: slideL 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 18px 0 50px rgba(0,0,0,0.5);
+}
+@keyframes slideL { from{transform:translateX(-100%);opacity:0.5} to{transform:translateX(0);opacity:1} }
+ 
+/* Mobile — bottom sheet */
+@media (max-width: 520px) {
+  .afvp-panel {
+    right: 0; left: 0;
+    top: auto; bottom: 0;
+    width: 100%;
+    max-height: 76dvh;
+    border-radius: 20px 20px 0 0;
+    border: none;
+    animation: slideUp 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 -18px 50px rgba(0,0,0,0.5);
+  }
+  .afvp-panel.left { top: auto; bottom: 0; }
+  @keyframes slideUp { from{transform:translateY(100%);opacity:0.5} to{transform:translateY(0);opacity:1} }
+}
+ 
+.afvp-panel-head {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.afvp-panel-head h3 {
+  font-size: 16px; font-weight: 900; color: var(--text);
+  letter-spacing: -0.02em;
+}
+.afvp-panel-close {
+  width: 30px; height: 30px;
+  border: none; border-radius: 9px;
+  background: rgba(255,255,255,0.08);
+  color: var(--muted); font-size: 18px; line-height: 1;
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.afvp-panel-close:hover { background: rgba(255,255,255,0.14); color: var(--text); }
+ 
+.afvp-panel-body {
+  flex: 1; overflow-y: auto; padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 18px;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+ 
+.afvp-sg-label {
+  font-size: 11px; font-weight: 900;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.afvp-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.afvp-chip {
+  padding: 8px 13px;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.06);
+  color: var(--muted);
+  font-size: 12.5px; font-weight: 900;
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
+  font-family: inherit;
+}
+.afvp-chip:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.afvp-chip.active {
+  background: var(--green-lite);
+  border-color: rgba(22,163,74,0.35);
+  color: #4ade80;
+  box-shadow: 0 4px 14px rgba(22,163,74,0.15);
+}
+.afvp-toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.afvp-toggle-row:last-child { border-bottom: none; }
+.afvp-toggle-row span {
+  font-size: 12px; font-weight: 900;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
+}
+.afvp-tog {
+  position: relative; width: 44px; height: 24px; flex-shrink: 0;
+}
+.afvp-tog input { opacity: 0; width: 0; height: 0; position: absolute; }
+.afvp-tog-track {
+  position: absolute; inset: 0;
+  border-radius: 12px; background: rgba(255,255,255,0.14);
+  cursor: pointer; transition: background 0.2s;
+}
+.afvp-tog input:checked + .afvp-tog-track {
+  background: linear-gradient(135deg, var(--green), #22c55e);
+}
+.afvp-tog-track::after {
+  content: '';
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+.afvp-tog input:checked + .afvp-tog-track::after { transform: translateX(20px); }
+ 
+/* Notes panel */
+.afvp-note-ts {
+  font-size: 12px; font-weight: 900; color: var(--green);
+  padding: 4px 10px; background: var(--green-lite);
+  border-radius: 8px; display: inline-block; width: fit-content;
+}
+.afvp-note-textarea {
+  width: 100%; resize: none; outline: none;
+  border-radius: 12px; padding: 11px 13px;
+  font-size: 13.5px; font-weight: 600; line-height: 1.6;
+  color: var(--text);
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.11);
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.afvp-note-textarea:focus {
+  border-color: rgba(22,163,74,0.4);
+  box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
+}
+.afvp-note-save {
+  padding: 10px 18px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, var(--green), #22c55e);
+  color: #fff; font-size: 13.5px; font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 20px var(--green-glow);
+  transition: transform 0.15s var(--spring);
+  font-family: inherit;
+}
+.afvp-note-save:active { transform: scale(0.97); }
+.afvp-notes-list { display: flex; flex-direction: column; gap: 9px; }
+.afvp-notes-empty { font-size: 13px; color: var(--muted); font-weight: 600; text-align: center; padding: 18px 0; }
+.afvp-note-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 13px; padding: 11px 13px;
+  display: flex; flex-direction: column; gap: 6px;
+  animation: fadeIn 0.22s ease;
+}
+.afvp-note-item-ts {
+  font-size: 11px; font-weight: 900; color: var(--green);
+  cursor: pointer;
+}
+.afvp-note-item-ts:hover { text-decoration: underline; }
+.afvp-note-item-text { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.6; }
+.afvp-note-del {
+  align-self: flex-end; background: none; border: none;
+  color: rgba(239,68,68,0.6); font-size: 11.5px; font-weight: 900;
+  cursor: pointer; transition: color 0.15s; font-family: inherit;
+}
+.afvp-note-del:hover { color: #ef4444; }
+.afvp-export-btn {
+  padding: 10px; border: 1px dashed rgba(255,255,255,0.14);
+  border-radius: 12px; background: transparent;
+  color: var(--muted); font-size: 12.5px; font-weight: 900;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.afvp-export-btn:hover { border-color: rgba(22,163,74,0.4); color: #4ade80; }
+ 
+/* Panel backdrop */
+.afvp-backdrop {
+  position: absolute; inset: 0; z-index: 45;
+  background: rgba(0,0,0,0.48);
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease;
+}
+ 
+/* ── Toast ── */
+.afvp-toast {
+  position: absolute; bottom: 74px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: rgba(0,0,0,0.78);
+  color: #fff;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 900;
+  white-space: nowrap; pointer-events: none;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.11);
+  animation: fadeIn 0.2s ease;
+}
+ 
+/* ── Utility ── */
+.hidden { display: none !important; }
+ 
+/* ════════════════════════════════════════════════════════
+   FULLSCREEN — real landscape
+════════════════════════════════════════════════════════ */
+#afvp:-webkit-full-screen,
+#afvp:-moz-full-screen,
+#afvp:fullscreen {
+  width: 100vw !important;
+  height: 100dvh !important;
+  left: 0 !important;
+  transform: none !important;
+  border-radius: 0 !important;
+}
+ 
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  #afvp * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
   </style>
 </head>
 
@@ -5056,6 +6150,334 @@ body{
           </div>
         </section>
       </div><!-- /viewStudent -->
+
+<!-- ════════════════════════════════════════════════════════
+     AF VIDEO PLAYER OVERLAY
+════════════════════════════════════════════════════════ -->
+<div id="afvp" class="hidden" role="dialog" aria-modal="true" aria-label="Video Player">
+  <div class="afvp-shell">
+ 
+    <!-- TOP BAR -->
+    <div class="afvp-topbar" id="afvpTopbar">
+      <button class="afvp-back" onclick="AFPlayer.close()" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="afvp-meta">
+        <span class="afvp-meta-course" id="afvpCourse"></span>
+        <span class="afvp-meta-title"  id="afvpTitle">Lecture</span>
+        <span class="afvp-meta-chapter" id="afvpChapter"></span>
+      </div>
+      <div class="afvp-actions">
+        <button class="afvp-btn" id="afvpBtnBookmark" onclick="AFPlayer.toggleBookmark()" aria-label="Bookmark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
+        <button class="afvp-btn" onclick="AFPlayer.openNotes()" aria-label="Notes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </button>
+        <button class="afvp-btn" onclick="AFPlayer.openSettings()" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+        <button class="afvp-btn" id="afvpBtnFS" onclick="AFPlayer.toggleFullscreen()" aria-label="Fullscreen">
+          <svg id="afvpFSExpand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+          <svg id="afvpFSCompress" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
+            <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+ 
+    <!-- VIDEO AREA -->
+    <div class="afvp-video-area" id="afvpVideoArea">
+ 
+      <!-- Skeleton -->
+      <div class="afvp-skeleton" id="afvpSkeleton">
+        <div class="afvp-shimmer"></div>
+        <div class="afvp-skeleton-ring"></div>
+        <div class="afvp-skeleton-bars">
+          <div class="afvp-skeleton-bar w60"></div>
+          <div class="afvp-skeleton-bar w40"></div>
+        </div>
+      </div>
+ 
+      <!-- Poster -->
+      <div class="afvp-poster hidden" id="afvpPoster">
+        <img id="afvpPosterImg" src="" alt="Thumbnail" />
+        <div class="afvp-poster-overlay"></div>
+        <button class="afvp-poster-play" onclick="AFPlayer.play()" aria-label="Play">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+ 
+      <!-- YouTube container -->
+      <div class="afvp-yt-wrap hidden" id="afvpYTWrap">
+        <div id="afvp-yt-player"></div>
+      </div>
+ 
+      <!-- Native video -->
+      <video class="hidden" id="afvp-vid" playsinline webkit-playsinline preload="metadata"></video>
+ 
+      <!-- Gesture layer -->
+      <div class="afvp-gesture" id="afvpGesture">
+        <div class="afvp-gz" id="afvpGzL">
+          <div class="afvp-gfb" id="afvpGfbL">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+            <span id="afvpGfbLTxt">-10s</span>
+          </div>
+        </div>
+        <div class="afvp-gz" id="afvpGzC"></div>
+        <div class="afvp-gz" id="afvpGzR">
+          <div class="afvp-gfb" id="afvpGfbR">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+            <span id="afvpGfbRTxt">+10s</span>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Center play/pause -->
+      <div class="afvp-center">
+        <button class="afvp-cplay" id="afvpCplay" onclick="AFPlayer.togglePlay()" aria-label="Play/Pause">
+          <svg class="pi" id="afvpIconPlay" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg class="hidden" id="afvpIconPause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <svg class="hidden" id="afvpIconReplay" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        </button>
+      </div>
+ 
+      <!-- Speed indicator -->
+      <div class="afvp-speed-ind hidden" id="afvpSpeedInd">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+        <span id="afvpSpeedTxt">2× Speed</span>
+      </div>
+ 
+      <!-- Spinner -->
+      <div class="afvp-spinner hidden" id="afvpSpinner">
+        <div class="afvp-spin-ring"></div>
+      </div>
+ 
+      <!-- Error state -->
+      <div class="afvp-state hidden" id="afvpError">
+        <div class="afvp-state-icon">⚠️</div>
+        <h3>Video Unavailable</h3>
+        <p id="afvpErrorMsg">Unable to load video. Please check connection.</p>
+        <button class="afvp-retry" onclick="AFPlayer.retry()">Try Again</button>
+      </div>
+ 
+      <!-- Offline state -->
+      <div class="afvp-state hidden" id="afvpOffline">
+        <div class="afvp-state-icon">📵</div>
+        <h3>You're Offline</h3>
+        <p>Connect to the internet to watch this video.</p>
+        <button class="afvp-retry" onclick="AFPlayer.checkOnline()">Check Connection</button>
+      </div>
+ 
+      <!-- Completion -->
+      <div class="afvp-completion hidden" id="afvpCompletion">
+        <div class="afvp-complete-inner">
+          <div class="afvp-check">✓</div>
+          <h3>Lecture Complete!</h3>
+          <p id="afvpCompleteSub">Great job. Keep it up!</p>
+          <div class="afvp-complete-btns">
+            <button class="afvp-cbtn secondary" onclick="AFPlayer.replay()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+              Replay
+            </button>
+            <button class="afvp-cbtn primary" id="afvpNextBtn" onclick="AFPlayer.playNext()">
+              Next Lecture
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Swipe indicator -->
+      <div class="afvp-swipe hidden" id="afvpSwipe">
+        <div class="afvp-swipe-bar"><div class="afvp-swipe-fill" id="afvpSwipeFill"></div></div>
+        <span class="afvp-swipe-label" id="afvpSwipeLabel">🔊 80%</span>
+      </div>
+ 
+    </div><!-- /video-area -->
+ 
+    <!-- BOTTOM CONTROLS -->
+    <div class="afvp-bottom" id="afvpBottom">
+ 
+      <!-- Progress -->
+      <div class="afvp-prog-wrap" id="afvpProgWrap">
+        <div class="afvp-buffered" id="afvpBuffered"></div>
+        <div class="afvp-played"   id="afvpPlayed"></div>
+        <div class="afvp-thumb"    id="afvpThumb"></div>
+        <input type="range" class="afvp-prog-input" id="afvpProgInput"
+               min="0" max="1000" value="0" step="1" aria-label="Seek" />
+      </div>
+ 
+      <!-- Controls row -->
+      <div class="afvp-ctrl-row">
+        <div class="afvp-ctrl-left">
+          <!-- Play/pause -->
+          <button class="afvp-ibtn" onclick="AFPlayer.togglePlay()" aria-label="Play/Pause">
+            <svg id="afvpPlaySm"  viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg id="afvpPauseSm" class="hidden" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <!-- -10s -->
+          <button class="afvp-ibtn" onclick="AFPlayer.skip(-10)" aria-label="-10s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"/>
+              <path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
+              <text x="8.5" y="14.5" font-size="5.5" fill="currentColor" stroke="none" font-weight="bold">10</text>
+            </svg>
+          </button>
+          <!-- +10s -->
+          <button class="afvp-ibtn" onclick="AFPlayer.skip(10)" aria-label="+10s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-.49-4.5"/>
+              <text x="8.5" y="14.5" font-size="5.5" fill="currentColor" stroke="none" font-weight="bold">10</text>
+            </svg>
+          </button>
+          <!-- Volume -->
+          <div class="afvp-vol-wrap">
+            <button class="afvp-ibtn" onclick="AFPlayer.toggleMute()" aria-label="Mute">
+              <svg id="afvpVolIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path id="afvpWave1" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                <path id="afvpWave2" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </button>
+            <input type="range" class="afvp-vol-slider" id="afvpVolSlider"
+                   min="0" max="100" value="100" aria-label="Volume" />
+          </div>
+          <!-- Time -->
+          <div class="afvp-time">
+            <span id="afvpCur">0:00</span>
+            <span class="afvp-time-sep">/</span>
+            <span id="afvp-dur">0:00</span>
+          </div>
+        </div>
+ 
+        <div class="afvp-ctrl-right">
+          <!-- Speed -->
+          <button class="afvp-ibtn" onclick="AFPlayer.cycleSpeed()" aria-label="Speed" style="width:auto;padding:0 6px">
+            <span class="afvp-speed-label" id="afvpSpeedLbl">1×</span>
+          </button>
+          <!-- Fullscreen -->
+          <button class="afvp-ibtn" onclick="AFPlayer.toggleFullscreen()" aria-label="Fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div><!-- /bottom -->
+ 
+  </div><!-- /shell -->
+ 
+  <!-- SETTINGS PANEL -->
+  <div class="afvp-panel hidden" id="afvpSettings" role="dialog" aria-label="Settings">
+    <div class="afvp-panel-head">
+      <h3>⚙️ Settings</h3>
+      <button class="afvp-panel-close" onclick="AFPlayer.closeSettings()">✕</button>
+    </div>
+    <div class="afvp-panel-body">
+ 
+      <div>
+        <div class="afvp-sg-label">Playback Speed</div>
+        <div class="afvp-chips" id="afvpSpeedChips">
+          <button class="afvp-chip" data-speed="0.5"  onclick="AFPlayer.setSpeed(0.5)">0.5×</button>
+          <button class="afvp-chip" data-speed="0.75" onclick="AFPlayer.setSpeed(0.75)">0.75×</button>
+          <button class="afvp-chip active" data-speed="1" onclick="AFPlayer.setSpeed(1)">1×</button>
+          <button class="afvp-chip" data-speed="1.25" onclick="AFPlayer.setSpeed(1.25)">1.25×</button>
+          <button class="afvp-chip" data-speed="1.5"  onclick="AFPlayer.setSpeed(1.5)">1.5×</button>
+          <button class="afvp-chip" data-speed="2"    onclick="AFPlayer.setSpeed(2)">2×</button>
+        </div>
+      </div>
+ 
+      <div>
+        <div class="afvp-sg-label">Video Quality</div>
+        <div class="afvp-chips" id="afvpQualChips">
+          <button class="afvp-chip active" data-q="auto" onclick="AFPlayer.setQuality('auto')">Auto</button>
+          <button class="afvp-chip" data-q="1080" onclick="AFPlayer.setQuality('1080')">1080p</button>
+          <button class="afvp-chip" data-q="720"  onclick="AFPlayer.setQuality('720')">720p</button>
+          <button class="afvp-chip" data-q="480"  onclick="AFPlayer.setQuality('480')">480p</button>
+          <button class="afvp-chip" data-q="360"  onclick="AFPlayer.setQuality('360')">360p</button>
+        </div>
+      </div>
+ 
+      <div>
+        <div class="afvp-toggle-row">
+          <span>Loop Video</span>
+          <label class="afvp-tog">
+            <input type="checkbox" id="afvpTogLoop" onchange="AFPlayer.toggleLoop(this.checked)" />
+            <span class="afvp-tog-track"></span>
+          </label>
+        </div>
+        <div class="afvp-toggle-row">
+          <span>Autoplay Next</span>
+          <label class="afvp-tog">
+            <input type="checkbox" id="afvpTogAutoplay" checked onchange="AFPlayer.toggleAutoplay(this.checked)" />
+            <span class="afvp-tog-track"></span>
+          </label>
+        </div>
+        <div class="afvp-toggle-row">
+          <span>Data Saver</span>
+          <label class="afvp-tog">
+            <input type="checkbox" id="afvpTogData" onchange="AFPlayer.toggleDataSaver(this.checked)" />
+            <span class="afvp-tog-track"></span>
+          </label>
+        </div>
+      </div>
+ 
+      <div>
+        <div class="afvp-sg-label">Sleep Timer</div>
+        <div class="afvp-chips">
+          <button class="afvp-chip active" onclick="AFPlayer.setSleep(0)">Off</button>
+          <button class="afvp-chip" onclick="AFPlayer.setSleep(15)">15m</button>
+          <button class="afvp-chip" onclick="AFPlayer.setSleep(30)">30m</button>
+          <button class="afvp-chip" onclick="AFPlayer.setSleep(60)">1h</button>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+ 
+  <!-- NOTES PANEL -->
+  <div class="afvp-panel left hidden" id="afvpNotes" role="dialog" aria-label="Notes">
+    <div class="afvp-panel-head">
+      <h3>📝 Notes</h3>
+      <button class="afvp-panel-close" onclick="AFPlayer.closeNotes()">✕</button>
+    </div>
+    <div class="afvp-panel-body">
+      <div>
+        <div class="afvp-note-ts" id="afvpNoteTs">@ 0:00</div>
+        <textarea class="afvp-note-textarea" id="afvpNoteInput"
+          rows="3" placeholder="Write a note at this timestamp…"></textarea>
+        <button class="afvp-note-save" onclick="AFPlayer.saveNote()" style="margin-top:8px">Save Note</button>
+      </div>
+      <div>
+        <div class="afvp-sg-label">Your Notes</div>
+        <div class="afvp-notes-list" id="afvpNotesList">
+          <p class="afvp-notes-empty">No notes yet. Add one above!</p>
+        </div>
+        <button class="afvp-export-btn" onclick="AFPlayer.exportNotes()" style="margin-top:10px">Export Notes as Text</button>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Backdrop -->
+  <div class="afvp-backdrop hidden" id="afvpBackdrop" onclick="AFPlayer.closePanels()"></div>
+ 
+</div><!-- /afvp -->
 
       <!-- VIEW: BATCHES -->
       <div class="af-view" id="viewBatches" aria-label="Batches">
@@ -5587,7 +7009,7 @@ body{
                 </a>
               </div>
             </div>
-
+            
           </div><!-- /af-accordion-groups -->
 
           <!-- FIX: Changed onclick from afSettingsLogout() to afLogout() — no undefined function -->
@@ -5904,7 +7326,49 @@ body{
       <button class="af-modal-ok" onclick="afCloseModal()" type="button">Okay, Got It</button>
     </div>
   </div>
-  
+
+<div id="afInstallOverlay">
+
+  <div class="af-install-sheet">
+
+    <div class="af-install-header">
+
+      <img
+        src="AF LOGO 3.png"
+        class="af-install-logo"
+        alt="AcademeForge">
+
+      <div>
+        <div class="af-install-title">
+          Install AcademeForge
+        </div>
+
+        <div class="af-install-sub">
+          Faster launch • Offline access
+        </div>
+      </div>
+
+    </div>
+
+    <div class="af-install-actions">
+
+      <button
+        class="af-install-later-btn"
+        onclick="afCloseInstallModal()">
+        Not Now
+      </button>
+
+      <button
+        class="af-install-now-btn"
+        onclick="installAcademeForge()">
+        Install
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 <div id="afPullLoader">
   <div class="af-pull-spinner"></div>
 </div>
@@ -8393,8 +9857,8 @@ if ("serviceWorker" in navigator) {
   });
 }
 
- /* ════════════════════════════════════
- OFFLINE PAGE 
+     /* ════════════════════════════════════
+  OFFLINE PAGE
 ════════════════════════════════════ */
     function openExternal(url) {
 
@@ -8409,6 +9873,924 @@ if ("serviceWorker" in navigator) {
     window.location.href = "./offline.html";
   }
 }
+
+  /* ════════════════════════════════════
+   INSTALL APP MODAL
+════════════════════════════════════ */
+
+let afInstallPrompt = null;
+
+/* Desktop only */
+function afIsDesktop() {
+  return (
+    window.innerWidth >= 1024 &&
+    !/Android|iPhone|iPad|iPod/i.test(
+      navigator.userAgent
+    )
+  );
+}
+
+/* Show Modal */
+function afShowInstallModal() {
+
+  const modal =
+    document.getElementById(
+      "afInstallOverlay"
+    );
+
+  if (!modal) return;
+
+  modal.classList.add("open");
+}
+
+/* Close Modal */
+function afCloseInstallModal() {
+
+  const modal =
+    document.getElementById(
+      "afInstallOverlay"
+    );
+
+  if (!modal) return;
+
+  modal.classList.remove("open");
+
+  localStorage.setItem(
+    "af_install_prompt_shown",
+    "1"
+  );
+}
+
+/* Browser Install Event */
+window.addEventListener(
+  "beforeinstallprompt",
+  (e) => {
+
+    e.preventDefault();
+
+    if (!afIsDesktop()) {
+      return;
+    }
+
+    /* Already installed */
+    if (
+      window.matchMedia(
+        "(display-mode: standalone)"
+      ).matches
+    ) {
+      return;
+    }
+
+    /* Already shown once */
+    if (
+      localStorage.getItem(
+        "af_install_prompt_shown"
+      ) === "1"
+    ) {
+      return;
+    }
+
+    afInstallPrompt = e;
+
+    setTimeout(() => {
+
+      if (!afInstallPrompt) return;
+
+      afShowInstallModal();
+
+    }, 2500);
+  }
+);
+
+/* Install Button */
+async function installAcademeForge() {
+
+  if (!afInstallPrompt) return;
+
+  try {
+
+    afInstallPrompt.prompt();
+
+    const result =
+      await afInstallPrompt.userChoice;
+
+    console.log(
+      "Install Result:",
+      result.outcome
+    );
+
+    afInstallPrompt = null;
+
+    afCloseInstallModal();
+
+  } catch (err) {
+
+    console.error(
+      "Install Error:",
+      err
+    );
+
+    afCloseInstallModal();
+  }
+}
+
+/* Installed Successfully */
+window.addEventListener(
+  "appinstalled",
+  () => {
+
+    localStorage.setItem(
+      "af_install_prompt_shown",
+      "1"
+    );
+
+    afInstallPrompt = null;
+
+    const modal =
+      document.getElementById(
+        "afInstallOverlay"
+      );
+
+    if (modal) {
+      modal.classList.remove("open");
+    }
+
+    console.log(
+      "AcademeForge Installed"
+    );
+  }
+);
+
+    /* ╔══════════════════════════════════════════════════════════════╗
+   ║  AF VIDEO PLAYER SYSTEM — af-video-player.js               ║
+   ║  Paste before </body>. Works with YouTube IFrame API,       ║
+   ║  HLS.js (optional), DASH.js (optional), native HTML5 video ║
+   ╚══════════════════════════════════════════════════════════════╝
+ 
+/* ── UTILS ── */
+function $id(id){ return document.getElementById(id); }
+function fmt(sec){
+  if(!sec||isNaN(sec)) return "0:00";
+  sec=Math.floor(sec);
+  var h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  if(h>0) return h+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  return m+":"+String(s).padStart(2,"0");
+}
+function clamp(v,a,b){ return Math.min(b,Math.max(a,v)); }
+function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function detectType(url){
+  if(!url) return "mp4";
+  var u=url.toLowerCase();
+  if(u.includes("youtube.com")||u.includes("youtu.be")) return "youtube";
+  if(u.includes(".m3u8")) return "hls";
+  if(u.includes(".mpd"))  return "dash";
+  if(u.includes(".webm")) return "webm";
+  return "mp4";
+}
+function ytId(url){
+  var m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m?m[1]:null;
+}
+function vidKey(url){
+  var h=0; for(var i=0;i<url.length;i++){h=((h<<5)-h)+url.charCodeAt(i);h|=0;}
+  return "afvp_"+Math.abs(h).toString(36);
+}
+function saveProg(key,t,d){
+  try{ localStorage.setItem(key,JSON.stringify({t:Math.floor(t),d:Math.floor(d),pct:d>0?Math.round(t/d*100):0,ts:Date.now()})); }catch(_){}
+}
+function loadProg(key){
+  try{ return JSON.parse(localStorage.getItem(key)||"null"); }catch(_){return null;}
+}
+ 
+/* ── PLAYER ── */
+var P = window.AFPlayer = {
+  _cfg: null, _type: null, _key: null,
+  _yt: null, _ytOK: false,
+  _hls: null, _dash: null,
+  _playing: false, _muted: false, _vol: 1, _speed: 1,
+  _dur: 0, _cur: 0,
+  _fs: false, _autoplay: true, _loop: false, _datasaver: false,
+  _sleep: null, _qual: "auto",
+  _settOpen: false, _noteOpen: false,
+  _ctrlVis: true, _ctrlT: null, _cflashT: null,
+  _raf: null, _bookmarks: [], _notes: [],
+  _lpTimer: null,
+  _tStartX:0,_tStartY:0,_tStartT:0,_tStartVol:1,_tMode:null,
+  _progDragging: false,
+ 
+  /* ── OPEN ── */
+  open: function(cfg){
+    this._cfg      = cfg||{};
+    this._type     = cfg.type&&cfg.type!=="auto"?cfg.type:detectType(cfg.url);
+    this._key      = vidKey(cfg.url||"");
+    this._notes    = this._loadNotes();
+    this._bookmarks= [];
+    this._playing  = false; this._speed = 1; this._qual = "auto";
+    this._settOpen = false; this._noteOpen = false;
+    this._applyMeta();
+    $id("afvp").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    this._skeleton(true);
+    this._resetUI();
+    this._destroyEngine();
+    this._loadEngine();
+    this._bindProgress();
+    this._bindGestures();
+    this._bindKeyboard();
+    this._renderNotes();
+  },
+ 
+  close: function(){
+    this._destroyEngine();
+    this._stopRaf();
+    if(this._sleep) clearTimeout(this._sleep);
+    if(this._ctrlT) clearTimeout(this._ctrlT);
+    $id("afvp").classList.add("hidden");
+    document.body.style.overflow = "";
+    this.closePanels();
+  },
+ 
+  /* ── META ── */
+  _applyMeta: function(){
+    var c=this._cfg;
+    $id("afvpCourse").textContent   = c.courseTitle||"";
+    $id("afvpTitle").textContent    = c.title||"Lecture";
+    $id("afvpChapter").textContent  = c.chapter||"";
+    $id("afvpCompleteSub").textContent = c.nextVideo
+      ? "Up next: "+(c.nextVideo.title||"Next Lecture")
+      : "You've completed this lecture!";
+    var pi = $id("afvpPosterImg"), po = $id("afvpPoster");
+    if(pi && c.poster){ pi.src=c.poster; po&&po.classList.remove("hidden"); }
+    else if(po){ po.classList.add("hidden"); }
+    var nb=$id("afvpNextBtn"); if(nb) nb.classList.toggle("hidden",!c.nextVideo);
+  },
+ 
+  /* ── RESET UI ── */
+  _resetUI: function(){
+    this._setPlay(false);
+    ["afvpSpinner","afvpError","afvpOffline","afvpCompletion","afvpSwipe","afvpSpeedInd"].forEach(function(id){
+      var e=$id(id); if(e) e.classList.add("hidden");
+    });
+    $id("afvpPlayed")  && ($id("afvpPlayed").style.width="0%");
+    $id("afvpBuffered") && ($id("afvpBuffered").style.width="0%");
+    $id("afvpThumb")   && ($id("afvpThumb").style.left="0%");
+    $id("afvpCur")     && ($id("afvpCur").textContent="0:00");
+    $id("afvp-dur")    && ($id("afvp-dur").textContent="0:00");
+    $id("afvpSpeedLbl") && ($id("afvpSpeedLbl").textContent="1×");
+    // reset speed chips
+    document.querySelectorAll("#afvpSpeedChips .afvp-chip").forEach(function(c){
+      c.classList.toggle("active", parseFloat(c.dataset.speed)===1);
+    });
+    // show controls
+    this._showCtrl();
+    this._sched();
+  },
+ 
+  _skeleton: function(on){
+    var s=$id("afvpSkeleton"); if(s) s.classList.toggle("hidden",!on);
+  },
+ 
+  /* ══════════════════════════════════════
+     ENGINES
+  ══════════════════════════════════════ */
+  _loadEngine: function(){
+    var t=this._type, url=this._cfg.url;
+    if(t==="youtube") this._loadYT(url);
+    else if(t==="hls") this._loadHLS(url);
+    else if(t==="dash") this._loadDASH(url);
+    else this._loadNative(url);
+  },
+ 
+  _destroyEngine: function(){
+    if(this._yt){ try{this._yt.destroy();}catch(_){} this._yt=null; this._ytOK=false;
+      var wrap=$id("afvp-yt-player"); if(wrap) wrap.innerHTML="";
+      $id("afvpYTWrap")&&$id("afvpYTWrap").classList.add("hidden");
+    }
+    if(this._hls){ try{this._hls.destroy();}catch(_){} this._hls=null; }
+    if(this._dash){ try{this._dash.reset();}catch(_){} this._dash=null; }
+    var vid=$id("afvp-vid");
+    if(vid){ vid.pause(); vid.src=""; vid.classList.add("hidden"); this._removeVidEvents(vid); }
+  },
+ 
+  /* ─── YouTube ─── */
+  _loadYT: function(url){
+    var self=this, id=ytId(url);
+    if(!id){ this._showErr("Invalid YouTube URL."); return; }
+    $id("afvpYTWrap").classList.remove("hidden");
+    $id("afvp-vid").classList.add("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    // set YT poster if no custom poster
+    if(!this._cfg.poster){
+      var pi=$id("afvpPosterImg"), po=$id("afvpPoster");
+      if(pi){ pi.src="https://img.youtube.com/vi/"+id+"/maxresdefault.jpg"; }
+      if(po) po.classList.remove("hidden");
+    }
+    var make=function(){
+      var w=$id("afvp-yt-player"); if(w) w.innerHTML="";
+      self._yt = new YT.Player("afvp-yt-player",{
+        videoId: id,
+        playerVars:{autoplay:1,controls:0,rel:0,modestbranding:1,iv_load_policy:3,disablekb:1,playsinline:1,start:self._cfg.startTime||0},
+        events:{
+          onReady: function(e){
+            self._ytOK=true;
+            self._dur=e.target.getDuration()||0;
+            $id("afvp-dur").textContent=fmt(self._dur);
+            self._skeleton(false);
+            $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+            e.target.setVolume(self._vol*100);
+            e.target.setPlaybackRate(self._speed);
+            self._startRaf();
+            self._checkResume();
+          },
+          onStateChange: function(e){
+            var S=YT.PlayerState;
+            if(e.data===S.PLAYING){ self._playing=true; self._setPlay(true); $id("afvpSpinner")&&$id("afvpSpinner").classList.add("hidden"); }
+            else if(e.data===S.PAUSED){ self._playing=false; self._setPlay(false); }
+            else if(e.data===S.BUFFERING){ $id("afvpSpinner")&&$id("afvpSpinner").classList.remove("hidden"); }
+            else if(e.data===S.ENDED){ self._playing=false; self._setPlay(false); self._onEnd(); }
+          },
+          onError: function(e){ self._showErr("YouTube error ("+e.data+"). Try another video."); }
+        }
+      });
+    };
+    if(window.YT&&window.YT.Player){ make(); }
+    else{
+      var t=document.createElement("script"); t.src="https://www.youtube.com/iframe_api";
+      document.head.appendChild(t);
+      window.onYouTubeIframeAPIReady = make;
+    }
+  },
+ 
+  /* ─── HLS ─── */
+  _loadHLS: function(url){
+    var self=this, vid=$id("afvp-vid");
+    vid.classList.remove("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    if(window.Hls&&Hls.isSupported()){
+      this._hls=new Hls({capLevelToPlayerSize:true,startLevel:-1});
+      this._hls.loadSource(url);
+      this._hls.attachMedia(vid);
+      this._hls.on(Hls.Events.MANIFEST_PARSED,function(){ self._skeleton(false); vid.play().catch(function(){}); });
+      this._hls.on(Hls.Events.ERROR,function(e,d){ if(d.fatal) self._showErr("HLS stream error."); });
+    } else if(vid.canPlayType("application/vnd.apple.mpegurl")){
+      vid.src=url; vid.play().catch(function(){}); self._skeleton(false);
+    } else { this._showErr("HLS not supported."); return; }
+    this._attachVidEvents(vid);
+  },
+ 
+  /* ─── DASH ─── */
+  _loadDASH: function(url){
+    var vid=$id("afvp-vid");
+    vid.classList.remove("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    if(window.dashjs){
+      this._dash=dashjs.MediaPlayer().create();
+      this._dash.initialize(vid,url,true);
+      var self=this;
+      this._dash.on("streamInitialized",function(){ self._skeleton(false); });
+    } else { this._loadNative(url); return; }
+    this._attachVidEvents(vid);
+  },
+ 
+  /* ─── Native ─── */
+  _loadNative: function(url){
+    var self=this, vid=$id("afvp-vid");
+    vid.classList.remove("hidden");
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+    vid.src=url;
+    vid.playbackRate=this._speed;
+    vid.volume=this._vol;
+    vid.currentTime=this._cfg.startTime||0;
+    vid.load();
+    vid.play().catch(function(){
+      var po=$id("afvpPoster"); if(po) po.classList.remove("hidden");
+      self._skeleton(false);
+    });
+    this._attachVidEvents(vid);
+  },
+ 
+  /* ─── Native events ─── */
+  _vh: {},
+  _attachVidEvents: function(vid){
+    var self=this;
+    this._vh = {
+      loadedmetadata: function(){ self._dur=vid.duration||0; $id("afvp-dur").textContent=fmt(self._dur); self._skeleton(false); if(self._cfg.startTime) vid.currentTime=self._cfg.startTime; self._startRaf(); self._checkResume(); },
+      play:     function(){ self._playing=true; self._setPlay(true); $id("afvpSpinner")&&$id("afvpSpinner").classList.add("hidden"); },
+      pause:    function(){ self._playing=false; self._setPlay(false); },
+      waiting:  function(){ $id("afvpSpinner")&&$id("afvpSpinner").classList.remove("hidden"); },
+      canplay:  function(){ $id("afvpSpinner")&&$id("afvpSpinner").classList.add("hidden"); },
+      ended:    function(){ self._playing=false; self._setPlay(false); self._onEnd(); },
+      error:    function(){ self._showErr("Video could not be loaded."); },
+      progress: function(){
+        if(vid.buffered.length&&self._dur>0){
+          var pct=(vid.buffered.end(vid.buffered.length-1)/self._dur)*100;
+          $id("afvpBuffered").style.width=clamp(pct,0,100)+"%";
+        }
+      }
+    };
+    for(var ev in this._vh) vid.addEventListener(ev, this._vh[ev]);
+  },
+  _removeVidEvents: function(vid){
+    for(var ev in this._vh) vid.removeEventListener(ev, this._vh[ev]);
+    this._vh={};
+  },
+ 
+  /* ══════════════════════════════════════
+     PLAYBACK
+  ══════════════════════════════════════ */
+  play: function(){
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.playVideo();
+    else { var v=$id("afvp-vid"); if(v) v.play().catch(function(){}); }
+    $id("afvpPoster")&&$id("afvpPoster").classList.add("hidden");
+  },
+  pause: function(){
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.pauseVideo();
+    else { var v=$id("afvp-vid"); if(v) v.pause(); }
+  },
+  togglePlay: function(){
+    if(this._playing) this.pause(); else this.play();
+    this._flashCenter(); this._showCtrl(); this._sched();
+  },
+  seek: function(s){
+    s=clamp(s,0,this._dur||999999);
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.seekTo(s,true);
+    else { var v=$id("afvp-vid"); if(v) v.currentTime=s; }
+    this._cur=s; this._updateUI(s,this._dur);
+  },
+  skip: function(s){ this.seek((this._cur||0)+s); },
+  replay: function(){
+    this.seek(0);
+    $id("afvpCompletion")&&$id("afvpCompletion").classList.add("hidden");
+    this.play();
+  },
+  playNext: function(){
+    var next=this._cfg&&this._cfg.nextVideo;
+    $id("afvpCompletion")&&$id("afvpCompletion").classList.add("hidden");
+    if(next){ this.close(); this.open(next); } else { this.close(); }
+  },
+  retry: function(){
+    $id("afvpError")&&$id("afvpError").classList.add("hidden");
+    $id("afvpOffline")&&$id("afvpOffline").classList.add("hidden");
+    this._destroyEngine(); this._skeleton(true); this._loadEngine();
+  },
+  checkOnline: function(){
+    if(navigator.onLine) this.retry();
+    else this._showErr("Still offline.",true);
+  },
+ 
+  /* ── Speed / Quality / Volume ── */
+  setSpeed: function(sp){
+    this._speed=sp;
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.setPlaybackRate(sp);
+    else { var v=$id("afvp-vid"); if(v) v.playbackRate=sp; }
+    $id("afvpSpeedLbl").textContent=sp+"×";
+    document.querySelectorAll("#afvpSpeedChips .afvp-chip").forEach(function(c){
+      c.classList.toggle("active",parseFloat(c.dataset.speed)===sp);
+    });
+  },
+  cycleSpeed: function(){
+    var speeds=[0.5,0.75,1,1.25,1.5,2];
+    var i=speeds.indexOf(this._speed);
+    this.setSpeed(speeds[(i+1)%speeds.length]);
+  },
+  setQuality: function(q){
+    this._qual=q;
+    document.querySelectorAll("#afvpQualChips .afvp-chip").forEach(function(c){
+      c.classList.toggle("active",c.dataset.q===q);
+    });
+    if(this._hls){
+      if(q==="auto"){ this._hls.currentLevel=-1; return; }
+      var lvls=this._hls.levels, best=-1, bd=Infinity;
+      if(lvls) lvls.forEach(function(l,i){ var d=Math.abs(l.height-parseInt(q)); if(d<bd){bd=d;best=i;} });
+      if(best>=0) this._hls.currentLevel=best;
+    }
+  },
+  toggleMute: function(){
+    this._muted=!this._muted;
+    if(this._type==="youtube"&&this._yt&&this._ytOK){ this._muted?this._yt.mute():this._yt.unMute(); }
+    else { var v=$id("afvp-vid"); if(v) v.muted=this._muted; }
+    var w1=$id("afvpWave1"), w2=$id("afvpWave2");
+    if(w1) w1.style.opacity=this._muted?"0.2":"1";
+    if(w2) w2.style.opacity=this._muted?"0.2":"1";
+  },
+  setVolume: function(v){
+    this._vol=clamp(v,0,1);
+    if(this._type==="youtube"&&this._yt&&this._ytOK) this._yt.setVolume(this._vol*100);
+    else { var vid=$id("afvp-vid"); if(vid) vid.volume=this._vol; }
+    var vs=$id("afvpVolSlider"); if(vs) vs.value=Math.round(this._vol*100);
+  },
+ 
+  /* ── Fullscreen ── */
+  toggleFullscreen: function(){
+    var el=$id("afvp");
+    if(!document.fullscreenElement){
+      if(el.requestFullscreen) el.requestFullscreen();
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      this._fs=true;
+    } else {
+      if(document.exitFullscreen) document.exitFullscreen();
+      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+      this._fs=false;
+    }
+    var ex=$id("afvpFSExpand"), cm=$id("afvpFSCompress");
+    if(ex) ex.classList.toggle("hidden",this._fs);
+    if(cm) cm.classList.toggle("hidden",!this._fs);
+  },
+ 
+  /* ── Settings / Notes panels ── */
+  openSettings: function(){
+    this.closeNotes();
+    $id("afvpSettings").classList.toggle("hidden");
+    this._settOpen=!$id("afvpSettings").classList.contains("hidden");
+    $id("afvpBackdrop").classList.toggle("hidden",!this._settOpen);
+  },
+  closeSettings: function(){
+    $id("afvpSettings").classList.add("hidden");
+    this._settOpen=false;
+    if(!this._noteOpen) $id("afvpBackdrop").classList.add("hidden");
+  },
+  openNotes: function(){
+    this.closeSettings();
+    $id("afvpNotes").classList.toggle("hidden");
+    this._noteOpen=!$id("afvpNotes").classList.contains("hidden");
+    $id("afvpBackdrop").classList.toggle("hidden",!this._noteOpen);
+    if(this._noteOpen){
+      var ts=$id("afvpNoteTs"); if(ts) ts.textContent="@ "+fmt(this._cur||0);
+    }
+  },
+  closeNotes: function(){
+    $id("afvpNotes").classList.add("hidden");
+    this._noteOpen=false;
+    if(!this._settOpen) $id("afvpBackdrop").classList.add("hidden");
+  },
+  closePanels: function(){ this.closeSettings(); this.closeNotes(); },
+ 
+  /* ── Toggles ── */
+  toggleLoop:     function(on){ this._loop=on; var v=$id("afvp-vid"); if(v) v.loop=on; },
+  toggleAutoplay: function(on){ this._autoplay=on; },
+  toggleDataSaver:function(on){ this._datasaver=on; this.setQuality(on?"360":"auto"); },
+  setSleep: function(min){
+    if(this._sleep) clearTimeout(this._sleep);
+    if(min>0){ var self=this; this._sleep=setTimeout(function(){ self.pause(); self._toast("Sleep timer: paused."); },min*60000); this._toast("Sleep timer: "+min+"m"); }
+    else this._toast("Sleep timer off");
+  },
+ 
+  /* ── Bookmark ── */
+  toggleBookmark: function(){
+    var t=this._cur||0, btn=$id("afvpBtnBookmark");
+    var ex=this._bookmarks.some(function(b){ return Math.abs(b.t-t)<2; });
+    if(ex){ this._bookmarks=this._bookmarks.filter(function(b){ return Math.abs(b.t-t)>=2; }); if(btn) btn.classList.remove("bookmarked"); this._toast("Bookmark removed"); }
+    else{ this._bookmarks.push({t:t}); if(btn) btn.classList.add("bookmarked"); this._toast("Bookmarked at "+fmt(t)); }
+  },
+ 
+  /* ── Notes ── */
+  _loadNotes: function(){
+    try{ return JSON.parse(localStorage.getItem("afvp_n_"+(this._key||""))||"[]"); }catch(_){ return []; }
+  },
+  _saveNotes: function(){
+    try{ localStorage.setItem("afvp_n_"+(this._key||""),JSON.stringify(this._notes)); }catch(_){}
+  },
+  saveNote: function(){
+    var inp=$id("afvpNoteInput"), txt=inp?inp.value.trim():"";
+    if(!txt) return;
+    this._notes.push({id:Date.now(),t:this._cur||0,txt:txt});
+    this._notes.sort(function(a,b){return a.t-b.t;});
+    this._saveNotes(); this._renderNotes();
+    if(inp) inp.value="";
+    var ts=$id("afvpNoteTs"); if(ts) ts.textContent="@ "+fmt(this._cur||0);
+  },
+  deleteNote: function(id){
+    this._notes=this._notes.filter(function(n){return n.id!==id;});
+    this._saveNotes(); this._renderNotes();
+  },
+  _renderNotes: function(){
+    var list=$id("afvpNotesList"); if(!list) return;
+    if(!this._notes.length){ list.innerHTML='<p class="afvp-notes-empty">No notes yet. Add one above!</p>'; return; }
+    var self=this;
+    list.innerHTML=this._notes.map(function(n){
+      return '<div class="afvp-note-item">'
+        +'<span class="afvp-note-item-ts" onclick="AFPlayer.seek('+n.t+')">▶ '+fmt(n.t)+'</span>'
+        +'<p class="afvp-note-item-text">'+esc(n.txt)+'</p>'
+        +'<button class="afvp-note-del" onclick="AFPlayer.deleteNote('+n.id+')">Delete</button>'
+        +'</div>';
+    }).join("");
+  },
+  exportNotes: function(){
+    var lines=["=== VIDEO NOTES ===","Video: "+(this._cfg&&this._cfg.title||""),""]; 
+    this._notes.forEach(function(n){ lines.push("["+fmt(n.t)+"] "+n.txt); });
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([lines.join("\n")],{type:"text/plain"}));
+    a.download="notes-"+((this._cfg&&this._cfg.title||"video").replace(/\s+/g,"-"))+".txt";
+    a.click();
+  },
+ 
+  /* ══════════════════════════════════════
+     PROGRESS RAF LOOP
+  ══════════════════════════════════════ */
+  _startRaf: function(){
+    var self=this; this._stopRaf();
+    var loop=function(){ self._tick(); self._raf=requestAnimationFrame(loop); };
+    this._raf=requestAnimationFrame(loop);
+  },
+  _stopRaf: function(){
+    if(this._raf){ cancelAnimationFrame(this._raf); this._raf=null; }
+  },
+  _tick: function(){
+    var t=0, d=this._dur;
+    if(this._type==="youtube"&&this._yt&&this._ytOK){
+      t=this._yt.getCurrentTime()||0;
+      d=this._yt.getDuration()||0;
+    } else {
+      var v=$id("afvp-vid"); if(v){ t=v.currentTime; d=v.duration||0; }
+    }
+    this._cur=t; this._dur=d;
+    this._updateUI(t,d);
+    if(d>0) saveProg(this._key,t,d);
+  },
+  _updateUI: function(t,d){
+    var pct=d>0?clamp(t/d*100,0,100):0;
+    $id("afvpCur").textContent=fmt(t);
+    $id("afvp-dur").textContent=fmt(d);
+    if(!this._progDragging){
+      $id("afvpPlayed").style.width=pct+"%";
+      $id("afvpThumb").style.left=pct+"%";
+      $id("afvpProgInput").value=Math.round(pct*10);
+    }
+  },
+ 
+  /* ══════════════════════════════════════
+     PROGRESS BAR BINDING
+  ══════════════════════════════════════ */
+  _bindProgress: function(){
+    var self=this;
+    var inp=$id("afvpProgInput"), wrap=$id("afvpProgWrap");
+    var vs=$id("afvpVolSlider");
+ 
+    if(inp){
+      inp.addEventListener("input",function(){
+        self._progDragging=true;
+        wrap&&wrap.classList.add("dragging");
+        var pct=parseInt(this.value)/1000;
+        var t=pct*self._dur;
+        $id("afvpPlayed").style.width=(pct*100)+"%";
+        $id("afvpThumb").style.left=(pct*100)+"%";
+        $id("afvpCur").textContent=fmt(t);
+      });
+      inp.addEventListener("change",function(){
+        self._progDragging=false;
+        wrap&&wrap.classList.remove("dragging");
+        var pct=parseInt(this.value)/1000;
+        self.seek(pct*self._dur);
+      });
+    }
+    if(vs){
+      vs.addEventListener("input",function(){
+        self.setVolume(parseInt(this.value)/100);
+      });
+    }
+  },
+ 
+  /* ══════════════════════════════════════
+     GESTURES (touch)
+  ══════════════════════════════════════ */
+  _bindGestures: function(){
+    var self=this;
+    var g=$id("afvpGesture"), va=$id("afvpVideoArea");
+    if(!g||!va) return;
+ 
+    /* Double-tap (desktop dblclick) */
+    g.addEventListener("dblclick", function(e){
+      var rect=g.getBoundingClientRect();
+      var x=e.clientX-rect.left, w=g.offsetWidth;
+      if(x<w/3){ self.skip(-10); self._gfb("L"); }
+      else if(x>2*w/3){ self.skip(10); self._gfb("R"); }
+      else self.togglePlay();
+    });
+ 
+    /* Single tap = toggle controls */
+    g.addEventListener("click", function(e){
+      if(e.target.closest("button")) return;
+      self._toggleCtrl();
+    });
+ 
+    /* Touch start */
+    g.addEventListener("touchstart", function(e){
+      var t=e.touches[0];
+      self._tStartX=t.clientX; self._tStartY=t.clientY;
+      self._tStartT=Date.now(); self._tStartVol=self._vol;
+      self._tMode=null;
+      /* Long press → 2× speed */
+      self._lpTimer=setTimeout(function(){
+        self.setSpeed(2);
+        var ind=$id("afvpSpeedInd");
+        if(ind){ ind.classList.remove("hidden"); $id("afvpSpeedTxt").textContent="2× Speed"; }
+      },500);
+    },{passive:true});
+ 
+    /* Touch move */
+    g.addEventListener("touchmove", function(e){
+      if(self._lpTimer){ clearTimeout(self._lpTimer); self._lpTimer=null; }
+      var t=e.touches[0];
+      var dx=t.clientX-self._tStartX, dy=t.clientY-self._tStartY;
+      var rect=g.getBoundingClientRect();
+ 
+      if(!self._tMode){
+        if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>12) self._tMode="seek";
+        else if(Math.abs(dy)>12) self._tMode=t.clientX>rect.width/2?"brightness":"volume";
+      }
+      if(self._tMode==="volume"){
+        var nv=clamp(self._tStartVol-(dy/rect.height),0,1);
+        self.setVolume(nv); self._swipe("🔊",nv);
+      } else if(self._tMode==="brightness"){
+        var bv=clamp(0.35-(dy/rect.height),0.1,1);
+        var va2=$id("afvpVideoArea"); if(va2) va2.style.filter="brightness("+bv+")";
+        self._swipe("☀️",bv);
+      }
+    },{passive:true});
+ 
+    /* Touch end */
+    g.addEventListener("touchend", function(e){
+      if(self._lpTimer){ clearTimeout(self._lpTimer); self._lpTimer=null; }
+      /* End 2× long press */
+      if(self._speed===2&&(Date.now()-self._tStartT)>480){
+        self.setSpeed(1);
+        var ind=$id("afvpSpeedInd"); if(ind) ind.classList.add("hidden");
+      }
+      /* Seek on swipe */
+      if(self._tMode==="seek"){
+        var t2=e.changedTouches[0], rect=g.getBoundingClientRect();
+        var dx2=t2.clientX-self._tStartX;
+        var sdt=(dx2/rect.width)*self._dur*0.45;
+        self.seek(clamp((self._cur||0)+sdt,0,self._dur||999));
+      }
+      /* Quick tap */
+      if(!self._tMode&&(Date.now()-self._tStartT)<300){
+        self._toggleCtrl();
+      }
+      self._tMode=null;
+      var sw=$id("afvpSwipe"); if(sw) sw.classList.add("hidden");
+    },{passive:true});
+  },
+ 
+  _swipe: function(emoji, val){
+    var sw=$id("afvpSwipe"), fill=$id("afvpSwipeFill"), lbl=$id("afvpSwipeLabel");
+    if(!sw) return;
+    sw.classList.remove("hidden");
+    if(fill) fill.style.height=(val*100)+"%";
+    if(lbl)  lbl.textContent=emoji+" "+Math.round(val*100)+"%";
+  },
+ 
+  _gfb: function(side){
+    var el=$id("afvpGfb"+side);
+    if(!el) return;
+    el.classList.remove("show"); void el.offsetWidth;
+    el.classList.add("show");
+    setTimeout(function(){ el.classList.remove("show"); },700);
+  },
+ 
+  /* ── Controls visibility ── */
+  _showCtrl: function(){
+    this._ctrlVis=true;
+    $id("afvpTopbar")&&$id("afvpTopbar").classList.remove("hide");
+    $id("afvpBottom")&&$id("afvpBottom").classList.remove("hide");
+  },
+  _hideCtrl: function(){
+    if(!this._playing) return;
+    this._ctrlVis=false;
+    $id("afvpTopbar")&&$id("afvpTopbar").classList.add("hide");
+    $id("afvpBottom")&&$id("afvpBottom").classList.add("hide");
+  },
+  _toggleCtrl: function(){
+    if(this._ctrlVis) this._hideCtrl(); else { this._showCtrl(); this._sched(); }
+  },
+  _sched: function(){
+    var self=this;
+    if(this._ctrlT) clearTimeout(this._ctrlT);
+    this._ctrlT=setTimeout(function(){ self._hideCtrl(); },3200);
+  },
+ 
+  /* ── Center control flash ── */
+  _flashCenter: function(){
+    var btn=$id("afvpCplay"); if(!btn) return;
+    btn.classList.add("show");
+    clearTimeout(this._cflashT);
+    var self=this;
+    this._cflashT=setTimeout(function(){ btn.classList.remove("show"); },700);
+  },
+ 
+  /* ── Play state UI ── */
+  _setPlay: function(playing){
+    this._playing=playing;
+    $id("afvpIconPlay")  &&$id("afvpIconPlay").classList.toggle("hidden", playing);
+    $id("afvpIconPause") &&$id("afvpIconPause").classList.toggle("hidden",!playing);
+    $id("afvpIconReplay")&&$id("afvpIconReplay").classList.add("hidden");
+    $id("afvpPlaySm")    &&$id("afvpPlaySm").classList.toggle("hidden", playing);
+    $id("afvpPauseSm")   &&$id("afvpPauseSm").classList.toggle("hidden",!playing);
+  },
+ 
+  /* ── On end ── */
+  _onEnd: function(){
+    this._setPlay(false);
+    $id("afvpIconReplay")&&$id("afvpIconReplay").classList.remove("hidden");
+    $id("afvpIconPlay")  &&$id("afvpIconPlay").classList.add("hidden");
+    if(this._loop){ this.replay(); return; }
+    $id("afvpCompletion")&&$id("afvpCompletion").classList.remove("hidden");
+    if(this._autoplay&&this._cfg&&this._cfg.nextVideo){
+      var self=this; setTimeout(function(){ self.playNext(); },5000);
+    }
+    if(this._cfg&&this._cfg.onComplete) this._cfg.onComplete();
+  },
+ 
+  /* ── Resume ── */
+  _checkResume: function(){
+    var prog=loadProg(this._key);
+    if(prog&&prog.t>5&&prog.pct<95){
+      var self=this;
+      setTimeout(function(){ self._toast("Resuming from "+fmt(prog.t)); self.seek(prog.t); },1200);
+    }
+  },
+ 
+  /* ── Error display ── */
+  _showErr: function(msg, offline){
+    this._skeleton(false);
+    if(offline){ $id("afvpOffline")&&$id("afvpOffline").classList.remove("hidden"); }
+    else{ $id("afvpError")&&$id("afvpError").classList.remove("hidden"); var m=$id("afvpErrorMsg"); if(m) m.textContent=msg||"Error."; }
+  },
+ 
+  /* ── Toast ── */
+  _toast: function(msg){
+    var old=document.querySelector(".afvp-toast"); if(old) old.remove();
+    var t=document.createElement("div"); t.className="afvp-toast"; t.textContent=msg;
+    var overlay=$id("afvp"); if(overlay) overlay.appendChild(t);
+    setTimeout(function(){ if(t.parentNode) t.remove(); },2000);
+  },
+ 
+  /* ── Keyboard ── */
+  _kbBound: false,
+  _bindKeyboard: function(){
+    if(this._kbBound) return;
+    this._kbBound=true;
+    var self=this;
+    document.addEventListener("keydown",function(e){
+      if(!$id("afvp")||$id("afvp").classList.contains("hidden")) return;
+      if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA") return;
+      switch(e.key){
+        case " ": case "k": e.preventDefault(); self.togglePlay(); break;
+        case "ArrowRight": e.preventDefault(); self.skip(10); break;
+        case "ArrowLeft":  e.preventDefault(); self.skip(-10); break;
+        case "ArrowUp":    e.preventDefault(); self.setVolume(self._vol+0.1); break;
+        case "ArrowDown":  e.preventDefault(); self.setVolume(self._vol-0.1); break;
+        case "f": case "F": self.toggleFullscreen(); break;
+        case "m": case "M": self.toggleMute(); break;
+        case "Escape": self.closePanels(); if(!self._settOpen&&!self._noteOpen) self.close(); break;
+        case ",": self.setSpeed(Math.max(0.25,self._speed-0.25)); break;
+        case ".": self.setSpeed(Math.min(3,self._speed+0.25)); break;
+      }
+    });
+  }
+};
+ 
+/* ── Fullscreen change sync ── */
+document.addEventListener("fullscreenchange", function(){
+  var fs=!!document.fullscreenElement;
+  P._fs=fs;
+  var ex=$id("afvpFSExpand"), cm=$id("afvpFSCompress");
+  if(ex) ex.classList.toggle("hidden", fs);
+  if(cm) cm.classList.toggle("hidden", !fs);
+});
+document.addEventListener("webkitfullscreenchange", function(){
+  var fs=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  P._fs=fs;
+  var ex=$id("afvpFSExpand"), cm=$id("afvpFSCompress");
+  if(ex) ex.classList.toggle("hidden", fs);
+  if(cm) cm.classList.toggle("hidden", !fs);
+});
+ 
+/* ── Network ── */
+window.addEventListener("offline", function(){
+  if($id("afvp")&&!$id("afvp").classList.contains("hidden")){
+    P.pause(); P._showErr("",true);
+  }
+});
+window.addEventListener("online", function(){
+  var of=$id("afvpOffline"); if(of) of.classList.add("hidden");
+  if(P._cfg) P._toast("Back online!");
+});
+ 
+/* ── Integration helper ── */
+window.openVideoaf = function(url, opts){
+  AFPlayer.open(Object.assign({ url: url, title: "Lecture" }, opts||{}));
+};
+ 
+/* ── Mouse move = show controls ── */
+var _va = document.getElementById("afvpVideoArea");
+if(_va){
+  _va.addEventListener("mousemove", function(){
+    P._showCtrl(); P._sched();
+  });
+}
+ 
+/* })(window); */
   </script>
 
 </body>
