@@ -6664,6 +6664,25 @@ if ("serviceWorker" in navigator) {
     window.location.href = "./offline.html";
   }
 }
+    const animToggle =
+document.getElementById("afAnimToggle");
+
+animToggle.checked =
+localStorage.getItem("af_show_animations") === "1";
+
+animToggle.addEventListener("change", () => {
+  const enabled = animToggle.checked;
+
+  localStorage.setItem(
+    "af_show_animations",
+    enabled ? "1" : "0"
+  );
+
+  document.documentElement.classList.toggle(
+    "af-motion",
+    enabled
+  );
+});
   </script>
 
 </body>
