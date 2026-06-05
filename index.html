@@ -25274,7 +25274,22 @@ body.dark-mode .af-test-result-card-v1 strong {
       <span class="settings-arrow" aria-hidden="true">›</span>
     </a>
 
-  
+   <div class="settings-list">
+      <div class="settings-row settings-row-static">
+        <div class="settings-row-left">
+          <span class="settings-row-icon" aria-hidden="true">🌙</span>
+          <span>Night Mode</span>
+        </div>
+
+        <label class="settings-switch" for="settingsDarkToggle" aria-label="Toggle dark mode">
+          <input
+            id="settingsDarkToggle"
+            type="checkbox"
+            onchange="toggleSettingsDarkMode(this.checked)"
+          />
+          <span class="settings-slider" aria-hidden="true"></span>
+        </label>
+      </div>
 
       <button
         type="button"
