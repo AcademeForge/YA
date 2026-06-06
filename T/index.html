@@ -1120,9 +1120,12 @@ img{display:block;max-width:100%;}
       </div>
     </div>
     <div class="hdr-right">
-      <button class="icon-btn" id="darkBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      <button class="icon-btn" onclick="fullRefresh(false)" title="Refresh">↺</button>
-    </div>
+  <button class="icon-btn" onclick="history.back()" title="Back">←</button>
+
+  <button class="icon-btn" id="darkBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+
+  <button class="icon-btn" onclick="fullRefresh(false)" title="Refresh">↺</button>
+</div>
   </div>
 </header>
 
@@ -2284,6 +2287,7 @@ document.addEventListener('visibilitychange', () => {
   if (_quizActive && document.hidden) toast('Warning!', 'Do not switch tabs during the test!', 'warning', 4000);
 });
 
+   
 /* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
