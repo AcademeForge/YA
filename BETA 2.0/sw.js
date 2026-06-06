@@ -1,4 +1,4 @@
-const CACHE_NAME = "af-beta20-v10";
+const CACHE_NAME = "af-beta20-v11";
 
 const PRECACHE = [
   "./",
