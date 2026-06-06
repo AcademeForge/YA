@@ -5341,60 +5341,17 @@ body{
 
     <div class="af-accordion-groups" role="list">
 
-      <!-- Tests -->
-      <div class="af-accordion-group" role="listitem">
-        <button class="af-accordion-trigger" onclick="afToggleAccordion(this)" aria-expanded="false" type="button">
-          <div class="af-accordion-group-icon" aria-hidden="true">🧪</div>
-          <span class="af-accordion-group-label">Tests</span>
-          <span class="af-accordion-count">2</span>
-          <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <div class="af-accordion-body" role="region">
-          <div class="af-accordion-divider"></div>
-          <a class="af-accordion-item" href="#" onclick="afSwitchView('testArena'); return false;" aria-label="Open AF Test Arena">
-            <div class="af-accordion-item-icon" aria-hidden="true">🧪</div>
-            <div class="af-accordion-item-text">
-              <div class="af-accordion-item-label">AF Test Arena</div>
-              <div class="af-accordion-item-sub">Quizzes, ranks &amp; national leaderboard</div>
-            </div>
-            <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
-          </a>
-          <a class="af-accordion-item" href="#" onclick="afSwitchView('testReview'); return false;" aria-label="Open Latest Test Review">
-            <div class="af-accordion-item-icon" aria-hidden="true">📖</div>
-            <div class="af-accordion-item-text">
-              <div class="af-accordion-item-label">Latest Test Review</div>
-              <div class="af-accordion-item-sub">Review your last test performance</div>
-            </div>
-            <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Account -->
-      <div class="af-accordion-group" role="listitem">
-        <button class="af-accordion-trigger" onclick="afToggleAccordion(this)" aria-expanded="false" type="button">
-          <div class="af-accordion-group-icon" aria-hidden="true">👤</div>
-          <span class="af-accordion-group-label">Account</span>
-          <span class="af-accordion-count">1</span>
-          <span class="af-accordion-chevron" aria-hidden="true">⌄</span>
-        </button>
-        <div class="af-accordion-body" role="region">
-          <div class="af-accordion-divider"></div>
-          <a
-            class="af-accordion-item"
-            href="#"
-            onclick="afSwitchView('student'); return false;"
-            aria-label="Login or Create Student ID"
-          >
-            <div class="af-accordion-item-icon" aria-hidden="true">📋</div>
-            <div class="af-accordion-item-text">
-              <div class="af-accordion-item-label">Login / Create ID</div>
-              <div class="af-accordion-item-sub">Access your student account</div>
-            </div>
-            <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
-          </a>
-        </div>
-      </div>
+    <!-- Tests Button -->
+<a class="af-accordion-item"
+   href="T/index.html"
+   aria-label="Open AF Test Arena">
+  <div class="af-accordion-item-icon" aria-hidden="true">🧪</div>
+  <div class="af-accordion-item-text">
+    <div class="af-accordion-item-label">Tests</div>
+    <div class="af-accordion-item-sub">Quizzes, ranks &amp; national leaderboard</div>
+  </div>
+  <span class="af-accordion-item-arrow" aria-hidden="true">›</span>
+</a>
 
       <!-- Learning Tools -->
       <div class="af-accordion-group" role="listitem">
