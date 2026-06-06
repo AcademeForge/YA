@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AF Test — AcademeForge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;600&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#6366f1;--primary-dark:#4f46e5;--primary-light:rgba(99,102,241,.12);--primary-glow:rgba(99,102,241,.35);
+  --accent:#f59e0b;--accent-light:rgba(245,158,11,.12);--accent-glow:rgba(245,158,11,.3);
+  --green:#22c55e;--green-light:rgba(34,197,94,.12);--green-glow:rgba(34,197,94,.3);
+  --red:#ef4444;--red-light:rgba(239,68,68,.12);--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4;
+  --bg:#f0f0ff;--bg2:#e8e8f8;--surface:#ffffff;--surface-2:#f8f7ff;--surface-3:#f0eff8;
+  --text:#1a1730;--text-soft:#6b6894;--text-muted:#a8a5c4;
+  --border:rgba(99,102,241,.1);--border-medium:rgba(99,102,241,.2);
+  --shadow-xs:0 1px 3px rgba(99,102,241,.06);--shadow-sm:0 2px 8px rgba(99,102,241,.08);
+  --shadow:0 6px 24px rgba(99,102,241,.1);--shadow-lg:0 16px 48px rgba(99,102,241,.15);
+  --shadow-xl:0 28px 72px rgba(99,102,241,.2);
+  --radius:20px;--radius-sm:14px;--radius-xs:10px;--nav-height:76px;
+  --font-display:'Sora',sans-serif;--font-body:'Nunito',sans-serif;--font-mono:'DM Mono',monospace;
+}
+body.dark {
+  --bg:#0d0c1a;--bg2:#111024;--surface:#15131f;--surface-2:#1a1830;--surface-3:#1f1d34;
+  --text:#f0eeff;--text-soft:#9896b8;--text-muted:#5a5878;
+  --border:rgba(99,102,241,.12);--border-medium:rgba(99,102,241,.22);
+  --shadow:0 6px 24px rgba(0,0,0,.4);--shadow-lg:0 16px 48px rgba(0,0,0,.5);--shadow-xl:0 28px 72px rgba(0,0,0,.6);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
+button{cursor:pointer;border:none;outline:none;font:inherit;background:none;}
+a{text-decoration:none;color:inherit;}
+input{font:inherit;outline:none;}
+
+/* BG GRADIENT */
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 70% 50% at 90% 0%,rgba(99,102,241,.08) 0%,transparent 60%),
+  radial-gradient(ellipse 60% 70% at 0% 100%,rgba(139,92,246,.06) 0%,transparent 60%);
+  pointer-events:none;z-index:0;}
+
+.app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(var(--nav-height)+24px);position:relative;z-index:1;}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:200;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);background:rgba(255,255,255,.88);border-bottom:1px solid var(--border);}
+body.dark .header{background:rgba(21,19,31,.92);}
+.header-inner{height:64px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo{width:40px;height:40px;border-radius:12px;overflow:hidden;box-shadow:0 3px 12px var(--primary-glow);flex-shrink:0;}
+.logo img{width:100%;height:100%;object-fit:cover;display:block;}
+.logo-fallback{width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;color:white;font-family:var(--font-display);}
+.logo-title{font-family:var(--font-display);font-size:.92rem;font-weight:800;letter-spacing:-.02em;}
+.logo-sub{font-size:.68rem;color:var(--text-soft);font-weight:600;margin-top:1px;}
+.header-actions{display:flex;gap:8px;align-items:center;}
+.icon-btn{width:40px;height:40px;border-radius:11px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.icon-btn:active{transform:scale(.92);}
+.icon-btn:hover{border-color:var(--primary);box-shadow:0 2px 8px var(--primary-light);}
+
+/* MAIN */
+.main{padding:14px;position:relative;z-index:1;}
+
+/* SCREENS */
+.screen{display:none;}
+.screen.active{display:block;animation:screenIn .22s ease;}
+@keyframes screenIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* NAV */
+.bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:480px;height:var(--nav-height);background:var(--surface);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);z-index:200;backdrop-filter:blur(20px);box-shadow:0 -4px 24px rgba(99,102,241,.08);}
+body.dark .bottom-nav{background:rgba(21,19,31,.95);}
+.nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--text-muted);transition:all .2s;position:relative;}
+.nav-btn.active{color:var(--primary);}
+.nav-btn.active::before{content:'';position:absolute;top:0;width:28px;height:2.5px;border-radius:0 0 4px 4px;background:var(--primary);}
+.nav-icon-wrap{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.nav-btn[data-screen="testScreen"] .nav-icon-wrap{background:var(--surface-3);border:1.5px solid var(--border);}
+.nav-btn[data-screen="testScreen"].active .nav-icon-wrap{background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 4px 16px var(--primary-glow);transform:scale(1.08);border-color:transparent;}
+.nav-btn[data-screen="testScreen"].active::before{display:none;}
+.nav-icon{font-size:1.1rem;}
+.nav-text{font-size:.62rem;font-weight:800;letter-spacing:.02em;font-family:var(--font-display);}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+.section-title{font-family:var(--font-display);font-size:.8rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--text-soft);margin:18px 0 10px;}
+
+/* TOAST */
+.toast-wrap{position:fixed;top:74px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:440px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.toast{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border-radius:16px;background:var(--surface);border:1.5px solid var(--border);box-shadow:var(--shadow-lg);pointer-events:all;animation:toastIn .3s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;}
+.toast.out{animation:toastOut .2s ease forwards;}
+.toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
+.toast.success::before{background:var(--green);}
+.toast.error::before{background:var(--red);}
+.toast.warning::before{background:var(--accent);}
+.toast.info::before{background:var(--primary);}
+.toast-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.toast-body{flex:1;}
+.toast-title{font-size:.84rem;font-weight:800;font-family:var(--font-display);}
+.toast-msg{font-size:.76rem;color:var(--text-soft);margin-top:2px;line-height:1.4;}
+.toast-close{color:var(--text-muted);font-size:.95rem;cursor:pointer;}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-8px) scale(.95)}}
+
+/* MODAL */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(14px);z-index:5000;}
+.modal.show{display:flex;}
+.modal-card{width:100%;max-width:400px;padding:28px 22px;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow-xl);animation:modalIn .25s cubic-bezier(.34,1.3,.64,1);}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+.modal-icon{font-size:2.8rem;text-align:center;margin-bottom:12px;}
+.modal-card h2{font-family:var(--font-display);font-size:1.2rem;font-weight:900;text-align:center;letter-spacing:-.02em;}
+.modal-card p{margin-top:8px;line-height:1.6;color:var(--text-soft);text-align:center;font-size:.84rem;}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px;}
+.btn{height:50px;border-radius:var(--radius-sm);font-weight:800;font-size:.85rem;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 14px var(--primary-glow);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--primary-glow);}
+.btn-secondary{background:var(--surface);border:1.5px solid var(--border);color:var(--text);}
+.btn-secondary:hover{border-color:var(--border-medium);}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#d97706);color:white;box-shadow:0 4px 14px var(--accent-glow);}
+.btn-green{background:linear-gradient(135deg,var(--green),#16a34a);color:white;box-shadow:0 4px 14px var(--green-glow);}
+
+/* ══ HOME SCREEN ══ */
+.home-hero{padding:22px;background:linear-gradient(135deg,var(--primary),var(--primary-dark),#7c3aed);border-radius:var(--radius);box-shadow:0 8px 32px var(--primary-glow);position:relative;overflow:hidden;margin-bottom:14px;}
+.home-hero::before{content:'';position:absolute;right:-60px;top:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 70%);}
+.home-hero::after{content:'';position:absolute;left:-40px;bottom:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(255,255,255,.07) 0%,transparent 70%);}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:.68rem;font-weight:800;letter-spacing:.05em;background:rgba(255,255,255,.2);color:white;text-transform:uppercase;font-family:var(--font-display);margin-bottom:10px;}
+.hero-title{font-family:var(--font-display);font-size:1.65rem;font-weight:900;letter-spacing:-.03em;line-height:1.1;color:white;}
+.hero-sub{font-size:.83rem;color:rgba(255,255,255,.72);margin-top:7px;line-height:1.5;}
+.student-pill{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px);}
+.sp-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:white;flex-shrink:0;font-family:var(--font-display);}
+.sp-name{font-size:.8rem;font-weight:800;color:white;}
+.sp-sub{font-size:.65rem;color:rgba(255,255,255,.65);margin-top:1px;}
+
+/* HOME — Quick Stats */
+.home-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.hs-card{padding:14px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);text-align:center;position:relative;overflow:hidden;}
+.hs-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.hs-card.blue::before{background:linear-gradient(90deg,var(--primary),#8b5cf6);}
+.hs-card.amber::before{background:linear-gradient(90deg,var(--accent),#f97316);}
+.hs-card.green::before{background:linear-gradient(90deg,var(--green),#0ea5e9);}
+.hs-val{font-family:var(--font-mono);font-size:1.15rem;font-weight:600;}
+.hs-lbl{font-size:.6rem;color:var(--text-soft);font-weight:700;margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* CURRENT TEST CARD */
+.test-banner{padding:20px;background:linear-gradient(135deg,#1e1b4b,#312e81);border:1px solid rgba(99,102,241,.3);border-radius:var(--radius);position:relative;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-bottom:14px;}
+body.dark .test-banner{background:linear-gradient(135deg,#0d0c1a,#1e1b4b);}
+.test-banner:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(99,102,241,.25);}
+.test-banner:active{transform:scale(.98);}
+.test-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(99,102,241,.25) 0%,transparent 70%);}
+.tb-tag{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;font-weight:800;letter-spacing:.06em;color:#a5b4fc;text-transform:uppercase;font-family:var(--font-display);margin-bottom:8px;}
+.tb-title{font-family:var(--font-display);font-size:1rem;font-weight:800;color:#f0eeff;line-height:1.3;}
+.tb-desc{font-size:.77rem;color:rgba(165,180,252,.6);margin-top:5px;}
+.tb-meta{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.tb-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:999px;background:rgba(99,102,241,.2);color:#a5b4fc;font-size:.72rem;font-weight:700;border:1px solid rgba(99,102,241,.25);}
+.tb-arrow{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.3rem;opacity:.5;}
+
+/* HISTORY CARDS */
+.hist-card{padding:16px 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);margin-bottom:8px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;}
+.hist-card:hover{border-color:var(--border-medium);transform:translateX(3px);box-shadow:var(--shadow-sm);}
+.hc-score-badge{width:52px;height:52px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.hc-score-badge.great{background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(16,163,74,.1));border:1.5px solid rgba(34,197,94,.25);}
+.hc-score-badge.good{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.1));border:1.5px solid rgba(99,102,241,.25);}
+.hc-score-badge.ok{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(217,119,6,.1));border:1.5px solid rgba(245,158,11,.25);}
+.hc-score-badge.poor{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(220,38,38,.1));border:1.5px solid rgba(239,68,68,.25);}
+.hc-score{font-family:var(--font-mono);font-size:.95rem;font-weight:700;line-height:1;}
+.hc-total{font-size:.6rem;color:var(--text-muted);font-weight:700;}
+.hc-info{flex:1;min-width:0;}
+.hc-title{font-size:.85rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hc-meta{font-size:.7rem;color:var(--text-soft);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.hc-rank{font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;}
+.hc-rank.r1{background:rgba(245,158,11,.12);color:#b45309;}
+.hc-rank.rn{background:var(--primary-light);color:var(--primary);}
+
+/* ══ TEST SCREEN ══ */
+.no-test-state{padding:50px 20px;text-align:center;}
+.no-test-icon{font-size:3rem;margin-bottom:14px;}
+.no-test-title{font-family:var(--font-display);font-size:1.1rem;font-weight:900;margin-bottom:6px;}
+.no-test-sub{font-size:.83rem;color:var(--text-soft);line-height:1.6;}
+
+.test-info-card{padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;}
+.tic-eyebrow{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;font-size:.65rem;font-weight:800;letter-spacing:.05em;background:var(--primary-light);color:var(--primary);text-transform:uppercase;font-family:var(--font-display);margin-bottom:10px;}
+.tic-title{font-family:var(--font-display);font-size:1.3rem;font-weight:900;letter-spacing:-.02em;line-height:1.2;}
+.tic-desc{font-size:.82rem;color:var(--text-soft);margin-top:6px;line-height:1.5;}
+.tic-meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
+.tic-meta-item{padding:12px 10px;background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius-xs);text-align:center;}
+.tic-meta-val{font-family:var(--font-mono);font-size:.95rem;font-weight:600;}
+.tic-meta-lbl{font-size:.6rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:3px;}
+.btn-start-test{width:100%;height:56px;border-radius:var(--radius-sm);font-family:var(--font-display);font-size:1rem;font-weight:900;color:white;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 6px 24px var(--primary-glow);transition:all .2s;margin-top:16px;}
+.btn-start-test:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--primary-glow);}
+
+/* ALREADY ATTEMPTED */
+.attempted-card{padding:24px;text-align:center;background:linear-gradient(135deg,rgba(34,197,94,.06),rgba(99,102,241,.04));border:1.5px solid rgba(34,197,94,.2);border-radius:var(--radius);box-shadow:var(--shadow);}
+.ac-icon{font-size:2.6rem;margin-bottom:12px;}
+.ac-title{font-family:var(--font-display);font-size:1.1rem;font-weight:900;color:var(--green);}
+.ac-score{font-family:var(--font-mono);font-size:2.2rem;font-weight:700;color:var(--primary);margin:10px 0;}
+.ac-remark{font-size:.82rem;color:var(--text-soft);margin-bottom:12px;}
+.ac-detail-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px;}
+.ac-detail{padding:12px 8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xs);text-align:center;}
+.ac-detail-val{font-family:var(--font-mono);font-size:.95rem;font-weight:600;}
+.ac-detail-lbl{font-size:.58rem;color:var(--text-soft);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px;}
+
+/* ══ ACTIVE QUIZ ══ */
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.quiz-progress-wrap{flex:1;margin-right:12px;}
+.quiz-prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.quiz-prog-label{font-size:.78rem;font-weight:800;font-family:var(--font-display);}
+.quiz-timer-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:.8rem;font-weight:600;background:var(--primary-light);color:var(--primary);border:1px solid rgba(99,102,241,.2);}
+.quiz-timer-badge.urgent{background:var(--red-light);color:var(--red);border-color:rgba(239,68,68,.2);animation:pulseBadge .6s ease-in-out infinite alternate;}
+@keyframes pulseBadge{from{opacity:.7}to{opacity:1}}
+.quiz-prog-bar{height:8px;border-radius:999px;background:var(--surface-3);overflow:hidden;border:1px solid var(--border);}
+.quiz-prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#7c3aed);transition:width .4s cubic-bezier(.4,0,.2,1);}
+
+.question-card{padding:22px 20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:12px;position:relative;overflow:hidden;}
+.question-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),#7c3aed,var(--cyan));}
+.q-num{font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--text-muted);text-transform:uppercase;font-family:var(--font-display);margin-bottom:8px;}
+.q-text{font-size:.95rem;font-weight:700;line-height:1.55;color:var(--text);}
+
+.options-list{display:flex;flex-direction:column;gap:8px;}
+.option-btn{padding:14px 16px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;text-align:left;width:100%;}
+.option-btn:hover{border-color:var(--primary);background:var(--primary-light);}
+.option-btn:active{transform:scale(.98);}
+.option-btn.selected{border-color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 3px rgba(99,102,241,.1);}
+.opt-letter{width:32px;height:32px;border-radius:50%;background:var(--surface-3);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.78rem;font-weight:900;flex-shrink:0;transition:all .15s;}
+.option-btn.selected .opt-letter{background:var(--primary);border-color:var(--primary);color:white;}
+.opt-text{font-size:.87rem;font-weight:700;line-height:1.4;flex:1;}
+
+.quiz-nav{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;}
+.q-overview{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:12px 0;}
+.q-dot{height:36px;border-radius:var(--radius-xs);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;font-family:var(--font-mono);border:2px solid var(--border);background:var(--surface);cursor:pointer;transition:all .15s;color:var(--text-muted);}
+.q-dot.answered{background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
+.q-dot.current{background:var(--primary);border-color:var(--primary);color:white;transform:scale(1.05);}
+.q-dot:hover{border-color:var(--primary);}
+.submit-btn{width:100%;height:54px;border-radius:var(--radius-sm);font-family:var(--font-display);font-size:.95rem;font-weight:900;color:white;background:linear-gradient(135deg,var(--green),#16a34a);box-shadow:0 4px 16px var(--green-glow);transition:all .2s;margin-top:12px;}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px var(--green-glow);}
+.submit-btn:disabled{opacity:.45;pointer-events:none;}
+
+/* ══ REVIEW SCREEN ══ */
+.review-summary{padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;}
+.rs-score-wrap{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+.rs-circle{width:72px;height:72px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-mono);}
+.rs-circle.great{background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(16,163,74,.08));border:2px solid rgba(34,197,94,.3);}
+.rs-circle.good{background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(79,70,229,.08));border:2px solid rgba(99,102,241,.3);}
+.rs-circle.ok{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(217,119,6,.08));border:2px solid rgba(245,158,11,.3);}
+.rs-circle.poor{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(220,38,38,.08));border:2px solid rgba(239,68,68,.3);}
+.rs-score{font-size:1.4rem;font-weight:700;}
+.rs-denom{font-size:.68rem;color:var(--text-muted);}
+.rs-info{flex:1;}
+.rs-remark{font-family:var(--font-display);font-size:1rem;font-weight:900;}
+.rs-meta{font-size:.75rem;color:var(--text-soft);margin-top:4px;line-height:1.6;}
+.rs-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.rs-chip{padding:4px 10px;border-radius:999px;font-size:.68rem;font-weight:700;border:1px solid var(--border);background:var(--surface-3);color:var(--text-soft);}
+
+.review-question{padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);margin-bottom:10px;position:relative;overflow:hidden;}
+.review-question::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
+.review-question.correct::before{background:var(--green);}
+.review-question.wrong::before{background:var(--red);}
+.rq-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.rq-num{font-size:.7rem;font-weight:800;color:var(--text-muted);font-family:var(--font-display);}
+.rq-badge{padding:4px 10px;border-radius:999px;font-size:.68rem;font-weight:800;}
+.rq-badge.correct{background:var(--green-light);color:#16a34a;border:1px solid rgba(34,197,94,.2);}
+.rq-badge.wrong{background:var(--red-light);color:#dc2626;border:1px solid rgba(239,68,68,.2);}
+.rq-text{font-size:.88rem;font-weight:700;line-height:1.5;margin-bottom:12px;}
+.rq-options{display:flex;flex-direction:column;gap:6px;}
+.rq-option{padding:10px 14px;border-radius:var(--radius-xs);border:1.5px solid var(--border);display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;background:var(--surface-2);}
+.rq-option.correct-ans{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.07);}
+.rq-option.wrong-ans{border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.05);}
+.rq-opt-letter{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;background:var(--surface-3);border:1.5px solid var(--border);flex-shrink:0;font-family:var(--font-display);}
+.rq-option.correct-ans .rq-opt-letter{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.3);color:#16a34a;}
+.rq-option.wrong-ans .rq-opt-letter{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);color:#dc2626;}
+
+/* ══ HISTORY SCREEN ══ */
+.lb-card{padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow-xs);margin-bottom:10px;}
+.lb-title{font-family:var(--font-display);font-size:.9rem;font-weight:800;margin-bottom:12px;}
+.lb-row{display:grid;grid-template-columns:36px 1fr auto;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:10px;}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{font-family:var(--font-mono);font-size:.85rem;font-weight:700;color:var(--text-soft);text-align:center;}
+.lb-rank.top{font-size:1rem;color:var(--text);}
+.lb-name{font-size:.82rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-sub{font-size:.65rem;color:var(--text-soft);margin-top:1px;}
+.lb-score-val{font-family:var(--font-mono);font-size:.85rem;font-weight:700;color:var(--primary);}
+
+/* SETTINGS SCREEN */
+.settings-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-xs);overflow:hidden;margin-bottom:14px;}
+.settings-row{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+.settings-row:last-child{border-bottom:none;}
+.settings-label{font-weight:700;font-size:.88rem;}
+.settings-sub{font-size:.72rem;color:var(--text-soft);margin-top:2px;}
+.toggle{width:46px;height:25px;border-radius:999px;background:var(--border-medium);cursor:pointer;border:none;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--primary);}
+.toggle::after{content:'';position:absolute;width:19px;height:19px;border-radius:50%;background:white;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle.on::after{transform:translateX(21px);}
+
+/* Sync bar */
+.af-sync-bar{padding:13px 15px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow-xs);display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.af-sync-bar.synced{background:linear-gradient(135deg,rgba(34,197,94,.07),rgba(99,102,241,.04));border-color:rgba(34,197,94,.2);}
+.af-sync-bar.unsynced{background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.14);}
+.af-avatar{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--primary),#7c3aed);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.85rem;font-weight:700;color:white;flex-shrink:0;}
+.af-info{flex:1;min-width:0;}
+.af-name{font-size:.87rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.af-sub{font-size:.7rem;color:var(--text-soft);margin-top:1px;}
+.af-badge{font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;}
+.af-badge.ok{background:rgba(34,197,94,.12);color:#16a34a;border:1px solid rgba(34,197,94,.2);}
+.af-badge.warn{background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.18);}
+
+/* EMPTY / LOADING */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-soft);}
+.empty-state .e-icon{font-size:2.4rem;margin-bottom:10px;}
+.empty-state p{font-size:.83rem;}
+.skeleton{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-2) 50%,var(--surface-3) 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;border-radius:var(--radius-xs);}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* SPIN */
+.spin{width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(99,102,241,.2);border-top-color:var(--primary);animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.screen{padding-bottom:110px;}
+
+/* Confirmation modal extras */
+.confirm-warn{padding:12px 16px;border-radius:var(--radius-xs);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);font-size:.78rem;color:#92400e;margin-top:12px;line-height:1.5;}
+body.dark .confirm-warn{color:#fbbf24;}
+
+@media(max-width:380px){
+  .hero-title{font-size:1.4rem;}
+  .home-stats{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div class="logo">
+        <img src="AF LOGO 2.jpeg" alt="AF" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="logo-fallback" style="display:none">AF</div>
+      </div>
+      <div>
+        <div class="logo-title">AcademeForge</div>
+        <div class="logo-sub" id="headerSubNx">Test Portal</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="window.location.href='/Remake/'" title="Back">‹</button>
+      <button class="icon-btn" id="darkBtnNx" onclick="toggleThemeNx()">🌙</button>
+    </div>
+  </div>
+</header>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<main class="main">
+
+<!-- ══ HOME ══ -->
+<section id="homeScreen" class="screen active">
+  <div class="home-hero">
+    <div class="hero-eyebrow">📋 AF Test Portal</div>
+    <h2 class="hero-title">Test Your<br>Knowledge</h2>
+    <p class="hero-sub">Appear in live tests, track your results and climb the ranks.</p>
+    <div class="student-pill">
+      <div id="homeAvaNx" class="sp-avatar">?</div>
+      <div>
+        <div id="homeNameNx" class="sp-name">Loading…</div>
+        <div id="homeSubNx" class="sp-sub">AcademeForge Student</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-stats">
+    <div class="hs-card blue"><div id="hsTestsTakenNx" class="hs-val">—</div><div class="hs-lbl">Tests</div></div>
+    <div class="hs-card amber"><div id="hsBestRankNx" class="hs-val">—</div><div class="hs-lbl">Best Rank</div></div>
+    <div class="hs-card green"><div id="hsAvgScoreNx" class="hs-val">—</div><div class="hs-lbl">Avg Score</div></div>
+  </div>
+
+  <!-- Live test banner -->
+  <div id="liveTestBannerNx" style="display:none"></div>
+
+  <div class="section-title">Recent Tests</div>
+  <div id="recentHistoryNx">
+    <div class="empty-state"><div class="e-icon">⏳</div><p>Loading test history…</p></div>
+  </div>
+</section>
+
+<!-- ══ TEST ══ -->
+<section id="testScreen" class="screen">
+  <!-- States: loading / no-test / info / already / active / submitting -->
+  <div id="testContentNx">
+    <div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Loading test…</p></div>
+  </div>
+</section>
+
+<!-- ══ REVIEW ══ -->
+<section id="reviewScreen" class="screen">
+  <div id="reviewContentNx">
+    <div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Loading review…</p></div>
+  </div>
+</section>
+
+<!-- ══ HISTORY ══ -->
+<section id="historyScreen" class="screen">
+  <div id="historyContentNx">
+    <div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Loading history…</p></div>
+  </div>
+</section>
+
+<!-- ══ SETTINGS ══ -->
+<section id="settingsScreen" class="screen">
+  <div class="af-sync-bar" id="settingsSyncBarNx">
+    <div id="settingsAvaIconNx" class="af-avatar">?</div>
+    <div class="af-info">
+      <div id="settingsNameNx" class="af-name">Not Logged In</div>
+      <div id="settingsSubNx" class="af-sub">Open AcademeForge app to sync</div>
+    </div>
+    <span id="settingsBadgeNx" class="af-badge warn">Not Synced</span>
+  </div>
+
+  <div class="section-title">Account</div>
+  <div class="settings-list">
+    <div class="settings-row">
+      <div><div class="settings-label">Name</div></div>
+      <span id="setNameValNx" style="font-size:.84rem;font-weight:700;color:var(--text-soft)">—</span>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Student ID</div></div>
+      <span id="setIdValNx" style="font-family:var(--font-mono);font-size:.8rem;color:var(--text-soft)">—</span>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Mobile</div></div>
+      <span id="setPhoneValNx" style="font-family:var(--font-mono);font-size:.8rem;color:var(--text-soft)">—</span>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Email</div></div>
+      <span id="setEmailValNx" style="font-size:.82rem;color:var(--text-soft)">—</span>
+    </div>
+  </div>
+
+  <div class="section-title">Preferences</div>
+  <div class="settings-list">
+    <div class="settings-row">
+      <div><div class="settings-label">Dark Mode</div></div>
+      <button id="darkToggleNx" class="toggle" onclick="toggleThemeNx()"></button>
+    </div>
+    <div class="settings-row">
+      <div><div class="settings-label">Refresh Data</div><div class="settings-sub">Pull latest test & history</div></div>
+      <button class="icon-btn" onclick="fullRefreshNx()">🔄</button>
+    </div>
+  </div>
+
+  <div class="section-title">About</div>
+  <div class="settings-list">
+    <div class="settings-row"><div class="settings-label">Version</div><span style="font-family:var(--font-mono);font-size:.8rem;color:var(--text-soft)">AF Test v2.0</span></div>
+    <div class="settings-row"><div class="settings-label">Backend</div><span style="font-size:.8rem;color:var(--text-soft)">Supabase Edge Functions</span></div>
+  </div>
+</section>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-screen="homeScreen" onclick="openScreenNx('homeScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">🏠</div></div>
+    <div class="nav-text">Home</div>
+  </button>
+  <button class="nav-btn" data-screen="testScreen" onclick="openScreenNx('testScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">📝</div></div>
+    <div class="nav-text">Test</div>
+  </button>
+  <button class="nav-btn" data-screen="reviewScreen" onclick="openReviewScreenNx()">
+    <div class="nav-icon-wrap"><div class="nav-icon">🔍</div></div>
+    <div class="nav-text">Review</div>
+  </button>
+  <button class="nav-btn" data-screen="historyScreen" onclick="openScreenNx('historyScreen')">
+    <div class="nav-icon-wrap"><div class="nav-icon">📊</div></div>
+    <div class="nav-text">History</div>
+  </button>
+</nav>
+
+</div>
+
+<!-- MODALS -->
+<div id="confirmSubmitModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-icon">📋</div>
+    <h2>Submit Test?</h2>
+    <p id="confirmSubmitMsgNx">You have answered all questions.</p>
+    <div class="confirm-warn" id="confirmSubmitWarnNx" style="display:none"></div>
+    <div class="modal-actions">
+      <button class="btn btn-green" onclick="submitTestNx()">✅ Submit</button>
+      <button class="btn btn-secondary" onclick="closeModalNx('confirmSubmitModal')">Review More</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-icon" id="resultIconNx">🎉</div>
+    <h2 id="resultTitleNx">Test Submitted!</h2>
+    <p id="resultMsgNx"></p>
+    <div id="resultBreakdownNx" style="margin-top:14px;padding:14px;background:var(--surface-3);border-radius:var(--radius-xs);border:1px solid var(--border)"></div>
+    <div class="modal-actions" style="margin-top:18px">
+      <button class="btn btn-primary" onclick="closeModalNx('resultModal');openReviewScreenNx()">📖 Review</button>
+      <button class="btn btn-secondary" onclick="closeModalNx('resultModal');openScreenNx('homeScreen')">🏠 Home</button>
+    </div>
+  </div>
+</div>
+
+<div id="exitTestModal" class="modal">
+  <div class="modal-card">
+    <div class="modal-icon">⚠️</div>
+    <h2>Exit Test?</h2>
+    <p>Your progress will be lost. Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModalNx('exitTestModal');exitTestNx()">Exit</button>
+      <button class="btn btn-secondary" onclick="closeModalNx('exitTestModal')">Keep Going</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   API
+═══════════════════════════════════════ */
+const API = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/student-test-af";
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let _test       = null; // current test meta
+let _questions  = [];   // questions for active test
+let _answers    = {};   // {questionId: selectedOption}
+let _currentQ   = 0;
+let _timerSecs  = 0;
+let _timerInterval = null;
+let _duration   = 600;
+let _quizActive = false;
+let _dashData   = null; // prefetched dashboard
+let _reviewData = null;
+let _loadedScreens = new Set();
+
+/* ═══════════════════════════════════════
+   AF STUDENT
+═══════════════════════════════════════ */
+function getAF() {
+  return {
+    name:      localStorage.getItem('af_student_name')       || '',
+    phone:     localStorage.getItem('af_student_mobile')     || localStorage.getItem('af_student_phone') || '',
+    email:     localStorage.getItem('af_student_email')      || '',
+    studentId: localStorage.getItem('af_student_id')         || '',
+    uuid:      localStorage.getItem('af_student_uuid')       || '',
+    loggedIn:  localStorage.getItem('af_student_logged_in')  === 'true'
+  };
+}
+
+/* ═══════════════════════════════════════
+   API HELPER
+═══════════════════════════════════════ */
+async function api(action, extra = {}) {
+  const af = getAF();
+  const body = { action, student_id: af.studentId, student_name: af.name, student_mobile: af.phone, student_email: af.email, student_uuid: af.uuid, ...extra };
+  const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await res.json();
+  return data;
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+function toast(title, msg = '', type = 'info', dur = 3500) {
+  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<div class="toast-icon">${icons[type]}</div>
+    <div class="toast-body"><div class="toast-title">${title}</div>${msg ? `<div class="toast-msg">${msg}</div>` : ''}</div>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+  wrap.appendChild(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 220); }, dur);
+}
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+function openModalNx(id) { document.getElementById(id).classList.add('show'); }
+function closeModalNx(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); }));
+
+/* ═══════════════════════════════════════
+   SCREEN NAV
+═══════════════════════════════════════ */
+function openScreenNx(id) {
+  if (_quizActive && id !== 'testScreen') {
+    openModalNx('exitTestModal');
+    return;
+  }
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector(`.nav-btn[data-screen="${id}"]`);
+  if (btn) btn.classList.add('active');
+
+  if (id === 'historyScreen' && !_loadedScreens.has('history')) loadHistoryScreenNx();
+  if (id === 'testScreen' && !_loadedScreens.has('test')) loadTestScreenNx();
+  document.getElementById('headerSubNx').textContent = { homeScreen: 'Test Portal', testScreen: 'Active Test', reviewScreen: 'Review', historyScreen: 'History', settingsScreen: 'Settings' }[id] || 'AF Test';
+}
+
+function openReviewScreenNx() {
+  openScreenNx('reviewScreen');
+  loadReviewScreenNx();
+}
+
+function exitTestNx() {
+  _quizActive = false;
+  clearInterval(_timerInterval);
+  openScreenNx('homeScreen');
+}
+
+/* ═══════════════════════════════════════
+   THEME
+═══════════════════════════════════════ */
+function loadThemeNx() {
+  const dark = localStorage.getItem('af_test_theme') === 'dark';
+  document.body.classList.toggle('dark', dark);
+  document.getElementById('darkToggleNx').classList.toggle('on', dark);
+  document.getElementById('darkBtnNx').textContent = dark ? '☀️' : '🌙';
+}
+function toggleThemeNx() {
+  document.body.classList.toggle('dark');
+  const dark = document.body.classList.contains('dark');
+  localStorage.setItem('af_test_theme', dark ? 'dark' : 'light');
+  document.getElementById('darkToggleNx').classList.toggle('on', dark);
+  document.getElementById('darkBtnNx').textContent = dark ? '☀️' : '🌙';
+}
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+function fmtTime(secs) {
+  const m = Math.floor(secs / 60), s = secs % 60;
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+function scoreClass(score, total) {
+  const pct = total ? (score / total) * 100 : 0;
+  if (pct >= 80) return 'great';
+  if (pct >= 60) return 'good';
+  if (pct >= 40) return 'ok';
+  return 'poor';
+}
+function scoreColor(score, total) {
+  const c = scoreClass(score, total);
+  return { great: 'var(--green)', good: 'var(--primary)', ok: 'var(--accent)', poor: 'var(--red)' }[c];
+}
+function medal(rank) {
+  if (rank === 1) return '🥇';
+  if (rank === 2) return '🥈';
+  if (rank === 3) return '🥉';
+  return `#${rank}`;
+}
+
+/* ═══════════════════════════════════════
+   REFRESH SETTINGS BAR
+═══════════════════════════════════════ */
+function refreshSettingsBarNx() {
+  const af = getAF();
+  const bar = document.getElementById('settingsSyncBarNx');
+  const ava = document.getElementById('settingsAvaIconNx');
+  const name = document.getElementById('settingsNameNx');
+  const sub = document.getElementById('settingsSubNx');
+  const badge = document.getElementById('settingsBadgeNx');
+
+  if (af.loggedIn && af.name) {
+    bar.className = 'af-sync-bar synced';
+    const initials = af.name.trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+    ava.textContent = initials || 'AF';
+    name.textContent = af.name;
+    sub.textContent = af.phone ? `📱 ${af.phone}` : (af.email || 'AF Student');
+    badge.textContent = '✓ Synced'; badge.className = 'af-badge ok';
+  } else {
+    bar.className = 'af-sync-bar unsynced';
+    ava.textContent = '?'; name.textContent = 'Not Logged In';
+    sub.textContent = 'Open AcademeForge app first';
+    badge.textContent = 'Not Synced'; badge.className = 'af-badge warn';
+  }
+  document.getElementById('setNameValNx').textContent  = af.name || '—';
+  document.getElementById('setIdValNx').textContent    = af.studentId || '—';
+  document.getElementById('setPhoneValNx').textContent = af.phone || '—';
+  document.getElementById('setEmailValNx').textContent = af.email || '—';
+}
+
+/* ═══════════════════════════════════════
+   HOME SCREEN
+═══════════════════════════════════════ */
+function renderHomeNx() {
+  const af = getAF();
+  const initials = af.name ? af.name.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase() : '?';
+  document.getElementById('homeAvaNx').textContent = initials;
+  document.getElementById('homeNameNx').textContent = af.name || 'Guest';
+  document.getElementById('homeSubNx').textContent = af.studentId ? `ID: ${af.studentId}` : 'Not logged in';
+
+  const data = _dashData;
+  if (data && data.ok) {
+    const hist = data.history || [];
+    const taken = hist.length;
+    const bestRank = hist.length ? Math.min(...hist.map(h => h.my_rank || 999)) : null;
+    const avgScore = hist.length ? Math.round(hist.reduce((s, h) => s + ((h.my_score / (h.total_questions || 10)) * 100), 0) / hist.length) : null;
+
+    document.getElementById('hsTestsTakenNx').textContent = taken || '—';
+    document.getElementById('hsBestRankNx').textContent = bestRank ? `#${bestRank}` : '—';
+    document.getElementById('hsAvgScoreNx').textContent = avgScore !== null ? `${avgScore}%` : '—';
+
+    // Recent history (last 5)
+    const recent = hist.slice(0, 5);
+    const rEl = document.getElementById('recentHistoryNx');
+    if (!recent.length) {
+      rEl.innerHTML = '<div class="empty-state"><div class="e-icon">📋</div><p>No tests attempted yet.</p></div>';
+    } else {
+      rEl.innerHTML = recent.map(h => {
+        const cls = scoreClass(h.my_score, h.total_questions);
+        const rankCls = h.my_rank <= 3 ? 'r1' : 'rn';
+        const date = new Date(h.submitted_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        return `<div class="hist-card" onclick="openReviewScreenNx()">
+          <div class="hc-score-badge ${cls}">
+            <div class="hc-score" style="color:${scoreColor(h.my_score, h.total_questions)}">${h.my_score}/${h.total_questions}</div>
+            <div class="hc-total">${Math.round((h.my_score/h.total_questions)*100)}%</div>
+          </div>
+          <div class="hc-info">
+            <div class="hc-title">${h.title || h.test_code}</div>
+            <div class="hc-meta">
+              <span class="hc-rank ${rankCls}">${medal(h.my_rank)}</span>
+              <span>⏱ ${fmtTime(h.my_time_taken_seconds || 0)}</span>
+              <span>📅 ${date}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Live test banner on home
+    const liveDiv = document.getElementById('liveTestBannerNx');
+    if (_test && _test.has_test && !_test.already_attempted) {
+      const t = _test.test;
+      liveDiv.style.display = 'block';
+      liveDiv.innerHTML = `<div class="test-banner" onclick="openScreenNx('testScreen')">
+        <div class="tb-tag">🔴 Live Now</div>
+        <div class="tb-title">${t.title || t.test_code}</div>
+        <div class="tb-desc">${t.description || 'A new test is available for you'}</div>
+        <div class="tb-meta">
+          <span class="tb-chip">📝 ${t.total_questions || '?'} Qs</span>
+          <span class="tb-chip">⏱ ${Math.round((t.duration_seconds || 600) / 60)} min</span>
+        </div>
+        <div class="tb-arrow">→</div>
+      </div>`;
+    } else {
+      liveDiv.style.display = 'none';
+    }
+  }
+}
+
+/* ═══════════════════════════════════════
+   TEST SCREEN
+═══════════════════════════════════════ */
+async function loadTestScreenNx() {
+  _loadedScreens.add('test');
+  const el = document.getElementById('testContentNx');
+
+  if (!_test) {
+    // prefetch not done yet
+    el.innerHTML = '<div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Loading test…</p></div>';
+    try {
+      _test = await api('load-test');
+    } catch(e) {
+      el.innerHTML = '<div class="empty-state"><div class="e-icon">⚠️</div><p>Failed to load test. Check your connection.</p></div>';
+      return;
+    }
+  }
+  renderTestScreenNx();
+}
+
+function renderTestScreenNx() {
+  const el = document.getElementById('testContentNx');
+  if (!_test) { el.innerHTML = '<div class="empty-state"><div class="e-icon">⚠️</div><p>Could not load test.</p></div>'; return; }
+
+  if (!_test.ok && !_test.has_test) {
+    el.innerHTML = `<div class="no-test-state"><div class="no-test-icon">📭</div><div class="no-test-title">No Test Available</div><div class="no-test-sub">${_test.message || 'No tests are scheduled right now.'}<br><br>Check back soon!</div>
+    <button class="btn btn-primary" style="width:100%;margin-top:20px;height:50px" onclick="refreshTestNx()">🔄 Refresh</button></div>`;
+    return;
+  }
+
+  if (!_test.has_test) {
+    el.innerHTML = `<div class="no-test-state"><div class="no-test-icon">🕐</div><div class="no-test-title">No Tests Scheduled</div><div class="no-test-sub">There are no active tests right now. Come back later!</div>
+    <button class="btn btn-primary" style="width:100%;margin-top:20px;height:50px" onclick="refreshTestNx()">🔄 Refresh</button></div>`;
+    return;
+  }
+
+  if (_test.already_attempted) {
+    const a = _test.attempt;
+    const cls = scoreClass(a.score, a.total_questions);
+    el.innerHTML = `<div class="attempted-card">
+      <div class="ac-icon">✅</div>
+      <div class="ac-title">Already Attempted!</div>
+      <div class="ac-score" style="color:${scoreColor(a.score, a.total_questions)}">${a.score}/${a.total_questions}</div>
+      <div class="ac-remark" style="color:${scoreColor(a.score, a.total_questions)};font-weight:800">${a.remark}</div>
+      <div class="ac-detail-row">
+        <div class="ac-detail"><div class="ac-detail-val">${Math.round((a.score/a.total_questions)*100)}%</div><div class="ac-detail-lbl">Score</div></div>
+        <div class="ac-detail"><div class="ac-detail-val">${fmtTime(a.time_taken_seconds||0)}</div><div class="ac-detail-lbl">Time</div></div>
+        <div class="ac-detail"><div class="ac-detail-val">${a.avg_time_per_question||0}s</div><div class="ac-detail-lbl">Avg/Q</div></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:16px;height:50px" onclick="openReviewScreenNx()">📖 Review Answers</button>
+      <p style="margin-top:10px;font-size:.75rem;color:var(--text-muted)">⏳ Wait for the next test to be published.</p>
+    </div>`;
+    return;
+  }
+
+  // Show test info card
+  const t = _test.test;
+  _questions = _test.questions || [];
+  _duration = t.duration_seconds || 600;
+
+  el.innerHTML = `<div class="test-info-card">
+    <div class="tic-eyebrow">📋 ${t.test_code || 'TEST'}</div>
+    <div class="tic-title">${t.title}</div>
+    <div class="tic-desc">${t.description || 'Answer all questions carefully. Each question has one correct answer.'}</div>
+    <div class="tic-meta-row">
+      <div class="tic-meta-item"><div class="tic-meta-val">${t.total_questions || _questions.length}</div><div class="tic-meta-lbl">Questions</div></div>
+      <div class="tic-meta-item"><div class="tic-meta-val">${Math.round(_duration/60)}</div><div class="tic-meta-lbl">Minutes</div></div>
+      <div class="tic-meta-item"><div class="tic-meta-val">1</div><div class="tic-meta-lbl">Attempt</div></div>
+    </div>
+    <div style="margin-top:14px;padding:12px 14px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--radius-xs);font-size:.78rem;color:#92400e;line-height:1.6">
+      ⚠️ <strong>Important:</strong> You can only attempt this test once. Do not close the app during the test. Your answers are auto-recorded.
+    </div>
+    <button class="btn-start-test" onclick="startQuizNx()">🚀 Start Test</button>
+  </div>`;
+}
+
+async function refreshTestNx() {
+  _test = null; _loadedScreens.delete('test');
+  const el = document.getElementById('testContentNx');
+  el.innerHTML = '<div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Refreshing…</p></div>';
+  _test = await api('load-test').catch(() => null);
+  renderTestScreenNx();
+}
+
+/* ═══════════════════════════════════════
+   START QUIZ
+═══════════════════════════════════════ */
+function startQuizNx() {
+  if (!_questions.length) { toast('No questions', 'Test has no questions.', 'error'); return; }
+  _answers = {};
+  _currentQ = 0;
+  _quizActive = true;
+  _timerSecs = 0;
+  renderQuizNx();
+  startTimerNx();
+}
+
+function startTimerNx() {
+  clearInterval(_timerInterval);
+  _timerSecs = 0;
+  _timerInterval = setInterval(() => {
+    _timerSecs++;
+    updateTimerDisplayNx();
+    if (_timerSecs >= _duration) {
+      clearInterval(_timerInterval);
+      toast('Time is up!', 'Auto-submitting your test.', 'warning', 3000);
+      setTimeout(() => submitTestNx(), 1500);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplayNx() {
+  const remaining = _duration - _timerSecs;
+  const el = document.getElementById('quizTimerBadgeNx');
+  if (!el) return;
+  el.textContent = `⏱ ${fmtTime(Math.max(0, remaining))}`;
+  if (remaining <= 60) el.classList.add('urgent');
+  else el.classList.remove('urgent');
+}
+
+function renderQuizNx() {
+  const el = document.getElementById('testContentNx');
+  const q = _questions[_currentQ];
+  const total = _questions.length;
+  const answered = Object.keys(_answers).length;
+  const pct = Math.round((_currentQ / total) * 100);
+
+  el.innerHTML = `
+    <div class="quiz-header">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-prog-top">
+          <span class="quiz-prog-label">Q${_currentQ+1} / ${total}</span>
+          <span id="quizTimerBadgeNx" class="quiz-timer-badge">⏱ ${fmtTime(_duration)}</span>
+        </div>
+        <div class="quiz-prog-bar"><div class="quiz-prog-fill" style="width:${pct}%"></div></div>
+      </div>
+      <button class="icon-btn" onclick="openModalNx('exitTestModal')" style="flex-shrink:0">✕</button>
+    </div>
+
+    <div class="section-title" style="margin-top:0">Question Overview</div>
+    <div class="q-overview" id="qOverviewNx">${_questions.map((qq, i) => {
+      let cls = '';
+      if (i === _currentQ) cls = 'current';
+      else if (_answers[qq.id]) cls = 'answered';
+      return `<div class="q-dot ${cls}" onclick="goToQNx(${i})">${i+1}</div>`;
+    }).join('')}</div>
+
+    <div class="question-card">
+      <div class="q-num">Question ${_currentQ + 1} of ${total}</div>
+      <div class="q-text">${q.question}</div>
+    </div>
+
+    <div class="options-list">
+      ${['A','B','C','D'].filter((_, i) => q[`option_${['a','b','c','d'][i]}`]).map((letter, i) => {
+        const optKey = `option_${letter.toLowerCase()}`;
+        const isSelected = _answers[q.id] === letter;
+        return `<button class="option-btn ${isSelected ? 'selected' : ''}" onclick="selectAnswerNx('${q.id}','${letter}')">
+          <div class="opt-letter">${letter}</div>
+          <div class="opt-text">${q[optKey]}</div>
+        </button>`;
+      }).join('')}
+    </div>
+
+    <div class="quiz-nav">
+      ${_currentQ > 0 ? `<button class="btn btn-secondary" onclick="goToQNx(${_currentQ-1})">← Prev</button>` : '<div></div>'}
+      ${_currentQ < total - 1 ? `<button class="btn btn-primary" onclick="goToQNx(${_currentQ+1})">Next →</button>` : '<div></div>'}
+    </div>
+
+    <button class="submit-btn" onclick="confirmSubmitNx()" ${answered < 1 ? 'disabled' : ''}>
+      ✅ Submit Test (${answered}/${total} answered)
+    </button>
+  `;
+
+  updateTimerDisplayNx();
+}
+
+function goToQNx(idx) {
+  _currentQ = idx;
+  renderQuizNx();
+  // restore timer display
+  updateTimerDisplayNx();
+}
+
+function selectAnswerNx(qId, letter) {
+  _answers[qId] = letter;
+  renderQuizNx();
+}
+
+function confirmSubmitNx() {
+  const answered = Object.keys(_answers).length;
+  const total = _questions.length;
+  document.getElementById('confirmSubmitMsgNx').textContent = `You've answered ${answered} of ${total} questions.`;
+  const warn = document.getElementById('confirmSubmitWarnNx');
+  if (answered < total) {
+    warn.style.display = 'block';
+    warn.textContent = `⚠️ ${total - answered} question${total - answered > 1 ? 's' : ''} unanswered — they will be marked incorrect.`;
+  } else {
+    warn.style.display = 'none';
+  }
+  openModalNx('confirmSubmitModal');
+}
+
+async function submitTestNx() {
+  closeModalNx('confirmSubmitModal');
+  clearInterval(_timerInterval);
+  _quizActive = false;
+
+  const el = document.getElementById('testContentNx');
+  el.innerHTML = '<div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Submitting your test…</p></div>';
+
+  const answerArray = _questions.map(q => ({ question_id: q.id, selected_option: _answers[q.id] || '' }));
+
+  try {
+    const res = await api('submit-test', {
+      test_id: _test.test.id,
+      answers: answerArray,
+      time_taken_seconds: _timerSecs
+    });
+
+    if (!res.ok) {
+      if (res.already_attempted) {
+        toast('Already Submitted', res.message, 'warning', 5000);
+        _test.already_attempted = true;
+        _test.attempt = res.attempt;
+        renderTestScreenNx();
+        return;
+      }
+      toast('Submission Failed', res.message, 'error');
+      renderQuizNx(); // restore quiz
+      _quizActive = true;
+      startTimerNx();
+      return;
+    }
+
+    // Success
+    const r = res.result;
+    const cls = scoreClass(r.score, r.total_questions);
+
+    document.getElementById('resultIconNx').textContent = r.score / r.total_questions >= 0.7 ? '🎉' : '📋';
+    document.getElementById('resultTitleNx').textContent = r.score / r.total_questions >= 0.7 ? 'Well Done!' : 'Test Submitted!';
+    document.getElementById('resultMsgNx').textContent = `${r.remark} · Rank #${r.rank} of ${r.total_attempts} students`;
+    document.getElementById('resultBreakdownNx').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <div style="text-align:center"><div style="font-family:var(--font-mono);font-size:1.2rem;font-weight:700;color:${scoreColor(r.score, r.total_questions)}">${r.score}/${r.total_questions}</div><div style="font-size:.62rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px">Score</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-mono);font-size:1.2rem;font-weight:700;color:var(--primary)">#${r.rank}</div><div style="font-size:.62rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px">Rank</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-mono);font-size:1.2rem;font-weight:700">${fmtTime(r.time_taken_seconds||0)}</div><div style="font-size:.62rem;color:var(--text-muted);text-transform:uppercase;margin-top:2px">Time</div></div>
+      </div>`;
+    openModalNx('resultModal');
+
+    // Update state & refresh
+    _test.already_attempted = true;
+    _test.attempt = r;
+    renderTestScreenNx();
+    _dashData = null;
+    fullRefreshNx(true);
+
+  } catch(e) {
+    toast('Network Error', 'Check connection and try again.', 'error');
+    renderQuizNx();
+    _quizActive = true;
+    startTimerNx();
+  }
+}
+
+/* ═══════════════════════════════════════
+   REVIEW SCREEN
+═══════════════════════════════════════ */
+async function loadReviewScreenNx() {
+  const el = document.getElementById('reviewContentNx');
+  el.innerHTML = '<div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Loading review…</p></div>';
+
+  try {
+    const res = await api('review');
+    _reviewData = res;
+    renderReviewNx(res);
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">⚠️</div><p>Could not load review.</p></div>';
+  }
+}
+
+function renderReviewNx(res) {
+  const el = document.getElementById('reviewContentNx');
+  if (!res.ok) {
+    el.innerHTML = `<div class="empty-state"><div class="e-icon">📋</div><p>${res.message || 'No review available.'}</p><button class="btn btn-primary" style="margin-top:16px;height:48px;padding:0 24px" onclick="openScreenNx('testScreen')">Go to Test</button></div>`;
+    return;
+  }
+
+  const cls = scoreClass(res.score, res.total_questions);
+  const review = res.review || [];
+  const correct = review.filter(r => r.is_correct).length;
+  const wrong = review.length - correct;
+
+  el.innerHTML = `<div class="review-summary">
+    <div class="rs-score-wrap">
+      <div class="rs-circle ${cls}">
+        <div class="rs-score" style="color:${scoreColor(res.score, res.total_questions)}">${res.score}</div>
+        <div class="rs-denom">/${res.total_questions}</div>
+      </div>
+      <div class="rs-info">
+        <div class="rs-remark" style="color:${scoreColor(res.score, res.total_questions)}">${res.remark}</div>
+        <div class="rs-meta">
+          ⏱ ${fmtTime(res.time_taken_seconds||0)}&nbsp;&nbsp;
+          📊 ${Math.round((res.score/res.total_questions)*100)}%&nbsp;&nbsp;
+          ⚡ ${res.avg_time_per_question||0}s/Q
+        </div>
+      </div>
+    </div>
+    <div class="rs-chips">
+      <span class="rs-chip" style="background:var(--green-light);color:#16a34a;border-color:rgba(34,197,94,.2)">✅ ${correct} Correct</span>
+      <span class="rs-chip" style="background:var(--red-light);color:#dc2626;border-color:rgba(239,68,68,.2)">❌ ${wrong} Wrong</span>
+      <span class="rs-chip">${new Date(res.submitted_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
+    </div>
+  </div>
+
+  <div class="section-title">Question Breakdown</div>
+  ${review.map((q, i) => {
+    const opts = ['A','B','C','D'];
+    return `<div class="review-question ${q.is_correct ? 'correct' : 'wrong'}">
+      <div class="rq-header">
+        <div class="rq-num">Question ${i+1}</div>
+        <div class="rq-badge ${q.is_correct ? 'correct' : 'wrong'}">${q.is_correct ? '✅ Correct' : '❌ Wrong'}</div>
+      </div>
+      <div class="rq-text">${q.question}</div>
+      <div class="rq-options">
+        ${opts.filter((_, oi) => q[`option_${opts[oi].toLowerCase()}`]).map(letter => {
+          const optKey = `option_${letter.toLowerCase()}`;
+          const isCorrect = letter === q.correct_option;
+          const isSelected = letter === q.selected_option;
+          let cls = '';
+          if (isCorrect) cls = 'correct-ans';
+          else if (isSelected && !isCorrect) cls = 'wrong-ans';
+          return `<div class="rq-option ${cls}">
+            <div class="rq-opt-letter">${letter}${isCorrect ? ' ✓' : (isSelected && !isCorrect ? ' ✗' : '')}</div>
+            <div>${q[optKey]}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('')}`;
+}
+
+/* ═══════════════════════════════════════
+   HISTORY SCREEN
+═══════════════════════════════════════ */
+async function loadHistoryScreenNx() {
+  _loadedScreens.add('history');
+  const el = document.getElementById('historyContentNx');
+
+  let data = _dashData;
+  if (!data) {
+    el.innerHTML = '<div class="empty-state"><div class="spin" style="margin:0 auto 12px"></div><p>Loading history…</p></div>';
+    try { data = await api('dashboard'); _dashData = data; } catch(e) { data = null; }
+  }
+
+  if (!data || !data.ok) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">⚠️</div><p>Could not load history.</p></div>'; return;
+  }
+
+  const hist = data.history || [];
+  if (!hist.length) {
+    el.innerHTML = '<div class="empty-state"><div class="e-icon">📋</div><p>No tests attempted yet. Appear in a test to see your history here.</p></div>'; return;
+  }
+
+  el.innerHTML = hist.map(h => {
+    const cls = scoreClass(h.my_score, h.total_questions);
+    const date = new Date(h.submitted_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    const top10Html = (h.top10 || []).slice(0, 5).map((p, i) => {
+      const medals = ['🥇','🥈','🥉'];
+      return `<div class="lb-row">
+        <div class="lb-rank ${i<3?'top':''}">${medals[i]||`#${p.rank}`}</div>
+        <div><div class="lb-name">${p.student_name}</div><div class="lb-sub">${fmtTime(p.time_taken_seconds||0)}</div></div>
+        <div class="lb-score-val">${p.score}/${p.total_questions}</div>
+      </div>`;
+    }).join('');
+
+    return `<div class="lb-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div>
+          <div style="font-family:var(--font-display);font-size:.95rem;font-weight:900">${h.title || h.test_code}</div>
+          <div style="font-size:.72rem;color:var(--text-soft);margin-top:3px">${date} · ${h.total_attempts} students attempted</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--font-mono);font-size:1.2rem;font-weight:700;color:${scoreColor(h.my_score, h.total_questions)}">${h.my_score}/${h.total_questions}</div>
+          <div style="font-size:.68rem;color:var(--text-muted)">Rank ${medal(h.my_rank)}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        <span style="padding:4px 10px;border-radius:999px;font-size:.68rem;font-weight:700;background:var(--primary-light);color:var(--primary);border:1px solid var(--border)">${h.my_remark}</span>
+        <span style="padding:4px 10px;border-radius:999px;font-size:.68rem;font-weight:700;background:var(--surface-3);color:var(--text-soft);border:1px solid var(--border)">⏱ ${fmtTime(h.my_time_taken_seconds||0)}</span>
+        <span style="padding:4px 10px;border-radius:999px;font-size:.68rem;font-weight:700;background:var(--surface-3);color:var(--text-soft);border:1px solid var(--border)">Avg: ${h.average_mark}/${h.total_questions}</span>
+      </div>
+      ${top10Html ? `<div class="lb-title">🏆 Top Students</div>${top10Html}` : ''}
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════
+   FULL REFRESH
+═══════════════════════════════════════ */
+async function fullRefreshNx(silent = false) {
+  if (!silent) toast('Refreshing…', '', 'info', 2000);
+  _dashData = null;
+  _test = null;
+  _loadedScreens.clear();
+
+  try {
+    // parallel fetch
+    const [dashRes, testRes] = await Promise.all([
+      api('dashboard').catch(() => null),
+      api('load-test').catch(() => null)
+    ]);
+    _dashData = dashRes;
+    _test = testRes;
+    _loadedScreens.add('test');
+
+    renderHomeNx();
+
+    const activeScreen = document.querySelector('.screen.active')?.id;
+    if (activeScreen === 'testScreen') renderTestScreenNx();
+    if (activeScreen === 'historyScreen') { _loadedScreens.delete('history'); loadHistoryScreenNx(); }
+
+    if (!silent) toast('Updated!', '', 'success', 2000);
+  } catch(e) {
+    if (!silent) toast('Refresh failed', 'Check connection.', 'error');
+  }
+}
+
+/* ═══════════════════════════════════════
+   PROTECTION
+═══════════════════════════════════════ */
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (e.key==="F12"||(e.ctrlKey&&e.shiftKey&&["i","j","c"].includes(e.key.toLowerCase()))||(e.ctrlKey&&["u","s"].includes(e.key.toLowerCase()))) e.preventDefault();
+});
+document.addEventListener("selectstart", e => { if (_quizActive) e.preventDefault(); });
+document.addEventListener("copy", e => { if (_quizActive) e.preventDefault(); });
+
+/* Tab visibility — pause timer when hidden */
+document.addEventListener('visibilitychange', () => {
+  if (_quizActive && document.hidden) toast('Warning', 'Do not switch tabs during the test!', 'warning', 4000);
+});
+
+/* Storage event — detect AF login */
+window.addEventListener('storage', e => {
+  const afKeys = ['af_student_name','af_student_mobile','af_student_email','af_student_logged_in','af_student_id','af_student_uuid'];
+  if (afKeys.includes(e.key)) {
+    refreshSettingsBarNx();
+    renderHomeNx();
+    const af = getAF();
+    if (af.loggedIn && af.studentId) fullRefreshNx(true);
+  }
+});
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+async function initNx() {
+  loadThemeNx();
+  refreshSettingsBarNx();
+
+  const af = getAF();
+  if (af.loggedIn && af.name) {
+    setTimeout(() => toast(`Welcome back, ${af.name.split(' ')[0]}! 👋`, 'Syncing your test data…', 'success', 3000), 400);
+  }
+
+  // Show skeleton home immediately
+  renderHomeNx();
+
+  // Prefetch everything in parallel
+  try {
+    const [dashRes, testRes] = await Promise.all([
+      api('dashboard').catch(() => null),
+      api('load-test').catch(() => null)
+    ]);
+    _dashData = dashRes;
+    _test = testRes;
+    _loadedScreens.add('test');
+    renderHomeNx();
+  } catch(e) {
+    console.warn('Prefetch failed:', e);
+  }
+}
+
+initNx();
+</script>
+</body>
+</html>
