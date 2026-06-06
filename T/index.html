@@ -2110,7 +2110,7 @@ function buildHistPreviewCard(h) {
    TEST SCREEN — LOAD
 ═══════════════════════════════════════════ */
 async function loadTestScreen() {
-  _loadedScreens.add('test');
+ 
   const el = document.getElementById('testContentNx');
   if (!_test) {
     el.innerHTML = `<div class="empty-state"><div class="spin" style="margin:0 auto 14px"></div><p>Loading test…</p></div>`;
@@ -2810,7 +2810,7 @@ async function fullRefresh(silent = false) {
     ]);
     _dashData = dash;
     _test     = test;
-    _loadedScreens.add('test');
+    
 
     renderHome();
 
