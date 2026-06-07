@@ -23839,6 +23839,190 @@ body.dark-mode .af-test-result-card-v1 strong {
     transform: rotate(360deg);
   }
 }
+    /* =========================================================
+   AF VERSION UPDATE POPUP (ISOLATED)
+   ========================================================= */
+
+#afv204_overlay{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+
+  background:rgba(0,0,0,.60);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  opacity:0;
+  visibility:hidden;
+  transition:.35s ease;
+}
+
+#afv204_overlay.afv204_show{
+  opacity:1;
+  visibility:visible;
+}
+
+#afv204_card{
+  width:100%;
+  max-width:380px;
+  border-radius:30px;
+  overflow:hidden;
+
+  background:#ffffff;
+  color:#111827;
+
+  box-shadow:
+  0 30px 100px rgba(0,0,0,.35);
+
+  animation:afv204_pop .5s cubic-bezier(.34,1.56,.64,1);
+}
+
+[data-theme="dark"] #afv204_card{
+  background:#171827;
+  color:#ffffff;
+}
+
+@keyframes afv204_pop{
+  from{
+    opacity:0;
+    transform:translateY(30px) scale(.88);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+#afv204_top{
+  padding:32px 22px;
+  text-align:center;
+
+  background:
+  radial-gradient(circle at top right,
+  rgba(255,255,255,.2),
+  transparent 45%),
+
+  linear-gradient(
+  135deg,
+  #4f46e5,
+  #06b6d4
+  );
+}
+
+#afv204_icon{
+  font-size:56px;
+}
+
+#afv204_title{
+  color:#fff;
+  font-size:24px;
+  font-weight:900;
+  margin-top:10px;
+}
+
+#afv204_subtitle{
+  color:rgba(255,255,255,.9);
+  font-size:13px;
+  margin-top:8px;
+  line-height:1.5;
+}
+
+#afv204_body{
+  padding:24px;
+  text-align:center;
+}
+
+#afv204_version{
+  font-size:18px;
+  font-weight:800;
+}
+
+#afv204_desc{
+  margin-top:10px;
+  font-size:13px;
+  line-height:1.7;
+  opacity:.8;
+}
+
+#afv204_timerbox{
+  margin-top:18px;
+
+  border-radius:18px;
+  padding:16px;
+
+  background:#f3f4f6;
+}
+
+[data-theme="dark"] #afv204_timerbox{
+  background:#23243a;
+}
+
+#afv204_timer{
+  font-size:34px;
+  font-weight:900;
+  color:#4f46e5;
+}
+
+#afv204_skipnote{
+  margin-top:4px;
+  font-size:12px;
+  opacity:.7;
+}
+
+#afv204_actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:20px;
+}
+
+#afv204_download_btn{
+  width:100%;
+  border:none;
+  padding:15px;
+
+  border-radius:16px;
+
+  background:linear-gradient(
+  135deg,
+  #4f46e5,
+  #3730a3
+  );
+
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+#afv204_skip_btn{
+  width:100%;
+  border:none;
+  padding:13px;
+
+  border-radius:16px;
+
+  background:#ececec;
+  color:#444;
+
+  font-weight:700;
+  cursor:pointer;
+}
+
+[data-theme="dark"] #afv204_skip_btn{
+  background:#2a2c45;
+  color:#fff;
+}
+
+#afv204_skip_btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
 </style>
 </head>
 
@@ -26092,7 +26276,80 @@ onclick="openNotesAF()"
  <div id="afPullLoader">
   <div class="af-pull-spinner"></div>
 </div>
-  
+
+  <!-- =========================================================
+     VERSION UPDATE POPUP
+     ========================================================= -->
+
+<div id="afv204_overlay">
+
+  <div id="afv204_card">
+
+    <div id="afv204_top">
+
+      <div id="afv204_icon">🚀</div>
+
+      <div id="afv204_title">
+        New Update Available
+      </div>
+
+      <div id="afv204_subtitle">
+        Download the newest AcademeForge release
+        for the best learning experience.
+      </div>
+
+    </div>
+
+    <div id="afv204_body">
+
+      <div id="afv204_version">
+        AcademeForge v2.0.4
+      </div>
+
+      <div id="afv204_desc">
+        Includes performance improvements,
+        bug fixes, smoother navigation,
+        and enhanced learning tools.
+      </div>
+
+      <div id="afv204_timerbox">
+
+        <div id="afv204_timer">
+          7
+        </div>
+
+        <div id="afv204_skipnote">
+          You can skip this after 7 seconds.
+        </div>
+
+      </div>
+
+      <div id="afv204_actions">
+
+        <button
+          id="afv204_download_btn"
+          onclick="afv204_downloadLatest()">
+
+          ⬇ Download Latest Version
+
+        </button>
+
+        <button
+          id="afv204_skip_btn"
+          onclick="afv204_closePopup()"
+          disabled>
+
+          Please Wait...
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
   <!-----------------------  JAVA SCRIPT STARTS --------------------------------------->
 
   
@@ -41695,6 +41952,83 @@ document.addEventListener(
     window.location.href = "./offline.html";
   }
 }
+
+  /* =========================================================
+   VERSION UPDATE POPUP (ISOLATED)
+   ========================================================= */
+
+let afv204_counter = 7;
+let afv204_interval = null;
+
+function afv204_openPopup(){
+
+    const overlay =
+    document.getElementById("afv204_overlay");
+
+    const timer =
+    document.getElementById("afv204_timer");
+
+    const skipBtn =
+    document.getElementById("afv204_skip_btn");
+
+    overlay.classList.add("afv204_show");
+
+    afv204_counter = 7;
+
+    timer.textContent = afv204_counter;
+
+    skipBtn.disabled = true;
+    skipBtn.textContent = "Please Wait...";
+
+    afv204_interval = setInterval(() => {
+
+        afv204_counter--;
+
+        timer.textContent = afv204_counter;
+
+        if(afv204_counter <= 0){
+
+            clearInterval(afv204_interval);
+
+            timer.innerHTML = "✓";
+
+            skipBtn.disabled = false;
+            skipBtn.textContent = "Continue To App";
+
+        }
+
+    },1000);
+}
+
+function afv204_closePopup(){
+
+    const overlay =
+    document.getElementById("afv204_overlay");
+
+    overlay.classList.remove("afv204_show");
+
+    clearInterval(afv204_interval);
+}
+
+function afv204_downloadLatest(){
+
+    window.location.href =
+    "academeforge2.0.4.apk";
+}
+
+/* =========================================================
+   SHOW AUTOMATICALLY AFTER SPLASH
+   ========================================================= */
+
+window.addEventListener("load",()=>{
+
+    setTimeout(()=>{
+
+        afv204_openPopup();
+
+    },2400);
+
+});
 </script>
 </body>
 </html>
