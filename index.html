@@ -24023,6 +24023,47 @@ body.dark-mode .af-test-result-card-v1 strong {
   opacity:.45;
   cursor:not-allowed;
 }
+
+    #afv204_download_notice{
+  margin-top:16px;
+  padding:18px;
+
+  border-radius:18px;
+
+  text-align:center;
+
+  background:linear-gradient(
+    135deg,
+    rgba(79,70,229,.08),
+    rgba(6,182,212,.08)
+  );
+
+  border:1px solid rgba(79,70,229,.15);
+}
+
+.afv204_notice_icon{
+  font-size:30px;
+}
+
+.afv204_notice_title{
+  margin-top:8px;
+  font-size:15px;
+  font-weight:800;
+}
+
+.afv204_notice_text{
+  margin-top:6px;
+  font-size:13px;
+  line-height:1.6;
+  opacity:.9;
+}
+
+.afv204_notice_text strong{
+  display:block;
+  margin-top:4px;
+  font-size:16px;
+  color:#4f46e5;
+}
 </style>
 </head>
 
@@ -26326,13 +26367,19 @@ onclick="openNotesAF()"
 
       <div id="afv204_actions">
 
-        <button
-          id="afv204_download_btn"
-          onclick="afv204_downloadLatest()">
+       <div id="afv204_download_notice">
+  <div class="afv204_notice_icon">🚀</div>
 
-          ⬇ Download Latest Version
+  <div class="afv204_notice_title">
+    Update Available
+  </div>
 
-        </button>
+  <div class="afv204_notice_text">
+    Visit
+    <strong>download.academeforge.in</strong>
+    to install the latest version of AcademeForge.
+  </div>
+</div>
 
         <button
           id="afv204_skip_btn"
@@ -42010,21 +42057,26 @@ function afv204_closePopup(){
     clearInterval(afv204_interval);
 }
 
-function afv204_downloadLatest(){
-
-    window.location.href =
-    "academeforge2.0.4.apk.apk";
-}
-
 /* =========================================================
    SHOW AUTOMATICALLY AFTER SPLASH
    ========================================================= */
-
 window.addEventListener("load",()=>{
+
+    const alreadyShown =
+    localStorage.getItem("afv204_popup_shown");
+
+    if(alreadyShown === "yes"){
+        return;
+    }
 
     setTimeout(()=>{
 
         afv204_openPopup();
+
+        localStorage.setItem(
+            "afv204_popup_shown",
+            "yes"
+        );
 
     },2400);
 
