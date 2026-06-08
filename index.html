@@ -42063,7 +42063,7 @@ function afv204_closePopup(){
 window.addEventListener("load",()=>{
 
     const alreadyShown =
-    localStorage.getItem("afv204_popup_shown");
+    sessionStorage.getItem("afv204_popup_shown");
 
     if(alreadyShown === "yes"){
         return;
@@ -42073,7 +42073,7 @@ window.addEventListener("load",()=>{
 
         afv204_openPopup();
 
-        localStorage.setItem(
+        sessionStorage.setItem(
             "afv204_popup_shown",
             "yes"
         );
